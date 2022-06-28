@@ -1,16 +1,9 @@
 workflows:
-  my-workflow:
-    scripts:
-      - name: say hello
-        script: echo "Hello Codemagician!"
-
-workflows:
   run-on-push-hook:
     triggering:
       events:
         - push
       branch_patterns:
-        - pattern: *
-        - pattern: develop
-          include: false
+        - pattern: master
+          include: true
       cancel_previous_builds: true
