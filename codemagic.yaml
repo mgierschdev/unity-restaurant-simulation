@@ -7,11 +7,7 @@ workflows:
         - pattern: master
           include: true
       cancel_previous_builds: true
-
-publishing:
-  email:
-    recipients:
-      - mgierschdev@gmail.com
-    notify:
-      success: true
-      failure: true
+    publishing:
+      email:
+        recipients:
+          - mgierschdev@gmail.com
