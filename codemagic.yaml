@@ -1,5 +1,5 @@
 workflows:
-  run-on-push-hook:
+  my-workflow:
     triggering:
       events:
         - push
