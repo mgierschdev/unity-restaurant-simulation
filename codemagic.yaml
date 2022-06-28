@@ -3,3 +3,13 @@ workflows:
     scripts:
       - name: say hello
         script: echo "Hello Codemagician!"
+
+workflows:
+  run-on-push-hook:
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: develop
+          include: false
+      cancel_previous_builds: true
