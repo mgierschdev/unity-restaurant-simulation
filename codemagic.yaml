@@ -10,6 +10,7 @@ workflows:
       events:
         - push
       branch_patterns:
-        - pattern: master
+        - pattern: *
+        - pattern: develop
           include: false
       cancel_previous_builds: true
