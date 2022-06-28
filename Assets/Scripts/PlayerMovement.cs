@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D body;
-    [SerializeField]private float speed;
+     //Physics2D.gravity = Vector2.zero; In order to turn off gravity 
+
+    [SerializeField]private float speed; // SerializeField in order to change field var from the UI 
 
     // To get the reference from the object
     private void Awake()
