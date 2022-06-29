@@ -1,13 +1,13 @@
-workflows:
-  my-workflow:
-    triggering:
-      events:
+#workflows:
+#  my-workflow:
+#    triggering:
+#      events:
         - push
       branch_patterns:
-        - pattern: master
-          include: true
-      cancel_previous_builds: true
-    publishing:
+#        - pattern: master
+#          include: true
+#      cancel_previous_builds: true
+#    publishing:
       email:
         recipients:
-          - mgierschdev@gmail.com
+#          - mgierschdev@gmail.com
