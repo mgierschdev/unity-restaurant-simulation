@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
     private Rigidbody2D body;
     [SerializeField]
     private float movementSpeed = 20; // SerializeField in order to change field var from the UI
