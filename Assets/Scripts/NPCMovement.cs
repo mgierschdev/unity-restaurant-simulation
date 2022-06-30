@@ -25,6 +25,8 @@ public class NPCMovement : MonoBehaviour
     {
         Vector3 direction = moveDirections[currentMoveDirection];
         body.velocity = (direction * movementSpeed * Time.deltaTime).normalized;
+        body.angularVelocity = 0;
+        body.rotation = 0;
 
         if (decisionTimeCount > 0){
             decisionTimeCount -= Time.deltaTime;

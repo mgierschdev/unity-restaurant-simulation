@@ -14,6 +14,10 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * movementSpeed;
+
+        // To avoid rotation
+        body.angularVelocity = 0;
+        body.rotation = 0;
     }
     
 }

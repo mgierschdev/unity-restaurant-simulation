@@ -7,6 +7,8 @@ using UnityEngine;
 public class ScaleForDevice : MonoBehaviour
 {
 
+    // Default Screen and scale depending on the default
+
     public float resolutionFactor;
     float _height = Screen.height;
     float _weight = Screen.width;
@@ -15,18 +17,18 @@ public class ScaleForDevice : MonoBehaviour
 
     void Awake()
     {
-
+        
         float _height = Screen.height;
         float _weight = Screen.width;
-        float scaleFactorW = _weight / 1024;
-        float scaleFactorH = _height / 768;
+        float scaleFactorW = _weight;
+        float scaleFactorH = _height;
         resolutionFactor = scaleFactorW / scaleFactorH;
 
         #if UNITY_ANDROID || UNITY_EDITOR
 
                 if (scaleFactorW > scaleFactorH)
                 {
-                    this.transform.localScale = new Vector3(scaleFactorW / scaleFactorH, 1, scaleFactorW / scaleFactorH);
+                   // this.transform.localScale = new Vector3(scaleFactorW / scaleFactorH, 1, scaleFactorW / scaleFactorH);
                 }
         #endif
     }
