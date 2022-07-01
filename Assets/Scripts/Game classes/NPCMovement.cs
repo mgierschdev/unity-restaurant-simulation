@@ -5,9 +5,11 @@ using UnityEngine;
 public class NPCMovement : MonoBehaviour
 {
 
-   
-    //private InGameMenuController menuUIController;
 
+    private float screenHeight = Screen.height;
+    private float screenWidth = Screen.width;
+
+    //private InGameMenuController menuUIController;
     private Rigidbody2D body;
     [SerializeField]
     private float movementSpeed = 150;
@@ -41,6 +43,9 @@ public class NPCMovement : MonoBehaviour
 
             ChooseMoveDirection();
         }
+
+        Debug.Log(body.transform.position.x + " "+ body.transform.position.y);
+        Debug.Log(screenHeight + " " + screenWidth);
 
     }
 

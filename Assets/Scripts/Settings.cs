@@ -1,5 +1,7 @@
 public static class Settings
 {
+    // Player Display
+
 
     // UI Constants
     public const bool PERSPECTIVE_HAND = false;

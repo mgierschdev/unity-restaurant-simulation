@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 // This script controls the screen resolutions or other UI properties
@@ -7,16 +7,18 @@ using UnityEngine;
 // Attached to: GameController Object
 public class GameController : MonoBehaviour
 {
+    //private float screenHeight = Screen.height;
+    //private float screenWidth = Screen.width;
 
     // We set all the init variables of the game and resize the screen if requires
-    private void Awake()
-    {
-        
-    }
+    //private void Awake()
+    //{
+
+
+
+    //}
     // Default Screen and scale depending on the default
     //public float resolutionFactor;
-    //float _height = Screen.height;
-    //float _weight = Screen.width;
     //float scaleFactorW;
     //float ScaleFactoeH;
 
