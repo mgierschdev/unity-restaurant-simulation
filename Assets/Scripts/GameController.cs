@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// This script controls the screen resolutions
+// This script controls the screen resolutions or other UI properties
 // so the game or the app will be available in all Android screens
-public class ScaleForDevice : MonoBehaviour
+// Attached to: GameController Object
+public class GameController : MonoBehaviour
 {
 
     // Default Screen and scale depending on the default

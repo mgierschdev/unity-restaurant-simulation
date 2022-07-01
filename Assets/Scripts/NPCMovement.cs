@@ -1,20 +1,26 @@
 using UnityEngine;
 
+// Controls NPCs players
+// Attached to: NPC Objects
 public class NPCMovement : MonoBehaviour
 {
+
+   
+    private InGameMenuController menuUIController;
 
     private Rigidbody2D body;
     [SerializeField]
     private float movementSpeed = 150;
     [SerializeField]
-    internal float decisionTimeCount = 0;
+    private float decisionTimeCount = 0;
     private int timeToChangeMove = 10;
-    public Vector2 decisionTime = new Vector2(1, 4);
-    internal Vector3[] moveDirections = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down};
-    internal int currentMoveDirection;
+    private Vector2 decisionTime = new Vector2(1, 4);
+    private Vector3[] moveDirections = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down};
+    private int currentMoveDirection;
 
     private void Awake()
     {
+        menuUIController = GameObject.Find("Canvas UI").GetComponent<InGameMenuController>();
         body = GetComponent<Rigidbody2D>();
         decisionTimeCount = Random.Range(decisionTime.x, decisionTime.y);
         ChooseMoveDirection();
@@ -35,11 +41,18 @@ public class NPCMovement : MonoBehaviour
 
             ChooseMoveDirection();
         }
+
     }
 
     void ChooseMoveDirection()
     {
         currentMoveDirection = Mathf.FloorToInt(Random.Range(0, moveDirections.Length));
 
+    }
+
+    private void OnMouseDown()
+    {
+        menuUIController.score += 1;
+        movementSpeed += 100;
     }
 }

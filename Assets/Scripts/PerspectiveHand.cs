@@ -1,6 +1,7 @@
 using UnityEngine;
 
 // This class handles the change of camera with the touch
+// Attached to: MainCamera Object
 public class PerspectiveHand : MonoBehaviour
 {
     private Vector3 touchStart;

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Controls player properties
+// Attached to: Player Object
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D body;
