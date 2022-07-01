@@ -1,8 +1,9 @@
 public static class Settings
 {
     // Player Display
-
-
+    public const float NPC_REACTION_TIME = 4;
+    public const float NPC_MOVEMENT_SPEED = 5;
+    public const float PLAYER_MOVEMENT_SPEED = 10;
     // UI Constants
     public const bool PERSPECTIVE_HAND = false;
     public const string CONST_PARENT_MENU = "Canvas";

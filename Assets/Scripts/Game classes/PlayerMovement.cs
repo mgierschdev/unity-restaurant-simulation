@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D body;
     [SerializeField]
-    private float movementSpeed = 20;
+    private float movementSpeed = Settings.PLAYER_MOVEMENT_SPEED;
 
     private void Awake()
     {
