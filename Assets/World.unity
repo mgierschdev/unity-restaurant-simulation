@@ -1487,7 +1487,7 @@ GameObject:
   - component: {fileID: 1510997612}
   - component: {fileID: 1510997613}
   m_Layer: 0
-  m_Name: ScreenSizeController
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
