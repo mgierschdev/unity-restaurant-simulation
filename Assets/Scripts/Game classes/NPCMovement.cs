@@ -35,18 +35,16 @@ public class NPCMovement : MonoBehaviour
         screenPos = Camera.main.WorldToScreenPoint(this.transform.position);
 
         velocity = (direction * Time.deltaTime).normalized * movementSpeed;
+        timeToComeBack -= Time.deltaTime;
         body.velocity = velocity;
         body.angularVelocity = 0;
         body.rotation = 0;
 
-        timeToComeBack -= Time.deltaTime;
-
-        if ((screenPos.x < 0 || screenPos.y < 0 || screenPos.x > screenWidth || screenPos.y > screenHeight) && timeToComeBack < 0) // Change directions if going outside the screen
+        if (isLeavingScreen() && timeToComeBack < 0) // Change directions if going outside the screen
         {
             changeOppositeDirection(currentDirection);
             timeToComeBack = 2f;
         }
-
     }
 
     private void changeOppositeDirection(int direction)
@@ -65,6 +63,19 @@ public class NPCMovement : MonoBehaviour
         {
             currentDirection = 3;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            changeOppositeDirection(currentDirection);
+        }
+    }
+
+    private bool isLeavingScreen()
+    {
+        return (screenPos.x < 0 || screenPos.y < 0 || screenPos.x > screenWidth || screenPos.y > screenHeight);
     }
 
     // In case there is an action when the Npc gets clicked
