@@ -6,7 +6,7 @@ public class NPCMovement : MonoBehaviour
 {
 
    
-    private InGameMenuController menuUIController;
+    //private InGameMenuController menuUIController;
 
     private Rigidbody2D body;
     [SerializeField]
@@ -20,7 +20,7 @@ public class NPCMovement : MonoBehaviour
 
     private void Awake()
     {
-        menuUIController = GameObject.Find("Canvas UI").GetComponent<InGameMenuController>();
+        //menuUIController = GameObject.Find("Canvas").GetComponent<InGameMenuController>();
         body = GetComponent<Rigidbody2D>();
         decisionTimeCount = Random.Range(decisionTime.x, decisionTime.y);
         ChooseMoveDirection();
@@ -50,9 +50,10 @@ public class NPCMovement : MonoBehaviour
 
     }
 
-    private void OnMouseDown()
-    {
-        menuUIController.score += 1;
-        movementSpeed += 100;
-    }
+    // In case there is an action when the Npc gets clicked
+    //private void OnMouseDown()
+    //{
+    //    ////menuUIController.score += 1;
+    //    //movementSpeed += 100;
+    //}
 }

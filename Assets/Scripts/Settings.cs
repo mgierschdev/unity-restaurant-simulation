@@ -1,0 +1,17 @@
+public static class Settings
+{
+
+    // UI Constants
+    public const bool PERSPECTIVE_HAND = false;
+    public const string CONST_PARENT_MENU = "Canvas";
+    public const string CONST_STORE_MENU = "StoreMenu";
+    public const string CONST_CONFIG_MENU = "ConfigMenu";
+    public const string CONST_TOP_GAME_MENU = "TopGameMenu";
+    // We add other menus here like the store
+    public enum Menu
+    {
+        CONFIG_MENU,
+        STORE_MENU,
+        TOP_GAME_MENU
+    }
+}
