@@ -11,9 +11,10 @@ public static class Settings
     public const string CONST_STORE_MENU = "StoreMenu";
     public const string CONST_CONFIG_MENU = "ConfigMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
+    public const string CONST_GAME_BACKGROUND = "GameBackground";
     // UI Tags
     public const string TAG_OBSTACLE = "Obstacle";
-    public const string TAG_CAMARA_OBSTACLE = "MainCamera";
+    public const string TAG_CAMERA_EDGE = "CameraEdge";
     // We add other menus here like the store
     public enum Menu
     {

@@ -2,17 +2,19 @@ using UnityEngine;
 
 // This class handles the change of camera with the touch
 // Attached to: MainCamera Object
-public class PerspectiveHand : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     [SerializeField]
     private Vector3 touchStart;
     [SerializeField]
     private Vector3 direction;
-
+    RectTransform gameBackground;
     private void Awake()
     {
         touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        gameBackground = GameObject.Find(Settings.CONST_GAME_BACKGROUND).GetComponent<RectTransform>();
+        
     }
 
     // Update is called once per frame
@@ -28,16 +30,13 @@ public class PerspectiveHand : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 direction.y = touchStart.y - Camera.main.ScreenToWorldPoint(Input.mousePosition).y;
-                Camera.main.transform.position += direction;
-            }
-        }
-    }
+                Camera.main.transform.position += new Vector3(Mathf.Clamp(0, 0, 0),direction.y, 0);
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == Settings.TAG_CAMARA_OBSTACLE)
-        {
-            Debug.Log("Colliding");
+                // then we clamp the value
+                float clampY = Mathf.Clamp(transform.position.y, (Camera.main.orthographicSize * 2)-gameBackground.sizeDelta.y, 0);
+                transform.position = new Vector3(0, clampY, transform.position.z);
+
+            }
         }
     }
 }
