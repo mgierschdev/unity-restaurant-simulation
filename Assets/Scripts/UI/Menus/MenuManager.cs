@@ -8,7 +8,7 @@ public static class MenuManager
 
     public static void Init()
     {
-        GameObject canvas = GameObject.Find(Settings.CONST_PARENT_MENU);
+        GameObject canvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
         storeMenu = canvas.transform.Find(Settings.CONST_STORE_MENU).gameObject;
         configMenu = canvas.transform.Find(Settings.CONST_CONFIG_MENU).gameObject;
         topGameMenu = canvas.transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NPC
   - Obstacle
+  - Camera
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Game Background
   - Main sprites
   - Game UI
-  - Game borderline
+  - Camera
   - NPC
   - 
   - 

@@ -11,17 +11,11 @@ public class NPCController : MonoBehaviour
     [SerializeField]
     private Vector3 direction;
     [SerializeField]
-    private Vector3 screenPos;
-    [SerializeField]
     private int currentDirection;
     [SerializeField]
-    private float timeToComeBack = Settings.NPC_REACTION_TIME;
-    [SerializeField]
     private float movementSpeed = Settings.NPC_MOVEMENT_SPEED;
-
     private Vector3[] directions = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down};
-    private float screenHeight = Screen.height;
-    private float screenWidth = Screen.width;
+
 
     private void Awake()
     {
@@ -37,20 +31,10 @@ public class NPCController : MonoBehaviour
     private void FixedUpdate()
     {
         direction = directions[currentDirection];
-        screenPos = Camera.main.WorldToScreenPoint(this.transform.position);
-        // deltaTime helps to keep the same speed in all computers.
         velocity = (direction * Time.deltaTime).normalized * movementSpeed;
-        timeToComeBack -= Time.deltaTime;
         body.velocity = velocity;
         body.angularVelocity = 0;
         body.rotation = 0;
-
-        if (isLeavingScreen() && timeToComeBack < 0) // Change directions if going outside the screen
-        {
-            changeOppositeDirection(currentDirection);
-            timeToComeBack = 2f;
-        }
-
     }
 
     private void changeOppositeDirection(int direction)
@@ -77,11 +61,6 @@ public class NPCController : MonoBehaviour
         {
             changeOppositeDirection(currentDirection);
         }
-    }
-
-    private bool isLeavingScreen()
-    {
-        return (screenPos.x < 0 || screenPos.y < 0 || screenPos.x > screenWidth || screenPos.y > screenHeight);
     }
 
     private void OnMouseDown()
