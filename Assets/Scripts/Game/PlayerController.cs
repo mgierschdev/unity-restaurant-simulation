@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
     }
 
     private void Update()
@@ -52,16 +51,16 @@ public class PlayerController : MonoBehaviour
     //    //transform.localScale = characterScale;
     //}
 
-    private void updateStand()
-    {
-        if(body.velocity.x < 0)
-        {
+    //private void updateStand()
+    //{
+    //    if(body.velocity.x < 0)
+    //    {
 
-        }
-        else
-        {
+    //    }
+    //    else
+    //    {
 
-        }
-    }
+    //    }
+    //}
     
 }

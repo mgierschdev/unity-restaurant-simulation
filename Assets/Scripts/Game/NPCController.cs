@@ -13,23 +13,41 @@ public class NPCController : MonoBehaviour
     [SerializeField]
     private int currentDirection;
     [SerializeField]
-    private float movementSpeed = Settings.NPC_MOVEMENT_SPEED;
+    private float movementSpeed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
+    [SerializeField]
     private Vector3[] directions = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down};
 
+    private EnergyBar energyBar;
+    private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         currentDirection = 0;
-    }
 
-    private void Update()
-    {
-
+        // Energy bar
+        energyBar = gameObject.transform.Find("EnergyBar").gameObject.GetComponent<EnergyBar>();
+        energyBar.setInactive();
     }
 
     private void FixedUpdate()
     {
+        // EneryBar controller, only if it is active
+        if (energyBar.isActive())
+        {
+            if (currentEnergy > 0)
+            {
+                currentEnergy -= Time.deltaTime * 20f;
+                energyBar.SetEnergy((int)currentEnergy);
+            }
+            else
+            {
+                currentEnergy = 100;
+                energyBar.SetEnergy(Settings.NPC_DEFAULT_ENERGY);
+            }
+        }
+
+        // This for controlling the NPC walking
         direction = directions[currentDirection];
         velocity = (direction * Time.deltaTime).normalized * movementSpeed;
         body.velocity = velocity;
@@ -65,6 +83,6 @@ public class NPCController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        movementSpeed += Settings.NPC_MOVEMENT_INCREASE_ON_CLICK;
+        movementSpeed += Settings.NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK;
     }
 }

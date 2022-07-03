@@ -1,10 +1,13 @@
 public static class Settings
 {
     // Player Display
-    public const float NPC_REACTION_TIME = 4;
-    public const float NPC_MOVEMENT_SPEED = 1.3f;
-    public const float NPC_MOVEMENT_INCREASE_ON_CLICK = 0.3f;
     public const float PLAYER_MOVEMENT_SPEED = 3;
+    // NPC Default
+    public const int NPC_DEFAULT_ENERGY = 100;
+    public const float NPC_DEFAULT_REACTION_TIME = 4;
+    public const float NPC_DEFAULT_MOVEMENT_SPEED = 1.3f;
+    public const float NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK = 0.3f;
+    public const float NPC_DEFAULT_RECOVERY_TIME = 10;
     // UI Constants
     public const bool PERSPECTIVE_HAND = true;
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenus";
