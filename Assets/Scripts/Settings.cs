@@ -15,9 +15,15 @@ public static class Settings
     public const string CONST_CONFIG_MENU = "ConfigMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const string CONST_GAME_BACKGROUND = "GameBackground";
+    public const int CONST_DEFAULT_CAMERA_WIDTH = 1080;
+    public const int CONST_DEFAULT_CAMERA_HEIGHT = 1920;
+    public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     // UI Tags
     public const string TAG_OBSTACLE = "Obstacle";
     public const string TAG_CAMERA_EDGE = "CameraEdge";
+    // Grid Config
+    public const bool GRID_ENABLED = false;
+
     // We add other menus here like the store
     public enum Menu
     {

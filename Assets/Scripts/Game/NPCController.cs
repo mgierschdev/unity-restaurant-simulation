@@ -8,14 +8,25 @@ public class NPCController : MonoBehaviour
 
     [SerializeField]
     private Vector3 velocity;
-    [SerializeField]
-    private Vector3 direction;
-    [SerializeField]
-    private int currentDirection;
-    [SerializeField]
-    private float movementSpeed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
-    [SerializeField]
-    private Vector3[] directions = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down};
+    //[SerializeField]
+   // private int currentDirection;
+    //[SerializeField]
+    //private float movementSpeed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
+    //[SerializeField]
+    //private Vector3[] directions = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down};
+
+    enum direction
+    {
+        IDLE = 0,
+        UP = 1,
+        DOWN = 2,
+        LEFT = 3,
+        RIGHT = 4,
+        UPLEFT = 5,
+        UPRIGHT = 6,
+        DOWNLEFT = 7,
+        DOWNRIGHT = 8
+    }
 
     private EnergyBar energyBar;
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
@@ -23,7 +34,7 @@ public class NPCController : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        currentDirection = 0;
+       // currentDirection = 0;
 
         // Energy bar
         energyBar = gameObject.transform.Find("EnergyBar").gameObject.GetComponent<EnergyBar>();
@@ -47,42 +58,52 @@ public class NPCController : MonoBehaviour
             }
         }
 
-        // This for controlling the NPC walking
-        direction = directions[currentDirection];
-        velocity = (direction * Time.deltaTime).normalized * movementSpeed;
-        body.velocity = velocity;
         body.angularVelocity = 0;
         body.rotation = 0;
     }
 
-    private void changeOppositeDirection(int direction)
+    private void move(direction d)
     {
-        if (direction == 0)
+        Vector3 dir;
+
+        if (d == direction.LEFT)
         {
-            currentDirection = 1;
-        } else if (direction == 1)
+            dir = Vector3.left;
+        }else if(d == direction.RIGHT)
         {
-            currentDirection = 0;
-        }else if( direction == 3)
+            dir = Vector3.right;
+        }else if(d == direction.UP)
         {
-            currentDirection = 4;
+            dir = Vector3.up;
+        }else if(d == direction.DOWN)
+        {
+            dir = Vector3.down;
+        }else if (d == direction.DOWNLEFT)
+        {
+            dir = Quaternion.Euler(45, 0, 0) * Vector3.down; // not working
+        }else if(d == direction.DOWNRIGHT)
+        {
+            dir = Quaternion.Euler(-45, 0, 0) * Vector3.down;
+        }else if(d == direction.UPLEFT)
+        {
+            dir = Quaternion.Euler(0, 45, 0) * Vector3.forward;
+        }else if(d == direction.UPRIGHT)
+        {
+            dir = new Vector3(.5f, 0, .5f);
         }
         else
         {
-            currentDirection = 3;
+            //in case it is iddle
+            dir = new Vector3(0,0,0);
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == Settings.TAG_OBSTACLE)
-        {
-            changeOppositeDirection(currentDirection);
-        }
+        transform.Translate(dir, Space.World);
     }
 
     private void OnMouseDown()
     {
-        movementSpeed += Settings.NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK;
+        //movementSpeed += Settings.NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK;
+        move(direction.UPRIGHT);
+
     }
 }

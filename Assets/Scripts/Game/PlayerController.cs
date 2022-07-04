@@ -25,42 +25,4 @@ public class PlayerController : MonoBehaviour
         body.angularVelocity = 0;
         body.rotation = 0;
     }
-
-    //private void FixedUpdate()
-    //{
-    //    if(movement != Vector2.zero)
-    //    {
-    //        float movementInX = movement.x * movementSpeed * Time.deltaTime;
-    //        this.transform.Translate(new Vector3(movementInX, 0), Space.World); // rotate base on the world and not local coordinate system
-    //    }
-
-    //    // To avoid rotation
-
-
-     
-    //    // To flip character
-    //    //Vector3 characterScale = transform.localScale;
-    //    //if(Input.GetAxis("Horizontal") < 0)
-    //    //{
-    //    //    transform.Rotate(0, 180, 0);
-    //    //}
-    //    //if (Input.GetAxis("Vertical") > 0)
-    //    //{
-    //    //    transform.Rotate(0, 180, 0);
-    //    //}
-    //    //transform.localScale = characterScale;
-    //}
-
-    //private void updateStand()
-    //{
-    //    if(body.velocity.x < 0)
-    //    {
-
-    //    }
-    //    else
-    //    {
-
-    //    }
-    //}
-    
 }
