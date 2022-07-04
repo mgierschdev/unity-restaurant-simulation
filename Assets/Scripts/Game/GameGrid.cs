@@ -5,19 +5,19 @@ using UnityEngine;
 public class GameGrid : MonoBehaviour
 {
 
-    private int width = 6;
-    private int height = 10;
+    private int width = Settings.GRID_WIDTH;
+    private int height = Settings.GRID_HEIGHT;
     private int cellSize = 1;
     private int[,] gridArray;
     private int debugLineDuration = 1000; // in seconds
     private int cellTexttSize = 40;
     private TextMesh[,] debugArray;
-    private Vector3 originPosition = new Vector3(-2.5f, -5, 0);
+    private Vector3 originPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
 
 
     public void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Settings.GRID_ENABLED)
         {
             SetValue(Util.GetMouseToWorldPosition(), 50);
         }
@@ -42,7 +42,8 @@ public class GameGrid : MonoBehaviour
             {
                 Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.white, debugLineDuration);
                 Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.white, debugLineDuration);
-                debugArray[x, y] = Util.CreateTextObject(gameObject, gridArray[x, y].ToString(), GetCellPosition(x, y) + textCellOffset, cellTexttSize, Color.white, TextAnchor.MiddleCenter, TextAlignment.Center);
+                debugArray[x, y] = Util.CreateTextObject(x+","+y,gameObject, gridArray[x, y].ToString(), GetCellPosition(x, y) +
+                    textCellOffset, cellTexttSize, Color.white, TextAnchor.MiddleCenter, TextAlignment.Center);
             }
             Debug.DrawLine(GetCellPosition(0, height), GetCellPosition(width, height), Color.white, debugLineDuration);
             Debug.DrawLine(GetCellPosition(width, 0), GetCellPosition(width, height), Color.white, debugLineDuration);
