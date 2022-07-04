@@ -45,3 +45,14 @@ public class CameraController : MonoBehaviour
         }
     }
 }
+
+//GameObject go = GameObject.Find(Settings.CONST_GAME_BACKGROUND);
+//SpriteRenderer sprite = go.GetComponent<SpriteRenderer>();
+//Vector3 min = sprite.bounds.min;
+//Vector3 max = sprite.bounds.max;
+//Vector3 screenMin = mainCamera.WorldToScreenPoint(min);
+//Vector3 screenMax = mainCamera.WorldToScreenPoint(max);
+//Vector3 screenWorldPointMin = mainCamera.ScreenToWorldPoint(screenMin);
+//Vector3 screenWorldPointMax = mainCamera.ScreenToWorldPoint(screenMin);
+//Debug.Log(screenMin + " World points " + screenMax);
+//Debug.Log(screenWorldPointMin + " ScreenPoints " + screenMax);

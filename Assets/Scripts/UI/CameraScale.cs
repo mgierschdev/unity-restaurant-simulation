@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CameraScale : MonoBehaviour
 {
     private float currentWindowAspectRatio;
     private float targetSpectRatio;
     private Camera mainCamera;
-    private float orthographicSize = Settings.CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE;
 
     private void Awake()
     {
@@ -26,50 +24,17 @@ public class CameraScale : MonoBehaviour
         #endif
     }
 
-
+    // Failing with Samsumg foldable devices and some devices by half unit at the end of the screen
+    // (LG Nexus4, Ipad Pro 12.9/11 2units at the end), Ipad Mini, Ipad Air, 
     private void ScaleCamera()
     {
         currentWindowAspectRatio = (float)Screen.width / (float)Screen.height;
         targetSpectRatio = (float)Settings.CONST_DEFAULT_CAMERA_WIDTH / (float)Settings.CONST_DEFAULT_CAMERA_HEIGHT;
         // should be scaled to this ammount
         float newScaleHeight = currentWindowAspectRatio / targetSpectRatio;
-
-        GameObject go = GameObject.Find(Settings.CONST_GAME_BACKGROUND);
-        SpriteRenderer sprite = go.GetComponent<SpriteRenderer>();
-        Vector3 min = sprite.bounds.min;
-        Vector3 max = sprite.bounds.max;
-
-        Vector3 screenMin = mainCamera.WorldToScreenPoint(min);
-        Vector3 screenMax = mainCamera.WorldToScreenPoint(max);
-
-        Vector3 screenWorldPointMin = mainCamera.ScreenToWorldPoint(screenMin);
-        Vector3 screenWorldPointMax = mainCamera.ScreenToWorldPoint(screenMin);
-
-        Debug.Log(screenMin + " World points " + screenMax);
-        Debug.Log(screenWorldPointMin + " ScreenPoints " + screenMax);
-
-        Debug.Log(newScaleHeight + " " + currentWindowAspectRatio + " " + targetSpectRatio+" ");
-        var rec = mainCamera.rect;
-
-        if (newScaleHeight < 1)
-        { // if it is smaller we let the user scroll the bigger screen in all directions 
-            //Debug.Log("Scaling");
-            //rec.width = 1;
-            //rec.height = newScaleHeight;
-            //rec.x = 0;
-            //rec.y = (1 - newScaleHeight) / 2;
-        }
-        else if (newScaleHeight > 1)
+        if (newScaleHeight > 1)
         {
-            //var scaleWith = 1 / newScaleHeight;
-            //rec.width = newScaleHeight;
-            //rec.height = 1;
-            //rec.x = (1 - scaleWith) / 2;
-            //rec.y = 0;
-
-
             mainCamera.orthographicSize = Settings.CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE - (newScaleHeight - 1) * Settings.CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE ;
-
         }
     }
 }

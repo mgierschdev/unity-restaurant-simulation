@@ -22,7 +22,7 @@ public static class Settings
     public const string TAG_OBSTACLE = "Obstacle";
     public const string TAG_CAMERA_EDGE = "CameraEdge";
     // Grid Config
-    public const bool GRID_ENABLED = false;
+    public const bool GRID_ENABLED = true;
 
     // We add other menus here like the store
     public enum Menu

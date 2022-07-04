@@ -10,7 +10,6 @@ public class GameGrid : MonoBehaviour
     private int cellSize = 1;
     private int[,] gridArray;
     private int debugLineDuration = 1000; // in seconds
-    private int offSet = 5; // To center the grid in the middle
     private int cellTexttSize = 40;
     private TextMesh[,] debugArray;
     private Vector3 originPosition = new Vector3(-2.5f, -5, 0);
