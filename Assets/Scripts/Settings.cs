@@ -21,7 +21,6 @@ public static class Settings
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
     // UI Tags
     public const string TAG_OBSTACLE = "Obstacle";
-    public const string TAG_CAMERA_EDGE = "CameraEdge";
     // Grid Config
     public const bool GRID_ENABLED = true;
     public const int GRID_WIDTH = 8;

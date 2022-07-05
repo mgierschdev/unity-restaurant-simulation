@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+
 using UnityEngine.TestTools;
 
-public class NewTestScript
+public class TestNPCMovement
 {
-    // A Test behaves as an ordinary method
+
     [Test]
-    public void GridTest()
+    public void TestSettingsSimplePasses()
     {
-       // Assert.Equals();
     }
 
 }
