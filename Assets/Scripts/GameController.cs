@@ -18,4 +18,8 @@ public class GameController : MonoBehaviour
     {
         
     }
+
+    voi FixUpdate(){
+        
+    }
 }

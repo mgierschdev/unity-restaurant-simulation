@@ -20,6 +20,7 @@ public class TestNPCMovement
     public void TestMovement()
     {
         Debug.Log(NPC.transform.position);
+        
         Vector3 before = NPC.transform.position;
         NPC.move(MoveDirection.UP);
         Debug.Log(before - NPC.transform.position );
