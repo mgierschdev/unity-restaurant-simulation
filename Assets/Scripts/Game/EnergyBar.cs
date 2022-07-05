@@ -23,24 +23,24 @@ public class EnergyBar : MonoBehaviour
         slider.value = maxEnergy;
     }
 
-    public void substractEnergy(int maxEnergy)
+    public void SubstractEnergy(int maxEnergy)
     {
         slider.value -= maxEnergy;
     }
 
-    public void setInactive()
+    public void SetInactive()
     {
         visible = false;
         gameObject.SetActive(false);
     }
 
-    public void setActive()
+    public void SetActive()
     {
         visible = true;
         gameObject.SetActive(true);
     }
 
-    public bool isActive()
+    public bool IsActive()
     {
         return visible;
     }

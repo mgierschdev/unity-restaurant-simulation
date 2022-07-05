@@ -28,19 +28,19 @@ public class NPCController : MonoBehaviour
 
         if (Settings.NPC_ENERGY_ENABLED)
         {
-            energyBar.setActive();
+            energyBar.SetActive();
 
         }
         else
         {
-            energyBar.setInactive();
+            energyBar.SetInactive();
         }
     }
 
     private void FixedUpdate()
     {
         // EneryBar controller, only if it is active
-        if (energyBar.isActive())
+        if (energyBar.IsActive())
         {
             if (currentEnergy > 0)
             {
@@ -58,7 +58,7 @@ public class NPCController : MonoBehaviour
         body.rotation = 0;
     }
 
-    public void move(MoveDirection d)
+    public void Move(MoveDirection d)
     {
         Vector3 dir;
 
@@ -98,27 +98,27 @@ public class NPCController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log(energyBar.isActive());
+        Debug.Log(energyBar.IsActive());
         //movementSpeed += Settings.NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK;
-        move(MoveDirection.UP);
+        Move(MoveDirection.UP);
 
     }
 
-    public Vector3 getVelocity()
+    public Vector3 GetVelocity()
     {
         return this.velocity;
     }
 
     public void ActivateEnergyBar()
     {
-        energyBar.setActive();
+        energyBar.SetActive();
     }
 
     public void AddEnergyBar()
     {
         Debug.Log("Trying to instatiate energy bar");
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
-        Debug.Log(energyBar.isActive());
+        Debug.Log(energyBar.IsActive());
     }
 
     public EnergyBar GetEnergyBar()

@@ -5,12 +5,12 @@ using UnityEngine;
 public class GameGrid : MonoBehaviour
 {
 
-    private int width = Settings.GRID_WIDTH;
-    private int height = Settings.GRID_HEIGHT;
-    private int cellSize = 1;
+    private readonly int width = Settings.GRID_WIDTH;
+    private readonly int height = Settings.GRID_HEIGHT;
+    private readonly int cellSize = 1;
     private int[,] gridArray;
-    private int debugLineDuration = 1000; // in seconds
-    private int cellTexttSize = 40;
+    private readonly int debugLineDuration = 1000; // in seconds
+    private readonly int cellTexttSize = 40;
     private TextMesh[,] debugArray;
     private Vector3 originPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
 
