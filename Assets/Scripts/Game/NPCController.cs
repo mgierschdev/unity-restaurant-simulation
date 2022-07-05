@@ -8,6 +8,7 @@ public class NPCController : MonoBehaviour
 
     [SerializeField]
     private Vector3 velocity;
+
     //[SerializeField]
    // private int currentDirection;
     //[SerializeField]
@@ -15,30 +16,25 @@ public class NPCController : MonoBehaviour
     //[SerializeField]
     //private Vector3[] directions = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down};
 
-    enum direction
-    {
-        IDLE = 0,
-        UP = 1,
-        DOWN = 2,
-        LEFT = 3,
-        RIGHT = 4,
-        UPLEFT = 5,
-        UPRIGHT = 6,
-        DOWNLEFT = 7,
-        DOWNRIGHT = 8
-    }
-
     private EnergyBar energyBar;
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-       // currentDirection = 0;
 
         // Energy bar
-        energyBar = gameObject.transform.Find("EnergyBar").gameObject.GetComponent<EnergyBar>();
-        energyBar.setInactive();
+        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
+
+        if (Settings.NPC_ENERGY_ENABLED)
+        {
+            energyBar.setActive();
+
+        }
+        else
+        {
+            energyBar.setInactive();
+        }
     }
 
     private void FixedUpdate()
@@ -62,32 +58,32 @@ public class NPCController : MonoBehaviour
         body.rotation = 0;
     }
 
-    private void move(direction d)
+    public void move(MoveDirection d)
     {
         Vector3 dir;
 
-        if (d == direction.LEFT)
+        if (d == MoveDirection.LEFT)
         {
             dir = Vector3.left;
-        }else if(d == direction.RIGHT)
+        }else if(d == MoveDirection.RIGHT)
         {
             dir = Vector3.right;
-        }else if(d == direction.UP)
+        }else if(d == MoveDirection.UP)
         {
             dir = Vector3.up;
-        }else if(d == direction.DOWN)
+        }else if(d == MoveDirection.DOWN)
         {
             dir = Vector3.down;
-        }else if (d == direction.DOWNLEFT)
+        }else if (d == MoveDirection.DOWNLEFT)
         {
             dir = Quaternion.Euler(45, 0, 0) * Vector3.down; // not working
-        }else if(d == direction.DOWNRIGHT)
+        }else if(d == MoveDirection.DOWNRIGHT)
         {
             dir = Quaternion.Euler(-45, 0, 0) * Vector3.down;
-        }else if(d == direction.UPLEFT)
+        }else if(d == MoveDirection.UPLEFT)
         {
             dir = Quaternion.Euler(0, 45, 0) * Vector3.forward;
-        }else if(d == direction.UPRIGHT)
+        }else if(d == MoveDirection.UPRIGHT)
         {
             dir = new Vector3(.5f, 0, .5f);
         }
@@ -102,8 +98,32 @@ public class NPCController : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log(energyBar.isActive());
         //movementSpeed += Settings.NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK;
-        move(direction.UPRIGHT);
+        move(MoveDirection.UP);
 
     }
+
+    public Vector3 getVelocity()
+    {
+        return this.velocity;
+    }
+
+    public void ActivateEnergyBar()
+    {
+        energyBar.setActive();
+    }
+
+    public void AddEnergyBar()
+    {
+        Debug.Log("Trying to instatiate energy bar");
+        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
+        Debug.Log(energyBar.isActive());
+    }
+
+    public EnergyBar GetEnergyBar()
+    {
+        return this.energyBar;
+    }
+
 }

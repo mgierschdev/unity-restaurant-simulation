@@ -7,6 +7,6 @@ public class TopGameMenu : MonoBehaviour
     // Start is called before the first frame update
     public void OnClick_Settings()
     {
-        MenuManager.OpenMenu(Settings.Menu.CONFIG_MENU, gameObject);
+        MenuManager.OpenMenu(Menu.CONFIG_MENU, gameObject);
     }
 }

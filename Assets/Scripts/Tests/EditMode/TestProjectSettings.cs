@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 public class TestProjectSettings
 {
@@ -46,5 +43,15 @@ public class TestProjectSettings
     {
         GameObject obstacles = GameObject.FindWithTag(Settings.TAG_OBSTACLE);
         Assert.NotNull(obstacles);
+    }
+
+    [Test]
+    public void TestNPCEnergyBar()
+    {
+        if (Settings.NPC_ENERGY_ENABLED)
+        {
+            GameObject NPCEnergyBar = GameObject.FindWithTag(Settings.NPC_ENERGY_BAR);
+            Assert.NotNull(NPCEnergyBar);
+        }
     }
 }

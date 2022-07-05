@@ -9,12 +9,12 @@ public class StoreMenu : MonoBehaviour
 
     public void OnClick_Settings()
     {
-        MenuManager.OpenMenu(Settings.Menu.CONFIG_MENU, gameObject);
+        MenuManager.OpenMenu(Menu.CONFIG_MENU, gameObject);
     }
 
     public void OnClickBackButton()
     {
         MenuManager.CloseMenu(gameObject);
-        MenuManager.OpenMenu(Settings.Menu.TOP_GAME_MENU);
+        MenuManager.OpenMenu(Menu.TOP_GAME_MENU);
     }
 }

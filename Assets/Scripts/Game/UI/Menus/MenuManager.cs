@@ -15,7 +15,7 @@ public static class MenuManager
         IsInitialized = true;
     }
 
-    public static void OpenMenu(Settings.Menu menu, GameObject callingMenu)
+    public static void OpenMenu(Menu menu, GameObject callingMenu)
     {
         if (!IsInitialized)
         {
@@ -24,10 +24,10 @@ public static class MenuManager
 
         switch (menu)
         {
-            case Settings.Menu.CONFIG_MENU:
+            case Menu.CONFIG_MENU:
                 configMenu.SetActive(true);
                 break;
-            case Settings.Menu.STORE_MENU:
+            case Menu.STORE_MENU:
                 storeMenu.SetActive(true);
                 break;
         }
@@ -35,17 +35,17 @@ public static class MenuManager
         callingMenu.SetActive(false);
     }
 
-    public static void OpenMenu(Settings.Menu menu)
+    public static void OpenMenu(Menu menu)
     {
         switch (menu)
         {
-            case Settings.Menu.CONFIG_MENU:
+            case Menu.CONFIG_MENU:
                 configMenu.SetActive(true);
                 break;
-            case Settings.Menu.STORE_MENU:
+            case Menu.STORE_MENU:
                 storeMenu.SetActive(true);
                 break;
-            case Settings.Menu.TOP_GAME_MENU:
+            case Menu.TOP_GAME_MENU:
                 topGameMenu.SetActive(true);
                 break;
         }

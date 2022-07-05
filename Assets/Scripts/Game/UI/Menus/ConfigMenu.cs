@@ -11,12 +11,12 @@ public class ConfigMenu : MonoBehaviour
 
     public void OnClick_Store()
     {
-        MenuManager.OpenMenu(Settings.Menu.STORE_MENU, gameObject);
+        MenuManager.OpenMenu(Menu.STORE_MENU, gameObject);
     }
 
     public void OnClickBackButton()
     {
         MenuManager.CloseMenu(gameObject);
-        MenuManager.OpenMenu(Settings.Menu.TOP_GAME_MENU);
+        MenuManager.OpenMenu(Menu.TOP_GAME_MENU);
     }
 }

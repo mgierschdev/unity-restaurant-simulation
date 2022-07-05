@@ -3,11 +3,13 @@ public static class Settings
     // Player Display
     public const float PLAYER_MOVEMENT_SPEED = 3;
     // NPC Default
-    public const int NPC_DEFAULT_ENERGY = 100;
     public const float NPC_DEFAULT_REACTION_TIME = 4;
     public const float NPC_DEFAULT_MOVEMENT_SPEED = 1.3f;
     public const float NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK = 0.3f;
     public const float NPC_DEFAULT_RECOVERY_TIME = 10;
+    public const int NPC_DEFAULT_ENERGY = 100;
+    public const string NPC_ENERGY_BAR = "EnergyBar";
+    public const bool NPC_ENERGY_ENABLED = false;
     // UI Constants
     public const bool PERSPECTIVE_HAND = true;
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenus";
@@ -27,11 +29,26 @@ public static class Settings
     public const int GRID_HEIGHT = 28;
     public const int GRID_START_X = -4;
     public const int GRID_START_Y = -21;
-    // We add other menus here like the store
-    public enum Menu
-    {
-        CONFIG_MENU,
-        STORE_MENU,
-        TOP_GAME_MENU
-    }
+}
+
+//Players and NPCs move directions
+public enum MoveDirection
+{
+    IDLE = 0,
+    UP = 1,
+    DOWN = 2,
+    LEFT = 3,
+    RIGHT = 4,
+    UPLEFT = 5,
+    UPRIGHT = 6,
+    DOWNLEFT = 7,
+    DOWNRIGHT = 8
+}
+
+// We add other menus here like the store
+public enum Menu
+{
+    CONFIG_MENU,
+    STORE_MENU,
+    TOP_GAME_MENU
 }
