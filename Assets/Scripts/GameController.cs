@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,15 +7,12 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private GameGridController gridController;
+    private List<GameObject> gameItems;
 
     void Start()
     {
-
         // Getting grid object
-         GameObject gameGridObject = gameObject.transform.Find(Settings.CONST_GAME_GRID).gameObject;
-
-    
-         Debug.Log(gameGridObject.transform);
+        GameObject gameGridObject = gameObject.transform.Find(Settings.CONST_GAME_GRID).gameObject;
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
 
         // Adding Player object
@@ -30,7 +28,9 @@ public class GameController : MonoBehaviour
         npcController.SetPosition(gridController.GetCellPosition(3 ,20, 1));
 
         // Adding Objects / Obstacles
-        GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(1, 20, 1), Quaternion.identity, gameObject.transform) as GameObject;
-
+        Vector2Int itemPosition = new Vector2Int(0, 0);
+        GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+        gameItems.Add(obstacleObject);
+        obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(1, 20, 1), Quaternion.identity, gameObject.transform) as GameObject;
     }
 }
