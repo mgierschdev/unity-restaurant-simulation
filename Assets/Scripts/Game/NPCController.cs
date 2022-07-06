@@ -37,7 +37,7 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         // EneryBar controller, only if it is active
         if (energyBar.IsActive())
@@ -56,6 +56,7 @@ public class NPCController : MonoBehaviour
 
         body.angularVelocity = 0;
         body.rotation = 0;
+        Debug.Log(body.rotation );
     }
 
     public void Move(MoveDirection d)
@@ -124,6 +125,11 @@ public class NPCController : MonoBehaviour
     public EnergyBar GetEnergyBar()
     {
         return this.energyBar;
+    }
+
+     public void SetPosition(Vector3 position){
+       transform.position = position;
+
     }
 
 }

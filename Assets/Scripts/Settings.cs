@@ -2,6 +2,11 @@ public static class Settings
 {
     // Player Display
     public const float PLAYER_MOVEMENT_SPEED = 3;
+    // PREFABS
+    public const string PREFAB_PATH = "Resources";
+    public const string PREFAB_PLAYER = "Player";
+    public const string PREFAB_NPC = "NPC";
+    public const string PREFAB_OBSTACLE = "Obstacle";
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
     public const float NPC_DEFAULT_MOVEMENT_SPEED = 1.3f;
@@ -22,7 +27,7 @@ public static class Settings
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
     // UI Tags
-    public const string TAG_OBSTACLE = "Obstacle";
+ 
     // Grid Config
     public const bool GRID_ENABLED = true;
     public const int GRID_WIDTH = 8;

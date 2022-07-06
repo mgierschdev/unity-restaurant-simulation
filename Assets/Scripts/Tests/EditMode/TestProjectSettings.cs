@@ -39,13 +39,6 @@ public class TestProjectSettings
     }
 
     [Test]
-    public void TestObstacleTags()
-    {
-        GameObject obstacles = GameObject.FindWithTag(Settings.TAG_OBSTACLE);
-        Assert.NotNull(obstacles);
-    }
-
-    [Test]
     public void TestNPCEnergyBar()
     {
         if (Settings.NPC_ENERGY_ENABLED)
