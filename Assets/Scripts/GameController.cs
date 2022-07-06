@@ -30,7 +30,5 @@ public class GameController : MonoBehaviour
         // Adding Objects / Obstacles
         Vector2Int itemPosition = new Vector2Int(0, 0);
         GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
-        gameItems.Add(obstacleObject);
-        obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(1, 20, 1), Quaternion.identity, gameObject.transform) as GameObject;
     }
 }

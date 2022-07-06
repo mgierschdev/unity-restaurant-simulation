@@ -22,10 +22,15 @@ public static class Util
         return textMesh;
     }
 
-    public static Vector3 GetMouseToWorldPosition()
+    public static Vector3 GetMouseInWorldPosition()
     {
         Vector3 vector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         vector.z = 0;
         return vector;
-    }        
+    }  
+
+    public static Vector2Int GetXYInGameMap(Vector3 position)
+    {
+        return new Vector2Int(Mathf.FloorToInt(position.x - Settings.GRID_START_X), Mathf.FloorToInt(position.y - Settings.GRID_START_Y));
+    }   
 }

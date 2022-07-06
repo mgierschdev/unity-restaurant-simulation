@@ -143,5 +143,4 @@ public class NPCController : MonoBehaviour
     {
         return this.velocity;
     }
-
 }
