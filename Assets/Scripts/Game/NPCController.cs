@@ -63,7 +63,6 @@ public class NPCController : MonoBehaviour
 
         if(movementQueue.Count != 0){
             currentTargetPosition = (Vector3) movementQueue.Peek();
-            Debug.Log(movementQueue.Peek());
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
         

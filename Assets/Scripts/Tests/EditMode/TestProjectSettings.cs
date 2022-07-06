@@ -47,4 +47,11 @@ public class TestProjectSettings
             Assert.NotNull(NPCEnergyBar);
         }
     }
+
+    [Test]
+    public void TestGameGrid()
+    {
+        GameObject gameGrid = GameObject.Find(Settings.CONST_GAME_GRID);
+        Assert.NotNull(gameGrid);
+    }
 }

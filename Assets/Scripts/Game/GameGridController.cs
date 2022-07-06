@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameGrid : MonoBehaviour
+public class GameGridController : MonoBehaviour
 {
 
     private readonly int width = Settings.GRID_WIDTH;
     private readonly int height = Settings.GRID_HEIGHT;
     private readonly int cellSize = 1;
     private int[,] gridArray;
-    private readonly int debugLineDuration = 1000; // in seconds
-    private readonly int cellTexttSize = 40;
     private TextMesh[,] debugArray;
-    private Vector3 originPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+    private Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+    private Vector3 originPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, 0);
+
+    // Debug Parameters
+    private readonly int debugLineDuration = Settings.DEBUG_DEBUG_LINE_DURATION; // in seconds
+    private readonly int cellTexttSize = Settings.DEBUG_TEXT_SIZE;
+
+    //Caching 
+
+    
 
     public void Update()
     {
@@ -28,7 +35,7 @@ public class GameGrid : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-        
+
         gridArray = new int[width, height];
         debugArray = new TextMesh[width, height];
         Vector3 textCellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
@@ -49,12 +56,12 @@ public class GameGrid : MonoBehaviour
 
     private Vector3 GetCellPosition(int x, int y)
     {
-        return new Vector3(x, y) * cellSize + originPosition;
+        return new Vector3(x, y) * cellSize + gridOriginPosition;
     }
 
     private Vector2Int GetXY(Vector3 position)
     {
-        return new Vector2Int(Mathf.FloorToInt((position.x - originPosition.x) / cellSize), Mathf.FloorToInt((position.y - originPosition.y) / cellSize));
+        return new Vector2Int(Mathf.FloorToInt((position.x - gridOriginPosition.x) / cellSize), Mathf.FloorToInt((position.y - gridOriginPosition.y) / cellSize));
     }
 
     private void SetValue(int x, int y, int value)
@@ -71,5 +78,10 @@ public class GameGrid : MonoBehaviour
     {
         Vector2Int pos = GetXY(position);
         SetValue(pos.x, pos.y, value);
+    }
+    
+    public Vector3 GetCellPosition(int x, int y, int z)
+    {
+        return new Vector3(x, y, z) * cellSize + originPosition;
     }
 }
