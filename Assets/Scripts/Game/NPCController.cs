@@ -94,10 +94,7 @@ public class NPCController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log(energyBar.IsActive());
-        //movementSpeed += Settings.NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK;
-        Move(MoveDirection.UP);
-
+        Debug.Log("NPC Reacting on click");
     }
 
     public Vector3 GetVelocity()
@@ -112,9 +109,7 @@ public class NPCController : MonoBehaviour
 
     public void AddEnergyBar()
     {
-        Debug.Log("Trying to instatiate energy bar");
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
-        Debug.Log(energyBar.IsActive());
     }
 
     public EnergyBar GetEnergyBar()
@@ -124,7 +119,5 @@ public class NPCController : MonoBehaviour
 
      public void SetPosition(Vector3 position){
        transform.position = position;
-
     }
-
 }
