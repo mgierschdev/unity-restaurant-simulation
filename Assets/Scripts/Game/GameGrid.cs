@@ -14,7 +14,6 @@ public class GameGrid : MonoBehaviour
     private TextMesh[,] debugArray;
     private Vector3 originPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
 
-
     public void Update()
     {
         if (Input.GetMouseButtonDown(0) && Settings.GRID_ENABLED)
@@ -29,12 +28,10 @@ public class GameGrid : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-
+        
         gridArray = new int[width, height];
         debugArray = new TextMesh[width, height];
         Vector3 textCellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
-
-
 
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
