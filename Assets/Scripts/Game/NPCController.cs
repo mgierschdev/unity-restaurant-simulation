@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // Controls NPCs players
@@ -8,16 +9,11 @@ public class NPCController : MonoBehaviour
 
     [SerializeField]
     private Vector3 velocity;
-
-    //[SerializeField]
-   // private int currentDirection;
-    //[SerializeField]
-    //private float movementSpeed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
-    //[SerializeField]
-    //private Vector3[] directions = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down};
-
     private EnergyBar energyBar;
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
+    private Queue movementQueue;
+    private Vector3 currentTargetPosition;
+    private float speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
 
     private void Awake()
     {
@@ -25,7 +21,10 @@ public class NPCController : MonoBehaviour
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
+        // Movement Queue
+        movementQueue = new Queue();
 
+        // Enery Bar
         if (Settings.NPC_ENERGY_ENABLED)
         {
             energyBar.SetActive();
@@ -56,10 +55,21 @@ public class NPCController : MonoBehaviour
 
         body.angularVelocity = 0;
         body.rotation = 0;
-        Debug.Log(body.rotation );
+
+        // Handling player movement through a queue
+        if(currentTargetPosition == transform.position && movementQueue.Count != 0){
+            movementQueue.Dequeue();
+        }
+
+        if(movementQueue.Count != 0){
+            currentTargetPosition = (Vector3) movementQueue.Peek();
+            Debug.Log(movementQueue.Peek());
+            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
+        }
+        
     }
 
-    public void Move(MoveDirection d)
+    private Vector3 Move(MoveDirection d)
     {
         //in case it is MoveDirection.IDDLE do nothing
         Vector3 dir = transform.position;
@@ -89,17 +99,12 @@ public class NPCController : MonoBehaviour
         {
             dir = new Vector3(1, 1, 0);
         }
-        transform.Translate(dir, Space.World);
+        return dir;
     }
 
     private void OnMouseDown()
     {
-        Debug.Log("NPC Reacting on click");
-    }
-
-    public Vector3 GetVelocity()
-    {
-        return this.velocity;
+        AddMovement(MoveDirection.DOWN);
     }
 
     public void ActivateEnergyBar()
@@ -111,13 +116,33 @@ public class NPCController : MonoBehaviour
     {
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
     }
+    
+    public void AddMovement(MoveDirection direction)
+    {
+        Vector3 nextTarget =  Move(direction) + transform.position;
+        if(movementQueue.Count == 0){
+            currentTargetPosition = nextTarget;
+        }
+        movementQueue.Enqueue(nextTarget);
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+       transform.position = position;
+    }
+
+    public void SetSpeed(float speed){
+        this.speed = speed;
+    }
 
     public EnergyBar GetEnergyBar()
     {
         return this.energyBar;
     }
 
-     public void SetPosition(Vector3 position){
-       transform.position = position;
+    public Vector3 GetVelocity()
+    {
+        return this.velocity;
     }
+
 }
