@@ -5,18 +5,32 @@ using UnityEngine;
 // the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour
 {
+    private GameGridController gridController;
+
     void Start()
     {
+
+        // Getting grid object
+         GameObject gameGridObject = gameObject.transform.Find(Settings.CONST_GAME_GRID).gameObject;
+
+    
+         Debug.Log(gameGridObject.transform);
+        GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
+
         // Adding Player object
         GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject))) as GameObject;
         playerObject.transform.SetParent(gameObject.transform);
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
-        playerController.SetPosition(new Vector3(0 ,0, 1));
+        playerController.SetPosition(gridController.GetCellPosition(3 ,25, 1));
 
         // Adding NPC object
         GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
         NPCController npcController = npcObject.GetComponent<NPCController>();
-        npcController.SetPosition(new Vector3(-1,-1,1));
+        npcController.SetPosition(gridController.GetCellPosition(3 ,20, 1));
+
+        // Adding Objects / Obstacles
+        GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(1, 20, 1), Quaternion.identity, gameObject.transform) as GameObject;
+
     }
 }

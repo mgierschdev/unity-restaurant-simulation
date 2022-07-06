@@ -1,5 +1,8 @@
 public static class Settings
 {
+    // DEBUG parameters
+    public const int DEBUG_TEXT_SIZE = 40;
+    public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
     // Player Display
     public const float PLAYER_MOVEMENT_SPEED = 3;
     // PREFABS
@@ -22,6 +25,7 @@ public static class Settings
     public const string CONST_CONFIG_MENU = "ConfigMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const string CONST_GAME_BACKGROUND = "GameBackground";
+    public const string CONST_GAME_GRID = "GameGrid";
     public const int CONST_DEFAULT_CAMERA_WIDTH = 1080;
     public const int CONST_DEFAULT_CAMERA_HEIGHT = 1920;
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
