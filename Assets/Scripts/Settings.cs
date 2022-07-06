@@ -1,6 +1,7 @@
 public static class Settings
 {
     // DEBUG parameters
+    public const bool DEBUG_ENABLE = true; //Only for development
     public const int DEBUG_TEXT_SIZE = 40;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
     // Player Display
@@ -31,9 +32,7 @@ public static class Settings
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
     // UI Tags
- 
     // Grid Config
-    public const bool GRID_ENABLED = true;
     public const int GRID_WIDTH = 8;
     public const int GRID_HEIGHT = 28;
     public const int GRID_START_X = -4;
