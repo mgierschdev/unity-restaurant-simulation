@@ -61,7 +61,8 @@ public class NPCController : MonoBehaviour
 
     public void Move(MoveDirection d)
     {
-        Vector3 dir;
+        //in case it is MoveDirection.IDDLE do nothing
+        Vector3 dir = transform.position;
 
         if (d == MoveDirection.LEFT)
         {
@@ -77,23 +78,17 @@ public class NPCController : MonoBehaviour
             dir = Vector3.down;
         }else if (d == MoveDirection.DOWNLEFT)
         {
-            dir = Quaternion.Euler(45, 0, 0) * Vector3.down; // not working
+            dir = new Vector3(-1, -1, 0);
         }else if(d == MoveDirection.DOWNRIGHT)
         {
-            dir = Quaternion.Euler(-45, 0, 0) * Vector3.down;
+             dir = new Vector3(1, -1, 0);
         }else if(d == MoveDirection.UPLEFT)
         {
-            dir = Quaternion.Euler(0, 45, 0) * Vector3.forward;
+            dir = new Vector3(-1, 1, 0);
         }else if(d == MoveDirection.UPRIGHT)
         {
-            dir = new Vector3(.5f, 0, .5f);
+            dir = new Vector3(1, 1, 0);
         }
-        else
-        {
-            //in case it is iddle
-            dir = new Vector3(0,0,0);
-        }
-
         transform.Translate(dir, Space.World);
     }
 
