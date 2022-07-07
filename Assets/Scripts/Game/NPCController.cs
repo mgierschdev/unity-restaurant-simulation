@@ -10,15 +10,15 @@ public class NPCController : MonoBehaviour
     [SerializeField]
     private Vector3 velocity;
     private EnergyBar energyBar;
-    private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
     private Queue movementQueue;
     private Vector3 currentTargetPosition;
-    private float speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
     private GameGridController gameGrid;
     private NPCController current;
     private float x;
     private float y;
     private Vector3 position;
+    private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
+    private float speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
     private ObjectType type = ObjectType.NPC;
 
     private void Awake()

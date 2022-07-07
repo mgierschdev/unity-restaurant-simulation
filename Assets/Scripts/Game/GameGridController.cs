@@ -2,13 +2,19 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-// In game position is defined by the grid coordinates (0,0), (0,1). World position is defined by the Unity Coords plane.
+// In game position is defined by the grid coordinates (0,0), (0,1).
+// World position is defined by the Unity Coords plane.
+// It also controls the position of the objects in the grid and assign movements
+
 public class GameGridController : MonoBehaviour
 {
     private readonly int width = Settings.GRID_WIDTH;
     private readonly int height = Settings.GRID_HEIGHT;
     private readonly int cellSize = 1;
-    private int[,] gridArray;
+    private double[,] grid;
+
+    // Path Finder object, contains the method to return the shortest path
+    PathFind pathFind;
 
     // Game objects in UI either NPCs or Static objects
     private Dictionary<NPCController, Vector3> npcs;
@@ -26,21 +32,22 @@ public class GameGridController : MonoBehaviour
 
     public void Awake()
     {
-        gridArray = new int[width, height];
+        grid = new double[width, height];
         items = new Dictionary<GameItemController, Vector3>();
         npcs = new Dictionary<NPCController, Vector3>();
+        pathFind = new PathFind();
 
         Vector3 textCellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
 
         if(Settings.DEBUG_ENABLE){
             debugArray = new TextMesh[width, height];
-            for (int x = 0; x < gridArray.GetLength(0); x++)
+            for (int x = 0; x < grid.GetLength(0); x++)
             {
-                for (int y = 0; y < gridArray.GetLength(1); y++)
+                for (int y = 0; y < grid.GetLength(1); y++)
                 {
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.white, debugLineDuration);
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.white, debugLineDuration);
-                    debugArray[x, y] = Util.CreateTextObject(x+","+y,gameObject, gridArray[x, y].ToString(), GetCellPosition(x, y) +
+                    debugArray[x, y] = Util.CreateTextObject(x+","+y,gameObject, grid[x, y].ToString(), GetCellPosition(x, y) +
                         textCellOffset, cellTexttSize, Color.white, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
                 Debug.DrawLine(GetCellPosition(0, height), GetCellPosition(width, height), Color.white, debugLineDuration);
@@ -70,12 +77,7 @@ public class GameGridController : MonoBehaviour
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
             SetValue(Util.GetMouseInWorldPosition(), GetCellValueInGamePosition(mousePositionVector.x, mousePositionVector.y) + 10);
-            //PrintGrids();
         }
-    }
-
-    private void PrintGrids(){
-        PrintArray(gridArray);
     }
     
     private void SetValue(int x, int y, int value)
@@ -83,8 +85,8 @@ public class GameGridController : MonoBehaviour
         if(!IsInsideGridLimit(x, y)){
             return;
         }
-        gridArray[x, y] = value;
-        debugArray[x, y].text = gridArray[x, y].ToString();
+        grid[x, y] = value;
+        debugArray[x, y].text = grid[x, y].ToString();
     }
     
     private int GetCellValueInGamePosition(int x, int y){
@@ -99,19 +101,11 @@ public class GameGridController : MonoBehaviour
         return value;
     }
     
-    private void PrintArray(int[,] a){
-        for(int i = 0; i < a.GetLength(0); i++){
-            for(int j = 0; j < a.GetLength(1); j++){
-                Debug.Log("GameGrid.PrintArray()" +a[i, j] +" "+i+","+j);
-            }
-        }
-    }
-   
     private void SetCellColor(int x, int y, Color? color){
         if(color == null){
             color = Color.blue;
         }
-        debugArray[x, y].text = gridArray[x, y].ToString();
+        debugArray[x, y].text = grid[x, y].ToString();
         debugArray[x, y].color = (Color) color; // Busy
     }
    
@@ -129,7 +123,7 @@ public class GameGridController : MonoBehaviour
     }
 
     private bool IsInsideGridLimit(int x, int y){
-        return (x >= 0 && x < gridArray.GetLength(0) && y >= 0 && y < gridArray.GetLength(1));
+        return (x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1));
     }
 
     public Vector2Int GetMousePositionInGame(){
@@ -157,10 +151,10 @@ public class GameGridController : MonoBehaviour
             return;
         }
 
-        gridArray[x, y] = (int) type;
-        gridArray[x, y - 1] = (int) type;
-        gridArray[x - 1, y] = (int) type;
-        gridArray[x - 1, y - 1] = (int) type;
+        grid[x, y] = (int) type;
+        grid[x, y - 1] = (int) type;
+        grid[x - 1, y] = (int) type;
+        grid[x - 1, y - 1] = (int) type;
 
         if(Settings.DEBUG_ENABLE){
             SetCellColor(x, y, color);
@@ -172,14 +166,11 @@ public class GameGridController : MonoBehaviour
 
     public void UpdateObjectPosition(NPCController obj){
         if(!npcs.ContainsKey(obj)){
-            Debug.Log("New entry grid ");
             npcs.Add(obj, new Vector3(obj.GetX(),  obj.GetY()));
         }else if(npcs[obj] != obj.GetPosition()){
-            Debug.Log("Updating entry grid ");
             FreeGridPosition((int) npcs[obj].x, (int) npcs[obj].y);
             npcs[obj] = obj.GetPosition();
         }
-        
         SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.black);
     }
 
@@ -189,7 +180,6 @@ public class GameGridController : MonoBehaviour
         }else{
             Vector3 prevPos = items.GetValueOrDefault(obj);
             if(prevPos != obj.GetPosition()){
-                Debug.Log("Freeing Position");
                 FreeGridPosition(obj.GetX(), obj.GetY());
                 items[obj] = obj.GetPosition();
             }
@@ -208,10 +198,10 @@ public class GameGridController : MonoBehaviour
             return;
         }
 
-        gridArray[x, y] = 0;
-        gridArray[x, y - 1]= 0;
-        gridArray[x - 1, y] = 0;
-        gridArray[x - 1, y - 1] = 0;
+        grid[x, y] = 0;
+        grid[x, y - 1]= 0;
+        grid[x - 1, y] = 0;
+        grid[x - 1, y - 1] = 0;
         
         if(Settings.DEBUG_ENABLE){
             SetCellColor(x, y, Color.white);

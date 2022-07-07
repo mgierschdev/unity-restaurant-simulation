@@ -34,7 +34,7 @@ public class GameItemController : MonoBehaviour
     }
     
     public ObjectType GetType(){
-        return type;
+        return ObjectType.OBSTACLE;
     }
 
     public Vector3 GetPosition(){

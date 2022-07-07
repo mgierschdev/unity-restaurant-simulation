@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 // This will contain Utility functions, to create Unity Object and other
 public static class Util
@@ -32,5 +33,16 @@ public static class Util
     public static Vector2Int GetXYInGameMap(Vector3 position)
     {
         return new Vector2Int(Mathf.FloorToInt(position.x - Settings.GRID_START_X), Mathf.FloorToInt(position.y - Settings.GRID_START_Y));
-    }   
+    }
+    
+    public static void PrintArray(double[,] grid){
+        for(int i = 0; i < grid.GetLength(0); i++){
+            String row = "";
+            for(int j = 0; j < grid.GetLength(1); j++){
+                row += grid[i, j]+" ";
+            }
+            Debug.Log(row);
+        }
+        Debug.Log(" ");
+    }
 }

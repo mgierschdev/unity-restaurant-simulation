@@ -4,11 +4,10 @@ using UnityEngine;
 // Attached to: Player Object
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
     private float movementSpeed = Settings.PLAYER_MOVEMENT_SPEED;
     private Vector2 movement;
     private Vector3 position;
-    Rigidbody2D body;
+    private Rigidbody2D body;
     private GameGridController gameGrid;
     private int x;
     private int y;
@@ -31,13 +30,22 @@ public class PlayerController : MonoBehaviour
         UpdatePositionInGrid();
     }
 
-    public void SetPosition(Vector3 position){
-       transform.position = position;
-    }
-
     private void UpdatePositionInGrid(){
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;
+        position = new Vector3(x, y, 1);
+    }
+
+    public int GetX(){
+        return x;
+    }
+
+    public int GetY(){
+        return y;
+    }
+
+    public Vector3 GetPosition(){
+        return position;
     }
 }
