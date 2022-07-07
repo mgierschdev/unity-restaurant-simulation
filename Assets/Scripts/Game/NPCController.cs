@@ -64,6 +64,7 @@ public class NPCController : MonoBehaviour
         }
 
         body.angularVelocity = 0;
+        body.velocity = new Vector2(0, 0);
         body.rotation = 0;
 
         // Handling player movement through a queue
