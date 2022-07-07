@@ -175,12 +175,16 @@ public class GameGridController : MonoBehaviour
         SetObstacle(obj.GetX(), obj.GetY());
     }
 
-        public void UpdateItemPosition(GameItemController obj){
+    public void UpdateItemPosition(GameItemController obj){
         if(!items.Contains(obj)){
             items.Add(obj);
         }
 
         SetObstacle(obj.GetX(), obj.GetY());
+    }
+    
+    public void SetObstacleInGridPosition(int x, int y){
+         SetObstacle(x, y);
     }
 
     // Unset position in Grid

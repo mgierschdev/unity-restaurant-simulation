@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 position;
     Rigidbody2D body;
     private GameGridController gameGrid;
+    private int x;
+    private int y;
 
     private void Awake()
     {
@@ -27,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
         // Updating position in the Grid
         UpdatePositionInGrid();
-        gameGrid.UpdateNPCPosition(current);
+        gameGrid.SetObstacleInGridPosition(x, y);
     }
 
     public void SetPosition(Vector3 position){
