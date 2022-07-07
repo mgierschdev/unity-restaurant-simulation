@@ -8,8 +8,6 @@ public class CameraController : MonoBehaviour
     private Vector3 touchStart;
     [SerializeField]
     private Vector3 direction;
-    //GameObject gameBackgorund;
-    //SpriteRenderer spriteBackground;
 
     private void Awake()
     {
@@ -34,7 +32,6 @@ public class CameraController : MonoBehaviour
                 Camera.main.transform.position += new Vector3(Mathf.Clamp(0, 0, 0),direction.y, 0);
 
                 // then we clamp the value
-                //float clampY = Mathf.Clamp(transform.position.y, -(Camera.main.orthographicSize * 2), 0);
                 float clampY = Mathf.Clamp(transform.position.y, -14, 0);
                 transform.position = new Vector3(0, clampY, transform.position.z);
 
