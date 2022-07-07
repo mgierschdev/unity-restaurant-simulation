@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class TestPathFind
 {
-    public List<int[,]> path;
+    public List<int[]> path;
     private double[,] grid;
     int[] start;
     int[] target;
@@ -15,10 +15,9 @@ public class TestPathFind
     public void Setup()
     {
         grid = new double[20, 20];
-        path = new List<int[,]>();
+        path = new List<int[]>();
         pathFind = new PathFind();
     }
-
 
     [Test]
     public void TestFindPath(){
