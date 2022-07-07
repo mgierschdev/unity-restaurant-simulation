@@ -70,7 +70,7 @@ public class GameGridController : MonoBehaviour
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
             SetValue(Util.GetMouseInWorldPosition(), GetCellValueInGamePosition(mousePositionVector.x, mousePositionVector.y) + 10);
-            PrintGrids();
+            //PrintGrids();
         }
     }
 
@@ -102,7 +102,7 @@ public class GameGridController : MonoBehaviour
     private void PrintArray(int[,] a){
         for(int i = 0; i < a.GetLength(0); i++){
             for(int j = 0; j < a.GetLength(1); j++){
-                Debug.Log(a[i, j] +" "+i+","+j);
+                Debug.Log("GameGrid.PrintArray()" +a[i, j] +" "+i+","+j);
             }
         }
     }
@@ -172,14 +172,27 @@ public class GameGridController : MonoBehaviour
 
     public void UpdateObjectPosition(NPCController obj){
         if(!npcs.ContainsKey(obj)){
+            Debug.Log("New entry grid ");
             npcs.Add(obj, new Vector3(obj.GetX(),  obj.GetY()));
+        }else if(npcs[obj] != obj.GetPosition()){
+            Debug.Log("Updating entry grid ");
+            FreeGridPosition((int) npcs[obj].x, (int) npcs[obj].y);
+            npcs[obj] = obj.GetPosition();
         }
+        
         SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.black);
     }
 
     public void UpdateObjectPosition(GameItemController obj){
         if(!items.ContainsKey(obj)){
             items.Add(obj, new Vector3(obj.GetX(),  obj.GetY()));
+        }else{
+            Vector3 prevPos = items.GetValueOrDefault(obj);
+            if(prevPos != obj.GetPosition()){
+                Debug.Log("Freeing Position");
+                FreeGridPosition(obj.GetX(), obj.GetY());
+                items[obj] = obj.GetPosition();
+            }
         }
         SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.black);
     }
@@ -199,5 +212,12 @@ public class GameGridController : MonoBehaviour
         gridArray[x, y - 1]= 0;
         gridArray[x - 1, y] = 0;
         gridArray[x - 1, y - 1] = 0;
+        
+        if(Settings.DEBUG_ENABLE){
+            SetCellColor(x, y, Color.white);
+            SetCellColor(x, y - 1, Color.white);
+            SetCellColor(x - 1, y, Color.white);
+            SetCellColor(x - 1, y - 1, Color.white);
+        }
     }
 }

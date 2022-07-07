@@ -18,6 +18,7 @@ public class NPCController : MonoBehaviour
     private NPCController current;
     private float x;
     private float y;
+    private Vector3 position;
     private ObjectType type = ObjectType.NPC;
 
     private void Awake()
@@ -76,7 +77,7 @@ public class NPCController : MonoBehaviour
         }
 
         // Updating position in the Grid
-        UpdatePositionInGrid();
+        UpdatePosition();
         gameGrid.UpdateObjectPosition(current);
     }
 
@@ -138,10 +139,11 @@ public class NPCController : MonoBehaviour
         return this.velocity;
     }
 
-    private void UpdatePositionInGrid(){
+    private void UpdatePosition(){
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;
+        position = new Vector3(x, y, 1);
     }
     
     public void AddMovement(MoveDirection direction)
@@ -172,6 +174,10 @@ public class NPCController : MonoBehaviour
 
     public ObjectType GetType(){
         return type;
+    }
+
+    public Vector3 GetPosition(){
+        return position;
     }
 
 }

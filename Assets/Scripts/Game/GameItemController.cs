@@ -5,6 +5,7 @@ public class GameItemController : MonoBehaviour
 {
     private float x;
     private float y;
+    private Vector3 position;
     private GameGridController gameGrid;
     private GameItemController current;
     private ObjectType type = ObjectType.OBSTACLE;
@@ -21,6 +22,7 @@ public class GameItemController : MonoBehaviour
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;
+        position = new Vector3(x, y, 1);
     }
     
     public int GetX(){
@@ -33,5 +35,9 @@ public class GameItemController : MonoBehaviour
     
     public ObjectType GetType(){
         return type;
+    }
+
+    public Vector3 GetPosition(){
+        return position;
     }
 }
