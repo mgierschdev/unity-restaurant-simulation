@@ -9,10 +9,14 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private Vector3 position;
     Rigidbody2D body;
+    private GameGridController gameGrid;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        // Getting game grid
+        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>();  
+
     }
 
     private void Update()
@@ -20,9 +24,19 @@ public class PlayerController : MonoBehaviour
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * movementSpeed;
         body.angularVelocity = 0;
         body.rotation = 0;
+
+        // Updating position in the Grid
+        UpdatePositionInGrid();
+        gameGrid.UpdateNPCPosition(current);
     }
 
     public void SetPosition(Vector3 position){
        transform.position = position;
+    }
+
+        private void UpdatePositionInGrid(){
+        Vector2Int pos = Util.GetXYInGameMap(transform.position);
+        x = pos.x;
+        y = pos.y;
     }
 }
