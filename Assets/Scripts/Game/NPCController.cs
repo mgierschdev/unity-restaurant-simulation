@@ -18,6 +18,7 @@ public class NPCController : MonoBehaviour
     private NPCController current;
     private float x;
     private float y;
+    private ObjectType type = ObjectType.NPC;
 
     private void Awake()
     {
@@ -169,4 +170,9 @@ public class NPCController : MonoBehaviour
     public int GetY(){
         return (int) y;
     }
+
+    public ObjectType GetType(){
+        return type;
+    }
+
 }

@@ -39,6 +39,14 @@ public static class Settings
     public const int GRID_START_Y = -21;
 }
 
+//Item types
+public enum ObjectType
+{
+    NPC = 1,
+    OBSTACLE =2,
+    PLAYER = 3
+}
+
 //Players and NPCs move directions
 public enum MoveDirection
 {
