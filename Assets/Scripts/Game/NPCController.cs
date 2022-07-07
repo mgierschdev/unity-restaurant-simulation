@@ -14,10 +14,18 @@ public class NPCController : MonoBehaviour
     private Queue movementQueue;
     private Vector3 currentTargetPosition;
     private float speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
+    private GameGridController gameGrid;
+    private NPCController current;
+    private float x;
+    private float y;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        current = GetComponent<NPCController>();
+
+        // Getting game grid
+        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>();  
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
@@ -65,7 +73,11 @@ public class NPCController : MonoBehaviour
             currentTargetPosition = (Vector3) movementQueue.Peek();
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
-        
+
+        // Updating position in the Grid
+        UpdatePositionInGrid();
+        gameGrid.UpdateNPCPosition(current);
+
     }
 
     private Vector3 Move(MoveDirection d)
@@ -106,14 +118,30 @@ public class NPCController : MonoBehaviour
         AddMovement(MoveDirection.DOWN);
     }
 
-    public void ActivateEnergyBar()
+    private void ActivateEnergyBar()
     {
         energyBar.SetActive();
     }
 
-    public void AddEnergyBar()
+    private void AddEnergyBar()
     {
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
+    }
+
+    private EnergyBar GetEnergyBar()
+    {
+        return this.energyBar;
+    }
+
+    private Vector3 GetVelocity()
+    {
+        return this.velocity;
+    }
+
+    private void UpdatePositionInGrid(){
+        Vector2Int pos = Util.GetXYInGameMap(transform.position);
+        x = pos.x;
+        y = pos.y;
     }
     
     public void AddMovement(MoveDirection direction)
@@ -124,7 +152,7 @@ public class NPCController : MonoBehaviour
         }
         movementQueue.Enqueue(nextTarget);
     }
-
+    
     public void SetPosition(Vector3 position)
     {
        transform.position = position;
@@ -134,13 +162,11 @@ public class NPCController : MonoBehaviour
         this.speed = speed;
     }
 
-    public EnergyBar GetEnergyBar()
-    {
-        return this.energyBar;
+    public int GetX(){
+        return (int) x;
     }
 
-    public Vector3 GetVelocity()
-    {
-        return this.velocity;
+    public int GetY(){
+        return (int) y;
     }
 }

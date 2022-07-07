@@ -16,19 +16,22 @@ public class GameController : MonoBehaviour
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
 
         // Adding Player object
-        GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject))) as GameObject;
+        GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)),  gridController.GetCellPosition(3, 25, 1), Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(gameObject.transform);
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
-        playerController.SetPosition(gridController.GetCellPosition(3 ,25, 1));
+        // playerController.SetPosition(gridController.GetCellPosition(3 ,25, 1));
+        // gridController.SetObstacle(3, 25);
 
         // Adding NPC object
-        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
+        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(3, 20, 1), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
         NPCController npcController = npcObject.GetComponent<NPCController>();
-        npcController.SetPosition(gridController.GetCellPosition(3 ,20, 1));
+        // npcController.SetPosition(gridController.GetCellPosition(3 ,20, 1));
+        // gridController.SetObstacle(3, 20);
 
         // Adding Objects / Obstacles
-        Vector2Int itemPosition = new Vector2Int(0, 0);
+        // gridController.SetObstacle(1, 1);
+        Vector2Int itemPosition = new Vector2Int(1, 1);
         GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
     }
 }

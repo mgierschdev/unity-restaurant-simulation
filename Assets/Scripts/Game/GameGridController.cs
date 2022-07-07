@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 // In game position is defined by the grid coordinates (0,0), (0,1). World position is defined by the Unity Coords plane.
 public class GameGridController : MonoBehaviour
@@ -8,6 +9,11 @@ public class GameGridController : MonoBehaviour
     private readonly int height = Settings.GRID_HEIGHT;
     private readonly int cellSize = 1;
     private int[,] gridArray;
+
+    // Game objects in UI either NPCs or Static objects
+    private HashSet<NPCController> npcs;
+    private HashSet<GameItemController> items;
+
     private TextMesh[,] debugArray;
     private Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
     private Vector3 originPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, 0);
@@ -21,6 +27,8 @@ public class GameGridController : MonoBehaviour
     public void Awake()
     {
         gridArray = new int[width, height];
+        items = new HashSet<GameItemController>();
+        npcs = new HashSet<NPCController>();
         Vector3 textCellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
 
         if(Settings.DEBUG_ENABLE){
@@ -98,6 +106,13 @@ public class GameGridController : MonoBehaviour
             }
         }
     }
+   
+       private void setCellBlue(int x, int y){
+        debugArray[x, y].text = gridArray[x, y].ToString();
+        debugArray[x, y].color = Color.blue; // Busy
+    }
+
+   
     // Debug Methods
 
     private Vector3 GetCellPosition(int x, int y)
@@ -122,6 +137,7 @@ public class GameGridController : MonoBehaviour
 
     public Vector3 GetCellPosition(int x, int y, int z)
     {
+        Debug.Log(x+" "+y);
         if(!IsInsideGridLimit(x, y)){
             Debug.LogError("The GetCellPosition is outside boundaries");
             throw new Exception();
@@ -130,19 +146,42 @@ public class GameGridController : MonoBehaviour
         return new Vector3(x, y, z) * cellSize + originPosition;
     }
 
-    public void SetObstacle(int x, int y){
-        if(!IsInsideGridLimit(x, y)){
+    private void SetObstacle(int x, int y){
+        if(!IsInsideGridLimit(x, y) && x > 1 && y > 1){
             Debug.LogError("The object should be placed inside the perimeter");
             throw new Exception();
             return;
         }
 
+        Debug.Log(x+","+y);
+
         gridArray[x, y] = 1;
-        // gridArray[x + 1, y] = 1;
-        // gridArray[x + 1] = 1;
+        gridArray[x, y - 1] = 1;
+        gridArray[x - 1, y] = 1;
+        gridArray[x - 1, y - 1] = 1;
 
         if(Settings.DEBUG_ENABLE){
-            debugArray[x, y].text = gridArray[x, y].ToString();
+            setCellBlue(x, y);
+            setCellBlue(x, y - 1);
+            setCellBlue(x - 1, y);
+            setCellBlue(x - 1, y - 1);
         }
     }
+
+    public void UpdateNPCPosition(NPCController obj){
+        if(!npcs.Contains(obj)){
+            npcs.Add(obj);
+        }
+        SetObstacle(obj.GetX(), obj.GetY());
+    }
+
+        public void UpdateItemPosition(GameItemController obj){
+        if(!items.Contains(obj)){
+            items.Add(obj);
+        }
+
+        SetObstacle(obj.GetX(), obj.GetY());
+    }
+
+    // Unset position in Grid
 }
