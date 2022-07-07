@@ -11,8 +11,8 @@ public class GameGridController : MonoBehaviour
     private int[,] gridArray;
 
     // Game objects in UI either NPCs or Static objects
-    private HashSet<NPCController> npcs;
-    private HashSet<GameItemController> items;
+    private Dictionary<NPCController, Vector3> npcs;
+    private Dictionary<GameItemController, Vector3> items;
 
     private TextMesh[,] debugArray;
     private Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
@@ -27,8 +27,9 @@ public class GameGridController : MonoBehaviour
     public void Awake()
     {
         gridArray = new int[width, height];
-        items = new HashSet<GameItemController>();
-        npcs = new HashSet<NPCController>();
+        items = new Dictionary<GameItemController, Vector3>();
+        npcs = new Dictionary<NPCController, Vector3>();
+
         Vector3 textCellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
 
         if(Settings.DEBUG_ENABLE){
@@ -74,7 +75,6 @@ public class GameGridController : MonoBehaviour
     }
 
     private void PrintGrids(){
-       // PrintArray(obstacles);
         PrintArray(gridArray);
     }
     
@@ -107,11 +107,13 @@ public class GameGridController : MonoBehaviour
         }
     }
    
-       private void setCellBlue(int x, int y){
+    private void SetCellColor(int x, int y, Color? color){
+        if(color == null){
+            color = Color.blue;
+        }
         debugArray[x, y].text = gridArray[x, y].ToString();
-        debugArray[x, y].color = Color.blue; // Busy
+        debugArray[x, y].color = (Color) color; // Busy
     }
-
    
     // Debug Methods
 
@@ -137,55 +139,65 @@ public class GameGridController : MonoBehaviour
 
     public Vector3 GetCellPosition(int x, int y, int z)
     {
-        Debug.Log(x+" "+y);
         if(!IsInsideGridLimit(x, y)){
-            Debug.LogError("The GetCellPosition is outside boundaries");
+            Debug.LogWarning("The GetCellPosition is outside boundaries");
             throw new Exception();
             return new Vector3();
         }
         return new Vector3(x, y, z) * cellSize + originPosition;
     }
 
-    private void SetObstacle(int x, int y){
+    private void SetGridObstacle(int x, int y, ObjectType type, Color? color = null){
+        if(color == null){
+            color = Color.blue;
+        }
+
         if(!IsInsideGridLimit(x, y) && x > 1 && y > 1){
             Debug.LogError("The object should be placed inside the perimeter");
-            throw new Exception();
             return;
         }
 
-        Debug.Log(x+","+y);
-
-        gridArray[x, y] = 1;
-        gridArray[x, y - 1] = 1;
-        gridArray[x - 1, y] = 1;
-        gridArray[x - 1, y - 1] = 1;
+        gridArray[x, y] = (int) type;
+        gridArray[x, y - 1] = (int) type;
+        gridArray[x - 1, y] = (int) type;
+        gridArray[x - 1, y - 1] = (int) type;
 
         if(Settings.DEBUG_ENABLE){
-            setCellBlue(x, y);
-            setCellBlue(x, y - 1);
-            setCellBlue(x - 1, y);
-            setCellBlue(x - 1, y - 1);
+            SetCellColor(x, y, color);
+            SetCellColor(x, y - 1, color);
+            SetCellColor(x - 1, y, color);
+            SetCellColor(x - 1, y - 1, color);
         }
     }
 
-    public void UpdateNPCPosition(NPCController obj){
-        if(!npcs.Contains(obj)){
-            npcs.Add(obj);
+    public void UpdateObjectPosition(NPCController obj){
+        if(!npcs.ContainsKey(obj)){
+            npcs.Add(obj, new Vector3(obj.GetX(),  obj.GetY()));
         }
-        SetObstacle(obj.GetX(), obj.GetY());
+        SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.black);
     }
 
-    public void UpdateItemPosition(GameItemController obj){
-        if(!items.Contains(obj)){
-            items.Add(obj);
+    public void UpdateObjectPosition(GameItemController obj){
+        if(!items.ContainsKey(obj)){
+            items.Add(obj, new Vector3(obj.GetX(),  obj.GetY()));
         }
-
-        SetObstacle(obj.GetX(), obj.GetY());
+        SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.black);
     }
-    
-    public void SetObstacleInGridPosition(int x, int y){
-         SetObstacle(x, y);
+
+    public void SetObstacleInPosition(int x, int y, ObjectType type){
+         SetGridObstacle(x, y, type);
     }
 
     // Unset position in Grid
+    public void FreeGridPosition(int x, int y){
+        if(!IsInsideGridLimit(x, y) && x > 1 && y > 1){
+            Debug.LogWarning("The object should be placed inside the perimeter");
+            return;
+        }
+
+        gridArray[x, y] = 0;
+        gridArray[x, y - 1]= 0;
+        gridArray[x - 1, y] = 0;
+        gridArray[x - 1, y - 1] = 0;
+    }
 }
