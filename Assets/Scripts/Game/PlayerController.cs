@@ -29,14 +29,13 @@ public class PlayerController : MonoBehaviour
 
         // Updating position in the Grid
         UpdatePositionInGrid();
-        gameGrid.SetObstacleInGridPosition(x, y);
     }
 
     public void SetPosition(Vector3 position){
        transform.position = position;
     }
 
-        private void UpdatePositionInGrid(){
+    private void UpdatePositionInGrid(){
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;

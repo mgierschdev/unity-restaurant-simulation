@@ -77,8 +77,7 @@ public class NPCController : MonoBehaviour
 
         // Updating position in the Grid
         UpdatePositionInGrid();
-        gameGrid.UpdateNPCPosition(current);
-
+        gameGrid.UpdateObjectPosition(current);
     }
 
     private Vector3 Move(MoveDirection d)
