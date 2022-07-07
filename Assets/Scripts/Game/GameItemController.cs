@@ -7,12 +7,14 @@ public class GameItemController : MonoBehaviour
     private float y;
     private GameGridController gameGrid;
     private GameItemController current;
+    private ObjectType type = ObjectType.OBSTACLE;
 
     void Awake() {
         current = GetComponent<GameItemController>();
         // Getting game grid
         gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>(); 
         UpdatePositionInGrid(); 
+        gameGrid.UpdateObjectPosition(current);
     }
 
     private void UpdatePositionInGrid(){
@@ -27,5 +29,9 @@ public class GameItemController : MonoBehaviour
 
     public int GetY(){
         return (int) y;
+    }
+    
+    public ObjectType GetType(){
+        return type;
     }
 }
