@@ -6,4 +6,3 @@ dotnet_diagnostic.IDE0090.severity = none
 dotnet_diagnostic.CS0162.severity = none
 dotnet_diagnostic.IDE0044.severity = none
 dotnet_diagnostic.CS0108.severity = none
-# dotnet_diagnostic.IDE0051.severity = none is an example of turning off the analyzer with ID IDE0051

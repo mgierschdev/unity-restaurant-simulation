@@ -45,4 +45,19 @@ public static class Util
         }
         Debug.Log(" ");
     }
+
+    public static double EuclidianDistance(int[] a, int[] b){
+        double distance = System.Math.Sqrt(System.Math.Pow(a[0] - b[0], 2) + System.Math.Pow(a[1] - b[1], 2));
+        return distance;
+    }
+
+    public static double[,] CloneGrid(double[,] grid){
+        double[,] newGrid = new double[grid.GetLength(0), grid.GetLength(1)];
+        for(int i = 0; i < grid.GetLength(0); i++){
+            for(int j = 0; j < grid.GetLength(1); j++){
+                newGrid[i, j] = grid[i, j];
+            }
+        }
+        return newGrid;
+    }
 }

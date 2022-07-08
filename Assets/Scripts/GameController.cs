@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 // This class in charge of loading the game and prefabs
 // the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour

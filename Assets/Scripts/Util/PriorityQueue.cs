@@ -1,0 +1,96 @@
+using System;
+using UnityEngine;
+
+public class QueueNode
+{
+    private int[] data;
+    private float priority;
+    public QueueNode next;
+    
+    public QueueNode(int[] data, float priority){
+        this.data = data;
+        this.priority = priority;
+    }
+
+    public QueueNode(){
+    
+    }
+
+    public int[] GetData(){
+        return data;
+    }
+
+    public float GetPriority(){
+        return priority;
+    }
+}
+
+public class PriorityQueue
+{
+   private QueueNode rootNode;
+   private int size;
+
+   
+    public PriorityQueue(){
+        rootNode = new QueueNode(new int[]{int.MaxValue, int.MaxValue}, float.MaxValue); // The head is the max Value
+        size = 0;
+    }
+
+    // Peeks the head Node
+    public int[] Peek()
+    {
+        if(rootNode.next == null){
+            return new int[]{};
+        }
+
+        return rootNode.next.GetData();
+    }
+
+    public QueueNode Dequeue()
+    {
+        if(rootNode.next == null){
+            Debug.LogWarning("The Queue is empty");
+            return null;
+        }
+        size--;
+        QueueNode n = rootNode.next;
+        rootNode.next = rootNode.next.next;
+        return n;
+    }
+    
+    public bool IsEmpty()
+    {
+        return size == 0;
+    }
+    
+    // In O(n)
+    public void Enqueue( int[] d, float p)
+    {
+        size++;
+        QueueNode runner = rootNode;
+        QueueNode newNode = new QueueNode(d, p);
+
+        while(runner.next != null && runner.next.GetPriority() > newNode.GetPriority()){
+            runner = runner.next;
+        }
+
+        QueueNode tmp = runner.next;
+        runner.next = newNode;
+        newNode.next = tmp;
+    }
+
+    // DEBUG
+    private void printNodeList(){
+        QueueNode q = rootNode;
+        String s = "";
+        while(q != null){
+            s += q.GetPriority()+" -> ";
+            q = q.next;
+        }
+        Debug.Log(s);
+    }
+
+    public int GetSize(){
+        return this.size;
+    }
+}
