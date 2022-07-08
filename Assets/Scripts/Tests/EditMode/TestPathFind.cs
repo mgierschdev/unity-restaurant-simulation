@@ -22,11 +22,13 @@ public class TestPathFind
     [Test]
     public void TestFindPath(){
         start = new int[2]{0,0};
-        start = new int[2]{19,19};
+        target = new int[2]{19,19};
+
         FillGrid(5, 0, 16, grid);
         FillGrid(15, 10, 19, grid);
-        Util.PrintArray(grid);
         path = pathFind.Find(start, target, grid);
+
+        Assert.NotNull(path);
     }
 
     private void FillGrid(int row, int i, int j, double[,] grid){
