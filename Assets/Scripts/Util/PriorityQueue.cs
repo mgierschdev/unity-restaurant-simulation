@@ -1,35 +1,10 @@
 using System;
 using UnityEngine;
 
-public class QueueNode
-{
-    private int[] data;
-    private double priority;
-    public QueueNode next;
-    
-    public QueueNode(int[] data, double priority){
-        this.data = data;
-        this.priority = priority;
-    }
-
-    public QueueNode(){
-    
-    }
-
-    public int[] GetData(){
-        return data;
-    }
-
-    public double GetPriority(){
-        return priority;
-    }
-}
-
 public class PriorityQueue
 {
    private QueueNode rootNode;
    private int size;
-
    
     public PriorityQueue(){
         rootNode = new QueueNode(new int[]{int.MinValue, int.MinValue}, float.MinValue); // The head is the max Value

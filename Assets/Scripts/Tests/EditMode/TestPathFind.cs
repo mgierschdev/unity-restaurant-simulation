@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class TestPathFind
 {
     public List<int[]> path;
-    private double[,] grid;
+    private int[,] grid;
     private int[] start;
     private int[] target;
     private PathFind pathFind;
@@ -14,7 +14,7 @@ public class TestPathFind
     [SetUp]
     public void Setup()
     {
-        grid = new double[20, 20];
+        grid = new int[20, 20];
         path = new List<int[]>();
         pathFind = new PathFind();
     }
@@ -49,7 +49,6 @@ public class TestPathFind
         for(int i = 0; i < path.Count; i++){
             Assert.AreEqual(expected[i], path[i]);
         }
-        Assert.AreEqual(Math.Truncate(pathFind.GetCost()), 190);
     }
 
 
@@ -59,7 +58,6 @@ public class TestPathFind
         target = new int[2]{19,19};
         FillGrid(4, 4, 10, grid);
         path = pathFind.Find(start, target, grid);
-        Assert.AreEqual(Math.Truncate(pathFind.GetCost()), 366);
         PrintPath(path);
     }
 
@@ -75,12 +73,10 @@ public class TestPathFind
         PrintBuildedPath(path);
 
         // Building path
-
-
     }
 
     private void PrintBuildedPath(List<int[]> path){
-        double[,] clone = Util.CloneGrid(grid);
+        int[,] clone = Util.CloneGrid(grid);
         for(int i = 0; i < path.Count; i++){
             clone[path[i][0], path[i][1]] = i;
         }
@@ -98,7 +94,7 @@ public class TestPathFind
         Debug.Log(s);
     }
 
-    private void FillGrid(int row, int i, int j, double[,] grid){
+    private void FillGrid(int row, int i, int j, int[,] grid){
         while(i <= j){
             grid[row, i++] = 1;
             grid[row, j--] = 1;
