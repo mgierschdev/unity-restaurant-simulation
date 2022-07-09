@@ -35,7 +35,7 @@ public static class Util
         return new Vector2Int(Mathf.FloorToInt(position.x - Settings.GRID_START_X), Mathf.FloorToInt(position.y - Settings.GRID_START_Y));
     }
     
-    public static void PrintArray(double[,] grid){
+    public static void PrintGrid(int[,] grid){
         for(int i = 0; i < grid.GetLength(0); i++){
             String row = "";
             for(int j = 0; j < grid.GetLength(1); j++){
@@ -51,7 +51,13 @@ public static class Util
         return distance;
     }
 
-    public static double[,] CloneGrid(double[,] grid){
+
+    // Return the min distance without obstacles
+    public static int CalculateSqareDistance(int[] a, int[] b){
+        return 0;
+    }
+
+    public static double[,] CloneGrid(int[,] grid){
         double[,] newGrid = new double[grid.GetLength(0), grid.GetLength(1)];
         for(int i = 0; i < grid.GetLength(0); i++){
             for(int j = 0; j < grid.GetLength(1); j++){

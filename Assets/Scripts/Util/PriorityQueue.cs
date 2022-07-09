@@ -4,10 +4,10 @@ using UnityEngine;
 public class QueueNode
 {
     private int[] data;
-    private float priority;
+    private double priority;
     public QueueNode next;
     
-    public QueueNode(int[] data, float priority){
+    public QueueNode(int[] data, double priority){
         this.data = data;
         this.priority = priority;
     }
@@ -20,7 +20,7 @@ public class QueueNode
         return data;
     }
 
-    public float GetPriority(){
+    public double GetPriority(){
         return priority;
     }
 }
@@ -32,7 +32,7 @@ public class PriorityQueue
 
    
     public PriorityQueue(){
-        rootNode = new QueueNode(new int[]{int.MaxValue, int.MaxValue}, float.MaxValue); // The head is the max Value
+        rootNode = new QueueNode(new int[]{int.MinValue, int.MinValue}, float.MinValue); // The head is the max Value
         size = 0;
     }
 
@@ -64,13 +64,13 @@ public class PriorityQueue
     }
     
     // In O(n)
-    public void Enqueue( int[] d, float p)
+    public void Enqueue( int[] d, double p)
     {
         size++;
         QueueNode runner = rootNode;
         QueueNode newNode = new QueueNode(d, p);
 
-        while(runner.next != null && runner.next.GetPriority() > newNode.GetPriority()){
+        while(runner.next != null && runner.next.GetPriority() < newNode.GetPriority()){
             runner = runner.next;
         }
 
