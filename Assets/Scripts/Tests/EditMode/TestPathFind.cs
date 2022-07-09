@@ -66,11 +66,11 @@ public class TestPathFind
     public void TestPathWithManyObstacles(){
         start = new int[2]{0,0};
         target = new int[2]{19,19};
-        FillGrid(4, 4, 10, grid);
+        //FillGrid(4, 4, 10, grid);
         FillGrid(16, 3, 19, grid);
         path = pathFind.Find(start, target, grid);
        // Assert.AreEqual(Math.Truncate(pathFind.GetCost()), 366);
-        PrintBuildedPath(path);
+        // PrintBuildedPath(path);
 
         // Building path
     }
@@ -80,9 +80,6 @@ public class TestPathFind
         for(int i = 0; i < path.Count; i++){
             clone[path[i][0], path[i][1]] = i;
         }
-
-        Util.PrintGrid(clone);
-
     }
 
     private void PrintPath(List<int[]> arr){
