@@ -52,13 +52,13 @@ public static class Util
     }
 
 
-    // Return the min distance without obstacles
+    // Return the min distance without obstacles between 2 points
     public static int CalculateSqareDistance(int[] a, int[] b){
         return 0;
     }
 
-    public static double[,] CloneGrid(int[,] grid){
-        double[,] newGrid = new double[grid.GetLength(0), grid.GetLength(1)];
+    public static int[,] CloneGrid(int[,] grid){
+        int[,] newGrid = new int[grid.GetLength(0), grid.GetLength(1)];
         for(int i = 0; i < grid.GetLength(0); i++){
             for(int j = 0; j < grid.GetLength(1); j++){
                 newGrid[i, j] = grid[i, j];

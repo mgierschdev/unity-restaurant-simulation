@@ -9,7 +9,6 @@ public class PathFind
     private bool found;
     private int[] target;
     private List<int[]> path;
-    private double cost;
 
     public List<int[]> Find(int[] start, int[] target, int[,] sourceGrid){
         // We init vars
@@ -17,27 +16,19 @@ public class PathFind
         found = false;
         this.target = target;
         path = new List<int[]>();
-        cost = 0.0f;
         InitGridPathNode(sourceGrid);
 
-        DFS(start[0], start[1],  0.0f);
+        DFS(start[0], start[1]);
         //Util.PrintGrid(grid);
         return path;
  
     }
 
-    private bool DFS(int x, int y, double cost){
-        if(IsValid(x, y) && grid[x, y] == 0 && !found){
-
-            int[] currentNode = new int[]{x, y};
-            route.Add(currentNode);
-            grid[x, y] = Util.EuclidianDistance(currentNode, target);
+    private void DFS(int x, int y){
+        if(IsValid(x, y) && grid[x, y].GetValue() == 0 && !found){
 
             if(x == target[0] && y == target[1]){
-                path = new List<int[]>(route);
-                this.cost = cost;
                 found = true;
-                return true;
             }
 
             PriorityQueue queue = new PriorityQueue();
@@ -50,16 +41,12 @@ public class PathFind
             queue.Enqueue(new int[]{x - 1, y - 1}, Util.EuclidianDistance(new int[]{x - 1, y - 1}, target));
             queue.Enqueue(new int[]{x + 1, y + 1}, Util.EuclidianDistance(new int[]{x + 1, y + 1}, target));
 
-
             while(!queue.IsEmpty()){
                 QueueNode n =  queue.Dequeue();
                 int[] coord = n.GetData();
-                if(!DFS(coord[0], coord[1], cost + grid[x, y], route)){
-                  route.Remove(currentNode);
-                }   
+                DFS(coord[0], coord[1]); 
             }
         }
-        return false;
     }
 
     private bool IsValid(int x, int y){
@@ -70,14 +57,9 @@ public class PathFind
         grid = new PathNode[clone.GetLength(0), clone.GetLength(0)];
         for(int i = 0; i < clone.GetLength(0); i++){
             for(int j = 0; j < clone.GetLength(1); j++){
-                double[] coord = new double[]{clone[i, 0], clone[i, 0]};
-                grid[i, j] = new PathNode(coord, 0 ,Util.CalculateSqareDistance(coord, target), Util.EuclidianDistance(coord, target));
+                int[] coord = new int[]{clone[i, 0], clone[i, 0]};
+                grid[i, j] = new PathNode(coord, 0 ,Util.CalculateSqareDistance(coord, target), Util.EuclidianDistance(coord, target), clone[i, j]);
             }
         }
     }
-
-    public double GetCost(){
-        return cost;
-    }
-
 }
