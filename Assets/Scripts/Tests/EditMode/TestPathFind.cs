@@ -6,27 +6,33 @@ public class TestPathFind
 {
     private int[] start;
     private int[] target;
+    private int[,] grid;
     private PathFind pathFind;
+    private List<Node> path;
+    private List<Node> expected;
 
     [SetUp]
     public void Setup()
     {
         pathFind = new PathFind();
+        expected = new List<Node>();
+        path = new List<Node>();
     }
 
     [Test]
     public void TestEdgePath()
     {
-        int[,] grid = new int[5, 5];
+        grid = new int[5, 5];
         start = new int[2] { 0, 0 };
         target = new int[2] { 0, 4 };
-        List<Node> expected = new List<Node>();
+        expected.Clear();
+        path.Clear();
+
         expected.Add(new Node(new int[] { 0, 1 }));
         expected.Add(new Node(new int[] { 0, 2 }));
         expected.Add(new Node(new int[] { 0, 3 }));
         expected.Add(new Node(new int[] { 0, 4 }));
 
-        List<Node> path = new List<Node>();
         for (int i = 0; i < path.Count; i++)
         {
             Assert.True(expected[i].Compare(path[i]));
@@ -36,13 +42,15 @@ public class TestPathFind
     [Test]
     public void TestPathWithObstacles()
     {
-        int[,] grid = new int[5, 5];
+        grid = new int[5, 5];
         start = new int[2] { 0, 0 };
         target = new int[2] { 4, 4 };
         FillGrid(2, 0, 3, grid);
         grid[3, 4] = 1;
         grid[1, 2] = 1;
-        List<Node> expected = new List<Node>();
+        expected.Clear();
+        path.Clear();
+
         expected.Add(new Node(new int[] { 0, 1 }));
         expected.Add(new Node(new int[] { 0, 2 }));
         expected.Add(new Node(new int[] { 1, 3 }));
@@ -50,7 +58,6 @@ public class TestPathFind
         expected.Add(new Node(new int[] { 3, 3 }));
         expected.Add(new Node(new int[] { 4, 4 }));
 
-        List<Node> path = new List<Node>();
         path = pathFind.Find(start, target, grid);
         for (int i = 0; i < path.Count; i++)
         {
@@ -62,12 +69,13 @@ public class TestPathFind
     [Test]
     public void TestHardPathWithManyObstacles()
     {
-        int[,] grid = new int[5, 5];
+        grid = new int[5, 5];
         start = new int[2] { 0, 0 };
         target = new int[2] { 4, 4 };
         FillGrid(3, 1, 4, grid);
+        expected.Clear();
+        path.Clear();
 
-        List<Node> expected = new List<Node>();
         expected.Add(new Node(new int[] { 1, 0 }));
         expected.Add(new Node(new int[] { 2, 0 }));
         expected.Add(new Node(new int[] { 3, 0 }));
@@ -76,7 +84,6 @@ public class TestPathFind
         expected.Add(new Node(new int[] { 4, 3 }));
         expected.Add(new Node(new int[] { 4, 4 }));
 
-        List<Node> path = new List<Node>();
         path = pathFind.Find(start, target, grid);
         for (int i = 0; i < path.Count; i++)
         {

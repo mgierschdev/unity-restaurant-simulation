@@ -15,7 +15,7 @@ public class Node
         this.y = a[1];
     }
 
-    public string ToString()
+    public override string ToString()
     {
         return "[" + x + "," + y + "]";
     }

@@ -37,9 +37,9 @@ public class PathNode
         return "[" + position[0] + "," + position[1] + "]";
     }
 
-    public string ToString()
+    public override string ToString()
     {
-        string tmp = "";
+        string tmp;
         if (parent == null)
         {
             tmp = "null";
