@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+
 // This will contain Utility functions, to create Unity Object and other
 public static class Util
 {
@@ -66,5 +68,29 @@ public static class Util
             }
         }
         return newGrid;
+    }
+
+    public static void PrintPath(List<Node> arr)
+    {
+        string s = "";
+        foreach (Node i in arr)
+        {
+            s += " " + i.ToString();
+        }
+        Debug.Log(s);
+    }
+
+    public static void PrintGridPathNodes(int[,] arrayGrid)
+    {
+        Debug.Log("Grid");
+        for (int i = 0; i < arrayGrid.GetLength(0); i++)
+        {
+            String s = "";
+            for (int j = 0; j < arrayGrid.GetLength(1); j++)
+            {
+                s += "  .  " + arrayGrid[i, j];
+            }
+            Debug.Log(s);
+        }
     }
 }

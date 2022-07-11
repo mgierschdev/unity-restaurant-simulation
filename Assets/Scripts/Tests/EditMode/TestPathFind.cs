@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
 using NUnit.Framework;
 using System.Collections.Generic;
 
 public class TestPathFind
 {
-    public List<int[]> path;
-    private int[,] grid;
     private int[] start;
     private int[] target;
     private PathFind pathFind;
@@ -14,88 +11,77 @@ public class TestPathFind
     [SetUp]
     public void Setup()
     {
-        grid = new int[20, 20];
-        path = new List<int[]>();
         pathFind = new PathFind();
     }
 
     [Test]
     public void TestEdgePath()
     {
+        int[,] grid = new int[5, 5];
         start = new int[2] { 0, 0 };
-        target = new int[2] { 0, 19 };
-        List<int[]> expected = new List<int[]>();
-        expected.Add(new int[] { 0, 0 });
-        expected.Add(new int[] { 0, 1 });
-        expected.Add(new int[] { 0, 2 });
-        expected.Add(new int[] { 0, 3 });
-        expected.Add(new int[] { 0, 4 });
-        expected.Add(new int[] { 0, 5 });
-        expected.Add(new int[] { 0, 6 });
-        expected.Add(new int[] { 0, 7 });
-        expected.Add(new int[] { 0, 8 });
-        expected.Add(new int[] { 0, 9 });
-        expected.Add(new int[] { 0, 10 });
-        expected.Add(new int[] { 0, 11 });
-        expected.Add(new int[] { 0, 12 });
-        expected.Add(new int[] { 0, 13 });
-        expected.Add(new int[] { 0, 14 });
-        expected.Add(new int[] { 0, 15 });
-        expected.Add(new int[] { 0, 16 });
-        expected.Add(new int[] { 0, 17 });
-        expected.Add(new int[] { 0, 18 });
-        expected.Add(new int[] { 0, 19 });
+        target = new int[2] { 0, 4 };
+        List<Node> expected = new List<Node>();
+        expected.Add(new Node(new int[] { 0, 1 }));
+        expected.Add(new Node(new int[] { 0, 2 }));
+        expected.Add(new Node(new int[] { 0, 3 }));
+        expected.Add(new Node(new int[] { 0, 4 }));
 
-        path = pathFind.Find(start, target, grid);
+        List<Node> path = new List<Node>();
         for (int i = 0; i < path.Count; i++)
         {
-            Assert.AreEqual(expected[i], path[i]);
+            Assert.True(expected[i].Compare(path[i]));
         }
     }
-
 
     [Test]
     public void TestPathWithObstacles()
     {
+        int[,] grid = new int[5, 5];
         start = new int[2] { 0, 0 };
-        target = new int[2] { 19, 19 };
-        FillGrid(4, 4, 10, grid);
+        target = new int[2] { 4, 4 };
+        FillGrid(2, 0, 3, grid);
+        grid[3, 4] = 1;
+        grid[1, 2] = 1;
+        List<Node> expected = new List<Node>();
+        expected.Add(new Node(new int[] { 0, 1 }));
+        expected.Add(new Node(new int[] { 0, 2 }));
+        expected.Add(new Node(new int[] { 1, 3 }));
+        expected.Add(new Node(new int[] { 2, 4 }));
+        expected.Add(new Node(new int[] { 3, 3 }));
+        expected.Add(new Node(new int[] { 4, 4 }));
+
+        List<Node> path = new List<Node>();
         path = pathFind.Find(start, target, grid);
-        PrintPath(path);
+        for (int i = 0; i < path.Count; i++)
+        {
+            Assert.True(expected[i].Compare(path[i]));
+        }
     }
 
 
     [Test]
-    public void TestPathWithManyObstacles()
+    public void TestHardPathWithManyObstacles()
     {
+        int[,] grid = new int[5, 5];
         start = new int[2] { 0, 0 };
-        target = new int[2] { 19, 19 };
-        //FillGrid(4, 4, 10, grid);
-        FillGrid(16, 3, 19, grid);
-        path = pathFind.Find(start, target, grid);
-        // Assert.AreEqual(Math.Truncate(pathFind.GetCost()), 366);
-        // PrintBuildedPath(path);
-        // Building path
-    }
+        target = new int[2] { 4, 4 };
+        FillGrid(3, 1, 4, grid);
 
-    private void PrintBuildedPath(List<int[]> path)
-    {
-        int[,] clone = Util.CloneGrid(grid);
+        List<Node> expected = new List<Node>();
+        expected.Add(new Node(new int[] { 1, 0 }));
+        expected.Add(new Node(new int[] { 2, 0 }));
+        expected.Add(new Node(new int[] { 3, 0 }));
+        expected.Add(new Node(new int[] { 4, 1 }));
+        expected.Add(new Node(new int[] { 4, 2 }));
+        expected.Add(new Node(new int[] { 4, 3 }));
+        expected.Add(new Node(new int[] { 4, 4 }));
+
+        List<Node> path = new List<Node>();
+        path = pathFind.Find(start, target, grid);
         for (int i = 0; i < path.Count; i++)
         {
-            clone[path[i][0], path[i][1]] = i;
+            Assert.True(expected[i].Compare(path[i]));
         }
-    }
-
-    private void PrintPath(List<int[]> arr)
-    {
-        string s = "";
-
-        foreach (int[] i in arr)
-        {
-            s += " " + i[0] + "," + i[1];
-        }
-        Debug.Log(s);
     }
 
     private void FillGrid(int row, int i, int j, int[,] grid)

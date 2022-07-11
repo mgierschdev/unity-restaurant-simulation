@@ -1,14 +1,17 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PriorityQueue
 {
-    private QueueNode rootNode;
+    private HashSet<PathNode> nodes;
+    private PathNode rootNode;
     private int size;
 
     public PriorityQueue()
     {
-        rootNode = new QueueNode(new int[] { int.MinValue, int.MinValue }, float.MinValue); // The head is the max Value
+        nodes = new HashSet<PathNode>();
+        rootNode = new PathNode(new int[] { int.MinValue, int.MinValue }, int.MaxValue); // The head is the max Value
         size = 0;
     }
 
@@ -20,10 +23,10 @@ public class PriorityQueue
             return new int[] { };
         }
 
-        return rootNode.next.GetData();
+        return rootNode.next.GetPosition();
     }
 
-    public QueueNode Dequeue()
+    public PathNode Dequeue()
     {
         if (rootNode.next == null)
         {
@@ -31,7 +34,8 @@ public class PriorityQueue
             return null;
         }
         size--;
-        QueueNode n = rootNode.next;
+        PathNode n = rootNode.next;
+        nodes.Remove(n);
         rootNode.next = rootNode.next.next;
         return n;
     }
@@ -42,30 +46,35 @@ public class PriorityQueue
     }
 
     // In O(n)
-    public void Enqueue(int[] d, double p)
+    public void Enqueue(PathNode node)
     {
+        nodes.Add(node);
         size++;
-        QueueNode runner = rootNode;
-        QueueNode newNode = new QueueNode(d, p);
+        PathNode runner = rootNode;
 
-        while (runner.next != null && runner.next.GetPriority() < newNode.GetPriority())
+        while (runner.next != null && runner.next.GetFCost() < node.GetFCost())
         {
             runner = runner.next;
         }
 
-        QueueNode tmp = runner.next;
-        runner.next = newNode;
-        newNode.next = tmp;
+        PathNode tmp = runner.next;
+        runner.next = node;
+        node.next = tmp;
+    }
+
+    public bool Contains(PathNode n)
+    {
+        return nodes.Contains(n);
     }
 
     // DEBUG
     private void PrintNodeList()
     {
-        QueueNode q = rootNode;
+        PathNode q = rootNode;
         String s = "";
         while (q != null)
         {
-            s += q.GetPriority() + " -> ";
+            s += q.GetFCost() + " -> ";
             q = q.next;
         }
         Debug.Log(s);
