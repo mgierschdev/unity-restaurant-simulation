@@ -62,4 +62,13 @@ public class TestPriorityQueue
             node = p;
         }
     }
+
+    [Test]
+    public void TestDequeue()
+    {
+        queue.Enqueue(new PathNode(new int[] { 0, 2 }, 35));
+        queue.Enqueue(new PathNode(new int[] { 0, 3 }, 35));
+        queue.Enqueue(new PathNode(new int[] { 0, 4 }, 3));
+        Assert.AreEqual(queue.Dequeue().GetFCost(), 3);
+    }
 }

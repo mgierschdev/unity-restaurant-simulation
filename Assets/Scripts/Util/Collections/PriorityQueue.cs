@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
+// Only requirement is a node.next in the PathNode and the FCost setted for prioritizing
 public class PriorityQueue
 {
     private HashSet<PathNode> nodes;
