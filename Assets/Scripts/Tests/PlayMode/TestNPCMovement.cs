@@ -11,21 +11,29 @@ public class TestNPCMovement
     private Vector3EqualityComparer vectorComparer;
     private Vector3 initialTestingPosition;
 
-    [SetUp]
-    public void Setup()
+    [UnityTest]
+    public IEnumerator TestInstantiatePrefabs()
     {
+
+        //Instantiating GameGrid
+        GameObject gridObject = Transform.Instantiate(Resources.Load(Settings.CONST_GAME_GRID, typeof(GameObject))) as GameObject;
+        GameGridController gameGridController = gridObject.GetComponent<GameGridController>();
+
         // Adding NPC object
         npcObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
         npcObject.transform.SetParent(npcObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
+        npcController.SetGameGridController(gameGridController);
         vectorComparer = new Vector3EqualityComparer(10e-6f); // default error 0.0001f.
         initialTestingPosition = new Vector3(0, 0, 0);
         npcController.SetSpeed(1000);
+        yield return new WaitForSeconds(0.1f);
     }
 
     [UnityTest]
     public IEnumerator TestMovement()
     {
+
         npcController.SetPosition(initialTestingPosition);
         npcController.AddMovement(MoveDirection.DOWN);
         yield return new WaitForSeconds(0.1f);

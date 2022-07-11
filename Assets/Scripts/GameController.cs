@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
         GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(3, 20, 1), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
         NPCController npcController = npcObject.GetComponent<NPCController>();
+        npcController.SetGameGridController(gridController);
         // npcController.SetPosition(gridController.GetCellPosition(3 ,20, 1));
         // gridController.SetObstacle(3, 20);
 
