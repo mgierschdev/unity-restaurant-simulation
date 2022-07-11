@@ -135,7 +135,7 @@ public class MaxBinaryHeap
         string s = "";
         for (int i = 0; i < currentHeapSize; i++)
         {
-            s += nodes[i].GetFCost()+" ";
+            s += nodes[i].GetFCost() + " ";
         }
         Debug.Log(s);
     }
