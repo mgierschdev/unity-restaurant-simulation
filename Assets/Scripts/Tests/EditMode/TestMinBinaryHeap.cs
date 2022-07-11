@@ -51,9 +51,9 @@ public class TestMinBinaryHeap
 
         PathNode node = heap.ExtractMin();
         for (int i = 0; i < heap.GetSize(); i++)
-        { 
+        {
             PathNode p = heap.ExtractMin();
-            Debug.Log(p.GetFCost()+" > "+node.GetFCost());
+            Debug.Log(p.GetFCost() + " > " + node.GetFCost());
             Assert.GreaterOrEqual(p.GetFCost(), node.GetFCost());
             node = p;
         }

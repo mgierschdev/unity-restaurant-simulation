@@ -95,7 +95,8 @@ public class MinBinaryHeap
         }
     }
 
-    public bool Contains(PathNode p){
+    public bool Contains(PathNode p)
+    {
         return hashNodes.Contains(p);
     }
 
