@@ -21,7 +21,7 @@ public class PathFind
         int[,] directions = new int[,] { { 0, 1 }, { 1, 0 }, { 1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
 
         // This should be a priority queue to achieve Log(n). 
-        PriorityQueue openList = new PriorityQueue();
+        MinBinaryHeap openList = new MinBinaryHeap(sourceGrid.GetLength(0) * sourceGrid.GetLength(1));
 
         // init grid, G cost == int.MaxValue
         grid = new PathNode[arrayGrid.GetLength(0), arrayGrid.GetLength(1)];
@@ -44,12 +44,12 @@ public class PathFind
         root.SetHCost(CalculateDistance(start, target));
         root.CalculateFCost();
         root.SetParent(null);
-        openList.Enqueue(root);
+        openList.Add(root);
 
         // we start BFS
         while (!openList.IsEmpty())
         {
-            PathNode current = openList.Dequeue();
+            PathNode current = openList.ExtractMin();
             int[] currentPosition = current.GetPosition();
 
             // visited
@@ -83,7 +83,7 @@ public class PathFind
 
                         if (!openList.Contains(neighbor))
                         {
-                            openList.Enqueue(neighbor);
+                            openList.Add(neighbor);
                         }
                     }
                 }
