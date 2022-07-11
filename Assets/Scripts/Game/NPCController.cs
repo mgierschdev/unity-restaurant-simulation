@@ -26,11 +26,9 @@ public class NPCController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         current = GetComponent<NPCController>();
 
-        // Getting game grid
-        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>();
-
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
+
         // Movement Queue
         movementQueue = new Queue();
 
@@ -177,6 +175,11 @@ public class NPCController : MonoBehaviour
         this.speed = speed;
     }
 
+    public void SetGameGridController(GameGridController controller)
+    {
+        this.gameGrid = controller;
+    }
+
     public int GetX()
     {
         return (int)x;
@@ -196,5 +199,4 @@ public class NPCController : MonoBehaviour
     {
         return position;
     }
-
 }
