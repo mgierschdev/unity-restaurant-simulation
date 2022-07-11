@@ -1,29 +1,80 @@
 
 public class PathNode
 {
-    private PathNode parent;
+    public PathNode next; // use to order in the queue
+    private PathNode parent; // Another reference comming from
     private int[] position;
-    private int costToStart; // G cost
-    private int costToEnd; // H cost
+    private int GCost; // G cost to the start point
+    private int HCost; // H cost to the end point
     private double EuclidianCost;
-    private int value = 0; // value in the position, 0 free, 1 obstacle, 2 visited
+    private int FCost; // value in the position, 0 free, 1 obstacle, 2 visited
+    private int value;
 
-    public PathNode(int[] position, int costToStart, int costToEnd, int value)
+    public PathNode(int[] position)
     {
         this.position = position;
-        this.costToStart = costToStart;
-        this.costToEnd = costToEnd;
-        this.value = value;
+        parent = null;
     }
 
-    public int GetCostToStart()
+    public PathNode(int[] position, int FCost)
     {
-        return costToStart;
+        this.position = position;
+        this.FCost = FCost;
+        parent = null;
     }
 
-    public int GetCostEnd()
+    public PathNode(int[] position, int costToStart, int costToEnd, PathNode parent)
     {
-        return costToEnd;
+        this.position = position;
+        this.GCost = costToStart;
+        this.HCost = costToEnd;
+        this.FCost = this.GCost + this.HCost;
+        this.parent = parent;
+    }
+
+    public string CoordsToString()
+    {
+        return "[" + position[0] + "," + position[1] + "]";
+    }
+
+    public string ToString()
+    {
+        string tmp = "";
+        if (parent == null)
+        {
+            tmp = "null";
+        }
+        else
+        {
+            tmp = "[" + parent.GetX() + "," + parent.GetY() + "]";
+        }
+
+        return "[" + position[0] + "," + position[1] + "] Fcost: " + FCost + " GCost: " + GCost + " HCost: " + HCost + " Parent: " + tmp;
+    }
+
+    public void CalculateFCost()
+    {
+        this.FCost = this.GCost + this.HCost;
+    }
+
+    public int GetX()
+    {
+        return this.position[0];
+    }
+
+    public int GetY()
+    {
+        return this.position[1];
+    }
+
+    public int GetGCost()
+    {
+        return this.GCost;
+    }
+
+    public int GetHCost()
+    {
+        return this.HCost;
     }
 
     public double GetEuclidianCost()
@@ -36,20 +87,25 @@ public class PathNode
         return position;
     }
 
-    public int GetValue()
-    {
-        return value;
-    }
-
     public void SetParent(PathNode parent)
     {
         this.parent = parent;
     }
 
-    // F Cost = G + H
-    public int GetTotalCost()
+    public PathNode GetParent()
     {
-        return costToStart + costToEnd;
+        return this.parent;
+    }
+
+    // F Cost = G + H
+    public int GetFCost()
+    {
+        return this.FCost;
+    }
+
+    public int GetValue()
+    {
+        return this.value;
     }
 
     public void SetValue(int value)
@@ -57,14 +113,19 @@ public class PathNode
         this.value = value;
     }
 
-    public void SetCostToStart(int costToStart)
+    public void SetGCost(int costToStart)
     {
-        this.costToStart = costToStart;
+        this.GCost = costToStart;
     }
 
-    public void SetCostEnd(int costToEnd)
+    public void SetHCost(int costToEnd)
     {
-        this.costToEnd = costToEnd;
+        this.HCost = costToEnd;
+    }
+
+    public void SetFCost(int total)
+    {
+        this.FCost = total;
     }
 
     public void SetEuclidianCost(double EuclidianCost)
