@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         // Getting game grid
-        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>();  
+        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>();
 
     }
 
@@ -25,27 +25,30 @@ public class PlayerController : MonoBehaviour
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * movementSpeed;
         body.angularVelocity = 0;
         body.rotation = 0;
-
         // Updating position in the Grid
         UpdatePositionInGrid();
     }
 
-    private void UpdatePositionInGrid(){
+    private void UpdatePositionInGrid()
+    {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;
         position = new Vector3(x, y, 1);
     }
 
-    public int GetX(){
+    public int GetX()
+    {
         return x;
     }
 
-    public int GetY(){
+    public int GetY()
+    {
         return y;
     }
 
-    public Vector3 GetPosition(){
+    public Vector3 GetPosition()
+    {
         return position;
     }
 }

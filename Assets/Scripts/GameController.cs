@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
 
         // Adding Player object
-        GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)),  gridController.GetCellPosition(3, 25, 1), Quaternion.identity) as GameObject;
+        GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), gridController.GetCellPosition(3, 25, 1), Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(gameObject.transform);
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
         // playerController.SetPosition(gridController.GetCellPosition(3 ,25, 1));

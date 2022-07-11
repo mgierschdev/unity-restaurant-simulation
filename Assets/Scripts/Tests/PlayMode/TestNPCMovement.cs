@@ -50,7 +50,7 @@ public class TestNPCMovement
         npcController.AddMovement(MoveDirection.DOWNLEFT);
         yield return new WaitForSeconds(0.1f);
         Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(-1, -1, 0)).Using(Vector3EqualityComparer.Instance));
-        
+
         npcController.SetPosition(initialTestingPosition);
         npcController.AddMovement(MoveDirection.DOWNRIGHT);
         yield return new WaitForSeconds(0.1f);
@@ -69,6 +69,6 @@ public class TestNPCMovement
         npcController.SetPosition(initialTestingPosition);
         Vector3 before = npcController.transform.position;
         npcController.AddMovement(MoveDirection.IDLE);
-        Assert.That(npcController.transform.position, Is.EqualTo(before).Using(Vector3EqualityComparer.Instance));          
+        Assert.That(npcController.transform.position, Is.EqualTo(before).Using(Vector3EqualityComparer.Instance));
     }
 }

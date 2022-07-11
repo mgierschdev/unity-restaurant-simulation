@@ -3,21 +3,25 @@ public class QueueNode
     private int[] data;
     private double priority;
     public QueueNode next;
-    
-    public QueueNode(int[] data, double priority){
+
+    public QueueNode(int[] data, double priority)
+    {
         this.data = data;
         this.priority = priority;
     }
 
-    public QueueNode(){
-    
+    public QueueNode()
+    {
+
     }
 
-    public int[] GetData(){
+    public int[] GetData()
+    {
         return data;
     }
 
-    public double GetPriority(){
+    public double GetPriority()
+    {
         return priority;
     }
 }

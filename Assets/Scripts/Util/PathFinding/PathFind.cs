@@ -20,16 +20,14 @@ public class PathFind
         this.target = target;
         this.start = start;
         path = new List<int[]>();
+        
         InitGridPathNode(sourceGrid);
+
         DFS(start[0], start[1], null);
+
         PrintGridPathNodes();
-
-
-
         // DFS(start[0], start[1], 0);
-
         return path;
-
     }
 
     private void DFS(int x, int y, PathNode parent){
@@ -81,7 +79,7 @@ public class PathFind
         return CalculateDistance(a, target) + CalculateDistance(a, start);
     }
 
-   // Return the min distance without obstacles between 2 points
+    // Return the min distance without obstacles between 2 points
     public int CalculateDistance(int[] a, int[] b){
         int xAbs = Mathf.Abs(a[0] - b[0]);
         int yAbs = Mathf.Abs(a[1] - b[1]);
@@ -90,7 +88,7 @@ public class PathFind
         return COST_DIAGONAL * Mathf.Min(xAbs, yAbs) + COST_STRAIGHT * diff;
     }
 
-        // Full grid debug
+    // Full grid debug
     private void PrintGridPathNodes(){
         // Debug.Log("...... GetEuclidianCost");
         // for(int i = 0 ; i < grid.GetLength(0); i++){

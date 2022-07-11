@@ -43,7 +43,7 @@ public static class Settings
 public enum ObjectType
 {
     NPC = 1,
-    OBSTACLE =2,
+    OBSTACLE = 2,
     PLAYER = 3
 }
 

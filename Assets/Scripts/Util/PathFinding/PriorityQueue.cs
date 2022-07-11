@@ -3,19 +3,21 @@ using UnityEngine;
 
 public class PriorityQueue
 {
-   private QueueNode rootNode;
-   private int size;
-   
-    public PriorityQueue(){
-        rootNode = new QueueNode(new int[]{int.MinValue, int.MinValue}, float.MinValue); // The head is the max Value
+    private QueueNode rootNode;
+    private int size;
+
+    public PriorityQueue()
+    {
+        rootNode = new QueueNode(new int[] { int.MinValue, int.MinValue }, float.MinValue); // The head is the max Value
         size = 0;
     }
 
     // Peeks the head Node
     public int[] Peek()
     {
-        if(rootNode.next == null){
-            return new int[]{};
+        if (rootNode.next == null)
+        {
+            return new int[] { };
         }
 
         return rootNode.next.GetData();
@@ -23,7 +25,8 @@ public class PriorityQueue
 
     public QueueNode Dequeue()
     {
-        if(rootNode.next == null){
+        if (rootNode.next == null)
+        {
             Debug.LogWarning("The Queue is empty");
             return null;
         }
@@ -32,20 +35,21 @@ public class PriorityQueue
         rootNode.next = rootNode.next.next;
         return n;
     }
-    
+
     public bool IsEmpty()
     {
         return size == 0;
     }
-    
+
     // In O(n)
-    public void Enqueue( int[] d, double p)
+    public void Enqueue(int[] d, double p)
     {
         size++;
         QueueNode runner = rootNode;
         QueueNode newNode = new QueueNode(d, p);
 
-        while(runner.next != null && runner.next.GetPriority() < newNode.GetPriority()){
+        while (runner.next != null && runner.next.GetPriority() < newNode.GetPriority())
+        {
             runner = runner.next;
         }
 
@@ -55,17 +59,20 @@ public class PriorityQueue
     }
 
     // DEBUG
-    private void printNodeList(){
+    private void PrintNodeList()
+    {
         QueueNode q = rootNode;
         String s = "";
-        while(q != null){
-            s += q.GetPriority()+" -> ";
+        while (q != null)
+        {
+            s += q.GetPriority() + " -> ";
             q = q.next;
         }
         Debug.Log(s);
     }
 
-    public int GetSize(){
+    public int GetSize()
+    {
         return this.size;
     }
 }

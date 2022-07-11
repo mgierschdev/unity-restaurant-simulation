@@ -27,7 +27,7 @@ public class NPCController : MonoBehaviour
         current = GetComponent<NPCController>();
 
         // Getting game grid
-        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>();  
+        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>();
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
@@ -68,12 +68,14 @@ public class NPCController : MonoBehaviour
         body.rotation = 0;
 
         // Handling player movement through a queue
-        if(currentTargetPosition == transform.position && movementQueue.Count != 0){
+        if (currentTargetPosition == transform.position && movementQueue.Count != 0)
+        {
             movementQueue.Dequeue();
         }
 
-        if(movementQueue.Count != 0){
-            currentTargetPosition = (Vector3) movementQueue.Peek();
+        if (movementQueue.Count != 0)
+        {
+            currentTargetPosition = (Vector3)movementQueue.Peek();
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
 
@@ -90,25 +92,32 @@ public class NPCController : MonoBehaviour
         if (d == MoveDirection.LEFT)
         {
             dir = Vector3.left;
-        }else if(d == MoveDirection.RIGHT)
+        }
+        else if (d == MoveDirection.RIGHT)
         {
             dir = Vector3.right;
-        }else if(d == MoveDirection.UP)
+        }
+        else if (d == MoveDirection.UP)
         {
             dir = Vector3.up;
-        }else if(d == MoveDirection.DOWN)
+        }
+        else if (d == MoveDirection.DOWN)
         {
             dir = Vector3.down;
-        }else if (d == MoveDirection.DOWNLEFT)
+        }
+        else if (d == MoveDirection.DOWNLEFT)
         {
             dir = new Vector3(-1, -1, 0);
-        }else if(d == MoveDirection.DOWNRIGHT)
+        }
+        else if (d == MoveDirection.DOWNRIGHT)
         {
-             dir = new Vector3(1, -1, 0);
-        }else if(d == MoveDirection.UPLEFT)
+            dir = new Vector3(1, -1, 0);
+        }
+        else if (d == MoveDirection.UPLEFT)
         {
             dir = new Vector3(-1, 1, 0);
-        }else if(d == MoveDirection.UPRIGHT)
+        }
+        else if (d == MoveDirection.UPRIGHT)
         {
             dir = new Vector3(1, 1, 0);
         }
@@ -140,44 +149,51 @@ public class NPCController : MonoBehaviour
         return this.velocity;
     }
 
-    private void UpdatePosition(){
+    private void UpdatePosition()
+    {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;
         position = new Vector3(x, y, 1);
     }
-    
+
     public void AddMovement(MoveDirection direction)
     {
-        Vector3 nextTarget =  Move(direction) + transform.position;
-        if(movementQueue.Count == 0){
+        Vector3 nextTarget = Move(direction) + transform.position;
+        if (movementQueue.Count == 0)
+        {
             currentTargetPosition = nextTarget;
         }
         movementQueue.Enqueue(nextTarget);
     }
-    
+
     public void SetPosition(Vector3 position)
     {
-       transform.position = position;
+        transform.position = position;
     }
 
-    public void SetSpeed(float speed){
+    public void SetSpeed(float speed)
+    {
         this.speed = speed;
     }
 
-    public int GetX(){
-        return (int) x;
+    public int GetX()
+    {
+        return (int)x;
     }
 
-    public int GetY(){
-        return (int) y;
+    public int GetY()
+    {
+        return (int)y;
     }
 
-    public ObjectType GetType(){
+    public ObjectType GetType()
+    {
         return type;
     }
 
-    public Vector3 GetPosition(){
+    public Vector3 GetPosition()
+    {
         return position;
     }
 
