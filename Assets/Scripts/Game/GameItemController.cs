@@ -10,34 +10,40 @@ public class GameItemController : MonoBehaviour
     private GameItemController current;
     private ObjectType type = ObjectType.OBSTACLE;
 
-    void Awake() {
+    void Awake()
+    {
         current = GetComponent<GameItemController>();
         // Getting game grid
-        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>(); 
-        UpdatePositionInGrid(); 
+        gameGrid = GameObject.Find(Settings.PREFAB_GAME_GRID).gameObject.GetComponent<GameGridController>();
+        UpdatePositionInGrid();
         gameGrid.UpdateObjectPosition(current);
     }
 
-    private void UpdatePositionInGrid(){
+    private void UpdatePositionInGrid()
+    {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;
         position = new Vector3(x, y, 1);
     }
-    
-    public int GetX(){
-        return (int) x;
+
+    public int GetX()
+    {
+        return (int)x;
     }
 
-    public int GetY(){
-        return (int) y;
+    public int GetY()
+    {
+        return (int)y;
     }
-    
-    public ObjectType GetType(){
+
+    public ObjectType GetType()
+    {
         return ObjectType.OBSTACLE;
     }
 
-    public Vector3 GetPosition(){
+    public Vector3 GetPosition()
+    {
         return position;
     }
 }
