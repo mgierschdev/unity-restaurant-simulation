@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Controls NPCs players
@@ -74,17 +75,64 @@ public class NPCController : MonoBehaviour
         if (movementQueue.Count != 0)
         {
             currentTargetPosition = (Vector3)movementQueue.Peek();
+            Debug.Log("Moving " + Util.ReturnDirection(currentTargetPosition));
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
 
         // Updating position in the Grid
         UpdatePosition();
         gameGrid.UpdateObjectPosition(current);
+
+        if (Settings.DEBUG_ENABLE)
+        {
+            MouseOnClick();
+        }
+
+    }
+
+    private void MouseOnClick()
+    {
+        //Only if it is not oving already
+        if (Input.GetMouseButtonDown(0) && movementQueue.Count == 0)
+        {
+            Vector3 mousePosition = Util.GetMouseInWorldPosition();
+            Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
+            List<Node> path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { mousePositionVector.x, mousePositionVector.y });
+
+            for (int i = 1; i < path.Count; i++)
+            {
+                Vector3 from = gameGrid.GetCellPosition(path[i - 1].GetX(), path[i - 1].GetY(), 1);
+                Vector3 to = gameGrid.GetCellPosition(path[i].GetX(), path[i].GetY(), 1);
+                Debug.DrawLine(from, to, Color.magenta, 5f);
+            }
+
+            AddPath(path);
+
+        }
+    }
+
+    private void AddPath(List<Node> n)
+    {
+        List<MoveDirection> list = new List<MoveDirection>();
+        for (int i = 1; i < n.Count; i++)
+        {
+            Vector3 from = gameGrid.GetCellPosition(n[i - 1].GetX(), n[i - 1].GetY(), 1);
+            Vector3 to = gameGrid.GetCellPosition(n[i].GetX(), n[i].GetY(), 1);
+
+            MoveDirection m = Util.ReturnDirection(to - from);
+            Debug.Log("direction: " + m);
+            Debug.Log("Vector "+Move(m));
+            list.Add(m);
+            //  Debug.Log(from - to);
+            //movementQueue.Enqueue();
+            AddMovement(m);
+        }
+        //movementQueue.Enqueue(Move(list[0]));
     }
 
     private Vector3 Move(MoveDirection d)
     {
-        //in case it is MoveDirection.IDDLE do nothing
+        //in case it is MoveDirection.IDLE do nothing
         Vector3 dir = transform.position;
 
         if (d == MoveDirection.LEFT)
@@ -124,7 +172,7 @@ public class NPCController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        AddMovement(MoveDirection.DOWN);
+        AddMovement(MoveDirection.RIGHT);
     }
 
     private void ActivateEnergyBar()

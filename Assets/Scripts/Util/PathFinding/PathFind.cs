@@ -69,7 +69,7 @@ public class PathFind
                 int y = currentPosition[1] + directions[i, 1];
                 // We add to the queue is valid to explore
 
-                if (IsValid(x, y) && arrayGrid[x, y] != 1 && arrayGrid[x, y] != 2)
+                if (IsValid(x, y) && arrayGrid[x, y] != (int) ObjectType.OBSTACLE && arrayGrid[x, y] != (int) ObjectType.PLAYER)
                 {
                     PathNode neighbor = grid[x, y];
 

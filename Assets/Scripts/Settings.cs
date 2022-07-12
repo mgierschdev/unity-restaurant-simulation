@@ -2,7 +2,7 @@ public static class Settings
 {
     // DEBUG parameters
     public const bool DEBUG_ENABLE = true; //Only for development
-    public const int DEBUG_TEXT_SIZE = 40;
+    public const int DEBUG_TEXT_SIZE = 30;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
     // Player Display
     public const float PLAYER_MOVEMENT_SPEED = 3;
@@ -46,8 +46,8 @@ public static class Settings
 //Item types
 public enum ObjectType
 {
-    NPC = 1,
-    OBSTACLE = 2,
+    OBSTACLE = 1,
+    NPC = 2,
     PLAYER = 3
 }
 

@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
 
         // Adding NPC object
-        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(9, 4, 1), Quaternion.identity) as GameObject;
+        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(2, 2, 1), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
         npcController.SetGameGridController(gridController);
@@ -32,36 +32,34 @@ public class GameController : MonoBehaviour
         for (int i = 1; i < 4; i++)
         {
             Vector2Int itemPosition = new Vector2Int(i, 7);
-            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
-            obstacleObject.transform.SetParent(gameGridObject.transform);
+            Vector3 objPos = gridController.GetCellPositionWithOffset(itemPosition.x, itemPosition.y);
+            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)),new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+             obstacleObject.transform.SetParent(gameGridObject.transform);
             gameObjects.Add(obstacleObject);
-
         }
 
         // Places all the objects in the world
         for (int i = 7; i < 11; i++)
         {
             Vector2Int itemPosition = new Vector2Int(i, 7);
-            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+            Vector3 objPos = gridController.GetCellPositionWithOffset(itemPosition.x, itemPosition.y);
+            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)),new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
             obstacleObject.transform.SetParent(gameGridObject.transform);
             gameObjects.Add(obstacleObject);
-
         }
-
     }
 
     // Places World obstacles
-    private void BuildWorld()
-    {
-        // Adding Objects / Obstacles
-        // gridController.SetObstacle(1, 1);
+    // private void BuildWorld()
+    // {
+    //     // Adding Objects / Obstacles
+    //     // gridController.SetObstacle(1, 1);
 
-        //  for (int i = 0; i < 3; i++)
-        //   {
-        Vector2Int itemPosition = new Vector2Int(1, 1);
-        GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
-        //gameObjects.Add(Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject);
-        // }
-
-    }
+    //     //  for (int i = 0; i < 3; i++)
+    //     //   {
+    //     Vector2Int itemPosition = new Vector2Int(1, 1);
+    //     GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+    //     //gameObjects.Add(Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject);
+    //     // }
+    // }
 }
