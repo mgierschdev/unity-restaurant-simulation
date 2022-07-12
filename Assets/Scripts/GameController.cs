@@ -6,32 +6,62 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private GameGridController gridController;
-    private List<GameObject> gameItems;
+    private NPCController npcController;
+    private List<GameObject> gameObjects;
 
     void Start()
     {
+        gameObjects = new List<GameObject>();
+
         // Getting grid object
-        GameObject gameGridObject = gameObject.transform.Find(Settings.CONST_GAME_GRID).gameObject;
+        GameObject gameGridObject = gameObject.transform.Find(Settings.PREFAB_GAME_GRID).gameObject;
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
 
         // Adding Player object
-        GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), gridController.GetCellPosition(3, 25, 1), Quaternion.identity) as GameObject;
+        GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), gridController.GetCellPosition(9, 10, 1), Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(gameObject.transform);
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
-        // playerController.SetPosition(gridController.GetCellPosition(3 ,25, 1));
-        // gridController.SetObstacle(3, 25);
 
         // Adding NPC object
-        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(3, 20, 1), Quaternion.identity) as GameObject;
+        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(9, 4, 1), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
-        NPCController npcController = npcObject.GetComponent<NPCController>();
+        npcController = npcObject.GetComponent<NPCController>();
         npcController.SetGameGridController(gridController);
-        // npcController.SetPosition(gridController.GetCellPosition(3 ,20, 1));
-        // gridController.SetObstacle(3, 20);
 
+        // Places all the objects in the world
+        for (int i = 1; i < 4; i++)
+        {
+            Vector2Int itemPosition = new Vector2Int(i, 7);
+            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+            obstacleObject.transform.SetParent(gameGridObject.transform);
+            gameObjects.Add(obstacleObject);
+
+        }
+
+        // Places all the objects in the world
+        for (int i = 7; i < 11; i++)
+        {
+            Vector2Int itemPosition = new Vector2Int(i, 7);
+            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+            obstacleObject.transform.SetParent(gameGridObject.transform);
+            gameObjects.Add(obstacleObject);
+
+        }
+
+    }
+
+    // Places World obstacles
+    private void BuildWorld()
+    {
         // Adding Objects / Obstacles
         // gridController.SetObstacle(1, 1);
+
+        //  for (int i = 0; i < 3; i++)
+        //   {
         Vector2Int itemPosition = new Vector2Int(1, 1);
         GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+        //gameObjects.Add(Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), gridController.GetCellPosition(itemPosition.x, itemPosition.y, 1), Quaternion.identity, gameObject.transform) as GameObject);
+        // }
+
     }
 }
