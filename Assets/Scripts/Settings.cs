@@ -11,6 +11,7 @@ public static class Settings
     public const string PREFAB_PLAYER = "Player";
     public const string PREFAB_NPC = "NPC";
     public const string PREFAB_OBSTACLE = "Obstacle";
+    public const string PREFAB_GAME_GRID = "GameGrid";
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
     public const float NPC_DEFAULT_MOVEMENT_SPEED = 1.3f;
@@ -25,18 +26,21 @@ public static class Settings
     public const string CONST_STORE_MENU = "StoreMenu";
     public const string CONST_CONFIG_MENU = "ConfigMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
-    public const string CONST_GAME_BACKGROUND = "GameBackground";
-    public const string CONST_GAME_GRID = "GameGrid";
-    public const int CONST_DEFAULT_CAMERA_WIDTH = 1080;
-    public const int CONST_DEFAULT_CAMERA_HEIGHT = 1920;
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
+    // UI : GameBackground
+    public const string CONST_GAME_BACKGROUND_DEFAULT = "GameBackground";//E.g: Prefab GameBackground800x1920, GameBackground1300x1300
+    public const int CONST_DEFAULT_CAMERA_WIDTH = 1500;
+    public const int CONST_DEFAULT_CAMERA_HEIGHT = 1600;
+    public const int CONST_CAMERA_CLAMP_X = 3; // Both sides -3, 3 in grid UNITS
+    public const int CONST_CAMERA_CLAMP_Y = -1; // -1, 0
+
     // UI Tags
     // Grid Config
-    public const int GRID_WIDTH = 8;
-    public const int GRID_HEIGHT = 28;
-    public const int GRID_START_X = -4;
-    public const int GRID_START_Y = -21;
+    public const int GRID_WIDTH = 16;
+    public const int GRID_HEIGHT = 18;
+    public const int GRID_START_X = -8; // in grid UNITS
+    public const int GRID_START_Y = -9; // in grid UNITS
 }
 
 //Item types

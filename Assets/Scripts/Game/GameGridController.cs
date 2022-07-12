@@ -51,8 +51,13 @@ public class GameGridController : MonoBehaviour
 
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.white, debugLineDuration);
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.white, debugLineDuration);
-                    debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, grid[x, y].ToString(), GetCellPosition(x, y) +
-                        textCellOffset, cellTexttSize, Color.white, TextAnchor.MiddleCenter, TextAlignment.Center);
+                    Color cellColor = Color.white;
+                    if (grid[x, y] == 2 || grid[x, y] == 1)
+                    {
+                        cellColor = Color.black;
+                    }
+                    debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, GetCellPosition(x, y) +
+                        textCellOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
                 Debug.DrawLine(GetCellPosition(0, height), GetCellPosition(width, height), Color.white, debugLineDuration);
                 Debug.DrawLine(GetCellPosition(width, 0), GetCellPosition(width, height), Color.white, debugLineDuration);
@@ -84,7 +89,7 @@ public class GameGridController : MonoBehaviour
         {
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
-            SetValue(Util.GetMouseInWorldPosition(), GetCellValueInGamePosition(mousePositionVector.x, mousePositionVector.y) + 10);
+            // SetValue(Util.GetMouseInWorldPosition(), GetCellValueInGamePosition(mousePositionVector.x, mousePositionVector.y) + 10);
         }
     }
 
@@ -118,7 +123,7 @@ public class GameGridController : MonoBehaviour
         {
             color = Color.blue;
         }
-        debugArray[x, y].text = grid[x, y].ToString();
+        debugArray[x, y].text = x + "," + y;
         debugArray[x, y].color = (Color)color; // Busy
     }
 
@@ -151,7 +156,7 @@ public class GameGridController : MonoBehaviour
         if (!IsInsideGridLimit(x, y))
         {
             Debug.LogWarning("The GetCellPosition is outside boundaries");
-            throw new Exception();
+            //throw new Exception();
             return new Vector3();
         }
         return new Vector3(x, y, z) * cellSize + originPosition;
