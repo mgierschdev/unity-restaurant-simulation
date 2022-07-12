@@ -16,7 +16,7 @@ public class TestNPCMovement
     {
 
         //Instantiating GameGrid
-        GameObject gridObject = Transform.Instantiate(Resources.Load(Settings.CONST_GAME_GRID, typeof(GameObject))) as GameObject;
+        GameObject gridObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_GAME_GRID, typeof(GameObject))) as GameObject;
         GameGridController gameGridController = gridObject.GetComponent<GameGridController>();
 
         // Adding NPC object

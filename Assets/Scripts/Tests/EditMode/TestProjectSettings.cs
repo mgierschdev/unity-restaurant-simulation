@@ -6,7 +6,7 @@ public class TestProjectSettings
     [Test]
     public void TestgameBackground()
     {
-        GameObject gameBackground = GameObject.Find(Settings.CONST_GAME_BACKGROUND);
+        GameObject gameBackground = GameObject.Find(Settings.CONST_GAME_BACKGROUND_DEFAULT);
         Assert.NotNull(gameBackground);
     }
 
@@ -51,7 +51,7 @@ public class TestProjectSettings
     [Test]
     public void TestGameGrid()
     {
-        GameObject gameGrid = GameObject.Find(Settings.CONST_GAME_GRID);
+        GameObject gameGrid = GameObject.Find(Settings.PREFAB_GAME_GRID);
         Assert.NotNull(gameGrid);
     }
 }

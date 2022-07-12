@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         // Getting game grid
-        gameGrid = GameObject.Find(Settings.CONST_GAME_GRID).gameObject.GetComponent<GameGridController>();
+        gameGrid = GameObject.Find(Settings.PREFAB_GAME_GRID).gameObject.GetComponent<GameGridController>();
 
     }
 
