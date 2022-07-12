@@ -11,7 +11,8 @@ public class GameGridController : MonoBehaviour
     private readonly int width = Settings.GRID_WIDTH;
     private readonly int height = Settings.GRID_HEIGHT;
     private readonly int cellSize = 1;
-    private double[,] grid;
+    private Vector3 cellOffset;
+    private int[,] grid;
 
     // Path Finder object, contains the method to return the shortest path
     PathFind pathFind;
@@ -28,16 +29,15 @@ public class GameGridController : MonoBehaviour
     private readonly int debugLineDuration = Settings.DEBUG_DEBUG_LINE_DURATION; // in seconds
     private readonly int cellTexttSize = Settings.DEBUG_TEXT_SIZE;
 
-    //Caching 
-
     public void Awake()
     {
-        grid = new double[width, height];
+        grid = new int[width, height];
+        SetGridBoundaries();
         items = new Dictionary<GameItemController, Vector3>();
         npcs = new Dictionary<NPCController, Vector3>();
         pathFind = new PathFind();
-
-        Vector3 textCellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
+        cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
+        //Draw boundaries
 
         if (Settings.DEBUG_ENABLE)
         {
@@ -48,7 +48,6 @@ public class GameGridController : MonoBehaviour
 
                 for (int y = 0; y < grid.GetLength(1); y++)
                 {
-
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.white, debugLineDuration);
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.white, debugLineDuration);
                     Color cellColor = Color.white;
@@ -57,7 +56,7 @@ public class GameGridController : MonoBehaviour
                         cellColor = Color.black;
                     }
                     debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, GetCellPosition(x, y) +
-                        textCellOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
+                        cellOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
                 Debug.DrawLine(GetCellPosition(0, height), GetCellPosition(width, height), Color.white, debugLineDuration);
                 Debug.DrawLine(GetCellPosition(width, 0), GetCellPosition(width, height), Color.white, debugLineDuration);
@@ -70,6 +69,34 @@ public class GameGridController : MonoBehaviour
         if (Settings.DEBUG_ENABLE)
         {
             MouseOnClick();
+        }
+    }
+
+    //This method will draw boundaries around the grid
+    private void SetGridBoundaries()
+    {
+        //Left
+        for (int i = 0; i < grid.GetLength(1); i++)
+        {
+            grid[0, i] = 1;
+        }
+
+        //Right
+        for (int i = 0; i < grid.GetLength(1); i++)
+        {
+            grid[grid.GetLength(0) - 1, i] = 1;
+        }
+
+        //Bottom
+        for (int i = 0; i < grid.GetLength(0); i++)
+        {
+            grid[i, 0] = 1;
+        }
+
+        //Top
+        for (int i = 0; i < grid.GetLength(0); i++)
+        {
+            grid[i, grid.GetLength(1) - 1] = 1;
         }
     }
 
@@ -87,9 +114,19 @@ public class GameGridController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
-            // SetValue(Util.GetMouseInWorldPosition(), GetCellValueInGamePosition(mousePositionVector.x, mousePositionVector.y) + 10);
+            // Vector3 mousePosition = Util.GetMouseInWorldPosition();
+            // Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
+            // List<Node> path = GetPath(new int[] { 1, 1 }, new int[] { mousePositionVector.x, mousePositionVector.y });
+            // Debug.Log("Path found "+path.Count);
+
+            // for (int i = 1; i < path.Count; i++)
+            // {
+            //     Vector3 from = GetCellPosition(path[i - 1].GetX(), path[i - 1].GetY(), 1);
+            //     Vector3 to = GetCellPosition(path[i].GetX(), path[i].GetY(), 1);
+            //     // Click Map
+            //     // SetValue(Util.GetMouseInWorldPosition(), GetCellValueInGamePosition(mousePositionVector.x, mousePositionVector.y) + 10);
+            //     Debug.DrawLine(from, to, Color.magenta, 5f);
+            // }
         }
     }
 
@@ -126,7 +163,6 @@ public class GameGridController : MonoBehaviour
         debugArray[x, y].text = x + "," + y;
         debugArray[x, y].color = (Color)color; // Busy
     }
-
     // Debug Methods
 
     private Vector3 GetCellPosition(int x, int y)
@@ -143,23 +179,6 @@ public class GameGridController : MonoBehaviour
     private bool IsInsideGridLimit(int x, int y)
     {
         return (x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1));
-    }
-
-    public Vector2Int GetMousePositionInGame()
-    {
-        Vector3 mousePosition = Util.GetMouseInWorldPosition();
-        return Util.GetXYInGameMap(mousePosition);
-    }
-
-    public Vector3 GetCellPosition(int x, int y, int z)
-    {
-        if (!IsInsideGridLimit(x, y))
-        {
-            Debug.LogWarning("The GetCellPosition is outside boundaries");
-            //throw new Exception();
-            return new Vector3();
-        }
-        return new Vector3(x, y, z) * cellSize + originPosition;
     }
 
     private void SetGridObstacle(int x, int y, ObjectType type, Color? color = null)
@@ -189,6 +208,13 @@ public class GameGridController : MonoBehaviour
         }
     }
 
+    // For setting objects position with offset
+    public Vector3 GetCellPositionWithOffset(int x, int y)
+    {
+        return GetCellPosition(x, y) + cellOffset;
+    }
+
+    // This method is called by the NPCController to set current NPC position on grid
     public void UpdateObjectPosition(NPCController obj)
     {
         if (!npcs.ContainsKey(obj))
@@ -200,9 +226,10 @@ public class GameGridController : MonoBehaviour
             FreeGridPosition((int)npcs[obj].x, (int)npcs[obj].y);
             npcs[obj] = obj.GetPosition();
         }
-        SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.black);
+        SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.yellow);
     }
 
+    // Updating Items on the grid
     public void UpdateObjectPosition(GameItemController obj)
     {
         if (!items.ContainsKey(obj))
@@ -226,6 +253,22 @@ public class GameGridController : MonoBehaviour
         SetGridObstacle(x, y, type);
     }
 
+    public Vector2Int GetMousePositionInGame()
+    {
+        Vector3 mousePosition = Util.GetMouseInWorldPosition();
+        return Util.GetXYInGameMap(mousePosition);
+    }
+
+    public Vector3 GetCellPosition(int x, int y, int z)
+    {
+        if (!IsInsideGridLimit(x, y))
+        {
+            Debug.LogWarning("The GetCellPosition is outside boundaries");
+            //throw new Exception();
+            return new Vector3();
+        }
+        return new Vector3(x, y, z) * cellSize + originPosition;
+    }
     // Unset position in Grid
     public void FreeGridPosition(int x, int y)
     {
@@ -247,5 +290,10 @@ public class GameGridController : MonoBehaviour
             SetCellColor(x - 1, y, Color.white);
             SetCellColor(x - 1, y - 1, Color.white);
         }
+    }
+
+    public List<Node> GetPath(int[] start, int[] end)
+    {
+        return pathFind.Find(start, end, grid);
     }
 }
