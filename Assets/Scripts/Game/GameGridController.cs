@@ -102,10 +102,10 @@ public class GameGridController : MonoBehaviour
             busyNodes.Add(new Vector3(i, 0));
         }
 
-        //Top
-        for (int i = 0; i < grid.GetLength(0); i++)
+        //Top grid.GetLength(1) - 2, because top bar
+        for (int i = 0; i < grid.GetLength(0) ; i++)
         {
-            grid[i, grid.GetLength(1) - 1] = 1;
+            grid[i, grid.GetLength(1) - 2] = 1;
             busyNodes.Add(new Vector3(i, grid.GetLength(1) - 1));
         }
     }
@@ -195,26 +195,6 @@ public class GameGridController : MonoBehaviour
     public Vector3 GetCellPositionWithOffset(int x, int y)
     {
         return GetCellPosition(x, y) + cellOffset;
-    }
-
-    // This method is called by the NPCController to set current NPC position on grid
-    public void UpdateNPCPosition(NPCController obj)
-    {
-        // if (npcs == null)
-        // {
-        //     return;
-        // }
-
-        // if (!npcs.ContainsKey(obj))
-        // {
-        //     npcs.Add(obj, new Vector3(obj.GetX(), obj.GetY()));
-        // }
-        // else if (npcs[obj] != obj.GetPosition())
-        // {
-        //     FreeGridPosition((int)npcs[obj].x, (int)npcs[obj].y);
-        //     npcs[obj] = obj.GetPosition();
-        // }
-        // SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.yellow);
     }
 
     // Updating Items on the grid

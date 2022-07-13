@@ -94,11 +94,10 @@ public class NPCController : MonoBehaviour
 
         // Updating position in the Grid
         UpdatePosition();
-        gameGrid.UpdateNPCPosition(current);
 
         if (Settings.DEBUG_ENABLE)
         {
-            MouseOnClick();
+            //MouseOnClick();
         }
     }
 

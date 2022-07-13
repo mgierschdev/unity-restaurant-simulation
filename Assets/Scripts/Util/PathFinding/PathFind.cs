@@ -15,7 +15,8 @@ public class PathFind
 
     public List<Node> Find(int[] s, int[] t, int[,] sourceGrid)
     {
-        if(s[0] < 0 || s[1] < 0 || t[0] < 0 || t[1] < 0 || s[0] >= sourceGrid.GetLength(0) || t[1] >= sourceGrid.GetLength(1)){
+        if (s[0] < 0 || s[1] < 0 || t[0] < 0 || t[1] < 0 || s[0] >= sourceGrid.GetLength(0) || t[1] >= sourceGrid.GetLength(1))
+        {
             return new List<Node>();
         }
 

@@ -36,8 +36,8 @@ public class CameraController : MonoBehaviour
                 Camera.main.transform.position += new Vector3(direction.x, direction.y, 0);
 
                 // then we clamp the value
-                float clampY = Mathf.Clamp(transform.position.y, -1, 0); // 1 units down
-                float clampX = Mathf.Clamp(transform.position.x, -2, 2); // 3 units left and right
+                float clampY = Mathf.Clamp(transform.position.y, -1, 0); // units down, and 0 up
+                float clampX = Mathf.Clamp(transform.position.x, -0.5f, 0.5f); // left and right
                 transform.position = new Vector3(clampX, clampY, transform.position.z);
 
             }
