@@ -94,24 +94,42 @@ public static class Util
         }
     }
 
-    public static MoveDirection ReturnDirection(Vector3 vector){
-        if(vector == Vector3.left){
+    public static MoveDirection GetDirectionFromVector(Vector3 vector)
+    {
+        if (vector == Vector3.left)
+        {
             return MoveDirection.LEFT;
-        }else if(vector == Vector3.right){
+        }
+        else if (vector == Vector3.right)
+        {
             return MoveDirection.RIGHT;
-        }else if(vector == Vector3.up){
+        }
+        else if (vector == Vector3.up)
+        {
             return MoveDirection.UP;
-        }else if(vector == Vector3.down){
+        }
+        else if (vector == Vector3.down)
+        {
             return MoveDirection.DOWN;
-        }else if(vector == new Vector3(-1, -1, 0)){
+        }
+        else if (vector == new Vector3(-1, -1, 0))
+        {
             return MoveDirection.DOWNLEFT;
-        }else if(vector ==  new Vector3(1, -1, 0)){
+        }
+        else if (vector == new Vector3(1, -1, 0))
+        {
             return MoveDirection.DOWNRIGHT;
-        }else if(vector == new Vector3(-1, 1, 0)){
+        }
+        else if (vector == new Vector3(-1, 1, 0))
+        {
             return MoveDirection.UPLEFT;
-        }else if(vector == new Vector3(1, 1, 0)){
+        }
+        else if (vector == new Vector3(1, 1, 0))
+        {
             return MoveDirection.UPRIGHT;
-        }else{
+        }
+        else
+        {
             return MoveDirection.IDLE;
         }
     }
