@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class Node
 {
     private int x;
@@ -33,5 +35,10 @@ public class Node
     public int GetY()
     {
         return y;
+    }
+
+    public Vector3 GetVector3()
+    {
+        return new Vector3(x, y, 1);
     }
 }
