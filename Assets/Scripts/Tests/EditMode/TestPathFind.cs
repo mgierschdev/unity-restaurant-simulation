@@ -1,4 +1,3 @@
-using UnityEngine;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -28,6 +27,7 @@ public class TestPathFind
         expected.Clear();
         path.Clear();
 
+        expected.Add(new Node(new int[] { 0, 0 }));
         expected.Add(new Node(new int[] { 0, 1 }));
         expected.Add(new Node(new int[] { 0, 2 }));
         expected.Add(new Node(new int[] { 0, 3 }));
@@ -51,6 +51,7 @@ public class TestPathFind
         expected.Clear();
         path.Clear();
 
+        expected.Add(new Node(new int[] { 0, 0 }));
         expected.Add(new Node(new int[] { 0, 1 }));
         expected.Add(new Node(new int[] { 0, 2 }));
         expected.Add(new Node(new int[] { 1, 3 }));
@@ -76,6 +77,7 @@ public class TestPathFind
         expected.Clear();
         path.Clear();
 
+        expected.Add(new Node(new int[] { 0, 0 }));
         expected.Add(new Node(new int[] { 1, 0 }));
         expected.Add(new Node(new int[] { 2, 0 }));
         expected.Add(new Node(new int[] { 3, 0 }));

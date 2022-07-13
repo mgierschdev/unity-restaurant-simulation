@@ -11,7 +11,6 @@ public class NPCController : MonoBehaviour
     [SerializeField]
     private Vector3 velocity;
     private EnergyBar energyBar;
-    private Queue movementQueue;
     private Vector3 currentTargetPosition;
     private GameGridController gameGrid;
     private NPCController current;
@@ -21,6 +20,9 @@ public class NPCController : MonoBehaviour
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
     private float speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
     private ObjectType type = ObjectType.NPC;
+    //Movement Variables
+    private Vector3 nextTarget;
+    private Queue pendingMovementQueue;
 
     private void Awake()
     {
@@ -31,7 +33,11 @@ public class NPCController : MonoBehaviour
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
 
         // Movement Queue
-        movementQueue = new Queue();
+        nextTarget = Vector3.zero;
+        pendingMovementQueue = new Queue();
+
+        //Update NPC initial position
+        currentTargetPosition = transform.position;
 
         // Enery Bar
         if (Settings.NPC_ENERGY_ENABLED)
@@ -67,15 +73,22 @@ public class NPCController : MonoBehaviour
         body.rotation = 0;
 
         // Handling player movement through a queue
-        if (currentTargetPosition == transform.position && movementQueue.Count != 0)
+        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
-            movementQueue.Dequeue();
+            nextTarget = Vector3.zero;
+            if (pendingMovementQueue.Count != 0)
+            {
+                AddMovement((MoveDirection)pendingMovementQueue.Dequeue());
+            }
+            else
+            {
+                // Target Reached
+            }
         }
 
-        if (movementQueue.Count != 0)
+        if (nextTarget != Vector3.zero)
         {
-            currentTargetPosition = (Vector3)movementQueue.Peek();
-            Debug.Log("Moving " + Util.ReturnDirection(currentTargetPosition));
+            currentTargetPosition = nextTarget;
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
 
@@ -87,50 +100,55 @@ public class NPCController : MonoBehaviour
         {
             MouseOnClick();
         }
-
     }
 
     private void MouseOnClick()
     {
-        //Only if it is not oving already
-        if (Input.GetMouseButtonDown(0) && movementQueue.Count == 0)
+        //Only if it is not moving already
+        if (Input.GetMouseButtonDown(0) && pendingMovementQueue.Count == 0)
         {
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
             List<Node> path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { mousePositionVector.x, mousePositionVector.y });
 
-            for (int i = 1; i < path.Count; i++)
+            // Just for drawing the path
+            if (Settings.DEBUG_ENABLE)
             {
-                Vector3 from = gameGrid.GetCellPosition(path[i - 1].GetX(), path[i - 1].GetY(), 1);
-                Vector3 to = gameGrid.GetCellPosition(path[i].GetX(), path[i].GetY(), 1);
-                Debug.DrawLine(from, to, Color.magenta, 5f);
+                for (int i = 1; i < path.Count; i++)
+                {
+                    Vector3 from = gameGrid.GetCellPosition(path[i - 1].GetX(), path[i - 1].GetY(), 1);
+                    Vector3 to = gameGrid.GetCellPosition(path[i].GetX(), path[i].GetY(), 1);
+                    Debug.DrawLine(from, to, Color.magenta, 10f);
+                }
             }
 
             AddPath(path);
-
         }
     }
 
+    // Adds path to the NPC
     private void AddPath(List<Node> n)
     {
-        List<MoveDirection> list = new List<MoveDirection>();
+        Vector3 from = new Vector3((int)x, (int)y, 1); // Current NPC pos
+        Vector3 to = new Vector3(n[0].GetX(), n[0].GetY(), 1);
+        MoveDirection m = Util.GetDirectionFromVector(to - from);
+        pendingMovementQueue.Enqueue(m);
+
         for (int i = 1; i < n.Count; i++)
         {
-            Vector3 from = gameGrid.GetCellPosition(n[i - 1].GetX(), n[i - 1].GetY(), 1);
-            Vector3 to = gameGrid.GetCellPosition(n[i].GetX(), n[i].GetY(), 1);
-
-            MoveDirection m = Util.ReturnDirection(to - from);
-            Debug.Log("direction: " + m);
-            Debug.Log("Vector "+Move(m));
-            list.Add(m);
-            //  Debug.Log(from - to);
-            //movementQueue.Enqueue();
-            AddMovement(m);
+            from = gameGrid.GetCellPosition(n[i - 1].GetX(), n[i - 1].GetY(), 1);
+            to = gameGrid.GetCellPosition(n[i].GetX(), n[i].GetY(), 1);
+            m = Util.GetDirectionFromVector(to - from);
+            pendingMovementQueue.Enqueue(m);
         }
-        //movementQueue.Enqueue(Move(list[0]));
+
+        if (pendingMovementQueue.Count != 0)
+        {
+            AddMovement((MoveDirection)pendingMovementQueue.Dequeue());
+        }
     }
 
-    private Vector3 Move(MoveDirection d)
+    private Vector3 GetVectorFromDirection(MoveDirection d)
     {
         //in case it is MoveDirection.IDLE do nothing
         Vector3 dir = transform.position;
@@ -205,12 +223,8 @@ public class NPCController : MonoBehaviour
 
     public void AddMovement(MoveDirection direction)
     {
-        Vector3 nextTarget = Move(direction) + transform.position;
-        if (movementQueue.Count == 0)
-        {
-            currentTargetPosition = nextTarget;
-        }
-        movementQueue.Enqueue(nextTarget);
+        Vector3 nextTarget = GetVectorFromDirection(direction) + transform.position;
+        this.nextTarget = nextTarget;
     }
 
     public void SetPosition(Vector3 position)
