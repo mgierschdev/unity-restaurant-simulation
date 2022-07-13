@@ -1,3 +1,4 @@
+using UnityEngine;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -92,6 +93,21 @@ public class TestPathFind
             Assert.True(expected[i].Compare(path[i]));
         }
     }
+
+    [Test]
+    public void TestInvalidPath()
+    {
+        grid = new int[5, 5];
+        start = new int[2] { 0, -1 };
+        target = new int[2] { 0, 14 };
+        
+        expected.Clear();
+        path.Clear();
+        path = pathFind.Find(start, target, grid);
+
+        Assert.AreEqual(path, expected);
+    }
+
 
     private void FillGrid(int row, int i, int j, int[,] grid)
     {
