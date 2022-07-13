@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
+  - enabled: 1
+    path: Assets/World.unity
+    guid: f700c38ab3a5441ef91e1fb12a90c146
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: f3e2f9666282c4d4bbfea8c48d6e8cb5, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: cccb57a939c2a4893a7d36ab8078ff21, type: 2}
