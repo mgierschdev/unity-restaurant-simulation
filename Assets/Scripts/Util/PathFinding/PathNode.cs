@@ -137,4 +137,9 @@ public class PathNode
     {
         this.position = position;
     }
+
+    public Node GetNode()
+    {
+        return new Node(position[0], position[1]);
+    }
 }

@@ -28,15 +28,18 @@ public class GameGridController : MonoBehaviour
     // Debug Parameters
     private readonly int debugLineDuration = Settings.DEBUG_DEBUG_LINE_DURATION; // in seconds
     private readonly int cellTexttSize = Settings.DEBUG_TEXT_SIZE;
+    private Vector3 textOffset;
 
     public void Awake()
     {
         grid = new int[width, height];
         SetGridBoundaries();
+
         items = new Dictionary<GameItemController, Vector3>();
         npcs = new Dictionary<NPCController, Vector3>();
         pathFind = new PathFind();
         cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
+        textOffset = new Vector3(cellSize, cellSize) * cellSize / 3;
         //Draw boundaries
 
         if (Settings.DEBUG_ENABLE)
@@ -56,7 +59,7 @@ public class GameGridController : MonoBehaviour
                         cellColor = Color.black;
                     }
                     debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, GetCellPosition(x, y) +
-                        cellOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
+                        cellOffset - textOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
                 Debug.DrawLine(GetCellPosition(0, height), GetCellPosition(width, height), Color.white, debugLineDuration);
                 Debug.DrawLine(GetCellPosition(width, 0), GetCellPosition(width, height), Color.white, debugLineDuration);
@@ -181,33 +184,6 @@ public class GameGridController : MonoBehaviour
         return (x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1));
     }
 
-    private void SetGridObstacle(int x, int y, ObjectType type, Color? color = null)
-    {
-        if (color == null)
-        {
-            color = Color.blue;
-        }
-
-        if (!IsInsideGridLimit(x, y) && x > 1 && y > 1)
-        {
-            Debug.LogError("The object should be placed inside the perimeter");
-            return;
-        }
-
-        grid[x, y] = (int)type;
-        grid[x, y - 1] = (int)type;
-        grid[x - 1, y] = (int)type;
-        grid[x - 1, y - 1] = (int)type;
-
-        if (Settings.DEBUG_ENABLE)
-        {
-            SetCellColor(x, y, color);
-            SetCellColor(x, y - 1, color);
-            SetCellColor(x - 1, y, color);
-            SetCellColor(x - 1, y - 1, color);
-        }
-    }
-
     // For setting objects position with offset
     public Vector3 GetCellPositionWithOffset(int x, int y)
     {
@@ -217,6 +193,11 @@ public class GameGridController : MonoBehaviour
     // This method is called by the NPCController to set current NPC position on grid
     public void UpdateObjectPosition(NPCController obj)
     {
+        if (npcs == null)
+        {
+            return;
+        }
+
         if (!npcs.ContainsKey(obj))
         {
             npcs.Add(obj, new Vector3(obj.GetX(), obj.GetY()));
@@ -269,6 +250,35 @@ public class GameGridController : MonoBehaviour
         }
         return new Vector3(x, y, z) * cellSize + originPosition;
     }
+
+    // This sets the obstacle points around the obstacle
+    private void SetGridObstacle(int x, int y, ObjectType type, Color? color = null)
+    {
+        if (color == null)
+        {
+            color = Color.blue;
+        }
+
+        if (!IsInsideGridLimit(x, y) && x > 1 && y > 1)
+        {
+            Debug.LogError("The object should be placed inside the perimeter");
+            return;
+        }
+
+        grid[x, y] = (int)type;
+        // grid[x, y - 1] = (int)type;
+        // grid[x + 1, y] = (int)type;
+        // grid[x + 1, y + 1] = (int)type;
+
+        if (Settings.DEBUG_ENABLE)
+        {
+            SetCellColor(x, y, color);
+            // SetCellColor(x, y + 1, color);
+            // SetCellColor(x + 1, y, color);
+            // SetCellColor(x + 1, y + 1, color);
+        }
+    }
+
     // Unset position in Grid
     public void FreeGridPosition(int x, int y)
     {
@@ -279,16 +289,16 @@ public class GameGridController : MonoBehaviour
         }
 
         grid[x, y] = 0;
-        grid[x, y - 1] = 0;
-        grid[x - 1, y] = 0;
-        grid[x - 1, y - 1] = 0;
+        // grid[x, y - 1] = 0;
+        // grid[x + 1, y] = 0;
+        // grid[x + 1, y + 1] = 0;
 
         if (Settings.DEBUG_ENABLE)
         {
             SetCellColor(x, y, Color.white);
-            SetCellColor(x, y - 1, Color.white);
-            SetCellColor(x - 1, y, Color.white);
-            SetCellColor(x - 1, y - 1, Color.white);
+            // SetCellColor(x, y + 1, Color.white);
+            // SetCellColor(x + 1, y, Color.white);
+            // SetCellColor(x + 1, y + 1, Color.white);
         }
     }
 
