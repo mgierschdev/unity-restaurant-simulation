@@ -24,7 +24,7 @@ public static class Settings
     public const bool PERSPECTIVE_HAND = true;
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenus";
     public const string CONST_STORE_MENU = "StoreMenu";
-    public const string CONST_CsONFIG_MENU = "ConfigMenu";
+    public const string CONST_CONFIG_MENU = "ConfigMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
