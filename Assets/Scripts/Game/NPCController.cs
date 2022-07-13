@@ -94,7 +94,7 @@ public class NPCController : MonoBehaviour
 
         // Updating position in the Grid
         UpdatePosition();
-        gameGrid.UpdateObjectPosition(current);
+        gameGrid.UpdateNPCPosition(current);
 
         if (Settings.DEBUG_ENABLE)
         {
@@ -120,6 +120,12 @@ public class NPCController : MonoBehaviour
                     Vector3 to = gameGrid.GetCellPosition(path[i].GetX(), path[i].GetY(), 1);
                     Debug.DrawLine(from, to, Color.magenta, 10f);
                 }
+            }
+
+            if(path.Count == 0){
+                //Path out of reach
+                Debug.Log("Path out of reach");
+                return;
             }
 
             AddPath(path);

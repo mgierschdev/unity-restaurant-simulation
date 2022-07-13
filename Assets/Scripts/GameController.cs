@@ -29,19 +29,19 @@ public class GameController : MonoBehaviour
         npcController.SetGameGridController(gridController);
 
         // // Places all the objects in the world
-        // for (int i = 1; i < 4; i++)
-        // {
-        //     Vector2Int itemPosition = new Vector2Int(i, 7);
-        //     Vector3 objPos = gridController.GetCellPositionWithOffset(itemPosition.x, itemPosition.y);
-        //     GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)),new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
-        //      obstacleObject.transform.SetParent(gameGridObject.transform);
-        //     gameObjects.Add(obstacleObject);
-        // }
+        for (int i = 1; i < 4; i++)
+        {
+            Vector2Int itemPosition = new Vector2Int(i, 6);
+            Vector3 objPos = gridController.GetCellPositionWithOffset(itemPosition.x, itemPosition.y);
+            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)),new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+             obstacleObject.transform.SetParent(gameGridObject.transform);
+            gameObjects.Add(obstacleObject);
+        }
 
         // Places all the objects in the world
-        for (int i = 7; i < 8; i++)
+        for (int i = 7; i < 15; i++) 
         {
-            Vector2Int itemPosition = new Vector2Int(i, 2);
+            Vector2Int itemPosition = new Vector2Int(i, 6);
             Vector3 objPos = gridController.GetCellPositionWithOffset(itemPosition.x, itemPosition.y);
             GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
             obstacleObject.transform.SetParent(gameGridObject.transform);
