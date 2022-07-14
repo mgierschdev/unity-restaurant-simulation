@@ -54,8 +54,8 @@ public class GameGridController : MonoBehaviour
 
                 for (int y = 0; y < grid.GetLength(1); y++)
                 {
-                    Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.white, debugLineDuration);
-                    Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.white, debugLineDuration);
+                    Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.black, debugLineDuration);
+                    Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.black, debugLineDuration);
                     Color cellColor = Color.white;
                     if (grid[x, y] == 2 || grid[x, y] == 1)
                     {
@@ -64,8 +64,8 @@ public class GameGridController : MonoBehaviour
                     debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, GetCellPosition(x, y) +
                         cellOffset - textOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
-                Debug.DrawLine(GetCellPosition(0, height), GetCellPosition(width, height), Color.white, debugLineDuration);
-                Debug.DrawLine(GetCellPosition(width, 0), GetCellPosition(width, height), Color.white, debugLineDuration);
+                Debug.DrawLine(GetCellPosition(0, height), GetCellPosition(width, height), Color.black, debugLineDuration);
+                Debug.DrawLine(GetCellPosition(width, 0), GetCellPosition(width, height), Color.black, debugLineDuration);
             }
         }
     }
