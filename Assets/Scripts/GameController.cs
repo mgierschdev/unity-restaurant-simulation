@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour
     {
         gameObjects = new List<GameObject>();
 
+
+        // GameObject topGameMenu = gameObject.transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
+        // topGameMenu.active = false; // disabling top menu tmp
+
         // Getting grid object
         GameObject gameGridObject = gameObject.transform.Find(Settings.PREFAB_GAME_GRID).gameObject;
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
