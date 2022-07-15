@@ -7,6 +7,8 @@ TagManager:
   - NPC
   - Obstacle
   - CameraEdge
+  - Resource
+  - Storage
   layers:
   - Default
   - TransparentFX
