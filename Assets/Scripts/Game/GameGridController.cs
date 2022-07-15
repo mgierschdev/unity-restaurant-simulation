@@ -19,7 +19,6 @@ public class GameGridController : MonoBehaviour
 
     // Game objects in UI either NPCs or Static objects
     private HashSet<Vector3> busyNodes;
-    private Dictionary<NPCController, Vector3> npcs;
     private Dictionary<GameItemController, Vector3> items;
 
     private TextMesh[,] debugArray;
@@ -38,7 +37,6 @@ public class GameGridController : MonoBehaviour
         SetGridBoundaries();
 
         items = new Dictionary<GameItemController, Vector3>();
-        npcs = new Dictionary<NPCController, Vector3>();
         pathFind = new PathFind();
         cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
         textOffset = new Vector3(cellSize, cellSize) * cellSize / 3;
@@ -102,10 +100,9 @@ public class GameGridController : MonoBehaviour
             busyNodes.Add(new Vector3(i, 0));
         }
 
-        //Top grid.GetLength(1) - 2, because top bar
         for (int i = 0; i < grid.GetLength(0) ; i++)
         {
-            grid[i, grid.GetLength(1) - 2] = 1;
+            grid[i, grid.GetLength(1) - 1] = 1;
             busyNodes.Add(new Vector3(i, grid.GetLength(1) - 1));
         }
     }
@@ -159,8 +156,7 @@ public class GameGridController : MonoBehaviour
             return -1;
         }
         string text = debugArray[x, y].text;
-        int value;
-        int.TryParse(text, out value);
+        int.TryParse(text, out int value);
         return value;
     }
 

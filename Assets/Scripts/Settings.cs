@@ -37,9 +37,9 @@ public static class Settings
 
     // UI Tags
     // Grid Config
-    public const int GRID_WIDTH = 9;
+    public const int GRID_WIDTH = 18;
     public const int GRID_HEIGHT = 18;
-    public const int GRID_START_X = -4; // in grid UNITS
+    public const int GRID_START_X = -9; // in grid UNITS
     public const int GRID_START_Y = -9; // in grid UNITS
 }
 
