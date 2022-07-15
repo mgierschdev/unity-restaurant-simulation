@@ -1,50 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-// Controls player properties
-// Attached to: Player Object
 public class PlayerController : MonoBehaviour
 {
-    private float movementSpeed = Settings.PLAYER_MOVEMENT_SPEED;
-    private Vector2 movement;
-    private Vector3 position;
-    private Rigidbody2D body;
-    private int x;
-    private int y;
-
-    private void Awake()
+    // Start is called before the first frame update
+    void Start()
     {
-        body = GetComponent<Rigidbody2D>();
+        
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
-        body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * movementSpeed;
-        body.angularVelocity = 0;
-        body.rotation = 0;
-        // Updating position in the Grid
-        UpdatePositionInGrid();
-    }
-
-    private void UpdatePositionInGrid()
-    {
-        Vector2Int pos = Util.GetXYInGameMap(transform.position);
-        x = pos.x;
-        y = pos.y;
-        position = new Vector3(x, y, 1);
-    }
-
-    public int GetX()
-    {
-        return x;
-    }
-
-    public int GetY()
-    {
-        return y;
-    }
-
-    public Vector3 GetPosition()
-    {
-        return position;
+        
     }
 }

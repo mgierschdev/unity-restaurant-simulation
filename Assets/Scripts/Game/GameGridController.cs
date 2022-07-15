@@ -40,9 +40,7 @@ public class GameGridController : MonoBehaviour
         pathFind = new PathFind();
         cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
         textOffset = new Vector3(cellSize, cellSize) * cellSize / 3;
-
         
-
         if (Settings.DEBUG_ENABLE)
         {
 
