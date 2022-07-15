@@ -8,16 +8,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private Vector3 position;
     private Rigidbody2D body;
-    private GameGridController gameGrid;
     private int x;
     private int y;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        // Getting game grid
-        gameGrid = GameObject.Find(Settings.PREFAB_GAME_GRID).gameObject.GetComponent<GameGridController>();
-
     }
 
     private void Update()

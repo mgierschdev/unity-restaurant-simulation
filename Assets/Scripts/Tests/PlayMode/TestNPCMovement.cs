@@ -8,7 +8,6 @@ public class TestNPCMovement
 {
     private GameObject npcObject;
     private NPCController npcController;
-    private Vector3EqualityComparer vectorComparer;
     private Vector3 initialTestingPosition;
 
     [UnityTest]
@@ -24,7 +23,6 @@ public class TestNPCMovement
         npcObject.transform.SetParent(npcObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
         npcController.SetGameGridController(gameGridController);
-        vectorComparer = new Vector3EqualityComparer(10e-6f); // default error 0.0001f.
         initialTestingPosition = new Vector3(0, 0, 0);
         npcController.SetSpeed(1000);
         yield return new WaitForSeconds(0.1f);

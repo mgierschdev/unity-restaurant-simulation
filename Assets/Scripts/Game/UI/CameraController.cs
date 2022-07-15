@@ -8,15 +8,10 @@ public class CameraController : MonoBehaviour
     private Vector3 touchStart;
     [SerializeField]
     private Vector3 direction;
-    private GameObject gameBackground;
-    private SpriteRenderer background;
-
     private void Awake()
     {
         touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        gameBackground = GameObject.Find(Settings.CONST_GAME_BACKGROUND_DEFAULT).gameObject;
-        background = gameBackground.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame

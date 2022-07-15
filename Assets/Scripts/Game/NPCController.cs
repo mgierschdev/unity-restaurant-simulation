@@ -13,7 +13,6 @@ public class NPCController : MonoBehaviour
     private EnergyBar energyBar;
     private Vector3 currentTargetPosition;
     private GameGridController gameGrid;
-    private NPCController current;
     private float x;
     private float y;
     private Vector3 position;
@@ -27,7 +26,6 @@ public class NPCController : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        current = GetComponent<NPCController>();
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();

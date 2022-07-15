@@ -142,9 +142,7 @@ public class MaxBinaryHeap
 
     private void Swap(int i, int j)
     {
-        PathNode n = nodes[i];
-        nodes[i] = nodes[j];
-        nodes[j] = n;
+        (nodes[i], nodes[j]) = (nodes[j], nodes[i]);
     }
 
     public int GetSize()
