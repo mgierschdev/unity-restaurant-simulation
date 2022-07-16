@@ -10,13 +10,14 @@ public class GameItemController : MonoBehaviour
     private GameItemController current;
     private ObjectType type = ObjectType.OBSTACLE;
 
-    void Awake()
+    void Start()
     {
         current = GetComponent<GameItemController>();
         // Getting game grid
         gameGrid = GameObject.Find(Settings.PREFAB_GAME_GRID).gameObject.GetComponent<GameGridController>();
         UpdatePositionInGrid();
         gameGrid.UpdateObjectPosition(current);
+        Debug.Log("Init "+gameObject.gameObject);
     }
 
     private void UpdatePositionInGrid()
