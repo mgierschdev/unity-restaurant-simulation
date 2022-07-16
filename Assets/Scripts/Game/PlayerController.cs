@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private int income = 0;
     // Start is called before the first frame update
     void Start()
     {
+        
         
     }
 

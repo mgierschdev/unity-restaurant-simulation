@@ -194,6 +194,7 @@ public class GameGridController : MonoBehaviour
     // Updating Items on the grid
     public void UpdateObjectPosition(GameItemController obj)
     {
+        Debug.Log(obj.gameObject);
         if (!items.ContainsKey(obj))
         {
             items.Add(obj, new Vector3(obj.GetX(), obj.GetY()));
