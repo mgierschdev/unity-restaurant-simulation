@@ -54,15 +54,14 @@ public class TestNPCMovementPathFinding
     {
         int[] endPosition = new int[] { 14, 14 };
         int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
-        yield return new WaitForSeconds(1f); // Give time to instantiate the grid
-        gameGridController.SetTestGridObstacles(5,1,15);
+        gameGridController.SetTestGridObstacles(5, 1, 15);
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
         Util.PrintPath(path);
         firstNPCController.AddPath(path);
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.5f);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
-        gameGridController.FreeTestGridObstacles(5,1,15);
+        gameGridController.FreeTestGridObstacles(5, 1, 15);
     }
 
     [UnityTest]
@@ -71,17 +70,16 @@ public class TestNPCMovementPathFinding
     {
         int[] endPosition = new int[] { 14, 14 };
         int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
-        yield return new WaitForSeconds(1f); // Give time to instantiate the grid
-        gameGridController.SetTestGridObstacles(5,1,15);
+        gameGridController.SetTestGridObstacles(5, 1, 15);
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
         Util.PrintPath(path);
         secondNPCController.AddPath(path);
         firstNPCController.AddPath(path);
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.5f);
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[1], endPosition[1]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
-        gameGridController.FreeTestGridObstacles(5,1,15);
+        gameGridController.FreeTestGridObstacles(5, 1, 15);
     }
 }

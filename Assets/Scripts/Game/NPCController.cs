@@ -82,6 +82,13 @@ public class NPCController : MonoBehaviour
         body.velocity = new Vector2(0, 0);
         body.rotation = 0;
 
+        UpdateTargetMovement();
+        // Updating position in the Grid
+        UpdatePosition();
+    }
+
+    public void UpdateTargetMovement()
+    {
         // Handling player movement through a queue
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
@@ -102,9 +109,6 @@ public class NPCController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
         // Handling player movement through a queue
-
-        // Updating position in the Grid
-        UpdatePosition();
     }
 
     // Adds path to the NPC

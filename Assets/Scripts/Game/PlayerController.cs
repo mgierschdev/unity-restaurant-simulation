@@ -6,7 +6,7 @@ using System.Collections.Generic;
 // Attached to: Player Object
 public class PlayerController : MonoBehaviour
 {
-    private float movementSpeed = Settings.PLAYER_MOVEMENT_SPEED;
+    private float speed = Settings.PLAYER_MOVEMENT_SPEED;
     private Vector2 movement;
     private Vector3 position;
     private Rigidbody2D body;
@@ -44,19 +44,24 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * movementSpeed;
+        body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
         body.angularVelocity = 0;
         body.rotation = 0;
-        // Updating position in the Grid
-        UpdatePositionInGrid();
 
-        // Handling player movement OnCLick
+        UpdateTargetMovement();
+        MouseOnClick();
+
+        // Updating position in the Grid
+        UpdatePosition();
+    }
+
+    private void UpdateTargetMovement()
+    {
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
             nextTarget = Vector3.zero;
             if (pendingMovementQueue.Count != 0)
             {
-                Debug.Log("Moving: " + pendingMovementQueue.Peek() + " " + position);
                 AddMovement((MoveDirection)pendingMovementQueue.Dequeue());
             }
             else
@@ -68,10 +73,9 @@ public class PlayerController : MonoBehaviour
         if (nextTarget != Vector3.zero)
         {
             currentTargetPosition = nextTarget;
-            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, movementSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
-        MouseOnClick();
-        // Handling player movement OnCLick
+
     }
 
     private void MouseOnClick()
@@ -96,7 +100,6 @@ public class PlayerController : MonoBehaviour
 
             if (path.Count == 0)
             {
-                //Path out of reach
                 Debug.Log("Path out of reach");
                 return;
             }
@@ -107,9 +110,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddPath(List<Node> n)
     {
-        Debug.Log("Adding Path " + n.Count);
-
-        Vector3 from = new Vector3((int)x, (int)y, 1); // Current NPC pos
+        Vector3 from = new Vector3((int)x, (int)y, 1); // Current Player pos
         Vector3 to = new Vector3(n[0].GetX(), n[0].GetY(), 1);
         MoveDirection m = Util.GetDirectionFromVector(to - from);
         pendingMovementQueue.Enqueue(m);
@@ -135,7 +136,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void UpdatePositionInGrid()
+    private void UpdatePosition()
     {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
@@ -167,5 +168,10 @@ public class PlayerController : MonoBehaviour
     public void SetTestGameGridController(GameGridController controller)
     {
         this.gameGrid = controller;
+    }
+
+    public void SetSpeed(int speed)
+    {
+        this.speed = speed;
     }
 }

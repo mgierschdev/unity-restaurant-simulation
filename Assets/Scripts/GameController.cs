@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     private GameGridController gridController;
     private NPCController npcController;
+    private PlayerController playerController;
 
     void Start()
     {
@@ -17,6 +18,11 @@ public class GameController : MonoBehaviour
         GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(3, 11, 1), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
+
+        // Adding NPC object
+        GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), gridController.GetCellPosition(5, 5, 1), Quaternion.identity) as GameObject;
+        playerObject.transform.SetParent(gameObject.transform);
+        playerController = playerObject.GetComponent<PlayerController>();
 
         //Adding obstacles 
         //gridController.SetHorizontalObstaclesInGrid(3, 3, 10);
