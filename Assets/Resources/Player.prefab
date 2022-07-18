@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8043798970977063170}
   - component: {fileID: 2994181713747638411}
   m_Layer: 7
-  m_Name: PlayerPC
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8530163688326329552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6acbfdf5dec2a4ba4be1c095f94c2cea, type: 3}
+  m_Script: {fileID: 11500000, guid: 456af83d59d39455481b73bcaccb24cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!58 &-8043798970977063170
@@ -128,7 +128,7 @@ MonoBehaviour:
   - {x: -0.23093808, y: -0.47080165, z: 0}
   m_ShapePathHash: 142205993
   m_Mesh: {fileID: 0}
-  m_InstanceId: -34944
+  m_InstanceId: 38862
 --- !u!1 &8530163688352006107
 GameObject:
   m_ObjectHideFlags: 0

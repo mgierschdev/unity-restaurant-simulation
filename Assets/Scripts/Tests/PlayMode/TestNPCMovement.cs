@@ -22,7 +22,7 @@ public class TestNPCMovement
         npcObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
         npcObject.transform.SetParent(npcObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
-        npcController.SetGameGridController(gameGridController);
+        npcController.SetTestGameGridController(gameGridController);
         initialTestingPosition = new Vector3(0, 0, 0);
         npcController.SetSpeed(1000);
         yield return new WaitForSeconds(0.1f);

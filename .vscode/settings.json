@@ -51,5 +51,17 @@
         "ProjectSettings/":true,
         "temp/":true,
         "Temp/":true
-    }
+    },
+    "cSpell.words": [
+        "Behaviour",
+        "DOWNLEFT",
+        "Euclidian",
+        "Mathf",
+        "NPCON",
+        "Onclick",
+        "ORTHOGRAPHICSIZE",
+        "Rigidbody",
+        "Textt",
+        "UPLEFT"
+    ]
 }
