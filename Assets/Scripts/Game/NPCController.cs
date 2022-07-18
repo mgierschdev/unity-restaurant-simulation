@@ -95,7 +95,7 @@ public class NPCController : MonoBehaviour
 
         if (Settings.DEBUG_ENABLE)
         {
-            //MouseOnClick();
+            MouseOnClick();
         }
     }
 
