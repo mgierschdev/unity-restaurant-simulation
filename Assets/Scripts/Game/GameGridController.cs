@@ -40,7 +40,7 @@ public class GameGridController : MonoBehaviour
         pathFind = new PathFind();
         cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
         textOffset = new Vector3(cellSize, cellSize) * cellSize / 3;
-        
+
         if (Settings.DEBUG_ENABLE)
         {
 
@@ -98,7 +98,7 @@ public class GameGridController : MonoBehaviour
             busyNodes.Add(new Vector3(i, 0));
         }
 
-        for (int i = 0; i < grid.GetLength(0) ; i++)
+        for (int i = 0; i < grid.GetLength(0); i++)
         {
             grid[i, grid.GetLength(1) - 1] = 1;
             busyNodes.Add(new Vector3(i, grid.GetLength(1) - 1));
@@ -194,20 +194,19 @@ public class GameGridController : MonoBehaviour
     // Updating Items on the grid
     public void UpdateObjectPosition(GameItemController obj)
     {
-        Debug.Log(obj.gameObject);
-        if (!items.ContainsKey(obj))
-        {
-            items.Add(obj, new Vector3(obj.GetX(), obj.GetY()));
-        }
-        else
-        {
-            Vector3 prevPos = items.GetValueOrDefault(obj);
-            if (prevPos != obj.GetPosition())
-            {
-                FreeGridPosition(obj.GetX(), obj.GetY());
-                items[obj] = obj.GetPosition();
-            }
-        }
+        // if (!items.ContainsKey(obj))
+        // {
+        //     items.Add(obj, new Vector3(obj.GetX(), obj.GetY()));
+        // }
+        // else
+        // {
+        //     Vector3 prevPos = items.GetValueOrDefault(obj);
+        //     if (prevPos != obj.GetPosition())
+        //     {
+        //         FreeGridPosition(obj.GetX(), obj.GetY());
+        //         items[obj] = obj.GetPosition();
+        //     }
+        // }
         SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.black);
     }
 
@@ -248,22 +247,53 @@ public class GameGridController : MonoBehaviour
         }
 
         grid[x, y] = (int)type;
-        // grid[x, y - 1] = (int)type;
+
         if (ObjectType.OBSTACLE == type)
         {
-            grid[x + 1, y] = (int)type;
+            grid[x, y] = (int)type;
         }
-        // grid[x + 1, y + 1] = (int)type;
 
         if (Settings.DEBUG_ENABLE && type != ObjectType.NPC)
         {
             SetCellColor(x, y, color);
-            // SetCellColor(x, y + 1, color);
             if (ObjectType.OBSTACLE == type)
             {
-                SetCellColor(x + 1, y, color);
+                SetCellColor(x, y, color);
             }
-            // SetCellColor(x + 1, y + 1, color);
+        }
+    }
+
+    // Only for unit test use
+    public void SetTestGridObstacles(int row, int x1, int x2){
+        //int x, int y, ObjectType type, Color? color = null
+        for(int i = x1; i <= x2; i++){
+            SetGridObstacle(row, i, ObjectType.OBSTACLE, Color.black);
+        }
+    }
+
+    // Only for unit test use
+    public void FreeTestGridObstacles(int row, int x1, int x2){
+        for(int i = x1; i <= x2; i++){
+            FreeGridPosition(row, i);
+        }
+    }
+
+    // Only used in game not in Playmode, since it does not find the reference of the GameGrid inside the ItemObject
+    public void SetHorizontalObstaclesInGrid(int row, int x1, int x2)
+    {
+        if (x1 == 1 || x1 > x2)
+        {
+            Debug.LogWarning("Set obstacles properly");
+            return;
+        }
+
+        for (int i = x1; i <= x2; i++)
+        {
+            Vector2Int obstacle = new Vector2Int(i, row);
+            Vector3 objPos = GetCellPositionWithOffset(obstacle.x, obstacle.y);
+            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+            obstacleObject.name = "Obstacle: " + i + "," + row;
+            obstacleObject.transform.SetParent(transform);
         }
     }
 
@@ -276,17 +306,10 @@ public class GameGridController : MonoBehaviour
             return;
         }
 
-        //grid[x, y] = 0;
-        // grid[x, y - 1] = 0;
-        // grid[x + 1, y] = 0;
-        // grid[x + 1, y + 1] = 0;
-
+        grid[x, y] = 0;
         if (Settings.DEBUG_ENABLE)
         {
-          //  SetCellColor(x, y, Color.white);
-            // SetCellColor(x, y + 1, Color.white);
-            // SetCellColor(x + 1, y, Color.white);
-            // SetCellColor(x + 1, y + 1, Color.white);
+            SetCellColor(x, y, Color.white);
         }
     }
 

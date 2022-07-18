@@ -17,12 +17,8 @@ public class GameController : MonoBehaviour
         GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(3, 11, 1), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
-        npcController.SetGameGridController(gridController);
 
-        //     Vector2Int itemPosition3 = new Vector2Int(8, 7);
-        //     Vector3 objPos3 = gridController.GetCellPositionWithOffset(itemPosition3.x, itemPosition3.y);
-        //     GameObject obstacleObject3 = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
-        //     obstacleObject.transform.SetParent(gameGridObject.transform);
-        //     gameObjects.Add(obstacleObject);
+        //Adding obstacles 
+        //gridController.SetHorizontalObstaclesInGrid(3, 3, 10);
     }
 }

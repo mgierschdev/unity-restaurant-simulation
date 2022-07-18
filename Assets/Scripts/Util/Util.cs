@@ -7,7 +7,7 @@ public static class Util
 {
     private const int sortingLevel = Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL; // Background 
 
-    // Creates a Text object in the scecene
+    // Creates a Text object in the scene
     public static TextMesh CreateTextObject(string name, GameObject parent, string text, Vector3 localPosition, int fontSize, Color color, TextAnchor textAnchor, TextAlignment textAlignment)
     {
         GameObject gameObject = new GameObject(name, typeof(TextMesh));
@@ -133,4 +133,45 @@ public static class Util
             return MoveDirection.IDLE;
         }
     }
+
+    public static Vector3 GetVectorFromDirection(MoveDirection d)
+    {
+        //in case it is MoveDirection.IDLE do nothing
+        Vector3 dir = new Vector3();
+
+        if (d == MoveDirection.LEFT)
+        {
+            dir = Vector3.left;
+        }
+        else if (d == MoveDirection.RIGHT)
+        {
+            dir = Vector3.right;
+        }
+        else if (d == MoveDirection.UP)
+        {
+            dir = Vector3.up;
+        }
+        else if (d == MoveDirection.DOWN)
+        {
+            dir = Vector3.down;
+        }
+        else if (d == MoveDirection.DOWNLEFT)
+        {
+            dir = new Vector3(-1, -1, 0);
+        }
+        else if (d == MoveDirection.DOWNRIGHT)
+        {
+            dir = new Vector3(1, -1, 0);
+        }
+        else if (d == MoveDirection.UPLEFT)
+        {
+            dir = new Vector3(-1, 1, 0);
+        }
+        else if (d == MoveDirection.UPRIGHT)
+        {
+            dir = new Vector3(1, 1, 0);
+        }
+        return dir;
+    }
+
 }

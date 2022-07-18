@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // Class attached to all static in Game items
@@ -14,10 +15,18 @@ public class GameItemController : MonoBehaviour
     {
         current = GetComponent<GameItemController>();
         // Getting game grid
-        gameGrid = GameObject.Find(Settings.PREFAB_GAME_GRID).gameObject.GetComponent<GameGridController>();
-        UpdatePositionInGrid();
-        gameGrid.UpdateObjectPosition(current);
-        Debug.Log("Init "+gameObject.gameObject);
+        GameObject gameGridObject = GameObject.Find(Settings.PREFAB_GAME_GRID);
+
+        if (gameGrid != null)
+        {
+            gameGrid = gameGridObject.GetComponent<GameGridController>();
+            UpdatePositionInGrid();
+            gameGrid.UpdateObjectPosition(current);
+        }
+        else
+        {
+            Debug.LogWarning("GameItemController.cs/gameGridObject null");
+        }
     }
 
     private void UpdatePositionInGrid()
@@ -26,6 +35,11 @@ public class GameItemController : MonoBehaviour
         x = pos.x;
         y = pos.y;
         position = new Vector3(x, y, 1);
+    }
+
+    public void SetGameGridController(GameGridController controller)
+    {
+        this.gameGrid = controller;
     }
 
     public int GetX()
