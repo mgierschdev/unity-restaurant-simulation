@@ -21,14 +21,17 @@ public static class Settings
     public const string NPC_ENERGY_BAR = "EnergyBar";
     public const bool NPC_ENERGY_ENABLED = false;
     // UI Constants
-    public const bool CAMERA_PERSPECTIVE_HAND = false;
-    public const bool CAMERA_FOLLOW_PLAYER = true;
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenus";
     public const string CONST_STORE_MENU = "StoreMenu";
     public const string CONST_CONFIG_MENU = "ConfigMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
+    // UI: Camera
+    public const bool CAMERA_PERSPECTIVE_HAND = false;
+    public const bool CAMERA_FOLLOW_PLAYER = true;
+    public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
+
     // UI : GameBackground
     public const string CONST_GAME_BACKGROUND_DEFAULT = "GameBackground";//E.g: Prefab GameBackground800x1920, GameBackground1300x1300
     public const int CONST_DEFAULT_CAMERA_WIDTH = 1500;
