@@ -5,7 +5,7 @@ public static class Settings
     public const int DEBUG_TEXT_SIZE = 30;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
     // Player Display
-    public const float PLAYER_MOVEMENT_SPEED = 10.3f;
+    public const float PLAYER_MOVEMENT_SPEED = 5f;
     // PREFABS
     public const string PREFAB_PATH = "Resources";
     public const string PREFAB_PLAYER = "Player";
