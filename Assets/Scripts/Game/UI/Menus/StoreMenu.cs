@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StoreMenu : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         MenuManager.CloseMenu(gameObject);
     }

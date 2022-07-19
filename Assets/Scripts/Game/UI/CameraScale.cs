@@ -6,7 +6,7 @@ public class CameraScale : MonoBehaviour
     private float targetSpectRatio;
     private Camera mainCamera;
 
-    private void Awake()
+    private void Start()
     {
         mainCamera = GetComponent<Camera>();
         

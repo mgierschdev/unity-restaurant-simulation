@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour, IGameObject
     {
         body = GetComponent<Rigidbody2D>();
 
-        GameObject gameGridObject = GameObject.Find(Settings.PREFAB_GAME_GRID);
+        GameObject gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
         if (gameGridObject != null)
         {
             gameGrid = gameGridObject.GetComponent<GameGridController>();
@@ -144,6 +144,11 @@ public class PlayerController : MonoBehaviour, IGameObject
         y = pos.y;
         position = new Vector3(x, y, 1);
     }
+
+    // private void OnCollisionEnter(Collision collision) {
+    //     Debug.Log("Clean movement queue");
+    //     Debug.Log(pendingMovementQueue.Count);
+    // }
 
     public int GetX()
     {

@@ -15,16 +15,11 @@ public class GameController : MonoBehaviour
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
 
         // Adding NPC object
-        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(3, 11, 1), Quaternion.identity) as GameObject;
+        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(22, 30, 1), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
+        npcObject.name = Settings.PREFAB_NPC;
         npcController = npcObject.GetComponent<NPCController>();
 
-        // Adding NPC object
-        GameObject playerObject = Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), gridController.GetCellPosition(5, 5, 1), Quaternion.identity) as GameObject;
-        playerObject.transform.SetParent(gameObject.transform);
-        playerController = playerObject.GetComponent<PlayerController>();
-
-        //Adding obstacles 
-        //gridController.SetHorizontalObstaclesInGrid(3, 3, 10);
+        playerController =  GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER).gameObject.GetComponent<PlayerController>();
     }
 }

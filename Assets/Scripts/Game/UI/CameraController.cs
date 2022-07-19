@@ -8,16 +8,51 @@ public class CameraController : MonoBehaviour
     private Vector3 touchStart;
     [SerializeField]
     private Vector3 direction;
-    private void Awake()
+    private PlayerController playerController;
+    private GameObject playerGameObject;
+
+    // Camera follow player, for smothing camera movement 
+    public float speed = 10f;
+
+    private void Start()
     {
         touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER);
+
+        if (playerGameObject != null)
+        {
+            playerController = playerGameObject.GetComponent<PlayerController>();
+        }
+        else
+        {
+            Debug.LogWarning("CameraController/PlayerController is null");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Settings.PERSPECTIVE_HAND)
+        // Only if enabled in Settings
+        PerspectiveHand();
+
+        // Follow Player
+        FollowPlayer();
+    }
+
+    private void FollowPlayer()
+    {
+        if (Settings.CAMERA_FOLLOW_PLAYER)
+        {
+            Vector3 playerPosition = new Vector3(playerGameObject.transform.position.x, playerGameObject.transform.position.y, transform.position.z);
+            Debug.Log(playerPosition);
+            transform.position = playerPosition;
+        }
+    }
+
+    private void PerspectiveHand()
+    {
+        if (Settings.CAMERA_PERSPECTIVE_HAND)
         {
             if (Input.GetMouseButtonDown(0))
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 // Attached to: 
 public class ConfigMenu : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         MenuManager.CloseMenu(gameObject);
     }

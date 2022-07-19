@@ -120,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181978383009073}
   - component: {fileID: 7444181978383009072}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Right leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181978742397259}
   - component: {fileID: 7444181978742397258}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Left leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 7513736735678383767}
   - component: {fileID: 1859833509263881}
   - component: {fileID: 2962024432630426327}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -480,7 +480,7 @@ MonoBehaviour:
   - {x: 0.20062256, y: 0.12963867, z: 0}
   m_ShapePathHash: -403699627
   m_Mesh: {fileID: 0}
-  m_InstanceId: 62400
+  m_InstanceId: 65178
 --- !u!1 &7444181979112839880
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +491,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181979112839883}
   - component: {fileID: 7444181979112839882}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Head
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -575,7 +575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181979187466787}
   - component: {fileID: 7444181979187466786}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: 7444181979203669605}
   - component: {fileID: 7444181979203669607}
   - component: {fileID: 7444181979203669604}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 7444181979243127201}
   - component: {fileID: 7444181979243127200}
   - component: {fileID: 7444181979243127203}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: EnergyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -843,7 +843,7 @@ GameObject:
   - component: {fileID: 7444181980291553159}
   - component: {fileID: 7444181980291553153}
   - component: {fileID: 7444181980291553158}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 7444181980483681170}
   - component: {fileID: 7444181980483681164}
   - component: {fileID: 7444181980483681165}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
