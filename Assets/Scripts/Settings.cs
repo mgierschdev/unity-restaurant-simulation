@@ -21,7 +21,8 @@ public static class Settings
     public const string NPC_ENERGY_BAR = "EnergyBar";
     public const bool NPC_ENERGY_ENABLED = false;
     // UI Constants
-    public const bool PERSPECTIVE_HAND = true;
+    public const bool CAMERA_PERSPECTIVE_HAND = false;
+    public const bool CAMERA_FOLLOW_PLAYER = true;
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenus";
     public const string CONST_STORE_MENU = "StoreMenu";
     public const string CONST_CONFIG_MENU = "ConfigMenu";
@@ -39,10 +40,10 @@ public static class Settings
 
     // UI Tags
     // Grid Config
-    public const int GRID_WIDTH = 18;
-    public const int GRID_HEIGHT = 18;
-    public const int GRID_START_X = -9; // in grid UNITS
-    public const int GRID_START_Y = -9; // in grid UNITS
+    public const int GRID_WIDTH = 36;
+    public const int GRID_HEIGHT = 36;
+    public const int GRID_START_X = -18; // in grid UNITS
+    public const int GRID_START_Y = -27; // in grid UNITS
 }
 
 //Item types

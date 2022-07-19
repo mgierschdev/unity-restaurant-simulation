@@ -32,7 +32,7 @@ public class NPCController : MonoBehaviour, IGameObject
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
 
         // Game Grid
-        GameObject gameGridObject = GameObject.Find(Settings.PREFAB_GAME_GRID);
+        GameObject gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
         if (gameGridObject != null)
         {
             gameGrid = gameGridObject.GetComponent<GameGridController>();
@@ -210,6 +210,6 @@ public class NPCController : MonoBehaviour, IGameObject
 
     public float[] GetPositionAsArray()
     {
-        return new float[] { position.x, position.y };
+        return new float[] {position.x, position.y };
     }
 }

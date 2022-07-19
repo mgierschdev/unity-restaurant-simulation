@@ -12,14 +12,15 @@ public class GameItemController : MonoBehaviour, IGameObject
     private GameGridController gameGrid;
     private GameItemController current;
     private ObjectType type = ObjectType.OBSTACLE;
+    private GameObject gameGridObject;
 
     void Start()
     {
         current = GetComponent<GameItemController>();
         // Getting game grid
-        GameObject gameGridObject = GameObject.Find(Settings.PREFAB_GAME_GRID);
+        gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
 
-        if (gameGrid != null)
+        if (gameGridObject != null)
         {
             gameGrid = gameGridObject.GetComponent<GameGridController>();
             UpdatePositionInGrid();
@@ -30,7 +31,6 @@ public class GameItemController : MonoBehaviour, IGameObject
             Debug.LogWarning("GameItemController.cs/gameGridObject null");
         }
     }
-
     private void UpdatePositionInGrid()
     {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);

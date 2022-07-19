@@ -30,11 +30,11 @@ public class GameGridController : MonoBehaviour
     private readonly int cellTexttSize = Settings.DEBUG_TEXT_SIZE;
     private Vector3 textOffset;
 
-    public void Awake()
+    public void Start()
     {
         grid = new int[width, height];
         busyNodes = new HashSet<Vector3>();
-        SetGridBoundaries();
+        //SetGridBoundaries();
 
         items = new Dictionary<GameItemController, Vector3>();
         pathFind = new PathFind();

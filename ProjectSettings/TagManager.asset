@@ -9,6 +9,9 @@ TagManager:
   - CameraEdge
   - Resource
   - Storage
+  - GameGrid
+  - GridTile
+  - Object
   layers:
   - Default
   - TransparentFX
