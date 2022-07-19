@@ -34,7 +34,7 @@ public static class Util
 
     public static Vector2Int GetXYInGameMap(Vector3 position)
     {
-        return new Vector2Int(Mathf.FloorToInt(position.x - Settings.GRID_START_X), Mathf.FloorToInt(position.y - Settings.GRID_START_Y));
+        return new Vector2Int(Mathf.FloorToInt((position.x - Settings.GRID_START_X) * 2), Mathf.FloorToInt((position.y - Settings.GRID_START_Y) * 2));
     }
 
     public static void PrintGrid(int[,] grid)

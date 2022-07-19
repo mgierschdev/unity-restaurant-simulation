@@ -8,18 +8,14 @@ using System.Collections.Generic;
 
 public class GameGridController : MonoBehaviour
 {
-    private readonly int width = Settings.GRID_WIDTH;
-    private readonly int height = Settings.GRID_HEIGHT;
-    private readonly float cellSize = 1;
+    private int width;
+    private int height;
+    private float cellSize = Settings.GRID_CELL_SIZE;
     private Vector3 cellOffset;
     private int[,] grid;
 
     // Path Finder object, contains the method to return the shortest path
     PathFind pathFind;
-
-    // Game objects in UI either NPCs or Static objects
-    private HashSet<Vector3> busyNodes;
-    private Dictionary<GameItemController, Vector3> items;
 
     private TextMesh[,] debugArray;
     private Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
@@ -32,23 +28,26 @@ public class GameGridController : MonoBehaviour
 
     public void Start()
     {
-        grid = new int[width, height];
-        busyNodes = new HashSet<Vector3>();
-        //SetGridBoundaries();
+        int cellsX = (int)(Settings.GRID_WIDTH * cellSize);
+        int cellsY = (int)(Settings.GRID_HEIGHT * cellSize);
+        width = cellsX;
+        height = cellsY;
 
-        items = new Dictionary<GameItemController, Vector3>();
+        grid = new int[cellsX, cellsY];
+        //SetGridBoundaries();
         pathFind = new PathFind();
         cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
         textOffset = new Vector3(cellSize, cellSize) * cellSize / 3;
 
+
         if (Settings.DEBUG_ENABLE)
         {
 
-            debugArray = new TextMesh[width, height];
-            for (int x = 0; x < grid.GetLength(0); x++)
+            debugArray = new TextMesh[cellsX, cellsY];
+            for (int x = 0; x < cellsX; x++)
             {
 
-                for (int y = 0; y < grid.GetLength(1); y++)
+                for (int y = 0; y < cellsY; y++)
                 {
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.black, debugLineDuration);
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.black, debugLineDuration);
@@ -60,8 +59,8 @@ public class GameGridController : MonoBehaviour
                     debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, GetCellPosition(x, y) +
                         cellOffset - textOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
-                Debug.DrawLine(GetCellPosition(0, height), GetCellPosition(width, height), Color.black, debugLineDuration);
-                Debug.DrawLine(GetCellPosition(width, 0), GetCellPosition(width, height), Color.black, debugLineDuration);
+                Debug.DrawLine(GetCellPosition(0, cellsX), GetCellPosition(cellsY, cellsX), Color.black, debugLineDuration);
+                Debug.DrawLine(GetCellPosition(cellsY, 0), GetCellPosition(cellsY, cellsX), Color.black, debugLineDuration);
             }
         }
     }
@@ -81,27 +80,23 @@ public class GameGridController : MonoBehaviour
         for (int i = 0; i < grid.GetLength(1); i++)
         {
             grid[0, i] = 1;
-            busyNodes.Add(new Vector3(0, i));
         }
 
         //Right
         for (int i = 0; i < grid.GetLength(1); i++)
         {
             grid[grid.GetLength(0) - 1, i] = 1;
-            busyNodes.Add(new Vector3(grid.GetLength(0) - 1, i));
         }
 
         //Bottom
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             grid[i, 0] = 1;
-            busyNodes.Add(new Vector3(i, 0));
         }
 
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             grid[i, grid.GetLength(1) - 1] = 1;
-            busyNodes.Add(new Vector3(i, grid.GetLength(1) - 1));
         }
     }
 
@@ -171,7 +166,8 @@ public class GameGridController : MonoBehaviour
 
     private Vector3 GetCellPosition(int x, int y)
     {
-        return new Vector3(x, y) * cellSize + gridOriginPosition;
+        Vector3 cellPosition = new Vector3(x, y) * cellSize + gridOriginPosition;
+        return new Vector3(cellPosition.x, cellPosition.y, 1);
     }
 
     private void SetValue(Vector3 position, int value)
@@ -207,7 +203,7 @@ public class GameGridController : MonoBehaviour
         //         items[obj] = obj.GetPosition();
         //     }
         // }
-        SetGridObstacle((int) obj.GetX(),(int) obj.GetY(), obj.GetType(), Color.black);
+        SetGridObstacle((int)obj.GetX(), (int)obj.GetY(), obj.GetType(), Color.black);
     }
 
     public void SetObstacleInPosition(int x, int y, ObjectType type)
@@ -221,15 +217,9 @@ public class GameGridController : MonoBehaviour
         return Util.GetXYInGameMap(mousePosition);
     }
 
-    public Vector3 GetCellPosition(float x, float y, float z)
+    public Vector3 GetCellPosition(Vector3 position)
     {
-        if (!IsInsideGridLimit(x, y))
-        {
-            Debug.LogWarning("The GetCellPosition is outside boundaries");
-            //throw new Exception();
-            return new Vector3();
-        }
-        return new Vector3(x, y, z) * cellSize + originPosition;
+        return position * cellSize + originPosition;
     }
 
     // This sets the obstacle points around the obstacle
@@ -264,16 +254,20 @@ public class GameGridController : MonoBehaviour
     }
 
     // Only for unit test use
-    public void SetTestGridObstacles(int row, int x1, int x2){
+    public void SetTestGridObstacles(int row, int x1, int x2)
+    {
         //int x, int y, ObjectType type, Color? color = null
-        for(int i = x1; i <= x2; i++){
+        for (int i = x1; i <= x2; i++)
+        {
             SetGridObstacle(row, i, ObjectType.OBSTACLE, Color.black);
         }
     }
 
     // Only for unit test use
-    public void FreeTestGridObstacles(int row, int x1, int x2){
-        for(int i = x1; i <= x2; i++){
+    public void FreeTestGridObstacles(int row, int x1, int x2)
+    {
+        for (int i = x1; i <= x2; i++)
+        {
             FreeGridPosition(row, i);
         }
     }
