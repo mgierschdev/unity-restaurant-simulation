@@ -97,7 +97,7 @@ public class NPCController : MonoBehaviour, IGameObject
             nextTarget = Vector3.zero;
             if (pendingMovementQueue.Count != 0)
             {
-                AddMovement((MoveDirection)pendingMovementQueue.Dequeue());
+                AddMovement((Vector3)pendingMovementQueue.Dequeue());
             }
             else
             {
@@ -116,28 +116,28 @@ public class NPCController : MonoBehaviour, IGameObject
     // Adds path to the NPC
     public void AddPath(List<Node> n)
     {
-        Vector3 from = new Vector3((int)x, (int)y, 1); // Current NPC pos
-        Vector3 to = new Vector3(n[0].GetX(), n[0].GetY(), 1);
-        MoveDirection m = Util.GetDirectionFromVector(to - from);
-        pendingMovementQueue.Enqueue(m);
+        // Vector3 from = new Vector3((int)x, (int)y, 1); // Current NPC pos
+        // Vector3 to = new Vector3(n[0].GetX(), n[0].GetY(), 1);
+        // MoveDirection m = Util.GetDirectionFromVector(to - from);
+        // pendingMovementQueue.Enqueue(m);
 
-        for (int i = 1; i < n.Count; i++)
-        {
-            from = gameGrid.GetCellPosition(n[i - 1].GetX(), n[i - 1].GetY(), 1);
-            to = gameGrid.GetCellPosition(n[i].GetX(), n[i].GetY(), 1);
-            m = Util.GetDirectionFromVector(to - from);
-            pendingMovementQueue.Enqueue(m);
-        }
+        // for (int i = 1; i < n.Count; i++)
+        // {
+        //     from = gameGrid.GetCellPosition(n[i - 1].GetX(), n[i - 1].GetY(), 1);
+        //     to = gameGrid.GetCellPosition(n[i].GetX(), n[i].GetY(), 1);
+        //     Vector3 newDirection = to - from;
+        //     pendingMovementQueue.Enqueue(newDirection);
+        // }
 
-        if (pendingMovementQueue.Count != 0)
-        {
-            AddMovement((MoveDirection)pendingMovementQueue.Dequeue());
-        }
+        // if (pendingMovementQueue.Count != 0)
+        // {
+        //     AddMovement((Vector3) pendingMovementQueue.Dequeue());
+        // }
     }
 
     private void OnMouseDown()
     {
-        AddMovement(MoveDirection.RIGHT);
+
     }
 
     private void ActivateEnergyBar()
@@ -168,9 +168,9 @@ public class NPCController : MonoBehaviour, IGameObject
         position = new Vector3(x, y, 1);
     }
 
-    public void AddMovement(MoveDirection direction)
+    public void AddMovement(Vector3 direction)
     {
-        Vector3 nextTarget = Util.GetVectorFromDirection(direction) + transform.position;
+        Vector3 nextTarget = direction + transform.position;
         this.nextTarget = nextTarget;
     }
 

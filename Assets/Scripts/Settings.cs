@@ -2,7 +2,7 @@ public static class Settings
 {
     // DEBUG parameters
     public const bool DEBUG_ENABLE = true; //Only for development
-    public const int DEBUG_TEXT_SIZE = 30;
+    public const int DEBUG_TEXT_SIZE = 15;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
     // Player Display
     public const float PLAYER_MOVEMENT_SPEED = 5f;
@@ -43,10 +43,11 @@ public static class Settings
 
     // UI Tags
     // Grid Config
-    public const int GRID_WIDTH = 36;
-    public const int GRID_HEIGHT = 36;
-    public const int GRID_START_X = -18; // in grid UNITS
-    public const int GRID_START_Y = -27; // in grid UNITS
+    public const float GRID_CELL_SIZE = 0.5f;
+    public const int GRID_WIDTH = 72;
+    public const int GRID_HEIGHT = 72;
+    public const int GRID_START_X = -9; // in grid UNITS
+    public const int GRID_START_Y = -9; // in grid UNITS
 }
 
 //Item types

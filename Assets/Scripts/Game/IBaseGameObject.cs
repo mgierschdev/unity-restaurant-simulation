@@ -10,6 +10,6 @@ public interface IGameObject
     void SetTestGameGridController(GameGridController controller);
     void SetSpeed(float speed);
     float[] GetPositionAsArray();
-    void AddMovement(MoveDirection direction);
+    void AddMovement(Vector3 direction);
     void AddPath(List<Node> n);
 }
