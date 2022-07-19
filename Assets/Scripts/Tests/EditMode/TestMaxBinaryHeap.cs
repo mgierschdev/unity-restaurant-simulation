@@ -39,8 +39,8 @@ public class TestBinaryHeap
         heap.Add(new PathNode(new int[] { 0, 1 }, 44));
         heap.Add(new PathNode(new int[] { 0, 1 }, 4));
         heap.Add(new PathNode(new int[] { 0, 1 }, 35));
-        Assert.AreEqual(heap.ExtractMax().GetFCost(), 555);
-        Assert.AreEqual(heap.ExtractMax().GetFCost(), 45);
+        Assert.AreEqual(heap.Poll().GetFCost(), 555);
+        Assert.AreEqual(heap.Poll().GetFCost(), 45);
         heap.Add(new PathNode(new int[] { 0, 1 }, 100));
         heap.Add(new PathNode(new int[] { 0, 1 }, -5));
         Assert.AreEqual(heap.Peek().GetFCost(), 100);
@@ -49,10 +49,10 @@ public class TestBinaryHeap
         heap.Add(new PathNode(new int[] { 0, 1 }, 104));
         heap.Add(new PathNode(new int[] { 0, 1 }, -10));
 
-        PathNode node = heap.ExtractMax();
+        PathNode node = heap.Poll();
         for (int i = 0; i < heap.GetSize(); i++)
         {
-            PathNode p = heap.ExtractMax();
+            PathNode p = heap.Poll();
             Debug.Log(p.GetFCost() + " > " + node.GetFCost());
             Assert.GreaterOrEqual(node.GetFCost(), p.GetFCost());
             node = p;

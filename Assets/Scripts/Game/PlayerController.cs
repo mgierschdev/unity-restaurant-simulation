@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 // Controls player properties
 // Attached to: Player Object
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IGameObject
 {
+    private ObjectType type = ObjectType.PLAYER;
     private float speed = Settings.PLAYER_MOVEMENT_SPEED;
     private Vector2 movement;
     private Vector3 position;
@@ -159,9 +160,9 @@ public class PlayerController : MonoBehaviour
         return position;
     }
 
-    public int[] GetPositionAsArray()
+    public float[] GetPositionAsArray()
     {
-        return new int[] { (int)position.x, (int)position.y };
+        return new float[] { position.x, position.y };
     }
 
     // Only for unit testing
@@ -170,8 +171,13 @@ public class PlayerController : MonoBehaviour
         this.gameGrid = controller;
     }
 
-    public void SetSpeed(int speed)
+    public void SetSpeed(float speed)
     {
         this.speed = speed;
+    }
+
+    public ObjectType GetType()
+    {
+        return type;
     }
 }

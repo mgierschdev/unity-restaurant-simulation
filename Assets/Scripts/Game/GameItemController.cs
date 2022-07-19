@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 // Class attached to all static in Game items
-public class GameItemController : MonoBehaviour
+public class GameItemController : MonoBehaviour, IGameObject
 {
     private float x;
     private float y;
+    private float speed = 0;
     private Vector3 position;
     private GameGridController gameGrid;
     private GameItemController current;
@@ -37,7 +39,17 @@ public class GameItemController : MonoBehaviour
         position = new Vector3(x, y, 1);
     }
 
-    public void SetGameGridController(GameGridController controller)
+    public void AddMovement(MoveDirection direction)
+    {
+        return;
+    }
+
+    public void AddPath(List<Node> n)
+    {
+        return;
+    }
+
+    public void SetTestGameGridController(GameGridController controller)
     {
         this.gameGrid = controller;
     }
@@ -60,5 +72,15 @@ public class GameItemController : MonoBehaviour
     public Vector3 GetPosition()
     {
         return position;
+    }
+
+    public float[] GetPositionAsArray()
+    {
+        return new float[] { position.x, position.y };
+    }
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
     }
 }

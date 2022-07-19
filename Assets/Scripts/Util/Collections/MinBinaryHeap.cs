@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 // Similar to priority Queue with Log(n) insertion
 // Only requirement is the FCost setted for prioritizing
-public class MinBinaryHeap
+public class MinBinaryHeap : IBaseGameCollections
 {
     private HashSet<PathNode> hashNodes;
     private PathNode[] nodes;
@@ -42,7 +42,7 @@ public class MinBinaryHeap
         }
     }
 
-    public PathNode ExtractMin()
+    public PathNode Poll()
     {
         if (currentHeapSize == 0)
         {
