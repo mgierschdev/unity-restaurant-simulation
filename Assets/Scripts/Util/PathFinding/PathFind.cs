@@ -54,7 +54,7 @@ public class PathFind
         // we start BFS
         while (!openList.IsEmpty())
         {
-            PathNode current = openList.ExtractMin();
+            PathNode current = openList.Poll();
             int[] currentPosition = current.GetPosition();
 
             // visited

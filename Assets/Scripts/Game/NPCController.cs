@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Controls NPCs players
 // Attached to: NPC Objects
-public class NPCController : MonoBehaviour
+public class NPCController : MonoBehaviour, IGameObject
 {
     private Rigidbody2D body;
 
@@ -208,8 +208,8 @@ public class NPCController : MonoBehaviour
         return position;
     }
 
-    public int[] GetPositionAsArray()
+    public float[] GetPositionAsArray()
     {
-        return new int[] { (int)position.x, (int)position.y };
+        return new float[] { position.x, position.y };
     }
 }

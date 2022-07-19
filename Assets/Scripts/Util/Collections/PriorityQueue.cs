@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 // Only requirement is a node.next in the PathNode and the FCost setted for prioritizing
-public class PriorityQueue
+public class PriorityQueue : IBaseGameCollections
 {
     private HashSet<PathNode> nodes;
     private PathNode rootNode;
@@ -17,17 +17,17 @@ public class PriorityQueue
     }
 
     // Peeks the head Node
-    public int[] Peek()
+    public PathNode Peek()
     {
         if (rootNode.next == null)
         {
-            return new int[] { };
+            return null;
         }
 
-        return rootNode.next.GetPosition();
+        return rootNode.next;
     }
 
-    public PathNode Dequeue()
+    public PathNode Poll()
     {
         if (rootNode.next == null)
         {
@@ -47,7 +47,7 @@ public class PriorityQueue
     }
 
     // In O(n)
-    public void Enqueue(PathNode node)
+    public void Add(PathNode node)
     {
         nodes.Add(node);
         size++;

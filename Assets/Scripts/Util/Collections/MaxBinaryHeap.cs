@@ -1,7 +1,7 @@
 using UnityEngine;
 // Similar to priority Queue with Log(n) insertion
 // Only requirement is the FCost setted for prioritizing
-public class MaxBinaryHeap
+public class MaxBinaryHeap : IBaseGameCollections
 {
     private PathNode[] nodes;
     private int treeSize;
@@ -38,7 +38,7 @@ public class MaxBinaryHeap
         }
     }
 
-    public PathNode ExtractMax()
+    public PathNode Poll()
     {
         if (currentHeapSize == 0)
         {
