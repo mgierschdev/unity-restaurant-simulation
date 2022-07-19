@@ -6,13 +6,11 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField]
     private Vector3 touchStart;
-    [SerializeField]
     private Vector3 direction;
-    private PlayerController playerController;
     private GameObject playerGameObject;
 
     // Camera follow player, for smothing camera movement 
-    public float speed = 10f;
+    public float interpolation = Settings.CAMERA_FOLLOW_INTERPOLATION;
 
     private void Start()
     {
@@ -20,18 +18,14 @@ public class CameraController : MonoBehaviour
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER);
 
-        if (playerGameObject != null)
-        {
-            playerController = playerGameObject.GetComponent<PlayerController>();
-        }
-        else
+        if (playerGameObject == null)
         {
             Debug.LogWarning("CameraController/PlayerController is null");
         }
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         // Only if enabled in Settings
         PerspectiveHand();
@@ -45,8 +39,8 @@ public class CameraController : MonoBehaviour
         if (Settings.CAMERA_FOLLOW_PLAYER)
         {
             Vector3 playerPosition = new Vector3(playerGameObject.transform.position.x, playerGameObject.transform.position.y, transform.position.z);
-            Debug.Log(playerPosition);
-            transform.position = playerPosition;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, playerPosition, interpolation);
+            transform.position = smoothedPosition;
         }
     }
 
