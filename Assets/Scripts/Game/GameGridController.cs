@@ -10,7 +10,7 @@ public class GameGridController : MonoBehaviour
 {
     private readonly int width = Settings.GRID_WIDTH;
     private readonly int height = Settings.GRID_HEIGHT;
-    private readonly int cellSize = 1;
+    private readonly float cellSize = 1;
     private Vector3 cellOffset;
     private int[,] grid;
 
@@ -180,7 +180,7 @@ public class GameGridController : MonoBehaviour
         SetValue(pos.x, pos.y, value);
     }
 
-    private bool IsInsideGridLimit(int x, int y)
+    private bool IsInsideGridLimit(float x, float y)
     {
         return (x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1));
     }
@@ -207,7 +207,7 @@ public class GameGridController : MonoBehaviour
         //         items[obj] = obj.GetPosition();
         //     }
         // }
-        SetGridObstacle(obj.GetX(), obj.GetY(), obj.GetType(), Color.black);
+        SetGridObstacle((int) obj.GetX(),(int) obj.GetY(), obj.GetType(), Color.black);
     }
 
     public void SetObstacleInPosition(int x, int y, ObjectType type)
@@ -221,7 +221,7 @@ public class GameGridController : MonoBehaviour
         return Util.GetXYInGameMap(mousePosition);
     }
 
-    public Vector3 GetCellPosition(int x, int y, int z)
+    public Vector3 GetCellPosition(float x, float y, float z)
     {
         if (!IsInsideGridLimit(x, y))
         {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public interface IGameObject
 {
-    int GetY();
-    int GetX();
+    float GetY();
+    float GetX();
     ObjectType GetType();
     Vector3 GetPosition();
     void SetTestGameGridController(GameGridController controller);

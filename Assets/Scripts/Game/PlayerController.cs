@@ -6,7 +6,9 @@ using System.Collections.Generic;
 // Attached to: Player Object
 public class PlayerController : MonoBehaviour, IGameObject
 {
+
     private ObjectType type = ObjectType.PLAYER;
+    [SerializeField]
     private float speed = Settings.PLAYER_MOVEMENT_SPEED;
     private Vector2 movement;
     private Vector3 position;
@@ -19,13 +21,13 @@ public class PlayerController : MonoBehaviour, IGameObject
     private Queue pendingMovementQueue;
     private Vector3 nextTarget;
     private Vector3 currentTargetPosition;
-
+    private GameObject gameGridObject;
 
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
 
-        GameObject gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
         if (gameGridObject != null)
         {
             gameGrid = gameGridObject.GetComponent<GameGridController>();
@@ -45,12 +47,20 @@ public class PlayerController : MonoBehaviour, IGameObject
 
     private void Update()
     {
-        body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
         body.angularVelocity = 0;
         body.rotation = 0;
 
-        UpdateTargetMovement();
+        // In case of keyboard
+        body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
+        if(Input.anyKeyDown == true){
+            ResetMovementQueue();
+        }
+
+        // Player Movement
         MouseOnClick();
+
+        // Player Moving on touch
+        MovingOntouch();
 
         // Updating position in the Grid
         UpdatePosition();
@@ -76,14 +86,28 @@ public class PlayerController : MonoBehaviour, IGameObject
             currentTargetPosition = nextTarget;
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
+    }
 
+    private void MovingOntouch(){
+        if(Input.touchCount > 0){
+            // Touch touch = Input.GetTouch(0); // 1,2,3,4 // 5 fingers
+            // Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+            // touchPosition.z = 1;
+            // transform.position = touchPosition;
+            Debug.Log("Touching");
+        }
     }
 
     private void MouseOnClick()
     {
-        //Only if it is not moving already
-        if (Input.GetMouseButtonDown(0) && pendingMovementQueue.Count == 0)
+        UpdateTargetMovement();
+        if (Input.GetMouseButtonDown(0))
         {
+            // If the player is moving, we change direction and empty the previous queue
+            if(pendingMovementQueue.Count != 0){
+                ResetMovementQueue();
+            }
+
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
             List<Node> path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { mousePositionVector.x, mousePositionVector.y });
@@ -121,6 +145,7 @@ public class PlayerController : MonoBehaviour, IGameObject
             from = gameGrid.GetCellPosition(n[i - 1].GetX(), n[i - 1].GetY(), 1);
             to = gameGrid.GetCellPosition(n[i].GetX(), n[i].GetY(), 1);
             m = Util.GetDirectionFromVector(to - from);
+            Debug.Log((to - from).ToString("F5"));
             pendingMovementQueue.Enqueue(m);
         }
 
@@ -136,7 +161,6 @@ public class PlayerController : MonoBehaviour, IGameObject
         this.nextTarget = nextTarget;
     }
 
-
     private void UpdatePosition()
     {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
@@ -145,17 +169,26 @@ public class PlayerController : MonoBehaviour, IGameObject
         position = new Vector3(x, y, 1);
     }
 
-    // private void OnCollisionEnter(Collision collision) {
-    //     Debug.Log("Clean movement queue");
-    //     Debug.Log(pendingMovementQueue.Count);
-    // }
+    // Resets the planned Path
+    private void ResetMovementQueue()
+    {
+        nextTarget = Vector3.zero;
+        pendingMovementQueue = new Queue();
+    }
 
-    public int GetX()
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log("Colliding");
+        // In case of collading stop moving
+        ResetMovementQueue();
+    }
+
+    public float GetX()
     {
         return x;
     }
 
-    public int GetY()
+    public float GetY()
     {
         return y;
     }

@@ -54,14 +54,14 @@ public class GameItemController : MonoBehaviour, IGameObject
         this.gameGrid = controller;
     }
 
-    public int GetX()
+    public float GetX()
     {
-        return (int)x;
+        return x;
     }
 
-    public int GetY()
+    public float GetY()
     {
-        return (int)y;
+        return y;
     }
 
     public ObjectType GetType()

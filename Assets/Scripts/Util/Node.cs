@@ -27,12 +27,12 @@ public class Node
         return x == n.GetX() && y == n.GetY();
     }
 
-    public int GetX()
+    public float GetX()
     {
         return x;
     }
 
-    public int GetY()
+    public float GetY()
     {
         return y;
     }

@@ -23,6 +23,7 @@ public class NPCController : MonoBehaviour, IGameObject
     private Vector3 nextTarget;
     private Queue pendingMovementQueue;
     private Vector3 currentTargetPosition;
+    private GameObject gameGridObject;
 
     private void Start()
     {
@@ -32,7 +33,8 @@ public class NPCController : MonoBehaviour, IGameObject
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
 
         // Game Grid
-        GameObject gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
+        gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
+
         if (gameGridObject != null)
         {
             gameGrid = gameGridObject.GetComponent<GameGridController>();
@@ -188,14 +190,14 @@ public class NPCController : MonoBehaviour, IGameObject
         this.gameGrid = controller;
     }
 
-    public int GetX()
+    public float GetX()
     {
-        return (int)x;
+        return x;
     }
 
-    public int GetY()
+    public float GetY()
     {
-        return (int)y;
+        return y;
     }
 
     public ObjectType GetType()
@@ -210,6 +212,6 @@ public class NPCController : MonoBehaviour, IGameObject
 
     public float[] GetPositionAsArray()
     {
-        return new float[] {position.x, position.y };
+        return new float[] { position.x, position.y };
     }
 }
