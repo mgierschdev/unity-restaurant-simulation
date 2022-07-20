@@ -195,7 +195,8 @@ public class GameGridController : MonoBehaviour
     // Gets the world cell value in Grid position
     public Vector3 GetCellPosition(Vector3 position)
     {
-        return position * cellSize + originPosition;
+        Vector3 cellPosition = position * cellSize + originPosition;
+        return new Vector3(cellPosition.x, cellPosition.y, 1);
     }
 
     // This sets the obstacle points around the obstacle

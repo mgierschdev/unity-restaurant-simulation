@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7540210467547972625}
   - component: {fileID: 5475822414227124828}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181978383009073}
   - component: {fileID: 7444181978383009072}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Right leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181978742397259}
   - component: {fileID: 7444181978742397258}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Left leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 7513736735678383767}
   - component: {fileID: 1859833509263881}
   - component: {fileID: 2962024432630426327}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7444181978888355383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,14 +461,14 @@ MonoBehaviour:
   - {x: 0.09820557, y: 0.16741943, z: 0}
   - {x: 0.08734131, y: 0.44299316, z: 0}
   - {x: 0.20062256, y: 0.69592285, z: 0}
-  - {x: 0.004272461, y: 0.90356445, z: 0}
-  - {x: -0.022644043, y: 1.2478638, z: 0}
-  - {x: 0.09112549, y: 1.4246216, z: 0}
-  - {x: 0.5404053, y: 1.5076294, z: 0}
-  - {x: 0.815979, y: 1.2932129, z: 0}
-  - {x: 0.85754395, y: 1.0734863, z: 0}
-  - {x: 0.82733154, y: 0.8432007, z: 0}
-  - {x: 0.63098145, y: 0.6921387, z: 0}
+  - {x: 0.058898926, y: 0.9071655, z: 0}
+  - {x: 0.07928467, y: 1.2042236, z: 0}
+  - {x: 0.22949219, y: 1.3190308, z: 0}
+  - {x: 0.4857788, y: 1.3328857, z: 0}
+  - {x: 0.6703491, y: 1.2022095, z: 0}
+  - {x: 0.75561523, y: 1.0552979, z: 0}
+  - {x: 0.68530273, y: 0.87231445, z: 0}
+  - {x: 0.5654907, y: 0.71032715, z: 0}
   - {x: 0.70648193, y: 0.19000244, z: 0}
   - {x: 0.52905273, y: 0.12207031, z: 0}
   - {x: 0.52526855, y: 0.035217285, z: 0}
@@ -478,9 +478,9 @@ MonoBehaviour:
   - {x: 0.32904053, y: 0.099487305, z: 0}
   - {x: 0.2232666, y: -0.006286621, z: 0}
   - {x: 0.20062256, y: 0.12963867, z: 0}
-  m_ShapePathHash: -403699627
+  m_ShapePathHash: -448489387
   m_Mesh: {fileID: 0}
-  m_InstanceId: 65178
+  m_InstanceId: 37834
 --- !u!1 &7444181979112839880
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +491,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181979112839883}
   - component: {fileID: 7444181979112839882}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Head
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -506,8 +506,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7444181979112839880}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.40897265, y: 1.0890269, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 0.393, y: 1.039, z: 0}
+  m_LocalScale: {x: 0.796, y: 0.7544, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7444181978888355380}
@@ -575,7 +575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181979187466787}
   - component: {fileID: 7444181979187466786}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: 7444181979203669605}
   - component: {fileID: 7444181979203669607}
   - component: {fileID: 7444181979203669604}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 7444181979243127201}
   - component: {fileID: 7444181979243127200}
   - component: {fileID: 7444181979243127203}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnergyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -843,7 +843,7 @@ GameObject:
   - component: {fileID: 7444181980291553159}
   - component: {fileID: 7444181980291553153}
   - component: {fileID: 7444181980291553158}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 7444181980483681170}
   - component: {fileID: 7444181980483681164}
   - component: {fileID: 7444181980483681165}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

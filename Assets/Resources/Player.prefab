@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8530163688326329557}
   - component: {fileID: -8043798970977063170}
   - component: {fileID: 2994181713747638411}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8530163688326329552}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8530163689784434756}
@@ -113,12 +113,12 @@ MonoBehaviour:
   - {x: 0.12435773, y: 0.5176054, z: 0}
   - {x: 0.17290276, y: 0.6332996, z: 0}
   - {x: 0.22109014, y: 0.6985823, z: 0}
-  - {x: -0.0084579885, y: 1.2001827, z: 0}
-  - {x: 0.1213119, y: 1.3790592, z: 0}
-  - {x: 0.3196161, y: 1.5078704, z: 0}
-  - {x: 0.5316798, y: 1.4485531, z: 0}
-  - {x: 0.7460933, y: 1.3062683, z: 0}
-  - {x: 0.8477341, y: 1.1099916, z: 0}
+  - {x: 0.07959148, y: 0.93907034, z: 0}
+  - {x: 0.16685474, y: 1.2940459, z: 0}
+  - {x: 0.35908654, y: 1.356061, z: 0}
+  - {x: 0.55293316, y: 1.3240693, z: 0}
+  - {x: 0.6671524, y: 1.1605314, z: 0}
+  - {x: 0.69896084, y: 0.9035308, z: 0}
   - {x: 0.6014251, y: 0.6932062, z: 0}
   - {x: 0.68953705, y: 0.40519422, z: 0}
   - {x: 0.6632123, y: 0.1954416, z: 0}
@@ -133,9 +133,9 @@ MonoBehaviour:
   - {x: 0.20992687, y: -0.0077697635, z: 0}
   - {x: 0.21084061, y: 0.13589269, z: 0}
   - {x: 0.10208437, y: 0.22162127, z: 0}
-  m_ShapePathHash: -979005156
+  m_ShapePathHash: 821553283
   m_Mesh: {fileID: 0}
-  m_InstanceId: 37262
+  m_InstanceId: 37520
 --- !u!1 &8530163688352006107
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8530163688352006104}
   - component: {fileID: 8530163688352006105}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Left leg
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8530163689243593364}
   - component: {fileID: 8530163689243593365}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Right leg
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8530163689334274305}
   - component: {fileID: 8530163689334274310}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Body
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8530163689784434756}
   - component: {fileID: 8530163689784434757}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Head
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -413,8 +413,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8530163689784434759}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4089727, y: 1.089027, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 0.401, y: 1.041, z: 0}
+  m_LocalScale: {x: 0.755, y: 0.755, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8530163688326329553}
