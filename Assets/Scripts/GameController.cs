@@ -4,10 +4,6 @@ using UnityEngine;
 // the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour
 {
-    private GameGridController gridController;
-    private NPCController npcController;
-    private PlayerController playerController;
-
     void Start()
     {
         // Getting grid object
@@ -18,8 +14,8 @@ public class GameController : MonoBehaviour
         GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(new Vector3(22, 30, 1)), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
         npcObject.name = Settings.PREFAB_NPC;
-        npcController = npcObject.GetComponent<NPCController>();
+        NPCController npcController = npcObject.GetComponent<NPCController>();
 
-        playerController =  GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER).gameObject.GetComponent<PlayerController>();
+        PlayerController playerController =  GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER).gameObject.GetComponent<PlayerController>();
     }
 }

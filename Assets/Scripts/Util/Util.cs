@@ -197,4 +197,39 @@ public static class Util
         return new Vector3(dir.x, dir.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
+
+    // Translates a normalized angle to a direction from 0 - 360
+    //       360 | 0
+    //           .
+    //       315 . 45 
+    // 270 --------------- 90
+    //       225 . 135
+    //           .
+    //          180
+
+    public static MoveDirection GetDirectionFromAngles(float angle)
+    {
+        float offset = 20; // ofset for diagonal movements 
+
+        if (angle >= 45 - offset && angle <= 45 + offset){
+            return MoveDirection.UPRIGHT;
+        }else if(angle >= 135 - offset && angle <= 135 + offset){
+            return MoveDirection.DOWNRIGHT;
+        }else if(angle >= 225 - offset && angle <= 225 + offset){
+            return MoveDirection.DOWNLEFT;
+        }else if(angle >= 315 - offset && angle <= 315 + offset){
+            return MoveDirection.UPLEFT;
+        }else if((angle > 315 + offset && angle <= 360) || (angle >= 0 && angle < 45 - offset)){
+            return MoveDirection.UP;
+        }else if(angle > 45 + offset && angle < 135 - offset){
+            return MoveDirection.RIGHT;
+        }else if(angle > 135 + offset && angle < 225 - offset){
+            return MoveDirection.DOWN;
+        }else if(angle > 225 + offset && angle < 315 - offset){
+            return MoveDirection.LEFT;
+        }else{
+            return MoveDirection.IDLE;
+        }
+    }
+
 }
