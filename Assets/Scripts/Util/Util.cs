@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 // This will contain Utility functions, to create Unity Object and other
@@ -34,7 +35,29 @@ public static class Util
 
     public static Vector2Int GetXYInGameMap(Vector3 position)
     {
-        return new Vector2Int(Mathf.FloorToInt((position.x - Settings.GRID_START_X) * 2), Mathf.FloorToInt((position.y - Settings.GRID_START_Y) * 2));
+        return new Vector2Int(Mathf.FloorToInt((position.x - Settings.GRID_START_X) * 1 / Settings.GRID_CELL_SIZE), Mathf.FloorToInt((position.y - Settings.GRID_START_Y) * 1 / Settings.GRID_CELL_SIZE));
+    }
+
+    public static void AddPath(List<Node> path, GameGridController gameGrid, Queue pendingMovementQueue)
+    {
+        pendingMovementQueue.Enqueue(gameGrid.GetCellPosition(path[0].GetVector3()));
+
+        for (int i = 1; i < path.Count; i++)
+        {
+            Vector3 from = gameGrid.GetCellPosition(path[i - 1].GetVector3());
+            Vector3 to = gameGrid.GetCellPosition(path[i].GetVector3());
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.DrawLine(from, to, Color.magenta, 10f);
+            }
+            pendingMovementQueue.Enqueue(gameGrid.GetCellPosition(path[i].GetVector3()));
+        }
+
+        if (path.Count == 0)
+        {
+            Debug.LogWarning("Path out of reach");
+            return;
+        }
     }
 
     public static void PrintGrid(int[,] grid)

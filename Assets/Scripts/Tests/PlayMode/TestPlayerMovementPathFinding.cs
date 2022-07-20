@@ -53,4 +53,13 @@ public class TestPlayerMovementPathFinding
         Assert.AreEqual(playerController.GetPositionAsArray()[1], endPosition[1]);
         gameGridController.FreeTestGridObstacles(5, 1, 15);
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        Object.Destroy(playerObject);
+        Object.Destroy(playerController);
+        Object.Destroy(gridObject);
+        Object.Destroy(gameGridController);
+    }
 }

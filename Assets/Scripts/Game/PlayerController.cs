@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour, IGameObject
             nextTarget = Vector3.zero;
             if (pendingMovementQueue.Count != 0)
             {
-                AddMovement((Vector3)pendingMovementQueue.Dequeue());
+                AddMovement();
             }
             else
             {
@@ -87,6 +87,11 @@ public class PlayerController : MonoBehaviour, IGameObject
             currentTargetPosition = nextTarget;
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
         }
+    }
+
+    public void AddPath(List<Node> list){
+        Util.AddPath(list, gameGrid, pendingMovementQueue);
+        AddMovement(); // To set the first target
     }
 
     private void MovingOntouch()
@@ -115,60 +120,33 @@ public class PlayerController : MonoBehaviour, IGameObject
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
             List<Node> path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { mousePositionVector.x, mousePositionVector.y });
+            Util.AddPath(path, gameGrid, pendingMovementQueue);
 
-            // Just for drawing the path
-            if (Settings.DEBUG_ENABLE)
+            if (pendingMovementQueue.Count != 0)
             {
-                for (int i = 1; i < path.Count; i++)
-                {
-                    Vector3 from = gameGrid.GetCellPosition(path[i - 1].GetVector3());
-                    Vector3 to = gameGrid.GetCellPosition(path[i].GetVector3());
-                    Debug.DrawLine(from, to, Color.magenta, 10f);
-                }
+                AddMovement();
             }
-
-            if (path.Count == 0)
-            {
-                Debug.Log("Path out of reach");
-                return;
-            }
-
-            AddPath(path);
         }
     }
 
-    public void AddPath(List<Node> n)
+    public void AddMovement()
     {
-        Vector3 from = new Vector3(x, y, 1); // Current Player pos
-        Vector3 to = n[0].GetVector3();
-        Vector3 newVector = to - from;
-        pendingMovementQueue.Enqueue(newVector);
-
-        for (int i = 1; i < n.Count; i++)
+        if (pendingMovementQueue.Count == 0)
         {
-             from = gameGrid.GetCellPosition(n[i -1].GetVector3());
-             to = gameGrid.GetCellPosition(n[i].GetVector3());
-             newVector = to - from;
-            // Vector3 newDirection = to - from;
-            // Debug.Log("Improving accuracy of the Grid");
-            // Debug.Log((newDirection).ToString("F5"));
-            //pendingMovementQueue.Enqueue(n[i].GetVector3());
-            Debug.Log(gameGrid.GetCellPosition(n[i].GetVector3()));
-            pendingMovementQueue.Enqueue(newVector);
+            return;
         }
 
-        if (pendingMovementQueue.Count != 0)
-        {
-            AddMovement((Vector3)pendingMovementQueue.Dequeue());
-        }
+        Vector3 direction = (Vector3)pendingMovementQueue.Dequeue();
+        Vector3 nextTarget = new Vector3(direction.x, direction.y, 1);//gameGrid.GetCellPosition(transform.position + direction) ;
+        this.nextTarget = nextTarget;
     }
 
     public void AddMovement(Vector3 direction)
     {
-        Vector3 nextTarget = gameGrid.GetCellPosition(direction + transform.position);
-        //   direc""tion + transform.position;
-        Debug.Log("Moving to "+ nextTarget);
-        this.nextTarget = nextTarget;
+        if (direction != Vector3.zero)
+        {
+            this.nextTarget = direction + transform.position;
+        }
     }
 
     private void UpdatePosition()
@@ -188,7 +166,6 @@ public class PlayerController : MonoBehaviour, IGameObject
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("Colliding");
         // In case of collading stop moving
         ResetMovementQueue();
     }
