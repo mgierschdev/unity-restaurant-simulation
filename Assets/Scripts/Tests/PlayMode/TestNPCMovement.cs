@@ -21,7 +21,7 @@ public class TestNPCMovement
         npcObject.transform.SetParent(npcObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
         npcController.SetTestGameGridController(gameGridController);
-        initialTestingPosition = new Vector3(0, 0, 1);
+        initialTestingPosition = new Vector3(0, 0, Settings.DEFAULT_GAME_OBJECTS_Z);
         npcController.SetSpeed(100);
     }
 
@@ -30,49 +30,58 @@ public class TestNPCMovement
     {
 
         npcController.SetPosition(initialTestingPosition);
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.DOWN));
+        Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWN);
+        npcController.AddMovement(target);
         yield return new WaitForSeconds(0.4f);
-        Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(0, -1, 1)).Using(Vector3EqualityComparer.Instance));
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
 
         npcController.SetPosition(initialTestingPosition);
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.UP));
+        target = Util.GetVectorFromDirection(MoveDirection.UP);
+        npcController.AddMovement(target);
         yield return new WaitForSeconds(0.4f);
-        Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(0, 1, 1)).Using(Vector3EqualityComparer.Instance));
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
 
         npcController.SetPosition(initialTestingPosition);
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.RIGHT));
+        target = Util.GetVectorFromDirection(MoveDirection.RIGHT);
+        npcController.AddMovement(target);
         yield return new WaitForSeconds(0.4f);
-        Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(1, 0, 1)).Using(Vector3EqualityComparer.Instance));
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
 
         npcController.SetPosition(initialTestingPosition);
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.LEFT));
+        target = Util.GetVectorFromDirection(MoveDirection.LEFT);
+        npcController.AddMovement(target);
         yield return new WaitForSeconds(0.4f);
-        Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(-1, 0, 1)).Using(Vector3EqualityComparer.Instance));
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
 
         npcController.SetPosition(initialTestingPosition);
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.DOWNLEFT));
+        target = Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
+        npcController.AddMovement(target);
         yield return new WaitForSeconds(0.4f);
-        Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(-1, -1, 1)).Using(Vector3EqualityComparer.Instance));
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
 
         npcController.SetPosition(initialTestingPosition);
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.DOWNRIGHT));
+        target = Util.GetVectorFromDirection(MoveDirection.DOWNRIGHT);
+        npcController.AddMovement(target);
         yield return new WaitForSeconds(0.4f);
-        Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(1, -1, 1)).Using(Vector3EqualityComparer.Instance));
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
 
         npcController.SetPosition(initialTestingPosition);
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.UPLEFT));
+        target = Util.GetVectorFromDirection(MoveDirection.UPLEFT);
+        npcController.AddMovement(target);
         yield return new WaitForSeconds(0.4f);
-        Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(-1, 1, 1)).Using(Vector3EqualityComparer.Instance));
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
 
         npcController.SetPosition(initialTestingPosition);
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.UPRIGHT));
+        target = Util.GetVectorFromDirection(MoveDirection.UPRIGHT);
+        npcController.AddMovement(target);
         yield return new WaitForSeconds(0.4f);
-        Assert.That(npcController.transform.position, Is.EqualTo(new Vector3(1, 1, 1)).Using(Vector3EqualityComparer.Instance));
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
 
         npcController.SetPosition(initialTestingPosition);
-        Vector3 before = npcController.transform.position;
-        npcController.AddMovement(Util.GetVectorFromDirection(MoveDirection.IDLE));
-        Assert.That(npcController.transform.position, Is.EqualTo(before).Using(Vector3EqualityComparer.Instance));
+        target = Util.GetVectorFromDirection(MoveDirection.IDLE);
+        npcController.AddMovement(target);
+        yield return new WaitForSeconds(0.4f);
+        Assert.That(npcController.transform.position, Is.EqualTo(target).Using(Vector3EqualityComparer.Instance));
     }
 
     [TearDown]

@@ -119,35 +119,35 @@ public static class Util
 
     public static MoveDirection GetDirectionFromVector(Vector3 vector)
     {
-        if (vector == Vector3.left)
+        if (vector == Vector3.left * Settings.GRID_CELL_SIZE)
         {
             return MoveDirection.LEFT;
         }
-        else if (vector == Vector3.right)
+        else if (vector == Vector3.right * Settings.GRID_CELL_SIZE)
         {
             return MoveDirection.RIGHT;
         }
-        else if (vector == Vector3.up)
+        else if (vector == Vector3.up * Settings.GRID_CELL_SIZE)
         {
             return MoveDirection.UP;
         }
-        else if (vector == Vector3.down)
+        else if (vector == Vector3.down * Settings.GRID_CELL_SIZE)
         {
             return MoveDirection.DOWN;
         }
-        else if (vector == new Vector3(-1, -1, 0))
+        else if (vector == new Vector3(-1, -1, 0) * Settings.GRID_CELL_SIZE)
         {
             return MoveDirection.DOWNLEFT;
         }
-        else if (vector == new Vector3(1, -1, 0))
+        else if (vector == new Vector3(1, -1, 0) * Settings.GRID_CELL_SIZE)
         {
             return MoveDirection.DOWNRIGHT;
         }
-        else if (vector == new Vector3(-1, 1, 0))
+        else if (vector == new Vector3(-1, 1, 0) * Settings.GRID_CELL_SIZE)
         {
             return MoveDirection.UPLEFT;
         }
-        else if (vector == new Vector3(1, 1, 0))
+        else if (vector == new Vector3(1, 1, 0) * Settings.GRID_CELL_SIZE)
         {
             return MoveDirection.UPRIGHT;
         }
@@ -164,37 +164,37 @@ public static class Util
 
         if (d == MoveDirection.LEFT)
         {
-            dir = Vector3.left;
+            dir = Vector3.left * Settings.GRID_CELL_SIZE;
         }
         else if (d == MoveDirection.RIGHT)
         {
-            dir = Vector3.right;
+            dir = Vector3.right * Settings.GRID_CELL_SIZE;
         }
         else if (d == MoveDirection.UP)
         {
-            dir = Vector3.up;
+            dir = Vector3.up * Settings.GRID_CELL_SIZE;
         }
         else if (d == MoveDirection.DOWN)
         {
-            dir = Vector3.down;
+            dir = Vector3.down * Settings.GRID_CELL_SIZE;
         }
         else if (d == MoveDirection.DOWNLEFT)
         {
-            dir = new Vector3(-1, -1, 0);
+            dir = new Vector3(-1, -1, 0) * Settings.GRID_CELL_SIZE;
         }
         else if (d == MoveDirection.DOWNRIGHT)
         {
-            dir = new Vector3(1, -1, 0);
+            dir = new Vector3(1, -1, 0) * Settings.GRID_CELL_SIZE;
         }
         else if (d == MoveDirection.UPLEFT)
         {
-            dir = new Vector3(-1, 1, 0);
+            dir = new Vector3(-1, 1, 0) * Settings.GRID_CELL_SIZE;
         }
         else if (d == MoveDirection.UPRIGHT)
         {
-            dir = new Vector3(1, 1, 0);
+            dir = new Vector3(1, 1, 0) * Settings.GRID_CELL_SIZE;
         }
-        return dir;
+        return new Vector3(dir.x, dir.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
 }

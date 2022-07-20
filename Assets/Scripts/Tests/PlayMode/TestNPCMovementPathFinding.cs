@@ -21,14 +21,14 @@ public class TestNPCMovementPathFinding
         gameGridController = gridObject.GetComponent<GameGridController>();
         // First NPC
         firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
-        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, 1)), Quaternion.identity) as GameObject;
+        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
         firstNPCObject.transform.SetParent(gridObject.transform);
         firstNPCController = firstNPCObject.GetComponent<NPCController>();
         firstNPCController.SetTestGameGridController(gameGridController);
         firstNPCController.SetSpeed(100);
         // Second NPC
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
-        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, 1)), Quaternion.identity) as GameObject;
+        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
         secondNPCObject.transform.SetParent(gridObject.transform);
         secondNPCController = secondNPCObject.GetComponent<NPCController>();
         secondNPCController.SetTestGameGridController(gameGridController);
@@ -44,7 +44,7 @@ public class TestNPCMovementPathFinding
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
         Util.PrintPath(path);
         Debug.Log("Before: "+firstNPCController.GetPosition());
-        firstNPCController.SetPosition(gameGridController.GetCellPosition(new Vector3(1, 1, 1)));
+        firstNPCController.SetPosition(gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)));
         firstNPCController.AddPath(path);
         yield return new WaitForSeconds(1f);
         Debug.Log("After: "+firstNPCController.GetPosition());

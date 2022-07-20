@@ -19,7 +19,7 @@ public class TestPlayerMovementPathFinding
         gameGridController = gridObject.GetComponent<GameGridController>();
         // First NPC
         playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject))) as GameObject;
-        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, 1)), Quaternion.identity) as GameObject;
+        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(gridObject.transform);
         playerController = playerObject.GetComponent<PlayerController>();
         playerController.SetTestGameGridController(gameGridController);

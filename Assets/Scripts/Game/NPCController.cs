@@ -148,7 +148,7 @@ public class NPCController : MonoBehaviour, IGameObject
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;
-        position = new Vector3(x, y, 1);
+        position = new Vector3(x, y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     public void AddMovement()
@@ -158,7 +158,7 @@ public class NPCController : MonoBehaviour, IGameObject
             return;
         }
         Vector3 direction = (Vector3)pendingMovementQueue.Dequeue();
-        Vector3 nextTarget = new Vector3(direction.x, direction.y, 1);//gameGrid.GetCellPosition(transform.position + direction) ;
+        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);//gameGrid.GetCellPosition(transform.position + direction) ;
         this.nextTarget = nextTarget;
     }
 
@@ -166,7 +166,8 @@ public class NPCController : MonoBehaviour, IGameObject
     {
         if (direction != Vector3.zero)
         {
-            this.nextTarget = direction + transform.position;
+            Vector3 newDirection = direction + transform.position;
+            this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
         }
     }
 

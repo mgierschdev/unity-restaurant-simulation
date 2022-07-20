@@ -36,7 +36,7 @@ public class GameItemController : MonoBehaviour, IGameObject
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         x = pos.x;
         y = pos.y;
-        position = new Vector3(x, y, 1);
+        position = new Vector3(x, y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     public void AddMovement()
