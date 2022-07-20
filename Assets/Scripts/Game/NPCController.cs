@@ -97,7 +97,7 @@ public class NPCController : MonoBehaviour, IGameObject
             nextTarget = Vector3.zero;
             if (pendingMovementQueue.Count != 0)
             {
-                AddMovement((Vector3)pendingMovementQueue.Dequeue());
+                AddMovement();
             }
             else
             {
@@ -113,31 +113,14 @@ public class NPCController : MonoBehaviour, IGameObject
         // Handling player movement through a queue
     }
 
-    // Adds path to the NPC
-    public void AddPath(List<Node> n)
+    public void AddPath(List<Node> list)
     {
-        // Vector3 from = new Vector3((int)x, (int)y, 1); // Current NPC pos
-        // Vector3 to = new Vector3(n[0].GetX(), n[0].GetY(), 1);
-        // MoveDirection m = Util.GetDirectionFromVector(to - from);
-        // pendingMovementQueue.Enqueue(m);
-
-        // for (int i = 1; i < n.Count; i++)
-        // {
-        //     from = gameGrid.GetCellPosition(n[i - 1].GetX(), n[i - 1].GetY(), 1);
-        //     to = gameGrid.GetCellPosition(n[i].GetX(), n[i].GetY(), 1);
-        //     Vector3 newDirection = to - from;
-        //     pendingMovementQueue.Enqueue(newDirection);
-        // }
-
-        // if (pendingMovementQueue.Count != 0)
-        // {
-        //     AddMovement((Vector3) pendingMovementQueue.Dequeue());
-        // }
+        Util.AddPath(list, gameGrid, pendingMovementQueue);
+        AddMovement(); // To set the first target
     }
 
     private void OnMouseDown()
     {
-
     }
 
     private void ActivateEnergyBar()
@@ -168,10 +151,23 @@ public class NPCController : MonoBehaviour, IGameObject
         position = new Vector3(x, y, 1);
     }
 
+    public void AddMovement()
+    {
+        if (pendingMovementQueue.Count == 0)
+        {
+            return;
+        }
+        Vector3 direction = (Vector3)pendingMovementQueue.Dequeue();
+        Vector3 nextTarget = new Vector3(direction.x, direction.y, 1);//gameGrid.GetCellPosition(transform.position + direction) ;
+        this.nextTarget = nextTarget;
+    }
+
     public void AddMovement(Vector3 direction)
     {
-        Vector3 nextTarget = direction + transform.position;
-        this.nextTarget = nextTarget;
+        if (direction != Vector3.zero)
+        {
+            this.nextTarget = direction + transform.position;
+        }
     }
 
     public void SetPosition(Vector3 position)

@@ -43,10 +43,16 @@ public class TestNPCMovementPathFinding
         int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
         Util.PrintPath(path);
+        Debug.Log("Before: "+firstNPCController.GetPosition());
+        firstNPCController.SetPosition(gameGridController.GetCellPosition(new Vector3(1, 1, 1)));
         firstNPCController.AddPath(path);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
+        Debug.Log("After: "+firstNPCController.GetPosition());
+        Debug.Log(firstNPCController.GetPosition());
+
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
+
     }
 
     [UnityTest]
@@ -81,5 +87,16 @@ public class TestNPCMovementPathFinding
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
         gameGridController.FreeTestGridObstacles(5, 1, 15);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        Object.Destroy(firstNPCObject);
+        Object.Destroy(secondNPCObject);
+        Object.Destroy(firstNPCController);
+        Object.Destroy(secondNPCController);
+        Object.Destroy(gridObject);
+        Object.Destroy(gameGridController);
     }
 }

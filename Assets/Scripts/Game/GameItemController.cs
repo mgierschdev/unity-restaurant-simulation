@@ -39,12 +39,12 @@ public class GameItemController : MonoBehaviour, IGameObject
         position = new Vector3(x, y, 1);
     }
 
-    public void AddMovement(Vector3 direction)
+    public void AddMovement()
     {
         return;
     }
 
-    public void AddPath(List<Node> n)
+    public void AddMovement(Vector3 direction)
     {
         return;
     }

@@ -28,8 +28,8 @@ public class GameGridController : MonoBehaviour
 
     public void Start()
     {
-        int cellsX = (int)(Settings.GRID_WIDTH * cellSize);
-        int cellsY = (int)(Settings.GRID_HEIGHT * cellSize);
+        int cellsX = (int) Settings.GRID_WIDTH;
+        int cellsY = (int)(Settings.GRID_HEIGHT);
         width = cellsX;
         height = cellsY;
 
@@ -114,19 +114,6 @@ public class GameGridController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            // Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            // Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
-            // List<Node> path = GetPath(new int[] { 1, 1 }, new int[] { mousePositionVector.x, mousePositionVector.y });
-            // Debug.Log("Path found "+path.Count);
-
-            // for (int i = 1; i < path.Count; i++)
-            // {
-            //     Vector3 from = GetCellPosition(path[i - 1].GetX(), path[i - 1].GetY(), 1);
-            //     Vector3 to = GetCellPosition(path[i].GetX(), path[i].GetY(), 1);
-            //     // Click Map
-            //     // SetValue(Util.GetMouseInWorldPosition(), GetCellValueInGamePosition(mousePositionVector.x, mousePositionVector.y) + 10);
-            //     Debug.DrawLine(from, to, Color.magenta, 5f);
-            // }
         }
     }
 
@@ -190,19 +177,7 @@ public class GameGridController : MonoBehaviour
     // Updating Items on the grid
     public void UpdateObjectPosition(GameItemController obj)
     {
-        // if (!items.ContainsKey(obj))
-        // {
-        //     items.Add(obj, new Vector3(obj.GetX(), obj.GetY()));
-        // }
-        // else
-        // {
-        //     Vector3 prevPos = items.GetValueOrDefault(obj);
-        //     if (prevPos != obj.GetPosition())
-        //     {
-        //         FreeGridPosition(obj.GetX(), obj.GetY());
-        //         items[obj] = obj.GetPosition();
-        //     }
-        // }
+
         SetGridObstacle((int)obj.GetX(), (int)obj.GetY(), obj.GetType(), Color.black);
     }
 
@@ -217,6 +192,7 @@ public class GameGridController : MonoBehaviour
         return Util.GetXYInGameMap(mousePosition);
     }
 
+    // Gets the world cell value in Grid position
     public Vector3 GetCellPosition(Vector3 position)
     {
         return position * cellSize + originPosition;
