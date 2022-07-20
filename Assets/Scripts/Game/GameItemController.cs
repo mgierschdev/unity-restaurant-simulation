@@ -7,7 +7,7 @@ public class GameItemController : MonoBehaviour, IGameObject
 {
     private float x;
     private float y;
-    private float speed = 0;
+    private float speed;
     private Vector3 position;
     private GameGridController gameGrid;
     private GameItemController current;

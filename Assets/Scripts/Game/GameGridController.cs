@@ -8,8 +8,6 @@ using System.Collections.Generic;
 
 public class GameGridController : MonoBehaviour
 {
-    private int width;
-    private int height;
     private float cellSize = Settings.GRID_CELL_SIZE;
     private Vector3 cellOffset;
     private int[,] grid;
@@ -30,8 +28,6 @@ public class GameGridController : MonoBehaviour
     {
         int cellsX = (int) Settings.GRID_WIDTH;
         int cellsY = (int)(Settings.GRID_HEIGHT);
-        width = cellsX;
-        height = cellsY;
 
         grid = new int[cellsX, cellsY];
         //SetGridBoundaries();

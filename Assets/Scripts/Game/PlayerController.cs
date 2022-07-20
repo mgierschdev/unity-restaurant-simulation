@@ -17,11 +17,13 @@ public class PlayerController : MonoBehaviour, IGameObject
     private int x;
     private int y;
 
-    //Movement OnClick
+    //Movement OnClick, vars
     private Queue pendingMovementQueue;
     private Vector3 nextTarget;
     private Vector3 currentTargetPosition;
     private GameObject gameGridObject;
+
+    //MovingOnLongtouch(), Long click or touch vars
 
     private void Start()
     {
@@ -54,14 +56,15 @@ public class PlayerController : MonoBehaviour, IGameObject
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
         if (Input.anyKeyDown == true)
         {
+            Debug.Log("anyKeyDown - > ResetMovementQueue");
             ResetMovementQueue();
         }
 
         // Player Movement
         MouseOnClick();
 
-        // Player Moving on touch
-        MovingOntouch();
+        // Player Moving on long click/touch
+        MovingOnLongtouch();
 
         // Updating position in the Grid
         UpdatePosition();
@@ -89,20 +92,32 @@ public class PlayerController : MonoBehaviour, IGameObject
         }
     }
 
-    public void AddPath(List<Node> list){
+    public void AddPath(List<Node> list)
+    {
         Util.AddPath(list, gameGrid, pendingMovementQueue);
         AddMovement(); // To set the first target
     }
 
-    private void MovingOntouch()
+    private void MovingOnLongtouch()
     {
-        if (Input.touchCount > 0)
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            // Touch touch = Input.GetTouch(0); // 1,2,3,4 // 5 fingers
-            // Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
-            // touchPosition.z = 1;
-            // transform.position = touchPosition;
-            Debug.Log("Touching");
+            Vector3 mousePosition = Util.GetMouseInWorldPosition();
+            Vector3 delta = mousePosition - transform.position;
+            
+            float radians = Mathf.Atan2(delta.x, delta.y);
+            float degrees = radians * Mathf.Rad2Deg; 
+
+            // normalizing -180-180, 0-360
+            if(degrees < 0){
+                degrees += 360;
+            }
+
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.Log("Angle: "+ degrees +" direction "+Util.GetDirectionFromAngles(degrees));
+                Debug.DrawLine(transform.position, mousePosition, Color.blue);
+            }
         }
     }
 
