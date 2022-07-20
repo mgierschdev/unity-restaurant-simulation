@@ -24,11 +24,18 @@ public class PlayerController : MonoBehaviour, IGameObject
     private GameObject gameGridObject;
 
     //MovingOnLongtouch(), Long click or touch vars
+    private bool clicking;
+    private bool isLongClick;
+    private float clickingTime; // To keep the coung if longclick
+    private float longClickDuration = 3;
 
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
         gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
+        clickingTime = 0;
+        clicking = false;
+        isLongClick = false;
 
         if (gameGridObject != null)
         {
@@ -54,11 +61,6 @@ public class PlayerController : MonoBehaviour, IGameObject
 
         // In case of keyboard
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
-        if (Input.anyKeyDown == true)
-        {
-            Debug.Log("anyKeyDown - > ResetMovementQueue");
-            ResetMovementQueue();
-        }
 
         // Player Movement
         MouseOnClick();
@@ -100,31 +102,60 @@ public class PlayerController : MonoBehaviour, IGameObject
 
     private void MovingOnLongtouch()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        Debug.Log("clickingTime: " + clickingTime + " " + isLongClick);
+
+        // first click 
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector3 delta = mousePosition - transform.position;
-            
-            float radians = Mathf.Atan2(delta.x, delta.y);
-            float degrees = radians * Mathf.Rad2Deg; 
+            clickingTime = 0;
+            clicking = true;
 
-            // normalizing -180-180, 0-360
-            if(degrees < 0){
-                degrees += 360;
-            }
+        }
 
-            if (Settings.DEBUG_ENABLE)
+        if (clicking && Input.GetKey(KeyCode.Mouse0))
+        {
+            clickingTime += Time.deltaTime;
+
+            if (clickingTime >= longClickDuration)
             {
-                Debug.Log("Angle: "+ degrees +" direction "+Util.GetDirectionFromAngles(degrees));
-                Debug.DrawLine(transform.position, mousePosition, Color.blue);
+                ResetMovementQueue();
+                isLongClick = true;
+                Vector3 mousePosition = Util.GetMouseInWorldPosition();
+                Vector3 delta = mousePosition - transform.position;
+
+                float radians = Mathf.Atan2(delta.x, delta.y);
+                float degrees = radians * Mathf.Rad2Deg;
+
+                // normalizing -180-180, 0-360
+                if (degrees < 0)
+                {
+                    degrees += 360;
+                }
+
+                // No we add 1 move depending on the direction 
+
+                if (Settings.DEBUG_ENABLE)
+                {
+                    Debug.Log("Angle: " + degrees + " direction " + Util.GetDirectionFromAngles(degrees) + " " + isLongClick);
+                    Debug.DrawLine(transform.position, mousePosition, Color.blue);
+                }
             }
+            else
+            {
+                isLongClick = false;
+            }
+        }
+        else
+        {
+            clickingTime = 0;
+            isLongClick = false;
         }
     }
 
     private void MouseOnClick()
     {
         UpdateTargetMovement();
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isLongClick)
         {
             // If the player is moving, we change direction and empty the previous queue
             if (pendingMovementQueue.Count != 0)
@@ -176,6 +207,7 @@ public class PlayerController : MonoBehaviour, IGameObject
     // Resets the planned Path
     private void ResetMovementQueue()
     {
+        Debug.Log("Reseting queue ");
         nextTarget = Vector3.zero;
         pendingMovementQueue = new Queue();
     }
