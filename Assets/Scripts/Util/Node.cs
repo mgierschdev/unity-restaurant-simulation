@@ -39,6 +39,6 @@ public class Node
 
     public Vector3 GetVector3()
     {
-        return new Vector3(x, y, 1);
+        return new Vector3(x, y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 }

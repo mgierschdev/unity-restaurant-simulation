@@ -154,7 +154,7 @@ public class GameGridController : MonoBehaviour
     private Vector3 GetCellPosition(int x, int y)
     {
         Vector3 cellPosition = new Vector3(x, y) * cellSize + gridOriginPosition;
-        return new Vector3(cellPosition.x, cellPosition.y, 1);
+        return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     private void SetValue(Vector3 position, int value)
@@ -196,7 +196,7 @@ public class GameGridController : MonoBehaviour
     public Vector3 GetCellPosition(Vector3 position)
     {
         Vector3 cellPosition = position * cellSize + originPosition;
-        return new Vector3(cellPosition.x, cellPosition.y, 1);
+        return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     // This sets the obstacle points around the obstacle
