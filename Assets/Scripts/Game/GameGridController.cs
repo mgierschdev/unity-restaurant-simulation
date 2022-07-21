@@ -26,7 +26,7 @@ public class GameGridController : MonoBehaviour
 
     public void Start()
     {
-        int cellsX = (int) Settings.GRID_WIDTH;
+        int cellsX = (int)Settings.GRID_WIDTH;
         int cellsY = (int)(Settings.GRID_HEIGHT);
 
         grid = new int[cellsX, cellsY];
@@ -171,10 +171,18 @@ public class GameGridController : MonoBehaviour
     }
 
     // Updating Items on the grid
-    public void UpdateObjectPosition(GameItemController obj)
+    public void UpdateObjectPosition(GameItemController obj, int width, int height)
     {
+        int startX = (int)obj.GetX() - Mathf.FloorToInt(width / 2); // obj.GetX() == CenterX ,   CenterX - width / 2 
+        int startY = (int)obj.GetY() - Mathf.FloorToInt(height / 2); // obj.GetY() == CenterY ,   CenterY - width / 2 
 
-        SetGridObstacle((int)obj.GetX(), (int)obj.GetY(), obj.GetType(), Color.black);
+        for (int i = 0; i <= width; i++)
+        {
+            for (int j = 0; j <= height; j++)
+            {
+                SetGridObstacle(startX + i, startY + j, obj.GetType(), Color.black);
+            }
+        }
     }
 
     public void SetObstacleInPosition(int x, int y, ObjectType type)
@@ -195,7 +203,7 @@ public class GameGridController : MonoBehaviour
         return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
-    // This sets the obstacle points around the obstacle
+    // In GameMap/Grid coordinates This sets the obstacle points around the obstacle
     private void SetGridObstacle(int x, int y, ObjectType type, Color? color = null)
     {
         if (color == null)
