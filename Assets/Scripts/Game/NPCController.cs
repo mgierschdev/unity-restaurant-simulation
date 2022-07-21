@@ -13,6 +13,8 @@ public class NPCController : MonoBehaviour, IGameObject
     private EnergyBar energyBar;
     private GameGridController gameGrid;
     private float x;
+    private float startX;
+    private float startY;
     private float y;
     private Vector3 position;
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
@@ -25,10 +27,14 @@ public class NPCController : MonoBehaviour, IGameObject
     private Vector3 currentTargetPosition;
     private GameObject gameGridObject;
 
+    // Wander variables
+    private int distance = 5; //Cell units: How far you should wander from start position
+    private float idleTime = 0;
+    private float idleMaxTime = 3f; //in seconds
+
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
-
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
 
@@ -50,6 +56,9 @@ public class NPCController : MonoBehaviour, IGameObject
 
         //Update NPC initial position
         currentTargetPosition = transform.position;
+        UpdatePosition();
+        startX = x;
+        startY = y;
 
         // Energy Bar
         if (Settings.NPC_ENERGY_ENABLED)
@@ -87,6 +96,58 @@ public class NPCController : MonoBehaviour, IGameObject
         UpdateTargetMovement();
         // Updating position in the Grid
         UpdatePosition();
+
+        //Go an wander 
+        Wander();
+    }
+
+    private void Wander()
+    {
+
+        if (!IsMoving())
+        {
+            // we could add more random by deciding to move or not 
+            idleTime += Time.deltaTime;
+        }
+
+        if (!IsMoving() && idleTime >= idleMaxTime)
+        {
+            List<Node> path;
+            int randx;
+            int randy;
+            idleTime = 0;
+
+            // we send him back if he goes beyond the distance of the initial potition 
+            if (x > startX + distance * 2 || y > startY + distance * 2)
+            {
+                randx = Mathf.FloorToInt(Random.Range(0, distance) + startX / 2);
+                randy = Mathf.FloorToInt(Random.Range(0, distance) + startY / 2);
+                path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { randx, randy });
+            }
+            else
+            {
+                randx = Mathf.FloorToInt(Random.Range(0, distance) + x);
+                randy = Mathf.FloorToInt(Random.Range(0, distance) + y);
+
+                // It should be mostly free, if invalid it will return an empty path
+                path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { randx, randy });
+            }
+
+            AddPath(path);
+        }
+    }
+
+    private bool IsMoving()
+    {
+        if (pendingMovementQueue.Count == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
     }
 
     public void UpdateTargetMovement()
