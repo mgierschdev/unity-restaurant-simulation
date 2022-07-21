@@ -5,7 +5,7 @@ public static class Settings
     public const int DEBUG_TEXT_SIZE = 7;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
     // Player Display
-    public const float PLAYER_MOVEMENT_SPEED = 5f;
+    public const float PLAYER_MOVEMENT_SPEED = 1.8f;
     // PREFABS
     public const string PREFAB_PATH = "Resources";
     public const string PREFAB_PLAYER = "Player";
@@ -14,7 +14,7 @@ public static class Settings
     public const string PREFAB_GAME_GRID = "GameGrid";
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
-    public const float NPC_DEFAULT_MOVEMENT_SPEED = 10.3f; // Default 1.3
+    public const float NPC_DEFAULT_MOVEMENT_SPEED = 1.3f;
     public const float NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK = 0.3f;
     public const float NPC_DEFAULT_RECOVERY_TIME = 10;
     public const int NPC_DEFAULT_ENERGY = 100;

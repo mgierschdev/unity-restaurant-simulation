@@ -40,6 +40,10 @@ public static class Util
 
     public static void AddPath(List<Node> path, GameGridController gameGrid, Queue pendingMovementQueue)
     {
+        if(path.Count == 0){
+            return;
+        }
+
         pendingMovementQueue.Enqueue(gameGrid.GetCellPosition(path[0].GetVector3()));
 
         for (int i = 1; i < path.Count; i++)
