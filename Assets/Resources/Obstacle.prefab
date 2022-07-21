@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 8846061106536413428}
   - component: {fileID: 8954633019280694157}
   - component: {fileID: 8621226664277361302}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Obstacle
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,4 +141,4 @@ MonoBehaviour:
   - {x: 0.52008486, y: -0.52, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 55086
+  m_InstanceId: 50194

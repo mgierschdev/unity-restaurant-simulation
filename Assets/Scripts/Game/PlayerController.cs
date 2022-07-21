@@ -217,6 +217,7 @@ public class PlayerController : MonoBehaviour, IGameObject
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        Debug.LogWarning("Colliding");
         // In case of collading stop moving
         ResetMovementQueue();
     }
