@@ -112,7 +112,6 @@ public class PlayerController : MonoBehaviour, IGameObject
             }
         }
 
-
         if (nextTarget != Vector3.zero)
         {
             currentTargetPosition = nextTarget;

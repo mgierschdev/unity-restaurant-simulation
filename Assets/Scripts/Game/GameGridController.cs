@@ -100,7 +100,7 @@ public class GameGridController : MonoBehaviour
     private void MouseHeatMap()
     {
         Vector2Int mouseInGame = GetMousePositionInGame();
-        if (IsInsideGridLimit(mouseInGame.x, mouseInGame.y))
+        if (IsCoordsValid(mouseInGame.x, mouseInGame.y))
         {
             SetValue(Util.GetMouseInWorldPosition(), GetCellValueInGamePosition(mouseInGame.x, mouseInGame.y) + (int)(100 * Time.deltaTime));
         }
@@ -115,7 +115,7 @@ public class GameGridController : MonoBehaviour
 
     private void SetValue(int x, int y, int value)
     {
-        if (!IsInsideGridLimit(x, y))
+        if (!IsCoordsValid(x, y))
         {
             return;
         }
@@ -125,7 +125,7 @@ public class GameGridController : MonoBehaviour
 
     private int GetCellValueInGamePosition(int x, int y)
     {
-        if (!IsInsideGridLimit(x, y))
+        if (!IsCoordsValid(x, y))
         {
             Debug.LogError("The GetCellValueInGamePosition is outside boundaries");
             throw new Exception();
@@ -159,7 +159,7 @@ public class GameGridController : MonoBehaviour
         SetValue(pos.x, pos.y, value);
     }
 
-    private bool IsInsideGridLimit(float x, float y)
+    private bool IsCoordsValid(float x, float y)
     {
         return (x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1));
     }
@@ -211,7 +211,7 @@ public class GameGridController : MonoBehaviour
             color = Color.blue;
         }
 
-        if (!IsInsideGridLimit(x, y) && x > 1 && y > 1)
+        if (!IsCoordsValid(x, y) && x > 1 && y > 1)
         {
             Debug.LogError("The object should be placed inside the perimeter");
             return;
@@ -275,7 +275,7 @@ public class GameGridController : MonoBehaviour
     // Unset position in Grid
     public void FreeGridPosition(int x, int y)
     {
-        if (!IsInsideGridLimit(x, y) && x > 1 && y > 1)
+        if (!IsCoordsValid(x, y) && x > 1 && y > 1)
         {
             Debug.LogWarning("The object should be placed inside the perimeter");
             return;
@@ -291,5 +291,13 @@ public class GameGridController : MonoBehaviour
     public List<Node> GetPath(int[] start, int[] end)
     {
         return pathFind.Find(start, end, grid);
+    }
+
+    // in Grid/InGame coords
+    public Boolean IsCellBusy(int x, int y){
+        if(!IsCoordsValid(x, y)){
+            return false;
+        }
+        return grid[x, y] != 0;
     }
 }
