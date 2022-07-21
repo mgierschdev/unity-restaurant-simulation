@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour, IGameObject
     private bool clicking;
     private bool isLongClick;
     private float clickingTime; // To keep the coung if longclick
-    private float longClickDuration = 3;
+    private float longClickDuration = 0.5f; // In seconds
 
     private void Start()
     {
@@ -62,6 +62,12 @@ public class PlayerController : MonoBehaviour, IGameObject
         // In case of keyboard
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
 
+        // Controls the state of the first and long click
+        ClickControl();
+
+        // Moves the character depending on the pendingQueue and next target
+        UpdateTargetMovement();
+
         // Player Movement
         MouseOnClick();
 
@@ -72,11 +78,30 @@ public class PlayerController : MonoBehaviour, IGameObject
         UpdatePosition();
     }
 
+    private void ClickControl()
+    {
+        // first click 
+        if (Input.GetMouseButtonDown(0))
+        {
+            clickingTime = 0;
+            clicking = true;
+        }
+
+        // Resets isLongClick
+        if (isLongClick && clickingTime < longClickDuration)
+        {
+            isLongClick = false;
+        }
+    }
+
     private void UpdateTargetMovement()
     {
+
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
             nextTarget = Vector3.zero;
+            currentTargetPosition = Vector3.zero;
+
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
@@ -86,6 +111,7 @@ public class PlayerController : MonoBehaviour, IGameObject
                 // Target Reached
             }
         }
+
 
         if (nextTarget != Vector3.zero)
         {
@@ -102,23 +128,12 @@ public class PlayerController : MonoBehaviour, IGameObject
 
     private void MovingOnLongtouch()
     {
-        Debug.Log("clickingTime: " + clickingTime + " " + isLongClick);
-
-        // first click 
-        if (Input.GetMouseButtonDown(0))
-        {
-            clickingTime = 0;
-            clicking = true;
-
-        }
-
         if (clicking && Input.GetKey(KeyCode.Mouse0))
         {
             clickingTime += Time.deltaTime;
 
             if (clickingTime >= longClickDuration)
             {
-                ResetMovementQueue();
                 isLongClick = true;
                 Vector3 mousePosition = Util.GetMouseInWorldPosition();
                 Vector3 delta = mousePosition - transform.position;
@@ -132,29 +147,18 @@ public class PlayerController : MonoBehaviour, IGameObject
                     degrees += 360;
                 }
 
-                // No we add 1 move depending on the direction 
+                AddMovement(Util.GetVectorFromDirection(Util.GetDirectionFromAngles(degrees)));
 
                 if (Settings.DEBUG_ENABLE)
                 {
-                    Debug.Log("Angle: " + degrees + " direction " + Util.GetDirectionFromAngles(degrees) + " " + isLongClick);
                     Debug.DrawLine(transform.position, mousePosition, Color.blue);
                 }
             }
-            else
-            {
-                isLongClick = false;
-            }
-        }
-        else
-        {
-            clickingTime = 0;
-            isLongClick = false;
         }
     }
 
     private void MouseOnClick()
     {
-        UpdateTargetMovement();
         if (Input.GetMouseButtonDown(0) && !isLongClick)
         {
             // If the player is moving, we change direction and empty the previous queue
@@ -183,7 +187,7 @@ public class PlayerController : MonoBehaviour, IGameObject
         }
 
         Vector3 direction = (Vector3)pendingMovementQueue.Dequeue();
-        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);//gameGrid.GetCellPosition(transform.position + direction) ;
+        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
         this.nextTarget = nextTarget;
     }
 
@@ -207,7 +211,6 @@ public class PlayerController : MonoBehaviour, IGameObject
     // Resets the planned Path
     private void ResetMovementQueue()
     {
-        Debug.Log("Reseting queue ");
         nextTarget = Vector3.zero;
         pendingMovementQueue = new Queue();
     }
