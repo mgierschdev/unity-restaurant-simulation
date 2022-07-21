@@ -23,7 +23,7 @@ public class TestPlayerMovementPathFinding
         playerObject.transform.SetParent(gridObject.transform);
         playerController = playerObject.GetComponent<PlayerController>();
         playerController.SetTestGameGridController(gameGridController);
-        playerController.SetSpeed(100);
+        playerController.Speed = 100;
     }
 
     [UnityTest]

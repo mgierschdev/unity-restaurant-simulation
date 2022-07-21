@@ -173,14 +173,14 @@ public class GameGridController : MonoBehaviour
     // Updating Items on the grid
     public void UpdateObjectPosition(GameItemController obj, int width, int height)
     {
-        int startX = (int)obj.GetX() - Mathf.FloorToInt(width / 2); // obj.GetX() == CenterX ,   CenterX - width / 2 
-        int startY = (int)obj.GetY() - Mathf.FloorToInt(height / 2); // obj.GetY() == CenterY ,   CenterY - width / 2 
+        int startX = (int)obj.X - Mathf.FloorToInt(width / 2); // obj.GetX() == CenterX ,   CenterX - width / 2 
+        int startY = (int)obj.Y - Mathf.FloorToInt(height / 2); // obj.GetY() == CenterY ,   CenterY - width / 2 
 
         for (int i = 0; i <= width; i++)
         {
             for (int j = 0; j <= height; j++)
             {
-                SetGridObstacle(startX + i, startY + j, obj.GetType(), Color.black);
+                SetGridObstacle(startX + i, startY + j, obj.Type, Color.black);
             }
         }
     }

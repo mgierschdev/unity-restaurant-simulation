@@ -3,13 +3,13 @@ using UnityEngine;
 using System.Collections.Generic;
 
 // Class attached to all static in Game items
-public class GameItemController : MonoBehaviour, IGameObject
+public class GameItemController : MonoBehaviour
 {
-    private float x;
-    private float y;
+    public float X { get; set; }
+    public float Y { get; set; }
+    public ObjectType Type { get; set; }
     private int width;
     private int height;
-    private float speed;
     private Vector3 position;
     private GameGridController gameGrid;
     private GameItemController current;
@@ -19,6 +19,7 @@ public class GameItemController : MonoBehaviour, IGameObject
     void Start()
     {
         current = GetComponent<GameItemController>();
+        Type = ObjectType.OBSTACLE;
         // Getting game grid
         gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
 
@@ -28,7 +29,7 @@ public class GameItemController : MonoBehaviour, IGameObject
 
             UpdatePositionInGrid();
             SetObjectSize();
-            
+
             // The SetObjectSize has to be setted before calling the grid
             gameGrid.UpdateObjectPosition(current, width, height);
         }
@@ -50,19 +51,9 @@ public class GameItemController : MonoBehaviour, IGameObject
     private void UpdatePositionInGrid()
     {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
-        x = pos.x;
-        y = pos.y;
-        position = new Vector3(x, y, Settings.DEFAULT_GAME_OBJECTS_Z);
-    }
-
-    public void AddMovement()
-    {
-        return;
-    }
-
-    public void AddMovement(Vector3 direction)
-    {
-        return;
+        X = pos.x;
+        Y = pos.y;
+        position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     public void SetTestGameGridController(GameGridController controller)
@@ -70,33 +61,8 @@ public class GameItemController : MonoBehaviour, IGameObject
         this.gameGrid = controller;
     }
 
-    public float GetX()
-    {
-        return x;
-    }
-
-    public float GetY()
-    {
-        return y;
-    }
-
-    public ObjectType GetType()
-    {
-        return ObjectType.OBSTACLE;
-    }
-
-    public Vector3 GetPosition()
-    {
-        return position;
-    }
-
     public float[] GetPositionAsArray()
     {
         return new float[] { position.x, position.y };
-    }
-
-    public void SetSpeed(float speed)
-    {
-        this.speed = speed;
     }
 }
