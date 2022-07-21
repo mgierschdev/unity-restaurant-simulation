@@ -36,14 +36,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("NPCController.cs/gameGridObject null");
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.LogWarning("NPCController.cs/gameGridObject null");
+            }
         }
 
         // Movement Queue
         nextTarget = Vector3.zero;
         pendingMovementQueue = new Queue();
 
-         //Update NPC initial position
+        //Update NPC initial position
         currentTargetPosition = transform.position;
         UpdatePosition();
     }
@@ -54,6 +57,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
             Debug.Log("UpdateTargetMovement / " + currentTargetPosition + " " + transform.position);
+            
             nextTarget = Vector3.zero;
             currentTargetPosition = Vector3.zero;
 
@@ -69,7 +73,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (nextTarget != Vector3.zero)
         {
+
             Debug.Log("UpdateTargetMovement /nextTarget " + nextTarget);
+            
             currentTargetPosition = nextTarget;
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
         }
@@ -125,7 +131,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.LogWarning("Colliding " + other.GetType());
+        if (Settings.DEBUG_ENABLE)
+        {
+            Debug.LogWarning("Colliding " + other.GetType());
+        }
     }
 
     public float[] GetPositionAsArray()
