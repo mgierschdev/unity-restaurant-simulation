@@ -25,14 +25,14 @@ public class TestNPCMovementPathFinding
         firstNPCObject.transform.SetParent(gridObject.transform);
         firstNPCController = firstNPCObject.GetComponent<NPCController>();
         firstNPCController.SetTestGameGridController(gameGridController);
-        firstNPCController.SetSpeed(100);
+        firstNPCController.Speed = 100;
         // Second NPC
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
         secondNPCObject.transform.SetParent(gridObject.transform);
         secondNPCController = secondNPCObject.GetComponent<NPCController>();
         secondNPCController.SetTestGameGridController(gameGridController);
-        secondNPCController.SetSpeed(100);
+        secondNPCController.Speed = 100;
     }
 
 
@@ -43,12 +43,12 @@ public class TestNPCMovementPathFinding
         int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
         Util.PrintPath(path);
-        Debug.Log("Before: "+firstNPCController.GetPosition());
-        firstNPCController.SetPosition(gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)));
+        Debug.Log("Before: "+firstNPCController.Position);
+        firstNPCController.Position = gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z));
         firstNPCController.AddPath(path);
         yield return new WaitForSeconds(1f);
-        Debug.Log("After: "+firstNPCController.GetPosition());
-        Debug.Log(firstNPCController.GetPosition());
+        Debug.Log("After: "+firstNPCController.Position);
+        Debug.Log(firstNPCController.Position);
 
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);

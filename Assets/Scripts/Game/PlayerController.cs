@@ -4,25 +4,8 @@ using System.Collections.Generic;
 
 // Controls player properties
 // Attached to: Player Object
-public class PlayerController : MonoBehaviour, IGameObject
+public class PlayerController : GameObjectMovementBase
 {
-
-    private ObjectType type = ObjectType.PLAYER;
-    [SerializeField]
-    private float speed = Settings.PLAYER_MOVEMENT_SPEED;
-    private Vector2 movement;
-    private Vector3 position;
-    private Rigidbody2D body;
-    private GameGridController gameGrid;
-    private int x;
-    private int y;
-
-    //Movement OnClick, vars
-    private Queue pendingMovementQueue;
-    private Vector3 nextTarget;
-    private Vector3 currentTargetPosition;
-    private GameObject gameGridObject;
-
     //MovingOnLongtouch(), Long click or touch vars
     private bool clicking;
     private bool isLongClick;
@@ -31,27 +14,12 @@ public class PlayerController : MonoBehaviour, IGameObject
 
     private void Start()
     {
-        body = GetComponent<Rigidbody2D>();
-        gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
+        Type = ObjectType.PLAYER;
+        Speed = Settings.PLAYER_MOVEMENT_SPEED;
+        // Long Click
         clickingTime = 0;
         clicking = false;
         isLongClick = false;
-
-        if (gameGridObject != null)
-        {
-            gameGrid = gameGridObject.GetComponent<GameGridController>();
-        }
-        else
-        {
-            Debug.LogWarning("PlayerController.cs/gameGridObject null");
-        }
-
-        // Movement Queue
-        nextTarget = Vector3.zero;
-        pendingMovementQueue = new Queue();
-
-        //Update NPC initial position
-        currentTargetPosition = transform.position;
     }
 
     private void Update()
@@ -60,7 +28,7 @@ public class PlayerController : MonoBehaviour, IGameObject
         body.rotation = 0;
 
         // In case of keyboard
-        body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
+        body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * Speed;
 
         // Controls the state of the first and long click
         ClickControl();
@@ -92,37 +60,6 @@ public class PlayerController : MonoBehaviour, IGameObject
         {
             isLongClick = false;
         }
-    }
-
-    private void UpdateTargetMovement()
-    {
-
-        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
-        {
-            nextTarget = Vector3.zero;
-            currentTargetPosition = Vector3.zero;
-
-            if (pendingMovementQueue.Count != 0)
-            {
-                AddMovement();
-            }
-            else
-            {
-                // Target Reached
-            }
-        }
-
-        if (nextTarget != Vector3.zero)
-        {
-            currentTargetPosition = nextTarget;
-            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
-        }
-    }
-
-    public void AddPath(List<Node> list)
-    {
-        Util.AddPath(list, gameGrid, pendingMovementQueue);
-        AddMovement(); // To set the first target
     }
 
     private void MovingOnLongtouch()
@@ -166,7 +103,7 @@ public class PlayerController : MonoBehaviour, IGameObject
 
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
-            List<Node> path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { mousePositionVector.x, mousePositionVector.y });
+            List<Node> path = gameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { mousePositionVector.x, mousePositionVector.y });
             Util.AddPath(path, gameGrid, pendingMovementQueue);
 
             if (pendingMovementQueue.Count != 0)
@@ -174,93 +111,5 @@ public class PlayerController : MonoBehaviour, IGameObject
                 AddMovement();
             }
         }
-    }
-
-    public void AddMovement()
-    {
-        if (pendingMovementQueue.Count == 0)
-        {
-            return;
-        }
-
-        Vector3 direction = (Vector3)pendingMovementQueue.Dequeue();
-        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-        this.nextTarget = nextTarget;
-    }
-
-    public void AddMovement(Vector3 direction)
-    {
-        if (direction != Vector3.zero)
-        {
-            Vector3 newDirection = direction + transform.position;
-            this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-        }
-    }
-
-    private void UpdatePosition()
-    {
-        Vector2Int pos = Util.GetXYInGameMap(transform.position);
-        x = pos.x;
-        y = pos.y;
-        position = new Vector3(x, y, Settings.DEFAULT_GAME_OBJECTS_Z);
-    }
-
-    private void ResetMovementIfMoving()
-    {
-        // If the player is moving, we change direction and empty the previous queue
-        if (pendingMovementQueue.Count != 0)
-        {
-            ResetMovementQueue();
-        }
-    }
-
-    // Resets the planned Path
-    private void ResetMovementQueue()
-    {
-        nextTarget = Vector3.zero;
-        pendingMovementQueue = new Queue();
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        Debug.LogWarning("Colliding");
-        // In case of collading stop moving
-        // ResetMovementQueue();
-    }
-
-    public float GetX()
-    {
-        return x;
-    }
-
-    public float GetY()
-    {
-        return y;
-    }
-
-    public Vector3 GetPosition()
-    {
-        return position;
-    }
-
-    public float[] GetPositionAsArray()
-    {
-        return new float[] { position.x, position.y };
-    }
-
-    // Only for unit testing
-    public void SetTestGameGridController(GameGridController controller)
-    {
-        this.gameGrid = controller;
-    }
-
-    public void SetSpeed(float speed)
-    {
-        this.speed = speed;
-    }
-
-    public ObjectType GetType()
-    {
-        return type;
     }
 }

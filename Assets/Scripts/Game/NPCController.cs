@@ -4,28 +4,14 @@ using UnityEngine;
 
 // Controls NPCs players
 // Attached to: NPC Objects
-public class NPCController : MonoBehaviour, IGameObject
+public class NPCController : GameObjectMovementBase
 {
-    private Rigidbody2D body;
-
-    [SerializeField]
-    private Vector3 velocity;
+    public Vector3 Velocity { get; set; }
     private EnergyBar energyBar;
-    private GameGridController gameGrid;
-    private float x;
+
     private float startX;
     private float startY;
-    private float y;
-    private Vector3 position;
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
-    private float speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
-    private ObjectType type = ObjectType.NPC;
-
-    //Movement Variables, in case commanded to move to a direction
-    private Vector3 nextTarget;
-    private Queue pendingMovementQueue;
-    private Vector3 currentTargetPosition;
-    private GameObject gameGridObject;
 
     // Wander variables
     private int distance = 5; //Cell units: How far you should wander from start position
@@ -34,32 +20,15 @@ public class NPCController : MonoBehaviour, IGameObject
 
     private void Start()
     {
-        body = GetComponent<Rigidbody2D>();
+        //  body = GetComponent<Rigidbody2D>();
+        Type = ObjectType.NPC;
+        Speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
+
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
-
-        // Game Grid
-        gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
-
-        if (gameGridObject != null)
-        {
-            gameGrid = gameGridObject.GetComponent<GameGridController>();
-        }
-        else
-        {
-            Debug.LogWarning("NPCController.cs/gameGridObject null");
-        }
-
-        // Movement Queue
-        nextTarget = Vector3.zero;
-        pendingMovementQueue = new Queue();
-
-        //Update NPC initial position
-        currentTargetPosition = transform.position;
-        UpdatePosition();
-        startX = x;
-        startY = y;
-
+        // Wandering 
+        startX = X;
+        startY = Y;
         // Energy Bar
         if (Settings.NPC_ENERGY_ENABLED)
         {
@@ -118,70 +87,23 @@ public class NPCController : MonoBehaviour, IGameObject
             idleTime = 0;
 
             // we send him back if he goes beyond the distance of the initial potition 
-            if (x > startX + distance * 2 || y > startY + distance * 2)
+            if (X > startX + distance * 2 || Y > startY + distance * 2)
             {
                 randx = Mathf.FloorToInt(Random.Range(0, distance) + startX / 2);
                 randy = Mathf.FloorToInt(Random.Range(0, distance) + startY / 2);
-                path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { randx, randy });
+                path = gameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
             }
             else
             {
-                randx = Mathf.FloorToInt(Random.Range(0, distance) + x);
-                randy = Mathf.FloorToInt(Random.Range(0, distance) + y);
+                randx = Mathf.FloorToInt(Random.Range(0, distance) + X);
+                randy = Mathf.FloorToInt(Random.Range(0, distance) + Y);
 
                 // It should be mostly free, if invalid it will return an empty path
-                path = gameGrid.GetPath(new int[] { (int)x, (int)y }, new int[] { randx, randy });
+                path = gameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
             }
 
             AddPath(path);
         }
-    }
-
-    private bool IsMoving()
-    {
-        if (pendingMovementQueue.Count == 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-
-    }
-
-    public void UpdateTargetMovement()
-    {
-        // Handling player movement through a queue
-        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
-        {
-            nextTarget = Vector3.zero;
-            if (pendingMovementQueue.Count != 0)
-            {
-                AddMovement();
-            }
-            else
-            {
-                // Target Reached
-            }
-        }
-
-        if (nextTarget != Vector3.zero)
-        {
-            currentTargetPosition = nextTarget;
-            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.deltaTime);
-        }
-        // Handling player movement through a queue
-    }
-
-    public void AddPath(List<Node> list)
-    {
-        Util.AddPath(list, gameGrid, pendingMovementQueue);
-        AddMovement(); // To set the first target
-    }
-
-    private void OnMouseDown()
-    {
     }
 
     private void ActivateEnergyBar()
@@ -197,79 +119,5 @@ public class NPCController : MonoBehaviour, IGameObject
     private EnergyBar GetEnergyBar()
     {
         return this.energyBar;
-    }
-
-    private Vector3 GetVelocity()
-    {
-        return this.velocity;
-    }
-
-    private void UpdatePosition()
-    {
-        Vector2Int pos = Util.GetXYInGameMap(transform.position);
-        x = pos.x;
-        y = pos.y;
-        position = new Vector3(x, y, Settings.DEFAULT_GAME_OBJECTS_Z);
-    }
-
-    public void AddMovement()
-    {
-        if (pendingMovementQueue.Count == 0)
-        {
-            return;
-        }
-        Vector3 direction = (Vector3)pendingMovementQueue.Dequeue();
-        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);//gameGrid.GetCellPosition(transform.position + direction) ;
-        this.nextTarget = nextTarget;
-    }
-
-    public void AddMovement(Vector3 direction)
-    {
-        if (direction != Vector3.zero)
-        {
-            Vector3 newDirection = direction + transform.position;
-            this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-        }
-    }
-
-    public void SetPosition(Vector3 position)
-    {
-        transform.position = position;
-    }
-
-    public void SetSpeed(float speed)
-    {
-        this.speed = speed;
-    }
-
-    // Only for unit testing
-    public void SetTestGameGridController(GameGridController controller)
-    {
-        this.gameGrid = controller;
-    }
-
-    public float GetX()
-    {
-        return x;
-    }
-
-    public float GetY()
-    {
-        return y;
-    }
-
-    public ObjectType GetType()
-    {
-        return type;
-    }
-
-    public Vector3 GetPosition()
-    {
-        return position;
-    }
-
-    public float[] GetPositionAsArray()
-    {
-        return new float[] { position.x, position.y };
     }
 }
