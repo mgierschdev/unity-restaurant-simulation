@@ -134,6 +134,8 @@ public class PlayerController : MonoBehaviour, IGameObject
 
             if (clickingTime >= longClickDuration)
             {
+                ResetMovementIfMoving();
+
                 isLongClick = true;
                 Vector3 mousePosition = Util.GetMouseInWorldPosition();
                 Vector3 delta = mousePosition - transform.position;
@@ -161,11 +163,7 @@ public class PlayerController : MonoBehaviour, IGameObject
     {
         if (Input.GetMouseButtonDown(0) && !isLongClick)
         {
-            // If the player is moving, we change direction and empty the previous queue
-            if (pendingMovementQueue.Count != 0)
-            {
-                ResetMovementQueue();
-            }
+            ResetMovementIfMoving();
 
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
@@ -208,6 +206,15 @@ public class PlayerController : MonoBehaviour, IGameObject
         position = new Vector3(x, y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
+    private void ResetMovementIfMoving()
+    {
+        // If the player is moving, we change direction and empty the previous queue
+        if (pendingMovementQueue.Count != 0)
+        {
+            ResetMovementQueue();
+        }
+    }
+
     // Resets the planned Path
     private void ResetMovementQueue()
     {
@@ -219,7 +226,7 @@ public class PlayerController : MonoBehaviour, IGameObject
     {
         Debug.LogWarning("Colliding");
         // In case of collading stop moving
-        ResetMovementQueue();
+        // ResetMovementQueue();
     }
 
     public float GetX()
