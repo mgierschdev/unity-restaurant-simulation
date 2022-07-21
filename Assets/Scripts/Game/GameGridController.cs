@@ -30,7 +30,6 @@ public class GameGridController : MonoBehaviour
         int cellsY = (int)(Settings.GRID_HEIGHT);
 
         grid = new int[cellsX, cellsY];
-        //SetGridBoundaries();
         pathFind = new PathFind();
         cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
         textOffset = new Vector3(cellSize, cellSize) * cellSize / 3;
@@ -127,7 +126,10 @@ public class GameGridController : MonoBehaviour
     {
         if (!IsCoordsValid(x, y))
         {
-            Debug.LogError("The GetCellValueInGamePosition is outside boundaries");
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.LogError("The GetCellValueInGamePosition is outside boundaries");
+            }
             throw new Exception();
             return -1;
         }
@@ -213,7 +215,11 @@ public class GameGridController : MonoBehaviour
 
         if (!IsCoordsValid(x, y) && x > 1 && y > 1)
         {
-            Debug.LogError("The object should be placed inside the perimeter");
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.LogError("The object should be placed inside the perimeter");
+            }
+
             return;
         }
 
@@ -258,7 +264,10 @@ public class GameGridController : MonoBehaviour
     {
         if (x1 == 1 || x1 > x2)
         {
-            Debug.LogWarning("Set obstacles properly");
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.LogError("Set obstacles properly");
+            }
             return;
         }
 
@@ -277,7 +286,10 @@ public class GameGridController : MonoBehaviour
     {
         if (!IsCoordsValid(x, y) && x > 1 && y > 1)
         {
-            Debug.LogWarning("The object should be placed inside the perimeter");
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.LogError("The object should be placed inside the perimeter");
+            }
             return;
         }
 
@@ -294,8 +306,10 @@ public class GameGridController : MonoBehaviour
     }
 
     // in Grid/InGame coords
-    public Boolean IsCellBusy(int x, int y){
-        if(!IsCoordsValid(x, y)){
+    public Boolean IsCellBusy(int x, int y)
+    {
+        if (!IsCoordsValid(x, y))
+        {
             return false;
         }
         return grid[x, y] != 0;

@@ -35,7 +35,10 @@ public class GameItemController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("GameItemController.cs/gameGridObject null");
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.LogError("GameItemController.cs/gameGridObject null");
+            }
         }
     }
 
