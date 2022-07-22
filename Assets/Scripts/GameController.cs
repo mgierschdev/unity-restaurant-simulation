@@ -14,9 +14,7 @@ public class GameController : MonoBehaviour
         GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(new Vector3(22, 30, 1)), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
         npcObject.name = Settings.PREFAB_NPC;
-        NPCController npcController = npcObject.GetComponent<NPCController>();
-        npcController.WanderOn = true;
-
-       // PlayerController playerController =  GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER).gameObject.GetComponent<PlayerController>();
+        // NPCController npcController = npcObject.GetComponent<NPCController>();
+        // PlayerController playerController =  GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER).gameObject.GetComponent<PlayerController>();
     }
 }
