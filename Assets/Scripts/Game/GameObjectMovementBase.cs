@@ -10,12 +10,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public int Y { get; set; }
     public ObjectType Type { get; set; }
     public float Speed { get; set; }
-    public Vector3 Position { get; set; }
+    public Vector3 Position { get; set; } // Position in game map/ grid  GetXYInGameMap
+    public GameGridController GameGrid { get; set; }
 
     // Movement 
     protected Vector2 movement;
     protected Rigidbody2D body;
-    protected GameGridController gameGrid;
 
     //Movement Queue
     protected Queue pendingMovementQueue;
@@ -32,7 +32,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (gameGridObject != null)
         {
-            gameGrid = gameGridObject.GetComponent<GameGridController>();
+            GameGrid = gameGridObject.GetComponent<GameGridController>();
         }
         else
         {
@@ -56,8 +56,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
-            Debug.Log("UpdateTargetMovement / " + currentTargetPosition + " " + transform.position);
-            
+            //Debug.Log("UpdateTargetMovement / " + currentTargetPosition + " " + transform.position);
+
             nextTarget = Vector3.zero;
             currentTargetPosition = Vector3.zero;
 
@@ -73,9 +73,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (nextTarget != Vector3.zero)
         {
+            Debug.Log("Moving " + nextTarget);
 
-            Debug.Log("UpdateTargetMovement /nextTarget " + nextTarget);
-            
+            // Debug.Log("UpdateTargetMovement /nextTarget " + nextTarget);
+
             currentTargetPosition = nextTarget;
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
         }
@@ -91,6 +92,15 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Vector3 direction = (Vector3)pendingMovementQueue.Dequeue();
         Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
         this.nextTarget = nextTarget;
+    }
+
+    public void AddMovement(Vector3 direction)
+    {
+        if (direction != Util.GetVectorFromDirection(MoveDirection.IDLE))
+        {
+            Vector3 newDirection = direction + transform.position;
+            this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        }
     }
 
     protected void UpdatePosition()
@@ -142,25 +152,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return new float[] { Position.x, Position.y };
     }
 
-    // Only for unit testing
-    public void SetTestGameGridController(GameGridController controller)
-    {
-        this.gameGrid = controller;
-    }
-
-    public void AddMovement(Vector3 direction)
-    {
-        if (direction != Vector3.zero)
-        {
-            Debug.Log("Adding movement " + direction);
-            Vector3 newDirection = direction + transform.position;
-            this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-        }
-    }
-
     public void AddPath(List<Node> list)
     {
-        Util.AddPath(list, gameGrid, pendingMovementQueue);
+        Util.AddPath(list, GameGrid, pendingMovementQueue);
         AddMovement(); // To set the first target
     }
 }

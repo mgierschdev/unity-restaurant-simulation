@@ -7,6 +7,7 @@ using UnityEngine;
 public class NPCController : GameObjectMovementBase
 {
     public Vector3 Velocity { get; set; }
+    public bool WanderOn { get; set; }
     private EnergyBar energyBar;
 
     private float startX;
@@ -23,6 +24,7 @@ public class NPCController : GameObjectMovementBase
         //  body = GetComponent<Rigidbody2D>();
         Type = ObjectType.NPC;
         Speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
+        WanderOn = false;
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
@@ -67,7 +69,10 @@ public class NPCController : GameObjectMovementBase
         UpdatePosition();
 
         //Go an wander 
-        Wander();
+        if (WanderOn)
+        {
+            Wander();
+        }
     }
 
     private void Wander()
@@ -91,7 +96,7 @@ public class NPCController : GameObjectMovementBase
             {
                 randx = Mathf.FloorToInt(Random.Range(0, distance) + startX / 2);
                 randy = Mathf.FloorToInt(Random.Range(0, distance) + startY / 2);
-                path = gameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
+                path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
             }
             else
             {
@@ -99,7 +104,7 @@ public class NPCController : GameObjectMovementBase
                 randy = Mathf.FloorToInt(Random.Range(0, distance) + Y);
 
                 // It should be mostly free, if invalid it will return an empty path
-                path = gameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
+                path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
             }
 
             AddPath(path);

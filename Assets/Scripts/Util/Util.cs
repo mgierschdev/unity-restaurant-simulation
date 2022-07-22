@@ -164,7 +164,7 @@ public static class Util
     public static Vector3 GetVectorFromDirection(MoveDirection d)
     {
         //in case it is MoveDirection.IDLE do nothing
-        Vector3 dir = new Vector3();
+        Vector3 dir = new Vector3(0, 0);
 
         if (d == MoveDirection.LEFT)
         {
