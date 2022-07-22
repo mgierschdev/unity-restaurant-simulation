@@ -53,12 +53,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdateTargetMovement()
     {
-        //  Debug.Log(currentTargetPosition +" "+transform.position);
-
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
-            Debug.Log("UpdateTargetMovement / " + currentTargetPosition + " " + transform.position);
-
             nextTarget = Vector3.zero;
             currentTargetPosition = Vector3.zero;
 
