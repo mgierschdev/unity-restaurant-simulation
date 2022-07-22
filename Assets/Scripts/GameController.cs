@@ -1,20 +1,40 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 // This class in charge of loading the game and prefabs
 // the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour
 {
+    private List<NPCController> npcList;
+    private bool enable;
+
     void Start()
     {
+        npcList = new List<NPCController>();
+        enable = false;
+
         // Getting grid object
         GameObject gameGridObject = gameObject.transform.Find(Settings.PREFAB_GAME_GRID).gameObject;
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
 
-        // Adding NPC object
-        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(new Vector3(22, 30, 1)), Quaternion.identity) as GameObject;
-        npcObject.transform.SetParent(gameObject.transform);
-        npcObject.name = Settings.PREFAB_NPC;
-        // NPCController npcController = npcObject.GetComponent<NPCController>();
-        // PlayerController playerController =  GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER).gameObject.GetComponent<PlayerController>();
+        for(int i = 0; i < 5; i++){
+            // Adding NPC object
+            GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(new Vector3(22, 30, 1)), Quaternion.identity) as GameObject;
+            npcObject.transform.SetParent(gameObject.transform);
+            npcObject.name = Settings.PREFAB_NPC;
+            npcList.Add(npcObject.GetComponent<NPCController>());
+        }
+   }
+
+
+    
+    void Update(){
+        // we execute only once
+        if(!enable){
+            foreach(NPCController n in npcList){
+                n.state = NPCState.WANDER;
+            }
+        }
+
     }
+
 }

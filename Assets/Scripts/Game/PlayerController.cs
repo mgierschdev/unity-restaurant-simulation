@@ -6,6 +6,7 @@ using System.Collections.Generic;
 // Attached to: Player Object
 public class PlayerController : GameObjectMovementBase
 {
+    
     //MovingOnLongtouch(), Long click or touch vars
     private bool clicking;
     private bool isLongClick;

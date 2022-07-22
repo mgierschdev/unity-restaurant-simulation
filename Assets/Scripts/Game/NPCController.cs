@@ -105,8 +105,8 @@ public class NPCController : GameObjectMovementBase
             }
             else
             {
-                randx = Mathf.FloorToInt(Random.Range(0, distance) + X);
-                randy = Mathf.FloorToInt(Random.Range(0, distance) + Y);
+                randx = Mathf.FloorToInt(Random.Range(-distance, distance) + X);
+                randy = Mathf.FloorToInt(Random.Range(-distance, distance) + Y);
 
                 // It should be mostly free, if invalid it will return an empty path
                 path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
