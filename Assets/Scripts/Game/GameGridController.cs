@@ -27,7 +27,7 @@ public class GameGridController : MonoBehaviour
     public void Start()
     {
         int cellsX = (int)Settings.GRID_WIDTH;
-        int cellsY = (int)(Settings.GRID_HEIGHT);
+        int cellsY = (int)Settings.GRID_HEIGHT;
 
         grid = new int[cellsX, cellsY];
         pathFind = new PathFind();

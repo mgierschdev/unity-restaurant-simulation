@@ -103,8 +103,8 @@ public class PlayerController : GameObjectMovementBase
 
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mousePositionVector = Util.GetXYInGameMap(mousePosition);
-            List<Node> path = gameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { mousePositionVector.x, mousePositionVector.y });
-            Util.AddPath(path, gameGrid, pendingMovementQueue);
+            List<Node> path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { mousePositionVector.x, mousePositionVector.y });
+            Util.AddPath(path, GameGrid, pendingMovementQueue);
 
             if (pendingMovementQueue.Count != 0)
             {
