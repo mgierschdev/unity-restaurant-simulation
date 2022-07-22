@@ -47,16 +47,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         pendingMovementQueue = new Queue();
 
         //Update NPC initial position
-        currentTargetPosition = transform.position;
+        currentTargetPosition = Vector3.negativeInfinity;
         UpdatePosition();
     }
 
     protected void UpdateTargetMovement()
     {
+        //  Debug.Log(currentTargetPosition +" "+transform.position);
 
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
-            //Debug.Log("UpdateTargetMovement / " + currentTargetPosition + " " + transform.position);
+            Debug.Log("UpdateTargetMovement / " + currentTargetPosition + " " + transform.position);
 
             nextTarget = Vector3.zero;
             currentTargetPosition = Vector3.zero;
@@ -67,16 +68,15 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             }
             else
             {
-                // Target Reached
+                if (Settings.DEBUG_ENABLE)
+                {
+                    Debug.Log("[Moving] Target Reached: " + transform.name + " " + Position);
+                }
             }
         }
 
         if (nextTarget != Vector3.zero)
         {
-            Debug.Log("Moving " + nextTarget);
-
-            // Debug.Log("UpdateTargetMovement /nextTarget " + nextTarget);
-
             currentTargetPosition = nextTarget;
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
         }

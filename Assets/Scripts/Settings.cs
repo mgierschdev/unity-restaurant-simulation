@@ -73,6 +73,13 @@ public enum MoveDirection
     DOWNRIGHT = 8
 }
 
+//Players and NPCs move directions
+public enum NPCState
+{
+    IDLE = 0,
+    WANDER = 1
+}
+
 // We add other menus here like the store
 public enum Menu
 {

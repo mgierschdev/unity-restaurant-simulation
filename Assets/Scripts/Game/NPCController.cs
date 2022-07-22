@@ -6,12 +6,17 @@ using UnityEngine;
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
 {
+    [SerializeField]
     public Vector3 Velocity { get; set; }
-    public bool WanderOn { get; set; }
+    [SerializeField]
+    public NPCState state; // 0 IDLE, 1 Wander
+    [SerializeField]
     private EnergyBar energyBar;
-
+    [SerializeField]
     private float startX;
+    [SerializeField]
     private float startY;
+    [SerializeField]
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
 
     // Wander variables
@@ -24,7 +29,7 @@ public class NPCController : GameObjectMovementBase
         //  body = GetComponent<Rigidbody2D>();
         Type = ObjectType.NPC;
         Speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
-        WanderOn = false;
+        state = (int) NPCState.IDLE;
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
@@ -69,7 +74,7 @@ public class NPCController : GameObjectMovementBase
         UpdatePosition();
 
         //Go an wander 
-        if (WanderOn)
+        if (state == NPCState.WANDER)
         {
             Wander();
         }
@@ -124,5 +129,9 @@ public class NPCController : GameObjectMovementBase
     private EnergyBar GetEnergyBar()
     {
         return this.energyBar;
+    }
+
+    public void SetNPCState(NPCState state){
+        this.state =  state;
     }
 }
