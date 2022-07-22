@@ -14,7 +14,7 @@ public static class Settings
     public const string PREFAB_GAME_GRID = "GameGrid";
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
-    public const float NPC_DEFAULT_MOVEMENT_SPEED = 0.3f;
+    public const float NPC_DEFAULT_MOVEMENT_SPEED = 0.3f; // 0.3f
     public const float NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK = 0.3f;
     public const float NPC_DEFAULT_RECOVERY_TIME = 10;
     public const int NPC_DEFAULT_ENERGY = 100;
