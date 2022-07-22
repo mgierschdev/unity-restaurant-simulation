@@ -97,10 +97,10 @@ public class NPCController : GameObjectMovementBase
             idleTime = 0;
 
             // we send him back if he goes beyond the distance of the initial potition 
-            if (X > startX + distance * 2 || Y > startY + distance * 2)
+            if (X > startX + distance * 2 || Y > startY + distance * 2 || X < startX - distance * 2 || Y < startY - distance * 2 )
             {
-                randx = Mathf.FloorToInt(Random.Range(0, distance) + startX / 2);
-                randy = Mathf.FloorToInt(Random.Range(0, distance) + startY / 2);
+                randx = Mathf.FloorToInt(Random.Range(0, distance) / 2 + startX);
+                randy = Mathf.FloorToInt(Random.Range(0, distance) / 2 + startY);
                 path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
             }
             else
