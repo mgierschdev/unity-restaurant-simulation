@@ -489,3 +489,4 @@ FodyWeavers.xsd
 .DS_Store
 .AppleDouble
 .LSOverride
+InitTest*
