@@ -12,6 +12,7 @@ TagManager:
   - GameGrid
   - GridTile
   - Object
+  - UI
   layers:
   - Default
   - TransparentFX
