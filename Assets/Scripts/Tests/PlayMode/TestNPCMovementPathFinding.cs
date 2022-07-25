@@ -64,7 +64,7 @@ public class TestNPCMovementPathFinding
         firstNPCController.Speed = 100;
         Util.PrintPath(path);
         firstNPCController.AddPath(path);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
         gameGridController.FreeTestGridObstacles(5, 1, 15);
@@ -85,7 +85,7 @@ public class TestNPCMovementPathFinding
         secondNPCController.Speed = 100;
         secondNPCController.AddPath(path);
         firstNPCController.AddPath(path);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[1], endPosition[1]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
