@@ -13,6 +13,7 @@ TagManager:
   - GridTile
   - Object
   - UI
+  - ExitButtom
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 // Attached to: Player Object
 public class PlayerController : GameObjectMovementBase
 {
-    
+
     //MovingOnLongtouch(), Long click or touch vars
     private bool clicking;
     private bool isLongClick;
@@ -37,8 +37,11 @@ public class PlayerController : GameObjectMovementBase
         // Moves the character depending on the pendingQueue and next target
         UpdateTargetMovement();
 
-        // Player Movement
-        MouseOnClick();
+        // Player Movement on click
+        if (Settings.PLAYER_WALK_ON_CLICK)
+        {
+            MouseOnClick();
+        }
 
         // Player Moving on long click/touch
         MovingOnLongtouch();

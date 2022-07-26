@@ -5,6 +5,7 @@ public static class Settings
     public const int DEBUG_TEXT_SIZE = 7;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
     // Player Display
+    public const bool PLAYER_WALK_ON_CLICK = false;
     public const float PLAYER_MOVEMENT_SPEED = 1.8f;
     // PREFABS
     public const string PREFAB_PATH = "Resources";
@@ -21,9 +22,8 @@ public static class Settings
     public const string NPC_ENERGY_BAR = "EnergyBar";
     public const bool NPC_ENERGY_ENABLED = false;
     // UI Constants
-    public const string CONST_CANVAS_PARENT_MENU = "CanvasMenus";
-    public const string CONST_ITEM_MENU = "ItemMenu";
-    public const string CONST_CONFIG_MENU = "ConfigMenu";
+    public const string  CONST_CANVAS_PARENT_MENU = "CanvasMenu";
+    public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
@@ -31,7 +31,6 @@ public static class Settings
     public const bool CAMERA_PERSPECTIVE_HAND = false;
     public const bool CAMERA_FOLLOW_PLAYER = true;
     public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
-
     // UI : GameBackground
     public const string CONST_GAME_BACKGROUND_DEFAULT = "GameBackground";//E.g: Prefab GameBackground800x1920, GameBackground1300x1300
     public const int CONST_DEFAULT_CAMERA_WIDTH = 1500;
@@ -39,6 +38,10 @@ public static class Settings
     public const int CONST_CAMERA_CLAMP_X = 3; // Both sides -3, 3 in grid UNITS
     public const int CONST_CAMERA_CLAMP_Y = -1; // -1, 0
     public const int DEFAULT_GAME_OBJECTS_Z = 1;
+    //UI: Buttons listeners
+    public const string CONST_UI_EXIT_BUTTON = "ExitButton";
+    public const string CONST_UI_INVENTORY_BUTTON = "Inventory";
+
     //SCENE
     public const string CONST_SCENE_MAIN = "World";
 
@@ -47,7 +50,7 @@ public static class Settings
     public const float GRID_CELL_SIZE = 0.25f;
     public const int GRID_WIDTH = 72; // Number of cell of the Grid CellSize
     public const int GRID_HEIGHT = 72;
-    public const int GRID_START_X = -9; 
+    public const int GRID_START_X = -9;
     public const int GRID_START_Y = -9;
 }
 
@@ -80,10 +83,23 @@ public enum NPCState
     WANDER = 1
 }
 
-// We add other menus here like the store
+// List of Menus
 public enum Menu
 {
-    CONFIG_MENU,
-    ITEM_MENU,
-    TOP_GAME_MENU
+    CENTER_TAB_MENU,
+    TOP_MENU
+}
+
+//Menu Types
+public enum MenuType
+{
+    TAB_MENU,
+    DIALOG,
+    ON_SCREEN
+}
+
+public enum Tabs
+{
+    CONFIG_TAB,
+    ITEMS_TAB
 }
