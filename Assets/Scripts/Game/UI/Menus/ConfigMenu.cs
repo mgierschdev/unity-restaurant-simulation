@@ -11,7 +11,7 @@ public class ConfigMenu : MonoBehaviour
 
     public void OnClick_Store()
     {
-        MenuManager.OpenMenu(Menu.STORE_MENU, gameObject);
+        MenuManager.OpenMenu(Menu.ITEM_MENU, gameObject);
     }
 
     public void OnClickBackButton()

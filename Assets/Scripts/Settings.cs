@@ -22,7 +22,7 @@ public static class Settings
     public const bool NPC_ENERGY_ENABLED = false;
     // UI Constants
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenus";
-    public const string CONST_STORE_MENU = "StoreMenu";
+    public const string CONST_ITEM_MENU = "ItemMenu";
     public const string CONST_CONFIG_MENU = "ConfigMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
@@ -84,6 +84,6 @@ public enum NPCState
 public enum Menu
 {
     CONFIG_MENU,
-    STORE_MENU,
+    ITEM_MENU,
     TOP_GAME_MENU
 }

@@ -4,12 +4,12 @@ using UnityEngine;
 public static class MenuManager
 {
     public static bool IsInitialized { get; private set; }
-    public static GameObject storeMenu, configMenu, topGameMenu;
+    public static GameObject itemMenu, configMenu, topGameMenu;
 
     public static void Init()
     {
         GameObject canvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
-        storeMenu = canvas.transform.Find(Settings.CONST_STORE_MENU).gameObject;
+        itemMenu = canvas.transform.Find(Settings.CONST_ITEM_MENU).gameObject;
         configMenu = canvas.transform.Find(Settings.CONST_CONFIG_MENU).gameObject;
         topGameMenu = canvas.transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
         IsInitialized = true;
@@ -27,8 +27,8 @@ public static class MenuManager
             case Menu.CONFIG_MENU:
                 configMenu.SetActive(true);
                 break;
-            case Menu.STORE_MENU:
-                storeMenu.SetActive(true);
+            case Menu.ITEM_MENU:
+                itemMenu.SetActive(true);
                 break;
         }
 
@@ -42,8 +42,8 @@ public static class MenuManager
             case Menu.CONFIG_MENU:
                 configMenu.SetActive(true);
                 break;
-            case Menu.STORE_MENU:
-                storeMenu.SetActive(true);
+            case Menu.ITEM_MENU:
+                itemMenu.SetActive(true);
                 break;
             case Menu.TOP_GAME_MENU:
                 topGameMenu.SetActive(true);
