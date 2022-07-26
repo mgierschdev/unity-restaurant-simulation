@@ -10,18 +10,18 @@ public class TestProjectSettings
         Assert.NotNull(gameBackground);
     }
 
-    [Test]
-    public void TestparentCanvas()
-    {
-        GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
-        Assert.NotNull(parentCanvas);
-    }
+    // [Test]
+    // public void TestparentCanvas()
+    // {
+    //     GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
+    //     Assert.NotNull(parentCanvas);
+    // }
 
     [Test]
-    public void TestconfigMenu()
+    public void TesttabMenu()
     {
-        GameObject configMenu = GameObject.Find(Settings.CONST_CONFIG_MENU);
-        Assert.NotNull(configMenu);
+        GameObject tabMenu = GameObject.Find(Settings.CONST_CENTER_TAB_MENU);
+        Assert.NotNull(tabMenu);
     }
 
     [Test]
@@ -29,13 +29,6 @@ public class TestProjectSettings
     {
         GameObject topGameMenu = GameObject.Find(Settings.CONST_TOP_GAME_MENU);
         Assert.NotNull(topGameMenu);
-    }
-
-    [Test]
-    public void TestitemMenu()
-    {
-        GameObject itemMenu = GameObject.Find(Settings.CONST_ITEM_MENU);
-        Assert.NotNull(itemMenu);
     }
 
     [Test]
