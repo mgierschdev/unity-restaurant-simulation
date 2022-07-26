@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class StoreMenu : MonoBehaviour
+public class ItemMenu : MonoBehaviour
 {
     private void Start()
     {
         MenuManager.CloseMenu(gameObject);
     }
 
-    public void OnClick_Settings()
+    public void OnClickSettings()
     {
         MenuManager.OpenMenu(Menu.CONFIG_MENU, gameObject);
     }

@@ -32,10 +32,10 @@ public class TestProjectSettings
     }
 
     [Test]
-    public void TeststoreMenu()
+    public void TestitemMenu()
     {
-        GameObject storeMenu = GameObject.Find(Settings.CONST_STORE_MENU);
-        Assert.NotNull(storeMenu);
+        GameObject itemMenu = GameObject.Find(Settings.CONST_ITEM_MENU);
+        Assert.NotNull(itemMenu);
     }
 
     [Test]
