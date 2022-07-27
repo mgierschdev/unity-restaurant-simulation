@@ -16,12 +16,15 @@ public class GameController : MonoBehaviour
         GameObject gameGridObject = gameObject.transform.Find(Settings.PREFAB_GAME_GRID).gameObject;
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
 
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 100; i++){
             // Adding NPC object
             GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(new Vector3(22, 30, 1)), Quaternion.identity) as GameObject;
             npcObject.transform.SetParent(gameObject.transform);
             npcObject.name = i+"-"+Settings.PREFAB_NPC;
-            npcList.Add(npcObject.GetComponent<NPCController>());
+            NPCController controllerNPC = npcObject.GetComponent<NPCController>();
+            controllerNPC.Speed = 0.4f;
+            controllerNPC.
+            npcList.Add(controllerNPC);
         }
    }
 
