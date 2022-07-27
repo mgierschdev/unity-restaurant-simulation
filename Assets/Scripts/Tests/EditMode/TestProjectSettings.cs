@@ -10,12 +10,12 @@ public class TestProjectSettings
         Assert.NotNull(gameBackground);
     }
 
-    // [Test]
-    // public void TestparentCanvas()
-    // {
-    //     GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
-    //     Assert.NotNull(parentCanvas);
-    // }
+    [Test]
+    public void TestparentCanvas()
+    {
+        GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
+        Assert.NotNull(parentCanvas);
+    }
 
     [Test]
     public void TesttabMenu()
