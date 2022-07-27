@@ -23,8 +23,7 @@ public class GameController : MonoBehaviour
             npcObject.name = i+"-"+Settings.PREFAB_NPC;
             NPCController controllerNPC = npcObject.GetComponent<NPCController>();
             controllerNPC.Speed = 0.4f;
-            controllerNPC.
-            npcList.Add(controllerNPC);
+            this.npcList.Add(controllerNPC);
         }
    }
 
