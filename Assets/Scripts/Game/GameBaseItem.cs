@@ -5,14 +5,15 @@ public abstract class GameBaseItem : MonoBehaviour
     public float X { get; set; }
     public float Y { get; set; }
     public ObjectType Type { get; set; }
-    protected int width;
-    protected int height;
-    protected Vector3 position;
+    public int width;
+    public int height;
+    public Vector3 position;
+    public ObjectType type = ObjectType.OBSTACLE;
+    public GameItemController current;
     protected GameGridController gameGrid;
-    protected GameItemController current;
-    protected ObjectType type = ObjectType.OBSTACLE;
     protected GameObject gameGridObject;
 
+    // Start since the grid is settedup in Awake
     public void Start()
     {
         current = GetComponent<GameItemController>();

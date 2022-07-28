@@ -24,7 +24,7 @@ public class GameGridController : MonoBehaviour
     private readonly int cellTexttSize = Settings.DEBUG_TEXT_SIZE;
     private Vector3 textOffset;
 
-    public void Start()
+    public void Awake()
     {
         int cellsX = (int)Settings.GRID_WIDTH;
         int cellsY = (int)Settings.GRID_HEIGHT;
