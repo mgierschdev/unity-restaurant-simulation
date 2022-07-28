@@ -32,7 +32,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         sortingLayer = GetComponent<SortingGroup>();
-      
+
         // Game Grid
         gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
 
@@ -155,9 +155,32 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return new float[] { Position.x, Position.y };
     }
 
-    public void AddPath(List<Node> list)
+    public void AddPath(List<Node> path)
     {
-        Util.AddPath(list, GameGrid, pendingMovementQueue);
+        if (path.Count == 0)
+        {
+            return;
+        }
+
+        pendingMovementQueue.Enqueue(GameGrid.GetCellPosition(path[0].GetVector3()));
+
+        for (int i = 1; i < path.Count; i++)
+        {
+            Vector3 from = GameGrid.GetCellPosition(path[i - 1].GetVector3());
+            Vector3 to = GameGrid.GetCellPosition(path[i].GetVector3());
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.DrawLine(from, to, Color.magenta, 10f);
+            }
+            pendingMovementQueue.Enqueue(GameGrid.GetCellPosition(path[i].GetVector3()));
+        }
+
+        if (path.Count == 0)
+        {
+            Debug.LogWarning("Path out of reach");
+            return;
+        }
+
         AddMovement(); // To set the first target
     }
 }

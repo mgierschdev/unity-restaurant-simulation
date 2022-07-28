@@ -106,14 +106,15 @@ public class PlayerController : GameObjectMovementBase
     {
         if (Input.GetMouseButtonDown(0) && !isLongClick)
         {
-            ResetMovementIfMoving();
+            // If there is a pending MovementQueue we merge and discard 
+            //ResetMovementIfMoving();
             UpdatePosition();
 
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mouseInGridPosition = Util.GetXYInGameMap(mousePosition);
             List<Node> path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
-            Util.AddPath(path, GameGrid, pendingMovementQueue);
-
+            AddPath(path);
+            
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
