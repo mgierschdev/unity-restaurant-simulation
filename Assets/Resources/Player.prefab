@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 8530163688326329557}
   - component: {fileID: -8043798970977063170}
   - component: {fileID: 2994181713747638411}
+  - component: {fileID: 579007910109840468}
   m_Layer: 13
   m_Name: Player
   m_TagString: Player
@@ -217,4 +218,15 @@ MonoBehaviour:
   - {x: -0.18162782, y: 0.13965997, z: 0}
   m_ShapePathHash: 1851804042
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40370
+  m_InstanceId: 43154
+--- !u!210 &579007910109840468
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8530163688326329552}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
