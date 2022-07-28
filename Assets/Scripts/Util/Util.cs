@@ -40,33 +40,6 @@ public static class Util
             (int)Math.Round((position.y - Settings.GRID_START_Y) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero));
     }
 
-    public static void AddPath(List<Node> path, GameGridController gameGrid, Queue pendingMovementQueue)
-    {
-        if (path.Count == 0)
-        {
-            return;
-        }
-
-        pendingMovementQueue.Enqueue(gameGrid.GetCellPosition(path[0].GetVector3()));
-
-        for (int i = 1; i < path.Count; i++)
-        {
-            Vector3 from = gameGrid.GetCellPosition(path[i - 1].GetVector3());
-            Vector3 to = gameGrid.GetCellPosition(path[i].GetVector3());
-            if (Settings.DEBUG_ENABLE)
-            {
-                Debug.DrawLine(from, to, Color.magenta, 10f);
-            }
-            pendingMovementQueue.Enqueue(gameGrid.GetCellPosition(path[i].GetVector3()));
-        }
-
-        if (path.Count == 0)
-        {
-            Debug.LogWarning("Path out of reach");
-            return;
-        }
-    }
-
     public static void PrintGrid(int[,] grid)
     {
         for (int i = 0; i < grid.GetLength(0); i++)
