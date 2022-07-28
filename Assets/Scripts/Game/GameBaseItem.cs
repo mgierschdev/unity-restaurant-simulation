@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public abstract class GameBaseItem : MonoBehaviour
 {
@@ -13,9 +14,13 @@ public abstract class GameBaseItem : MonoBehaviour
     protected GameGridController gameGrid;
     protected GameObject gameGridObject;
 
+    // Sprite level ordering
+    protected SortingGroup sortingLayer;
+
     // Start since the grid is settedup in Awake
     public void Start()
     {
+        sortingLayer = GetComponent<SortingGroup>();
         current = GetComponent<GameItemController>();
         Type = ObjectType.OBSTACLE;
         // Getting game grid
@@ -50,6 +55,7 @@ public abstract class GameBaseItem : MonoBehaviour
     protected void UpdatePositionInGrid()
     {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
+        sortingLayer.sortingOrder = pos.y * -1;
         X = pos.x;
         Y = pos.y;
         position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);

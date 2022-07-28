@@ -14,7 +14,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public Vector3 Position { get; set; } // Position in game map/ grid  GetXYInGameMap
     public GameGridController GameGrid { get; set; }
 
-    // // Sprite level ordering
+    // Sprite level ordering
     protected SortingGroup sortingLayer;
 
     // Movement 
@@ -108,7 +108,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected void UpdatePosition()
     {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
-        sortingLayer.sortingOrder = Y * -1;
+        sortingLayer.sortingOrder = pos.y * -1;
         X = pos.x;
         Y = pos.y;
         Position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
