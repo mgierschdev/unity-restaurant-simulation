@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8954633019280694157}
   - component: {fileID: 8621226664277361302}
   - component: {fileID: -1007770370708177383}
+  - component: {fileID: 5484413931995216693}
   m_Layer: 12
   m_Name: Obstacle 2
   m_TagString: Obstacle
@@ -130,7 +131,7 @@ MonoBehaviour:
   - {x: 0.52008486, y: -0.52, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 39260
+  m_InstanceId: 43220
 --- !u!61 &-1007770370708177383
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -157,3 +158,14 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!210 &5484413931995216693
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947454330023563451}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

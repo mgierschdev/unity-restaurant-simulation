@@ -29,7 +29,10 @@ public class PlayerController : GameObjectMovementBase
         body.rotation = 0;
 
         // In case of keyboard
-        body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * Speed;
+        if (Settings.PLAYER_WALK_WITH_KEYBOARD)
+        {
+            body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * Speed;
+        }
 
         // Controls the state of the first and long click
         ClickControl();

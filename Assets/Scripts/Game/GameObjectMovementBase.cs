@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -13,6 +14,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public Vector3 Position { get; set; } // Position in game map/ grid  GetXYInGameMap
     public GameGridController GameGrid { get; set; }
 
+    // // Sprite level ordering
+    protected SortingGroup sortingLayer;
+
     // Movement 
     protected Vector2 movement;
     protected Rigidbody2D body;
@@ -23,10 +27,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected Vector3 currentTargetPosition;
     protected GameObject gameGridObject;
 
-
+    // Al objects in screen should have sorting group component
     protected void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        sortingLayer = GetComponent<SortingGroup>();
+      
         // Game Grid
         gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
 
@@ -46,7 +52,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         nextTarget = Vector3.zero;
         pendingMovementQueue = new Queue();
 
-        //Update NPC initial position
+        //Update Object initial position
         currentTargetPosition = Vector3.negativeInfinity;
         UpdatePosition();
     }
@@ -102,6 +108,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected void UpdatePosition()
     {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
+        sortingLayer.sortingOrder = Y * -1;
         X = pos.x;
         Y = pos.y;
         Position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
