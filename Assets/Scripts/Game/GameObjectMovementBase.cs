@@ -91,7 +91,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return;
         }
 
-        Vector3 direction = (Vector3)pendingMovementQueue.Dequeue();
+        Vector3 direction = GameGrid.GetCellPosition((Vector3)pendingMovementQueue.Dequeue());
         Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
         this.nextTarget = nextTarget;
     }
@@ -162,7 +162,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return;
         }
 
-        pendingMovementQueue.Enqueue(GameGrid.GetCellPosition(path[0].GetVector3()));
+        if (pendingMovementQueue.Count != 0)
+        {
+            path = MergePath(path); // We merge Paths
+        }
+
+        pendingMovementQueue.Enqueue(path[0].GetVector3());
 
         for (int i = 1; i < path.Count; i++)
         {
@@ -172,7 +177,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             {
                 Debug.DrawLine(from, to, Color.magenta, 10f);
             }
-            pendingMovementQueue.Enqueue(GameGrid.GetCellPosition(path[i].GetVector3()));
+            pendingMovementQueue.Enqueue(path[i].GetVector3());
         }
 
         if (path.Count == 0)
@@ -182,5 +187,40 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
 
         AddMovement(); // To set the first target
+    }
+
+    public List<Node> MergePath(List<Node> path)
+    {
+        List<Vector3> queuePath = new List<Vector3>();
+        List<Node> merge = new List<Node>();
+
+        while (pendingMovementQueue.Count > 0)
+        {
+            queuePath.Add((Vector3)pendingMovementQueue.Dequeue());
+        }
+
+        int index = 0;
+
+        while (index < path.Count && path[index].GetVector3() != queuePath[0])
+        {
+            index++;
+        }
+
+        //Debug.Log("Merging index: " + index + " " + path.Count);
+        if (index == path.Count - 1)
+        {
+            return path;
+        }
+
+        for (int i = index; i < path.Count; i++)
+        {
+            merge.Add(path[i]);
+        }
+
+        // merge.Reverse();
+        return merge;
+        // for(int i = 0; i < merge.Count; i++){
+        //     pendingMovementQueue.Enqueue(merge[i]);
+        // }
     }
 }
