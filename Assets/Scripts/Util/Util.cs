@@ -35,12 +35,15 @@ public static class Util
 
     public static Vector2Int GetXYInGameMap(Vector3 position)
     {
-        return new Vector2Int(Mathf.FloorToInt((position.x - Settings.GRID_START_X) * 1 / Settings.GRID_CELL_SIZE), Mathf.FloorToInt((position.y - Settings.GRID_START_Y) * 1 / Settings.GRID_CELL_SIZE));
+        return new Vector2Int(
+            (int)Math.Round((position.x - Settings.GRID_START_X) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero),
+            (int)Math.Round((position.y - Settings.GRID_START_Y) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero));
     }
 
     public static void AddPath(List<Node> path, GameGridController gameGrid, Queue pendingMovementQueue)
     {
-        if(path.Count == 0){
+        if (path.Count == 0)
+        {
             return;
         }
 
@@ -215,23 +218,40 @@ public static class Util
     {
         float offset = 20; // ofset for diagonal movements 
 
-        if (angle >= 45 - offset && angle <= 45 + offset){
+        if (angle >= 45 - offset && angle <= 45 + offset)
+        {
             return MoveDirection.UPRIGHT;
-        }else if(angle >= 135 - offset && angle <= 135 + offset){
+        }
+        else if (angle >= 135 - offset && angle <= 135 + offset)
+        {
             return MoveDirection.DOWNRIGHT;
-        }else if(angle >= 225 - offset && angle <= 225 + offset){
+        }
+        else if (angle >= 225 - offset && angle <= 225 + offset)
+        {
             return MoveDirection.DOWNLEFT;
-        }else if(angle >= 315 - offset && angle <= 315 + offset){
+        }
+        else if (angle >= 315 - offset && angle <= 315 + offset)
+        {
             return MoveDirection.UPLEFT;
-        }else if((angle > 315 + offset && angle <= 360) || (angle >= 0 && angle < 45 - offset)){
+        }
+        else if ((angle > 315 + offset && angle <= 360) || (angle >= 0 && angle < 45 - offset))
+        {
             return MoveDirection.UP;
-        }else if(angle > 45 + offset && angle < 135 - offset){
+        }
+        else if (angle > 45 + offset && angle < 135 - offset)
+        {
             return MoveDirection.RIGHT;
-        }else if(angle > 135 + offset && angle < 225 - offset){
+        }
+        else if (angle > 135 + offset && angle < 225 - offset)
+        {
             return MoveDirection.DOWN;
-        }else if(angle > 225 + offset && angle < 315 - offset){
+        }
+        else if (angle > 225 + offset && angle < 315 - offset)
+        {
             return MoveDirection.LEFT;
-        }else{
+        }
+        else
+        {
             return MoveDirection.IDLE;
         }
     }
