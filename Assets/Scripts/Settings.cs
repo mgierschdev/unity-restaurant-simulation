@@ -7,7 +7,7 @@ public static class Settings
 
     // DEBUG parameters
     public const bool DEBUG_ENABLE = true; //Only for development
-    public const int DEBUG_TEXT_SIZE = 7;
+    public const int DEBUG_TEXT_SIZE = 9;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
 
     // PREFABS
@@ -45,7 +45,7 @@ public static class Settings
     public const int CONST_CAMERA_CLAMP_X = 3; // Both sides -3, 3 in grid UNITS
     public const int CONST_CAMERA_CLAMP_Y = -1; // -1, 0
     public const int DEFAULT_GAME_OBJECTS_Z = 1;
-    
+
     //UI: Buttons listeners
     public const string CONST_UI_EXIT_BUTTON = "ExitButton";
     public const string CONST_UI_INVENTORY_BUTTON = "Inventory";

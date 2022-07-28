@@ -15,7 +15,8 @@ public class PathFind
 
     public List<Node> Find(int[] s, int[] t, int[,] sourceGrid)
     {
-        if (s[0] < 0 || s[1] < 0 || t[0] < 0 || t[1] < 0 || s[0] >= sourceGrid.GetLength(0) || t[1] >= sourceGrid.GetLength(1))
+        // If it is out of bounds of if the target coord it is equal to the start coord
+        if (s[0] < 0 || s[1] < 0 || t[0] < 0 || t[1] < 0 || s[0] >= sourceGrid.GetLength(0) || t[1] >= sourceGrid.GetLength(1) || (s[0] == t[0] && s[1] == t[1]))
         {
             return new List<Node>();
         }
