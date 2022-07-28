@@ -14,9 +14,6 @@ public class MenuHandler : MonoBehaviour
         GameObject tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
         GameObject gameMenu = transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
 
-        Debug.Log(gameMenu.name);
-        Debug.Log(tabMenu.name);
-
         topGameMenu = new MenuItem(MenuType.ON_SCREEN, Settings.CONST_TOP_GAME_MENU, gameMenu);
         centerTabMenu = new MenuItem(MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu);
 
