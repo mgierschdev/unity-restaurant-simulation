@@ -4,8 +4,8 @@ public static class Settings
     public const bool DEBUG_ENABLE = true; //Only for development
     public const int DEBUG_TEXT_SIZE = 7;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
-    // Player Display
-    public const bool PLAYER_WALK_ON_CLICK = false;
+    // Player Config
+    public const bool PLAYER_WALK_ON_CLICK = true;
     public const float PLAYER_MOVEMENT_SPEED = 1.8f;
     // PREFABS
     public const string PREFAB_PATH = "Resources";
