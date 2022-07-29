@@ -132,7 +132,6 @@ public class PlayerController : GameObjectMovementBase
         if (Settings.DEBUG_ENABLE)
         {
             Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
-            Collider2D[] 
         }
     }
 }
