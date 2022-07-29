@@ -206,8 +206,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             index++;
         }
 
-        //Debug.Log("Merging index: " + index + " " + path.Count);
-        if (index == path.Count - 1)
+        if (index == path.Count)
         {
             return path;
         }
@@ -216,11 +215,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             merge.Add(path[i]);
         }
-
-        // merge.Reverse();
         return merge;
-        // for(int i = 0; i < merge.Count; i++){
-        //     pendingMovementQueue.Enqueue(merge[i]);
-        // }
     }
 }
