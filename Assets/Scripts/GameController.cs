@@ -4,7 +4,7 @@ using System.Collections.Generic;
 // the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour
 {
-    private List<NPCController> npcList;
+     private List<NPCController> npcList;
     private bool enableWander;
 
     void Start()
@@ -16,9 +16,10 @@ public class GameController : MonoBehaviour
         GameObject gameGridObject = gameObject.transform.Find(Settings.PREFAB_GAME_GRID).gameObject;
         GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
 
-        for(int i = 0; i < -2; i++){
+        for(int i = 0; i < 2; i++){
             // Adding NPC object
-            GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(new Vector3(22, 30, 1)), Quaternion.identity) as GameObject;
+            Vector3 initPos = new Vector3(22, 30, 1);
+            GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(initPos), Quaternion.identity) as GameObject;
             npcObject.transform.SetParent(gameObject.transform);
             npcObject.name = i+"-"+Settings.PREFAB_NPC;
             NPCController controllerNPC = npcObject.GetComponent<NPCController>();
@@ -34,7 +35,6 @@ public class GameController : MonoBehaviour
                 n.state = NPCState.WANDER;
             }
         }
-
     }
 
 }

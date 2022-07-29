@@ -13,6 +13,8 @@ public class PlayerController : GameObjectMovementBase
     private float clickingTime; // To keep the coung if longclick
     private float longClickDuration = 0.5f; // In seconds
 
+    // Overlap spehre
+
     private void Start()
     {
         Type = ObjectType.PLAYER;
@@ -53,7 +55,7 @@ public class PlayerController : GameObjectMovementBase
 
         // Moves the character depending on the pendingQueue and next target
         UpdateTargetMovement();
-        
+
         // Updating position in the Grid
         UpdatePosition();
     }
@@ -129,7 +131,8 @@ public class PlayerController : GameObjectMovementBase
     {
         if (Settings.DEBUG_ENABLE)
         {
-            Debug.LogWarning("Colliding " + other.GetType());
+            Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
+            Collider2D[] 
         }
     }
 }
