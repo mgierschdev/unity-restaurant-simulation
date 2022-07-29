@@ -23,7 +23,8 @@ public class PlayerController : GameObjectMovementBase
         isLongClick = false;
     }
 
-    private void Update()
+    // Called every physics step, Update called every frame
+    private void FixedUpdate()
     {
         body.angularVelocity = 0;
         body.rotation = 0;
@@ -106,19 +107,25 @@ public class PlayerController : GameObjectMovementBase
     {
         if (Input.GetMouseButtonDown(0) && !isLongClick)
         {
-            // If there is a pending MovementQueue we merge and discard 
-            //ResetMovementIfMoving();
             UpdatePosition();
 
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector2Int mouseInGridPosition = Util.GetXYInGameMap(mousePosition);
             List<Node> path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
             AddPath(path);
-            
+
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
             }
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (Settings.DEBUG_ENABLE)
+        {
+            Debug.LogWarning("Colliding " + other.GetType());
         }
     }
 }
