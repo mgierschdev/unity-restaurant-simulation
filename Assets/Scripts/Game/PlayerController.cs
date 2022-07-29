@@ -38,7 +38,7 @@ public class PlayerController : GameObjectMovementBase
         // Player Moving on long click/touch
         MovingOnLongtouch();
     }
-    
+
     // Called every physics step, Update called every frame
     private void FixedUpdate()
     {
@@ -51,15 +51,9 @@ public class PlayerController : GameObjectMovementBase
             body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * Speed;
         }
 
-
-
         // Moves the character depending on the pendingQueue and next target
         UpdateTargetMovement();
-
-
-
-
-
+        
         // Updating position in the Grid
         UpdatePosition();
     }
