@@ -23,6 +23,22 @@ public class PlayerController : GameObjectMovementBase
         isLongClick = false;
     }
 
+    // For Handling non-physics related objects
+    private void Update()
+    {
+        // Controls the state of the first and long click
+        ClickControl();
+
+        // Player Movement on click
+        if (Settings.PLAYER_WALK_ON_CLICK)
+        {
+            MouseOnClick();
+        }
+
+        // Player Moving on long click/touch
+        MovingOnLongtouch();
+    }
+    
     // Called every physics step, Update called every frame
     private void FixedUpdate()
     {
@@ -35,20 +51,14 @@ public class PlayerController : GameObjectMovementBase
             body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * Speed;
         }
 
-        // Controls the state of the first and long click
-        ClickControl();
+
 
         // Moves the character depending on the pendingQueue and next target
         UpdateTargetMovement();
 
-        // Player Movement on click
-        if (Settings.PLAYER_WALK_ON_CLICK)
-        {
-            MouseOnClick();
-        }
 
-        // Player Moving on long click/touch
-        MovingOnLongtouch();
+
+
 
         // Updating position in the Grid
         UpdatePosition();
