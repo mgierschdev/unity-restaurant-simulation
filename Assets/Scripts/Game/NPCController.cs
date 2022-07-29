@@ -48,7 +48,7 @@ public class NPCController : GameObjectMovementBase
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // EnergyBar controller, only if it is active
         if (energyBar.IsActive())

@@ -142,14 +142,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         pendingMovementQueue = new Queue();
     }
 
-    protected void OnCollisionEnter2D(Collision2D other)
-    {
-        if (Settings.DEBUG_ENABLE)
-        {
-            Debug.LogWarning("Colliding " + other.GetType());
-        }
-    }
-
     public float[] GetPositionAsArray()
     {
         return new float[] { Position.x, Position.y };
