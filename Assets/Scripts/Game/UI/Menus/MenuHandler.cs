@@ -32,6 +32,15 @@ public class MenuHandler : MonoBehaviour
         centerTabMenu.Close();
     }
 
+    private void Update()
+    {
+        if (menuStack.Count > 0 && Input.GetMouseButton(0) && IsClickOutside())
+        {
+            Debug.Log("IsClickOutside "+ IsClickOutside());
+            CloseMenu();
+        }
+    }
+
     private void SetClickListeners(MenuItem menu)
     {
         GameObject menuGameObject = menu.UnityObject;
@@ -100,5 +109,16 @@ public class MenuHandler : MonoBehaviour
     private void ResumeGame()
     {
         Time.timeScale = 1;
+    }
+
+    private bool IsClickOutside()
+    {
+        if (menuStack.Count > 0)
+        {
+            MenuItem menu = menuStack.Peek();
+            return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(), Input.mousePosition);
+        }else{
+            return false;
+        }
     }
 }
