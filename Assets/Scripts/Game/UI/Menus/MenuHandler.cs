@@ -8,11 +8,17 @@ public class MenuHandler : MonoBehaviour
 {
     private MenuItem centerTabMenu;
     private MenuItem topGameMenu;
+    private Stack<MenuItem> menuStack;
+    private HashSet<string> openMenus;
+
 
     private void Start()
     {
         GameObject tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
         GameObject gameMenu = transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
+
+        menuStack = new Stack<MenuItem>();
+        openMenus = new HashSet<string>();
 
         topGameMenu = new MenuItem(MenuType.ON_SCREEN, Settings.CONST_TOP_GAME_MENU, gameMenu);
         centerTabMenu = new MenuItem(MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu);
@@ -40,7 +46,7 @@ public class MenuHandler : MonoBehaviour
 
                 if (buttonName == Settings.CONST_UI_EXIT_BUTTON)
                 {
-                    buttonListener.onClick.AddListener(() => CloseMenu(menu));
+                    buttonListener.onClick.AddListener(() => CloseMenu());
                 }
 
                 if (buttonName == Settings.CONST_UI_INVENTORY_BUTTON)
@@ -51,13 +57,48 @@ public class MenuHandler : MonoBehaviour
         }
     }
 
-    private void CloseMenu(MenuItem menu)
+    private void CloseMenu()
     {
-        menu.UnityObject.SetActive(false);
+        if (menuStack.Count > 0)
+        {
+            MenuItem menu = menuStack.Pop();
+            menu.Close();
+            openMenus.Remove(menu.Name);
+            HandleTimeScale();
+        }
     }
 
     private void OpenMenu(MenuItem menu)
     {
-        menu.UnityObject.SetActive(true);
+        if (!openMenus.Contains(menu.Name))
+        {
+            menu.UnityObject.SetActive(true);
+            menuStack.Push(menu);
+            openMenus.Add(menu.Name);
+            HandleTimeScale();
+        }
+    }
+
+    private void HandleTimeScale()
+    {
+        Debug.Log(menuStack.Count);
+        if (menuStack.Count > 0)
+        {
+            PauseGame();
+        }
+        else
+        {
+            ResumeGame();
+        }
+    }
+
+    private void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void ResumeGame()
+    {
+        Time.timeScale = 1;
     }
 }
