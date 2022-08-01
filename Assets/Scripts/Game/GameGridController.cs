@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using System.Collections.Generic;
 
 // In game position is defined by the grid coordinates (0,0), (0,1).
@@ -33,7 +34,6 @@ public class GameGridController : MonoBehaviour
         pathFind = new PathFind();
         cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
         textOffset = new Vector3(cellSize, cellSize) * cellSize / 3;
-
 
         if (Settings.DEBUG_ENABLE)
         {

@@ -27,6 +27,7 @@ public static class Settings
     public const bool NPC_ENERGY_ENABLED = false;
 
     // UI Constants
+    public const string DEFAULT_LETTER_FONT = "Roboto-Regular";
     public const string  CONST_CANVAS_PARENT_MENU = "CanvasMenu";
     public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
