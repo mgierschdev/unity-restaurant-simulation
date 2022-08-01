@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 
-public class MenuItem : MonoBehaviour
+public class MenuItem
 {
     public MenuType Type { get; set; }
     public string Name { get; set; }
