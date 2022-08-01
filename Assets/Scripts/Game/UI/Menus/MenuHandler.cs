@@ -36,7 +36,6 @@ public class MenuHandler : MonoBehaviour
     {
         if (menuStack.Count > 0 && Input.GetMouseButton(0) && IsClickOutside())
         {
-            Debug.Log("IsClickOutside "+ IsClickOutside());
             CloseMenu();
         }
     }
@@ -90,7 +89,6 @@ public class MenuHandler : MonoBehaviour
 
     private void HandleTimeScale()
     {
-        Debug.Log(menuStack.Count);
         if (menuStack.Count > 0)
         {
             PauseGame();
