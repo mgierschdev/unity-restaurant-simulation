@@ -150,7 +150,7 @@ public class GameGridController : MonoBehaviour
     // Gets the cell position
     private Vector3 GetCellPosition(int x, int y)
     {
-        Vector3 cellPosition = new Vector3(x, y) * cellSize + gridOriginPosition;
+        Vector3 cellPosition = new Vector3(x, y) * cellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
         return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 

@@ -35,21 +35,17 @@ public class IsometricGridController : MonoBehaviour
 
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
-        TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
 
-        for (int x = 0; x < bounds.size.x; x++)
+        foreach (Vector3 pos in tilemap.cellBounds.allPositionsWithin)
         {
-            for (int y = 0; y < bounds.size.y; y++)
+            Vector3Int localPlace = Vector3Int.FloorToInt(pos);
+            Vector3 placeInWorld = tilemap.CellToWorld(localPlace);
+
+            if (tilemap.HasTile(localPlace))
             {
-                TileBase tile = allTiles[x + y * bounds.size.x];
-                if (tile != null)
-                {
-                    Debug.Log("x:" + x + " y:" + y + " tile:" + tile.name);
-                }
-                else
-                {
-                    // Debug.Log("x:" + x + " y:" + y + " tile: (null)");
-                }
+                Debug.Log("Tile in " + localPlace + " " + placeInWorld + " " + Util.GetXYInGameMap(placeInWorld));
+                TileBase tile = tilemap.GetTile(localPlace);
+                Debug.Log(" "+tile.name);
             }
         }
 
@@ -79,11 +75,11 @@ public class IsometricGridController : MonoBehaviour
     // Gets the world cell value in Grid position
     private Vector3 GetCellPosition(int x, int y)
     {
-        Vector3 cellPosition = new Vector3(x, y) * cellSize + gridOriginPosition;
+        Vector3 cellPosition = new Vector3(x, y) * cellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
         return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
-        // Gets the world cell value in Grid position
+    // For getting the Grid position from a world position use Util.GetXYInGameMap
     public Vector3 GetCellPosition(Vector3 position)
     {
         Vector3 cellPosition = position * cellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
