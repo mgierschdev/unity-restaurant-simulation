@@ -57,8 +57,8 @@ public static class Settings
     // UI Tags
     // Grid Config
     public const float GRID_CELL_SIZE = 0.25f;
-    public const int GRID_WIDTH = 72; // Number of cell of the Grid CellSize
-    public const int GRID_HEIGHT = 72;
+    public const int GRID_WIDTH = 92; // Number of cell of the Grid CellSize
+    public const int GRID_HEIGHT = 92;
     public const int GRID_START_X = -9;
     public const int GRID_START_Y = -9;
 }
