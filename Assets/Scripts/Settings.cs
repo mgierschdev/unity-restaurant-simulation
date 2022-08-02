@@ -28,7 +28,7 @@ public static class Settings
 
     // UI Constants
     public const string DEFAULT_LETTER_FONT = "Roboto-Regular";
-    public const string  CONST_CANVAS_PARENT_MENU = "CanvasMenu";
+    public const string CONST_CANVAS_PARENT_MENU = "CanvasMenu";
     public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
@@ -57,9 +57,9 @@ public static class Settings
 
     // UI Tags
     // Grid Config
-    public const float GRID_CELL_SIZE = 0.25f; // 0.25f default
-    public const int GRID_WIDTH = 72; // Number of cell of the Grid CellSize
-    public const int GRID_HEIGHT = 72;
+    public const float GRID_CELL_SIZE = 0.50f; // 0.25f default
+    public const int GRID_WIDTH = 30; // Number of cell of the Grid CellSize
+    public const int GRID_HEIGHT = 30;
     public const int GRID_START_X = -9;
     public const int GRID_START_Y = -9;
 }
@@ -70,6 +70,11 @@ public enum ObjectType
     OBSTACLE = 1,
     NPC = 2,
     PLAYER = 3
+}
+
+public enum TileType
+{
+    FLOOR = 1
 }
 
 //Players and NPCs move directions

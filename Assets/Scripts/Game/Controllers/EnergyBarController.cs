@@ -3,46 +3,46 @@ using UnityEngine.UI;
 
 public class EnergyBarController : MonoBehaviour
 {
-    private Slider slider { get; set; }
-    private EnergyBarController energyBar { get; set; }
-    private bool visible { get; set; }
+    public Slider Slider { get; set; }
+    public EnergyBarController EnergyBar { get; set; }
+    public bool Visible { get; set; }
 
     public void Start()
     {
-        visible = false;
+        Visible = false;
         SetMaxEnergy(Settings.NPC_DEFAULT_ENERGY);
     }
 
     public void SetEnergy(int energy)
     {
-        slider.value = energy;
+        Slider.value = energy;
     }
 
     public void SetMaxEnergy(int maxEnergy)
     {
-        slider.maxValue = maxEnergy;
-        slider.value = maxEnergy;
+        Slider.maxValue = maxEnergy;
+        Slider.value = maxEnergy;
     }
 
     public void SubstractEnergy(int maxEnergy)
     {
-        slider.value -= maxEnergy;
+        Slider.value -= maxEnergy;
     }
 
     public void SetInactive()
     {
-        visible = false;
+        Visible = false;
         gameObject.SetActive(false);
     }
 
     public void SetActive()
     {
-        visible = true;
+        Visible = true;
         gameObject.SetActive(true);
     }
 
     public bool IsActive()
     {
-        return visible;
+        return Visible;
     }
 }

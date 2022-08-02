@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using System.Collections.Generic;
 
 // In game position is defined by the grid coordinates (0,0), (0,1).
@@ -18,7 +17,6 @@ public class GameGridController : MonoBehaviour
 
     private TextMesh[,] debugArray;
     private Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
-    private Vector3 originPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, 0);
 
     // Debug Parameters
     private readonly int debugLineDuration = Settings.DEBUG_DEBUG_LINE_DURATION; // in seconds
@@ -149,6 +147,7 @@ public class GameGridController : MonoBehaviour
     }
     // Debug Methods
 
+    // Gets the cell position
     private Vector3 GetCellPosition(int x, int y)
     {
         Vector3 cellPosition = new Vector3(x, y) * cellSize + gridOriginPosition;
@@ -201,7 +200,7 @@ public class GameGridController : MonoBehaviour
     // Gets the world cell value in Grid position
     public Vector3 GetCellPosition(Vector3 position)
     {
-        Vector3 cellPosition = position * cellSize + originPosition;
+        Vector3 cellPosition = position * cellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
         return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
