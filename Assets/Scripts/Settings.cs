@@ -36,7 +36,7 @@ public static class Settings
 
     // UI: Camera
     public const bool CAMERA_PERSPECTIVE_HAND = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public const int PERSPECTIVE_HAND_CLAMP = 9;
+    public const int CAMERA_PERSPECTIVE_HAND_CLAMP = 9;
     public const bool CAMERA_FOLLOW_PLAYER = false;
     public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
 
