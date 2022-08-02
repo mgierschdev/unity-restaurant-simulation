@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnergyBar : MonoBehaviour
+public class EnergyBarController : MonoBehaviour
 {
-    public Slider slider;
-    public EnergyBar energyBar;
-    public bool visible = false;
+    private Slider slider { get; set; }
+    private EnergyBarController energyBar { get; set; }
+    private bool visible { get; set; }
 
     public void Start()
     {
+        visible = false;
         SetMaxEnergy(Settings.NPC_DEFAULT_ENERGY);
     }
 

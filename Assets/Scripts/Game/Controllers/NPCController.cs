@@ -11,7 +11,7 @@ public class NPCController : GameObjectMovementBase
     [SerializeField]
     public NPCState state; // 0 IDLE, 1 Wander
     [SerializeField]
-    private EnergyBar energyBar;
+    private EnergyBarController energyBar;
     [SerializeField]
     private float startX;
     [SerializeField]
@@ -32,7 +32,7 @@ public class NPCController : GameObjectMovementBase
         state = (int) NPCState.IDLE;
 
         // Energy bar
-        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
+        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
         // Wandering 
         startX = X;
         startY = Y;
@@ -123,12 +123,7 @@ public class NPCController : GameObjectMovementBase
 
     private void AddEnergyBar()
     {
-        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBar>();
-    }
-
-    private EnergyBar GetEnergyBar()
-    {
-        return this.energyBar;
+        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
     }
 
     public void SetNPCState(NPCState state){

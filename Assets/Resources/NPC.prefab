@@ -311,7 +311,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7444181978888355381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bdd8aeb8245c4b67a3466c3581dbc5e, type: 3}
+  m_Script: {fileID: 11500000, guid: b0b61673807264cbb99ab6e3be65a8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
   - {x: -0.20129395, y: 0.12615967, z: 0}
   m_ShapePathHash: 741236957
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40034
+  m_InstanceId: 28766
 --- !u!210 &3339015991518568952
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -589,12 +589,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7444181979243127206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0075f336b5b6c411b84dc63b860584d8, type: 3}
+  m_Script: {fileID: 11500000, guid: b93199ee01f0b43ef87f141a7592a251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 7444181979243127200}
-  energyBar: {fileID: 7444181979243127203}
-  visible: 0
 --- !u!1 &7444181980291553156
 GameObject:
   m_ObjectHideFlags: 0
