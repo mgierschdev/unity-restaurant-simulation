@@ -12,8 +12,16 @@ public class CameraController : MonoBehaviour
     // Camera follow player, for smothing camera movement 
     public float interpolation = Settings.CAMERA_FOLLOW_INTERPOLATION;
 
+    // MouseScroll zoom 
+    private float targetPosition;
+    private float zoomValue;
+    private float zoomSpeed = 35;
+    private float minZoomSize = 1;
+    private float maxZoomSize = 5;
+
     private void Start()
     {
+        targetPosition = Camera.main.orthographicSize;
         touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER);
@@ -60,10 +68,17 @@ public class CameraController : MonoBehaviour
                 Camera.main.transform.position += new Vector3(direction.x, direction.y, 0);
 
                 // then we clamp the value
-                float clampY = Mathf.Clamp(transform.position.y, -Settings.PERSPECTIVE_HAND_CLAMP, Settings.PERSPECTIVE_HAND_CLAMP); // units down, and 0 up
-                float clampX = Mathf.Clamp(transform.position.x, -Settings.PERSPECTIVE_HAND_CLAMP, Settings.PERSPECTIVE_HAND_CLAMP); // left and right
+                float clampY = Mathf.Clamp(transform.position.y, -Settings.CAMERA_PERSPECTIVE_HAND_CLAMP, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP); // units down, and 0 up
+                float clampX = Mathf.Clamp(transform.position.x, -Settings.CAMERA_PERSPECTIVE_HAND_CLAMP, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP); // left and right
                 transform.position = new Vector3(clampX, clampY, transform.position.z);
 
+            }else if(Input.mouseScrollDelta != Vector2.zero){
+
+                // Camera zoom
+                float scroll = Input.GetAxis ("Mouse ScrollWheel");
+                targetPosition -= scroll * zoomSpeed;
+                targetPosition = Mathf.Clamp(targetPosition, minZoomSize, maxZoomSize);
+                Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetPosition, zoomSpeed * Time.deltaTime);
             }
         }
     }
