@@ -1221,7 +1221,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   touchStart: {x: 0, y: 0, z: 0}
+  direction: {x: 0, y: 0, z: 0}
+  playerGameObject: {fileID: 0}
   interpolation: 0.034
+  targetPosition: 0
+  zoomValue: 0
+  zoomSpeed: 35
+  minZoomSize: 1
+  maxZoomSize: 5
 --- !u!224 &451626884
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2170,7 +2177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 741079011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fca3c7caed5f840c8919cb119b1fa9a9, type: 3}
+  m_Script: {fileID: 11500000, guid: e2bd9f6f3101f4412ba27b11c499c9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &752405864
@@ -2664,8 +2671,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 454929259}
   m_HandleRect: {fileID: 454929258}
   m_Direction: 2
-  m_Value: 1.0000001
-  m_Size: 0.5872648
+  m_Value: 0.9999999
+  m_Size: 0.5872647
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 // This will be only element attached in the UI
 // All the buttom calls will be handled by this class.
-public class MenuHandler : MonoBehaviour
+public class MenuHandlerController : MonoBehaviour
 {
     private MenuItem centerTabMenu;
     private MenuItem topGameMenu;
