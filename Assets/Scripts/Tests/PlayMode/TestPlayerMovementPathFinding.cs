@@ -16,7 +16,7 @@ public class TestPlayerMovementPathFinding
     public void Setup()
     {
         // Game Grid
-        gridObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_GAME_GRID, typeof(GameObject))) as GameObject;
+        gridObject = Transform.Instantiate(Resources.Load(Settings.GAME_GRID, typeof(GameObject))) as GameObject;
         gameGridController = gridObject.GetComponent<GameGridController>();
         initialTestingPosition = new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z);
         // Player

@@ -34,7 +34,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         sortingLayer = GetComponent<SortingGroup>();
 
         // Game Grid
-        gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
+        gameGridObject = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
 
         if (gameGridObject != null)
         {
