@@ -10,6 +10,11 @@ public static class Settings
     public const int DEBUG_TEXT_SIZE = 9;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
 
+    // TILEMAPS
+    public const string TILEMAP_FLOOR_0 = "TilemapFloor0";
+    // public const string TILEMAP_FLOOR_1 = "TilemapFloor1";
+    // public const string TILEMAP_FLOOR_2 = "TilemapFloor1";
+
     // PREFABS AND OBJECTS
     public const string GAME_GRID = "GameGrid";
     public const string PREFAB_PATH = "Resources";

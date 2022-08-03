@@ -15,6 +15,7 @@ TagManager:
   - UI
   - ExitButtom
   - NonBlockingObstacle
+  - Floor0
   layers:
   - Default
   - TransparentFX
