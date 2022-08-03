@@ -47,4 +47,11 @@ public class TestProjectSettings
         GameObject gameGrid = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
         Assert.NotNull(gameGrid);
     }
+
+    [Test]
+    public void TestFloor0()
+    {
+        GameObject tilemap = GameObject.Find(Settings.TILEMAP_FLOOR_0);
+        Assert.NotNull(tilemap);
+    }
 }

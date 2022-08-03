@@ -12,7 +12,7 @@ public class IsometricGridController : MonoBehaviour
 
     void Awake()
     {
-        tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+        tilemap = GameObject.Find(Settings.TILEMAP_FLOOR_0).GetComponent<Tilemap>();
         map = new Dictionary<Vector3, GameTile>();
         list = new List<GameTile>();
 
