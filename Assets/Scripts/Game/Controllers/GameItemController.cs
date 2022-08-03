@@ -20,7 +20,7 @@ public class GameItemController : GameObjectBase
         Type = ObjectType.OBSTACLE;
 
         // Getting game grid
-        gameGridObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
+        gameGridObject = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
 
         if (gameGridObject != null)
         {

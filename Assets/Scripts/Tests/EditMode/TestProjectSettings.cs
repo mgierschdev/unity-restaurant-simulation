@@ -44,7 +44,7 @@ public class TestProjectSettings
     [Test]
     public void TestGameGrid()
     {
-        GameObject gameGrid = GameObject.FindGameObjectWithTag(Settings.PREFAB_GAME_GRID);
+        GameObject gameGrid = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
         Assert.NotNull(gameGrid);
     }
 }

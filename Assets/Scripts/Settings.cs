@@ -10,12 +10,12 @@ public static class Settings
     public const int DEBUG_TEXT_SIZE = 9;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
 
-    // PREFABS
+    // PREFABS AND OBJECTS
+    public const string GAME_GRID = "GameGrid";
     public const string PREFAB_PATH = "Resources";
     public const string PREFAB_PLAYER = "Player";
     public const string PREFAB_NPC = "NPC";
     public const string PREFAB_OBSTACLE = "Obstacle";
-    public const string PREFAB_GAME_GRID = "GameGrid";
 
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
