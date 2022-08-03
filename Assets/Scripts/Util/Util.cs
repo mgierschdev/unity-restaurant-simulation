@@ -228,4 +228,27 @@ public static class Util
         }
     }
 
+    public static TileType GetTileType(string tileName)
+    {
+        if (tileName == "floor1")
+        {
+            return TileType.FLOOR_1;
+        }
+        else if (tileName == "floor2")
+        {
+            return TileType.FLOOR_2;
+        }
+        else if (tileName == "floor3")
+        {
+            return TileType.FLOOR_3;
+        }
+        else if (tileName == "floor4")
+        {
+            return TileType.FLOOR_4;
+        }
+        else
+        {
+            return TileType.UNDEFINED;
+        }
+    }
 }

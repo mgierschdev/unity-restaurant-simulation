@@ -1,40 +1,25 @@
-using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
+// This controlls the isometric tiles on the grid
 public class IsometricGridController : MonoBehaviour
 {
-    private float cellSize = Settings.GRID_CELL_SIZE;
-    private Vector3 cellOffset;
-    private int[,] grid;
-
-    // Path Finder object, contains the method to return the shortest path
-    PathFind pathFind;
-
-    private TextMesh[,] debugArray;
-    private Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
-
-    // Debug Parameters
-    private readonly int debugLineDuration = Settings.DEBUG_DEBUG_LINE_DURATION; // in seconds
-    private readonly int cellTexttSize = Settings.DEBUG_TEXT_SIZE;
-    private Vector3 textOffset;
-
     //Tilemap
     private Tilemap tilemap;
+    private List<GameTile> list;
+    private Dictionary<Vector3, GameTile> map;
 
     void Awake()
     {
-        int cellsX = (int)Settings.GRID_WIDTH;
-        int cellsY = (int)Settings.GRID_HEIGHT;
-
-        grid = new int[cellsX, cellsY];
-        pathFind = new PathFind();
-        cellOffset = new Vector3(cellSize, cellSize) * cellSize / 2;
-        textOffset = new Vector3(cellSize, cellSize) * cellSize / 3;
-        debugArray = new TextMesh[cellsX, cellsY];
-
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
-        BoundsInt bounds = tilemap.cellBounds;
+        map = new Dictionary<Vector3, GameTile>();
+        list = new List<GameTile>();
+
+        if (tilemap == null)
+        {
+            Debug.LogWarning("IsometricGridController/tilemap null");
+        }
 
         foreach (Vector3 pos in tilemap.cellBounds.allPositionsWithin)
         {
@@ -43,53 +28,12 @@ public class IsometricGridController : MonoBehaviour
 
             if (tilemap.HasTile(localPlace))
             {
-                Debug.Log("Tile in " + localPlace + " " + placeInWorld + " " + Util.GetXYInGameMap(placeInWorld));
                 TileBase tile = tilemap.GetTile(localPlace);
-                Debug.Log(" "+tile.name);
+                GameTile gameTile = new GameTile(placeInWorld, Util.GetTileType(tile.name));
+                list.Add(gameTile);
+                map.TryAdd(gameTile.GridPosition, gameTile);
+                Debug.Log("Tile " + gameTile.GridPosition + " " + gameTile.WorldPosition + " " + gameTile.Type);
             }
         }
-
-        for (int x = 0; x < cellsX; x++)
-        {
-            for (int y = 0; y < cellsY; y++)
-            {
-                Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.black, debugLineDuration);
-                Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.black, debugLineDuration);
-                Color cellColor = Color.black;
-                if (grid[x, y] == 2 || grid[x, y] == 1)
-                {
-                    cellColor = Color.yellow;
-                }
-                Vector3 textPosition = GetCellPosition(x, y) + cellOffset - textOffset;
-                // Debug.Log(tilemap.;
-                // TileBase tile = tilemap.GetTile(Vector3Int.FloorToInt(textPosition));
-
-                debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, textPosition, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
-            }
-            Debug.DrawLine(GetCellPosition(0, cellsX), GetCellPosition(cellsY, cellsX), Color.black, debugLineDuration);
-            Debug.DrawLine(GetCellPosition(cellsY, 0), GetCellPosition(cellsY, cellsX), Color.black, debugLineDuration);
-        }
     }
-
-
-    // Gets the world cell value in Grid position
-    private Vector3 GetCellPosition(int x, int y)
-    {
-        Vector3 cellPosition = new Vector3(x, y) * cellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
-        return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-    }
-
-    // For getting the Grid position from a world position use Util.GetXYInGameMap
-    public Vector3 GetCellPosition(Vector3 position)
-    {
-        Vector3 cellPosition = position * cellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
-        return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-    }
-
-
-    private bool IsCoordsValid(float x, float y)
-    {
-        return (x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1));
-    }
-
 }
