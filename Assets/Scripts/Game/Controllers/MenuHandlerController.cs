@@ -12,9 +12,15 @@ public class MenuHandlerController : MonoBehaviour
     private Stack<MenuItem> menuStack;
     private HashSet<string> openMenus;
 
+    // Click controller
+    private ClickController clickController;
 
     private void Start()
     {
+        // Click controller
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
+        clickController = cController.GetComponent<ClickController>();
+
         tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
         GameObject gameMenu = transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
 
@@ -35,7 +41,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void Update()
     {
-        if (menuStack.Count > 0 && Input.GetMouseButton(0) && IsClickOutside())
+        if (menuStack.Count > 0 && Input.GetMouseButton(0) && IsClickOutside() && !clickController.IsLongClick)
         {
             CloseMenu();
         }

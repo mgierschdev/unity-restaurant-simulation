@@ -37,6 +37,7 @@ public static class Settings
     public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
     public const string CONST_CENTER_TAB_MENU_BODY = "MenuBody";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
+    public const string CONST_PARENT_GAME_OBJECT = "Game";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
 
