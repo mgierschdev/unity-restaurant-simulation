@@ -19,12 +19,17 @@ public class CameraController : MonoBehaviour
     private float minZoomSize = 1;
     private float maxZoomSize = 5;
 
+    // Menu Controller
+    private MenuHandlerController menuHandlerController;
+
     private void Start()
     {
         targetPosition = Camera.main.orthographicSize;
         touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER);
+        GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
+        menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
 
         if (playerGameObject == null)
         {
@@ -35,7 +40,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        // Only if enabled in Settings
+        // Only if enabled in Settings or if no menu is open
         PerspectiveHand();
 
         // Follow Player
@@ -54,7 +59,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (Settings.CAMERA_PERSPECTIVE_HAND)
+        if (Settings.CAMERA_PERSPECTIVE_HAND && !menuHandlerController.IsMenuOpen())
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -71,11 +76,11 @@ public class CameraController : MonoBehaviour
                 float clampY = Mathf.Clamp(transform.position.y, -Settings.CAMERA_PERSPECTIVE_HAND_CLAMP, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP); // units down, and 0 up
                 float clampX = Mathf.Clamp(transform.position.x, -Settings.CAMERA_PERSPECTIVE_HAND_CLAMP, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP); // left and right
                 transform.position = new Vector3(clampX, clampY, transform.position.z);
-
-            }else if(Input.mouseScrollDelta != Vector2.zero){
-
+            }
+            else if (Input.mouseScrollDelta != Vector2.zero)
+            {
                 // Camera zoom
-                float scroll = Input.GetAxis ("Mouse ScrollWheel");
+                float scroll = Input.GetAxis("Mouse ScrollWheel");
                 targetPosition -= scroll * zoomSpeed;
                 targetPosition = Mathf.Clamp(targetPosition, minZoomSize, maxZoomSize);
                 Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetPosition, zoomSpeed * Time.deltaTime);
