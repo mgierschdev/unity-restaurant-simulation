@@ -6,4 +6,5 @@ public class StoreItemScriptableObject : ScriptableObject
     public string prefabName;
     public string assetFileName;
     public ObjectType type;
+    public int[] tiles;
 }
