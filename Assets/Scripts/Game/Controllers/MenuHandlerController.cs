@@ -6,6 +6,7 @@ using System.Collections.Generic;
 // All the buttom calls will be handled by this class.
 public class MenuHandlerController : MonoBehaviour
 {
+    private GameObject tabMenu;
     private MenuItem centerTabMenu;
     private MenuItem topGameMenu;
     private Stack<MenuItem> menuStack;
@@ -14,7 +15,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void Start()
     {
-        GameObject tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
+        tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
         GameObject gameMenu = transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
 
         menuStack = new Stack<MenuItem>();
@@ -114,13 +115,25 @@ public class MenuHandlerController : MonoBehaviour
         if (menuStack.Count > 0)
         {
             MenuItem menu = menuStack.Peek();
-            return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(), Input.mousePosition);
-        }else{
+            if (menu.Type == MenuType.TAB_MENU)
+            {
+                GameObject MenuBody = GameObject.Find(Settings.CONST_CENTER_TAB_MENU_BODY);
+                return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenu.GetComponent<RectTransform>(), Input.mousePosition) ||
+                RectTransformUtility.RectangleContainsScreenPoint(MenuBody.GetComponent<RectTransform>(), Input.mousePosition));
+            }
+            else
+            {
+                return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(), Input.mousePosition);
+            }
+        }
+        else
+        {
             return false;
         }
     }
 
-    public bool IsMenuOpen(){
+    public bool IsMenuOpen()
+    {
         return menuStack.Count > 0;
     }
 }

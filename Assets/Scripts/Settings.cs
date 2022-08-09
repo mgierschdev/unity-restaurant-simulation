@@ -35,6 +35,7 @@ public static class Settings
     public const string DEFAULT_LETTER_FONT = "Roboto-Regular";
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenu";
     public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
+    public const string CONST_CENTER_TAB_MENU_BODY = "MenuBody";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
