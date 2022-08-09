@@ -11,6 +11,7 @@ public class MenuHandlerController : MonoBehaviour
     private MenuItem topGameMenu;
     private Stack<MenuItem> menuStack;
     private HashSet<string> openMenus;
+    private bool isGamePaused;
 
     // Click controller
     private ClickController clickController;
@@ -41,7 +42,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void Update()
     {
-        if (menuStack.Count > 0 && Input.GetMouseButton(0) && IsClickOutside() && !clickController.IsLongClick)
+        if (!clickController.IsLongClick && menuStack.Count > 0 && Input.GetMouseButton(0) && IsClickOutside())
         {
             CloseMenu();
         }
@@ -109,11 +110,13 @@ public class MenuHandlerController : MonoBehaviour
     private void PauseGame()
     {
         Time.timeScale = 0;
+        isGamePaused = true;
     }
 
     private void ResumeGame()
     {
         Time.timeScale = 1;
+        isGamePaused = false;
     }
 
     private bool IsClickOutside()
@@ -141,5 +144,10 @@ public class MenuHandlerController : MonoBehaviour
     public bool IsMenuOpen()
     {
         return menuStack.Count > 0;
+    }
+
+    public bool IsGamePaused()
+    {
+        return isGamePaused;
     }
 }
