@@ -16,6 +16,7 @@ TagManager:
   - ExitButtom
   - NonBlockingObstacle
   - Floor0
+  - Game
   layers:
   - Default
   - TransparentFX
