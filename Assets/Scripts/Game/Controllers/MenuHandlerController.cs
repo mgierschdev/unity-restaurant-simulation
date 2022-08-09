@@ -119,4 +119,8 @@ public class MenuHandlerController : MonoBehaviour
             return false;
         }
     }
+
+    public bool IsMenuOpen(){
+        return menuStack.Count > 0;
+    }
 }
