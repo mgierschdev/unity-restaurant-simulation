@@ -59,7 +59,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (Settings.CAMERA_PERSPECTIVE_HAND && !menuHandlerController.IsMenuOpen())
+        if (Settings.CAMERA_PERSPECTIVE_HAND && !menuHandlerController.IsGamePaused())
         {
             if (Input.GetMouseButtonDown(0))
             {

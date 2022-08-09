@@ -20,7 +20,6 @@ public class ClickController : MonoBehaviour
     {
         // Controls the state of the first and long click
         ClickControl();
-        Debug.Log("Clicking time "+ClickingTime + " "+IsLongClick);
     }
 
     private void ClickControl()
@@ -32,17 +31,26 @@ public class ClickController : MonoBehaviour
             IsClicking = true;
         }
 
+        // During Click
+        if (IsClicking)
+        {
+            // Continues counting even while the game is paused
+            if (Time.deltaTime == 0)
+            {
+                ClickingTime += Time.unscaledDeltaTime;
+            }
+            else
+            {
+                ClickingTime += Time.deltaTime;
+            }
+        }
+
         // On realising the mouse
-        if(Input.GetMouseButtonUp(0)){
+        if (Input.GetMouseButtonUp(0))
+        {
             ClickingTime = 0;
             IsClicking = false;
             IsLongClick = false;
-        }
-
-        // During Click
-        if (IsClicking && Input.GetKey(KeyCode.Mouse0))
-        {
-            ClickingTime += Time.deltaTime;
         }
 
         // Resets isLongClick
