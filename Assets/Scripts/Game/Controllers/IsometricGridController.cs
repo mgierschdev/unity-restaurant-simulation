@@ -76,14 +76,14 @@ public class IsometricGridController : MonoBehaviour
     {
         if (Settings.DEBUG_ENABLE)
         {
-            tilemapPathFinding.color = new Color(1, 1, 1, 0.5f);
+            tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
         }
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 20; i++)
         {
-            for (int j = 0; j < 100; j++)
+            for (int j = 0; j < 20; j++)
             {
-                Debug.Log("Setting tileMap floor ");
+                //   Debug.Log("Setting tileMap floor ");
                 tilemapPathFinding.SetTile(new Vector3Int(i + gridOriginPosition.x, j + gridOriginPosition.y, 0), gridTile.UnityTileBase);
             }
         }
