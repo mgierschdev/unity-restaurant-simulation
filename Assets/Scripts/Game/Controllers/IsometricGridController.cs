@@ -32,7 +32,7 @@ public class IsometricGridController : MonoBehaviour
                 GameTile gameTile = new GameTile(placeInWorld, Util.GetTileType(tile.name));
                 list.Add(gameTile);
                 map.TryAdd(gameTile.GridPosition, gameTile);
-                Debug.Log("Tile " + gameTile.GridPosition + " " + gameTile.WorldPosition + " " + gameTile.Type);
+                Debug.Log("Tile " + gameTile.GridPosition + " " + gameTile.WorldPosition + " " + gameTile.Type+" ("+tile.name+")");
             }
         }
     }
