@@ -6,7 +6,7 @@ public static class Settings
     public const float PLAYER_MOVEMENT_SPEED = 1f;
 
     // DEBUG parameters
-    public const bool DEBUG_ENABLE = true; //Only for development
+    public const bool DEBUG_ENABLE = false; //Only for development
     public const int DEBUG_TEXT_SIZE = 9;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
 
@@ -14,6 +14,7 @@ public static class Settings
     public const string TILEMAP_FLOOR_0 = "TilemapFloor0";
     public const string TILEMAP_COLLIDERS = "TilemapColliders";
     public const string TILEMAP_OBJECTS = "TilemapObjects";
+    public const string PATH_FINDING_GRID = "PathFindingGrid";
 
     // PREFABS AND OBJECTS
     public const string GAME_GRID = "GameGrid";

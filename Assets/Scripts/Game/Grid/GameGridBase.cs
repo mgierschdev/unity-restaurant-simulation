@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor.AssetImporters;
 
 public abstract class GameGridBase : MonoBehaviour
 {
@@ -164,9 +165,17 @@ public abstract class GameGridBase : MonoBehaviour
         }
     }
 
-    public void SetObstacleInPosition(int x, int y, ObjectType type)
+    //Default for 0.25 tile cell
+    public void SetIsometricGameTileCollider(GameTile tile)
     {
-        SetGridObstacle(x, y, type);
+        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y, tile.Type, Color.black);
+        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y, tile.Type, Color.black);
+        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y + 1, tile.Type, Color.black);
+        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y + 2, tile.Type, Color.black);
+        SetGridObstacle((int)tile.GridPosition.x - 1, (int)tile.GridPosition.y + 1, tile.Type, Color.black);
+        SetGridObstacle((int)tile.GridPosition.x - 2, (int)tile.GridPosition.y + 1, tile.Type, Color.black);
+        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y + 1, tile.Type, Color.black);
+        SetGridObstacle((int)tile.GridPosition.x + 2, (int)tile.GridPosition.y + 1, tile.Type, Color.black);
     }
 
     public Vector2Int GetMousePositionInGame()
@@ -190,19 +199,21 @@ public abstract class GameGridBase : MonoBehaviour
             color = Color.blue;
         }
 
-        if (!IsCoordsValid(x, y) && x > 1 && y > 1)
+        if (!IsCoordsValid(x, y) || x < 0 || y < 0)
         {
             if (Settings.DEBUG_ENABLE)
             {
-                Debug.LogError("The object should be placed inside the perimeter");
+                Debug.LogWarning("The object should be placed inside the perimeter");
             }
 
             return;
         }
 
-        grid[x, y] = (int)type;
-
         if (ObjectType.OBSTACLE == type)
+        {
+            grid[x, y] = (int)type;
+        }
+        else
         {
             grid[x, y] = (int)type;
         }

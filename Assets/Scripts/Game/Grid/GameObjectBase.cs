@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-
-public abstract class GameObjectBase : MonoBehaviour
+ 
+public abstract class GameObjectBase
 {
     public Vector3 GridPosition { get; set; }
     public Vector3 WorldPosition { get; set; }

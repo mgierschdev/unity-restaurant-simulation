@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
+using UnityEngine.Tilemaps;
 
 // This will contain Utility functions, to create Unity Object and other
 public static class Util
@@ -246,28 +248,88 @@ public static class Util
         {
             return TileType.FLOOR_4;
         }
+        else if (tileName == "Complete@3x")
+        {
+            return TileType.FLOOR_OBSTACLE;
+        }
+        else if (tileName == "MediumHorizontal@3x")
+        {
+            return TileType.FLOOR_MEDIUM_HORIZONTAL_OBSTACLE;
+        }
+        else if (tileName == "MediumVertical@3x")
+        {
+            return TileType.FLOOR_MEDIUM_VERTICAL_OBSTACLE;
+        }
+        else if (tileName == "ShortHorizontal@3x")
+        {
+            return TileType.FLOOR_SHORT_HORIZONTAL_OBSTACLE;
+        }
+        else if (tileName == "ShortVertical@3x")
+        {
+            return TileType.FLOOR_SHORT_VERTICAL_OBSTACLE;
+        }
+        else if (tileName == "GridTile")
+        {
+            return TileType.ISOMETRIC_GRID_TILE;
+        }
         else
         {
             return TileType.UNDEFINED;
         }
     }
+
+    public static ObjectType GetTileObjectType(TileType type)
+    {
+        if (TileType.FLOOR_OBSTACLE == type ||
+        TileType.FLOOR_MEDIUM_HORIZONTAL_OBSTACLE == type ||
+        TileType.FLOOR_MEDIUM_VERTICAL_OBSTACLE == type ||
+        TileType.FLOOR_SHORT_HORIZONTAL_OBSTACLE == type ||
+        TileType.FLOOR_SHORT_VERTICAL_OBSTACLE == type)
+        {
+            return ObjectType.OBSTACLE;
+        }
+        else if (type == TileType.FLOOR_1 ||
+        type == TileType.FLOOR_2 ||
+        type == TileType.FLOOR_3 ||
+        type == TileType.FLOOR_4 ||
+        type == TileType.ISOMETRIC_GRID_TILE)
+        {
+            return ObjectType.FLOOR;
+        }
+        else
+        {
+            return ObjectType.UNDEFINED;
+        }
+    }
 }
 
 //Item types
+// to reference the type of object, each with different properties
 public enum ObjectType
 {
     OBSTACLE = 1,
     NPC = 2,
     PLAYER = 3,
-    NPC_TABLE = 4
+    NPC_TABLE = 4,
+    FLOOR = 5,
+    UNDEFINED = 999
 }
 
+// To reference from fileNames to object names
 public enum TileType
 {
-    FLOOR_1 = 1,
+    FLOOR_1 = 1,// Collider
     FLOOR_2 = 2,
     FLOOR_3 = 3,
     FLOOR_4 = 4,
+    FLOOR_OBSTACLE = 5,
+    FLOOR_MEDIUM_HORIZONTAL_OBSTACLE = 6,
+    FLOOR_MEDIUM_VERTICAL_OBSTACLE = 7,
+    FLOOR_SHORT_HORIZONTAL_OBSTACLE = 8,
+    FLOOR_SHORT_VERTICAL_OBSTACLE = 9,
+    ISOMETRIC_GRID_TILE = 10,
+
+
     UNDEFINED = 999
 }
 
