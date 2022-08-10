@@ -35,7 +35,6 @@ public abstract class GameGridBase : MonoBehaviour
             debugArray = new TextMesh[cellsX, cellsY];
             for (int x = 0; x < cellsX; x++)
             {
-
                 for (int y = 0; y < cellsY; y++)
                 {
                     Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.black, debugLineDuration);
@@ -48,8 +47,6 @@ public abstract class GameGridBase : MonoBehaviour
                     debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, GetCellPosition(x, y) +
                         cellOffset - textOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
-                Debug.DrawLine(GetCellPosition(0, cellsX), GetCellPosition(cellsY, cellsX), Color.black, debugLineDuration);
-                Debug.DrawLine(GetCellPosition(cellsY, 0), GetCellPosition(cellsY, cellsX), Color.black, debugLineDuration);
             }
         }
     }

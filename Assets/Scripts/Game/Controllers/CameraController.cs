@@ -73,8 +73,8 @@ public class CameraController : MonoBehaviour
                 Camera.main.transform.position += new Vector3(direction.x, direction.y, 0);
 
                 // then we clamp the value
-                float clampY = Mathf.Clamp(transform.position.y, -Settings.CAMERA_PERSPECTIVE_HAND_CLAMP, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP); // units down, and 0 up
-                float clampX = Mathf.Clamp(transform.position.x, -Settings.CAMERA_PERSPECTIVE_HAND_CLAMP, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP); // left and right
+                float clampX = Mathf.Clamp(transform.position.x, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_X[0], Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_X[1]); // left and right
+                float clampY = Mathf.Clamp(transform.position.y, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_Y[0], Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_Y[1]); // units down, and up
                 transform.position = new Vector3(clampX, clampY, transform.position.z);
             }
             else if (Input.mouseScrollDelta != Vector2.zero)
