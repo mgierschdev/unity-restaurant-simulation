@@ -12,8 +12,8 @@ public static class Settings
 
     // TILEMAPS
     public const string TILEMAP_FLOOR_0 = "TilemapFloor0";
-    // public const string TILEMAP_FLOOR_1 = "TilemapFloor1";
-    // public const string TILEMAP_FLOOR_2 = "TilemapFloor1";
+    public const string TILEMAP_COLLIDERS = "TilemapColliders";
+    public const string TILEMAP_OBJECTS = "TilemapObjects";
 
     // PREFABS AND OBJECTS
     public const string GAME_GRID = "GameGrid";
