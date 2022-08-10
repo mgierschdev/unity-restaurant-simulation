@@ -49,9 +49,30 @@ public class TestProjectSettings
     }
 
     [Test]
-    public void TestFloor0()
+    public void TestTileFloor0()
     {
         GameObject tilemap = GameObject.Find(Settings.TILEMAP_FLOOR_0);
+        Assert.NotNull(tilemap);
+    }
+
+    [Test]
+    public void TestTileColliders()
+    {
+        GameObject tilemap = GameObject.Find(Settings.TILEMAP_COLLIDERS);
+        Assert.NotNull(tilemap);
+    }
+
+    [Test]
+    public void TestTileObjects()
+    {
+        GameObject tilemap = GameObject.Find(Settings.TILEMAP_OBJECTS);
+        Assert.NotNull(tilemap);
+    }
+
+    [Test]
+    public void TestPathFindingObjects()
+    {
+        GameObject tilemap = GameObject.Find(Settings.PATH_FINDING_GRID);
         Assert.NotNull(tilemap);
     }
 }

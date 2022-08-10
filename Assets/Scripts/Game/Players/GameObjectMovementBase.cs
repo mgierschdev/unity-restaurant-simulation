@@ -168,7 +168,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
             if (Settings.DEBUG_ENABLE)
             {
-                Debug.DrawLine(from, to, Color.magenta, 10f);
+                Debug.DrawLine(from, to, Color.yellow, 15f);
             }
             
             pendingMovementQueue.Enqueue(path[i].GetVector3());

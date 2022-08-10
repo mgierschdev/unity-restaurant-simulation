@@ -1,11 +1,19 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using CodiceApp;
 
 // This controlls the isometric tiles on the grid
 public class IsometricGridController : MonoBehaviour
 {
     //Tilemap 
+    // Isometric Grid with pathfinding
+    private GameTile gridTile; //The gameTile used to build the grid
+    private Tilemap tilemapPathFinding;
+    private List<GameTile> listPathFindingMap;
+    private Dictionary<Vector3, GameTile> mapPathFinding;
+    private Vector3Int gridOriginPosition = new Vector3Int(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+
     //Floor
     private Tilemap tilemapFloor;
     private List<GameTile> listFloorTileMap;
@@ -21,8 +29,15 @@ public class IsometricGridController : MonoBehaviour
     private List<GameTile> listObjectsTileMap;
     private Dictionary<Vector3, GameTile> mapObjects;
 
+    //GameGrid Controller
+    private GameGridController gridController;
+
     void Awake()
     {
+        tilemapPathFinding = GameObject.Find(Settings.PATH_FINDING_GRID).GetComponent<Tilemap>();
+        mapPathFinding = new Dictionary<Vector3, GameTile>();
+        listPathFindingMap = new List<GameTile>();
+
         tilemapFloor = GameObject.Find(Settings.TILEMAP_FLOOR_0).GetComponent<Tilemap>();
         mapFloor = new Dictionary<Vector3, GameTile>();
         listFloorTileMap = new List<GameTile>();
@@ -35,6 +50,9 @@ public class IsometricGridController : MonoBehaviour
         mapObjects = new Dictionary<Vector3, GameTile>();
         listObjectsTileMap = new List<GameTile>();
 
+        // Loading game grid controller
+        gridController = transform.GetComponent<GameGridController>();
+
         if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null)
         {
             Debug.LogWarning("IsometricGridController/tilemap null");
@@ -43,6 +61,32 @@ public class IsometricGridController : MonoBehaviour
         LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
+        LoadTileMap(listPathFindingMap, tilemapPathFinding, mapPathFinding);
+
+        //Loading colliders into the grid
+        LoadColliders();
+    }
+
+    void Start()
+    {
+        BuildGrid();
+    }
+
+    public void BuildGrid()
+    {
+        if (Settings.DEBUG_ENABLE)
+        {
+            tilemapPathFinding.color = new Color(1, 1, 1, 0.5f);
+        }
+
+        for (int i = 0; i < 100; i++)
+        {
+            for (int j = 0; j < 100; j++)
+            {
+                Debug.Log("Setting tileMap floor ");
+                tilemapPathFinding.SetTile(new Vector3Int(i + gridOriginPosition.x, j + gridOriginPosition.y, 0), gridTile.UnityTileBase);
+            }
+        }
     }
 
     private void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3, GameTile> map)
@@ -55,12 +99,28 @@ public class IsometricGridController : MonoBehaviour
             if (tilemap.HasTile(localPlace))
             {
                 TileBase tile = tilemap.GetTile(localPlace);
-                GameTile gameTile = new GameTile(placeInWorld, Util.GetTileType(tile.name));
+                GameTile gameTile = new GameTile(placeInWorld, Util.GetTileType(tile.name), Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
                 list.Add(gameTile);
                 map.TryAdd(gameTile.GridPosition, gameTile);
-                Debug.Log("Tile " + gameTile.GridPosition + " " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
+
+                if (Util.GetTileType(tile.name) == TileType.ISOMETRIC_GRID_TILE)
+                {
+                    gridTile = gameTile;
+                }
+
+                if (Settings.DEBUG_ENABLE)
+                {
+                    Debug.Log("Tile " + gameTile.GridPosition + " " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
+                }
             }
         }
+    }
 
+    private void LoadColliders()
+    {
+        foreach (GameTile tile in listCollidersTileMap)
+        {
+            gridController.SetIsometricGameTileCollider(tile);
+        }
     }
 }
