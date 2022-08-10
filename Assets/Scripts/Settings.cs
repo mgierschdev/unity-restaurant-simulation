@@ -2,11 +2,11 @@ public static class Settings
 {
     // Player Config
     public const bool PLAYER_WALK_WITH_KEYBOARD = false;
-    public const bool PLAYER_WALK_ON_CLICK = false;
+    public const bool PLAYER_WALK_ON_CLICK = true;
     public const float PLAYER_MOVEMENT_SPEED = 1f;
 
     // DEBUG parameters
-    public const bool DEBUG_ENABLE = false; //Only for development
+    public const bool DEBUG_ENABLE = true; //Only for development
     public const int DEBUG_TEXT_SIZE = 9;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
 
@@ -43,7 +43,8 @@ public static class Settings
 
     // UI: Camera
     public const bool CAMERA_PERSPECTIVE_HAND = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public const int CAMERA_PERSPECTIVE_HAND_CLAMP = 9;
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = {-0.5f, 3};
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = {-8, 0.5f};
     public const bool CAMERA_FOLLOW_PLAYER = false;
     public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
 
@@ -51,8 +52,6 @@ public static class Settings
     public const string CONST_GAME_BACKGROUND_DEFAULT = "GameBackground";//E.g: Prefab GameBackground800x1920, GameBackground1300x1300
     public const int CONST_DEFAULT_CAMERA_WIDTH = 1500;
     public const int CONST_DEFAULT_CAMERA_HEIGHT = 1600;
-    public const int CONST_CAMERA_CLAMP_X = 3; // Both sides -3, 3 in grid UNITS
-    public const int CONST_CAMERA_CLAMP_Y = -1; // -1, 0
     public const int DEFAULT_GAME_OBJECTS_Z = 1;
 
     //UI: Buttons listeners
@@ -65,8 +64,8 @@ public static class Settings
     // UI Tags
     // Grid Config
     public const float GRID_CELL_SIZE = 0.25f; // 0.25f default
-    public const int GRID_WIDTH = 72; // Number of cell of the Grid CellSize
-    public const int GRID_HEIGHT = 72;
-    public const int GRID_START_X = -9;
-    public const int GRID_START_Y = -9;
+    public const int GRID_WIDTH = 62; // Number of cell per Grid CellSize
+    public const int GRID_HEIGHT = 62;
+    public const int GRID_START_X = -5;
+    public const int GRID_START_Y = -11;
 }

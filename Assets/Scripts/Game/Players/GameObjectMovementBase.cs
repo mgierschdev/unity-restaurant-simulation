@@ -165,10 +165,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             Vector3 from = GameGrid.GetCellPosition(path[i - 1].GetVector3());
             Vector3 to = GameGrid.GetCellPosition(path[i].GetVector3());
+
             if (Settings.DEBUG_ENABLE)
             {
                 Debug.DrawLine(from, to, Color.magenta, 10f);
             }
+            
             pendingMovementQueue.Enqueue(path[i].GetVector3());
         }
 
