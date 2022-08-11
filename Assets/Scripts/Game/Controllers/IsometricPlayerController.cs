@@ -1,9 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// Controls player properties
-// Attached to: Player Object
-public class PlayerController : GameNonIsometricMovement
+public class IsometricPlayerController : GameIsometricMovement
 {
     // ClickController for the long click duration for the player
     private ClickController clickController;
@@ -115,4 +113,5 @@ public class PlayerController : GameNonIsometricMovement
     {
         this.clickController = controller;
     }
+
 }

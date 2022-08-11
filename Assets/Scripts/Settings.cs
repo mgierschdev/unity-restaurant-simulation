@@ -6,7 +6,7 @@ public static class Settings
     public const float PLAYER_MOVEMENT_SPEED = 1f;
 
     // DEBUG parameters
-    public const bool DEBUG_ENABLE = false; //Only for development
+    public const bool DEBUG_ENABLE = true; //Only for development
     public const int DEBUG_TEXT_SIZE = 9;
     public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
 

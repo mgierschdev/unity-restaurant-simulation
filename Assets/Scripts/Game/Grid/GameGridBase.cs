@@ -38,14 +38,14 @@ public abstract class GameGridBase : MonoBehaviour
             {
                 for (int y = 0; y < cellsY; y++)
                 {
-                    Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x, y + 1), Color.black, debugLineDuration);
-                    Debug.DrawLine(GetCellPosition(x, y), GetCellPosition(x + 1, y), Color.black, debugLineDuration);
+                    Debug.DrawLine(Util.GetCellPosition(x, y), Util.GetCellPosition(x, y + 1), Color.black, debugLineDuration);
+                    Debug.DrawLine(Util.GetCellPosition(x, y), Util.GetCellPosition(x + 1, y), Color.black, debugLineDuration);
                     Color cellColor = Color.white;
                     if (grid[x, y] == 2 || grid[x, y] == 1)
                     {
                         cellColor = Color.black;
                     }
-                    debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, GetCellPosition(x, y) +
+                    debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, Util.GetCellPosition(x, y) +
                         cellOffset - textOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
             }
@@ -126,13 +126,6 @@ public abstract class GameGridBase : MonoBehaviour
     }
     // Debug Methods
 
-    // Gets the cell position
-    private Vector3 GetCellPosition(int x, int y)
-    {
-        Vector3 cellPosition = new Vector3(x, y) * cellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
-        return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-    }
-
     private void SetValue(Vector3 position, int value)
     {
         Vector2Int pos = Util.GetXYInGameMap(position);
@@ -147,7 +140,7 @@ public abstract class GameGridBase : MonoBehaviour
     // For setting objects position with offset
     public Vector3 GetCellPositionWithOffset(int x, int y)
     {
-        return GetCellPosition(x, y) + cellOffset;
+        return Util.GetCellPosition(x, y) + cellOffset;
     }
 
     // Updating Items on the grid
@@ -182,13 +175,6 @@ public abstract class GameGridBase : MonoBehaviour
     {
         Vector3 mousePosition = Util.GetMouseInWorldPosition();
         return Util.GetXYInGameMap(mousePosition);
-    }
-
-    // Gets the world cell value in Grid position
-    public Vector3 GetCellPosition(Vector3 position)
-    {
-        Vector3 cellPosition = position * cellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
-        return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     // In GameMap/Grid coordinates This sets the obstacle points around the obstacle

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using CodiceApp;
+using UnityEngine.Pool;
 
 // This controlls the isometric tiles on the grid
 public class IsometricGridController : MonoBehaviour
@@ -127,5 +128,15 @@ public class IsometricGridController : MonoBehaviour
         {
             gridController.SetIsometricGameTileCollider(tile);
         }
+    }
+
+    public List<Node> GetPath(int[] from, int[] to)
+    {
+        return new List<Node>();
+    }
+
+    public Vector3 GetCellPosition(Vector3 position)
+    {
+        return position;
     }
 }
