@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using System.Collections;
@@ -34,6 +33,66 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         X = pos.x;
         Y = pos.y;
         Position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
+    }
+
+    public void UpdateTargetMovement()
+    {
+        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
+        {
+            nextTarget = Vector3.zero;
+            currentTargetPosition = Vector3.zero;
+
+            if (pendingMovementQueue.Count != 0)
+            {
+                AddMovement();
+            }
+            else
+            {
+                if (Settings.DEBUG_ENABLE)
+                {
+                    //Debug.Log("[Moving] Target Reached: " + transform.name + " " + Position);
+                }
+            }
+        }
+
+        if (nextTarget != Vector3.zero)
+        {
+            currentTargetPosition = nextTarget;
+            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
+        }
+    }
+
+    protected void AddGridMovement()
+    {
+        if (pendingMovementQueue.Count == 0)
+        {
+            return;
+        }
+
+        Vector3 direction = Util.GetCellPosition((Vector3)pendingMovementQueue.Dequeue());
+        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        this.nextTarget = nextTarget;
+    }
+
+    public void AddMovement(Vector3 direction)
+    {
+        if (direction != new Vector3(0, 0))
+        {
+            Vector3 newDirection = direction + transform.position;
+            this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        }
+    }
+
+    public void AddMovement()
+    {
+        if (pendingMovementQueue.Count == 0)
+        {
+            return;
+        }
+
+        Vector3 direction = Util.GetCellPosition((Vector3)pendingMovementQueue.Dequeue());
+        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        this.nextTarget = nextTarget;
     }
 
     protected void ResetMovementIfMoving()

@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameNonIsometricMovement : GameObjectMovementBase
+public class GameNonIsometricMovement : GameObjectMovementBase, IMovement
 {
     public GameGridController GameGrid { get; set; }
 
@@ -24,7 +24,7 @@ public class GameNonIsometricMovement : GameObjectMovementBase
         {
             if (Settings.DEBUG_ENABLE)
             {
-                Debug.LogWarning("NPCController.cs/gameGridObject null");
+                Debug.LogWarning("GameGridController.cs/gameGridObject null");
             }
         }
 
@@ -35,6 +35,11 @@ public class GameNonIsometricMovement : GameObjectMovementBase
         //Update Object initial position
         currentTargetPosition = Vector3.negativeInfinity;
         UpdatePosition();
+    }
+
+    public List<Node> GetPath(int[] from, int[] to)
+    {
+        return GameGrid.GetPath(from, to);
     }
 
     public void AddPath(List<Node> path)
@@ -53,8 +58,8 @@ public class GameNonIsometricMovement : GameObjectMovementBase
 
         for (int i = 1; i < path.Count; i++)
         {
-            Vector3 from = GameGrid.GetCellPosition(path[i - 1].GetVector3());
-            Vector3 to = GameGrid.GetCellPosition(path[i].GetVector3());
+            Vector3 from = Util.GetCellPosition(path[i - 1].GetVector3());
+            Vector3 to = Util.GetCellPosition(path[i].GetVector3());
 
             if (Settings.DEBUG_ENABLE)
             {
@@ -73,24 +78,30 @@ public class GameNonIsometricMovement : GameObjectMovementBase
         AddMovement(); // To set the first target
     }
 
-    protected void AddMovement()
+    protected void UpdateTargetMovement()
     {
-        if (pendingMovementQueue.Count == 0)
+        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
-            return;
+            nextTarget = Vector3.zero;
+            currentTargetPosition = Vector3.zero;
+
+            if (pendingMovementQueue.Count != 0)
+            {
+                AddMovement();
+            }
+            else
+            {
+                if (Settings.DEBUG_ENABLE)
+                {
+                    //Debug.Log("[Moving] Target Reached: " + transform.name + " " + Position);
+                }
+            }
         }
 
-        Vector3 direction = GameGrid.GetCellPosition((Vector3)pendingMovementQueue.Dequeue());
-        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-        this.nextTarget = nextTarget;
-    }
-
-    public void AddMovement(Vector3 direction)
-    {
-        if (direction != GetVectorFromDirection(MoveDirection.IDLE))
+        if (nextTarget != Vector3.zero)
         {
-            Vector3 newDirection = direction + transform.position;
-            this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+            currentTargetPosition = nextTarget;
+            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
         }
     }
 
@@ -134,30 +145,4 @@ public class GameNonIsometricMovement : GameObjectMovementBase
         return new Vector3(dir.x, dir.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
-    public void UpdateTargetMovement()
-    {
-        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
-        {
-            nextTarget = Vector3.zero;
-            currentTargetPosition = Vector3.zero;
-
-            if (pendingMovementQueue.Count != 0)
-            {
-                AddMovement();
-            }
-            else
-            {
-                if (Settings.DEBUG_ENABLE)
-                {
-                    //Debug.Log("[Moving] Target Reached: " + transform.name + " " + Position);
-                }
-            }
-        }
-
-        if (nextTarget != Vector3.zero)
-        {
-            currentTargetPosition = nextTarget;
-            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
-        }
-    }
 }

@@ -137,6 +137,22 @@ public static class Util
         }
     }
 
+    // Gets the cell position in a non-isometric grid
+    public static Vector3 GetCellPosition(int x, int y)
+    {
+        Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+        Vector3 cellPosition = new Vector3(x, y) * Settings.GRID_CELL_SIZE + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
+        return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+    }
+
+    // Gets the cell position in a non-isometric grid
+    public static Vector3 GetCellPosition(Vector3 position)
+    {
+        Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+        Vector3 cellPosition = position * Settings.GRID_CELL_SIZE + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
+        return new Vector3(cellPosition.x, cellPosition.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+    }
+
     // Translates a normalized angle to a direction from 0 - 360
     //       360 | 0
     //           .
