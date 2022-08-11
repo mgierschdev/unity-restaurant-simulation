@@ -23,6 +23,7 @@ public class IsometricGridController : MonoBehaviour
     // Path Finder object, contains the method to return the shortest path
     PathFind pathFind;
     private int[,] grid;
+    private TextMesh[,] debugGrid;
 
     //Floor
     private Tilemap tilemapFloor;
@@ -68,19 +69,12 @@ public class IsometricGridController : MonoBehaviour
         int cellsX = (int)Settings.GRID_WIDTH;
         int cellsY = (int)Settings.GRID_HEIGHT;
         grid = new int[cellsX, cellsY];
+        debugGrid = new TextMesh[cellsX, cellsY];
 
         BuildGrid(listPathFindingMap, mapWorldPositionToTile, mapGridPositionToTile, mapPathFindingGrid); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
-    }
-
-    public void Start()
-    {
-        if (Settings.DEBUG_ENABLE)
-        {
-            DrawCellCoords();
-        }
     }
 
     private void DrawCellCoords()
@@ -89,9 +83,13 @@ public class IsometricGridController : MonoBehaviour
 
         foreach (GameTile tile in listPathFindingMap)
         {
-            Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject, "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," + tile.WorldPosition.y, tile.WorldPosition, Settings.DEBUG_TEXT_SIZE, Color.black, TextAnchor.MiddleCenter, TextAlignment.Center);
-
+            debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject, "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," + tile.WorldPosition.y, tile.WorldPosition, Settings.DEBUG_TEXT_SIZE, Color.black, TextAnchor.MiddleCenter, TextAlignment.Center);
         }
+    }
+
+    private void SetCellColor(int x, int y, Color color)
+    {
+        debugGrid[x, y].color = (Color)color;
     }
 
     private void BuildGrid(List<GameTile> list, Dictionary<Vector3, GameTile> mapWorldPositionToTile, Dictionary<Vector3Int, GameTile> mapGridPositionToTile, Dictionary<Vector3Int, GameTile> mapPathFindingGrid)
@@ -99,9 +97,9 @@ public class IsometricGridController : MonoBehaviour
         TileBase gridTile = tilemapPathFinding.GetTile(new Vector3Int(-12, 28));
 
         //  Debug.Log(tilemapPathFinding)
-        for (int x = 0; x < heigth; x++)
+        for (int x = 0; x <= heigth; x++)
         {
-            for (int y = 0; y < width; y++)
+            for (int y = 0; y <= width; y++)
             {
                 Vector3Int positionInGrid = new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0);
                 Vector3 positionInWorld = tilemapPathFinding.CellToWorld(positionInGrid);
@@ -109,12 +107,16 @@ public class IsometricGridController : MonoBehaviour
 
                 GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid, Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
                 list.Add(gameTile);
-
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
                 mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
                 tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
             }
+        }
+
+        if (Settings.DEBUG_ENABLE)
+        {
+            DrawCellCoords();
         }
     }
 
@@ -135,15 +137,64 @@ public class IsometricGridController : MonoBehaviour
 
                 if (Util.GetTileType(tile.name) == TileType.FLOOR_OBSTACLE)
                 {
-                    grid[gridPosition.x, gridPosition.y] = (int)ObjectType.OBSTACLE;
+                    SetIsometricGameTileCollider(gameTile);
                 }
 
                 if (Settings.DEBUG_ENABLE)
                 {
-                    Debug.Log("Tile grid: " + gameTile.GridPosition + " world: " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
+                   // Debug.Log("Tile grid: " + gameTile.GridPosition + " world: " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
                 }
             }
         }
+    }
+
+    //Default for 0.25 tile cell
+    public void SetIsometricGameTileCollider(GameTile tile)
+    {
+        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y, tile.Type, Color.blue);
+        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y, tile.Type, Color.blue);
+        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
+        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
+    }
+
+
+    // In GameMap/Grid coordinates This sets the obstacle points around the obstacle
+    private void SetGridObstacle(int x, int y, ObjectType type, Color color)
+    {
+        if (color == null)
+        {
+            color = Color.blue;
+        }
+
+        if (!IsCoordsValid(x, y) || x < 0 || y < 0)
+        {
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.LogWarning("The object should be placed inside the perimeter");
+            }
+
+            return;
+        }
+
+        if (ObjectType.OBSTACLE == type)
+        {
+            grid[x, y] = (int)type;
+        }
+        else
+        {
+            grid[x, y] = (int)type;
+        }
+
+        if (ObjectType.OBSTACLE == type)
+        {
+            SetCellColor(x, y, color);
+        }
+    }
+
+
+    private bool IsCoordsValid(float x, float y)
+    {
+        return x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1);
     }
 
     public List<Node> GetPath(int[] start, int[] end)
