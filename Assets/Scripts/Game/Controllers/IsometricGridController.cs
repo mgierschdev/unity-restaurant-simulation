@@ -8,7 +8,7 @@ public class IsometricGridController : MonoBehaviour
 {
     //Tilemap 
 
-    private GameTile gridTile; //The gameTile used to build the grid
+    private TileBase gridTile; //The gameTile used to build the grid
     private int width = 30;
     private int heigth = 35;
 
@@ -67,8 +67,8 @@ public class IsometricGridController : MonoBehaviour
         int cellsY = (int)Settings.GRID_HEIGHT;
         grid = new int[cellsX, cellsY];
 
-        LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         BuildGrid(listPathFindingMap, mapWorldPositionToTile, mapGridPositionToTile); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
+        LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
     }
@@ -94,6 +94,8 @@ public class IsometricGridController : MonoBehaviour
 
     private void BuildGrid(List<GameTile> list, Dictionary<Vector3, GameTile> mapWorldPositionToTile, Dictionary<Vector2Int, GameTile> mapGridPositionToTile)
     {
+        TileBase gridTile = tilemapPathFinding.GetTile(new Vector3Int(-12, 28));
+
         //  Debug.Log(tilemapPathFinding)
         for (int x = 0; x < heigth; x++)
         {
@@ -101,11 +103,11 @@ public class IsometricGridController : MonoBehaviour
             {
                 Vector3Int positionInGrid = new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0);
                 Vector3 positionInWorld = tilemapPathFinding.GetCellCenterWorld(positionInGrid);
-                GameTile gameTile = new GameTile(positionInWorld, new Vector2Int(x, y), Util.GetTileType(gridTile.UnityTileBase.name), Util.GetTileObjectType(Util.GetTileType(gridTile.UnityTileBase.name)), gridTile.UnityTileBase);
+                GameTile gameTile = new GameTile(positionInWorld, new Vector2Int(x, y), Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
                 list.Add(gameTile);
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
                 mapGridPositionToTile.TryAdd(gameTile.GridPosition, gameTile);
-                tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile.UnityTileBase);
+                tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
             }
         }
     }
@@ -125,15 +127,9 @@ public class IsometricGridController : MonoBehaviour
                 list.Add(gameTile);
                 map.TryAdd(gameTile.WorldPosition, gameTile);
 
-                if (Util.GetTileType(tile.name) == TileType.ISOMETRIC_GRID_TILE)
-                {
-                    gridTile = gameTile;
-                }
-
                 if (Util.GetTileType(tile.name) == TileType.FLOOR_OBSTACLE)
                 {
-
-                    grid[][]
+                    grid[gridPosition.x, gridPosition.y] = (int)ObjectType.OBSTACLE;
                 }
 
                 if (Settings.DEBUG_ENABLE)
@@ -156,10 +152,9 @@ public class IsometricGridController : MonoBehaviour
         (int)Math.Round(position.x, MidpointRounding.AwayFromZero),
         (int)Math.Round(position.y, MidpointRounding.AwayFromZero));
 
-        GameTile tile = mapWorldPositionToTile[intPos];
-
-        if (tile != null)
+        if (mapWorldPositionToTile.ContainsKey(intPos))
         {
+            GameTile tile = mapWorldPositionToTile[intPos];
             return new Vector2Int(tile.GridPosition.x, tile.GridPosition.y);
         }
         else
@@ -173,10 +168,9 @@ public class IsometricGridController : MonoBehaviour
     public Vector3 GetWorldFromGridPosition(Vector2Int position)
     {
 
-        GameTile tile = mapGridPositionToTile[position];
-
-        if (tile != null)
+        if (mapGridPositionToTile.ContainsKey(position))
         {
+            GameTile tile = mapGridPositionToTile[position];
             return tile.WorldPosition;
         }
         else
