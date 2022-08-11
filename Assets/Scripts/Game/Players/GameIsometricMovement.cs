@@ -7,6 +7,27 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
 {
     public IsometricGridController GameGrid { get; set; }
 
+    // ClickController for the long click duration for the player
+    private ClickController clickController;
+
+    // Overlap spehre
+    private void Start()
+    {
+        Type = ObjectType.PLAYER;
+        Speed = Settings.PLAYER_MOVEMENT_SPEED;
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
+
+        if (cController != null)
+        {
+            clickController = cController.GetComponent<ClickController>();
+        }
+        else if (Settings.DEBUG_ENABLE)
+        {
+            Debug.LogWarning("PlayerController/clickController null");
+        }
+
+    }
+
     // Al objects in screen should have sorting group component
     private void Awake()
     {
@@ -41,6 +62,32 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
     {
         return GameGrid.GetPath(from, to);
     }
+    private void MovingOnLongtouch()
+    {
+        if (clickController != null && clickController.IsLongClick)
+        {
+            ResetMovementIfMoving();
+
+            Vector3 mousePosition = Util.GetMouseInWorldPosition();
+            Vector3 delta = mousePosition - transform.position;
+
+            float radians = Mathf.Atan2(delta.x, delta.y);
+            float degrees = radians * Mathf.Rad2Deg;
+
+            // normalizing -180-180, 0-360
+            if (degrees < 0)
+            {
+                degrees += 360;
+            }
+
+            AddMovement(Util.GetVectorFromDirection(Util.GetDirectionFromAngles(degrees)));
+
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.DrawLine(transform.position, mousePosition, Color.blue);
+            }
+        }
+    }
 
     public void AddPath(List<Node> path)
     {
@@ -58,8 +105,8 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
 
         for (int i = 1; i < path.Count; i++)
         {
-            Vector3 from = GameGrid.GetCellPosition(path[i - 1].GetVector3());
-            Vector3 to = GameGrid.GetCellPosition(path[i].GetVector3());
+            Vector3 from = GameGrid.GetWorldFromGridPosition(path[i - 1].GetVector2Int());
+            Vector3 to = GameGrid.GetWorldFromGridPosition(path[i].GetVector2Int());
 
             if (Settings.DEBUG_ENABLE)
             {
@@ -78,4 +125,26 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
         AddMovement(); // To set the first target
     }
 
+    public void MouseOnClick()
+    {
+        if (Input.GetMouseButtonDown(0) && clickController != null && !clickController.IsLongClick)
+        {
+            UpdatePosition();
+
+            Vector3 mousePosition = Util.GetMouseInWorldPosition();
+            Vector2Int mouseInGridPosition = GameGrid.GetGridFromWorldPosition(mousePosition);
+            List<Node> path = GetPath(new int[] { (int)X, (int)Y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
+            AddPath(path);
+
+            if (pendingMovementQueue.Count != 0)
+            {
+                AddMovement();
+            }
+        }
+    }
+
+    public void SetClickController(ClickController controller)
+    {
+        this.clickController = controller;
+    }
 }

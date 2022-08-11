@@ -90,13 +90,6 @@ public static class Util
         }
     }
 
-    public static Vector2Int GetIsometricXYInGameMap(Vector3 position)
-    {
-        return new Vector2Int(
-                (int)Math.Round((position.x - Settings.GRID_START_X) * 1, MidpointRounding.AwayFromZero),
-                (int)Math.Round((position.y - Settings.GRID_START_Y) * 1, MidpointRounding.AwayFromZero));
-    }
-
     public static Vector2Int GetXYInGameMap(Vector3 position)
     {
         return new Vector2Int(

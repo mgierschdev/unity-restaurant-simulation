@@ -7,12 +7,13 @@ public class GameTile : GameObjectBase
     public ObjectType Type { get; set; }
     public TileBase UnityTileBase { get; set; }
 
-    public GameTile(Vector3 worldPosition, TileType name, ObjectType type, TileBase unityTileBase)
+    public GameTile(Vector3 worldPosition, Vector2Int gridPosition, TileType name, ObjectType type, TileBase unityTileBase)
     {
+        GridPosition = gridPosition;
         WorldPosition = worldPosition;
         Name = name;
         Type = type;
         UnityTileBase = unityTileBase;
-        UpdatePositionInGrid(); // Sets X and Y
+        UpdateSortingLayer();
     }
 }
