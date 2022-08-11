@@ -35,7 +35,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
-    public void UpdateTargetMovement()
+    protected void UpdateTargetMovement()
     {
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
@@ -83,7 +83,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    public void AddMovement()
+    public virtual void AddMovement()
     {
         if (pendingMovementQueue.Count == 0)
         {
