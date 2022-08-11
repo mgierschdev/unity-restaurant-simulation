@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 // Controls player properties
 // Attached to: Player Object
-public class PlayerController : GameObjectMovementBase
+public class PlayerController : GameNonIsometricMovement
 {
     // ClickController for the long click duration for the player
     private ClickController clickController;
@@ -67,14 +67,13 @@ public class PlayerController : GameObjectMovementBase
                 degrees += 360;
             }
 
-            AddMovement(Util.GetVectorFromDirection(Util.GetDirectionFromAngles(degrees)));
+            AddMovement(GetVectorFromDirection(Util.GetDirectionFromAngles(degrees)));
 
             if (Settings.DEBUG_ENABLE)
             {
                 Debug.DrawLine(transform.position, mousePosition, Color.blue);
             }
         }
-
     }
 
     private void MouseOnClick()

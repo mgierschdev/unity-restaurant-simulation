@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Rendering;
-using UnityEngine.Tilemaps;
+
 
 // This will contain Utility functions, to create Unity Object and other
 public static class Util
@@ -32,13 +31,6 @@ public static class Util
         Vector3 vector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         vector.z = 0;
         return vector;
-    }
-
-    public static Vector2Int GetXYInGameMap(Vector3 position)
-    {
-        return new Vector2Int(
-            (int)Math.Round((position.x - Settings.GRID_START_X) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero),
-            (int)Math.Round((position.y - Settings.GRID_START_Y) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero));
     }
 
     public static void PrintGrid(int[,] grid)
@@ -98,6 +90,13 @@ public static class Util
         }
     }
 
+    public static Vector2Int GetXYInGameMap(Vector3 position)
+    {
+        return new Vector2Int(
+            (int)Math.Round((position.x - Settings.GRID_START_X) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero),
+            (int)Math.Round((position.y - Settings.GRID_START_Y) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero));
+    }
+
     public static MoveDirection GetDirectionFromVector(Vector3 vector)
     {
         if (vector == Vector3.left * Settings.GRID_CELL_SIZE)
@@ -137,47 +136,6 @@ public static class Util
             return MoveDirection.IDLE;
         }
     }
-
-    public static Vector3 GetVectorFromDirection(MoveDirection d)
-    {
-        //in case it is MoveDirection.IDLE do nothing
-        Vector3 dir = new Vector3(0, 0);
-
-        if (d == MoveDirection.LEFT)
-        {
-            dir = Vector3.left * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.RIGHT)
-        {
-            dir = Vector3.right * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.UP)
-        {
-            dir = Vector3.up * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.DOWN)
-        {
-            dir = Vector3.down * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.DOWNLEFT)
-        {
-            dir = new Vector3(-1, -1, 0) * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.DOWNRIGHT)
-        {
-            dir = new Vector3(1, -1, 0) * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.UPLEFT)
-        {
-            dir = new Vector3(-1, 1, 0) * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.UPRIGHT)
-        {
-            dir = new Vector3(1, 1, 0) * Settings.GRID_CELL_SIZE;
-        }
-        return new Vector3(dir.x, dir.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-    }
-
 
     // Translates a normalized angle to a direction from 0 - 360
     //       360 | 0

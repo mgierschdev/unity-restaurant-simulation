@@ -12,7 +12,11 @@ public class IsometricGridController : MonoBehaviour
     private Tilemap tilemapPathFinding;
     private List<GameTile> listPathFindingMap;
     private Dictionary<Vector3, GameTile> mapPathFinding;
-    private Vector3Int gridOriginPosition = new Vector3Int(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+    private Vector3Int gridOriginPosition = new Vector3Int(-20, -20, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+
+    // Path Finder object, contains the method to return the shortest path
+    PathFind pathFind;
+
 
     //Floor
     private Tilemap tilemapFloor;
@@ -69,6 +73,7 @@ public class IsometricGridController : MonoBehaviour
 
     void Start()
     {
+        pathFind = new PathFind();
         BuildGrid();
     }
 
@@ -79,9 +84,9 @@ public class IsometricGridController : MonoBehaviour
             tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
         }
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 35; i++)
         {
-            for (int j = 0; j < 20; j++)
+            for (int j = 0; j < 30; j++)
             {
                 //   Debug.Log("Setting tileMap floor ");
                 tilemapPathFinding.SetTile(new Vector3Int(i + gridOriginPosition.x, j + gridOriginPosition.y, 0), gridTile.UnityTileBase);
