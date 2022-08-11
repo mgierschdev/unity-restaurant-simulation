@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Controls NPCs players
 // Attached to: NPC Objects
-public class NPCController : GameObjectMovementBase
+public class NPCController : GameNonIsometricMovement
 {
     [SerializeField]
     public Vector3 Velocity { get; set; }
