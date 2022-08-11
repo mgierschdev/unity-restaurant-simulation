@@ -78,44 +78,4 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
         AddMovement(); // To set the first target
     }
 
-    public Vector3 GetVectorFromDirection(MoveDirection d)
-    {
-        //in case it is MoveDirection.IDLE do nothing
-        Vector3 dir = new Vector3(0, 0);
-
-        if (d == MoveDirection.LEFT)
-        {
-            dir = Vector3.left * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.RIGHT)
-        {
-            dir = Vector3.right * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.UP)
-        {
-            dir = Vector3.up * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.DOWN)
-        {
-            dir = Vector3.down * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.DOWNLEFT)
-        {
-            dir = new Vector3(-1, -1, 0) * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.DOWNRIGHT)
-        {
-            dir = new Vector3(1, -1, 0) * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.UPLEFT)
-        {
-            dir = new Vector3(-1, 1, 0) * Settings.GRID_CELL_SIZE;
-        }
-        else if (d == MoveDirection.UPRIGHT)
-        {
-            dir = new Vector3(1, 1, 0) * Settings.GRID_CELL_SIZE;
-        }
-        return new Vector3(dir.x, dir.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-    }
-
 }
