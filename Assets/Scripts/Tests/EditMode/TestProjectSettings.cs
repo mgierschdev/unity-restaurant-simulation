@@ -4,13 +4,6 @@ using UnityEngine;
 public class TestProjectSettings
 {
     [Test]
-    public void TestgameBackground()
-    {
-        GameObject gameBackground = GameObject.Find(Settings.CONST_GAME_BACKGROUND_DEFAULT);
-        Assert.NotNull(gameBackground);
-    }
-
-    [Test]
     public void TestparentCanvas()
     {
         GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);

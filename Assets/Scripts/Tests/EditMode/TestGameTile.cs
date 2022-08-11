@@ -11,7 +11,7 @@ public class TestGameTile
         Vector3 worldPosition = Vector3.zero;
         TileBase baseTile = null;
         GameTile tile = new GameTile(worldPosition, TileType.FLOOR_1, ObjectType.FLOOR, baseTile);
-        Assert.AreEqual(tile.Type, TileType.FLOOR_1);
+        Assert.AreEqual(tile.Type, ObjectType.FLOOR);
     }
 
     [Test]
@@ -20,7 +20,7 @@ public class TestGameTile
         Vector3 worldPosition = Vector3.zero;
         TileBase baseTile = null;
         GameTile tile = new GameTile(worldPosition, TileType.FLOOR_1, ObjectType.FLOOR, baseTile);
-        Assert.AreEqual(tile.Type, TileType.FLOOR_1);
+        Assert.AreEqual(tile.Type, ObjectType.FLOOR);
         Assert.AreEqual(tile.WorldPosition, Vector3.zero);
     }
 
@@ -30,7 +30,7 @@ public class TestGameTile
         Vector3 worldPosition = Vector3.zero;
         TileBase baseTile = null;
         GameTile tile = new GameTile(worldPosition, TileType.FLOOR_1, ObjectType.FLOOR, baseTile);
-        Assert.AreEqual(tile.Type, TileType.FLOOR_1);
+        Assert.AreEqual(tile.Type, ObjectType.FLOOR);
         Vector2Int target = Util.GetXYInGameMap(Vector3.zero);
         Assert.AreEqual(tile.GridPosition, new Vector3(target.x, target.y, 1));
     }

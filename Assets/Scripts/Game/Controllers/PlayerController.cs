@@ -14,7 +14,16 @@ public class PlayerController : GameNonIsometricMovement
         Type = ObjectType.PLAYER;
         Speed = Settings.PLAYER_MOVEMENT_SPEED;
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
-        clickController = cController.GetComponent<ClickController>();
+
+        if (cController != null)
+        {
+            clickController = cController.GetComponent<ClickController>();
+        }
+        else if (Settings.DEBUG_ENABLE)
+        {
+            Debug.LogWarning("PlayerController/clickController null");
+        }
+
     }
 
     // For Handling non-physics related objects
@@ -51,7 +60,7 @@ public class PlayerController : GameNonIsometricMovement
 
     private void MovingOnLongtouch()
     {
-        if (clickController.IsLongClick)
+        if (clickController != null && clickController.IsLongClick)
         {
             ResetMovementIfMoving();
 
@@ -78,7 +87,7 @@ public class PlayerController : GameNonIsometricMovement
 
     private void MouseOnClick()
     {
-        if (Input.GetMouseButtonDown(0) && !clickController.IsLongClick)
+        if (Input.GetMouseButtonDown(0) && clickController != null && !clickController.IsLongClick)
         {
             UpdatePosition();
 
@@ -100,5 +109,10 @@ public class PlayerController : GameNonIsometricMovement
         {
             Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
         }
+    }
+
+    public void SetClickController(ClickController controller)
+    {
+        this.clickController = controller;
     }
 }

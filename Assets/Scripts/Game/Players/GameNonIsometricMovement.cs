@@ -134,7 +134,7 @@ public class GameNonIsometricMovement : GameObjectMovementBase
         return new Vector3(dir.x, dir.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
-    private void UpdateTargetMovement()
+    public void UpdateTargetMovement()
     {
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
