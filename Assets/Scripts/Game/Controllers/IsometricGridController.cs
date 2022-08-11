@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
-using CodiceApp;
-using UnityEngine.Pool;
 
 // This controlls the isometric tiles on the grid
 public class IsometricGridController : MonoBehaviour
 {
     //Tilemap 
-    // Isometric Grid with pathfinding
+
     private GameTile gridTile; //The gameTile used to build the grid
+    private int width = 30;
+    private int heigth = 35;
+
+    // Isometric Grid with pathfinding
     private Tilemap tilemapPathFinding;
     private List<GameTile> listPathFindingMap;
     private Dictionary<Vector3, GameTile> mapPathFinding;
@@ -17,7 +19,7 @@ public class IsometricGridController : MonoBehaviour
 
     // Path Finder object, contains the method to return the shortest path
     PathFind pathFind;
-
+    private int[,] grid;
 
     //Floor
     private Tilemap tilemapFloor;
@@ -37,7 +39,7 @@ public class IsometricGridController : MonoBehaviour
     //GameGrid Controller
     private GameGridController gridController;
 
-    void Awake()
+    private void Awake()
     {
         tilemapPathFinding = GameObject.Find(Settings.PATH_FINDING_GRID).GetComponent<Tilemap>();
         mapPathFinding = new Dictionary<Vector3, GameTile>();
@@ -63,34 +65,67 @@ public class IsometricGridController : MonoBehaviour
             Debug.LogWarning("IsometricGridController/tilemap null");
         }
 
+        pathFind = new PathFind();
+        int cellsX = (int)Settings.GRID_WIDTH;
+        int cellsY = (int)Settings.GRID_HEIGHT;
+        grid = new int[cellsX, cellsY];
+
         LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
+        BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
         LoadTileMap(listPathFindingMap, tilemapPathFinding, mapPathFinding);
-
-        //Loading colliders into the grid
-        LoadColliders();
+        LoadColliders(); //Loading colliders into the grid
     }
 
-    void Start()
-    {
-        pathFind = new PathFind();
-        BuildGrid();
-    }
-
-    public void BuildGrid()
+    public void Start()
     {
         if (Settings.DEBUG_ENABLE)
         {
-            tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
+            DrawCellCoords();
+        }
+    }
+
+    private void Update()
+    {
+        MouseOnClick();
+    }
+
+    private void MouseOnClick()
+    {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePosition = Util.GetMouseInWorldPosition();
+
+            Debug.DrawLine(new Vector3(0, 0), mousePosition, Color.yellow, 20f);
+            // Vector2Int mouseInGridPosition = Util.GetXYInGameMap(mousePosition);
+            // List<Node> path = GetPath(new int[] { (int)X, (int)Y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
+
         }
 
-        for (int i = 0; i < 35; i++)
+    }
+
+
+    private void DrawCellCoords()
+    {
+        tilemapPathFinding.color = new Color(1, 1, 1, 0.5f);
+
+        foreach (GameTile tile in listPathFindingMap)
         {
-            for (int j = 0; j < 30; j++)
+            Util.CreateTextObject(tile.WorldPosition.x + "," + tile.WorldPosition.y, gameObject, tile.WorldPosition.x + "," + tile.WorldPosition.y, tile.WorldPosition, Settings.DEBUG_TEXT_SIZE, Color.black, TextAnchor.MiddleCenter, TextAlignment.Center);
+
+        }
+    }
+
+    private void BuildGrid()
+    {
+        //  Debug.Log(tilemapPathFinding)
+        for (int x = 0; x < heigth; x++)
+        {
+            for (int y = 0; y < width; y++)
             {
-                //   Debug.Log("Setting tileMap floor ");
-                tilemapPathFinding.SetTile(new Vector3Int(i + gridOriginPosition.x, j + gridOriginPosition.y, 0), gridTile.UnityTileBase);
+                tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile.UnityTileBase);
             }
         }
     }
@@ -107,7 +142,7 @@ public class IsometricGridController : MonoBehaviour
                 TileBase tile = tilemap.GetTile(localPlace);
                 GameTile gameTile = new GameTile(placeInWorld, Util.GetTileType(tile.name), Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
                 list.Add(gameTile);
-                map.TryAdd(gameTile.GridPosition, gameTile);
+                map.TryAdd(gameTile.WorldPosition, gameTile);
 
                 if (Util.GetTileType(tile.name) == TileType.ISOMETRIC_GRID_TILE)
                 {
@@ -116,7 +151,7 @@ public class IsometricGridController : MonoBehaviour
 
                 if (Settings.DEBUG_ENABLE)
                 {
-                    Debug.Log("Tile " + gameTile.GridPosition + " " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
+                    Debug.Log("Tile grid: " + gameTile.GridPosition + " world: " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
                 }
             }
         }
@@ -124,15 +159,15 @@ public class IsometricGridController : MonoBehaviour
 
     private void LoadColliders()
     {
-        foreach (GameTile tile in listCollidersTileMap)
-        {
-            gridController.SetIsometricGameTileCollider(tile);
-        }
+        // foreach (GameTile tile in listCollidersTileMap)
+        // {
+        //     gridController.SetIsometricGameTileCollider(tile);
+        // }
     }
 
-    public List<Node> GetPath(int[] from, int[] to)
+    public List<Node> GetPath(int[] start, int[] end)
     {
-        return new List<Node>();
+        return pathFind.Find(start, end, grid);
     }
 
     public Vector3 GetCellPosition(Vector3 position)

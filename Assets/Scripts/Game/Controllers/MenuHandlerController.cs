@@ -42,7 +42,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void Update()
     {
-        if (!clickController.IsLongClick && menuStack.Count > 0 && Input.GetMouseButton(0) && IsClickOutside())
+        if (Input.GetMouseButton(0) && IsClickOutside() && !clickController.IsLongClick && menuStack.Count > 0)
         {
             CloseMenu();
         }
