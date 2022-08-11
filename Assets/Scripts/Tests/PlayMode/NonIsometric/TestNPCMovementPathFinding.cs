@@ -22,13 +22,13 @@ public class TestNPCMovementPathFinding
         gameGridController = gridObject.GetComponent<GameGridController>();
         // First NPC
         firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
-        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
+        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), Util.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
         firstNPCObject.transform.SetParent(gridObject.transform);
         firstNPCController = firstNPCObject.GetComponent<NPCController>();
         firstNPCController.GameGrid = gameGridController;
         // Second NPC
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject))) as GameObject;
-        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gameGridController.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
+        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), Util.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
         secondNPCObject.transform.SetParent(gridObject.transform);
         secondNPCController = secondNPCObject.GetComponent<NPCController>();
         secondNPCController.GameGrid = gameGridController;

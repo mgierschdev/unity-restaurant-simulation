@@ -28,13 +28,13 @@ public class IsometricPlayerController : GameIsometricMovement
     private void Update()
     {
         // Player Movement on click
-        if (Settings.PLAYER_WALK_ON_CLICK)
-        {
-            MouseOnClick();
-        }
+        // if (Settings.PLAYER_WALK_ON_CLICK)
+        // {
+        //     MouseOnClick();
+        // }
 
         // Player Moving on long click/touch
-        MovingOnLongtouch();
+        // MovingOnLongtouch();
     }
 
     // Called every physics step, Update called every frame
@@ -90,7 +90,7 @@ public class IsometricPlayerController : GameIsometricMovement
             UpdatePosition();
 
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector2Int mouseInGridPosition = Util.GetXYInGameMap(mousePosition);
+            Vector2Int mouseInGridPosition = Util.GetIsometricXYInGameMap(mousePosition);
             List<Node> path = GetPath(new int[] { (int)X, (int)Y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
             AddPath(path);
 

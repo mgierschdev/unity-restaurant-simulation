@@ -38,15 +38,15 @@ public abstract class GameGridBase : MonoBehaviour
             {
                 for (int y = 0; y < cellsY; y++)
                 {
-                    Debug.DrawLine(Util.GetCellPosition(x, y), Util.GetCellPosition(x, y + 1), Color.black, debugLineDuration);
-                    Debug.DrawLine(Util.GetCellPosition(x, y), Util.GetCellPosition(x + 1, y), Color.black, debugLineDuration);
-                    Color cellColor = Color.white;
-                    if (grid[x, y] == 2 || grid[x, y] == 1)
-                    {
-                        cellColor = Color.black;
-                    }
-                    debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, Util.GetCellPosition(x, y) +
-                        cellOffset - textOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
+                    // Debug.DrawLine(Util.GetCellPosition(x, y), Util.GetCellPosition(x, y + 1), Color.black, debugLineDuration);
+                    // Debug.DrawLine(Util.GetCellPosition(x, y), Util.GetCellPosition(x + 1, y), Color.black, debugLineDuration);
+                    //  Color cellColor = Color.white;
+                    // if (grid[x, y] == 2 || grid[x, y] == 1)
+                    // {
+                    //     cellColor = Color.black;
+                    // }
+                    // debugArray[x, y] = Util.CreateTextObject(x + "," + y, gameObject, x + "," + y, Util.GetCellPosition(x, y) +
+                    //     cellOffset - textOffset, cellTexttSize, cellColor, TextAnchor.MiddleCenter, TextAlignment.Center);
                 }
             }
         }
@@ -121,8 +121,8 @@ public abstract class GameGridBase : MonoBehaviour
         {
             color = Color.blue;
         }
-        debugArray[x, y].text = x + "," + y;
-        debugArray[x, y].color = (Color)color; // Busy
+        // debugArray[x, y].text = x + "," + y;
+        // debugArray[x, y].color = (Color)color; // Busy
     }
     // Debug Methods
 

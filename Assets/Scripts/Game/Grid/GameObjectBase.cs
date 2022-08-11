@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
  
 public abstract class GameObjectBase
 {
-    public Vector3 GridPosition { get; set; }
+    public Vector3Int GridPosition { get; set; }
     public Vector3 WorldPosition { get; set; }
 
     // Sprite level ordering
@@ -11,13 +11,13 @@ public abstract class GameObjectBase
 
     protected void UpdatePositionInGrid()
     {
-        Vector2Int pos = Util.GetXYInGameMap(WorldPosition);
+        Vector2Int pos = Util.GetIsometricXYInGameMap(WorldPosition);
         // Some objects may not have sorting layer defined
         if (sortingLayer != null)
         {
             sortingLayer.sortingOrder = pos.y * -1;
         }
-        GridPosition = new Vector3(pos.x, pos.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        GridPosition = new Vector3Int(pos.x, pos.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     public float[] GetPositionAsArray()

@@ -76,7 +76,7 @@ public class PlayerController : GameNonIsometricMovement
                 degrees += 360;
             }
 
-            AddMovement(GetVectorFromDirection(Util.GetDirectionFromAngles(degrees)));
+            AddMovement(Util.GetVectorFromDirection(Util.GetDirectionFromAngles(degrees)));
 
             if (Settings.DEBUG_ENABLE)
             {
