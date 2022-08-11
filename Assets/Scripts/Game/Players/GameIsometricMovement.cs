@@ -10,24 +10,6 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
     // ClickController for the long click duration for the player
     private ClickController clickController;
 
-    // Overlap spehre
-    private void Start()
-    {
-        Type = ObjectType.PLAYER;
-        Speed = Settings.PLAYER_MOVEMENT_SPEED;
-        GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
-
-        if (cController != null)
-        {
-            clickController = cController.GetComponent<ClickController>();
-        }
-        else if (Settings.DEBUG_ENABLE)
-        {
-            Debug.LogWarning("PlayerController/clickController null");
-        }
-
-    }
-
     // Al objects in screen should have sorting group component
     private void Awake()
     {
@@ -48,7 +30,11 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
                 Debug.LogWarning("IsometricGridController.cs/gameGridObject null");
             }
         }
+    }
 
+    // Overlap spehre
+    private void Start()
+    {
         // Movement Queue
         nextTarget = Vector3.zero;
         pendingMovementQueue = new Queue();
@@ -56,12 +42,36 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
         //Update Object initial position
         currentTargetPosition = Vector3.negativeInfinity;
         UpdatePosition();
+
+        Type = ObjectType.PLAYER;
+        Speed = Settings.PLAYER_MOVEMENT_SPEED;
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
+
+        if (cController != null)
+        {
+            clickController = cController.GetComponent<ClickController>();
+        }
+        else if (Settings.DEBUG_ENABLE)
+        {
+            Debug.LogWarning("PlayerController/clickController null");
+        }
+
+    }
+
+    public override void UpdatePosition()
+    {
+        Vector3Int pos = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
+        sortingLayer.sortingOrder = pos.y * -1;
+        X = pos.x;
+        Y = pos.y;
+        Position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     public List<Node> GetPath(int[] from, int[] to)
     {
         return GameGrid.GetPath(from, to);
     }
+
     private void MovingOnLongtouch()
     {
         if (clickController != null && clickController.IsLongClick)
@@ -91,29 +101,32 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
 
     public void AddPath(List<Node> path)
     {
-        if (path.Count == 0)
-        {
-            return;
-        }
+        Debug.Log("Adding Path");
 
-        if (pendingMovementQueue.Count != 0)
-        {
-            path = MergePath(path); // We merge Paths
-        }
+        // if (path.Count == 0)
+        // {
+        //     return;
+        // }
 
-        pendingMovementQueue.Enqueue(path[0].GetVector3());
+        // if (pendingMovementQueue.Count != 0)
+        // {
+        //     path = MergePath(path); // We merge Paths
+        // }
+         Debug.Log("Drawing Path");
+
+        // pendingMovementQueue.Enqueue(path[0].GetVector3());
 
         for (int i = 1; i < path.Count; i++)
         {
-            Vector3 from = GameGrid.GetWorldFromGridPosition(path[i - 1].GetVector2Int());
-            Vector3 to = GameGrid.GetWorldFromGridPosition(path[i].GetVector2Int());
+            Vector3 from = GameGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
+            Vector3 to = GameGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
 
             if (Settings.DEBUG_ENABLE)
             {
                 Debug.DrawLine(from, to, Color.yellow, 15f);
             }
 
-            pendingMovementQueue.Enqueue(path[i].GetVector3());
+            // pendingMovementQueue.Enqueue(path[i].GetVector3());
         }
 
         if (path.Count == 0)
@@ -122,7 +135,7 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
             return;
         }
 
-        AddMovement(); // To set the first target
+        //AddMovement(); // To set the first target
     }
 
     public void MouseOnClick()
@@ -132,14 +145,16 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
             UpdatePosition();
 
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector2Int mouseInGridPosition = GameGrid.GetGridFromWorldPosition(mousePosition);
+            Vector3Int mouseInGridPosition = GameGrid.GetPathFindingGridFromWorldPosition(mousePosition);
+            Debug.Log("Getting Path");
             List<Node> path = GetPath(new int[] { (int)X, (int)Y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
+            Debug.Log("Path Size: " + path.Count);
             AddPath(path);
 
-            if (pendingMovementQueue.Count != 0)
-            {
-                AddMovement();
-            }
+            // if (pendingMovementQueue.Count != 0)
+            // {
+            //     AddMovement();
+            // }
         }
     }
 

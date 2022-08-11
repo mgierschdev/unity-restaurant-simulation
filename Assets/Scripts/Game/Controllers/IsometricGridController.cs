@@ -15,8 +15,9 @@ public class IsometricGridController : MonoBehaviour
     // Isometric Grid with pathfinding
     private Tilemap tilemapPathFinding;
     private List<GameTile> listPathFindingMap;
-    private Dictionary<Vector3, GameTile> mapWorldPositionToTile;
-    private Dictionary<Vector2Int, GameTile> mapGridPositionToTile;
+    private Dictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
+    private Dictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
+    private Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
     private Vector3Int gridOriginPosition = new Vector3Int(-20, -20, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
 
     // Path Finder object, contains the method to return the shortest path
@@ -42,7 +43,8 @@ public class IsometricGridController : MonoBehaviour
     {
         tilemapPathFinding = GameObject.Find(Settings.PATH_FINDING_GRID).GetComponent<Tilemap>();
         mapWorldPositionToTile = new Dictionary<Vector3, GameTile>();
-        mapGridPositionToTile = new Dictionary<Vector2Int, GameTile>();
+        mapGridPositionToTile = new Dictionary<Vector3Int, GameTile>();
+        mapPathFindingGrid = new Dictionary<Vector3Int, GameTile>();
         listPathFindingMap = new List<GameTile>();
 
         tilemapFloor = GameObject.Find(Settings.TILEMAP_FLOOR_0).GetComponent<Tilemap>();
@@ -67,7 +69,7 @@ public class IsometricGridController : MonoBehaviour
         int cellsY = (int)Settings.GRID_HEIGHT;
         grid = new int[cellsX, cellsY];
 
-        BuildGrid(listPathFindingMap, mapWorldPositionToTile, mapGridPositionToTile); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
+        BuildGrid(listPathFindingMap, mapWorldPositionToTile, mapGridPositionToTile, mapPathFindingGrid); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
@@ -92,7 +94,7 @@ public class IsometricGridController : MonoBehaviour
         }
     }
 
-    private void BuildGrid(List<GameTile> list, Dictionary<Vector3, GameTile> mapWorldPositionToTile, Dictionary<Vector2Int, GameTile> mapGridPositionToTile)
+    private void BuildGrid(List<GameTile> list, Dictionary<Vector3, GameTile> mapWorldPositionToTile, Dictionary<Vector3Int, GameTile> mapGridPositionToTile, Dictionary<Vector3Int, GameTile> mapPathFindingGrid)
     {
         TileBase gridTile = tilemapPathFinding.GetTile(new Vector3Int(-12, 28));
 
@@ -102,11 +104,15 @@ public class IsometricGridController : MonoBehaviour
             for (int y = 0; y < width; y++)
             {
                 Vector3Int positionInGrid = new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0);
-                Vector3 positionInWorld = tilemapPathFinding.GetCellCenterWorld(positionInGrid);
-                GameTile gameTile = new GameTile(positionInWorld, new Vector2Int(x, y), Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
+                Vector3 positionInWorld = tilemapPathFinding.CellToWorld(positionInGrid);
+                Vector3Int positionLocalGrid = tilemapPathFinding.WorldToCell(positionInWorld);
+
+                GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid, Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
                 list.Add(gameTile);
+
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
-                mapGridPositionToTile.TryAdd(gameTile.GridPosition, gameTile);
+                mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
+                mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
                 tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
             }
         }
@@ -122,8 +128,8 @@ public class IsometricGridController : MonoBehaviour
             if (tilemap.HasTile(localPlace))
             {
                 TileBase tile = tilemap.GetTile(localPlace);
-                Vector2Int gridPosition = GetGridFromWorldPosition(placeInWorld);
-                GameTile gameTile = new GameTile(placeInWorld, gridPosition, Util.GetTileType(tile.name), Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
+                Vector3Int gridPosition = GetPathFindingGridFromWorldPosition(placeInWorld);
+                GameTile gameTile = new GameTile(placeInWorld, gridPosition, GetLocalGridFromWorldPosition(placeInWorld), Util.GetTileType(tile.name), Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
                 list.Add(gameTile);
                 map.TryAdd(gameTile.WorldPosition, gameTile);
 
@@ -146,37 +152,53 @@ public class IsometricGridController : MonoBehaviour
     }
 
     // Returns the Grid position given a Vector3 world position
-    public Vector2Int GetGridFromWorldPosition(Vector3 position)
+    public Vector3Int GetLocalGridFromWorldPosition(Vector3 position)
     {
-        Vector3Int intPos = new Vector3Int(
-        (int)Math.Round(position.x, MidpointRounding.AwayFromZero),
-        (int)Math.Round(position.y, MidpointRounding.AwayFromZero));
+        Debug.Log("GetGridFromWorldPosition " + tilemapPathFinding.WorldToCell(position));
+        return tilemapPathFinding.WorldToCell(position);
 
-        if (mapWorldPositionToTile.ContainsKey(intPos))
-        {
-            GameTile tile = mapWorldPositionToTile[intPos];
-            return new Vector2Int(tile.GridPosition.x, tile.GridPosition.y);
-        }
-        else
-        {
-            Debug.LogError("GetGridFromWorldPosition / Position " + position + " not found");
-        }
+        // if (mapWorldPositionToTile.ContainsKey(position))
+        // {
+        //     GameTile tile = mapWorldPositionToTile[position];
+        //     return new Vector2Int(tile.GridPosition.x, tile.GridPosition.y);
+        // }
+        // else
+        // {
+        //     Debug.LogError("GetGridFromWorldPosition / Position " + position + " not found");
+        // }
 
-        return Vector2Int.zero;
+        // return Vector2Int.zero;
     }
 
-    public Vector3 GetWorldFromGridPosition(Vector2Int position)
+    public Vector3Int GetPathFindingGridFromWorldPosition(Vector3 position)
     {
+        GameTile tile = mapGridPositionToTile[tilemapPathFinding.WorldToCell(position)];
+        if (tile == null)
+        {
+            Debug.LogError("Tile null in GetPathFindingGridFromWorldPosition");
+        }
+        return tile.GridPosition;
+    }
 
-        if (mapGridPositionToTile.ContainsKey(position))
-        {
-            GameTile tile = mapGridPositionToTile[position];
-            return tile.WorldPosition;
-        }
-        else
-        {
-            Debug.LogError("GetWorldFromGridPosition / Position " + position + " not found");
-        }
-        return Vector3.zero;
+    public Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
+    {
+        GameTile tile = mapPathFindingGrid[position];
+        return tile.WorldPosition;
+    }
+
+    public Vector3 GetWorldFromGridPosition(Vector3Int position)
+    {
+        return tilemapPathFinding.CellToWorld(position);
+
+        // if (mapGridPositionToTile.ContainsKey(position))
+        // {
+        //     GameTile tile = mapGridPositionToTile[position];
+        //     return tile.WorldPosition;
+        // }
+        // else
+        // {
+        //     Debug.LogError("GetWorldFromGridPosition / Position " + position + " not found");
+        // }
+        // return Vector3.zero;
     }
 }
