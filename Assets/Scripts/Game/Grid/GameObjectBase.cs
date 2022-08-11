@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
  
 public abstract class GameObjectBase
 {
-    public Vector2Int GridPosition { get; set; }
+    public Vector3Int GridPosition { get; set; }
     public Vector3 WorldPosition { get; set; }
 
     // Sprite level ordering

@@ -26,7 +26,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected Vector3 currentTargetPosition;
     protected GameObject gameGridObject;
 
-    protected void UpdatePosition()
+    virtual public void UpdatePosition()
     {
         Vector2Int pos = Util.GetXYInGameMap(transform.position);
         sortingLayer.sortingOrder = pos.y * -1;
@@ -78,8 +78,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         if (direction != new Vector3(0, 0))
         {
-            Vector3 newDirection = direction + transform.position;
-            this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+            // Vector3 newDirection = direction + transform.position;
+            // this.nextTarget = new Vector3(newDirection.x, newDirection.y, Settings.DEFAULT_GAME_OBJECTS_Z);
         }
     }
 
@@ -90,9 +90,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return;
         }
 
-        Vector3 direction = Util.GetCellPosition((Vector3)pendingMovementQueue.Dequeue());
-        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
-        this.nextTarget = nextTarget;
+        // Vector3 direction = Util.GetCellPosition((Vector3)pendingMovementQueue.Dequeue());
+        // Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        // this.nextTarget = nextTarget;
     }
 
     protected void ResetMovementIfMoving()
