@@ -41,4 +41,9 @@ public class Node
     {
         return new Vector3(x, y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
+
+    public Vector2Int GetVector2Int()
+    {
+        return new Vector2Int(x, y);
+    }
 }

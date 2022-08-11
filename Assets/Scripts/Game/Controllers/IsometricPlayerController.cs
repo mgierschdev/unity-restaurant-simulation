@@ -3,35 +3,15 @@ using System.Collections.Generic;
 
 public class IsometricPlayerController : GameIsometricMovement
 {
-    // ClickController for the long click duration for the player
-    private ClickController clickController;
-
-    // Overlap spehre
-    private void Start()
-    {
-        Type = ObjectType.PLAYER;
-        Speed = Settings.PLAYER_MOVEMENT_SPEED;
-        GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
-
-        if (cController != null)
-        {
-            clickController = cController.GetComponent<ClickController>();
-        }
-        else if (Settings.DEBUG_ENABLE)
-        {
-            Debug.LogWarning("PlayerController/clickController null");
-        }
-
-    }
 
     // For Handling non-physics related objects
     private void Update()
     {
         // Player Movement on click
-        // if (Settings.PLAYER_WALK_ON_CLICK)
-        // {
-        //     MouseOnClick();
-        // }
+        if (Settings.PLAYER_WALK_ON_CLICK)
+        {
+            MouseOnClick();
+        }
 
         // Player Moving on long click/touch
         // MovingOnLongtouch();
@@ -56,51 +36,6 @@ public class IsometricPlayerController : GameIsometricMovement
         UpdatePosition();
     }
 
-    private void MovingOnLongtouch()
-    {
-        if (clickController != null && clickController.IsLongClick)
-        {
-            ResetMovementIfMoving();
-
-            Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector3 delta = mousePosition - transform.position;
-
-            float radians = Mathf.Atan2(delta.x, delta.y);
-            float degrees = radians * Mathf.Rad2Deg;
-
-            // normalizing -180-180, 0-360
-            if (degrees < 0)
-            {
-                degrees += 360;
-            }
-
-            AddMovement(Util.GetVectorFromDirection(Util.GetDirectionFromAngles(degrees)));
-
-            if (Settings.DEBUG_ENABLE)
-            {
-                Debug.DrawLine(transform.position, mousePosition, Color.blue);
-            }
-        }
-    }
-
-    private void MouseOnClick()
-    {
-        if (Input.GetMouseButtonDown(0) && clickController != null && !clickController.IsLongClick)
-        {
-            UpdatePosition();
-
-            Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector2Int mouseInGridPosition = Util.GetIsometricXYInGameMap(mousePosition);
-            List<Node> path = GetPath(new int[] { (int)X, (int)Y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
-            AddPath(path);
-
-            if (pendingMovementQueue.Count != 0)
-            {
-                AddMovement();
-            }
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (Settings.DEBUG_ENABLE)
@@ -108,10 +43,4 @@ public class IsometricPlayerController : GameIsometricMovement
             Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
         }
     }
-
-    public void SetClickController(ClickController controller)
-    {
-        this.clickController = controller;
-    }
-
 }
