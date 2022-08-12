@@ -55,7 +55,6 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
         {
             Debug.LogWarning("PlayerController/clickController null");
         }
-
     }
 
     public override void UpdatePosition()
@@ -65,6 +64,33 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
         X = pos.x;
         Y = pos.y;
         Position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
+    }
+
+    public override void UpdateTargetMovement()
+    {
+        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
+        {
+            nextTarget = Vector3.zero;
+            currentTargetPosition = Vector3.zero;
+
+            if (pendingMovementQueue.Count != 0)
+            {
+                AddMovement();
+            }
+            else
+            {
+                if (Settings.DEBUG_ENABLE)
+                {
+                    //Debug.Log("[Moving] Target Reached: " + transform.name + " " + Position);
+                }
+            }
+        }
+
+        if (nextTarget != Vector3.zero)
+        {
+            currentTargetPosition = nextTarget;
+            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
+        }
     }
 
     public List<Node> GetPath(int[] from, int[] to)
@@ -103,18 +129,18 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
     {
         Debug.Log("Adding Path");
 
-        // if (path.Count == 0)
-        // {
-        //     return;
-        // }
+        if (path.Count == 0)
+        {
+            return;
+        }
 
-        // if (pendingMovementQueue.Count != 0)
-        // {
-        //     path = MergePath(path); // We merge Paths
-        // }
-         Debug.Log("Drawing Path");
+        if (pendingMovementQueue.Count != 0)
+        {
+            path = MergePath(path); // We merge Paths
+        }
+        Debug.Log("Drawing Path");
 
-        // pendingMovementQueue.Enqueue(path[0].GetVector3());
+        pendingMovementQueue.Enqueue(path[0].GetVector3());
 
         for (int i = 1; i < path.Count; i++)
         {
@@ -126,7 +152,7 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
                 Debug.DrawLine(from, to, Color.yellow, 15f);
             }
 
-            // pendingMovementQueue.Enqueue(path[i].GetVector3());
+            pendingMovementQueue.Enqueue(path[i].GetVector3());
         }
 
         if (path.Count == 0)
@@ -135,7 +161,7 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
             return;
         }
 
-        //AddMovement(); // To set the first target
+        AddMovement(); // To set the first target
     }
 
     public void MouseOnClick()
@@ -151,11 +177,23 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
             Debug.Log("Path Size: " + path.Count);
             AddPath(path);
 
-            // if (pendingMovementQueue.Count != 0)
-            // {
-            //     AddMovement();
-            // }
+            if (pendingMovementQueue.Count != 0)
+            {
+                AddMovement();
+            }
         }
+    }
+
+    public override void AddMovement()
+    {
+        if (pendingMovementQueue.Count == 0)
+        {
+            return;
+        }
+
+        Vector3 direction = GameGrid.GetWorldFromPathFindingGridPosition((Vector3Int) pendingMovementQueue.Dequeue());
+        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        this.nextTarget = nextTarget;
     }
 
     public void SetClickController(ClickController controller)

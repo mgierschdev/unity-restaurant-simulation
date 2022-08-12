@@ -157,7 +157,6 @@ public class IsometricGridController : MonoBehaviour
         SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
     }
 
-
     // In GameMap/Grid coordinates This sets the obstacle points around the obstacle
     private void SetGridObstacle(int x, int y, ObjectType type, Color color)
     {
@@ -190,7 +189,6 @@ public class IsometricGridController : MonoBehaviour
             SetCellColor(x, y, color);
         }
     }
-
 
     private bool IsCoordsValid(float x, float y)
     {
