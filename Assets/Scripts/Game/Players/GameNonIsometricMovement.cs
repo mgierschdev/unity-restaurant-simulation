@@ -92,7 +92,7 @@ public class GameNonIsometricMovement : GameObjectMovementBase, IMovement
         AddMovement(); // To set the first target
     }
 
-    protected void UpdateTargetMovement()
+    public override void UpdateTargetMovement()
     {
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
         {
