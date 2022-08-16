@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 // This controlls the isometric tiles on the grid
 public class IsometricGridController : MonoBehaviour
@@ -208,12 +209,17 @@ public class IsometricGridController : MonoBehaviour
 
     public Vector3Int GetPathFindingGridFromWorldPosition(Vector3 position)
     {
-        GameTile tile = mapGridPositionToTile[tilemapPathFinding.WorldToCell(position)];
-        if (tile == null)
+        if (!mapGridPositionToTile.ContainsKey(tilemapPathFinding.WorldToCell(position)))
         {
-            Debug.LogError("Tile null in GetPathFindingGridFromWorldPosition");
+            Debug.LogError("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " + position + "/" + tilemapPathFinding.WorldToCell(position));
         }
-        return tile.GridPosition;
+        else
+        {
+            GameTile tile = mapGridPositionToTile[tilemapPathFinding.WorldToCell(position)];
+            return tile.GridPosition;
+        }
+
+        return Vector3Int.zero;
     }
 
     public Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
