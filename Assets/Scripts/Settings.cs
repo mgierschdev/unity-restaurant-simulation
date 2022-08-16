@@ -1,5 +1,3 @@
-using JetBrains.Annotations;
-
 public static class Settings
 {
     // Player Config

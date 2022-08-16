@@ -14,7 +14,6 @@ public class CameraController : MonoBehaviour
 
     // MouseScroll zoom 
     private float targetPosition;
-    private float zoomValue;
     private float zoomSpeed = 35;
     private float minZoomSize = 1;
     private float maxZoomSize = 5;
@@ -27,7 +26,7 @@ public class CameraController : MonoBehaviour
         targetPosition = Camera.main.orthographicSize;
         touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_ISOMETRIC_PLAYER);
+        playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GRID_TILE);
         GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
         menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
 

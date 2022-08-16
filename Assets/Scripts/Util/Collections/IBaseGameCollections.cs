@@ -1,5 +1,3 @@
-using UnityEngine;
-
 interface IBaseGameCollections
 {
     int GetSize();
