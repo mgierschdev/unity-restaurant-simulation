@@ -30,10 +30,10 @@ public class TestPlayerMovementPathFinding
     [UnityTest]
     public IEnumerator TestSimplePath()
     {
-        int[] endPosition = new int[] { 10, 10 };
-        int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
+        int[] endPosition = new int[] { 25, 14 };
+        int[] startPosition = new int[] { 19, 10 };
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-        playerController.Position = initialTestingPosition;
+        playerController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         playerController.Speed = 100;
         Util.PrintPath(path);
         playerController.AddPath(path);
@@ -45,11 +45,11 @@ public class TestPlayerMovementPathFinding
     [UnityTest]
     public IEnumerator TestPathWithObstacles()
     {
-        int[] endPosition = new int[] { 16, 16 };
-        int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
-        gameGridController.SetTestGridObstacles(5, 1, 15);
+        int[] endPosition = new int[] { 25, 14 };
+        int[] startPosition = new int[] { 19, 10 };
+        gameGridController.SetTestGridObstacles(21, 1, 15);
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-        playerController.Position = initialTestingPosition;
+        playerController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         playerController.Speed = 100;
         Util.PrintPath(path);
         playerController.AddPath(path);

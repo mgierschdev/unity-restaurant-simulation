@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEngine;
 using UnityEngine.TestTools;
 
 public class TestNPCMovementPathFinding
@@ -56,15 +56,15 @@ public class TestNPCMovementPathFinding
     [UnityTest]
     public IEnumerator TestPathWithObstacles()
     {
-        int[] endPosition = new int[] { 14, 14 };
-        int[] startPosition = new int[] { 1, 1 };
-        gameGridController.SetTestGridObstacles(5, 1, 15);
+        int[] endPosition = new int[] { 25, 14 };
+        int[] startPosition = new int[] { 19, 10 };
+        gameGridController.SetTestGridObstacles(21, 1, 15);
 
-        Debug.Log("Getting Path from: "+startPosition+" to "+endPosition);
+        Debug.Log("Getting Path from: " + startPosition + " to " + endPosition);
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-        Debug.Log("Path size: "+path.Count);
+        Debug.Log("Path size: " + path.Count);
 
-        firstNPCController.Position = initialTestingPosition;
+        firstNPCController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         firstNPCController.Speed = 100;
         Util.PrintPath(path);
         firstNPCController.AddPath(path);
@@ -78,14 +78,14 @@ public class TestNPCMovementPathFinding
     //They can overlap
     public IEnumerator TestMultipleNPC()
     {
-        int[] endPosition = new int[] { 14, 14 };
-        int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
-        gameGridController.SetTestGridObstacles(5, 1, 15);
+        int[] endPosition = new int[] { 25, 14 };
+        int[] startPosition = new int[] { 19, 10 };
+        gameGridController.SetTestGridObstacles(21, 1, 15);
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
         Util.PrintPath(path);
-        firstNPCController.Position = initialTestingPosition;
+        firstNPCController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         firstNPCController.Speed = 100;
-        secondNPCController.Position = initialTestingPosition;
+        secondNPCController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         secondNPCController.Speed = 100;
         secondNPCController.AddPath(path);
         firstNPCController.AddPath(path);
