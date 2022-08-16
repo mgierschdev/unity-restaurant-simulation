@@ -234,26 +234,26 @@ public abstract class GameGridBase : MonoBehaviour
     }
 
     // Only used in game not in Playmode, since it does not find the reference of the GameGrid inside the ItemObject
-    public void SetHorizontalObstaclesInGrid(int row, int x1, int x2)
-    {
-        if (x1 == 1 || x1 > x2)
-        {
-            if (Settings.DEBUG_ENABLE)
-            {
-                Debug.LogError("Set obstacles properly");
-            }
-            return;
-        }
+    // public void SetHorizontalObstaclesInGrid(int row, int x1, int x2)
+    // {
+    //     if (x1 == 1 || x1 > x2)
+    //     {
+    //         if (Settings.DEBUG_ENABLE)
+    //         {
+    //             Debug.LogError("Set obstacles properly");
+    //         }
+    //         return;
+    //     }
 
-        for (int i = x1; i <= x2; i++)
-        {
-            Vector2Int obstacle = new Vector2Int(i, row);
-            Vector3 objPos = GetCellPositionWithOffset(obstacle.x, obstacle.y);
-            GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
-            obstacleObject.name = "Obstacle: " + i + "," + row;
-            obstacleObject.transform.SetParent(transform);
-        }
-    }
+    //     for (int i = x1; i <= x2; i++)
+    //     {
+    //         Vector2Int obstacle = new Vector2Int(i, row);
+    //         Vector3 objPos = GetCellPositionWithOffset(obstacle.x, obstacle.y);
+    //         GameObject obstacleObject = Instantiate(Resources.Load(Settings.PREFAB_OBSTACLE, typeof(GameObject)), new Vector3(objPos.x, objPos.y, 1), Quaternion.identity, gameObject.transform) as GameObject;
+    //         obstacleObject.name = "Obstacle: " + i + "," + row;
+    //         obstacleObject.transform.SetParent(transform);
+    //     }
+    // }
 
     // Unset position in Grid
     public void FreeGridPosition(int x, int y)

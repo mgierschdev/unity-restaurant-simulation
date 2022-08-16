@@ -68,4 +68,39 @@ public class TestProjectSettings
         GameObject tilemap = GameObject.Find(Settings.PATH_FINDING_GRID);
         Assert.NotNull(tilemap);
     }
+
+    [Test]
+    public void TestPrefabLoadGridTile()
+    {
+        Object obj = Resources.Load(Settings.PREFAB_GRID_TILE, typeof(GameObject));
+        Assert.NotNull(obj);
+    }
+
+    [Test]
+    public void TestPrefabLoadInventoryItem()
+    {
+        Object obj = Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject));
+        Assert.NotNull(obj);
+    }
+
+    [Test]
+    public void TestPrefabLoadIsometricNPC()
+    {
+        Object obj = Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject));
+        Assert.NotNull(obj);
+    }
+
+    [Test]
+    public void TestPrefabLoadIsometricPlayer()
+    {
+        Object obj = Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject));
+        Assert.NotNull(obj);
+    }
+
+    [Test]
+    public void TestPrefabLoadSandAndSea()
+    {
+        Object obj = Resources.Load(Settings.PREFAB_SAND_SEA, typeof(GameObject));
+        Assert.NotNull(obj);
+    }
 }

@@ -7,7 +7,6 @@ public class GameItemController : GameObjectBase
 {
     private GameObject gameGridObject;
     private GameItemController current;
-    private GameGridController gameGrid;
     public ObjectType Type { get; set; }
     private int width;
     private int height;

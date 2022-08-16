@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class IsometricPlayerController : GameIsometricMovement
 {
-
     // For Handling non-physics related objects
     private void Update()
     {
