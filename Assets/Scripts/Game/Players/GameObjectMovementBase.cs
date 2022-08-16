@@ -17,7 +17,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected SortingGroup sortingLayer;
 
     // Movement 
-    protected Vector2 movement;
     protected Rigidbody2D body;
 
     //Movement Queue
@@ -60,18 +59,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             currentTargetPosition = nextTarget;
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
         }
-    }
-
-    protected void AddGridMovement()
-    {
-        if (pendingMovementQueue.Count == 0)
-        {
-            return;
-        }
-
-        Vector3 direction = Util.GetCellPosition((Vector3)pendingMovementQueue.Dequeue());
-        Vector3 nextTarget = new Vector3(direction.x, direction.y);
-        this.nextTarget = nextTarget;
     }
 
     public void AddMovement(Vector3 direction)

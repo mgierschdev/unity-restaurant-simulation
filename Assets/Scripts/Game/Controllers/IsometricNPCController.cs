@@ -6,8 +6,6 @@ using UnityEngine;
 public class IsometricNPCController : GameIsometricMovement
 {
     [SerializeField]
-    public Vector3 Velocity { get; set; }
-    [SerializeField]
     public NPCState state; // 0 IDLE, 1 Wander
     [SerializeField]
     private EnergyBarController energyBar;
@@ -114,12 +112,9 @@ public class IsometricNPCController : GameIsometricMovement
             int randy;
             idleTime = 0;
 
-            Debug.Log("Wander");
-
             randx = Mathf.FloorToInt(Random.Range(-distance, distance) + X);
             randy = Mathf.FloorToInt(Random.Range(-distance, distance) + Y);
 
-            Debug.Log("Adding path " + X + " " + Y + " to " + randx + " " + randy);
             // It should be mostly free, if invalid it will return an empty path
             path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
 
