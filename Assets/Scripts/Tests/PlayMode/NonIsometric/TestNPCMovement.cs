@@ -3,7 +3,6 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
-using System.Security.Cryptography.X509Certificates;
 
 public class TestNPCMovement
 {

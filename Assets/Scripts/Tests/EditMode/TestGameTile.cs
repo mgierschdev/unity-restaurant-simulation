@@ -1,7 +1,5 @@
 using NUnit.Framework;
-using UnityEditor.SceneTemplate;
 using UnityEngine;
-using UnityEngine.TestTools.Utils;
 using UnityEngine.Tilemaps;
 
 public class TestGameTile
