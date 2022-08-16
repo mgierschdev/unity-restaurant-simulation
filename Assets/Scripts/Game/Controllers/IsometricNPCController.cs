@@ -14,10 +14,6 @@ public class IsometricNPCController : GameIsometricMovement
     [SerializeField]
     private float startY;
     [SerializeField]
-    private float X;
-    [SerializeField]
-    private float Y;
-    [SerializeField]
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
 
     // Wander variables
@@ -84,16 +80,7 @@ public class IsometricNPCController : GameIsometricMovement
             Wander();
         }
     }
-
-    public override void UpdatePosition()
-    {
-        Vector3Int pos = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
-        sortingLayer.sortingOrder = pos.y * -1;
-        X = pos.x;
-        Y = pos.y;
-        Position = new Vector3(X, Y);
-    }
-
+    
     private void Wander()
     {
 
