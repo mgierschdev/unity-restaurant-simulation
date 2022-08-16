@@ -22,6 +22,7 @@ public static class Settings
     public const string PREFAB_PATH = "Resources";
     public const string PREFAB_GRID_TILE = "GridTile";
     public const string PREFAB_ISOMETRIC_PLAYER = "IsometricPlayer";
+    public const string PREFAB_PLAYER = "Player";
     public const string PREFAB_ISOMETRIC_NPC = "IsometricNPC";
     public const string PREFAB_INVENTORY_ITEM = "InventoryItem";
     public const string PREFAB_SAND_SEA = "SandAndSea@3x";
