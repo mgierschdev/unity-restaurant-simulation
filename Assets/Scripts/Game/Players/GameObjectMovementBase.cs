@@ -25,15 +25,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected Vector3 currentTargetPosition;
     protected GameObject gameGridObject;
 
-    virtual public void UpdatePosition()
-    {
-        Vector2Int pos = Util.GetXYInGameMap(transform.position);
-        sortingLayer.sortingOrder = pos.y * -1;
-        X = pos.x;
-        Y = pos.y;
-        Position = new Vector3(X, Y);
-    }
-
     virtual public void UpdateTargetMovement()
     {
         if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)

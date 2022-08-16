@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+
 public class IsometricPlayerController : GameIsometricMovement
 {
     // For Handling non-physics related objects
@@ -11,7 +13,7 @@ public class IsometricPlayerController : GameIsometricMovement
         }
 
         // Player Moving on long click/touch
-        // MovingOnLongtouch();
+        MovingOnLongtouch();
     }
 
     // Called every physics step, Update called every frame

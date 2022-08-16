@@ -80,7 +80,7 @@ public class IsometricNPCController : GameIsometricMovement
             Wander();
         }
     }
-    
+
     private void Wander()
     {
 
@@ -90,7 +90,7 @@ public class IsometricNPCController : GameIsometricMovement
             idleTime += Time.deltaTime;
         }
 
-        // Debug.Log("Wandering "+X+" "+Y+" "+!IsMoving()+" "+idleTime+ " "+idleMaxTime);
+        //Debug.Log("Wandering "+X+" "+Y+" "+!IsMoving()+" "+idleTime+ " "+idleMaxTime);
 
         if (!IsMoving() && idleTime >= idleMaxTime)
         {
