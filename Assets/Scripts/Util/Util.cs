@@ -177,7 +177,7 @@ public static class Util
         return new Vector3(dir.x, dir.y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
-    // Gets the cell position in a non-isometric grid
+    // Gets the GRID cell position in a non-isometric grid
     public static Vector3 GetCellPosition(int x, int y)
     {
         Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);

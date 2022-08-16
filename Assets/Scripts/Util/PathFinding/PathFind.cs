@@ -13,6 +13,7 @@ public class PathFind
     private PathNode start;
     private List<int[]> path;
 
+    //source to target in grid positions
     public List<Node> Find(int[] s, int[] t, int[,] sourceGrid)
     {
         // If it is out of bounds of if the target coord it is equal to the start coord

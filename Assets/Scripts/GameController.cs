@@ -4,37 +4,37 @@ using System.Collections.Generic;
 // the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour
 {
-    //  private List<NPCController> npcList;
-    // private bool enableWander;
+    private List<IsometricNPCController> npcList;
+    private bool enableWander;
 
     void Start()
     {
-        // npcList = new List<NPCController>();
-        // enableWander = false;
+        npcList = new List<IsometricNPCController>();
+        enableWander = false;
 
-        // // // Getting grid object
-        // GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
-        // GameGridController gridController = gameGridObject.GetComponent<GameGridController>();
+        // // Getting grid object
+        GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
+        IsometricGridController gridController = gameGridObject.GetComponent<IsometricGridController>();
 
-        // for(int i = 0; i < 3; i++){
-        //     // Adding NPC object
-        //     Vector3 initPos = new Vector3(22, 29, 1);
-        //     GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC, typeof(GameObject)), gridController.GetCellPosition(initPos), Quaternion.identity) as GameObject;
-        //     npcObject.transform.SetParent(gameObject.transform);
-        //     npcObject.name = i+"-"+Settings.PREFAB_NPC;
-        //     NPCController controllerNPC = npcObject.GetComponent<NPCController>();
-        //     controllerNPC.Speed = 0.4f;
-        //     this.npcList.Add(controllerNPC);
-        // }
+        for(int i = 0; i < 3; i++){
+            // Adding NPC object
+            Vector3Int initPos = new Vector3Int(19, 10);
+            GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), gridController.GetWorldFromPathFindingGridPosition(initPos), Quaternion.identity) as GameObject;
+            npcObject.transform.SetParent(gameObject.transform);
+            npcObject.name = i+"-"+Settings.PREFAB_NPC;
+            IsometricNPCController isometricNPCController = npcObject.GetComponent<IsometricNPCController>();
+            isometricNPCController.Speed = 0.4f;
+            this.npcList.Add(isometricNPCController);
+        }
    }
 
-    // void Update(){
-    //     // we execute only once
-    //     if(!enableWander){
-    //         foreach(NPCController n in npcList){
-    //             n.state = NPCState.WANDER;
-    //         }
-    //     }
-    // }
+    void Update(){
+        // we execute only once
+        if(!enableWander){
+            foreach(IsometricNPCController n in npcList){
+                n.state = NPCState.WANDER;
+            }
+        }
+    }
 
 }
