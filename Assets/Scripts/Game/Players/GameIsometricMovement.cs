@@ -185,7 +185,7 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
 
         Vector3 queuePosition = (Vector3) pendingMovementQueue.Dequeue();
         Vector3 direction = GameGrid.GetWorldFromPathFindingGridPosition(new Vector3Int((int) queuePosition.x, (int) queuePosition.y));
-        Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        Vector3 nextTarget = new Vector3(direction.x, direction.y);
         this.nextTarget = nextTarget;
     }
 

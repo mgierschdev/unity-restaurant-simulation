@@ -56,7 +56,6 @@ public static class Settings
     public const string CONST_GAME_BACKGROUND_DEFAULT = "GameBackground";//E.g: Prefab GameBackground800x1920, GameBackground1300x1300
     public const int CONST_DEFAULT_CAMERA_WIDTH = 1500;
     public const int CONST_DEFAULT_CAMERA_HEIGHT = 1600;
-    public const int DEFAULT_GAME_OBJECTS_Z = 1;
 
     //UI: Buttons listeners
     public const string CONST_UI_EXIT_BUTTON = "ExitButton";

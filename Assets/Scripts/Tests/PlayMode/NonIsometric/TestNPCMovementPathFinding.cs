@@ -22,18 +22,18 @@ public class TestNPCMovementPathFinding
         gameGridController = gridObject.GetComponent<IsometricGridController>();
         // First NPC
         firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject))) as GameObject;
-        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), Util.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
+        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
         firstNPCObject.transform.SetParent(gridObject.transform);
         firstNPCController = firstNPCObject.GetComponent<IsometricNPCController>();
         firstNPCController.GameGrid = gameGridController;
         // Second NPC
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject))) as GameObject;
-        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), Util.GetCellPosition(new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z)), Quaternion.identity) as GameObject;
+        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
         secondNPCObject.transform.SetParent(gridObject.transform);
         secondNPCController = secondNPCObject.GetComponent<IsometricNPCController>();
         secondNPCController.GameGrid = gameGridController;
 
-        initialTestingPosition = new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z);
+        initialTestingPosition = new Vector3(1, 1);
     }
 
 
@@ -47,7 +47,7 @@ public class TestNPCMovementPathFinding
         firstNPCController.Position = initialTestingPosition;
         firstNPCController.Speed = 100;
         firstNPCController.AddPath(path);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         Debug.Log(firstNPCController.Position);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
@@ -57,14 +57,18 @@ public class TestNPCMovementPathFinding
     public IEnumerator TestPathWithObstacles()
     {
         int[] endPosition = new int[] { 14, 14 };
-        int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
+        int[] startPosition = new int[] { 1, 1 };
         gameGridController.SetTestGridObstacles(5, 1, 15);
+
+        Debug.Log("Getting Path from: "+startPosition+" to "+endPosition);
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
+        Debug.Log("Path size: "+path.Count);
+
         firstNPCController.Position = initialTestingPosition;
         firstNPCController.Speed = 100;
         Util.PrintPath(path);
         firstNPCController.AddPath(path);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
         gameGridController.FreeTestGridObstacles(5, 1, 15);
@@ -85,22 +89,11 @@ public class TestNPCMovementPathFinding
         secondNPCController.Speed = 100;
         secondNPCController.AddPath(path);
         firstNPCController.AddPath(path);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[1], endPosition[1]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
         gameGridController.FreeTestGridObstacles(5, 1, 15);
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        Object.Destroy(firstNPCObject);
-        Object.Destroy(secondNPCObject);
-        Object.Destroy(firstNPCController);
-        Object.Destroy(secondNPCController);
-        Object.Destroy(gridObject);
-        Object.Destroy(gameGridController);
     }
 }

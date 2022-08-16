@@ -41,7 +41,7 @@ public class IsometricPlayerController : GameIsometricMovement
         sortingLayer.sortingOrder = pos.y * -1;
         X = pos.x;
         Y = pos.y;
-        Position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
+        Position = new Vector3(X, Y);
     }
 
     private void OnCollisionEnter2D(Collision2D other)

@@ -18,10 +18,10 @@ public class TestPlayerMovementPathFinding
         // Game Grid
         gridObject = Transform.Instantiate(Resources.Load(Settings.GAME_GRID, typeof(GameObject))) as GameObject;
         gameGridController = gridObject.GetComponent<IsometricGridController>();
-        initialTestingPosition = new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z);
+        initialTestingPosition = new Vector3(1, 1);
         // Player
         playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject))) as GameObject;
-        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject)), Util.GetCellPosition(initialTestingPosition), Quaternion.identity) as GameObject;
+        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject)), initialTestingPosition, Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(gridObject.transform);
         playerController = playerObject.GetComponent<IsometricPlayerController>();
         playerController.GameGrid = gameGridController;
@@ -58,14 +58,5 @@ public class TestPlayerMovementPathFinding
         Assert.AreEqual(playerController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(playerController.GetPositionAsArray()[1], endPosition[1]);
         gameGridController.FreeTestGridObstacles(5, 1, 15);
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        Object.Destroy(playerObject);
-        Object.Destroy(playerController);
-        Object.Destroy(gridObject);
-        Object.Destroy(gameGridController);
     }
 }
