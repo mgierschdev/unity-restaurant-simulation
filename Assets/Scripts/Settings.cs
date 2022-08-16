@@ -10,7 +10,6 @@ public static class Settings
     // DEBUG parameters
     public const bool DEBUG_ENABLE = true; //Only for development
     public const int DEBUG_TEXT_SIZE = 9;
-    public const int DEBUG_DEBUG_LINE_DURATION = 1000; //in seconds
 
     // TILEMAPS
     public const string TILEMAP_FLOOR_0 = "TilemapFloor0";
@@ -19,7 +18,6 @@ public static class Settings
     public const string PATH_FINDING_GRID = "PathFindingGrid";
 
     // PREFABS AND OBJECTS
-    public const string PREFAB_PATH = "Resources";
     public const string PREFAB_GRID_TILE = "GridTile";
     public const string PREFAB_ISOMETRIC_PLAYER = "IsometricPlayer";
     public const string PREFAB_PLAYER = "Player";
@@ -30,7 +28,6 @@ public static class Settings
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
     public const float NPC_DEFAULT_MOVEMENT_SPEED = 0.3f; // 0.3f
-    public const float NPC_DEFAULT_MOVEMENT_INCREASE_ON_CLICK = 0.3f;
     public const float NPC_DEFAULT_RECOVERY_TIME = 10;
     public const int NPC_DEFAULT_ENERGY = 100;
     public const string NPC_ENERGY_BAR = "EnergyBar";
