@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
         targetPosition = Camera.main.orthographicSize;
         touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_GRID_TILE);
+        playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER);
         GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
         menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
 

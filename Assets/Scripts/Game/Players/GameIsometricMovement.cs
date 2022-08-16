@@ -57,6 +57,15 @@ public class GameIsometricMovement : GameObjectMovementBase
             Debug.LogWarning("PlayerController/clickController null");
         }
     }
+    
+     virtual public void UpdatePosition()
+    {
+        Vector3Int pos = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
+        sortingLayer.sortingOrder = pos.y * -1;
+        X = pos.x;
+        Y = pos.y;
+        Position = new Vector3(X, Y);
+    }
 
     public override void UpdateTargetMovement()
     {
@@ -90,7 +99,7 @@ public class GameIsometricMovement : GameObjectMovementBase
         return GameGrid.GetPath(from, to);
     }
 
-    private void MovingOnLongtouch()
+    public void MovingOnLongtouch()
     {
         if (clickController != null && clickController.IsLongClick)
         {
@@ -119,20 +128,15 @@ public class GameIsometricMovement : GameObjectMovementBase
 
     public void AddPath(List<Node> path)
     {
-        Debug.Log("Adding Path "+path.Count);
-
         if (path.Count == 0)
         {
             return;
         }
 
-        Debug.Log("Movement queue "+pendingMovementQueue.Count);
-
         if (pendingMovementQueue.Count != 0)
         {
             path = MergePath(path); // We merge Paths
         }
-        Debug.Log("Drawing Path");
 
         pendingMovementQueue.Enqueue(path[0].GetVector3());
 
