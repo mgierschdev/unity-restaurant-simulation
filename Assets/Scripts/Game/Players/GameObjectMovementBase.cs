@@ -21,7 +21,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected Rigidbody2D body;
 
     //Movement Queue
-    protected Queue pendingMovementQueue;
+    public Queue pendingMovementQueue;
     protected Vector3 nextTarget;
     protected Vector3 currentTargetPosition;
     protected GameObject gameGridObject;
@@ -106,7 +106,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected bool IsMoving()
     {
-        if (pendingMovementQueue.Count == 0)
+        if (pendingMovementQueue == null || pendingMovementQueue.Count == 0)
         {
             return false;
         }

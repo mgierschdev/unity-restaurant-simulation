@@ -203,20 +203,7 @@ public class IsometricGridController : MonoBehaviour
     // Returns the Grid position given a Vector3 world position
     public Vector3Int GetLocalGridFromWorldPosition(Vector3 position)
     {
-        Debug.Log("GetGridFromWorldPosition " + tilemapPathFinding.WorldToCell(position));
         return tilemapPathFinding.WorldToCell(position);
-
-        // if (mapWorldPositionToTile.ContainsKey(position))
-        // {
-        //     GameTile tile = mapWorldPositionToTile[position];
-        //     return new Vector2Int(tile.GridPosition.x, tile.GridPosition.y);
-        // }
-        // else
-        // {
-        //     Debug.LogError("GetGridFromWorldPosition / Position " + position + " not found");
-        // }
-
-        // return Vector2Int.zero;
     }
 
     public Vector3Int GetPathFindingGridFromWorldPosition(Vector3 position)
@@ -238,16 +225,5 @@ public class IsometricGridController : MonoBehaviour
     public Vector3 GetWorldFromGridPosition(Vector3Int position)
     {
         return tilemapPathFinding.CellToWorld(position);
-
-        // if (mapGridPositionToTile.ContainsKey(position))
-        // {
-        //     GameTile tile = mapGridPositionToTile[position];
-        //     return tile.WorldPosition;
-        // }
-        // else
-        // {
-        //     Debug.LogError("GetWorldFromGridPosition / Position " + position + " not found");
-        // }
-        // return Vector3.zero;
     }
 }

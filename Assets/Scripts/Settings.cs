@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+
 public static class Settings
 {
     // Player Config
@@ -21,6 +23,7 @@ public static class Settings
     public const string PREFAB_PATH = "Resources";
     public const string PREFAB_PLAYER = "Player";
     public const string PREFAB_NPC = "NPC";
+    public const string PREFAB_ISOMETRIC_NPC = "IsometricNPC";
     public const string PREFAB_OBSTACLE = "Obstacle";
 
     // NPC Default

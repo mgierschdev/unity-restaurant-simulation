@@ -30,17 +30,18 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
                 Debug.LogWarning("IsometricGridController.cs/gameGridObject null");
             }
         }
-    }
 
-    // Overlap spehre
-    private void Start()
-    {
         // Movement Queue
         nextTarget = Vector3.zero;
         pendingMovementQueue = new Queue();
 
         //Update Object initial position
         currentTargetPosition = Vector3.negativeInfinity;
+    }
+
+    // Overlap spehre
+    private void Start()
+    {
         UpdatePosition();
 
         Type = ObjectType.PLAYER;
@@ -55,15 +56,6 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
         {
             Debug.LogWarning("PlayerController/clickController null");
         }
-    }
-
-    public override void UpdatePosition()
-    {
-        Vector3Int pos = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
-        sortingLayer.sortingOrder = pos.y * -1;
-        X = pos.x;
-        Y = pos.y;
-        Position = new Vector3(X, Y, Settings.DEFAULT_GAME_OBJECTS_Z);
     }
 
     public override void UpdateTargetMovement()
@@ -127,12 +119,14 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
 
     public void AddPath(List<Node> path)
     {
-        Debug.Log("Adding Path");
+        Debug.Log("Adding Path "+path.Count);
 
         if (path.Count == 0)
         {
             return;
         }
+
+        Debug.Log("Movement queue "+pendingMovementQueue.Count);
 
         if (pendingMovementQueue.Count != 0)
         {
@@ -172,9 +166,7 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
 
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector3Int mouseInGridPosition = GameGrid.GetPathFindingGridFromWorldPosition(mousePosition);
-            Debug.Log("Getting Path");
             List<Node> path = GetPath(new int[] { (int)X, (int)Y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
-            Debug.Log("Path Size: " + path.Count);
             AddPath(path);
 
             if (pendingMovementQueue.Count != 0)
@@ -191,7 +183,8 @@ public class GameIsometricMovement : GameObjectMovementBase, IMovement
             return;
         }
 
-        Vector3 direction = GameGrid.GetWorldFromPathFindingGridPosition((Vector3Int) pendingMovementQueue.Dequeue());
+        Vector3 queuePosition = (Vector3) pendingMovementQueue.Dequeue();
+        Vector3 direction = GameGrid.GetWorldFromPathFindingGridPosition(new Vector3Int((int) queuePosition.x, (int) queuePosition.y));
         Vector3 nextTarget = new Vector3(direction.x, direction.y, Settings.DEFAULT_GAME_OBJECTS_Z);
         this.nextTarget = nextTarget;
     }
