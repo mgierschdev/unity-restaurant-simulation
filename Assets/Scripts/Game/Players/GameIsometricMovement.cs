@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameIsometricMovement : GameObjectMovementBase, IMovement
+public class GameIsometricMovement : GameObjectMovementBase
 {
     public IsometricGridController GameGrid { get; set; }
 

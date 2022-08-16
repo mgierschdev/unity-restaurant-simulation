@@ -1,15 +1,11 @@
 using UnityEngine;
-using System;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 
 // This controlls the isometric tiles on the grid
 public class IsometricGridController : MonoBehaviour
 {
     //Tilemap 
-
-    private TileBase gridTile; //The gameTile used to build the grid
     private int width = 30;
     private int heigth = 35;
 
@@ -97,7 +93,6 @@ public class IsometricGridController : MonoBehaviour
     {
         TileBase gridTile = tilemapPathFinding.GetTile(new Vector3Int(-12, 28));
 
-        //  Debug.Log(tilemapPathFinding)
         for (int x = 0; x <= heigth; x++)
         {
             for (int y = 0; y <= width; y++)
