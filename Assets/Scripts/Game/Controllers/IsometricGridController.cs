@@ -142,7 +142,7 @@ public class IsometricGridController : MonoBehaviour
 
                 if (Settings.DEBUG_ENABLE)
                 {
-                   // Debug.Log("Tile grid: " + gameTile.GridPosition + " world: " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
+                    // Debug.Log("Tile grid: " + gameTile.GridPosition + " world: " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
                 }
             }
         }
@@ -225,5 +225,43 @@ public class IsometricGridController : MonoBehaviour
     public Vector3 GetWorldFromGridPosition(Vector3Int position)
     {
         return tilemapPathFinding.CellToWorld(position);
+    }
+
+    // Only for unit test use
+    public void SetTestGridObstacles(int row, int x1, int x2)
+    {
+        //int x, int y, ObjectType type, Color? color = null
+        for (int i = x1; i <= x2; i++)
+        {
+            SetGridObstacle(row, i, ObjectType.OBSTACLE, Color.black);
+        }
+    }
+
+    // Only for unit test use
+    public void FreeTestGridObstacles(int row, int x1, int x2)
+    {
+        for (int i = x1; i <= x2; i++)
+        {
+            FreeGridPosition(row, i);
+        }
+    }
+
+    // Unset position in Grid
+    public void FreeGridPosition(int x, int y)
+    {
+        if (!IsCoordsValid(x, y) && x > 1 && y > 1)
+        {
+            if (Settings.DEBUG_ENABLE)
+            {
+                Debug.LogError("The object should be placed inside the perimeter");
+            }
+            return;
+        }
+
+        grid[x, y] = 0;
+        if (Settings.DEBUG_ENABLE)
+        {
+            SetCellColor(x, y, Color.white);
+        }
     }
 }

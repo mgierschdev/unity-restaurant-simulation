@@ -7,9 +7,9 @@ using UnityEngine.TestTools;
 public class TestPlayerMovementPathFinding
 {
     private GameObject playerObject;
-    private PlayerController playerController;
+    private IsometricPlayerController playerController;
+    private IsometricGridController gameGridController;
     private GameObject gridObject;
-    private GameGridController gameGridController; // 18x18 Default size
     private Vector3 initialTestingPosition;
 
     [SetUp]
@@ -17,13 +17,13 @@ public class TestPlayerMovementPathFinding
     {
         // Game Grid
         gridObject = Transform.Instantiate(Resources.Load(Settings.GAME_GRID, typeof(GameObject))) as GameObject;
-        gameGridController = gridObject.GetComponent<GameGridController>();
+        gameGridController = gridObject.GetComponent<IsometricGridController>();
         initialTestingPosition = new Vector3(1, 1, Settings.DEFAULT_GAME_OBJECTS_Z);
         // Player
-        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject))) as GameObject;
-        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), Util.GetCellPosition(initialTestingPosition), Quaternion.identity) as GameObject;
+        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject))) as GameObject;
+        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject)), Util.GetCellPosition(initialTestingPosition), Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(gridObject.transform);
-        playerController = playerObject.GetComponent<PlayerController>();
+        playerController = playerObject.GetComponent<IsometricPlayerController>();
         playerController.GameGrid = gameGridController;
     }
 

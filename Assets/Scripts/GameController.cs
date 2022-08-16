@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
             Vector3Int initPos = new Vector3Int(19, 10);
             GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), gridController.GetWorldFromPathFindingGridPosition(initPos), Quaternion.identity) as GameObject;
             npcObject.transform.SetParent(gameObject.transform);
-            npcObject.name = i+"-"+Settings.PREFAB_NPC;
+            npcObject.name = i+"-"+Settings.PREFAB_ISOMETRIC_NPC;
             IsometricNPCController isometricNPCController = npcObject.GetComponent<IsometricNPCController>();
             isometricNPCController.Speed = 0.4f;
             this.npcList.Add(isometricNPCController);

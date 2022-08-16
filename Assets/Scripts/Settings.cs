@@ -19,12 +19,12 @@ public static class Settings
     public const string PATH_FINDING_GRID = "PathFindingGrid";
 
     // PREFABS AND OBJECTS
-    public const string GAME_GRID = "GameGrid";
     public const string PREFAB_PATH = "Resources";
-    public const string PREFAB_PLAYER = "Player";
-    public const string PREFAB_NPC = "NPC";
+    public const string PREFAB_GRID_TILE = "GridTile";
+    public const string PREFAB_ISOMETRIC_PLAYER = "IsometricPlayer";
     public const string PREFAB_ISOMETRIC_NPC = "IsometricNPC";
-    public const string PREFAB_OBSTACLE = "Obstacle";
+    public const string PREFAB_INVENTORY_ITEM = "InventoryItem";
+    public const string PREFAB_SAND_SEA = "SandAndSea@3x";
 
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
@@ -64,6 +64,7 @@ public static class Settings
 
     //SCENE
     public const string CONST_SCENE_MAIN = "World";
+    public const string GAME_GRID = "GameGrid";
 
     // UI Tags
     // Grid Config
