@@ -32,16 +32,6 @@ public class IsometricPlayerController : GameIsometricMovement
         // Updating position in the Grid
         UpdatePosition();
     }
-
-    public override void UpdatePosition()
-    {
-        Vector3Int pos = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
-        sortingLayer.sortingOrder = pos.y * -1;
-        X = pos.x;
-        Y = pos.y;
-        Position = new Vector3(X, Y);
-    }
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (Settings.DEBUG_ENABLE)
