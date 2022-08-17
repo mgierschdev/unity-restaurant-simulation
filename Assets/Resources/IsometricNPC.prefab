@@ -207,10 +207,10 @@ GameObject:
   - component: {fileID: 7444181978888355382}
   - component: {fileID: 7444181978888355383}
   - component: {fileID: 7513736735678383767}
-  - component: {fileID: 1859833509263881}
   - component: {fileID: 2962024432630426327}
   - component: {fileID: 3339015991518568952}
   - component: {fileID: 615498464143119890}
+  - component: {fileID: 2966849728418198250}
   m_Layer: 10
   m_Name: IsometricNPC
   m_TagString: NPC
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7444181978888355383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,22 +323,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &1859833509263881
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7444181978888355381}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.23}
-  serializedVersion: 2
-  m_Radius: 0.23
 --- !u!114 &2962024432630426327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,7 +367,7 @@ MonoBehaviour:
   - {x: -0.20129395, y: 0.12615967, z: 0}
   m_ShapePathHash: 741236957
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42176
+  m_InstanceId: 48670
 --- !u!210 &3339015991518568952
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -411,9 +395,42 @@ MonoBehaviour:
   energyBar: {fileID: 0}
   startX: 0
   startY: 0
-  X: 0
-  Y: 0
   currentEnergy: 100
+--- !u!60 &2966849728418198250
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7444181978888355381}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.24072266, y: 0.55566406}
+      - {x: 0.17333984, y: 0.68029785}
+      - {x: -0.17029482, y: 0.69378257}
+      - {x: -0.24414062, y: 0.548584}
+      - {x: -0.265625, y: 0.375}
+      - {x: -0.24951172, y: 0.24328613}
+      - {x: -0.16493362, y: 0.025699735}
+      - {x: 0.12733614, y: -0.0015218258}
+      - {x: 0.2421875, y: 0.26904297}
+      - {x: 0.24646664, y: 0.3740806}
 --- !u!1 &7444181979203669610
 GameObject:
   m_ObjectHideFlags: 0

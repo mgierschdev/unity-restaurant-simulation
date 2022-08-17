@@ -372,7 +372,8 @@ public enum NPCState
 public enum Menu
 {
     CENTER_TAB_MENU,
-    TOP_MENU
+    TOP_MENU,
+    NPC_PROFILE
 }
 
 //Menu Types

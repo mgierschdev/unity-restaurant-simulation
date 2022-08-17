@@ -1,13 +1,14 @@
 public static class Settings
 {
-    // Player Config
-    public const bool PLAYER_WALK_WITH_KEYBOARD = false;
-    public const bool PLAYER_WALK_ON_CLICK = true;
-    public const float PLAYER_MOVEMENT_SPEED = 1f;
 
     // DEBUG parameters
     public const bool DEBUG_ENABLE = true; //Only for development
     public const int DEBUG_TEXT_SIZE = 9;
+
+    // Player Config
+    public const bool PLAYER_WALK_WITH_KEYBOARD = false;
+    public const bool PLAYER_WALK_ON_CLICK = false;
+    public const float PLAYER_MOVEMENT_SPEED = 1f;
 
     // TILEMAPS
     public const string TILEMAP_FLOOR_0 = "TilemapFloor0";
@@ -33,6 +34,7 @@ public static class Settings
 
     // UI Constants
     public const string DEFAULT_LETTER_FONT = "Roboto-Regular";
+    public const string CONST_NPC_PROFILE_MENU = "NPCProfile";
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenu";
     public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
     public const string CONST_CENTER_TAB_MENU_BODY = "MenuBody";
@@ -43,8 +45,8 @@ public static class Settings
 
     // UI: Camera
     public const bool CAMERA_PERSPECTIVE_HAND = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = {-0.5f, 3};
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = {-8, 0.5f};
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = { -0.5f, 3 };
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = { -8, 0.5f };
     public const bool CAMERA_FOLLOW_PLAYER = false;
     public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
 

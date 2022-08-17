@@ -17,7 +17,7 @@ public class IsometricNPCController : GameIsometricMovement
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
 
     // Wander variables
-    private int distance = 3; //Cell units: How far you should wander from start position
+    private int distance = 6; //Cell units: How far you should wander from start position
     private float idleTime = 0;
     private float idleMaxTime = 3f; //in seconds
 
@@ -48,7 +48,6 @@ public class IsometricNPCController : GameIsometricMovement
             energyBar.SetInactive();
         }
     }
-
     private void FixedUpdate()
     {
         // EnergyBar controller, only if it is active
@@ -89,8 +88,6 @@ public class IsometricNPCController : GameIsometricMovement
             // we could add more random by deciding to move or not 
             idleTime += Time.deltaTime;
         }
-
-        //Debug.Log("Wandering "+X+" "+Y+" "+!IsMoving()+" "+idleTime+ " "+idleMaxTime);
 
         if (!IsMoving() && idleTime >= idleMaxTime)
         {
