@@ -20,6 +20,9 @@ public class ClickController : MonoBehaviour
     {
         // Controls the state of the first and long click
         ClickControl();
+
+        //Object Cliked Control
+        ObjectClickedControl();
     }
 
     private void ClickControl()
@@ -57,6 +60,23 @@ public class ClickController : MonoBehaviour
         if (ClickingTime > longClickDuration)
         {
             IsLongClick = true;
+        }
+    }
+
+    // The object must have a collider attachedDo
+    public void ObjectClickedControl()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            //Get the mouse position on the screen and send a raycast into the game world from that position.
+            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+
+            //If something was hit, the RaycastHit2D.collider will not be null.
+            if (hit.collider != null)
+            {
+                Debug.Log(hit.collider.name);
+            }
         }
     }
 }

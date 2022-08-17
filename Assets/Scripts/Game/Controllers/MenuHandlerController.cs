@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class MenuHandlerController : MonoBehaviour
 {
     private GameObject tabMenu;
+    private MenuItem npcProfileMenu;
     private MenuItem centerTabMenu;
     private MenuItem topGameMenu;
     private Stack<MenuItem> menuStack;
@@ -16,6 +17,7 @@ public class MenuHandlerController : MonoBehaviour
     // Click controller
     private ClickController clickController;
 
+    // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Start()
     {
         // Click controller
@@ -24,18 +26,21 @@ public class MenuHandlerController : MonoBehaviour
 
         tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
         GameObject gameMenu = transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
+        GameObject npcProfileGameObject = transform.Find(Settings.CONST_NPC_PROFILE_MENU).gameObject;
 
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
-
+        
         topGameMenu = new MenuItem(MenuType.ON_SCREEN, Settings.CONST_TOP_GAME_MENU, gameMenu);
         centerTabMenu = new MenuItem(MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu);
+        npcProfileMenu = new MenuItem(MenuType.DIALOG, Settings.CONST_NPC_PROFILE_MENU, npcProfileGameObject);
 
         topGameMenu.Buttons.Add(Settings.CONST_UI_INVENTORY_BUTTON);
         centerTabMenu.Buttons.Add(Settings.CONST_UI_EXIT_BUTTON);
 
         SetClickListeners(centerTabMenu);
         SetClickListeners(topGameMenu);
+        SetClickListeners(npcProfileMenu);
 
         centerTabMenu.Close();
     }

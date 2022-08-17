@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
         GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
         IsometricGridController gridController = gameGridObject.GetComponent<IsometricGridController>();
 
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 1; i++){
             // Adding NPC object
             Vector3Int initPos = new Vector3Int(19, 10);
             GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), gridController.GetWorldFromPathFindingGridPosition(initPos), Quaternion.identity) as GameObject;

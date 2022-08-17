@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Collections.Generic;
 
 // This controlls the isometric tiles on the grid
 public class IsometricGridController : MonoBehaviour
@@ -68,6 +68,8 @@ public class IsometricGridController : MonoBehaviour
         grid = new int[cellsX, cellsY];
         debugGrid = new TextMesh[cellsX, cellsY];
 
+        tilemapColliders.color = new Color(1, 1, 1, 0.0f);
+
         BuildGrid(listPathFindingMap, mapWorldPositionToTile, mapGridPositionToTile, mapPathFindingGrid); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
@@ -77,6 +79,7 @@ public class IsometricGridController : MonoBehaviour
     private void DrawCellCoords()
     {
         tilemapPathFinding.color = new Color(1, 1, 1, 0.2f);
+        tilemapColliders.color = new Color(1, 1, 1, 0.8f);
 
         foreach (GameTile tile in listPathFindingMap)
         {
