@@ -315,6 +315,14 @@ public static class Util
             return ObjectType.UNDEFINED;
         }
     }
+
+    public static ObjectType GetObjectType(GameObject gameObject){
+        if(gameObject.tag == Settings.NPC_TAG){
+            return ObjectType.NPC;
+        }else{
+            return ObjectType.UNDEFINED;
+        }
+    }
 }
 
 //Item types

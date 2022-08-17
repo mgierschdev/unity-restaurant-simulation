@@ -147,6 +147,19 @@ public class IsometricGridController : MonoBehaviour
         }
     }
 
+    //Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
+    public GameTile GetGameTileFromClickInWorldPosition(Vector3 position)
+    {
+        if (mapColliders.ContainsKey(position))
+        {
+            return mapColliders[position];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     //Default for 0.25 tile cell
     public void SetIsometricGameTileCollider(GameTile tile)
     {

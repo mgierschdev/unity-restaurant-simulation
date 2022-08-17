@@ -10,6 +10,10 @@ public static class Settings
     public const bool PLAYER_WALK_ON_CLICK = false;
     public const float PLAYER_MOVEMENT_SPEED = 1f;
 
+    //GAME TAGS
+    public const string NPC_TAG = "NPC";
+    public const string GRID_TILE_TAG = "GridTile";
+
     // TILEMAPS
     public const string TILEMAP_FLOOR_0 = "TilemapFloor0";
     public const string TILEMAP_COLLIDERS = "TilemapColliders";

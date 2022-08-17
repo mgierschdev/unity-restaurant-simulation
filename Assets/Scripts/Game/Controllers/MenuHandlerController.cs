@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 // This will be only element attached in the UI
 // All the buttom calls will be handled by this class.
@@ -30,7 +30,7 @@ public class MenuHandlerController : MonoBehaviour
 
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
-        
+
         topGameMenu = new MenuItem(MenuType.ON_SCREEN, Settings.CONST_TOP_GAME_MENU, gameMenu);
         centerTabMenu = new MenuItem(MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu);
         npcProfileMenu = new MenuItem(MenuType.DIALOG, Settings.CONST_NPC_PROFILE_MENU, npcProfileGameObject);
@@ -50,6 +50,20 @@ public class MenuHandlerController : MonoBehaviour
         if (Input.GetMouseButton(0) && IsClickOutside() && !clickController.IsLongClick && menuStack.Count > 0)
         {
             CloseMenu();
+        }
+
+        // Checks for clicks to the objects in the UI
+        CheckCLickControl();
+    }
+
+    private void CheckCLickControl()
+    {
+        if (clickController.ClickedObject != null)
+        { 
+            Debug.Log("Object clicked "+Util.GetObjectType(clickController.ClickedObject));
+
+            // We reset the clicked object after the action
+            clickController.ClickedObject = null;
         }
     }
 
