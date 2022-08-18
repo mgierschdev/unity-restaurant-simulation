@@ -62,8 +62,6 @@ public class MenuHandlerController : MonoBehaviour
         if (clickController.ClickedObject != null)
         {
             ObjectType type = Util.GetObjectType(clickController.ClickedObject);
-            Debug.Log("Object Cliked ");
-
             if(type == ObjectType.NPC){
                 Dictionary<string, string> map = new Dictionary<string, string>();
                 IsometricNPCController npc = clickController.ClickedObject.GetComponent<IsometricNPCController>();
