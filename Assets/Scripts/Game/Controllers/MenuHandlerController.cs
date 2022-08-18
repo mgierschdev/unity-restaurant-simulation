@@ -69,8 +69,8 @@ public class MenuHandlerController : MonoBehaviour
                 IsometricNPCController npc = clickController.ClickedObject.GetComponent<IsometricNPCController>();
                 map.Add("Name", npc.Name);  
                 map.Add("Debug", npc.Debug);  
-                npcProfileMenu.SetFields(map);
                 OpenMenu(npcProfileMenu);
+                npcProfileMenu.SetFields(map);
             }
 
             // We reset the clicked object after the action

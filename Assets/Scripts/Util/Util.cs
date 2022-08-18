@@ -1,6 +1,6 @@
 using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 // This will contain Utility functions, to create Unity Object and other
@@ -316,11 +316,26 @@ public static class Util
         }
     }
 
-    public static ObjectType GetObjectType(GameObject gameObject){
-        if(gameObject.tag == Settings.NPC_TAG){
+    public static ObjectType GetObjectType(GameObject gameObject)
+    {
+        if (gameObject.tag == Settings.NPC_TAG)
+        {
             return ObjectType.NPC;
-        }else{
+        }
+        else
+        {
             return ObjectType.UNDEFINED;
+        }
+    }
+
+    public static void PrintAllComponents(GameObject gameObject)
+    {
+        UnityEngine.Component[] components = gameObject.GetComponents(typeof(UnityEngine.Component));
+
+        foreach (UnityEngine.Component c in components)
+        {
+            Debug.Log(gameObject.name+" "+gameObject.ToString());
+
         }
     }
 }
