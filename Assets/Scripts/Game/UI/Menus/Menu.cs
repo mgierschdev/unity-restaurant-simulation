@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
-using TextMeshProUGUI;
+using TMPro;
 
 public class MenuItem
 {
@@ -36,7 +36,6 @@ public class MenuItem
             if (go != null)
             {
                 TextMeshProUGUI textMesh = go.GetComponent<TextMeshProUGUI>();
-
 
                 if (textMesh != null)
                 {
