@@ -35,6 +35,7 @@ public class IsometricNPCController : GameIsometricMovement
         Type = ObjectType.NPC;
         Speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
         state = (int)NPCState.IDLE;
+        Name = transform.name;
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
@@ -135,8 +136,9 @@ public class IsometricNPCController : GameIsometricMovement
     private void SetDebug()
     {
         Debug = "";
-        for(int i = 0; i < stateHistoryMaxSize; i++){
-            Debug += stateHistory.ElementAt(i) +"<br>";
+        for (int i = 0; i < stateHistory.Count; i++)
+        {
+            Debug += stateHistory.ElementAt(i) + "<br>";
         }
     }
 
@@ -144,7 +146,8 @@ public class IsometricNPCController : GameIsometricMovement
     {
         stateHistory.Enqueue(s);
 
-        if(stateHistory.Count > stateHistoryMaxSize){
+        if (stateHistory.Count > stateHistoryMaxSize)
+        {
             stateHistory.Dequeue();
         }
         SetDebug();

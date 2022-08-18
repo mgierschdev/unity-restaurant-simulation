@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
+using TextMeshProUGUI;
 
 public class MenuItem
 {
@@ -19,18 +20,36 @@ public class MenuItem
         Fields = new Dictionary<string, string>();
     }
 
-    public void SetFields(Dictionary<string, string> Fields)
+    public void SetFields(Dictionary<string, string> fields)
     {
-        this.Fields = Fields;
-        
-        foreach (KeyValuePair<string, string> kvp in Fields)
-        {
-            Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
-            Transform go = UnityObject.transform.Find(kvp.Key);
-            TextMesh textMesh = go.GetComponent<TextMesh>();
+        this.Fields = fields;
 
-            if(textMesh != null){
-                textMesh.text = kvp.Value;
+        Debug.Log("Setting fields");
+
+        foreach (KeyValuePair<string, string> kvp in fields)
+        {
+            Debug.Log("Key " + kvp.Key + " " + kvp.Value);
+
+
+            GameObject go = GameObject.Find(kvp.Key);
+
+            if (go != null)
+            {
+                TextMeshProUGUI textMesh = go.GetComponent<TextMeshProUGUI>();
+
+
+                if (textMesh != null)
+                {
+                    textMesh.text = kvp.Value;
+                }
+                else
+                {
+                    Debug.LogWarning("MenuItem/SetFields TextMesh Null");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("MenuItem/SetFields Object " + kvp.Key + " null");
             }
         }
     }
