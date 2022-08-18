@@ -113,7 +113,7 @@ public class IsometricNPCController : GameIsometricMovement
 
             // It should be mostly free, if invalid it will return an empty path
             path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
-            AddStateHistory(Time.fixedTime + " Moving distance: " + path.Count);
+            AddStateHistory("Time: "+Time.fixedTime + " Moving distance: " + path.Count);
             AddPath(path);
         }
     }
