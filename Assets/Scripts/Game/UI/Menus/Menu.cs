@@ -23,14 +23,8 @@ public class MenuItem
     public void SetFields(Dictionary<string, string> fields)
     {
         this.Fields = fields;
-
-        Debug.Log("Setting fields");
-
         foreach (KeyValuePair<string, string> kvp in fields)
         {
-            Debug.Log("Key " + kvp.Key + " " + kvp.Value);
-
-
             GameObject go = GameObject.Find(kvp.Key);
 
             if (go != null)
