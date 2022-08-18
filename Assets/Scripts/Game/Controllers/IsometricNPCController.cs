@@ -22,7 +22,7 @@ public class IsometricNPCController : GameIsometricMovement
     public string Debug { get; set; }
     [SerializeField]
     private Queue<string> stateHistory;
-    private int stateHistoryMaxSize = 5;
+    private int stateHistoryMaxSize = 10;
 
     // Wander variables
     private int distance = 6; //Cell units: How far you should wander from start position

@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
             npcObject.transform.SetParent(gameObject.transform);
             npcObject.name = i+"-"+Settings.PREFAB_ISOMETRIC_NPC;
             IsometricNPCController isometricNPCController = npcObject.GetComponent<IsometricNPCController>();
-            isometricNPCController.Speed = 0.4f;
+            isometricNPCController.Speed = 0.4f;//0.4f
             this.npcList.Add(isometricNPCController);
         }
    }
