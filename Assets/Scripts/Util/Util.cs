@@ -298,15 +298,15 @@ public static class Util
         TileType.FLOOR_MEDIUM_HORIZONTAL_OBSTACLE == type ||
         TileType.FLOOR_MEDIUM_VERTICAL_OBSTACLE == type ||
         TileType.FLOOR_SHORT_HORIZONTAL_OBSTACLE == type ||
-        TileType.FLOOR_SHORT_VERTICAL_OBSTACLE == type)
+        TileType.FLOOR_SHORT_VERTICAL_OBSTACLE == type ||
+        TileType.ISOMETRIC_GRID_TILE == type)
         {
             return ObjectType.OBSTACLE;
         }
         else if (type == TileType.FLOOR_1 ||
         type == TileType.FLOOR_2 ||
         type == TileType.FLOOR_3 ||
-        type == TileType.FLOOR_4 ||
-        type == TileType.ISOMETRIC_GRID_TILE)
+        type == TileType.FLOOR_4)
         {
             return ObjectType.FLOOR;
         }

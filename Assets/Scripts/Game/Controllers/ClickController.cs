@@ -11,6 +11,7 @@ public class ClickController : MonoBehaviour
     private IsometricGridController gridController;
 
     public GameObject ClickedObject { get; set; }
+    public GameTile ClickedGameTile { get; set; }
 
     private void Start()
     {
@@ -77,18 +78,16 @@ public class ClickController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3Int clickPosition = gridController.GetPathFindingGridFromWorldPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            GameTile tile = gridController.GetGameTileFromClickInWorldPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
-            if (tile != null)
-            {
-                Debug.Log("Tile " + tile.Type);
-            }
-            
-            Debug.Log(clickPosition);
+            GameTile tile = gridController.GetGameTileFromClickInPathFindingGrid(clickPosition);
 
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-            if (hit.collider != null)
+
+            if (tile != null)
+            {
+               ClickedGameTile = tile;
+            }
+            else if (hit.collider != null)
             {
                 ClickedObject = GameObject.Find(hit.collider.name);
             }

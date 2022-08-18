@@ -148,14 +148,15 @@ public class IsometricGridController : MonoBehaviour
     }
 
     //Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
-    public GameTile GetGameTileFromClickInWorldPosition(Vector3 position)
+    public GameTile GetGameTileFromClickInPathFindingGrid(Vector3Int position)
     {
-        if (mapColliders.ContainsKey(position))
+        if (mapPathFindingGrid.ContainsKey(position))
         {
-            return mapColliders[position];
+            return mapPathFindingGrid[position];
         }
         else
         {
+            Debug.LogWarning("IsometricGrid/GetGameTileFromClickInWorldPosition null");
             return null;
         }
     }
