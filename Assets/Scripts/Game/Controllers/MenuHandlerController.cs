@@ -43,6 +43,7 @@ public class MenuHandlerController : MonoBehaviour
         SetClickListeners(npcProfileMenu);
 
         centerTabMenu.Close();
+        npcProfileMenu.Close();
     }
 
     private void Update()
@@ -59,11 +60,26 @@ public class MenuHandlerController : MonoBehaviour
     private void CheckCLickControl()
     {
         if (clickController.ClickedObject != null)
-        { 
-            Debug.Log("Object clicked "+Util.GetObjectType(clickController.ClickedObject));
+        {
+            ObjectType type = Util.GetObjectType(clickController.ClickedObject);
+            Debug.Log("Object Cliked ");
+
+            if(type == ObjectType.NPC){
+                Dictionary<string, string> map = new Dictionary<string, string>();
+                IsometricNPCController npc = clickController.ClickedObject.GetComponent<IsometricNPCController>();
+                map.Add("Name", npc.Name);  
+                map.Add("Debug", npc.Debug);  
+                npcProfileMenu.SetFields(map);
+                OpenMenu(npcProfileMenu);
+            }
 
             // We reset the clicked object after the action
             clickController.ClickedObject = null;
+        }
+
+        if(clickController.ClickedGameTile != null){
+           // Debug.Log("GameTile Clicked "+clickController.ClickedGameTile.Name);
+            clickController.ClickedGameTile = null;
         }
     }
 

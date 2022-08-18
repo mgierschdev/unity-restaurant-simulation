@@ -1,12 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // Controls NPCs players
 // Attached to: NPC Objects
 public class IsometricNPCController : GameIsometricMovement
 {
-    [SerializeField]
-    public NPCState state; // 0 IDLE, 1 Wander
     [SerializeField]
     private EnergyBarController energyBar;
     [SerializeField]
@@ -15,6 +14,15 @@ public class IsometricNPCController : GameIsometricMovement
     private float startY;
     [SerializeField]
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
+    public NPCState state; // 0 IDLE, 1 Wander
+    [SerializeField]
+    public string Name { get; set; }
+    // Debug attributes
+    [SerializeField]
+    public string Debug { get; set; }
+    [SerializeField]
+    private Queue<string> stateHistory;
+    private int stateHistoryMaxSize = 5;
 
     // Wander variables
     private int distance = 6; //Cell units: How far you should wander from start position
@@ -30,12 +38,15 @@ public class IsometricNPCController : GameIsometricMovement
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
-        // Wandering 
 
+        // Wandering 
         Vector3Int position = GameGrid.GetLocalGridFromWorldPosition(transform.position);
 
         startX = (float)position.x;
         startY = (float)position.y;
+
+        // Debug parameters
+        stateHistory = new Queue<string>();
 
         // Energy Bar
         if (Settings.NPC_ENERGY_ENABLED)
@@ -101,7 +112,7 @@ public class IsometricNPCController : GameIsometricMovement
 
             // It should be mostly free, if invalid it will return an empty path
             path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
-
+            AddStateHistory(Time.fixedTime + " Moving distance: " + path.Count);
             AddPath(path);
         }
     }
@@ -119,5 +130,23 @@ public class IsometricNPCController : GameIsometricMovement
     public void SetNPCState(NPCState state)
     {
         this.state = state;
+    }
+
+    private void SetDebug()
+    {
+        Debug = "";
+        for(int i = 0; i < stateHistoryMaxSize; i++){
+            Debug += stateHistory.ElementAt(i) +"<br>";
+        }
+    }
+
+    private void AddStateHistory(string s)
+    {
+        stateHistory.Enqueue(s);
+
+        if(stateHistory.Count > stateHistoryMaxSize){
+            stateHistory.Dequeue();
+        }
+        SetDebug();
     }
 }

@@ -87,7 +87,8 @@ public class ClickController : MonoBehaviour
             {
                ClickedGameTile = tile;
             }
-            else if (hit.collider != null)
+            
+            if (hit.collider != null)
             {
                 ClickedObject = GameObject.Find(hit.collider.name);
             }
