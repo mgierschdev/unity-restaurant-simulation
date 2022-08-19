@@ -9,11 +9,8 @@ public class IsometricNPCController : GameIsometricMovement
     [SerializeField]
     private EnergyBarController energyBar;
     [SerializeField]
-    private float startX;
-    [SerializeField]
-    private float startY;
-    [SerializeField]
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
+    [SerializeField]
     public NPCState state; // 0 IDLE, 1 Wander
     [SerializeField]
     public string Name { get; set; }
@@ -22,11 +19,13 @@ public class IsometricNPCController : GameIsometricMovement
     public string Debug { get; set; }
     [SerializeField]
     private Queue<string> stateHistory;
+    [SerializeField]
     private int stateHistoryMaxSize = 10;
 
     // Wander variables
-    private int distance = 6; //Cell units: How far you should wander from start position
+    [SerializeField]
     private float idleTime = 0;
+    [SerializeField]
     private float idleMaxTime = 3f; //in seconds
 
     private void Start()
@@ -40,12 +39,6 @@ public class IsometricNPCController : GameIsometricMovement
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
 
-        // Wandering 
-        Vector3Int position = GameGrid.GetLocalGridFromWorldPosition(transform.position);
-
-        startX = (float)position.x;
-        startY = (float)position.y;
-
         // Debug parameters
         stateHistory = new Queue<string>();
 
@@ -53,7 +46,6 @@ public class IsometricNPCController : GameIsometricMovement
         if (Settings.NPC_ENERGY_ENABLED)
         {
             energyBar.SetActive();
-
         }
         else
         {
@@ -104,16 +96,11 @@ public class IsometricNPCController : GameIsometricMovement
         if (!IsMoving() && idleTime >= idleMaxTime)
         {
             List<Node> path;
-            int randx;
-            int randy;
             idleTime = 0;
-
-            randx = Mathf.FloorToInt(Random.Range(-distance, distance) + X);
-            randy = Mathf.FloorToInt(Random.Range(-distance, distance) + Y);
-
+            Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
             // It should be mostly free, if invalid it will return an empty path
-            path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { randx, randy });
-            AddStateHistory("Time: "+Time.fixedTime + " Moving distance: " + path.Count);
+            path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { position.x, position.y });
+            AddStateHistory("Time: " + Time.fixedTime + " Moving distance: " + path.Count);
             AddPath(path);
         }
     }
