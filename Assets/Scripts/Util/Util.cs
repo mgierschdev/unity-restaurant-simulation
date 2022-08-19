@@ -286,6 +286,10 @@ public static class Util
         {
             return TileType.ISOMETRIC_GRID_TILE;
         }
+        else if (tileName == "CompleteTable0@3x")
+        {
+            return TileType.ISOMETRIC_GRID_TILE;
+        }
         else
         {
             return TileType.UNDEFINED;
@@ -309,6 +313,10 @@ public static class Util
         type == TileType.FLOOR_4)
         {
             return ObjectType.FLOOR;
+        }
+        else if (type == TileType.ISOMETRIC_GRID_TILE)
+        {
+            return ObjectType.TABLE;
         }
         else
         {
@@ -334,7 +342,7 @@ public static class Util
 
         foreach (UnityEngine.Component c in components)
         {
-            Debug.Log(gameObject.name+" "+gameObject.ToString());
+            Debug.Log(gameObject.name + " " + gameObject.ToString());
 
         }
     }
@@ -349,6 +357,7 @@ public enum ObjectType
     PLAYER = 3,
     NPC_TABLE = 4,
     FLOOR = 5,
+    TABLE = 6,
     UNDEFINED = 999
 }
 
@@ -365,8 +374,6 @@ public enum TileType
     FLOOR_SHORT_HORIZONTAL_OBSTACLE = 8,
     FLOOR_SHORT_VERTICAL_OBSTACLE = 9,
     ISOMETRIC_GRID_TILE = 10,
-
-
     UNDEFINED = 999
 }
 

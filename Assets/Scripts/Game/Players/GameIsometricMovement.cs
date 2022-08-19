@@ -61,7 +61,7 @@ public class GameIsometricMovement : GameObjectMovementBase
      virtual public void UpdatePosition()
     {
         Vector3Int pos = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
-        sortingLayer.sortingOrder = pos.y * -1;
+      //  sortingLayer.sortingOrder = pos.y * -1;
         X = pos.x;
         Y = pos.y;
         Position = new Vector3(X, Y);
