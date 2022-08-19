@@ -378,7 +378,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!114 &615498464143119890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,11 +391,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f895440f5ff284999bc5c28b2246ee7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
   energyBar: {fileID: 0}
   startX: 0
   startY: 0
   currentEnergy: 100
+  state: 0
 --- !u!60 &2966849728418198250
 PolygonCollider2D:
   m_ObjectHideFlags: 0
