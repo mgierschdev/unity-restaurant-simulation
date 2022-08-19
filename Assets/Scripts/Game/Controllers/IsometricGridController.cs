@@ -33,6 +33,11 @@ public class IsometricGridController : MonoBehaviour
     private List<GameTile> listFloorTileMap;
     private Dictionary<Vector3, GameTile> mapFloor;
 
+    //WalkingPath 
+    private Tilemap tilemapWalkingPath;
+    private List<GameTile> listWalkingPathileMap;
+    private Dictionary<Vector3, GameTile> mapWalkingPath;
+
     //Colliders
     [SerializeField]
     private Tilemap tilemapColliders;
@@ -69,6 +74,10 @@ public class IsometricGridController : MonoBehaviour
         mapObjects = new Dictionary<Vector3, GameTile>();
         listObjectsTileMap = new List<GameTile>();
 
+        tilemapWalkingPath = GameObject.Find(Settings.TILEMAP_FLOOR_0).GetComponent<Tilemap>();
+        mapWalkingPath = new Dictionary<Vector3, GameTile>();
+        listWalkingPathileMap = new List<GameTile>();
+
         if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null)
         {
             Debug.LogWarning("IsometricGridController/tilemap null");
@@ -86,6 +95,7 @@ public class IsometricGridController : MonoBehaviour
         LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
+        LoadTileMap(listWalkingPathileMap, tilemapWalkingPath, mapWalkingPath);
     }
 
     private void DrawCellCoords()
