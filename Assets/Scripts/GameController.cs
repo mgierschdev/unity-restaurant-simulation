@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     private List<IsometricNPCController> npcList;
     private bool enableWander;
+    private int npcNumber = 50;
 
     void Start()
     {
@@ -16,11 +17,10 @@ public class GameController : MonoBehaviour
         GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
         IsometricGridController gridController = gameGridObject.GetComponent<IsometricGridController>();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < npcNumber; i++)
         {
             // Adding NPC object
             Vector3 spamPoint = gridController.GetRandomSpamPointWorldPosition();
-            Debug.Log(spamPoint);
             GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), spamPoint, Quaternion.identity) as GameObject;
             npcObject.transform.SetParent(gameObject.transform);
             npcObject.name = i + "-" + Settings.PREFAB_ISOMETRIC_NPC;
