@@ -206,7 +206,7 @@ MonoBehaviour:
   - {x: -0.18162782, y: 0.13965997, z: 0}
   m_ShapePathHash: 1851804042
   m_Mesh: {fileID: 0}
-  m_InstanceId: 49020
+  m_InstanceId: 64866
 --- !u!210 &579007910109840468
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -217,7 +217,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!114 &4954979801435561907
 MonoBehaviour:
   m_ObjectHideFlags: 0
