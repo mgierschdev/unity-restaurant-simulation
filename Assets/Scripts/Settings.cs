@@ -49,13 +49,12 @@ public static class Settings
 
     // UI: Camera
     public const bool CAMERA_PERSPECTIVE_HAND = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = { -0.5f, 3 };
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = { -8, 0.5f };
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = { -1f, 3 };
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = { -8, 1f };
     public const bool CAMERA_FOLLOW_PLAYER = false;
     public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
 
-    // UI : GameBackground
-    public const string CONST_GAME_BACKGROUND_DEFAULT = "GameBackground";//E.g: Prefab GameBackground800x1920, GameBackground1300x1300
+    // UI : Camera
     public const int CONST_DEFAULT_CAMERA_WIDTH = 1500;
     public const int CONST_DEFAULT_CAMERA_HEIGHT = 1600;
 
