@@ -1231,7 +1231,7 @@ GameObject:
   - component: {fileID: 384929900}
   - component: {fileID: 384929899}
   m_Layer: 0
-  m_Name: TileMapWalkingPath
+  m_Name: TilemapWalkingPath
   m_TagString: Floor0
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
