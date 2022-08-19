@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -20,6 +21,9 @@ public class IsometricGridController : MonoBehaviour
     [SerializeField]
     private Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
     private Vector3Int gridOriginPosition = new Vector3Int(-20, -20, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+
+    // Spam Points list
+    List<GameTile> spamPoints;
 
     // Path Finder object, contains the method to return the shortest path
     PathFind pathFind;
@@ -61,6 +65,7 @@ public class IsometricGridController : MonoBehaviour
         mapGridPositionToTile = new Dictionary<Vector3Int, GameTile>();
         mapPathFindingGrid = new Dictionary<Vector3Int, GameTile>();
         listPathFindingMap = new List<GameTile>();
+        spamPoints = new List<GameTile>();
 
         tilemapFloor = GameObject.Find(Settings.TILEMAP_FLOOR_0).GetComponent<Tilemap>();
         mapFloor = new Dictionary<Vector3, GameTile>();
@@ -87,6 +92,7 @@ public class IsometricGridController : MonoBehaviour
         int cellsX = (int)Settings.GRID_WIDTH;
         int cellsY = (int)Settings.GRID_HEIGHT;
         grid = new int[cellsX, cellsY];
+        InitGrid(grid);
         debugGrid = new TextMesh[cellsX, cellsY];
 
         tilemapColliders.color = new Color(1, 1, 1, 0.0f);
@@ -109,6 +115,17 @@ public class IsometricGridController : MonoBehaviour
         }
     }
 
+    private void InitGrid(int[,] grid)
+    {
+        for (int i = 0; i < grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < grid.GetLength(1); j++)
+            {
+                grid[i, j] = 1;
+            }
+        }
+    }
+
     private void SetCellColor(int x, int y, Color color)
     {
         debugGrid[x, y].color = (Color)color;
@@ -125,7 +142,6 @@ public class IsometricGridController : MonoBehaviour
                 Vector3Int positionInGrid = new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0);
                 Vector3 positionInWorld = tilemapPathFinding.CellToWorld(positionInGrid);
                 Vector3Int positionLocalGrid = tilemapPathFinding.WorldToCell(positionInWorld);
-
                 GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid, Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
                 list.Add(gameTile);
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
@@ -152,23 +168,29 @@ public class IsometricGridController : MonoBehaviour
             {
                 TileBase tile = tilemap.GetTile(localPlace);
                 Vector3Int gridPosition = GetPathFindingGridFromWorldPosition(placeInWorld);
-                GameTile gameTile = new GameTile(placeInWorld, gridPosition, GetLocalGridFromWorldPosition(placeInWorld), Util.GetTileType(tile.name), Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
+                TileType tileType = Util.GetTileType(tile.name);
+                GameTile gameTile = new GameTile(placeInWorld, gridPosition, GetLocalGridFromWorldPosition(placeInWorld), tileType, Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
                 list.Add(gameTile);
                 map.TryAdd(gameTile.WorldPosition, gameTile);
 
-                if (Util.GetTileType(tile.name) == TileType.FLOOR_OBSTACLE)
+                if (tileType == TileType.FLOOR_OBSTACLE)
                 {
                     SetIsometricGameTileCollider(gameTile);
                 }
 
-                if (Util.GetTileType(tile.name) == TileType.ISOMETRIC_GRID_TILE)
+                if (tileType == TileType.ISOMETRIC_GRID_TILE)
                 {
                     SetIsometricGameTileCollider(gameTile);
                 }
 
-                if (Settings.DEBUG_ENABLE)
+                if (tileType == TileType.WALKABLE_PATH)
                 {
-                    // Debug.Log("Tile grid: " + gameTile.GridPosition + " world: " + gameTile.WorldPosition + " " + gameTile.Type + " (" + tile.name + ")");
+                    grid[gridPosition.x, gridPosition.y] = 0;
+                }
+
+                if (tileType == TileType.SPAM_POINT)
+                {
+                    spamPoints.Add(gameTile);
                 }
             }
         }

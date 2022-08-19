@@ -248,11 +248,11 @@ public static class Util
     {
         if (tileName == "floor1")
         {
-            return TileType.FLOOR_1;
+            return TileType.SPAM_POINT;
         }
         else if (tileName == "floor2")
         {
-            return TileType.FLOOR_2;
+            return TileType.WALKABLE_PATH;
         }
         else if (tileName == "floor3")
         {
@@ -307,10 +307,11 @@ public static class Util
         {
             return ObjectType.OBSTACLE;
         }
-        else if (type == TileType.FLOOR_1 ||
-        type == TileType.FLOOR_2 ||
+        else if (type == TileType.SPAM_POINT ||
         type == TileType.FLOOR_3 ||
-        type == TileType.FLOOR_4)
+        type == TileType.FLOOR_4 || 
+        type == TileType.WALKABLE_PATH
+)
         {
             return ObjectType.FLOOR;
         }
@@ -364,8 +365,8 @@ public enum ObjectType
 // To reference from fileNames to object names
 public enum TileType
 {
-    FLOOR_1 = 1,// Collider
-    FLOOR_2 = 2,
+    SPAM_POINT = 1,
+    WALKABLE_PATH = 2,
     FLOOR_3 = 3,
     FLOOR_4 = 4,
     FLOOR_OBSTACLE = 5,
