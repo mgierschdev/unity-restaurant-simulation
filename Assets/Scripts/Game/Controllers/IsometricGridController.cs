@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,8 +6,10 @@ using UnityEngine.Tilemaps;
 public class IsometricGridController : MonoBehaviour
 {
     //Tilemap 
-    private int width = 30;
-    private int heigth = 35;
+    private int width = 44; // Down -> Up
+    private int heigth = 40; // along side from left to right
+    //x = -20, y= -22 ||  x along side left to right
+    private Vector3Int gridOriginPosition = new Vector3Int(-22, -32, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
 
     // Isometric Grid with pathfinding
     private Tilemap tilemapPathFinding;
@@ -20,7 +21,6 @@ public class IsometricGridController : MonoBehaviour
     private Dictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
     [SerializeField]
     private Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
-    private Vector3Int gridOriginPosition = new Vector3Int(-20, -20, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
 
     // Spam Points list
     List<GameTile> spamPoints;
@@ -79,7 +79,7 @@ public class IsometricGridController : MonoBehaviour
         mapObjects = new Dictionary<Vector3, GameTile>();
         listObjectsTileMap = new List<GameTile>();
 
-        tilemapWalkingPath = GameObject.Find(Settings.TILEMAP_FLOOR_0).GetComponent<Tilemap>();
+        tilemapWalkingPath = GameObject.Find(Settings.TILEMAP_WALKING_PATH).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
         listWalkingPathileMap = new List<GameTile>();
 
@@ -311,6 +311,28 @@ public class IsometricGridController : MonoBehaviour
         {
             FreeGridPosition(row, i);
         }
+    }
+
+    public Vector3Int GetRandomWalkableGridPosition()
+    {
+        if (listWalkingPathileMap.Count == 0)
+        {
+            Debug.LogWarning("There is not listWalkingPathileMap points");
+            return Vector3Int.zero;
+        }
+        GameTile tile = listWalkingPathileMap[Random.Range(0, listWalkingPathileMap.Count)];
+        return tile.GridPosition;
+
+    }
+    public Vector3 GetRandomSpamPointWorldPosition()
+    {
+        if (spamPoints.Count == 0)
+        {
+            Debug.LogWarning("There is not spam points");
+            return Vector3.zero;
+        }
+        GameTile tile = spamPoints[Random.Range(0, spamPoints.Count)];
+        return tile.WorldPosition;
     }
 
     // Unset position in Grid

@@ -83,7 +83,7 @@ public class MenuHandlerController : MonoBehaviour
 
             if (menu.Menu == Menu.NPC_PROFILE && openedTime > menuRefreshRate)
             {
-                refresNPCProfile();
+                RefresNPCProfile();
                 openedTime = 0;
             }
         }
@@ -124,11 +124,13 @@ public class MenuHandlerController : MonoBehaviour
         }
     }
 
-    private void refresNPCProfile()
+    private void RefresNPCProfile()
     {
-        Dictionary<string, string> map = new Dictionary<string, string>();
-        map.Add("Name", npc.Name);
-        map.Add("Debug", npc.Debug);
+        Dictionary<string, string> map = new Dictionary<string, string>
+           {
+           {"Name", npc.Name},
+           {"Debug", npc.Debug}
+           };
         OpenMenu(npcProfileMenu);
         npcProfileMenu.SetFields(map);
     }

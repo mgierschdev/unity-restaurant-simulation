@@ -343,7 +343,7 @@ public static class Util
 
         foreach (UnityEngine.Component c in components)
         {
-            Debug.Log(gameObject.name + " " + gameObject.ToString());
+            Debug.Log(c.name + " " + c.ToString());
 
         }
     }
