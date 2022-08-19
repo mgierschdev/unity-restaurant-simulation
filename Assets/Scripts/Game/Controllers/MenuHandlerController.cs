@@ -8,6 +8,7 @@ public class MenuHandlerController : MonoBehaviour
 {
     private GameObject tabMenu;
     private MenuItem npcProfileMenu;
+    IsometricNPCController npc; //saves the latest reference to the npc if the menu was openned
     private MenuItem centerTabMenu;
     private MenuItem topGameMenu;
     private Stack<MenuItem> menuStack;
@@ -16,6 +17,13 @@ public class MenuHandlerController : MonoBehaviour
 
     // Click controller
     private ClickController clickController;
+
+    //Min  ammount of time the the menu has to be open before activating -> closing on click outisde
+    private float minOpenedTime = 0.5f;
+    private float openedTime;
+    //Menu realtime refreshrate
+    private float menuRefreshRate = 3f;
+
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Start()
@@ -31,9 +39,9 @@ public class MenuHandlerController : MonoBehaviour
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
 
-        topGameMenu = new MenuItem(MenuType.ON_SCREEN, Settings.CONST_TOP_GAME_MENU, gameMenu);
-        centerTabMenu = new MenuItem(MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu);
-        npcProfileMenu = new MenuItem(MenuType.DIALOG, Settings.CONST_NPC_PROFILE_MENU, npcProfileGameObject);
+        topGameMenu = new MenuItem(Menu.TOP_MENU, MenuType.ON_SCREEN, Settings.CONST_TOP_GAME_MENU, gameMenu, true);
+        centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu, true);
+        npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.CONST_NPC_PROFILE_MENU, npcProfileGameObject, false);
 
         topGameMenu.Buttons.Add(Settings.CONST_UI_INVENTORY_BUTTON);
         centerTabMenu.Buttons.Add(Settings.CONST_UI_EXIT_BUTTON);
@@ -44,17 +52,50 @@ public class MenuHandlerController : MonoBehaviour
 
         centerTabMenu.Close();
         npcProfileMenu.Close();
+
+        openedTime = 0;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButton(0) && IsClickOutside() && !clickController.IsLongClick && menuStack.Count > 0)
+        if (Input.GetMouseButton(0) && CanCloseOnClickOutside() && IsClickOutside() && !clickController.IsLongClick)
         {
+            Debug.Log(CanCloseOnClickOutside() + " " + openedTime);
             CloseMenu();
         }
 
+        //Min  ammount of time the the menu has to be open before activating -> closing on click outisde
+        TimeControl();
+
         // Checks for clicks to the objects in the UI
         CheckCLickControl();
+    }
+
+    private void TimeControl()
+    {
+        //Handles for how long abefore activating CloseOnCLickOutside
+        if (menuStack.Count > 0)
+        {
+            openedTime += Time.unscaledDeltaTime;
+
+            //Handles UI refresh rate 
+            MenuItem menu = menuStack.Peek();
+
+            if (menu.Menu == Menu.NPC_PROFILE && openedTime > menuRefreshRate)
+            {
+                refresNPCProfile();
+                openedTime = 0;
+            }
+        }
+        else
+        {
+            openedTime = 0.0f;
+        }
+    }
+
+    private bool CanCloseOnClickOutside()
+    {
+        return openedTime > minOpenedTime;
     }
 
     private void CheckCLickControl()
@@ -62,11 +103,12 @@ public class MenuHandlerController : MonoBehaviour
         if (clickController.ClickedObject != null)
         {
             ObjectType type = Util.GetObjectType(clickController.ClickedObject);
-            if(type == ObjectType.NPC){
+            if (type == ObjectType.NPC)
+            {
                 Dictionary<string, string> map = new Dictionary<string, string>();
-                IsometricNPCController npc = clickController.ClickedObject.GetComponent<IsometricNPCController>();
-                map.Add("Name", npc.Name);  
-                map.Add("Debug", npc.Debug);  
+                npc = clickController.ClickedObject.GetComponent<IsometricNPCController>();
+                map.Add("Name", npc.Name);
+                map.Add("Debug", npc.Debug);
                 OpenMenu(npcProfileMenu);
                 npcProfileMenu.SetFields(map);
             }
@@ -75,10 +117,20 @@ public class MenuHandlerController : MonoBehaviour
             clickController.ClickedObject = null;
         }
 
-        if(clickController.ClickedGameTile != null){
-           // Debug.Log("GameTile Clicked "+clickController.ClickedGameTile.Name);
+        if (clickController.ClickedGameTile != null)
+        {
+            // Debug.Log("GameTile Clicked "+clickController.ClickedGameTile.Name);
             clickController.ClickedGameTile = null;
         }
+    }
+
+    private void refresNPCProfile()
+    {
+        Dictionary<string, string> map = new Dictionary<string, string>();
+        map.Add("Name", npc.Name);
+        map.Add("Debug", npc.Debug);
+        OpenMenu(npcProfileMenu);
+        npcProfileMenu.SetFields(map);
     }
 
     private void SetClickListeners(MenuItem menu)
@@ -105,7 +157,6 @@ public class MenuHandlerController : MonoBehaviour
             }
         }
     }
-
     private void CloseMenu()
     {
         if (menuStack.Count > 0)
@@ -113,7 +164,10 @@ public class MenuHandlerController : MonoBehaviour
             MenuItem menu = menuStack.Pop();
             menu.Close();
             openMenus.Remove(menu.Name);
-            HandleTimeScale();
+            if (menu.PauseGameGame)
+            {
+                HandleTimeScale();
+            }
         }
     }
 
@@ -124,7 +178,10 @@ public class MenuHandlerController : MonoBehaviour
             menu.UnityObject.SetActive(true);
             menuStack.Push(menu);
             openMenus.Add(menu.Name);
-            HandleTimeScale();
+            if (menu.PauseGameGame)
+            {
+                HandleTimeScale();
+            }
         }
     }
 

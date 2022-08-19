@@ -1,18 +1,22 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class MenuItem
 {
     public MenuType Type { get; set; }
+    public Menu Menu { get; set; }
     public string Name { get; set; }
     public GameObject UnityObject { get; set; }
     public List<string> Buttons { get; set; }
     public Dictionary<string, string> Fields { get; set; }
+    public bool PauseGameGame { get; set; }
 
-    public MenuItem(MenuType type, string name, GameObject gobj)
+    public MenuItem(Menu menu, MenuType type, string name, GameObject gobj, bool pauseGame)
     {
+        this.Menu = menu;
+        this.PauseGameGame = pauseGame;
         this.UnityObject = gobj;
         this.Name = name;
         this.Type = type;
