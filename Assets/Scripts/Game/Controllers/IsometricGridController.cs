@@ -11,15 +11,21 @@ public class IsometricGridController : MonoBehaviour
 
     // Isometric Grid with pathfinding
     private Tilemap tilemapPathFinding;
+    [SerializeField]
     private List<GameTile> listPathFindingMap;
+    [SerializeField]
     private Dictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
+    [SerializeField]
     private Dictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
+    [SerializeField]
     private Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
     private Vector3Int gridOriginPosition = new Vector3Int(-20, -20, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
 
     // Path Finder object, contains the method to return the shortest path
     PathFind pathFind;
+    [SerializeField]
     private int[,] grid;
+    [SerializeField]
     private TextMesh[,] debugGrid;
 
     //Floor
@@ -28,13 +34,19 @@ public class IsometricGridController : MonoBehaviour
     private Dictionary<Vector3, GameTile> mapFloor;
 
     //Colliders
+    [SerializeField]
     private Tilemap tilemapColliders;
+    [SerializeField]
     private List<GameTile> listCollidersTileMap;
+    [SerializeField]
     private Dictionary<Vector3, GameTile> mapColliders;
 
     //Objects
+    [SerializeField]
     private Tilemap tilemapObjects;
+    [SerializeField]
     private List<GameTile> listObjectsTileMap;
+    [SerializeField]
     private Dictionary<Vector3, GameTile> mapObjects;
 
     private void Awake()
@@ -135,6 +147,11 @@ public class IsometricGridController : MonoBehaviour
                 map.TryAdd(gameTile.WorldPosition, gameTile);
 
                 if (Util.GetTileType(tile.name) == TileType.FLOOR_OBSTACLE)
+                {
+                    SetIsometricGameTileCollider(gameTile);
+                }
+
+                if (Util.GetTileType(tile.name) == TileType.ISOMETRIC_GRID_TILE)
                 {
                     SetIsometricGameTileCollider(gameTile);
                 }
