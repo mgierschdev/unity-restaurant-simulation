@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     private List<IsometricNPCController> npcList;
     private bool enableWander;
-    private int npcNumber = 10;
+    private int npcNumber = 30;
 
     void Start()
     {
