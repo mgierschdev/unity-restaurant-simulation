@@ -10,7 +10,7 @@ public class TestPlayerMovementPathFinding
     private IsometricPlayerController playerController;
     private IsometricGridController gameGridController;
     private GameObject gridObject;
-    private Vector3 initialTestingPosition;
+    private Vector3Int initialTestingPosition;
 
     [SetUp]
     public void Setup()
@@ -18,7 +18,7 @@ public class TestPlayerMovementPathFinding
         // Game Grid
         gridObject = Transform.Instantiate(Resources.Load(Settings.GAME_GRID, typeof(GameObject))) as GameObject;
         gameGridController = gridObject.GetComponent<IsometricGridController>();
-        initialTestingPosition = new Vector3(1, 1);
+        initialTestingPosition = new Vector3Int(1, 1);
         // Player
         playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject))) as GameObject;
         playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject)), initialTestingPosition, Quaternion.identity) as GameObject;
@@ -33,7 +33,7 @@ public class TestPlayerMovementPathFinding
         int[] endPosition = new int[] { 25, 14 };
         int[] startPosition = new int[] { 19, 10 };
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-        playerController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
+       // playerController = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         playerController.Speed = 100;
         Util.PrintPath(path);
         playerController.AddPath(path);
@@ -49,7 +49,7 @@ public class TestPlayerMovementPathFinding
         int[] startPosition = new int[] { 19, 10 };
         gameGridController.SetTestGridObstacles(21, 1, 15);
         List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-        playerController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
+        //playerController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         playerController.Speed = 100;
         Util.PrintPath(path);
         playerController.AddPath(path);
