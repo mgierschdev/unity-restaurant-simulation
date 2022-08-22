@@ -60,7 +60,6 @@ public class MenuHandlerController : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && CanCloseOnClickOutside() && IsClickOutside() && !clickController.IsLongClick)
         {
-            Debug.Log(CanCloseOnClickOutside() + " " + openedTime);
             CloseMenu();
         }
 
@@ -108,7 +107,7 @@ public class MenuHandlerController : MonoBehaviour
                 Dictionary<string, string> map = new Dictionary<string, string>();
                 npc = clickController.ClickedObject.GetComponent<IsometricNPCController>();
                 map.Add("Name", npc.Name);
-                map.Add("Debug", npc.Debug);
+                map.Add("Debug", npc.NPCDebug);
                 OpenMenu(npcProfileMenu);
                 npcProfileMenu.SetFields(map);
             }
@@ -129,7 +128,7 @@ public class MenuHandlerController : MonoBehaviour
         Dictionary<string, string> map = new Dictionary<string, string>
            {
            {"Name", npc.Name},
-           {"Debug", npc.Debug}
+           {"Debug", npc.NPCDebug}
            };
         OpenMenu(npcProfileMenu);
         npcProfileMenu.SetFields(map);

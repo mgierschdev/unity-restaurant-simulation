@@ -1,16 +1,23 @@
-using UnityEngine;
-using UnityEngine.Rendering;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
 
     // Getters and setters
+    [SerializeField]
     public int X { get; set; }
+    [SerializeField]
     public int Y { get; set; }
+    [SerializeField]
     public ObjectType Type { get; set; }
+    [SerializeField]
     public float Speed { get; set; }
+    [SerializeField]
+    public Vector3 Velocity { get; set; }
+    [SerializeField]
     public Vector3 Position { get; set; } // Position in game map/ grid  GetXYInGameMap
 
     // Sprite level ordering
@@ -20,18 +27,19 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected Rigidbody2D body;
 
     //Movement Queue
+    [SerializeField]
     public Queue pendingMovementQueue;
+    [SerializeField]
     protected Vector3 nextTarget;
+    [SerializeField]
     protected Vector3 currentTargetPosition;
+    [SerializeField]
     protected GameObject gameGridObject;
 
     virtual public void UpdateTargetMovement()
     {
-        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
+        if (nextTarget == transform.position)
         {
-            nextTarget = Vector3.zero;
-            currentTargetPosition = Vector3.zero;
-
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
@@ -40,12 +48,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             {
                 if (Settings.DEBUG_ENABLE)
                 {
-                    //Debug.Log("[Moving] Target Reached: " + transform.name + " " + Position);
+                    //("[Moving] Target Reached: " + transform.name + " " + Position);
                 }
             }
         }
-
-        if (nextTarget != Vector3.zero)
+        else
         {
             currentTargetPosition = nextTarget;
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
@@ -97,7 +104,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // Resets the planned Path
     protected void ResetMovementQueue()
     {
-        nextTarget = Vector3.zero;
+        nextTarget = Vector3.negativeInfinity;
         pendingMovementQueue = new Queue();
     }
 

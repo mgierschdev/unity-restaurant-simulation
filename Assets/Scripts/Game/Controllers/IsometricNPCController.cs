@@ -16,7 +16,7 @@ public class IsometricNPCController : GameIsometricMovement
     public string Name { get; set; }
     // Debug attributes
     [SerializeField]
-    public string Debug { get; set; }
+    public string NPCDebug { get; set; }
     [SerializeField]
     private Queue<string> stateHistory;
     [SerializeField]
@@ -70,7 +70,6 @@ public class IsometricNPCController : GameIsometricMovement
         }
 
         body.angularVelocity = 0;
-        body.velocity = new Vector2(0, 0);
         body.rotation = 0;
 
         UpdateTargetMovement();
@@ -86,7 +85,6 @@ public class IsometricNPCController : GameIsometricMovement
 
     private void Wander()
     {
-
         if (!IsMoving())
         {
             // we could add more random by deciding to move or not 
@@ -100,7 +98,7 @@ public class IsometricNPCController : GameIsometricMovement
             Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
             // It should be mostly free, if invalid it will return an empty path
             path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { position.x, position.y });
-            AddStateHistory("Time: " + Time.fixedTime + " Moving distance: " + path.Count);
+            AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + position.x + "," + position.y);
             AddPath(path);
         }
     }
@@ -122,10 +120,10 @@ public class IsometricNPCController : GameIsometricMovement
 
     private void SetDebug()
     {
-        Debug = "";
+        NPCDebug = "";
         for (int i = 0; i < stateHistory.Count; i++)
         {
-            Debug += stateHistory.ElementAt(i) + "<br>";
+            NPCDebug += stateHistory.ElementAt(i) + "<br>";
         }
     }
 

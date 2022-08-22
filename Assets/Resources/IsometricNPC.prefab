@@ -367,7 +367,7 @@ MonoBehaviour:
   - {x: -0.20129395, y: 0.12615967, z: 0}
   m_ShapePathHash: 741236957
   m_Mesh: {fileID: 0}
-  m_InstanceId: 48670
+  m_InstanceId: 37920
 --- !u!210 &3339015991518568952
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -392,10 +392,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energyBar: {fileID: 0}
-  startX: 0
-  startY: 0
   currentEnergy: 100
   state: 0
+  stateHistoryMaxSize: 10
+  idleTime: 0
+  idleMaxTime: 3
 --- !u!60 &2966849728418198250
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -422,7 +423,7 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0.24072266, y: 0.55566406}
-      - {x: 0.17333984, y: 0.68029785}
+      - {x: 0.16967773, y: 0.69506836}
       - {x: -0.17029482, y: 0.69378257}
       - {x: -0.24414062, y: 0.548584}
       - {x: -0.265625, y: 0.375}

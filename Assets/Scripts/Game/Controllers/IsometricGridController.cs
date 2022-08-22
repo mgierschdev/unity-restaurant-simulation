@@ -126,6 +126,14 @@ public class IsometricGridController : MonoBehaviour
         }
     }
 
+    private void SetIsometricCellSolor(int x, int y, Color color)
+    {
+        SetCellColor(x, y, color);
+        SetCellColor(x + 1, y, color);
+        SetCellColor(x + 1, y + 1, color);
+        SetCellColor(x, y + 1, color);
+    }
+
     private void SetCellColor(int x, int y, Color color)
     {
         debugGrid[x, y].color = (Color)color;
@@ -186,6 +194,11 @@ public class IsometricGridController : MonoBehaviour
                 if (tileType == TileType.WALKABLE_PATH)
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
+
+                    if (Settings.DEBUG_ENABLE)
+                    {
+                        SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
+                    }
                 }
 
                 if (tileType == TileType.SPAM_POINT)
@@ -280,7 +293,7 @@ public class IsometricGridController : MonoBehaviour
             return tile.GridPosition;
         }
 
-        return Vector3Int.zero;
+        throw new System.Exception("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key");
     }
 
     public Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
@@ -329,7 +342,7 @@ public class IsometricGridController : MonoBehaviour
         if (spamPoints.Count == 0)
         {
             Debug.LogWarning("There is not spam points");
-            return Vector3.zero;
+            return Vector3.negativeInfinity;
         }
         GameTile tile = spamPoints[Random.Range(0, spamPoints.Count)];
         return tile.WorldPosition;
