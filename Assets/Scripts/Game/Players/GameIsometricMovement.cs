@@ -32,11 +32,11 @@ public class GameIsometricMovement : GameObjectMovementBase
         }
 
         // Movement Queue
-        nextTarget = Vector3.zero;
+        nextTarget = transform.position;
         pendingMovementQueue = new Queue();
 
         //Update Object initial position
-        currentTargetPosition = Vector3.negativeInfinity;
+        currentTargetPosition = transform.position;
     }
 
     // Overlap spehre
@@ -65,33 +65,6 @@ public class GameIsometricMovement : GameObjectMovementBase
         X = pos.x;
         Y = pos.y;
         Position = new Vector3(X, Y);
-    }
-
-    public override void UpdateTargetMovement()
-    {
-        if (currentTargetPosition == transform.position && nextTarget != Vector3.zero)
-        {
-            nextTarget = Vector3.zero;
-            currentTargetPosition = Vector3.zero;
-
-            if (pendingMovementQueue.Count != 0)
-            {
-                AddMovement();
-            }
-            else
-            {
-                if (Settings.DEBUG_ENABLE)
-                {
-                    //Debug.Log("[Moving] Target Reached: " + transform.name + " " + Position);
-                }
-            }
-        }
-
-        if (nextTarget != Vector3.zero)
-        {
-            currentTargetPosition = nextTarget;
-            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
-        }
     }
 
     public List<Node> GetPath(int[] from, int[] to)
