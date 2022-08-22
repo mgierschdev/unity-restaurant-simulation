@@ -66,7 +66,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         sortingLayer = GetComponent<SortingGroup>();
 
-        if (Vector3.Distance(currentTargetPosition,transform.position) < 0.1f)
+        if (Vector3.Distance(currentTargetPosition,transform.position) < 0.03f)
         {
             if (pendingMovementQueue.Count != 0)
             {
@@ -82,6 +82,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
+            Debug.Log("Distance: " + Vector3.Distance(currentTargetPosition,transform.position));
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
         }
     }
@@ -224,7 +225,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public void AddPath(List<Node> path)
     {
-        Debug.Log("Adding path "+path.Count);
         if (path.Count == 0)
         {
             return;
