@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
 
@@ -65,8 +66,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         sortingLayer = GetComponent<SortingGroup>();
 
-
-        if (currentTargetPosition == transform.position)
+        if (Vector3.Distance(currentTargetPosition,transform.position) < 0.1f)
         {
             if (pendingMovementQueue.Count != 0)
             {
