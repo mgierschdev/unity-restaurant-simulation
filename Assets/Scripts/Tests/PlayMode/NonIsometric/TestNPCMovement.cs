@@ -11,7 +11,7 @@ public class TestNPCMovement
     private Vector3 target;
     private GameObject gridObject;
     private IsometricGridController gameGridController;
-    private Vector3 initialTestingPosition;
+    private Vector3Int initialTestingPosition;
 
     [SetUp]
     public void Setup()
@@ -26,7 +26,7 @@ public class TestNPCMovement
         npcObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)),  new Vector3Int(0, 0), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gridObject.transform);
         npcController = npcObject.GetComponent<IsometricNPCController>();
-        initialTestingPosition = new Vector3(0, 0);
+        initialTestingPosition = new Vector3Int(0, 0);
         npcController.GameGrid = gameGridController;
     }
 

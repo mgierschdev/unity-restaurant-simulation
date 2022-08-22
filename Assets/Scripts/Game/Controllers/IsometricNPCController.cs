@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Controls NPCs players
 // Attached to: NPC Objects
-public class IsometricNPCController : GameIsometricMovement
+public class IsometricNPCController : GameObjectMovementBase
 {
     [SerializeField]
     private EnergyBarController energyBar;
@@ -30,7 +30,6 @@ public class IsometricNPCController : GameIsometricMovement
 
     private void Start()
     {
-        //  body = GetComponent<Rigidbody2D>();
         Type = ObjectType.NPC;
         Speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
         state = (int)NPCState.IDLE;
@@ -52,6 +51,7 @@ public class IsometricNPCController : GameIsometricMovement
             energyBar.SetInactive();
         }
     }
+
     private void FixedUpdate()
     {
         // EnergyBar controller, only if it is active
@@ -93,11 +93,13 @@ public class IsometricNPCController : GameIsometricMovement
 
         if (!IsMoving() && idleTime >= idleMaxTime)
         {
+            Debug.Log("Adding path");
+
             List<Node> path;
             idleTime = 0;
             Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
             // It should be mostly free, if invalid it will return an empty path
-            path = GameGrid.GetPath(new int[] { (int)X, (int)Y }, new int[] { position.x, position.y });
+            path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { position.x, position.y });
             AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + position.x + "," + position.y);
             AddPath(path);
         }

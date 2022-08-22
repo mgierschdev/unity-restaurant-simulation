@@ -1,7 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-public class IsometricPlayerController : GameIsometricMovement
+public class IsometricPlayerController : GameObjectMovementBase
 {
     // For Handling non-physics related objects
     private void Update()
