@@ -82,7 +82,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-            Debug.Log("Distance: " + Vector3.Distance(currentTargetPosition,transform.position));
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
         }
     }

@@ -144,7 +144,7 @@ public class IsometricNPCController : GameObjectMovementBase
     {
         if (Settings.DEBUG_ENABLE)
         {
-            Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
+            //Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
         }
     }
 }
