@@ -26,7 +26,8 @@ public class IsometricNPCController : GameObjectMovementBase
     [SerializeField]
     private float idleTime = 0;
     [SerializeField]
-    private float idleMaxTime = 3f; //in seconds
+    private float idleMaxTime = 6f; //in seconds
+    private float randMax = 3f;
 
     private void Start()
     {
@@ -91,12 +92,11 @@ public class IsometricNPCController : GameObjectMovementBase
             idleTime += Time.deltaTime;
         }
 
-        if (!IsMoving() && idleTime >= idleMaxTime)
+        if (!IsMoving() && idleTime >= randMax)
         {
-            Debug.Log("Adding path");
-
             List<Node> path;
             idleTime = 0;
+            randMax = Random.Range(0, idleMaxTime);
             Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
             // It should be mostly free, if invalid it will return an empty path
             path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { position.x, position.y });
