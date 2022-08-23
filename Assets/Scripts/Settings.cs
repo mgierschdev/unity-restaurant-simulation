@@ -1,6 +1,5 @@
 public static class Settings
 {
-
     // DEBUG parameters
     public const bool DEBUG_ENABLE = true; //Only for development
     public const int DEBUG_TEXT_SIZE = 9;
@@ -31,7 +30,7 @@ public static class Settings
 
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
-    public const float NPC_DEFAULT_MOVEMENT_SPEED = 0.3f; // 0.3f
+    public const float NPC_DEFAULT_MOVEMENT_SPEED = 3f; // 0.3f
     public const float NPC_DEFAULT_RECOVERY_TIME = 10;
     public const int NPC_DEFAULT_ENERGY = 100;
     public const string NPC_ENERGY_BAR = "EnergyBar";

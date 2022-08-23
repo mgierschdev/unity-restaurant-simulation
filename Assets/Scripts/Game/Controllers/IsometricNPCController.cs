@@ -96,8 +96,8 @@ public class IsometricNPCController : GameObjectMovementBase
 
         if (table != null)
         {
-            GoTo(table.GridPosition + new Vector3Int(2, 2, 0));// arrive one spot infront
             busy = true;
+            GoTo(table.GridPosition + new Vector3Int(2, 2, 0));// arrive one spot infront
             return true;
         }
         return false;
