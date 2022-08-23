@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System.ComponentModel;
-using Codice.Client.Common.GameUI;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.Android;
+using UnityEngine.Pool;
 using UnityEngine.Tilemaps;
 
 // This controlls the isometric tiles on the grid
@@ -63,7 +62,8 @@ public class IsometricGridController : MonoBehaviour
 
     //Prefabs in the TilemapObjects
     private List<GameGridObject> listGamePrefabs;
-    private Dictionary<Vector3, GameGridObject> mapGamePrefabs; //In PathfindingGrid pos
+    private Queue<GameGridObject> FreeBusinessSpots { get; set; }
+    private Dictionary<string, GameGridObject> mapGamePrefabs; //In PathfindingGrid pos
 
     private void Awake()
     {
@@ -86,7 +86,8 @@ public class IsometricGridController : MonoBehaviour
         mapObjects = new Dictionary<Vector3, GameTile>();
         listObjectsTileMap = new List<GameTile>();
         listGamePrefabs = new List<GameGridObject>();
-        mapGamePrefabs = new Dictionary<Vector3, GameGridObject>();
+        mapGamePrefabs = new Dictionary<string, GameGridObject>();
+        FreeBusinessSpots = new Queue<GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TILEMAP_WALKING_PATH).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
@@ -392,7 +393,7 @@ public class IsometricGridController : MonoBehaviour
     public void SetGridObject(GameGridObject obj)
     {
         listGamePrefabs.Add(obj);
-        mapGamePrefabs.Add(obj.GridPosition, obj);
+        mapGamePrefabs.Add(obj.Name, obj);
         SetObjectObstacle(obj);
     }
 
@@ -400,6 +401,7 @@ public class IsometricGridController : MonoBehaviour
     {
         if (obj.Type == ObjectType.NPC_TABLE)
         {
+            FreeBusinessSpots.Enqueue(obj);
             SetTable(obj.GridPosition);
         }
     }
@@ -409,5 +411,22 @@ public class IsometricGridController : MonoBehaviour
         // A table occupies 4 squares
         SetGridObstacle(pos);
         SetGridObstacle(pos - new Vector3Int(1, 1, 0));
+    }
+
+    public GameGridObject GetFreeTable()
+    {
+        if (FreeBusinessSpots.Count > 0)
+        {
+            return FreeBusinessSpots.Dequeue();
+        }
+        else
+        {
+            Debug.LogWarning("No free Spots");
+        }
+        return null;
+    }
+
+    public void FreeTable(string name){
+        FreeBusinessSpots.Enqueue(mapGamePrefabs[name]);
     }
 }
