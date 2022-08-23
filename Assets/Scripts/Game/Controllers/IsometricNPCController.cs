@@ -140,11 +140,11 @@ public class IsometricNPCController : GameObjectMovementBase
         SetDebug();
     }
     
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (Settings.DEBUG_ENABLE)
-        {
-            //Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
-        }
-    }
+    // private void OnCollisionEnter2D(Collision2D other)
+    // {
+    //     if (Settings.DEBUG_ENABLE)
+    //     {
+    //         //Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
+    //     }
+    // }
 }

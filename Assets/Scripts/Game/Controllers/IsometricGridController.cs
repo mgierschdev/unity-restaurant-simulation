@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.ComponentModel;
+using Codice.Client.Common.GameUI;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -58,6 +61,10 @@ public class IsometricGridController : MonoBehaviour
     [SerializeField]
     private Dictionary<Vector3, GameTile> mapObjects;
 
+    //Prefabs in the TilemapObjects
+    private List<GameGridObject> listGamePrefabs;
+    private Dictionary<Vector3, GameGridObject> mapGamePrefabs; //In PathfindingGrid pos
+
     private void Awake()
     {
         tilemapPathFinding = GameObject.Find(Settings.PATH_FINDING_GRID).GetComponent<Tilemap>();
@@ -78,6 +85,8 @@ public class IsometricGridController : MonoBehaviour
         tilemapObjects = GameObject.Find(Settings.TILEMAP_OBJECTS).GetComponent<Tilemap>();
         mapObjects = new Dictionary<Vector3, GameTile>();
         listObjectsTileMap = new List<GameTile>();
+        listGamePrefabs = new List<GameGridObject>();
+        mapGamePrefabs = new Dictionary<Vector3, GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TILEMAP_WALKING_PATH).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
@@ -191,7 +200,7 @@ public class IsometricGridController : MonoBehaviour
                     SetIsometricGameTileCollider(gameTile);
                 }
 
-                if (tileType == TileType.WALKABLE_PATH)
+                if (tileType == TileType.WALKABLE_PATH || tileType == TileType.BUS_FLOOR)
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
 
@@ -263,6 +272,19 @@ public class IsometricGridController : MonoBehaviour
         {
             SetCellColor(x, y, color);
         }
+    }
+
+    //Sets 1 isometric cell
+    private void SetGridObstacle(Vector3Int pos)
+    {
+        grid[pos.x, pos.y] = 1;
+        grid[pos.x + 1, pos.y] = 1;
+        grid[pos.x + 1, pos.y + 1] = 1;
+        grid[pos.x, pos.y + 1] = 1;
+        SetCellColor(pos.x, pos.y, Color.blue);
+        SetCellColor(pos.x + 1, pos.y, Color.blue);
+        SetCellColor(pos.x + 1, pos.y + 1, Color.blue);
+        SetCellColor(pos.x, pos.y + 1, Color.blue);
     }
 
     private bool IsCoordsValid(float x, float y)
@@ -365,5 +387,27 @@ public class IsometricGridController : MonoBehaviour
         {
             SetCellColor(x, y, Color.white);
         }
+    }
+
+    public void SetGridObject(GameGridObject obj)
+    {
+        listGamePrefabs.Add(obj);
+        mapGamePrefabs.Add(obj.GridPosition, obj);
+        SetObjectObstacle(obj);
+    }
+
+    private void SetObjectObstacle(GameGridObject obj)
+    {
+        if (obj.Type == ObjectType.NPC_TABLE)
+        {
+            SetTable(obj.GridPosition);
+        }
+    }
+
+    private void SetTable(Vector3Int pos)
+    {
+        // A table occupies 4 squares
+        SetGridObstacle(pos);
+        SetGridObstacle(pos + new Vector3Int(1, 1, 0));
     }
 }
