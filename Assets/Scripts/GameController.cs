@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 // This class in charge of loading the game and prefabs
@@ -6,7 +7,8 @@ public class GameController : MonoBehaviour
 {
     private List<IsometricNPCController> npcList;
     private bool enableWander;
-    private int npcNumber = 30;
+    private int npcNumber = 3;
+    IsometricGridController gridController;
 
     void Start()
     {
@@ -39,6 +41,8 @@ public class GameController : MonoBehaviour
             {
                 n.state = NPCState.WANDER;
             }
+
+            enableWander = false;
         }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.Rendering;
 
 public abstract class GameObjectBase
 {
+    public string Name { get; set; }
     public SortingGroup SortingLayer { get; set; }
     public Vector3Int GridPosition { get; set; } //In Pathfinding grid
     public Vector3Int LocalGridPosition { get; set; } // Local grid position, can be negatice -20,20

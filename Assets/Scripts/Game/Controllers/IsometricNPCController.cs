@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
@@ -22,12 +23,16 @@ public class IsometricNPCController : GameObjectMovementBase
     [SerializeField]
     private int stateHistoryMaxSize = 10;
 
-    // Wander variables
+    // Wander properties
     [SerializeField]
     private float idleTime = 0;
     [SerializeField]
     private float idleMaxTime = 6f; //in seconds
     private float randMax = 3f;
+
+    //Doing a different activitiy properties
+    private bool busy = false;
+    GameGridObject table;
 
     private void Start()
     {
@@ -77,11 +82,32 @@ public class IsometricNPCController : GameObjectMovementBase
         // Updating position in the Grid
         UpdatePosition();
 
-        //Go an wander 
-        if (state == NPCState.WANDER)
+        //Go and wander if not busy
+        if (state == NPCState.WANDER && !busy)
         {
+            FindPlace();
             Wander();
         }
+    }
+
+    private bool FindPlace()
+    {
+        table = GameGrid.GetFreeTable();
+
+        if (table != null)
+        {
+            GoTo(table.GridPosition + new Vector3Int(2, 2, 0));// arrive one spot infront
+            busy = true;
+            return true;
+        }
+        return false;
+    }
+
+    private void GoTo(Vector3Int pos)
+    {
+        List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
+        AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
+        AddPath(path);
     }
 
     private void Wander()
@@ -139,7 +165,7 @@ public class IsometricNPCController : GameObjectMovementBase
         }
         SetDebug();
     }
-    
+
     // private void OnCollisionEnter2D(Collision2D other)
     // {
     //     if (Settings.DEBUG_ENABLE)
