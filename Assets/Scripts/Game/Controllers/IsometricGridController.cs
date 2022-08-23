@@ -408,6 +408,6 @@ public class IsometricGridController : MonoBehaviour
     {
         // A table occupies 4 squares
         SetGridObstacle(pos);
-        SetGridObstacle(pos + new Vector3Int(1, 1, 0));
+        SetGridObstacle(pos - new Vector3Int(1, 1, 0));
     }
 }
