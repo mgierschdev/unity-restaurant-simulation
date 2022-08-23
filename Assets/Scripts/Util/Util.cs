@@ -260,7 +260,7 @@ public static class Util
         }
         else if (tileName == "floor4")
         {
-            return TileType.FLOOR_4;
+            return TileType.BUS_FLOOR;
         }
         else if (tileName == "Complete@3x")
         {
@@ -286,10 +286,6 @@ public static class Util
         {
             return TileType.ISOMETRIC_GRID_TILE;
         }
-        else if (tileName == "CompleteTable0@3x")
-        {
-            return TileType.ISOMETRIC_GRID_TILE;
-        }
         else
         {
             return TileType.UNDEFINED;
@@ -309,15 +305,11 @@ public static class Util
         }
         else if (type == TileType.SPAM_POINT ||
         type == TileType.FLOOR_3 ||
-        type == TileType.FLOOR_4 || 
+        type == TileType.BUS_FLOOR || 
         type == TileType.WALKABLE_PATH
 )
         {
             return ObjectType.FLOOR;
-        }
-        else if (type == TileType.ISOMETRIC_GRID_TILE)
-        {
-            return ObjectType.TABLE;
         }
         else
         {
@@ -358,7 +350,6 @@ public enum ObjectType
     PLAYER = 3,
     NPC_TABLE = 4,
     FLOOR = 5,
-    TABLE = 6,
     UNDEFINED = 999
 }
 
@@ -368,7 +359,7 @@ public enum TileType
     SPAM_POINT = 1,
     WALKABLE_PATH = 2,
     FLOOR_3 = 3,
-    FLOOR_4 = 4,
+    BUS_FLOOR = 4,
     FLOOR_OBSTACLE = 5,
     FLOOR_MEDIUM_HORIZONTAL_OBSTACLE = 6,
     FLOOR_MEDIUM_VERTICAL_OBSTACLE = 7,
