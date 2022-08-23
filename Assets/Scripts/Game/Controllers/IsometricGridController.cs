@@ -421,12 +421,16 @@ public class IsometricGridController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No free Spots");
+            if (Settings.DEBUG_ENABLE)
+            {
+                //Debug.Log("No free Spots");
+            }
         }
         return null;
     }
 
-    public void FreeTable(string name){
+    public void FreeTable(string name)
+    {
         FreeBusinessSpots.Enqueue(mapGamePrefabs[name]);
     }
 }
