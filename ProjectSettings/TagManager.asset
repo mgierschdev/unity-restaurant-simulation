@@ -17,6 +17,12 @@ TagManager:
   - NonBlockingObstacle
   - Floor0
   - Game
+  - Arm-L
+  - Body
+  - Arm-R
+  - Head
+  - Leg-L
+  - Leg-R
   layers:
   - Default
   - TransparentFX
