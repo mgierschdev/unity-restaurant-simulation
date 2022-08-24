@@ -8,7 +8,7 @@ public class ClickController : MonoBehaviour
     public float ClickingTime { get; set; }// To keep the coung if longclick
     private float longClickDuration = 0.2f;
 
-    private IsometricGridController gridController;
+    private GridController gridController;
 
     public GameObject ClickedObject { get; set; }
     public GameTile ClickedGameTile { get; set; }
@@ -22,7 +22,7 @@ public class ClickController : MonoBehaviour
 
         // Grid Controller
         GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
-        gridController = gameGridObject.GetComponent<IsometricGridController>();
+        gridController = gameGridObject.GetComponent<GridController>();
     }
 
     private void Update()

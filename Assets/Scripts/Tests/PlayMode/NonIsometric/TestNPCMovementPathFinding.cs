@@ -8,10 +8,10 @@ public class TestNPCMovementPathFinding
 {
     private GameObject firstNPCObject;
     private GameObject secondNPCObject;
-    private IsometricNPCController firstNPCController;
-    private IsometricNPCController secondNPCController;
+    private NPCController firstNPCController;
+    private NPCController secondNPCController;
     private GameObject gridObject;
-    private IsometricGridController gameGridController;
+    private GridController gameGridController;
     private Vector3Int initialTestingPosition;
 
     [SetUp]
@@ -19,18 +19,18 @@ public class TestNPCMovementPathFinding
     {
         // Game Grid
         gridObject = Transform.Instantiate(Resources.Load(Settings.GAME_GRID, typeof(GameObject))) as GameObject;
-        gameGridController = gridObject.GetComponent<IsometricGridController>();
+        gameGridController = gridObject.GetComponent<GridController>();
         // First NPC
-        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject))) as GameObject;
-        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
+        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject))) as GameObject;
+        firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
         firstNPCObject.transform.SetParent(gridObject.transform);
-        firstNPCController = firstNPCObject.GetComponent<IsometricNPCController>();
+        firstNPCController = firstNPCObject.GetComponent<NPCController>();
         firstNPCController.GameGrid = gameGridController;
         // Second NPC
-        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject))) as GameObject;
-        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
+        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject))) as GameObject;
+        secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
         secondNPCObject.transform.SetParent(gridObject.transform);
-        secondNPCController = secondNPCObject.GetComponent<IsometricNPCController>();
+        secondNPCController = secondNPCObject.GetComponent<NPCController>();
         secondNPCController.GameGrid = gameGridController;
 
         initialTestingPosition = new Vector3Int(1, 1);

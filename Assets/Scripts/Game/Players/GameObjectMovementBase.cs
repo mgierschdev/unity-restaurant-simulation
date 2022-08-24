@@ -16,7 +16,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public Vector3 Velocity { get; set; }
     [SerializeField]
     public Vector3Int Position { get; set; } //PathFindingGrid Position
-    public IsometricGridController GameGrid { get; set; }
+    public GridController GameGrid { get; set; }
     // Sprite level ordering
     protected SortingGroup sortingLayer;
     // Movement 
@@ -30,23 +30,30 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // ClickController for the long click duration for the player
     private ClickController clickController;
 
+    //Energy Bar
+    private EnergyBarController energyBar;
+    private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
+
+
     private void Awake()
     {
+        // Energy bar
+        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
+        if (!Util.IsNull(energyBar, "GameObjectMovementBase/energyBar null"))
+        {
+            SetEnergyBar();
+        }
+
+
         // Game Grid
         gameGridObject = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
         body = GetComponent<Rigidbody2D>();
 
-        if (gameGridObject != null)
+        if (!Util.IsNull(gameGridObject, "GameObjectMovementBase/gameGridObject null"))
         {
-            GameGrid = gameGridObject.GetComponent<IsometricGridController>();
+            GameGrid = gameGridObject.GetComponent<GridController>();
         }
-        else
-        {
-            if (Settings.DEBUG_ENABLE)
-            {
-                Debug.LogWarning("IsometricGridController.cs/gameGridObject null");
-            }
-        }
+
         // Movement Queue
         pendingMovementQueue = new Queue();
 
@@ -61,12 +68,53 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         ClickUpdateController();
     }
 
+    private void SetEnergyBar()
+    {
+        if (Settings.NPC_ENERGY_ENABLED)
+        {
+            energyBar.SetActive();
+        }
+        else
+        {
+            energyBar.SetInactive();
+        }
+    }
+
+    protected void UpdateEnergyBar()
+    {
+        // EnergyBar controller, only if it is active
+        if (energyBar.IsActive())
+        {
+            if (currentEnergy > 0)
+            {
+                currentEnergy -= Time.deltaTime * 20f;
+                energyBar.SetEnergy((int)currentEnergy);
+            }
+            else
+            {
+                currentEnergy = 100;
+                energyBar.SetEnergy(Settings.NPC_DEFAULT_ENERGY);
+            }
+        }
+    }
+
+    private void ActivateEnergyBar()
+    {
+        energyBar.SetActive();
+    }
+
+    private void AddEnergyBar()
+    {
+        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
+    }
+
+
     protected void UpdateTargetMovement()
     {
         body = GetComponent<Rigidbody2D>();
         sortingLayer = GetComponent<SortingGroup>();
 
-        if (Vector3.Distance(currentTargetPosition,transform.position) < 0.03f)
+        if (Vector3.Distance(currentTargetPosition, transform.position) < 0.03f)
         {
             if (pendingMovementQueue.Count != 0)
             {
@@ -91,13 +139,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Speed = Settings.PLAYER_MOVEMENT_SPEED;
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
 
-        if (cController != null)
+        if (!Util.IsNull(cController, "PlayerController/clickController null"))
         {
             clickController = cController.GetComponent<ClickController>();
-        }
-        else if (Settings.DEBUG_ENABLE)
-        {
-            Debug.LogWarning("PlayerController/clickController null");
         }
     }
     public void AddMovement(Vector3 direction)

@@ -29,11 +29,7 @@ public class CameraController : MonoBehaviour
         playerGameObject = GameObject.FindGameObjectWithTag(Settings.PREFAB_PLAYER);
         GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
         menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
-
-        if (playerGameObject == null)
-        {
-            Debug.LogWarning("CameraController/PlayerController is null");
-        }
+        Util.IsNull(playerGameObject, "CameraController/PlayerController is null");
     }
 
     // Update is called once per frame

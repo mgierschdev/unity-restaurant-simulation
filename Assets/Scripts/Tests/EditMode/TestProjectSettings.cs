@@ -94,14 +94,14 @@ public class TestProjectSettings
     [Test]
     public void TestPrefabLoadIsometricNPC()
     {
-        Object obj = Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject));
+        Object obj = Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject));
         Assert.NotNull(obj);
     }
 
     [Test]
     public void TestPrefabLoadIsometricPlayer()
     {
-        Object obj = Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject));
+        Object obj = Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject));
         Assert.NotNull(obj);
     }
 

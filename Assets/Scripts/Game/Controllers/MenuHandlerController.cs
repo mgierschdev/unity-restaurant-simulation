@@ -8,7 +8,7 @@ public class MenuHandlerController : MonoBehaviour
 {
     private GameObject tabMenu;
     private MenuItem npcProfileMenu;
-    IsometricNPCController npc; //saves the latest reference to the npc if the menu was openned
+    NPCController npc; //saves the latest reference to the npc if the menu was openned
     private MenuItem centerTabMenu;
     private MenuItem topGameMenu;
     private Stack<MenuItem> menuStack;
@@ -105,7 +105,7 @@ public class MenuHandlerController : MonoBehaviour
             if (type == ObjectType.NPC)
             {
                 Dictionary<string, string> map = new Dictionary<string, string>();
-                npc = clickController.ClickedObject.GetComponent<IsometricNPCController>();
+                npc = clickController.ClickedObject.GetComponent<NPCController>();
                 map.Add("Name", npc.Name);
                 map.Add("Debug", npc.NPCDebug);
                 OpenMenu(npcProfileMenu);
