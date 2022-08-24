@@ -11,6 +11,7 @@ public static class Settings
 
     //GAME TAGS
     public const string NPC_TAG = "NPC";
+    public const string PLAYER_TAG = "Player";
     public const string GRID_TILE_TAG = "GridTile";
 
     // TILEMAPS
@@ -21,11 +22,12 @@ public static class Settings
     public const string PATH_FINDING_GRID = "PathFindingGrid";
 
     // PREFABS AND OBJECTS
-    public const string PREFAB_GRID_TILE = "GridTile";
-    public const string PREFAB_PLAYER = "Player";
-    public const string PREFAB_NPC_CLIENT = "Client";
-    public const string PREFAB_INVENTORY_ITEM = "InventoryItem";
-    public const string PREFAB_SAND_SEA = "SandAndSea@3x";
+    public const string PREFAB_GRID_TILE = "Grid/GridTile";
+    public const string PREFAB_SAND_SEA = "Grid/SandAndSea@3x";
+    public const string PREFAB_PLAYER = "Players/Player";
+    public const string PREFAB_NPC_CLIENT = "Players/Client";
+    public const string PREFAB_NPC_EMPLOYEES = "Players/Employee";
+    public const string PREFAB_INVENTORY_ITEM = "Menu/InventoryItem";
 
     // NPC Default
     public const float NPC_DEFAULT_REACTION_TIME = 4;
@@ -48,7 +50,7 @@ public static class Settings
 
     // UI: Camera
     public const bool CAMERA_PERSPECTIVE_HAND = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = { -10f, 10 }; 
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = { -10f, 10 };
     public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = { -10, 10f }; // X = -8, 1 || Y = Initial default -8, 1
     public const bool CAMERA_FOLLOW_PLAYER = false;
     public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
