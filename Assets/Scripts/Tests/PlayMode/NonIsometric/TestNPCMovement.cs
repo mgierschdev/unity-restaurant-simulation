@@ -7,10 +7,10 @@ using UnityEngine.TestTools.Utils;
 public class TestNPCMovement
 {
     private GameObject npcObject;
-    private IsometricNPCController npcController;
+    private NPCController npcController;
     private Vector3 target;
     private GameObject gridObject;
-    private IsometricGridController gameGridController;
+    private GridController gameGridController;
     private Vector3Int initialTestingPosition;
 
     [SetUp]
@@ -18,14 +18,14 @@ public class TestNPCMovement
     {
         // Game Grid
         gridObject = Transform.Instantiate(Resources.Load(Settings.GAME_GRID, typeof(GameObject))) as GameObject;
-        gameGridController = gridObject.GetComponent<IsometricGridController>();
+        gameGridController = gridObject.GetComponent<GridController>();
 
         // Adding NPC object
         // First NPC
-        npcObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject))) as GameObject;
-        npcObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)),  new Vector3Int(0, 0), Quaternion.identity) as GameObject;
+        npcObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject))) as GameObject;
+        npcObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject)),  new Vector3Int(0, 0), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gridObject.transform);
-        npcController = npcObject.GetComponent<IsometricNPCController>();
+        npcController = npcObject.GetComponent<NPCController>();
         initialTestingPosition = new Vector3Int(0, 0);
         npcController.GameGrid = gameGridController;
     }

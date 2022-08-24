@@ -5,28 +5,28 @@ using UnityEngine;
 // the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour
 {
-    private List<IsometricNPCController> npcList;
+    private List<NPCController> npcList;
     private bool enableWander;
     private int npcNumber = 3;
-    IsometricGridController gridController;
+    GridController gridController;
 
     void Start()
     {
-        npcList = new List<IsometricNPCController>();
+        npcList = new List<NPCController>();
         enableWander = false;
 
         // // Getting grid object
         GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
-        IsometricGridController gridController = gameGridObject.GetComponent<IsometricGridController>();
+        GridController gridController = gameGridObject.GetComponent<GridController>();
 
         for (int i = 0; i < npcNumber; i++)
         {
             // Adding NPC object
             Vector3 spamPoint = gridController.GetRandomSpamPointWorldPosition();
-            GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_NPC, typeof(GameObject)), spamPoint, Quaternion.identity) as GameObject;
+            GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject)), spamPoint, Quaternion.identity) as GameObject;
             npcObject.transform.SetParent(gameObject.transform);
-            npcObject.name = i + "-" + Settings.PREFAB_ISOMETRIC_NPC;
-            IsometricNPCController isometricNPCController = npcObject.GetComponent<IsometricNPCController>();
+            npcObject.name = i + "-" + Settings.PREFAB_NPC_CLIENT;
+            NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
             isometricNPCController.Speed = 0.4f;//0.4f
             this.npcList.Add(isometricNPCController);
         }
@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
         // we execute only once
         if (!enableWander)
         {
-            foreach (IsometricNPCController n in npcList)
+            foreach (NPCController n in npcList)
             {
                 n.state = NPCState.WANDER;
             }

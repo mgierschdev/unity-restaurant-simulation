@@ -305,7 +305,7 @@ public static class Util
         }
         else if (type == TileType.SPAM_POINT ||
         type == TileType.FLOOR_3 ||
-        type == TileType.BUS_FLOOR || 
+        type == TileType.BUS_FLOOR ||
         type == TileType.WALKABLE_PATH
 )
         {
@@ -337,6 +337,43 @@ public static class Util
         {
             Debug.Log(c.name + " " + c.ToString());
 
+        }
+    }
+
+    public static bool IsNull(GameObject gameObject, string message)
+    {
+        if (gameObject == null)
+        {
+            Debug.LogWarning(message);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public static bool IsNull(GridController gameObject, string message)
+    {
+        if (gameObject == null)
+        {
+            Debug.LogWarning(message);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public static bool IsNull(EnergyBarController gameObject, string message)
+    {
+        if (gameObject == null)
+        {
+            Debug.LogWarning(message);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

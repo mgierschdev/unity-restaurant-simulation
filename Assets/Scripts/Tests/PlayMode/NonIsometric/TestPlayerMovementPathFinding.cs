@@ -7,8 +7,8 @@ using UnityEngine.TestTools;
 public class TestPlayerMovementPathFinding
 {
     private GameObject playerObject;
-    private IsometricPlayerController playerController;
-    private IsometricGridController gameGridController;
+    private PlayerController playerController;
+    private GridController gameGridController;
     private GameObject gridObject;
     private Vector3Int initialTestingPosition;
 
@@ -17,13 +17,13 @@ public class TestPlayerMovementPathFinding
     {
         // Game Grid
         gridObject = Transform.Instantiate(Resources.Load(Settings.GAME_GRID, typeof(GameObject))) as GameObject;
-        gameGridController = gridObject.GetComponent<IsometricGridController>();
+        gameGridController = gridObject.GetComponent<GridController>();
         initialTestingPosition = new Vector3Int(1, 1);
         // Player
-        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject))) as GameObject;
-        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_ISOMETRIC_PLAYER, typeof(GameObject)), initialTestingPosition, Quaternion.identity) as GameObject;
+        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject))) as GameObject;
+        playerObject = Transform.Instantiate(Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject)), initialTestingPosition, Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(gridObject.transform);
-        playerController = playerObject.GetComponent<IsometricPlayerController>();
+        playerController = playerObject.GetComponent<PlayerController>();
         playerController.GameGrid = gameGridController;
     }
 
