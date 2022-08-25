@@ -4,10 +4,6 @@ using UnityEngine;
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
 {
-    public NPCState state; // 0 IDLE, 1 Wander
-    [SerializeField]
-    public string Name { get; set; }
-
     //Doing a different activitiy properties
     private bool busy = false;
     GameGridObject table;
@@ -22,12 +18,7 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
-
-        body.angularVelocity = 0;
-        body.rotation = 0;
-
         UpdateTargetMovement();
-        // Updating position in the Grid
         UpdatePosition();
 
         //Go and wander if not busy
@@ -51,10 +42,5 @@ public class NPCController : GameObjectMovementBase
             return true;
         }
         return false;
-    }
-
-    public void SetNPCState(NPCState state)
-    {
-        this.state = state;
     }
 }

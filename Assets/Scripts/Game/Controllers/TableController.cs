@@ -6,8 +6,6 @@ public class TableController : MonoBehaviour
 {
     GameGridObject table;
     GridController grid;
-    // Table state
-    bool free = true;
 
     void Start()
     {

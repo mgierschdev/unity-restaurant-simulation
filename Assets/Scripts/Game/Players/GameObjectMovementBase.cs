@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
 
+    public string Name { get; set; }
     // Getters and setters
     [SerializeField]
     public ObjectType Type { get; set; }
@@ -49,7 +50,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private Queue<string> stateHistory;
     [SerializeField]
     private int stateHistoryMaxSize = 10;
-
 
     private void Awake()
     {
@@ -257,6 +257,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     virtual public void UpdatePosition()
     {
         Vector3Int pos = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
+        body.angularVelocity = 0;
+        body.rotation = 0;
         //  sortingLayer.sortingOrder = pos.y * -1;S
         Position = new Vector3Int(pos.x, pos.y);
     }

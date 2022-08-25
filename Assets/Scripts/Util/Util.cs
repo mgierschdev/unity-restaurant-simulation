@@ -306,8 +306,7 @@ public static class Util
         else if (type == TileType.SPAM_POINT ||
         type == TileType.FLOOR_3 ||
         type == TileType.BUS_FLOOR ||
-        type == TileType.WALKABLE_PATH
-)
+        type == TileType.WALKABLE_PATH)
         {
             return ObjectType.FLOOR;
         }
@@ -385,9 +384,10 @@ public enum ObjectType
     OBSTACLE = 1,
     NPC = 2,
     PLAYER = 3,
-    NPC_TABLE = 4,
-    NPC_COUNTER = 5,
-    FLOOR = 6,
+    EMPLOYEE = 4,
+    NPC_TABLE = 5,
+    NPC_COUNTER = 6,
+    FLOOR = 7,
     UNDEFINED = 999
 }
 

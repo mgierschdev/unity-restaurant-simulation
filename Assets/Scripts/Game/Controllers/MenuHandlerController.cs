@@ -9,6 +9,7 @@ public class MenuHandlerController : MonoBehaviour
     private GameObject tabMenu;
     private MenuItem npcProfileMenu;
     NPCController npc; //saves the latest reference to the npc if the menu was openned
+    EmployeeController employee;
     private MenuItem centerTabMenu;
     private MenuItem topGameMenu;
     private Stack<MenuItem> menuStack;
@@ -102,12 +103,25 @@ public class MenuHandlerController : MonoBehaviour
         if (clickController.ClickedObject != null)
         {
             ObjectType type = Util.GetObjectType(clickController.ClickedObject);
-            if (type == ObjectType.NPC)
+
+            if (type == ObjectType.NPC || type == ObjectType.EMPLOYEE)
             {
                 Dictionary<string, string> map = new Dictionary<string, string>();
-                npc = clickController.ClickedObject.GetComponent<NPCController>();
-                map.Add("Name", npc.Name);
-                map.Add("Debug", npc.NPCDebug);
+
+                if (type == ObjectType.NPC)
+                {
+                    npc = clickController.ClickedObject.GetComponent<NPCController>();
+                    map.Add("Name", npc.Name);
+                    map.Add("Debug", npc.NPCDebug);
+                }
+
+                if (type == ObjectType.EMPLOYEE)
+                {
+                    employee = clickController.ClickedObject.GetComponent<EmployeeController>();
+                    map.Add("Name", employee.Name);
+                    map.Add("Debug", employee.NPCDebug);
+                }
+
                 OpenMenu(npcProfileMenu);
                 npcProfileMenu.SetFields(map);
             }
