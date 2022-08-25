@@ -340,7 +340,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector3Int mouseInGridPosition = GameGrid.GetPathFindingGridFromWorldPosition(mousePosition);
             List<Node> path = GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
+            Util.PrintPath(path);
             AddPath(path);
+            
 
             if (pendingMovementQueue.Count != 0)
             {
