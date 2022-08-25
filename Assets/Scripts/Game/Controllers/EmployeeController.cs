@@ -3,7 +3,7 @@ using UnityEngine;
 public class EmployeeController : GameObjectMovementBase
 {
     public string Name { get; set; }
-    GameGridObject table;
+    GameGridObject counter;
     private bool busy = false;
 
     private void Start()
@@ -27,14 +27,14 @@ public class EmployeeController : GameObjectMovementBase
         UpdateEnergyBar();
     }
 
-    private bool FindPlace()
+    private bool GoToNextToCounter()
     {
-        table = GameGrid.GetFreeTable();
+        counter = GameGrid.Counter;
 
-        if (table != null)
+        if (counter != null)
         {
             busy = true;
-            GoTo(table.GridPosition + new Vector3Int(2, 2, 0));// arrive one spot infront
+            GoTo(counter.GridPosition + new Vector3Int(2, 2, 0));// arrive one spot infront
             return true;
         }
         return false;

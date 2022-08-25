@@ -27,7 +27,7 @@ public static class Settings
     public const string PREFAB_SAND_SEA = "Grid/SandAndSea@3x";
     public const string PREFAB_PLAYER = "Players/Player";
     public const string PREFAB_NPC_CLIENT = "Players/Client";
-    public const string PREFAB_NPC_EMPLOYEES = "Players/Employee";
+    public const string PREFAB_NPC_EMPLOYEE = "Players/Employee";
     public const string PREFAB_INVENTORY_ITEM = "Menu/InventoryItem";
 
     // NPC Default
