@@ -175,6 +175,9 @@ public class GridController : MonoBehaviour
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
                 mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
+
+                Debug.Log("Local / Grid " + gameTile.LocalGridPosition + " " + gameTile.GridPosition);
+
                 tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
             }
         }
@@ -315,7 +318,8 @@ public class GridController : MonoBehaviour
 
     public List<Node> GetPath(int[] start, int[] end)
     {
-        if(grid[start[0], start[1]] == 1 || grid[end[0], end[1]] == 1){
+        if (grid[start[0], start[1]] == 1 || grid[end[0], end[1]] == 1)
+        {
             return new List<Node>();
         }
         return pathFind.Find(start, end, grid);
@@ -336,6 +340,7 @@ public class GridController : MonoBehaviour
         else
         {
             GameTile tile = mapGridPositionToTile[tilemapPathFinding.WorldToCell(position)];
+            Debug.LogWarning("Positiong " + position + " local grid " + tilemapPathFinding.WorldToCell(position) + " local grid " + tile.GridPosition);
             return tile.GridPosition;
         }
 
