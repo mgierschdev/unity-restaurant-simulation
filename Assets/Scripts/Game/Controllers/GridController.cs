@@ -42,6 +42,11 @@ public class GridController : MonoBehaviour
     private List<GameTile> listWalkingPathileMap;
     private Dictionary<Vector3, GameTile> mapWalkingPath;
 
+    //Business floor
+    private Tilemap tilemapBusinessFloor;
+    private List<GameTile> listBusinessFloor;
+    private Dictionary<Vector3, GameTile> mapBusinessFloor;
+
     //Colliders
     [SerializeField]
     private Tilemap tilemapColliders;
@@ -91,6 +96,10 @@ public class GridController : MonoBehaviour
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
         listWalkingPathileMap = new List<GameTile>();
 
+        tilemapBusinessFloor = GameObject.Find(Settings.TILEMAP_BUSINESS_FLOOR).GetComponent<Tilemap>();
+        listBusinessFloor = new List<GameTile>();
+        mapBusinessFloor = new Dictionary<Vector3, GameTile>(); ;
+
         if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null)
         {
             Debug.LogWarning("GridController/tilemap null");
@@ -110,6 +119,7 @@ public class GridController : MonoBehaviour
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
         LoadTileMap(listWalkingPathileMap, tilemapWalkingPath, mapWalkingPath);
+        LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
     }
 
     private void DrawCellCoords()
@@ -199,7 +209,7 @@ public class GridController : MonoBehaviour
                     SetIsometricGameTileCollider(gameTile);
                 }
 
-                if (tileType == TileType.WALKABLE_PATH || tileType == TileType.BUS_FLOOR)
+                if (tileType == TileType.WALKABLE_PATH)
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
 
@@ -207,6 +217,11 @@ public class GridController : MonoBehaviour
                     {
                         SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
                     }
+                }
+
+                if (tileType == TileType.BUS_FLOOR)
+                {
+                    grid[gridPosition.x, gridPosition.y] = 0;
                 }
 
                 if (tileType == TileType.SPAM_POINT)
