@@ -19,6 +19,7 @@ public static class Settings
     public const string TILEMAP_COLLIDERS = "TilemapColliders";
     public const string TILEMAP_OBJECTS = "TilemapObjects";
     public const string TILEMAP_WALKING_PATH = "TilemapWalkingPath";
+    public const string TILEMAP_BUSINESS_FLOOR = "TilemapWalkingPath";
     public const string PATH_FINDING_GRID = "PathFindingGrid";
 
     // PREFABS AND OBJECTS
