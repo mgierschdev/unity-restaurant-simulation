@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
-
     public string Name { get; set; }
     [SerializeField]
     // Getters and setters
@@ -104,9 +103,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected virtual void GoTo(Vector3Int pos)
     {
-        FinalTarget = pos;
         List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
         AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
+        Debug.Log("Adding final target Position "+FinalTarget);
+        FinalTarget = pos;
         AddPath(path);
     }
 
@@ -271,6 +271,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     virtual public void UpdatePosition()
     {
         Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
+        Debug.Log(Name+" Current Position "+Position);
         body.angularVelocity = 0;
         body.rotation = 0;
         //  sortingLayer.sortingOrder = pos.y * -1;Ss

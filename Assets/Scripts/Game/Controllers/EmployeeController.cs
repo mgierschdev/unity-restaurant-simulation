@@ -39,7 +39,7 @@ public class EmployeeController : GameObjectMovementBase
         //     state = NPCState.BUSY;
         // }
 
-         //Debug.Log("Is Walking "+IsWalking());
+        Debug.Log("Is Walking "+IsWalking() + " "+IsInFinalTargetPosition()+ " "+FinalTarget+" "+Position);
 
         if (!IsWalking() && IsInFinalTargetPosition())
         {
