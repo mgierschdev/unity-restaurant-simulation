@@ -1,6 +1,6 @@
-using UnityEngine;
-using NUnit.Framework;
 using System.Collections.Generic;
+using NUnit.Framework;
+using UnityEngine;
 
 public class TestPathFind
 {
@@ -100,12 +100,37 @@ public class TestPathFind
         grid = new int[5, 5];
         start = new int[2] { 0, -1 };
         target = new int[2] { 0, 14 };
-        
+
         expected.Clear();
         path.Clear();
         path = pathFind.Find(start, target, grid);
 
         Assert.AreEqual(path, expected);
+    }
+
+    [Test]
+    public void TestOneNodePath()
+    {
+        grid = new int[4, 4];
+        start = new int[2] { 0, 1 };
+        target = new int[2] { 2, 1 };
+        expected.Clear();
+        path.Clear();
+
+        expected.Add(new Node(new int[] { 0, 1 }));
+        expected.Add(new Node(new int[] { 1, 2 }));
+        expected.Add(new Node(new int[] { 2, 1 }));
+
+        grid[1, 1] = 1;
+
+        Util.PrintGrid(grid);
+        path = pathFind.Find(start, target, grid);
+        Util.PrintPath(path);
+
+        for (int i = 0; i < path.Count; i++)
+        {
+            Assert.True(expected[i].Compare(path[i]));
+        }
     }
 
 
