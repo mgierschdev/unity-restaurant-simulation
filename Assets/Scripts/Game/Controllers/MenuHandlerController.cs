@@ -74,7 +74,7 @@ public class MenuHandlerController : MonoBehaviour
     private void TimeControl()
     {
         //Handles for how long abefore activating CloseOnCLickOutside
-        if (menuStack.Count > 0)
+            if (menuStack.Count > 0)
         {
             openedTime += Time.unscaledDeltaTime;
 
