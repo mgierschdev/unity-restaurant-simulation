@@ -10,7 +10,6 @@ public class PlayerController : GameObjectMovementBase
         {
             MouseOnClick();
         }
-
         // Player Moving on long click/touch
         MovingOnLongtouch();
     }
@@ -33,12 +32,4 @@ public class PlayerController : GameObjectMovementBase
         // Updating position in the Grid
         UpdatePosition();
     }
-    
-    // private void OnCollisionEnter2D(Collision2D other)
-    // {
-    //     if (Settings.DEBUG_ENABLE)
-    //     {
-    //         //Debug.Log("Colliding with: " + other.GetType() + " " + other.ToString());
-    //     }
-    // }
 }
