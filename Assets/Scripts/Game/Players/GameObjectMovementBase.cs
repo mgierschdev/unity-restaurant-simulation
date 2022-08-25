@@ -7,8 +7,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 {
 
     public string Name { get; set; }
-    // Getters and setters
     [SerializeField]
+    // Getters and setters
     public ObjectType Type { get; set; }
     [SerializeField]
     public float Speed { get; set; }
@@ -28,6 +28,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public Queue pendingMovementQueue;
     [SerializeField]
     protected Vector3 currentTargetPosition;
+    protected Vector3Int FinalTarget { get; set; }
     protected GameObject gameGridObject;
     // ClickController for the long click duration for the player
     private ClickController clickController;
@@ -72,12 +73,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             GameGrid = gameGridObject.GetComponent<GridController>();
         }
-
+        
         // Movement Queue
         pendingMovementQueue = new Queue();
 
         //Update Object initial position
         currentTargetPosition = transform.position;
+
+        FinalTarget = Util.GetVector3IntPositiveInfinity();
     }
 
     // Overlap spehre
@@ -99,8 +102,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    protected void GoTo(Vector3Int pos)
+    protected virtual void GoTo(Vector3Int pos)
     {
+        FinalTarget = pos;
         List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
         AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
         AddPath(path);
@@ -141,7 +145,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         sortingLayer = GetComponent<SortingGroup>();
 
-        if (Vector3.Distance(currentTargetPosition, transform.position) < 0.03f)
+        if (IsInTargetPosition())
         {
             if (pendingMovementQueue.Count != 0)
             {
@@ -213,6 +217,16 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
+    private bool IsInTargetPosition()
+    {
+        return Vector3.Distance(currentTargetPosition, transform.position) < 0.03f;
+    }
+
+    public bool IsInFinalTargetPosition()
+    {
+        return Vector3.Distance(FinalTarget, Position) < 0.03f || FinalTarget == Util.GetVector3IntPositiveInfinity();
+    }
+
     // Resets the planned Path
     protected void ResetMovementQueue()
     {
@@ -256,11 +270,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     virtual public void UpdatePosition()
     {
-        Vector3Int pos = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
+        Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
         body.angularVelocity = 0;
         body.rotation = 0;
-        //  sortingLayer.sortingOrder = pos.y * -1;S
-        Position = new Vector3Int(pos.x, pos.y);
+        //  sortingLayer.sortingOrder = pos.y * -1;Ss
+        Position = new Vector3Int(Position.x, Position.y);
     }
 
     public List<Node> GetPath(int[] from, int[] to)
@@ -342,7 +356,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             List<Node> path = GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
             Util.PrintPath(path);
             AddPath(path);
-            
+
 
             if (pendingMovementQueue.Count != 0)
             {
@@ -385,7 +399,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    private void AddStateHistory(string s)
+    protected void AddStateHistory(string s)
     {
         stateHistory.Enqueue(s);
 
@@ -399,5 +413,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public void SetClickController(ClickController controller)
     {
         this.clickController = controller;
+    }
+
+    public bool IsWalking()
+    {
+        return pendingMovementQueue.Count > 0;
     }
 }

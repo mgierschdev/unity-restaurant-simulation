@@ -40,7 +40,7 @@ public static class Util
             String row = "";
             for (int j = 0; j < grid.GetLength(1); j++)
             {
-                row += grid[i, j] + " ";
+                row += "("+i+","+j+")"+grid[i, j] + " ";
             }
             Debug.Log(row);
         }
@@ -380,6 +380,10 @@ public static class Util
             return false;
         }
     }
+
+    public static Vector3Int GetVector3IntPositiveInfinity(){
+        return new Vector3Int(int.MaxValue, int.MaxValue, int.MaxValue);
+    }
 }
 
 //Item types
@@ -428,11 +432,12 @@ public enum MoveDirection
     DOWNRIGHT = 8
 }
 
-//Players and NPCs move directions
+//Players and NPCs, to set the NPC to wander or other states
 public enum NPCState
 {
     IDLE = 0,
-    WANDER = 1
+    WANDER = 1,
+    BUSY = 2
 }
 
 // List of Menus

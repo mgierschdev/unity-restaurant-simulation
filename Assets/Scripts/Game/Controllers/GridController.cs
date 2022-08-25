@@ -315,6 +315,9 @@ public class GridController : MonoBehaviour
 
     public List<Node> GetPath(int[] start, int[] end)
     {
+        if(grid[start[0], start[1]] == 1 || grid[end[0], end[1]] == 1){
+            return new List<Node>();
+        }
         return pathFind.Find(start, end, grid);
     }
 
