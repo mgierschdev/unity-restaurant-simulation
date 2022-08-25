@@ -107,7 +107,6 @@ public class MenuHandlerController : MonoBehaviour
             if (type == ObjectType.NPC || type == ObjectType.EMPLOYEE)
             {
                 Dictionary<string, string> map = new Dictionary<string, string>();
-                Debug.Log("Object Type " + type);
 
                 if (type == ObjectType.NPC)
                 {
