@@ -23,6 +23,7 @@ TagManager:
   - Head
   - Leg-L
   - Leg-R
+  - Employee
   layers:
   - Default
   - TransparentFX

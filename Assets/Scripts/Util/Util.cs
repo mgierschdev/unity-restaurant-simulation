@@ -322,6 +322,11 @@ public static class Util
         {
             return ObjectType.NPC;
         }
+        else if (gameObject.tag == Settings.NPC_EMPLOYEE_TAG)
+        {
+            return ObjectType.EMPLOYEE;
+
+        }
         else
         {
             return ObjectType.UNDEFINED;
