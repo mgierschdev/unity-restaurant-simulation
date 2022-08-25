@@ -386,7 +386,8 @@ public enum ObjectType
     NPC = 2,
     PLAYER = 3,
     NPC_TABLE = 4,
-    FLOOR = 5,
+    NPC_COUNTER = 5,
+    FLOOR = 6,
     UNDEFINED = 999
 }
 
@@ -403,6 +404,8 @@ public enum TileType
     FLOOR_SHORT_HORIZONTAL_OBSTACLE = 8,
     FLOOR_SHORT_VERTICAL_OBSTACLE = 9,
     ISOMETRIC_GRID_TILE = 10,
+    ISOMETRIC_SINGLE_SQUARE_OBJECT = 11,
+    ISOMETRIC_FOUR_SQUARE_OBJECT = 12,
     UNDEFINED = 999
 }
 

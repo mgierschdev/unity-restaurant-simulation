@@ -9,6 +9,7 @@ public abstract class GameObjectBase
     public Vector3Int LocalGridPosition { get; set; } // Local grid position, can be negatice -20,20
     public Vector3 WorldPosition { get; set; }
     public ObjectType Type { get; set; }
+    public TileType TileType { get; set; }
 
     public void UpdateSortingLayer()
     {

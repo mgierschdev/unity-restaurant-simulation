@@ -412,14 +412,26 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
-        if (obj.Type == ObjectType.NPC_TABLE)
+        if (obj.TileType == TileType.ISOMETRIC_FOUR_SQUARE_OBJECT)
         {
             FreeBusinessSpots.Enqueue(obj);
-            SetTable(obj.GridPosition);
+            SetFourTileMap(obj.GridPosition);
+        }
+
+        if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
+        {
+            FreeBusinessSpots.Enqueue(obj);
+            SetSingleTileMap(obj.GridPosition);
         }
     }
 
-    private void SetTable(Vector3Int pos)
+    private void SetSingleTileMap(Vector3Int pos)
+    {
+        SetGridObstacle(pos);
+
+    }
+
+    private void SetFourTileMap(Vector3Int pos)
     {
         // A table occupies 4 squares
         SetGridObstacle(pos);
