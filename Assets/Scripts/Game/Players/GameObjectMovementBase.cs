@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
-
-
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
 
@@ -17,6 +16,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     [SerializeField]
     public Vector3Int Position { get; set; } //PathFindingGrid Position
     public GridController GameGrid { get; set; }
+    public NPCState state; // 0 IDLE, 1 Wander
+
     // Sprite level ordering
     protected SortingGroup sortingLayer;
     // Movement 
@@ -34,9 +35,27 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private EnergyBarController energyBar;
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
 
+    // Wander properties
+    [SerializeField]
+    private float idleTime = 0;
+    [SerializeField]
+    private float idleMaxTime = 6f; //in seconds
+    private float randMax = 3f;
+
+    // Debug attributes
+    [SerializeField]
+    public string NPCDebug { get; set; }
+    [SerializeField]
+    private Queue<string> stateHistory;
+    [SerializeField]
+    private int stateHistoryMaxSize = 10;
+
 
     private void Awake()
     {
+        // Debug parameters
+        stateHistory = new Queue<string>();
+
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
         if (!Util.IsNull(energyBar, "GameObjectMovementBase/energyBar null"))
@@ -79,6 +98,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             energyBar.SetInactive();
         }
     }
+
+    protected void GoTo(Vector3Int pos)
+    {
+        List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
+        AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
+        AddPath(path);
+    }
+
 
     protected void UpdateEnergyBar()
     {
@@ -318,6 +345,51 @@ public abstract class GameObjectMovementBase : MonoBehaviour
                 AddMovement();
             }
         }
+    }
+
+    protected void Wander()
+    {
+        if (!IsMoving())
+        {
+            // we could add more random by deciding to move or not 
+            idleTime += Time.deltaTime;
+        }
+
+        if (!IsMoving() && idleTime >= randMax)
+        {
+            List<Node> path;
+            idleTime = 0;
+            randMax = Random.Range(0, idleMaxTime);
+            Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
+            // It should be mostly free, if invalid it will return an empty path
+            path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { position.x, position.y });
+            AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + position.x + "," + position.y);
+            AddPath(path);
+        }
+    }
+    public void SetNPCState(NPCState state)
+    {
+        this.state = state;
+    }
+
+    private void SetDebug()
+    {
+        NPCDebug = "";
+        for (int i = 0; i < stateHistory.Count; i++)
+        {
+            NPCDebug += stateHistory.ElementAt(i) + "<br>";
+        }
+    }
+
+    private void AddStateHistory(string s)
+    {
+        stateHistory.Enqueue(s);
+
+        if (stateHistory.Count > stateHistoryMaxSize)
+        {
+            stateHistory.Dequeue();
+        }
+        SetDebug();
     }
 
     public void SetClickController(ClickController controller)

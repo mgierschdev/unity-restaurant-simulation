@@ -1,16 +1,10 @@
 using UnityEngine;
 
-// Controls NPCs players
-// Attached to: NPC Objects
-public class NPCController : GameObjectMovementBase
+public class EmployeeController : GameObjectMovementBase
 {
-    public NPCState state; // 0 IDLE, 1 Wander
-    [SerializeField]
     public string Name { get; set; }
-
-    //Doing a different activitiy properties
-    private bool busy = false;
     GameGridObject table;
+    private bool busy = false;
 
     private void Start()
     {
@@ -30,13 +24,6 @@ public class NPCController : GameObjectMovementBase
         // Updating position in the Grid
         UpdatePosition();
 
-        //Go and wander if not busy
-        if (state == NPCState.WANDER && !busy)
-        {
-            FindPlace();
-            Wander();
-        }
-
         UpdateEnergyBar();
     }
 
@@ -51,10 +38,5 @@ public class NPCController : GameObjectMovementBase
             return true;
         }
         return false;
-    }
-
-    public void SetNPCState(NPCState state)
-    {
-        this.state = state;
     }
 }
