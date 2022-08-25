@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
         npcList = new List<NPCController>();
         enableWander = false;
 
-        // // Getting grid object
+        // Getting grid object
         GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
         GridController gridController = gameGridObject.GetComponent<GridController>();
 
@@ -30,6 +30,15 @@ public class GameController : MonoBehaviour
             isometricNPCController.Speed = 0.4f;//0.4f
             this.npcList.Add(isometricNPCController);
         }
+
+        //Adding Employees
+        Vector3 spamCoord = gridController.GetRandomSpamPointWorldPosition();
+        GameObject employeeObject = Instantiate(Resources.Load(Settings.PREFAB_NPC_EMPLOYEE, typeof(GameObject)), spamCoord, Quaternion.identity) as GameObject;
+        employeeObject.transform.SetParent(gameObject.transform);
+        employeeObject.name = 0 + "-" + Settings.PREFAB_NPC_EMPLOYEE;
+        EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
+        employeeController.Speed = 0.4f;//0.4f
+
     }
 
     void Update()

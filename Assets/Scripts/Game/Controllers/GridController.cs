@@ -42,11 +42,6 @@ public class GridController : MonoBehaviour
     private List<GameTile> listWalkingPathileMap;
     private Dictionary<Vector3, GameTile> mapWalkingPath;
 
-    //Business floor
-    private Tilemap tilemapBusinessFloor;
-    private List<GameTile> listBusinessFloor;
-    private Dictionary<Vector3, GameTile> mapBusinessFloor;
-
     //Colliders
     [SerializeField]
     private Tilemap tilemapColliders;
@@ -65,8 +60,14 @@ public class GridController : MonoBehaviour
 
     //Prefabs in the TilemapObjects
     private List<GameGridObject> listGamePrefabs;
-    private Queue<GameGridObject> FreeBusinessSpots { get; set; }
+    private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
+    public GameGridObject Counter { get; set; };
     private Dictionary<string, GameGridObject> mapGamePrefabs; //In PathfindingGrid pos
+
+    //Business floor
+    private Tilemap tilemapBusinessFloor;
+    private List<GameTile> listBusinessFloor;
+    private Dictionary<Vector3, GameTile> mapBusinessFloor;
 
     private void Awake()
     {
@@ -405,6 +406,11 @@ public class GridController : MonoBehaviour
 
     public void SetGridObject(GameGridObject obj)
     {
+
+        if(obj.Type == ObjectType.NPC_COUNTER){
+            Counter = obj;
+        }
+        
         listGamePrefabs.Add(obj);
         mapGamePrefabs.Add(obj.Name, obj);
         SetObjectObstacle(obj);
