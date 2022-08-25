@@ -15,7 +15,7 @@ public class CounterController : MonoBehaviour
         counter.SortingLayer = GetComponent<SortingGroup>();
         counter.UpdateSortingLayer();
 
-        if (!Util.IsNull(grid, "TableController/IsometricGridController null"))
+        if (!Util.IsNull(grid, "CounterController/IsometricGridController null"))
         {
             grid.SetGridObject(counter);
         }

@@ -61,7 +61,7 @@ public class GridController : MonoBehaviour
     //Prefabs in the TilemapObjects
     private List<GameGridObject> listGamePrefabs;
     private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
-    public GameGridObject Counter { get; set; };
+    public GameGridObject Counter { get; set; }
     private Dictionary<string, GameGridObject> mapGamePrefabs; //In PathfindingGrid pos
 
     //Business floor
@@ -223,6 +223,11 @@ public class GridController : MonoBehaviour
                 if (tileType == TileType.BUS_FLOOR)
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
+
+                    if (Settings.DEBUG_ENABLE)
+                    {
+                        SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
+                    }
                 }
 
                 if (tileType == TileType.SPAM_POINT)
@@ -407,10 +412,11 @@ public class GridController : MonoBehaviour
     public void SetGridObject(GameGridObject obj)
     {
 
-        if(obj.Type == ObjectType.NPC_COUNTER){
+        if (obj.Type == ObjectType.NPC_COUNTER)
+        {
             Counter = obj;
         }
-        
+
         listGamePrefabs.Add(obj);
         mapGamePrefabs.Add(obj.Name, obj);
         SetObjectObstacle(obj);
@@ -418,7 +424,7 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
-        if (obj.TileType == TileType.ISOMETRIC_FOUR_SQUARE_OBJECT)
+        if (obj.Type == ObjectType.NPC_TABLE)
         {
             FreeBusinessSpots.Enqueue(obj);
             SetFourTileMap(obj.GridPosition);
@@ -426,7 +432,6 @@ public class GridController : MonoBehaviour
 
         if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
         {
-            FreeBusinessSpots.Enqueue(obj);
             SetSingleTileMap(obj.GridPosition);
         }
     }

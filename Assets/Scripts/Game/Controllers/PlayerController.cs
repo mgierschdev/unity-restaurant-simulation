@@ -25,11 +25,8 @@ public class PlayerController : GameObjectMovementBase
         {
             body.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * Speed;
         }
-
-        // Moves the character depending on the pendingQueue and next target
+        
         UpdateTargetMovement();
-
-        // Updating position in the Grid
         UpdatePosition();
     }
 }
