@@ -284,7 +284,7 @@ MonoBehaviour:
   - {x: -0.20129395, y: 0.12615967, z: 0}
   m_ShapePathHash: 741236957
   m_Mesh: {fileID: 0}
-  m_InstanceId: 29790
+  m_InstanceId: 31652
 --- !u!210 &3339015991518568952
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 307c8e2ec54c84e2da8be07d24771b76, type: 3}
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 353bb394befb643f7b5343d83beccedd, type: 3}
 --- !u!114 &1499564974556510013
 MonoBehaviour:
   m_ObjectHideFlags: 0
