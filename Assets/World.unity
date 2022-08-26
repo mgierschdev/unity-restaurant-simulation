@@ -12951,6 +12951,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 862967146}
     m_Modifications:
+    - target: {fileID: 153098879376914237, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
+      propertyPath: m_SpriteKey
+      value: -1.7780368e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690773760403639539, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ae3404dc82e24896ba3e90f08e8cf2b, type: 3}
     - target: {fileID: 7077515298240516130, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
       propertyPath: m_Name
       value: Table
@@ -13850,7 +13858,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.04000002, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -17951,6 +17959,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 862967146}
     m_Modifications:
+    - target: {fileID: 153098879376914237, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
+      propertyPath: m_SpriteKey
+      value: -1.7780368e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690773760403639539, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ae3404dc82e24896ba3e90f08e8cf2b, type: 3}
     - target: {fileID: 7077515298240516130, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
       propertyPath: m_Name
       value: Table (1)

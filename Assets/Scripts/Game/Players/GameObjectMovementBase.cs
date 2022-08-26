@@ -73,7 +73,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             GameGrid = gameGridObject.GetComponent<GridController>();
         }
-        
+
         // Movement Queue
         pendingMovementQueue = new Queue();
 
@@ -86,6 +86,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // Overlap spehre
     private void Start()
     {
+        body = GetComponent<Rigidbody2D>();
+        sortingLayer = GetComponent<SortingGroup>();
         UpdatePosition();
         ClickUpdateController();
     }
@@ -106,7 +108,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
         AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
-        //Debug.Log("Adding final target Position "+FinalTarget);
         FinalTarget = pos;
         AddPath(path);
     }
@@ -143,9 +144,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdateTargetMovement()
     {
-        body = GetComponent<Rigidbody2D>();
-        sortingLayer = GetComponent<SortingGroup>();
-
         if (IsInTargetPosition())
         {
             if (pendingMovementQueue.Count != 0)
