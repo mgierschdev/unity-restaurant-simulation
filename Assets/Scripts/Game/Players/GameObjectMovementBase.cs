@@ -16,7 +16,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     [SerializeField]
     public Vector3Int Position { get; set; } //PathFindingGrid Position
     public GridController GameGrid { get; set; }
-    public NPCState state; // 0 IDLE, 1 Wander
+    public NPCState state;
 
     // Sprite level ordering
     protected SortingGroup sortingLayer;
