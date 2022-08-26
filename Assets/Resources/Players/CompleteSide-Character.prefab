@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CategoryHash: 0
   m_labelHash: 0
-  m_SpriteKey: -1.9044899e+37
+  m_SpriteKey: 0
 --- !u!1 &4953680408546097847 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4020365169360413799, guid: 0921c41e93066433e9e7e48f1cbb6bd2, type: 3}
@@ -1196,7 +1196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CategoryHash: 0
   m_labelHash: 0
-  m_SpriteKey: 3.6416613e-14
+  m_SpriteKey: 0
 --- !u!4 &5118446390874538570 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5441358696614323046, guid: 0921c41e93066433e9e7e48f1cbb6bd2, type: 3}
@@ -1251,7 +1251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CategoryHash: 0
   m_labelHash: 0
-  m_SpriteKey: 3.7022088e+21
+  m_SpriteKey: 0
 --- !u!4 &7231620797732939534 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 0921c41e93066433e9e7e48f1cbb6bd2, type: 3}
@@ -1392,7 +1392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 307c8e2ec54c84e2da8be07d24771b76, type: 3}
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 353bb394befb643f7b5343d83beccedd, type: 3}
 --- !u!114 &7963746266120917986
 MonoBehaviour:
   m_ObjectHideFlags: 0
