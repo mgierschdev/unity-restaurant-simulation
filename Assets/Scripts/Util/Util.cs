@@ -40,7 +40,7 @@ public static class Util
             String row = "";
             for (int j = 0; j < grid.GetLength(1); j++)
             {
-                row += "("+i+","+j+")"+grid[i, j] + " ";
+                row += "(" + i + "," + j + ")" + grid[i, j] + " ";
             }
             Debug.Log(row);
         }
@@ -262,6 +262,10 @@ public static class Util
         {
             return TileType.BUS_FLOOR;
         }
+        else if (tileName == "floor5")
+        {
+            return TileType.WALL;
+        }
         else if (tileName == "Complete@3x")
         {
             return TileType.FLOOR_OBSTACLE;
@@ -286,6 +290,10 @@ public static class Util
         {
             return TileType.ISOMETRIC_GRID_TILE;
         }
+        else if (tileName == "Wall@3x")
+        {
+            return TileType.WALL;
+        }
         else
         {
             return TileType.UNDEFINED;
@@ -299,7 +307,8 @@ public static class Util
         TileType.FLOOR_MEDIUM_VERTICAL_OBSTACLE == type ||
         TileType.FLOOR_SHORT_HORIZONTAL_OBSTACLE == type ||
         TileType.FLOOR_SHORT_VERTICAL_OBSTACLE == type ||
-        TileType.ISOMETRIC_GRID_TILE == type)
+        TileType.ISOMETRIC_GRID_TILE == type ||
+        TileType.WALL == type)
         {
             return ObjectType.OBSTACLE;
         }
@@ -381,7 +390,8 @@ public static class Util
         }
     }
 
-    public static Vector3Int GetVector3IntPositiveInfinity(){
+    public static Vector3Int GetVector3IntPositiveInfinity()
+    {
         return new Vector3Int(int.MaxValue, int.MaxValue, int.MaxValue);
     }
 }
@@ -415,6 +425,7 @@ public enum TileType
     ISOMETRIC_GRID_TILE = 10,
     ISOMETRIC_SINGLE_SQUARE_OBJECT = 11,
     ISOMETRIC_FOUR_SQUARE_OBJECT = 12,
+    WALL = 13,
     UNDEFINED = 999
 }
 
