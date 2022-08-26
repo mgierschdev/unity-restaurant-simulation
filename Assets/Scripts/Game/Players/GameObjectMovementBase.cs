@@ -23,6 +23,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // Movement 
     protected Rigidbody2D body;
     //Movement Queue
+    protected float minDistanceToTarget = 0.2f;
     [SerializeField]
     public Queue pendingMovementQueue;
     [SerializeField]
@@ -105,7 +106,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
         AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
-        Debug.Log("Adding final target Position "+FinalTarget);
+        //Debug.Log("Adding final target Position "+FinalTarget);
         FinalTarget = pos;
         AddPath(path);
     }
@@ -219,12 +220,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private bool IsInTargetPosition()
     {
-        return Vector3.Distance(currentTargetPosition, transform.position) < 0.03f;
+        return Vector3.Distance(currentTargetPosition, transform.position) < minDistanceToTarget;
     }
 
     public bool IsInFinalTargetPosition()
     {
-        return Vector3.Distance(FinalTarget, Position) < 0.03f || FinalTarget == Util.GetVector3IntPositiveInfinity();
+        return Vector3.Distance(FinalTarget, Position) < minDistanceToTarget || FinalTarget == Util.GetVector3IntPositiveInfinity();
     }
 
     // Resets the planned Path
@@ -271,10 +272,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     virtual public void UpdatePosition()
     {
         Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
-        Debug.Log(Name+" Current Position "+Position);
         body.angularVelocity = 0;
         body.rotation = 0;
-        //  sortingLayer.sortingOrder = pos.y * -1;Ss
         Position = new Vector3Int(Position.x, Position.y);
     }
 
@@ -351,13 +350,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && clickController != null && !clickController.IsLongClick)
         {
             UpdatePosition();
-
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector3Int mouseInGridPosition = GameGrid.GetPathFindingGridFromWorldPosition(mousePosition);
             List<Node> path = GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
-            Util.PrintPath(path);
             AddPath(path);
-
 
             if (pendingMovementQueue.Count != 0)
             {
