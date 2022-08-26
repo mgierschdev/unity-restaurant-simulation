@@ -440,21 +440,21 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
-        if (obj.Type == ObjectType.NPC_TABLE)
-        {
-            FreeBusinessSpots.Enqueue(obj);
-            // SetFourTileMap(obj.GridPosition);
-            grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
-            grid[obj.GridPosition.x, obj.GridPosition.y + 1] = 1;
-            SetCellColor(obj.GridPosition.x, obj.GridPosition.y + 1, Color.blue);
-            grid[obj.GridPosition.x + 1, obj.GridPosition.y] = 1;
-            SetCellColor(obj.GridPosition.x + 1, obj.GridPosition.y, Color.blue);
-            grid[obj.GridPosition.x + 1, obj.GridPosition.y + 1] = 1;
-            SetCellColor(obj.GridPosition.x + 1, obj.GridPosition.y + 1, Color.blue);
-        }
+        // if (obj.Type == ObjectType.NPC_TABLE)
+        // {
+        //     FreeBusinessSpots.Enqueue(obj);
+        //     // SetFourTileMap(obj.GridPosition);
+        //     grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
+        //     SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+        //     grid[obj.GridPosition.x, obj.GridPosition.y + 1] = 1;
+        //     SetCellColor(obj.GridPosition.x, obj.GridPosition.y + 1, Color.blue);
+        //     grid[obj.GridPosition.x + 1, obj.GridPosition.y] = 1;
+        //     SetCellColor(obj.GridPosition.x + 1, obj.GridPosition.y, Color.blue);
+        //     grid[obj.GridPosition.x + 1, obj.GridPosition.y + 1] = 1;
+        //     SetCellColor(obj.GridPosition.x + 1, obj.GridPosition.y + 1, Color.blue);
+        // }
 
-        if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
+        if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT || obj.Type == ObjectType.NPC_TABLE)
         {
             //SetSingleTileMap(obj.GridPosition);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;

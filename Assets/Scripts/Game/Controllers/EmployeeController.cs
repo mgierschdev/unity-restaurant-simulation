@@ -18,13 +18,13 @@ public class EmployeeController : GameObjectMovementBase
         state = NPCState.IDLE;
         Name = transform.name;
         targetPosition = Position;
+        counter = GameGrid.Counter;
 
         list.Add(new Vector3Int(26, 32));
         list.Add(new Vector3Int(27, 33));
         list.Add(new Vector3Int(27, 34));
         list.Add(new Vector3Int(26, 34));
         list.Add(new Vector3Int(25, 33));
-
     }
 
     private void FixedUpdate()
@@ -33,20 +33,19 @@ public class EmployeeController : GameObjectMovementBase
         UpdatePosition();
         UpdateEnergyBar();
 
-        // if (state == NPCState.IDLE && !InCounterPosition())
-        // {
-        //     GoNextToCounter();
-        //     state = NPCState.BUSY;
-        // }
-
-        if (!IsWalking() && IsInFinalTargetPosition())
+        if (!IsMoving() && !InCounterPosition())
         {
-            //Debug.Log("Going to "+(new Vector3Int(26, 32)));
-          //  Debug.Log("Going to "+list[index % list.Count]+" From "+Position);
-            GoTo(list[index % list.Count]);
-            index++;
-
+            GoNextToCounter();
         }
+
+        // if (!IsWalking() && IsInFinalTargetPosition())
+        // {
+        //     //Debug.Log("Going to "+(new Vector3Int(26, 32)));
+        //   //  Debug.Log("Going to "+list[index % list.Count]+" From "+Position);
+        //     GoTo(list[index % list.Count]);
+        //     index++;
+
+        // }
     }
 
     private bool GoNextToCounter()
@@ -55,7 +54,6 @@ public class EmployeeController : GameObjectMovementBase
 
         if (counter != null)
         {
-            state = NPCState.BUSY;
             targetPosition = counter.GridPosition - new Vector3Int(2, 2, 0);
             GoTo(targetPosition);// arrive one spot infront
             return true;
