@@ -10,6 +10,7 @@ public abstract class GameObjectBase
     public Vector3 WorldPosition { get; set; }
     public ObjectType Type { get; set; }
     public TileType TileType { get; set; }
+    private Vector3 tileOffset = new Vector3(0, 0.25f, 0);
 
     public void UpdateSortingLayer()
     {
@@ -18,5 +19,10 @@ public abstract class GameObjectBase
         {
             SortingLayer.sortingOrder = 1;
         }
+    }
+
+    public Vector3 GetWorldPositionWithOffset()
+    {
+        return WorldPosition + tileOffset;
     }
 }

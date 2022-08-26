@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
 {
     private List<NPCController> npcList;
     private bool enableWander;
-    private int npcNumber = 1;
+    private int npcNumber = 15;
     GridController gridController;
 
     void Start()

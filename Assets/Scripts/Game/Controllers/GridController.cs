@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 // This controlls the isometric tiles on the grid
 public class GridController : MonoBehaviour
@@ -175,9 +177,6 @@ public class GridController : MonoBehaviour
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
                 mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
-
-                Debug.Log("Local / Grid " + gameTile.LocalGridPosition + " " + gameTile.GridPosition);
-
                 tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
             }
         }
@@ -339,8 +338,16 @@ public class GridController : MonoBehaviour
         }
         else
         {
+
             GameTile tile = mapGridPositionToTile[tilemapPathFinding.WorldToCell(position)];
-            Debug.LogWarning("Positiong " + position + " local grid " + tilemapPathFinding.WorldToCell(position) + " local grid " + tile.GridPosition);
+            // GameTile tile2 = mapWorldPositionToTile[position];
+            //(int)Math.Round((position.x - Settings.GRID_START_X) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero)/
+            // double x = Math.Round(position.x, 2, MidpointRounding.AwayFromZero);
+            // double y = Math.Round(position.y, 2, MidpointRounding.AwayFromZero);
+
+            //Debug.LogWarning("World Position " + position + " " + x + "," + y + " world to local " + tilemapPathFinding.CellToWorld(new Vector3Int(3, -1)));
+
+
             return tile.GridPosition;
         }
 
@@ -350,7 +357,7 @@ public class GridController : MonoBehaviour
     public Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
     {
         GameTile tile = mapPathFindingGrid[position];
-        return tile.WorldPosition;
+        return tile.GetWorldPositionWithOffset();
     }
 
     public Vector3 GetWorldFromGridPosition(Vector3Int position)
@@ -396,7 +403,7 @@ public class GridController : MonoBehaviour
             return Vector3.negativeInfinity;
         }
         GameTile tile = spamPoints[Random.Range(0, spamPoints.Count)];
-        return tile.WorldPosition;
+        return tile.GetWorldPositionWithOffset();
     }
 
     // Unset position in Grid

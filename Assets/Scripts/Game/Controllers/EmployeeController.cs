@@ -39,12 +39,10 @@ public class EmployeeController : GameObjectMovementBase
         //     state = NPCState.BUSY;
         // }
 
-        Debug.Log("Is Walking "+IsWalking() + " "+IsInFinalTargetPosition()+ " "+FinalTarget+" "+Position);
-
         if (!IsWalking() && IsInFinalTargetPosition())
         {
             //Debug.Log("Going to "+(new Vector3Int(26, 32)));
-            Debug.Log("Going to "+list[index % list.Count]+" From "+Position);
+          //  Debug.Log("Going to "+list[index % list.Count]+" From "+Position);
             GoTo(list[index % list.Count]);
             index++;
 
