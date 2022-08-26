@@ -1286,7 +1286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CategoryHash: 0
   m_labelHash: 0
-  m_SpriteKey: 9.7685656e+23
+  m_SpriteKey: 0
 --- !u!1 &8400331612184231789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 0921c41e93066433e9e7e48f1cbb6bd2, type: 3}
