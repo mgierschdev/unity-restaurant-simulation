@@ -452,8 +452,9 @@ public enum NPCState
     AT_TABLE = 2,
     WALKING_TO_COUNTER = 3,
     AT_COUNTER = 4,
-    WANDER = 5
-
+    WANDER = 5,
+    TAKING_ORDER = 6,
+    GOING_TO_REGISTER = 7,
 }
 
 // List of Menus
