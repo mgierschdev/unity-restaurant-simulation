@@ -455,7 +455,8 @@ public enum NPCState
     WANDER = 5,
     TAKING_ORDER = 6,
     GOING_TO_REGISTER = 7,
-    WAITING_TO_BE_ATTENDED = 8
+    WAITING_TO_BE_ATTENDED = 8,
+    WALKING_UNRESPAWN = 9
 }
 
 // List of Menus
