@@ -13,7 +13,6 @@ public class CounterController : MonoBehaviour
         grid = gridGameObject.GetComponent<GridController>();
         counter = new GameGridObject(transform.name, transform.position, grid.GetPathFindingGridFromWorldPosition(transform.position), grid.GetLocalGridFromWorldPosition(transform.position), ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT);
         counter.SortingLayer = GetComponent<SortingGroup>();
-        //counter.UpdateSortingLayer();
 
         if (!Util.IsNull(grid, "CounterController/IsometricGridController null"))
         {

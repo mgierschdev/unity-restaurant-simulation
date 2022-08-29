@@ -27,14 +27,20 @@ public class NPCController : GameObjectMovementBase
         //Handle NPC States
         UpdateFindPlace();
         UpdateIsAtTable();
+        UpdateWaitToBeAttended();
 
+        if (!GameGrid.IsThereFreeTables() && state != NPCState.AT_TABLE && state != NPCState.WALKING_TO_TABLE && state != NPCState.WAITING_TO_BE_ATTENDED)
+        {
+            Wander();
+        }
+    }
+
+    private void UpdateWaitToBeAttended()
+    {
         if (state == NPCState.AT_TABLE)
         {
-            //Working
-        }
-
-        if(!GameGrid.IsThereFreeTables() && state != NPCState.AT_TABLE && state != NPCState.WALKING_TO_TABLE){
-            Wander();
+            GameGrid.AddClientToTable(table);
+            state = NPCState.WAITING_TO_BE_ATTENDED;
         }
     }
 
