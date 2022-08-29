@@ -210,8 +210,6 @@ public class GridController : MonoBehaviour
                 list.Add(gameTile);
                 map.TryAdd(gameTile.WorldPosition, gameTile);
 
-                Debug.Log("Loading " + gameTile.Name+" "+tile.name+" "+tilemap.name+" "+gameTile.LocalGridPosition);
-
                 if (tileType == TileType.FLOOR_OBSTACLE)
                 {
                     SetIsometricGameTileCollider(gameTile);
@@ -449,21 +447,13 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
-        // if (obj.Type == ObjectType.NPC_TABLE)
-        // {
-        //     FreeBusinessSpots.Enqueue(obj);
-        //     // SetFourTileMap(obj.GridPosition);
-        //     grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-        //     SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
-        //     grid[obj.GridPosition.x, obj.GridPosition.y + 1] = 1;
-        //     SetCellColor(obj.GridPosition.x, obj.GridPosition.y + 1, Color.blue);
-        //     grid[obj.GridPosition.x + 1, obj.GridPosition.y] = 1;
-        //     SetCellColor(obj.GridPosition.x + 1, obj.GridPosition.y, Color.blue);
-        //     grid[obj.GridPosition.x + 1, obj.GridPosition.y + 1] = 1;
-        //     SetCellColor(obj.GridPosition.x + 1, obj.GridPosition.y + 1, Color.blue);
-        // }
-
-        if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT || obj.Type == ObjectType.NPC_TABLE)
+        if (obj.Type == ObjectType.NPC_TABLE)
+        {
+            FreeBusinessSpots.Enqueue(obj);
+            grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
+            SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+        }
+        else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
         {
             //SetSingleTileMap(obj.GridPosition);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
@@ -474,7 +464,6 @@ public class GridController : MonoBehaviour
     private void SetSingleTileMap(Vector3Int pos)
     {
         SetGridObstacle(pos);
-
     }
 
     private void SetFourTileMap(Vector3Int pos)
