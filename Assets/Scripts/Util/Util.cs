@@ -448,11 +448,12 @@ public enum MoveDirection
 public enum NPCState
 {
     IDLE = 0,
-    WALKING = 1,
-    BUSY = 2,
-    WAITING = 3, //Waiting to be attended
-    SERVING = 4, //Serving a Client
-    INIT = 4, //Initial NPC state
+    WALKING_TO_TABLE = 1,
+    AT_TABLE = 2,
+    WALKING_TO_COUNTER = 3,
+    AT_COUNTER = 4,
+    WANDER = 5
+
 }
 
 // List of Menus

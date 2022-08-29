@@ -8,13 +8,14 @@ public class NPCController : GameObjectMovementBase
 {
     //Doing a different activitiy properties
     GameGridObject table;
-    private NPCState localState;
+    [SerializeField]
+    private NPCState state;
 
     private void Start()
     {
         Type = ObjectType.NPC;
         Name = transform.name;
-        localState = NPCState.IDLE;
+        state = NPCState.IDLE;
     }
 
     private void FixedUpdate()
@@ -23,50 +24,41 @@ public class NPCController : GameObjectMovementBase
         UpdatePosition();
         UpdateEnergyBar();
 
-        if (!IsWalking())
+        //Handle NPC States
+        UpdateFindPlace();
+        UpdateIsAtTable();
+
+        if (state == NPCState.AT_TABLE)
         {
+            //Working
+        }
 
-
-            //Go and wander if not busy
-            if (!IsWalking() && !IsAtTable())
-            {
-                FindPlace();
-            }
-
-            if (IsAtTable())
-            {
-                Debug.Log("At table " + Name);
-            }
-
-            // if (IsAtTable() && state != NPCState.WAITING)
-            // {
-            //     GameGrid.AddClientToTable(table);
-            //     state = NPCState.WAITING;
-            // }
+        if(!GameGrid.IsThereFreeTables() && state != NPCState.AT_TABLE && state != NPCState.WALKING_TO_TABLE){
+            Wander();
         }
     }
 
-    private bool IsAtTable()
+    private void UpdateIsAtTable()
     {
-        if (table != null)
+        if (state != NPCState.WANDER && state != NPCState.AT_TABLE && table != null)
         {
-            return Vector3.Distance(transform.position, table.GetWorldPositionWithOffset()) < Settings.MIN_DISTANCE_TO_TARGET;
-        }
-        else
-        {
-            return false;
+            if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(table.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
+            {
+                state = NPCState.AT_TABLE;
+            }
         }
     }
 
-    private bool FindPlace()
+    private void UpdateFindPlace()
     {
-        table = GameGrid.GetFreeTable();
-
-        if (table != null)
+        if (state != NPCState.WALKING_TO_TABLE && state != NPCState.AT_TABLE)
         {
-            GoTo(table.GridPosition + new Vector3Int(0, 1, 0));// arrive one spot infront
-            return true;
+            table = GameGrid.GetFreeTable();
+            if (table != null)
+            {
+                state = NPCState.WALKING_TO_TABLE;
+                GoTo(table.ActionGridPosition);// arrive one spot infront
+            }
         }
-        return false;
     }
 }

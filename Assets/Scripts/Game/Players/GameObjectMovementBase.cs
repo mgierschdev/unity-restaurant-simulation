@@ -383,7 +383,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         this.clickController = controller;
     }
 
-    public bool IsWalking()
+    private bool IsWalking()
     {
         return pendingMovementQueue.Count > 0;
     }

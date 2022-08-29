@@ -190,7 +190,7 @@ public class GridController : MonoBehaviour
 
                 if (Settings.DEBUG_ENABLE)
                 {
-                    Debug.Log("DEBUG: GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
+                    //Debug.Log("DEBUG: GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
                 }
             }
         }
@@ -465,6 +465,10 @@ public class GridController : MonoBehaviour
             return FreeBusinessSpots.Dequeue();
         }
         return null;
+    }
+
+    public bool IsThereFreeTables(){
+        return FreeBusinessSpots.Count > 0;
     }
 
     public void FreeTable(string name)
