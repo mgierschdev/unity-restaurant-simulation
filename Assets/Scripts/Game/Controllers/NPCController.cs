@@ -1,3 +1,5 @@
+using Codice.Client.Common.GameUI;
+using UnityEditor;
 using UnityEngine;
 
 // Controls NPCs players
@@ -5,15 +7,14 @@ using UnityEngine;
 public class NPCController : GameObjectMovementBase
 {
     //Doing a different activitiy properties
-    private bool busy = false;
     GameGridObject table;
+    private NPCState localState;
 
     private void Start()
     {
         Type = ObjectType.NPC;
-        Speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
-        state = (int)NPCState.IDLE;
         Name = transform.name;
+        localState = NPCState.IDLE;
     }
 
     private void FixedUpdate()
@@ -21,12 +22,39 @@ public class NPCController : GameObjectMovementBase
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
-        
-        //Go and wander if not busy
-        if (state == NPCState.WANDER && !busy)
+
+        if (!IsWalking())
         {
-            FindPlace();
-            Wander();
+
+
+            //Go and wander if not busy
+            if (!IsWalking() && !IsAtTable())
+            {
+                FindPlace();
+            }
+
+            if (IsAtTable())
+            {
+                Debug.Log("At table " + Name);
+            }
+
+            // if (IsAtTable() && state != NPCState.WAITING)
+            // {
+            //     GameGrid.AddClientToTable(table);
+            //     state = NPCState.WAITING;
+            // }
+        }
+    }
+
+    private bool IsAtTable()
+    {
+        if (table != null)
+        {
+            return Vector3.Distance(transform.position, table.GetWorldPositionWithOffset()) < Settings.MIN_DISTANCE_TO_TARGET;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -36,7 +64,6 @@ public class NPCController : GameObjectMovementBase
 
         if (table != null)
         {
-            busy = true;
             GoTo(table.GridPosition + new Vector3Int(0, 1, 0));// arrive one spot infront
             return true;
         }

@@ -6,15 +6,12 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private List<NPCController> npcList;
-    private bool enableWander;
-    private int npcNumber = 5;
+    private int npcNumber = 6;
     GridController gridController;
 
     void Start()
     {
         npcList = new List<NPCController>();
-        enableWander = false;
-
         // Getting grid object
         GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
         GridController gridController = gameGridObject.GetComponent<GridController>();
@@ -27,7 +24,6 @@ public class GameController : MonoBehaviour
             npcObject.transform.SetParent(gameObject.transform);
             npcObject.name = i + "-" + Settings.PREFAB_NPC_CLIENT;
             NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
-            isometricNPCController.Speed = 0.4f;//0.4f
             this.npcList.Add(isometricNPCController);
         }
 
@@ -37,20 +33,5 @@ public class GameController : MonoBehaviour
         employeeObject.transform.SetParent(gameObject.transform);
         employeeObject.name = 0 + "-" + Settings.PREFAB_NPC_EMPLOYEE;
         EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
-        employeeController.Speed = 0.4f;//0.4f
-    }
-
-    void Update()
-    {
-        // we execute only once
-        if (!enableWander)
-        {
-            foreach (NPCController n in npcList)
-            {
-                n.state = NPCState.WANDER;
-            }
-
-            enableWander = false;
-        }
     }
 }

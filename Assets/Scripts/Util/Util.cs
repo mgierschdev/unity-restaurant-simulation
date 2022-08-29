@@ -68,6 +68,7 @@ public static class Util
 
     public static void PrintPath(List<Node> arr)
     {
+        Debug.Log("Printing Path");
         string s = "";
         foreach (Node i in arr)
         {
@@ -447,8 +448,11 @@ public enum MoveDirection
 public enum NPCState
 {
     IDLE = 0,
-    WANDER = 1,
-    BUSY = 2
+    WALKING = 1,
+    BUSY = 2,
+    WAITING = 3, //Waiting to be attended
+    SERVING = 4, //Serving a Client
+    INIT = 4, //Initial NPC state
 }
 
 // List of Menus
