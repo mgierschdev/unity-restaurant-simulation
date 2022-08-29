@@ -8,7 +8,7 @@ public class EmployeeController : GameObjectMovementBase
 
     //Test instructions queue
     List<Vector3Int> list = new List<Vector3Int>();
-    private int index = 0;
+    // private int index = 0;
 
 
     private void Start()
@@ -40,8 +40,6 @@ public class EmployeeController : GameObjectMovementBase
 
         // if (!IsWalking() && IsInFinalTargetPosition())
         // {
-        //     //Debug.Log("Going to "+(new Vector3Int(26, 32)));
-        //   //  Debug.Log("Going to "+list[index % list.Count]+" From "+Position);
         //     GoTo(list[index % list.Count]);
         //     index++;
 

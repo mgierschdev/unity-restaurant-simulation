@@ -38,7 +38,6 @@ public class GameController : MonoBehaviour
         employeeObject.name = 0 + "-" + Settings.PREFAB_NPC_EMPLOYEE;
         EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
         employeeController.Speed = 0.4f;//0.4f
-
     }
 
     void Update()

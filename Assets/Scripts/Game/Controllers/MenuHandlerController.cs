@@ -132,7 +132,6 @@ public class MenuHandlerController : MonoBehaviour
 
         if (clickController.ClickedGameTile != null)
         {
-            // Debug.Log("GameTile Clicked "+clickController.ClickedGameTile.Name);
             clickController.ClickedGameTile = null;
         }
     }
