@@ -479,12 +479,6 @@ public class GridController : MonoBehaviour
         {
             return FreeBusinessSpots.Dequeue();
         }
-        else
-        {
-            if (Settings.DEBUG_ENABLE)
-            {
-            }
-        }
         return null;
     }
 

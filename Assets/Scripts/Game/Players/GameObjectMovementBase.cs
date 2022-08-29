@@ -104,7 +104,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    protected virtual void GoTo(Vector3Int pos)
+    protected void GoTo(Vector3Int pos)
     {
         List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
         AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
