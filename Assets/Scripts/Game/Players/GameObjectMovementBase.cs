@@ -89,6 +89,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
+    protected void ActivateEnergyBar(float val){
+        energyBar.SetActive();
+    }
+
     protected void UpdateEnergyBar()
     {
         // EnergyBar controller, only if it is active

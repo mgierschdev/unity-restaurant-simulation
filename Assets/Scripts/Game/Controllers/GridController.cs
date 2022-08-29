@@ -471,6 +471,10 @@ public class GridController : MonoBehaviour
         return FreeBusinessSpots.Count > 0;
     }
 
+    public bool IsThereCustomer(){
+        return TablesWithClient.Count > 0;
+    }
+
     public void FreeTable(string name)
     {
         FreeBusinessSpots.Enqueue(mapGamePrefabs[name]);

@@ -9,6 +9,8 @@ public class EmployeeController : GameObjectMovementBase
     [SerializeField]
     NPCState state;
 
+    float timeToTakeOrder = 5f; //seconds to serve the order
+
     private void Start()
     {
         Type = ObjectType.EMPLOYEE;
@@ -26,15 +28,44 @@ public class EmployeeController : GameObjectMovementBase
         // To Handle States
         UpdateGoNextToCounter();
         UpdateIsAtCounter();
+        UpdateAttendTable();
+        UpdateIsTakingOrder();
+        UpdateTakeOrder();
+    }
 
-        if (state == NPCState.AT_COUNTER)
+    private void UpdateTakeOrder()
+    {
+        if (state == NPCState.TAKING_ORDER)
         {
-            //Working
+            ActivateEnergyBar(timeToTakeOrder);
+        }
+    }
+    private void UpdateAttendTable()
+    {
+        if (GameGrid.IsThereCustomer() && state == NPCState.AT_COUNTER)
+        {
+            tableToBeAttended = GameGrid.GetTableWithClient();
+            if (tableToBeAttended != null)
+            {
+                state = NPCState.WALKING_TO_TABLE;
+                GoTo(tableToBeAttended.ActionGridPosition);
+            }
+        }
+    }
+
+    private void UpdateIsTakingOrder()
+    {
+        if (state == NPCState.WALKING_TO_TABLE)
+        {
+            if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(tableToBeAttended.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
+            {
+                state = NPCState.TAKING_ORDER;
+            }
         }
     }
     private void UpdateGoNextToCounter()
     {
-        if (state != NPCState.WALKING_TO_COUNTER && state != NPCState.AT_COUNTER)
+        if (state != NPCState.WALKING_TO_COUNTER && state != NPCState.AT_COUNTER && state != NPCState.WALKING_TO_TABLE && state != NPCState.TAKING_ORDER)
         {
             counter = GameGrid.Counter;
             if (counter != null)
@@ -47,23 +78,12 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounter()
     {
-        if (state != NPCState.AT_COUNTER && counter != null)
+        if (state == NPCState.WALKING_TO_COUNTER && counter != null)
         {
-            Debug.Log(Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(counter.ActionGridPosition)) + " < " + Settings.MIN_DISTANCE_TO_TARGET);
-
             if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(counter.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
             {
                 state = NPCState.AT_COUNTER;
             }
         }
-    }
-    private void ServeTable()
-    {
-        GoTo(tableToBeAttended.ActionGridPosition);
-    }
-    private bool IsThereCustomer()
-    {
-        tableToBeAttended = GameGrid.GetTableWithClient();
-        return tableToBeAttended != null;
     }
 }

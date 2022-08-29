@@ -10,6 +10,10 @@ public class EnergyBarController : MonoBehaviour
     public void Start()
     {
         Visible = false;
+        Slider = GetComponent<Slider>();
+        if(Slider == null){
+            Debug.LogWarning("EnergyBarController/Slider null");
+        }
         SetMaxEnergy(Settings.NPC_DEFAULT_ENERGY);
     }
 
