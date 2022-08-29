@@ -7,12 +7,12 @@ public class EmployeeController : GameObjectMovementBase
     GameGridObject counter;
     GameGridObject tableToBeAttended;
     [SerializeField]
-    NPCState localState;
+    NPCState state;
 
     private void Start()
     {
         Type = ObjectType.EMPLOYEE;
-        localState = NPCState.IDLE;
+        state = NPCState.IDLE;
         Name = transform.name;
         counter = GameGrid.Counter;
     }
@@ -23,50 +23,43 @@ public class EmployeeController : GameObjectMovementBase
         UpdatePosition();
         UpdateEnergyBar();
 
-        if (!IsWalking())
+        // To Handle States
+        UpdateGoNextToCounter();
+        UpdateIsAtCounter();
+
+        if (state == NPCState.AT_COUNTER)
         {
-            GoNextToCounter();
-
-            // if (IsAtCounter())
-            // {
-            //     Debug.Log("At counter");
-            //     localState = NPCState.WAITING;
-            // }
-
-            // if(state == NPCState.WAITING){
-            //     //Check for customers to take order
-            //     if(IsThereCustomer()){
-            //         ServeTable();
-            //         state = NPCState.SERVING;
-            //     }
-            // }
+            //Working
         }
     }
-    private bool GoNextToCounter()
+    private void UpdateGoNextToCounter()
     {
-        counter = GameGrid.Counter;
-        if (counter != null)
+        if (state != NPCState.WALKING_TO_COUNTER && state != NPCState.AT_COUNTER)
         {
-            GoTo(counter.GetGridPositionWithOffset());// arrive one spot infront
-            return true;
+            counter = GameGrid.Counter;
+            if (counter != null)
+            {
+                state = NPCState.WALKING_TO_COUNTER;
+                GoTo(counter.ActionGridPosition);
+            }
         }
-        return false;
     }
-    private bool IsAtCounter()
-    {
-        if (counter != null)
-        {
-            return Vector3.Distance(transform.position, counter.GetWorldPositionWithOffset()) < Settings.MIN_DISTANCE_TO_TARGET;
-        }
-        else
-        {
-            return false;
-        }
 
+    private void UpdateIsAtCounter()
+    {
+        if (state != NPCState.AT_COUNTER && counter != null)
+        {
+            Debug.Log(Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(counter.ActionGridPosition)) + " < " + Settings.MIN_DISTANCE_TO_TARGET);
+
+            if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(counter.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
+            {
+                state = NPCState.AT_COUNTER;
+            }
+        }
     }
     private void ServeTable()
     {
-        GoTo(tableToBeAttended.GetGridPositionWithOffset());
+        GoTo(tableToBeAttended.ActionGridPosition);
     }
     private bool IsThereCustomer()
     {

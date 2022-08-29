@@ -1,3 +1,4 @@
+using Codice.Client.BaseCommands.Merge.MergeTo;
 using UnityEngine;
 public class GameGridObject : GameObjectBase
 {
@@ -9,5 +10,13 @@ public class GameGridObject : GameObjectBase
         WorldPosition = worldPosition; // World position on Unity coords
         LocalGridPosition = localGridPosition;
         Type = type;
+
+        if(type == ObjectType.NPC_COUNTER){
+            ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
+        }
+
+        if(type == ObjectType.NPC_TABLE){
+            ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
+        }
     }
 }
