@@ -2,34 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
+
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
     public string Name { get; set; }
-    [SerializeField]
     // Getters and setters
     public ObjectType Type { get; set; }
-    [SerializeField]
     public float Speed { get; set; }
-    [SerializeField]
     public Vector3 Velocity { get; set; }
-    [SerializeField]
     public Vector3Int Position { get; set; } //PathFindingGrid Position
     public GridController GameGrid { get; set; }
-    public NPCState state;
 
-    // Sprite level ordering
-    protected SortingGroup sortingLayer;
     // Movement 
-    protected Rigidbody2D body;
+    private Rigidbody2D body;
     //Movement Queue
-    protected float minDistanceToTarget = 0.2f;
-    [SerializeField]
-    public Queue pendingMovementQueue;
-    [SerializeField]
-    protected Vector3 currentTargetPosition;
-    protected Vector3Int FinalTarget { get; set; }
-    protected GameObject gameGridObject;
+    private float minDistanceToTarget = Settings.MIN_DISTANCE_TO_TARGET;
+    private Queue pendingMovementQueue;
+    private Vector3 currentTargetPosition;
+    private Vector3Int FinalTarget { get; set; }
+    private GameObject gameGridObject;
     // ClickController for the long click duration for the player
     private ClickController clickController;
 
@@ -38,24 +29,20 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
 
     // Wander properties
-    [SerializeField]
     private float idleTime = 0;
-    [SerializeField]
     private float idleMaxTime = 6f; //in seconds
     private float randMax = 3f;
 
     // Debug attributes
-    [SerializeField]
-    public string NPCDebug { get; set; }
-    [SerializeField]
+    private string NPCDebug;
     private Queue<string> stateHistory;
-    [SerializeField]
     private int stateHistoryMaxSize = 10;
 
     private void Awake()
     {
         // Debug parameters
         stateHistory = new Queue<string>();
+        Speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
@@ -63,7 +50,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             SetEnergyBar();
         }
-
 
         // Game Grid
         gameGridObject = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
@@ -87,7 +73,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        sortingLayer = GetComponent<SortingGroup>();
         UpdatePosition();
         ClickUpdateController();
     }
@@ -103,15 +88,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             energyBar.SetInactive();
         }
     }
-
-    protected void GoTo(Vector3Int pos)
-    {
-        List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
-        AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
-        FinalTarget = pos;
-        AddPath(path);
-    }
-
 
     protected void UpdateEnergyBar()
     {
@@ -131,6 +107,36 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
+
+    protected void UpdatePosition()
+    {
+        body.angularVelocity = 0;
+        body.rotation = 0;
+        Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
+        Position = new Vector3Int(Position.x, Position.y);
+    }
+
+    protected void UpdateTargetMovement()
+    {
+        //Debug.Log("DEBUG: IsInTargetPosition() " + IsInTargetPosition());
+
+        if (IsInTargetPosition())
+        {
+            if (pendingMovementQueue.Count != 0)
+            {
+                AddMovement();
+            }
+            else
+            {
+                //target reached 
+            }
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
+        }
+    }
+
     private void ActivateEnergyBar()
     {
         energyBar.SetActive();
@@ -142,27 +148,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     }
 
 
-    protected void UpdateTargetMovement()
-    {
-        if (IsInTargetPosition())
-        {
-            if (pendingMovementQueue.Count != 0)
-            {
-                AddMovement();
-            }
-            else
-            {
-                if (Settings.DEBUG_ENABLE)
-                {
-                    //("[Moving] Target Reached: " + transform.name + " " + Position);
-                }
-            }
-        }
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
-        }
-    }
+
     private void ClickUpdateController()
     {
         Type = ObjectType.PLAYER;
@@ -185,14 +171,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public void AddMovement()
     {
-        if (pendingMovementQueue.Count == 0)
+        if (pendingMovementQueue.Count != 0)
         {
-            return;
+            Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
+            Vector3 direction = GameGrid.GetWorldFromPathFindingGridPosition(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
+            currentTargetPosition = new Vector3(direction.x, direction.y);
         }
 
-        Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
-        Vector3 direction = GameGrid.GetWorldFromPathFindingGridPosition(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
-        currentTargetPosition = new Vector3(direction.x, direction.y);
     }
 
     protected void ResetMovementIfMoving()
@@ -216,16 +201,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    private bool IsInTargetPosition()
-    {
-        return Vector3.Distance(currentTargetPosition, transform.position) < minDistanceToTarget;
-    }
-
-    public bool IsInFinalTargetPosition()
-    {
-        return Vector3.Distance(FinalTarget, Position) < minDistanceToTarget || FinalTarget == Util.GetVector3IntPositiveInfinity();
-    }
-
     // Resets the planned Path
     protected void ResetMovementQueue()
     {
@@ -233,12 +208,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         pendingMovementQueue = new Queue();
     }
 
-    public float[] GetPositionAsArray()
-    {
-        return new float[] { Position.x, Position.y };
-    }
 
-    public List<Node> MergePath(List<Node> path)
+    private List<Node> MergePath(List<Node> path)
     {
         List<Vector3> queuePath = new List<Vector3>();
         List<Node> merge = new List<Node>();
@@ -267,20 +238,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return merge;
     }
 
-    virtual public void UpdatePosition()
-    {
-        Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
-        body.angularVelocity = 0;
-        body.rotation = 0;
-        Position = new Vector3Int(Position.x, Position.y);
-    }
 
-    public List<Node> GetPath(int[] from, int[] to)
+    private List<Node> GetPath(int[] from, int[] to)
     {
         return GameGrid.GetPath(from, to);
     }
 
-    public void MovingOnLongtouch()
+    protected void MovingOnLongtouch()
     {
         if (clickController != null && clickController.IsLongClick)
         {
@@ -307,7 +271,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    public void AddPath(List<Node> path)
+    private void AddPath(List<Node> path)
     {
         if (path.Count == 0)
         {
@@ -343,7 +307,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         AddMovement(); // To set the first target
     }
 
-    public void MouseOnClick()
+    protected void MouseOnClick()
     {
         if (Input.GetMouseButtonDown(0) && clickController != null && !clickController.IsLongClick)
         {
@@ -359,6 +323,27 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             }
         }
     }
+
+    private void SetDebug()
+    {
+        NPCDebug = "";
+        for (int i = 0; i < stateHistory.Count; i++)
+        {
+            NPCDebug += stateHistory.ElementAt(i) + "<br>";
+        }
+    }
+
+    private void AddStateHistory(string s)
+    {
+        stateHistory.Enqueue(s);
+
+        if (stateHistory.Count > stateHistoryMaxSize)
+        {
+            stateHistory.Dequeue();
+        }
+        SetDebug();
+    }
+
 
     protected void Wander()
     {
@@ -380,29 +365,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             AddPath(path);
         }
     }
-    public void SetNPCState(NPCState state)
-    {
-        this.state = state;
-    }
 
-    private void SetDebug()
+    public void GoTo(Vector3Int pos)
     {
-        NPCDebug = "";
-        for (int i = 0; i < stateHistory.Count; i++)
+        List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
+        AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
+        FinalTarget = pos;
+        AddPath(path);
+        if (pendingMovementQueue.Count != 0)
         {
-            NPCDebug += stateHistory.ElementAt(i) + "<br>";
+            AddMovement();
         }
-    }
-
-    protected void AddStateHistory(string s)
-    {
-        stateHistory.Enqueue(s);
-
-        if (stateHistory.Count > stateHistoryMaxSize)
-        {
-            stateHistory.Dequeue();
-        }
-        SetDebug();
     }
 
     public void SetClickController(ClickController controller)
@@ -413,5 +386,25 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public bool IsWalking()
     {
         return pendingMovementQueue.Count > 0;
+    }
+
+    public string GetDebugInfo()
+    {
+        return NPCDebug;
+    }
+    public float[] GetPositionAsArray()
+    {
+        return new float[] { Position.x, Position.y };
+    }
+
+    private bool IsInTargetPosition()
+    {
+        //Debug.Log("DEBUG: IsInTargetPosition: " + Name + " " + Vector3.Distance(currentTargetPosition, transform.position) + " " + transform.position + " -> " + currentTargetPosition);
+        return Vector3.Distance(currentTargetPosition, transform.position) < minDistanceToTarget;
+    }
+
+    public bool IsInFinalTargetPosition()
+    {
+        return Vector3.Distance(FinalTarget, Position) < minDistanceToTarget || FinalTarget == Util.GetVector3IntPositiveInfinity();
     }
 }

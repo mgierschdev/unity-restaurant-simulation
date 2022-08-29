@@ -64,6 +64,7 @@ public class GridController : MonoBehaviour
     //Prefabs in the TilemapObjects
     private List<GameGridObject> listGamePrefabs;
     private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
+    private Queue<GameGridObject> TablesWithClient { get; set; } // Tables to attend or chairs
     public GameGridObject Counter { get; set; }
     [SerializeField]
     private Dictionary<string, GameGridObject> mapGamePrefabs; //In PathfindingGrid pos
@@ -96,6 +97,7 @@ public class GridController : MonoBehaviour
         listGamePrefabs = new List<GameGridObject>();
         mapGamePrefabs = new Dictionary<string, GameGridObject>();
         FreeBusinessSpots = new Queue<GameGridObject>();
+        TablesWithClient = new Queue<GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TILEMAP_WALKING_PATH).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
@@ -185,6 +187,11 @@ public class GridController : MonoBehaviour
                 mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
                 tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
+
+                if (Settings.DEBUG_ENABLE)
+                {
+                    Debug.Log("DEBUG: GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
+                }
             }
         }
 
@@ -345,16 +352,7 @@ public class GridController : MonoBehaviour
         }
         else
         {
-
             GameTile tile = mapGridPositionToTile[tilemapPathFinding.WorldToCell(position)];
-            // GameTile tile2 = mapWorldPositionToTile[position];
-            //(int)Math.Round((position.x - Settings.GRID_START_X) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero)/
-            // double x = Math.Round(position.x, 2, MidpointRounding.AwayFromZero);
-            // double y = Math.Round(position.y, 2, MidpointRounding.AwayFromZero);
-
-            //Debug.LogWarning("World Position " + position + " " + x + "," + y + " world to local " + tilemapPathFinding.CellToWorld(new Vector3Int(3, -1)));
-
-
             return tile.GridPosition;
         }
 
@@ -455,22 +453,9 @@ public class GridController : MonoBehaviour
         }
         else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
         {
-            //SetSingleTileMap(obj.GridPosition);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
             SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
         }
-    }
-
-    private void SetSingleTileMap(Vector3Int pos)
-    {
-        SetGridObstacle(pos);
-    }
-
-    private void SetFourTileMap(Vector3Int pos)
-    {
-        // A table occupies 4 squares
-        SetGridObstacle(pos);
-        // SetGridObstacle(pos - new Vector3Int(1, 1, 0));
     }
 
     public GameGridObject GetFreeTable()
@@ -485,5 +470,22 @@ public class GridController : MonoBehaviour
     public void FreeTable(string name)
     {
         FreeBusinessSpots.Enqueue(mapGamePrefabs[name]);
+    }
+
+    public GameGridObject GetTableWithClient()
+    {
+        if (TablesWithClient.Count > 0)
+        {
+            return TablesWithClient.Dequeue();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void AddClientToTable(GameGridObject obj)
+    {
+        TablesWithClient.Enqueue(obj);
     }
 }

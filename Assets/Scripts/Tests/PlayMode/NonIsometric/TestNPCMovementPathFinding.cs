@@ -41,12 +41,9 @@ public class TestNPCMovementPathFinding
     public IEnumerator TestSimpleMoving()
     {
         int[] endPosition = new int[] { 4, 4 };
-        int[] startPosition = new int[] { 1, 1 }; // Corners are outside perimeter
-        List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-        Util.PrintPath(path);
         firstNPCController.Position = initialTestingPosition;
         firstNPCController.Speed = 100;
-        firstNPCController.AddPath(path);
+        firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(2f);
         Debug.Log(firstNPCController.Position);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
@@ -57,17 +54,9 @@ public class TestNPCMovementPathFinding
     public IEnumerator TestPathWithObstacles()
     {
         int[] endPosition = new int[] { 25, 14 };
-        int[] startPosition = new int[] { 19, 10 };
         gameGridController.SetTestGridObstacles(21, 1, 15);
-
-        Debug.Log("Getting Path from: " + startPosition + " to " + endPosition);
-        List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-        Debug.Log("Path size: " + path.Count);
-
-        //firstNPCController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         firstNPCController.Speed = 100;
-        Util.PrintPath(path);
-        firstNPCController.AddPath(path);
+        firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(2f);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
@@ -79,16 +68,11 @@ public class TestNPCMovementPathFinding
     public IEnumerator TestMultipleNPC()
     {
         int[] endPosition = new int[] { 25, 14 };
-        int[] startPosition = new int[] { 19, 10 };
         gameGridController.SetTestGridObstacles(21, 1, 15);
-        List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-        Util.PrintPath(path);
-       // firstNPCController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         firstNPCController.Speed = 100;
-      //  secondNPCController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         secondNPCController.Speed = 100;
-        secondNPCController.AddPath(path);
-        firstNPCController.AddPath(path);
+        firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
+        secondNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(2f);
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[1], endPosition[1]);

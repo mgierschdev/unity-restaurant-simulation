@@ -31,12 +31,8 @@ public class TestPlayerMovementPathFinding
     public IEnumerator TestSimplePath()
     {
         int[] endPosition = new int[] { 25, 14 };
-        int[] startPosition = new int[] { 19, 10 };
-        List<Node> path = gameGridController.GetPath(startPosition, endPosition);
-       // playerController = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         playerController.Speed = 100;
-        Util.PrintPath(path);
-        playerController.AddPath(path);
+        playerController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(1f);
         Assert.AreEqual(playerController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(playerController.GetPositionAsArray()[1], endPosition[1]);
@@ -46,13 +42,10 @@ public class TestPlayerMovementPathFinding
     public IEnumerator TestPathWithObstacles()
     {
         int[] endPosition = new int[] { 25, 14 };
-        int[] startPosition = new int[] { 19, 10 };
         gameGridController.SetTestGridObstacles(21, 1, 15);
-        List<Node> path = gameGridController.GetPath(startPosition, endPosition);
         //playerController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
         playerController.Speed = 100;
-        Util.PrintPath(path);
-        playerController.AddPath(path);
+        playerController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(1f);
         Debug.Log(playerController.Position);
         Assert.AreEqual(playerController.GetPositionAsArray()[0], endPosition[0]);

@@ -112,14 +112,14 @@ public class MenuHandlerController : MonoBehaviour
                 {
                     npc = clickController.ClickedObject.GetComponent<NPCController>();
                     map.Add("Name", npc.Name);
-                    map.Add("Debug", npc.NPCDebug);
+                    map.Add("Debug", npc.GetDebugInfo());
                 }
 
                 if (type == ObjectType.EMPLOYEE)
                 {
                     employee = clickController.ClickedObject.GetComponent<EmployeeController>();
                     map.Add("Name", employee.Name);
-                    map.Add("Debug", employee.NPCDebug);
+                    map.Add("Debug", employee.GetDebugInfo());
                 }
 
                 OpenMenu(npcProfileMenu);
@@ -141,7 +141,7 @@ public class MenuHandlerController : MonoBehaviour
         Dictionary<string, string> map = new Dictionary<string, string>
            {
            {"Name", npc.Name},
-           {"Debug", npc.NPCDebug}
+           {"Debug", npc.GetDebugInfo()}
            };
         OpenMenu(npcProfileMenu);
         npcProfileMenu.SetFields(map);

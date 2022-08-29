@@ -134,7 +134,6 @@ public class TestNPCMovement
     public IEnumerator TestMovementIDLE()
     {
         npcController.Position = initialTestingPosition;
-        npcController.SetNPCState(NPCState.IDLE);
         target = Util.GetVectorFromDirection(MoveDirection.IDLE);
         npcController.AddMovement(target);
         yield return new WaitForSeconds(0.6f);

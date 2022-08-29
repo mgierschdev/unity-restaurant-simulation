@@ -32,6 +32,7 @@ public static class Settings
     public const string PREFAB_INVENTORY_ITEM = "Menu/InventoryItem";
 
     // NPC Default
+    public const float MIN_DISTANCE_TO_TARGET = 0.13f;
     public const float NPC_DEFAULT_REACTION_TIME = 4;
     public const float NPC_DEFAULT_MOVEMENT_SPEED = 3f; // 0.3f
     public const float NPC_DEFAULT_RECOVERY_TIME = 10;
