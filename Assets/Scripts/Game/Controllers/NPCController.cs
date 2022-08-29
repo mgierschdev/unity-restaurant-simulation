@@ -45,7 +45,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(unRespawnTile.GridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
     }
