@@ -2,6 +2,7 @@ using Codice.Client.BaseCommands.Merge.MergeTo;
 using UnityEngine;
 public class GameGridObject : GameObjectBase
 {
+    public bool Busy { get; set; } //Being used by an NPC
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
         this.TileType = tileType;
@@ -11,11 +12,13 @@ public class GameGridObject : GameObjectBase
         LocalGridPosition = localGridPosition;
         Type = type;
 
-        if(type == ObjectType.NPC_COUNTER){
+        if (type == ObjectType.NPC_COUNTER)
+        {
             ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
         }
 
-        if(type == ObjectType.NPC_TABLE){
+        if (type == ObjectType.NPC_TABLE)
+        {
             ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
         }
     }

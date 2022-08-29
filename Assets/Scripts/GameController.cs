@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 // This class in charge of loading the game and prefabs
@@ -15,12 +14,13 @@ public class GameController : MonoBehaviour
         // Getting grid object
         GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
         GridController gridController = gameGridObject.GetComponent<GridController>();
+        GameTile tileSpawn;
 
         for (int i = 0; i < npcNumber; i++)
         {
             // Adding NPC object
-            Vector3 spamPoint = gridController.GetRandomSpamPointWorldPosition();
-            GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject)), spamPoint, Quaternion.identity) as GameObject;
+            tileSpawn = gridController.GetRandomSpamPointWorldPosition();
+            GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
             npcObject.transform.SetParent(gameObject.transform);
             npcObject.name = i + "-" + Settings.PREFAB_NPC_CLIENT;
             NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
@@ -28,8 +28,8 @@ public class GameController : MonoBehaviour
         }
 
         //Adding Employees
-        Vector3 spamCoord = gridController.GetRandomSpamPointWorldPosition();
-        GameObject employeeObject = Instantiate(Resources.Load(Settings.PREFAB_NPC_EMPLOYEE, typeof(GameObject)), spamCoord, Quaternion.identity) as GameObject;
+        tileSpawn = gridController.GetRandomSpamPointWorldPosition();
+        GameObject employeeObject = Instantiate(Resources.Load(Settings.PREFAB_NPC_EMPLOYEE, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         employeeObject.transform.SetParent(gameObject.transform);
         employeeObject.name = 0 + "-" + Settings.PREFAB_NPC_EMPLOYEE;
         EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();

@@ -23,10 +23,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private GameObject gameGridObject;
     // ClickController for the long click duration for the player
     private ClickController clickController;
-
     //Energy Bar
     private EnergyBarController energyBar;
-    private float currentEnergy = Settings.NPC_DEFAULT_ENERGY;
+    public float CurrentEnergy { get; set; }
+    private float speedDrecreaseEnergyBar = 20f;
 
     // Wander properties
     private float idleTime = 0;
@@ -37,6 +37,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private string NPCDebug;
     private Queue<string> stateHistory;
     private int stateHistoryMaxSize = 10;
+
 
     private void Awake()
     {
@@ -89,8 +90,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    protected void ActivateEnergyBar(float val){
-        energyBar.SetActive();
+    protected void ActivateEnergyBar(float val)
+    {
+        if (!energyBar.IsActive())
+        {
+            energyBar.SetActive();
+            CurrentEnergy = 100;
+            speedDrecreaseEnergyBar = val;
+        }
     }
 
     protected void UpdateEnergyBar()
@@ -98,15 +105,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // EnergyBar controller, only if it is active
         if (energyBar.IsActive())
         {
-            if (currentEnergy > 0)
+            if (CurrentEnergy > 0)
             {
-                currentEnergy -= Time.deltaTime * 20f;
-                energyBar.SetEnergy((int)currentEnergy);
+                CurrentEnergy -= Time.deltaTime * speedDrecreaseEnergyBar;
+                energyBar.SetEnergy((int)CurrentEnergy);
             }
             else
             {
-                currentEnergy = 100;
-                energyBar.SetEnergy(Settings.NPC_DEFAULT_ENERGY);
+                energyBar.SetInactive();
             }
         }
     }

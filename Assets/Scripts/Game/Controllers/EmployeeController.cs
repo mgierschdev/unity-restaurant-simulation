@@ -9,7 +9,7 @@ public class EmployeeController : GameObjectMovementBase
     [SerializeField]
     NPCState state;
 
-    float timeToTakeOrder = 5f; //seconds to serve the order
+    float timeToTakeOrder = 15f; //seconds to serve the order
 
     private void Start()
     {
@@ -31,6 +31,18 @@ public class EmployeeController : GameObjectMovementBase
         UpdateAttendTable();
         UpdateIsTakingOrder();
         UpdateTakeOrder();
+        UpdateOrderAttended();
+    }
+
+    private void UpdateOrderAttended()
+    {
+        if(state ==  NPCState.TAKING_ORDER && CurrentEnergy <= 0){
+            GoTo(counter.ActionGridPosition);
+            state = NPCState.WALKING_TO_COUNTER;
+            GameGrid.AddFreeBusinessSpots(tableToBeAttended);
+            tableToBeAttended.Busy = false;
+            tableToBeAttended = null;
+        }
     }
 
     private void UpdateTakeOrder()
@@ -40,6 +52,7 @@ public class EmployeeController : GameObjectMovementBase
             ActivateEnergyBar(timeToTakeOrder);
         }
     }
+
     private void UpdateAttendTable()
     {
         if (GameGrid.IsThereCustomer() && state == NPCState.AT_COUNTER)

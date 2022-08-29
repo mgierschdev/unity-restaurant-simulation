@@ -400,15 +400,15 @@ public class GridController : MonoBehaviour
         return tile.GridPosition;
 
     }
-    public Vector3 GetRandomSpamPointWorldPosition()
+    public GameTile GetRandomSpamPointWorldPosition()
     {
         if (spamPoints.Count == 0)
         {
             Debug.LogWarning("There is not spam points");
-            return Vector3.negativeInfinity;
         }
+
         GameTile tile = spamPoints[Random.Range(0, spamPoints.Count)];
-        return tile.GetWorldPositionWithOffset();
+        return tile;
     }
 
     // Unset position in Grid
@@ -478,6 +478,10 @@ public class GridController : MonoBehaviour
     public void FreeTable(string name)
     {
         FreeBusinessSpots.Enqueue(mapGamePrefabs[name]);
+    }
+
+    public void AddFreeBusinessSpots(GameGridObject obj){
+        FreeBusinessSpots.Enqueue(obj);
     }
 
     public GameGridObject GetTableWithClient()
