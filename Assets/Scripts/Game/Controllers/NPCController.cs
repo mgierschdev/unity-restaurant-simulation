@@ -20,15 +20,14 @@ public class NPCController : GameObjectMovementBase
     {
         UpdateTargetMovement();
         UpdatePosition();
-
+        UpdateEnergyBar();
+        
         //Go and wander if not busy
         if (state == NPCState.WANDER && !busy)
         {
             FindPlace();
             Wander();
         }
-
-        UpdateEnergyBar();
     }
 
     private bool FindPlace()
@@ -38,7 +37,7 @@ public class NPCController : GameObjectMovementBase
         if (table != null)
         {
             busy = true;
-            GoTo(table.GridPosition + new Vector3Int(2, 2, 0));// arrive one spot infront
+            GoTo(table.GridPosition + new Vector3Int(0, 1, 0));// arrive one spot infront
             return true;
         }
         return false;
