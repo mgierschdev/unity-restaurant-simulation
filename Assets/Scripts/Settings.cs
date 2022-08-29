@@ -12,7 +12,7 @@ public static class Settings
     //GAME TAGS
     public const string NPC_TAG = "NPC";
     public const string NPC_EMPLOYEE_TAG = "Employee";
-    public const string PLAYER_TAG = "Player";
+    public const string PLAYER_TAG = "Player";  
     public const string GRID_TILE_TAG = "GridTile";
 
     // TILEMAPS

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.XR;
 using Random = UnityEngine.Random;
 
 // This controlls the isometric tiles on the grid
@@ -104,9 +105,15 @@ public class GridController : MonoBehaviour
         listBusinessFloor = new List<GameTile>();
         mapBusinessFloor = new Dictionary<Vector3, GameTile>(); ;
 
-        if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null)
+        if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null || tilemapPathFinding == null || tilemapWalkingPath == null || tilemapBusinessFloor == null)
         {
-            Debug.LogWarning("GridController/tilemap null");
+            Debug.LogWarning("GridController/tilemap");
+            Debug.LogWarning("tilemapFloor " + tilemapFloor);
+            Debug.LogWarning("tilemapColliders " + tilemapColliders);
+            Debug.LogWarning("tilemapObjects " + tilemapObjects);
+            Debug.LogWarning("tilemapPathFinding " + tilemapPathFinding);
+            Debug.LogWarning("tilemapWalkingPath " + tilemapWalkingPath);
+            Debug.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
 
         pathFind = new PathFind();
@@ -202,6 +209,8 @@ public class GridController : MonoBehaviour
                 GameTile gameTile = new GameTile(placeInWorld, gridPosition, GetLocalGridFromWorldPosition(placeInWorld), tileType, Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
                 list.Add(gameTile);
                 map.TryAdd(gameTile.WorldPosition, gameTile);
+
+                Debug.Log("Loading " + gameTile.Name+" "+tile.name+" "+tilemap.name+" "+gameTile.LocalGridPosition);
 
                 if (tileType == TileType.FLOOR_OBSTACLE)
                 {
@@ -485,7 +494,6 @@ public class GridController : MonoBehaviour
         {
             if (Settings.DEBUG_ENABLE)
             {
-                //Debug.Log("No free Spots");
             }
         }
         return null;
