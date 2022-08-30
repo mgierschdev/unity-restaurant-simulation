@@ -1,5 +1,3 @@
-using Codice.Client.Common.GameUI;
-using UnityEditor;
 using UnityEngine;
 
 // Controls NPCs players
@@ -8,6 +6,8 @@ public class NPCController : GameObjectMovementBase
 {
     //Doing a different activitiy properties
     GameGridObject table;
+    GameController gameController;
+
     [SerializeField]
     private NPCState state;
     private GameTile unRespawnTile;
@@ -17,6 +17,12 @@ public class NPCController : GameObjectMovementBase
         Type = ObjectType.NPC;
         Name = transform.name;
         state = NPCState.IDLE;
+        GameObject gameObj = GameObject.Find(Settings.CONST_PARENT_GAME_OBJECT);
+        gameController = gameObj.GetComponent<GameController>();
+        if (gameController == null)
+        {
+            Debug.LogWarning("NPCController/GameController null");
+        }
     }
 
     private void FixedUpdate()
@@ -45,6 +51,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(unRespawnTile.GridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
             {
+                gameController.RemoveNPC(this);
                 Destroy(gameObject);
             }
         }
