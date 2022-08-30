@@ -95,7 +95,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         if (!energyBar.IsActive())
         {
             energyBar.SetActive();
-            CurrentEnergy = 100;
+            CurrentEnergy = 0;
             speedDrecreaseEnergyBar = val;
         }
     }
@@ -105,9 +105,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // EnergyBar controller, only if it is active
         if (energyBar.IsActive())
         {
-            if (CurrentEnergy > 0)
+            if (CurrentEnergy <= 100)
             {
-                CurrentEnergy -= Time.deltaTime * speedDrecreaseEnergyBar;
+                CurrentEnergy += Time.deltaTime * speedDrecreaseEnergyBar;
                 energyBar.SetEnergy((int)CurrentEnergy);
             }
             else
