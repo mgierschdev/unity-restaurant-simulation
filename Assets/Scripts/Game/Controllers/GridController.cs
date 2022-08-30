@@ -1,18 +1,16 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.XR;
 using Random = UnityEngine.Random;
 
 // This controlls the isometric tiles on the grid
 public class GridController : MonoBehaviour
 {
     //Tilemap 
-    private int width = 44; // Down -> Up
-    private int heigth = 40; // along side from left to right
+    private int width = Settings.GRID_WIDTH; // Down -> Up
+    private int heigth = Settings.GRID_HEIGHT; // along side from left to right
     //x = -20, y= -22 ||  x along side left to right
-    private Vector3Int gridOriginPosition = new Vector3Int(-22, -32, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+    private Vector3Int gridOriginPosition = new Vector3Int(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
 
     // Isometric Grid with pathfinding
     private Tilemap tilemapPathFinding;
@@ -119,11 +117,9 @@ public class GridController : MonoBehaviour
         }
 
         pathFind = new PathFind();
-        int cellsX = (int)Settings.GRID_WIDTH;
-        int cellsY = (int)Settings.GRID_HEIGHT;
-        grid = new int[cellsX, cellsY];
+        grid = new int[Settings.GRID_WIDTH, Settings.GRID_HEIGHT];
         InitGrid(grid);
-        debugGrid = new TextMesh[cellsX, cellsY];
+        debugGrid = new TextMesh[Settings.GRID_WIDTH, Settings.GRID_HEIGHT];
 
         tilemapColliders.color = new Color(1, 1, 1, 0.0f);
 
@@ -142,6 +138,10 @@ public class GridController : MonoBehaviour
 
         foreach (GameTile tile in listPathFindingMap)
         {
+            if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1)){
+                continue;
+            }
+
             debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject, "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," + tile.WorldPosition.y, tile.WorldPosition, Settings.DEBUG_TEXT_SIZE, Color.black, TextAnchor.MiddleCenter, TextAlignment.Center);
         }
     }
@@ -467,11 +467,13 @@ public class GridController : MonoBehaviour
         return null;
     }
 
-    public bool IsThereFreeTables(){
+    public bool IsThereFreeTables()
+    {
         return FreeBusinessSpots.Count > 0;
     }
 
-    public bool IsThereCustomer(){
+    public bool IsThereCustomer()
+    {
         return TablesWithClient.Count > 0;
     }
 
@@ -480,7 +482,8 @@ public class GridController : MonoBehaviour
         FreeBusinessSpots.Enqueue(mapGamePrefabs[name]);
     }
 
-    public void AddFreeBusinessSpots(GameGridObject obj){
+    public void AddFreeBusinessSpots(GameGridObject obj)
+    {
         FreeBusinessSpots.Enqueue(obj);
     }
 
