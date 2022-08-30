@@ -31,12 +31,12 @@ MonoBehaviour:
       m_Hash: 1352997372
       m_Sprite: {fileID: -4595700692296741645, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: -4595700692296741645, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: Head-4
       m_Hash: -826176417
       m_Sprite: {fileID: 4824210481586560036, guid: e5f8c681cecf741b4933cc4deb568e75, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 4824210481586560036, guid: e5f8c681cecf741b4933cc4deb568e75, type: 3}
+      m_SpriteOverride: {fileID: 0}
     m_FromMain: 0
     m_EntryOverrideCount: 4
   - m_Name: Arms

@@ -7,7 +7,7 @@ public static class Settings
     // Player Config
     public const bool PLAYER_WALK_WITH_KEYBOARD = false;
     public const bool PLAYER_WALK_ON_CLICK = true;
-    public const float PLAYER_MOVEMENT_SPEED = 0.7f;
+    public const float PLAYER_MOVEMENT_SPEED = 3f;
 
     //GAME TAGS
     public const string NPC_TAG = "NPC";
@@ -34,10 +34,11 @@ public static class Settings
     // NPC Default
     public const float MIN_DISTANCE_TO_TARGET = 0.13f;
     public const float NPC_DEFAULT_REACTION_TIME = 4;
-    public const float NPC_DEFAULT_MOVEMENT_SPEED = 3f; // 0.3f
+    public const float NPC_DEFAULT_MOVEMENT_SPEED = 3f; // 0.7f
     public const float NPC_DEFAULT_RECOVERY_TIME = 10;
     public const int NPC_DEFAULT_ENERGY = 100;
     public const string NPC_ENERGY_BAR = "EnergyBar";
+    public const string NPC_ENERGY_BAR_TEXT = "ProgressText";
     public const bool NPC_ENERGY_ENABLED = false;
 
     // UI Constants

@@ -9,8 +9,8 @@ public class EmployeeController : GameObjectMovementBase
     [SerializeField]
     NPCState state;
 
-    float timeToTakeOrder = 15f; //seconds to serve the order
-    float timeToRegisterInCash = 15f; //seconds to serve the order
+    float timeToTakeOrder = 15f; //Decrease per second  100/15
+    float timeToRegisterInCash = 30f; //Decrease per second  100/30 10
 
     private void Start()
     {
@@ -40,7 +40,7 @@ public class EmployeeController : GameObjectMovementBase
     }
 
     private void UpdateFinishRegistering(){
-        if(state == NPCState.REGISTERING_CASH && CurrentEnergy < 0){
+        if(state == NPCState.REGISTERING_CASH && CurrentEnergy >= 100){
             state = NPCState.AT_COUNTER; // we are at counter 
         }
     }
@@ -66,7 +66,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateOrderAttended()
     {
-        if (state == NPCState.TAKING_ORDER && CurrentEnergy <= 0)
+        if (state == NPCState.TAKING_ORDER && CurrentEnergy >= 100)
         {
             GoTo(counter.ActionGridPosition);
             state = NPCState.WALKING_TO_COUNTER_AFTER_ORDER;
