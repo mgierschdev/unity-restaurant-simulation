@@ -117,9 +117,9 @@ public class GridController : MonoBehaviour
         }
 
         pathFind = new PathFind();
-        grid = new int[Settings.GRID_WIDTH, Settings.GRID_HEIGHT];
+        grid = new int[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
         InitGrid(grid);
-        debugGrid = new TextMesh[Settings.GRID_WIDTH, Settings.GRID_HEIGHT];
+        debugGrid = new TextMesh[ Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
 
         tilemapColliders.color = new Color(1, 1, 1, 0.0f);
 
@@ -141,7 +141,6 @@ public class GridController : MonoBehaviour
             if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1)){
                 continue;
             }
-
             debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject, "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," + tile.WorldPosition.y, tile.WorldPosition, Settings.DEBUG_TEXT_SIZE, Color.black, TextAnchor.MiddleCenter, TextAlignment.Center);
         }
     }
