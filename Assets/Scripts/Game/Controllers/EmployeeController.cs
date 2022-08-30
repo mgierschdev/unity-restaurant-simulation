@@ -10,6 +10,7 @@ public class EmployeeController : GameObjectMovementBase
     NPCState state;
 
     float timeToTakeOrder = 15f; //seconds to serve the order
+    float timeToRegisterInCash = 15f; //seconds to serve the order
 
     private void Start()
     {
@@ -32,13 +33,43 @@ public class EmployeeController : GameObjectMovementBase
         UpdateIsTakingOrder();
         UpdateTakeOrder();
         UpdateOrderAttended();
+        UpdateIsAtCounterAfterOrder();
+        UpdateRegisterCash();
+        UpdateFinishRegistering();
+
+    }
+
+    private void UpdateFinishRegistering(){
+        if(state == NPCState.REGISTERING_CASH && CurrentEnergy < 0){
+            state = NPCState.AT_COUNTER; // we are at counter 
+        }
+    }
+
+    private void UpdateRegisterCash()
+    {
+        if (state == NPCState.REGISTERING_CASH)
+        {
+            ActivateEnergyBar(timeToRegisterInCash);
+        }
+    }
+
+    private void UpdateIsAtCounterAfterOrder()
+    {
+        if (state == NPCState.WALKING_TO_COUNTER_AFTER_ORDER && counter != null)
+        {
+            if (IsAtGameGridObject(counter))
+            {
+                state = NPCState.REGISTERING_CASH;
+            }
+        }
     }
 
     private void UpdateOrderAttended()
     {
-        if(state ==  NPCState.TAKING_ORDER && CurrentEnergy <= 0){
+        if (state == NPCState.TAKING_ORDER && CurrentEnergy <= 0)
+        {
             GoTo(counter.ActionGridPosition);
-            state = NPCState.WALKING_TO_COUNTER;
+            state = NPCState.WALKING_TO_COUNTER_AFTER_ORDER;
             GameGrid.AddFreeBusinessSpots(tableToBeAttended);
             tableToBeAttended.Busy = false;
             tableToBeAttended = null;
@@ -55,7 +86,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateAttendTable()
     {
-        if (GameGrid.IsThereCustomer() && state == NPCState.AT_COUNTER)
+        if (state == NPCState.AT_COUNTER && GameGrid.IsThereCustomer())
         {
             tableToBeAttended = GameGrid.GetTableWithClient();
             if (tableToBeAttended != null)
@@ -70,15 +101,16 @@ public class EmployeeController : GameObjectMovementBase
     {
         if (state == NPCState.WALKING_TO_TABLE)
         {
-            if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(tableToBeAttended.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
+            if (IsAtGameGridObject(tableToBeAttended))
             {
                 state = NPCState.TAKING_ORDER;
             }
         }
     }
+    //First State
     private void UpdateGoNextToCounter()
     {
-        if (state != NPCState.WALKING_TO_COUNTER && state != NPCState.AT_COUNTER && state != NPCState.WALKING_TO_TABLE && state != NPCState.TAKING_ORDER)
+        if (state == NPCState.IDLE)
         {
             counter = GameGrid.Counter;
             if (counter != null)
@@ -93,10 +125,15 @@ public class EmployeeController : GameObjectMovementBase
     {
         if (state == NPCState.WALKING_TO_COUNTER && counter != null)
         {
-            if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(counter.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
+            if (IsAtGameGridObject(counter))
             {
                 state = NPCState.AT_COUNTER;
             }
         }
+    }
+
+    private bool IsAtGameGridObject(GameGridObject obj)
+    {
+        return Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(obj.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET;
     }
 }
