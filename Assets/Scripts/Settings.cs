@@ -7,7 +7,7 @@ public static class Settings
     // Player Config
     public const bool PLAYER_WALK_WITH_KEYBOARD = false;
     public const bool PLAYER_WALK_ON_CLICK = true;
-    public const float PLAYER_MOVEMENT_SPEED = 3f;
+    public const float PLAYER_MOVEMENT_SPEED = 0.7f;
 
     //GAME TAGS
     public const string NPC_TAG = "NPC";
