@@ -22,4 +22,12 @@ public class TestGameTile
         Assert.AreEqual(tile.Type, ObjectType.FLOOR);
         Assert.AreEqual(tile.WorldPosition, Vector3.zero);
     }
+
+    [Test]
+    public void BaseTileGrid(){
+        //Base tile used to build the floor of the build, initally positioned in -12/28
+        Tilemap tilemapPathFinding = GameObject.Find(Settings.PATH_FINDING_GRID).GetComponent<Tilemap>();
+        TileBase gridTile = tilemapPathFinding.GetTile(new Vector3Int(-12, 28));
+        Assert.NotNull(gridTile);
+    }
 }
