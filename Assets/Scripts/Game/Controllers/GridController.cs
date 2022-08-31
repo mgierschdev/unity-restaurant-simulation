@@ -116,6 +116,14 @@ public class GridController : MonoBehaviour
             Debug.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
 
+        if (!Settings.DEBUG_ENABLE)
+        {
+            tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
+            tilemapColliders.color = new Color(1, 1, 1, 0.0f);
+            tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
+            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.2f);
+        }
+
         pathFind = new PathFind();
         grid = new int[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
         InitGrid(grid);
@@ -133,9 +141,6 @@ public class GridController : MonoBehaviour
 
     private void DrawCellCoords()
     {
-        tilemapPathFinding.color = new Color(1, 1, 1, 0.2f);
-        tilemapColliders.color = new Color(1, 1, 1, 0.8f);
-
         foreach (GameTile tile in listPathFindingMap)
         {
             if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1))
@@ -305,7 +310,7 @@ public class GridController : MonoBehaviour
             grid[x, y] = (int)type;
         }
 
-        if (ObjectType.OBSTACLE == type)
+        if (ObjectType.OBSTACLE == type && Settings.DEBUG_ENABLE)
         {
             SetCellColor(x, y, color);
         }
@@ -449,12 +454,18 @@ public class GridController : MonoBehaviour
         {
             FreeBusinessSpots.Enqueue(obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            if (Settings.DEBUG_ENABLE)
+            {
+                SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            }
         }
         else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
         {
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            if (Settings.DEBUG_ENABLE)
+            {
+                SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            }
         }
     }
 
