@@ -452,7 +452,7 @@ public enum NPCState
     AT_TABLE = 2,
     WALKING_TO_COUNTER = 3,
     AT_COUNTER = 4,
-    WANDER = 5,
+    WALKING_WANDER = 5,
     TAKING_ORDER = 6,
     WALKING_TO_REGISTER = 7,
     WAITING_TO_BE_ATTENDED = 8,

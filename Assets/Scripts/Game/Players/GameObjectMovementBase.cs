@@ -31,11 +31,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public float CurrentEnergy { get; set; }
     private float speedDrecreaseEnergyBar = 20f;
 
-    // Wander properties
-    private float idleTime = 0;
-    private float idleMaxTime = 6f; //in seconds
-    private float randMax = 3f;
-
     // Debug attributes
     private string NPCDebug;
     private Queue<string> stateHistory;
@@ -369,24 +364,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             stateHistory.Dequeue();
         }
         SetDebug();
-    }
-
-
-    protected void Wander()
-    {
-        if (!IsMoving())
-        {
-            // we could add more random by deciding to move or not 
-            idleTime += Time.deltaTime;
-        }
-
-        if (!IsMoving() && idleTime >= randMax)
-        {
-            idleTime = 0;
-            randMax = Random.Range(0, idleMaxTime);
-            Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
-            GoTo(position);
-        }
     }
 
     public void GoTo(Vector3Int pos)

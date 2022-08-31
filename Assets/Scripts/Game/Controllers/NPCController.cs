@@ -13,6 +13,11 @@ public class NPCController : GameObjectMovementBase
     private GameTile unRespawnTile;
     private PlayerAnimationStateController animationController;
 
+    // Wander properties
+    private float idleTime = 0;
+    private float idleMaxTime = 6f; //in seconds
+    private float randMax = 3f;
+
     private void Start()
     {
         Type = ObjectType.NPC;
@@ -48,7 +53,6 @@ public class NPCController : GameObjectMovementBase
 
         if (!GameGrid.IsThereFreeTables() && LocalState != NPCState.AT_TABLE && LocalState != NPCState.WALKING_TO_TABLE && LocalState != NPCState.WAITING_TO_BE_ATTENDED && LocalState != NPCState.WALKING_UNRESPAWN)
         {
-            LocalState = NPCState.WANDER;
             Wander();
         }
 
@@ -100,12 +104,31 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateFindPlace()
     {
-        if ((LocalState == NPCState.WANDER || LocalState == NPCState.IDLE) && GameGrid.IsThereFreeTables())
+        if ((LocalState == NPCState.WALKING_WANDER || LocalState == NPCState.IDLE) && GameGrid.IsThereFreeTables())
         {
             table = GameGrid.GetFreeTable();
             table.Busy = true;
             LocalState = NPCState.WALKING_TO_TABLE;
             GoTo(table.ActionGridPosition);
+        }
+    }
+
+    protected void Wander()
+    {
+        if (!IsMoving())
+        {
+            // we could add more random by deciding to move or not 
+            idleTime += Time.deltaTime;
+            LocalState = NPCState.IDLE;
+        }
+
+        if (!IsMoving() && idleTime >= randMax)
+        {
+            LocalState = NPCState.WALKING_WANDER;
+            idleTime = 0;
+            randMax = Random.Range(0, idleMaxTime);
+            Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
+            GoTo(position);
         }
     }
 }
