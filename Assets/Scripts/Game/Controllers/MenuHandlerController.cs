@@ -24,6 +24,7 @@ public class MenuHandlerController : MonoBehaviour
     private float openedTime;
     //Menu realtime refreshrate
     private float menuRefreshRate = 3f;
+    private MenuObjectList sstoreList;
 
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
@@ -74,7 +75,7 @@ public class MenuHandlerController : MonoBehaviour
     private void TimeControl()
     {
         //Handles for how long abefore activating CloseOnCLickOutside
-            if (menuStack.Count > 0)
+        if (menuStack.Count > 0)
         {
             openedTime += Time.unscaledDeltaTime;
 

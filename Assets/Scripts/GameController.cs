@@ -11,8 +11,6 @@ public class GameController : MonoBehaviour
     GridController gridController;
     GameObject gameGridObject;
     GameTile tileSpawn;
-
-
     void Start()
     {
         NPCSet = new HashSet<NPCController>();
@@ -23,8 +21,6 @@ public class GameController : MonoBehaviour
 
         SpamEmployee();
     }
-
-
     private void FixedUpdate()
     {
         if (NPCSet.Count < npcMaxNumber)
@@ -32,7 +28,6 @@ public class GameController : MonoBehaviour
             SpamNPC();
         }
     }
-
     private void SpamNPC()
     {
         tileSpawn = gridController.GetRandomSpamPointWorldPosition();
@@ -44,7 +39,6 @@ public class GameController : MonoBehaviour
         NPCSet.Add(isometricNPCController);
         NPCidx++;
     }
-
     private void SpamEmployee()
     {
         //Adding Employees
@@ -56,7 +50,6 @@ public class GameController : MonoBehaviour
         NPCEmployeeSet.Add(employeeController);
         NPCidx++;
     }
-
     public void RemoveNPC(NPCController controller)
     {
         if (NPCSet.Contains(controller))
