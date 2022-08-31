@@ -16,25 +16,22 @@ public class PlayerAnimationStateController : MonoBehaviour
 
     public void SetState(NPCState state)
     {
-        Debug.Log("Animator Velocity");
-        
-        if(animator == null){
+        if (animator == null)
+        {
             return;
         }
 
-        if ((state == NPCState.IDLE || state == NPCState.AT_COUNTER || state == NPCState.TAKING_ORDER || state == NPCState.REGISTERING_CASH))
+        if (state == NPCState.IDLE || state == NPCState.AT_COUNTER || state == NPCState.TAKING_ORDER || state == NPCState.REGISTERING_CASH)
         {
-            animator.StopPlayback();
-            animator.ResetTrigger(AnimatorState.WALKING);
             animator.SetTrigger(AnimatorState.IDLE);
         }
-        else if(state == NPCState.WALKING_TO_TABLE || state == NPCState.WALKING_TO_COUNTER || state == NPCState.WALKING_UNRESPAWN || state == NPCState.WALKING_TO_COUNTER_AFTER_ORDER)
+        else if (state == NPCState.WALKING_TO_TABLE || state == NPCState.WALKING_TO_COUNTER || state == NPCState.WALKING_UNRESPAWN || state == NPCState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
-            animator.StopPlayback();
             animator.ResetTrigger(AnimatorState.IDLE);
             animator.SetTrigger(AnimatorState.WALKING);
-        }else{
-            animator.StopPlayback();
+        }
+        else
+        {
             animator.SetTrigger(AnimatorState.IDLE);
         }
     }

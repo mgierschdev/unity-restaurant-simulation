@@ -40,7 +40,6 @@ public static class Settings
     public const string NPC_ENERGY_BAR = "EnergyBar";
     public const string NPC_CHARACTER = "Character";
     public const string NPC_ENERGY_BAR_TEXT = "ProgressText";
-    public const bool NPC_ENERGY_ENABLED = false;
 
     // UI Constants
     public const string DEFAULT_LETTER_FONT = "Roboto-Regular";

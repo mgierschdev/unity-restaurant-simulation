@@ -33,16 +33,6 @@ public class TestProjectSettings
     }
 
     [Test]
-    public void TestNPCEnergyBar()
-    {
-        if (Settings.NPC_ENERGY_ENABLED)
-        {
-            GameObject NPCEnergyBar = GameObject.FindWithTag(Settings.NPC_ENERGY_BAR);
-            Assert.NotNull(NPCEnergyBar);
-        }
-    }
-
-    [Test]
     public void TestGameGrid()
     {
         GameObject gameGrid = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);

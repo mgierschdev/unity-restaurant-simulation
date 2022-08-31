@@ -49,7 +49,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
         if (!Util.IsNull(energyBar, "GameObjectMovementBase/energyBar null"))
         {
-            SetEnergyBar();
+            energyBar.SetInactive();
         }
 
         // Game Grid
@@ -76,18 +76,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         UpdatePosition();
         ClickUpdateController();
-    }
-
-    private void SetEnergyBar()
-    {
-        if (Settings.NPC_ENERGY_ENABLED)
-        {
-            energyBar.SetActive();
-        }
-        else
-        {
-            energyBar.SetInactive();
-        }
     }
 
     protected void ActivateEnergyBar(float val)
