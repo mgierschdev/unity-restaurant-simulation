@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     private HashSet<NPCController> NPCSet;
     private HashSet<EmployeeController> NPCEmployeeSet;
-    private int npcMaxNumber = 1;
+    private int npcMaxNumber = 4;
     private int NPCidx;
     GridController gridController;
     GameObject gameGridObject;

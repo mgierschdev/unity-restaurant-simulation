@@ -15,6 +15,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     // Movement 
     private Rigidbody2D body;
+    public MoveDirection MoveDirection { get; set; }
+    private bool side; // false right, true left
+
     //Movement Queue
     private float minDistanceToTarget = Settings.MIN_DISTANCE_TO_TARGET;
     private Queue pendingMovementQueue;
@@ -68,6 +71,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         currentTargetPosition = transform.position;
 
         FinalTarget = Util.GetVector3IntPositiveInfinity();
+        side = false; // The side in which the character is facing by default = false meaning right.
     }
 
     // Overlap spehre
@@ -114,19 +118,53 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Position = new Vector3Int(Position.x, Position.y);
     }
 
+    public void UpdateObjectDirection()
+    {
+
+        Debug.Log(transform.name + " " + MoveDirection);
+
+
+        if (side && (MoveDirection == MoveDirection.DOWN ||
+        MoveDirection == MoveDirection.UPRIGHT ||
+        MoveDirection == MoveDirection.DOWNRIGHT ||
+        MoveDirection == MoveDirection.RIGHT))
+        {
+            side = false;
+            FlipSide();
+        }
+        else if (!side && (MoveDirection == MoveDirection.UP ||
+        MoveDirection == MoveDirection.UPLEFT ||
+        MoveDirection == MoveDirection.DOWNLEFT ||
+        MoveDirection == MoveDirection))
+        {
+            side = true;
+            FlipSide();
+        }
+    }
+
+    private void FlipSide()
+    {
+        Vector3 tmp = gameObject.transform.localScale;
+        tmp.x = -tmp.x;
+        gameObject.transform.localScale = tmp;
+    }
+
     protected void UpdateTargetMovement()
     {
-        //Debug.Log("DEBUG: IsInTargetPosition() " + IsInTargetPosition());
 
         if (IsInTargetPosition())
         {
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
+                MoveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
+                UpdateObjectDirection();
             }
             else
             {
                 //target reached 
+                MoveDirection = MoveDirection.IDLE;
+                UpdateObjectDirection();
             }
         }
         else
@@ -242,25 +280,27 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return GameGrid.GetPath(from, to);
     }
 
+    //A to B direction
+    private MoveDirection GetDirectionFromPositions(Vector3 a, Vector3 b)
+    {
+        Vector3 delta = b - a;
+        float radians = Mathf.Atan2(delta.x, delta.y);
+        float degrees = radians * Mathf.Rad2Deg;
+        // normalizing -180-180, 0-360
+        if (degrees < 0)
+        {
+            degrees += 360;
+        }
+        return Util.GetDirectionFromAngles(degrees);
+    }
+
     protected void MovingOnLongtouch()
     {
         if (clickController != null && clickController.IsLongClick)
         {
             ResetMovementIfMoving();
-
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector3 delta = mousePosition - transform.position;
-
-            float radians = Mathf.Atan2(delta.x, delta.y);
-            float degrees = radians * Mathf.Rad2Deg;
-
-            // normalizing -180-180, 0-360
-            if (degrees < 0)
-            {
-                degrees += 360;
-            }
-
-            AddMovement(Util.GetVectorFromDirection(Util.GetDirectionFromAngles(degrees)));
+            AddMovement(Util.GetVectorFromDirection(GetDirectionFromPositions(transform.position, mousePosition)));
 
             if (Settings.DEBUG_ENABLE)
             {

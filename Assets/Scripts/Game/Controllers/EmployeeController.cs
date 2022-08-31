@@ -10,8 +10,8 @@ public class EmployeeController : GameObjectMovementBase
     NPCState state;
     private PlayerAnimationStateController animationController;
 
-    float timeToTakeOrder = 15f; //Decrease per second  100/15
-    float timeToRegisterInCash = 30f; //Decrease per second  100/30 10
+    float timeToTakeOrder = 40f; //Decrease per second  100/15
+    float timeToRegisterInCash = 70f; //Decrease per second  100/30 10
 
     private void Start()
     {
