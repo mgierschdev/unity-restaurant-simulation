@@ -33,5 +33,15 @@ public class GameGridObject : GameObjectBase
         LocalGridPosition = localGridPosition;
         Type = type;
         Cost = cost;
+
+        if (type == ObjectType.NPC_COUNTER)
+        {
+            ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
+        }
+
+        if (type == ObjectType.NPC_TABLE)
+        {
+            ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
+        }
     }
 }
