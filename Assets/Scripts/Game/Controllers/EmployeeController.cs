@@ -8,6 +8,7 @@ public class EmployeeController : GameObjectMovementBase
     GameGridObject tableToBeAttended;
     [SerializeField]
     NPCState state;
+    private PlayerAnimationStateController animationController;
 
     float timeToTakeOrder = 15f; //Decrease per second  100/15
     float timeToRegisterInCash = 30f; //Decrease per second  100/30 10
@@ -18,6 +19,12 @@ public class EmployeeController : GameObjectMovementBase
         state = NPCState.IDLE;
         Name = transform.name;
         counter = GameGrid.Counter;
+        animationController = GetComponent<PlayerAnimationStateController>();
+
+        if (animationController == null)
+        {
+            Debug.LogWarning("NPCController/animationController null");
+        }
     }
 
     private void FixedUpdate()
@@ -37,10 +44,13 @@ public class EmployeeController : GameObjectMovementBase
         UpdateRegisterCash();
         UpdateFinishRegistering();
 
+        animationController.SetState(state);
     }
 
-    private void UpdateFinishRegistering(){
-        if(state == NPCState.REGISTERING_CASH && CurrentEnergy >= 100){
+    private void UpdateFinishRegistering()
+    {
+        if (state == NPCState.REGISTERING_CASH && CurrentEnergy >= 100)
+        {
             state = NPCState.AT_COUNTER; // we are at counter 
         }
     }

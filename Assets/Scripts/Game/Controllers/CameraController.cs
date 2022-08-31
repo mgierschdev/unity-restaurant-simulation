@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private Vector3 touchStart;
     private Vector3 direction;
-    private GameObject playerGameObject;
+    // private GameObject playerGameObject;
 
     // Camera follow player, for smothing camera movement 
     public float interpolation = Settings.CAMERA_FOLLOW_INTERPOLATION;
@@ -26,10 +26,10 @@ public class CameraController : MonoBehaviour
         targetPosition = Camera.main.orthographicSize;
         touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        playerGameObject = GameObject.FindGameObjectWithTag(Settings.PLAYER_TAG);
+        // playerGameObject = GameObject.FindGameObjectWithTag(Settings.PLAYER_TAG);
         GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
         menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
-        Util.IsNull(playerGameObject, "CameraController/PlayerController is null");
+        // Util.IsNull(playerGameObject, "CameraController/PlayerController is null");
     }
 
     // Update is called once per frame
@@ -39,18 +39,18 @@ public class CameraController : MonoBehaviour
         PerspectiveHand();
 
         // Follow Player
-        FollowPlayer();
+        // FollowPlayer();
     }
 
-    private void FollowPlayer()
-    {
-        if (Settings.CAMERA_FOLLOW_PLAYER)
-        {
-            Vector3 playerPosition = new Vector3(playerGameObject.transform.position.x, playerGameObject.transform.position.y, transform.position.z);
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, playerPosition, interpolation);
-            transform.position = smoothedPosition;
-        }
-    }
+    // private void FollowPlayer()
+    // {
+    //     if (Settings.CAMERA_FOLLOW_PLAYER)
+    //     {
+    //         Vector3 playerPosition = new Vector3(playerGameObject.transform.position.x, playerGameObject.transform.position.y, transform.position.z);
+    //         Vector3 smoothedPosition = Vector3.Lerp(transform.position, playerPosition, interpolation);
+    //         transform.position = smoothedPosition;
+    //     }
+    // }
 
     private void PerspectiveHand()
     {
