@@ -129,15 +129,6 @@ public class GridController : MonoBehaviour
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
         LoadTileMap(listWalkingPathileMap, tilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
-        SetCounter(); // Buss counter object 
-    }
-
-    private void SetCounter()
-    {
-        Vector3Int defaultCounterPosition = new Vector3Int(26, 33);
-
-        Counter = new GameGridObject(transform.name, transform.position, defaultCounterPosition, GetGameTileFromClickInPathFindingGrid(defaultCounterPosition).LocalGridPosition, ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT, 999);
-
     }
 
     private void DrawCellCoords()
