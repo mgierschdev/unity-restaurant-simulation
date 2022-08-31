@@ -11,6 +11,7 @@ public class NPCController : GameObjectMovementBase
     [SerializeField]
     private NPCState state;
     private GameTile unRespawnTile;
+    private PlayerAnimationStateController animationController;
 
     private void Start()
     {
@@ -19,9 +20,16 @@ public class NPCController : GameObjectMovementBase
         state = NPCState.IDLE;
         GameObject gameObj = GameObject.Find(Settings.CONST_PARENT_GAME_OBJECT);
         gameController = gameObj.GetComponent<GameController>();
+        animationController = GetComponent<PlayerAnimationStateController>();
+
         if (gameController == null)
         {
             Debug.LogWarning("NPCController/GameController null");
+        }
+
+        if (animationController == null)
+        {
+            Debug.LogWarning("NPCController/animationController null");
         }
     }
 
@@ -43,6 +51,8 @@ public class NPCController : GameObjectMovementBase
             state = NPCState.WANDER;
             Wander();
         }
+
+        animationController.SetState(state);
     }
 
     private void UpdateIsAtRespawn()
