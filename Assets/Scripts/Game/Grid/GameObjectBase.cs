@@ -11,7 +11,8 @@ public abstract class GameObjectBase
     public ObjectType Type { get; set; }
     public TileType TileType { get; set; }
     private Vector3 tileOffset = new Vector3(0, 0.25f, 0);
-    public Vector3Int ActionGridPosition {get; set;} // Cell position that NPC has to move to
+    public Vector3Int ActionGridPosition { get; set; } // Cell position that NPC has to move tos
+    public int Cost { get; set; }
 
     public void UpdateSortingLayer()
     {

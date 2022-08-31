@@ -34,7 +34,7 @@ public static class Settings
     // NPC Default
     public const float MIN_DISTANCE_TO_TARGET = 0.13f;
     public const float NPC_DEFAULT_REACTION_TIME = 4;
-    public const float NPC_DEFAULT_MOVEMENT_SPEED = 7f; // 0.7f
+    public const float NPC_DEFAULT_MOVEMENT_SPEED = 3f; // 0.7f
     public const float NPC_DEFAULT_RECOVERY_TIME = 10;
     public const int NPC_DEFAULT_ENERGY = 100;
     public const string NPC_ENERGY_BAR = "EnergyBar";

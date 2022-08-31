@@ -12,6 +12,8 @@ public class MenuItem
     public Dictionary<string, string> Fields { get; set; }
     public bool PauseGameGame { get; set; }
 
+    public List<GameGridObject> displayList;
+
     public MenuItem(Menu menu, MenuType type, string name, GameObject gobj, bool pauseGame)
     {
         this.Menu = menu;

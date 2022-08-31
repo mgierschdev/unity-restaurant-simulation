@@ -11,7 +11,7 @@ public class CounterController : MonoBehaviour
     {
         GameObject gridGameObject = GameObject.Find(Settings.GAME_GRID).gameObject;
         grid = gridGameObject.GetComponent<GridController>();
-        counter = new GameGridObject(transform.name, transform.position, grid.GetPathFindingGridFromWorldPosition(transform.position), grid.GetLocalGridFromWorldPosition(transform.position), ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT);
+        counter = new GameGridObject(transform.name, transform.position, grid.GetPathFindingGridFromWorldPosition(transform.position), grid.GetLocalGridFromWorldPosition(transform.position), ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT, 999);
         counter.SortingLayer = GetComponent<SortingGroup>();
 
         if (!Util.IsNull(grid, "CounterController/IsometricGridController null"))
