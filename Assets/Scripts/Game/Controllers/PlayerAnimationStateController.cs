@@ -25,7 +25,7 @@ public class PlayerAnimationStateController : MonoBehaviour
         {
             animator.SetTrigger(AnimatorState.IDLE);
         }
-        else if (state == NPCState.WALKING_TO_TABLE || state == NPCState.WALKING_TO_COUNTER || state == NPCState.WALKING_UNRESPAWN || state == NPCState.WALKING_TO_COUNTER_AFTER_ORDER)
+        else if (state == NPCState.WALKING_TO_TABLE || state == NPCState.WALKING_TO_COUNTER || state == NPCState.WALKING_UNRESPAWN || state == NPCState.WALKING_TO_COUNTER_AFTER_ORDER || state == NPCState.WALKING_WANDER)
         {
             animator.ResetTrigger(AnimatorState.IDLE);
             animator.SetTrigger(AnimatorState.WALKING);
