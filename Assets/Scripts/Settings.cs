@@ -54,8 +54,8 @@ public static class Settings
 
     // UI: Camera
     public const bool CAMERA_PERSPECTIVE_HAND = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = { -10f, 10 };
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = { -10, 10f }; // X = -8, 1 || Y = Initial default -8, 1
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = { -20f, 20 };
+    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = { -20, 20f }; // X = -8, 1 || Y = Initial default -8, 1
     public const bool CAMERA_FOLLOW_PLAYER = false;
     public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
 
