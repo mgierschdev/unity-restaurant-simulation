@@ -109,7 +109,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-
     protected void UpdatePosition()
     {
         body.angularVelocity = 0;
@@ -348,13 +347,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             UpdatePosition();
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             Vector3Int mouseInGridPosition = GameGrid.GetPathFindingGridFromWorldPosition(mousePosition);
-            List<Node> path = GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { mouseInGridPosition.x, mouseInGridPosition.y });
-            AddPath(path);
-
-            if (pendingMovementQueue.Count != 0)
-            {
-                AddMovement();
-            }
+            GoTo(mouseInGridPosition);
         }
     }
 
@@ -389,21 +382,16 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (!IsMoving() && idleTime >= randMax)
         {
-            List<Node> path;
             idleTime = 0;
             randMax = Random.Range(0, idleMaxTime);
             Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
-            // It should be mostly free, if invalid it will return an empty path
-            path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { position.x, position.y });
-            AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + position.x + "," + position.y);
-            AddPath(path);
+            GoTo(position);
         }
     }
 
     public void GoTo(Vector3Int pos)
     {
         List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
-         Debug.Log("Calculating Path " + path.Count+" "+transform.name);
         AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
         FinalTarget = pos;
         AddPath(path);
