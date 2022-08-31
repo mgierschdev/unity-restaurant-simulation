@@ -1,7 +1,7 @@
 public static class Settings
 {
     // DEBUG parameters
-    public const bool DEBUG_ENABLE = true; //Only for development
+    public const bool DEBUG_ENABLE = false; //Only for development
     public const int DEBUG_TEXT_SIZE = 9;
 
     // Player Config
