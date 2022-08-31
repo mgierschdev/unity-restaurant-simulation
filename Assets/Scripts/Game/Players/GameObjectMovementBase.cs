@@ -29,12 +29,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //Energy Bar
     private EnergyBarController energyBar;
     public float CurrentEnergy { get; set; }
-    private float speedDrecreaseEnergyBar = 20f;
+    private float speedDrecreaseEnergyBar;
 
     // Debug attributes
     private string NPCDebug;
     private Queue<string> stateHistory;
-    private int stateHistoryMaxSize = 10;
+    private int stateHistoryMaxSize = 20;
 
 
     private void Awake()
@@ -67,6 +67,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         FinalTarget = Util.GetVector3IntPositiveInfinity();
         side = false; // The side in which the character is facing by default = false meaning right.
+        speedDrecreaseEnergyBar = 20f;
     }
 
     // Overlap spehre
@@ -172,8 +173,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
     }
-
-
 
     private void ClickUpdateController()
     {
@@ -369,13 +368,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public void GoTo(Vector3Int pos)
     {
         List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
-        AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
+        AddStateHistory("Time: " + Time.fixedTime + " steps: " + path.Count + " t: " + pos.x + "," + pos.y);
         FinalTarget = pos;
         AddPath(path);
         if (pendingMovementQueue.Count != 0)
         {
             AddMovement();
         }
+        AddStateHistory("Pending movingQueue Size: "+pendingMovementQueue.Count); 
     }
 
     public void SetClickController(ClickController controller)
