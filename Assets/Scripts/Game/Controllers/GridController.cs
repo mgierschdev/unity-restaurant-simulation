@@ -119,7 +119,7 @@ public class GridController : MonoBehaviour
         pathFind = new PathFind();
         grid = new int[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
         InitGrid(grid);
-        debugGrid = new TextMesh[ Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
+        debugGrid = new TextMesh[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
 
         tilemapColliders.color = new Color(1, 1, 1, 0.0f);
 
@@ -129,6 +129,15 @@ public class GridController : MonoBehaviour
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
         LoadTileMap(listWalkingPathileMap, tilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
+        SetCounter(); // Buss counter object 
+    }
+
+    private void SetCounter()
+    {
+        Vector3Int defaultCounterPosition = new Vector3Int(26, 33);
+
+        Counter = new GameGridObject(transform.name, transform.position, defaultCounterPosition, GetGameTileFromClickInPathFindingGrid(defaultCounterPosition).LocalGridPosition, ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT, 999);
+
     }
 
     private void DrawCellCoords()
@@ -138,7 +147,8 @@ public class GridController : MonoBehaviour
 
         foreach (GameTile tile in listPathFindingMap)
         {
-            if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1)){
+            if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1))
+            {
                 continue;
             }
             debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject, "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," + tile.WorldPosition.y, tile.WorldPosition, Settings.DEBUG_TEXT_SIZE, Color.black, TextAnchor.MiddleCenter, TextAlignment.Center);

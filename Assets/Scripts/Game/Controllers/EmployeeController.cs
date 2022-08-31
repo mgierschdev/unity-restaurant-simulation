@@ -125,6 +125,7 @@ public class EmployeeController : GameObjectMovementBase
             counter = GameGrid.Counter;
             if (counter != null)
             {
+                Debug.Log("Walking to counter "+counter.ActionGridPosition);
                 LocalState = NPCState.WALKING_TO_COUNTER;
                 GoTo(counter.ActionGridPosition);
             }

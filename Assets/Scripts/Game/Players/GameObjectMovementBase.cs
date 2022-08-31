@@ -120,10 +120,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public void UpdateObjectDirection()
     {
-
-        Debug.Log(transform.name + " " + MoveDirection);
-
-
         if (side && (MoveDirection == MoveDirection.DOWN ||
         MoveDirection == MoveDirection.UPRIGHT ||
         MoveDirection == MoveDirection.DOWNRIGHT ||
@@ -407,6 +403,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public void GoTo(Vector3Int pos)
     {
         List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
+         Debug.Log("Calculating Path " + path.Count+" "+transform.name);
         AddStateHistory("Time: " + Time.fixedTime + " d: " + path.Count + " t: " + pos.x + "," + pos.y);
         FinalTarget = pos;
         AddPath(path);
@@ -437,7 +434,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private bool IsInTargetPosition()
     {
-        //Debug.Log("DEBUG: IsInTargetPosition: " + Name + " " + Vector3.Distance(currentTargetPosition, transform.position) + " " + transform.position + " -> " + currentTargetPosition);
         return Vector3.Distance(currentTargetPosition, transform.position) < minDistanceToTarget;
     }
 

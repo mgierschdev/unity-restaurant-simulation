@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
 
         SpamEmployee();
     }
+
     private void FixedUpdate()
     {
         if (NPCSet.Count < npcMaxNumber)
