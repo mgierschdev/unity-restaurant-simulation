@@ -15,7 +15,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     // Movement 
     private Rigidbody2D body;
-    public MoveDirection MoveDirection { get; set; }
+    private MoveDirection MoveDirection;
     private bool side; // false right, true left
 
     //Movement Queue
@@ -135,7 +135,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         else if (!side && (MoveDirection == MoveDirection.UP ||
         MoveDirection == MoveDirection.UPLEFT ||
         MoveDirection == MoveDirection.DOWNLEFT ||
-        MoveDirection == MoveDirection))
+        MoveDirection == MoveDirection.LEFT))
         {
             side = true;
             FlipSide();
