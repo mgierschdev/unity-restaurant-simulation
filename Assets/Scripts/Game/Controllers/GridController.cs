@@ -117,7 +117,7 @@ public class GridController : MonoBehaviour
             Debug.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
 
-        if (Settings.DEBUG_ENABLE)
+        if (!Settings.DEBUG_ENABLE)
         {
             tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
             tilemapColliders.color = new Color(1, 1, 1, 0.0f);
@@ -158,10 +158,16 @@ public class GridController : MonoBehaviour
     {
         Vector3 mousePosition = Util.GetMouseInWorldPosition();
         Vector3Int mouseInGridPosition = GetPathFindingGridFromWorldPosition(mousePosition);
-        GameTile tile = mapBusinessFloor[mousePosition];
-        
 
-       // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
+        if(!mapPathFindingGrid.ContainsKey(mouseInGridPosition)){
+            Debug.Log("Does not contain the position "+mouseInGridPosition);
+            return;
+        }
+        
+        GameTile tile = mapPathFindingGrid[mouseInGridPosition];
+        TileBase highLightedTile = Resources.Load<Tile>(Settings.GRID_TILES_HIGHLIGHTED_FLOOR);
+        tilemapBusinessFloor.SetTile(tile.LocalGridPosition, highLightedTile);
+        // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
     }
 
     public void HideGridBussFloor()
