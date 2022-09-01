@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 // This will be only element attached in the UI
 // All the buttom calls will be handled by this class.
@@ -259,12 +259,14 @@ public class MenuHandlerController : MonoBehaviour
     {
         GameObject ScrollView = menu.UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
 
-        if(ScrollView == null){
+        if (ScrollView == null)
+        {
             return;
         }
 
         //Clear ScrollView
-        foreach (Transform child in ScrollView.transform){
+        foreach (Transform child in ScrollView.transform)
+        {
             Destroy(child.gameObject);
         }
 
@@ -277,9 +279,10 @@ public class MenuHandlerController : MonoBehaviour
             TextMeshProUGUI textMesh = text.GetComponent<TextMeshProUGUI>();
             textMesh.text = obj.Cost.ToString();
             Image imgComponent = img.GetComponent<Image>();
-            Sprite sp  = Resources.Load<Sprite>(obj.MenuItemSprite);
+            Sprite sp = Resources.Load<Sprite>(obj.MenuItemSprite);
             imgComponent.sprite = sp;
             item.transform.SetParent(ScrollView.transform);
+            item.transform.localScale = new Vector3(1, 1, 1);
         }
     }
     public bool IsMenuOpen()
