@@ -53,6 +53,10 @@ public static class Settings
     public const string CONST_CENTER_TAB_MENU_BODY = "MenuBody";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const string CONST_LEFT_DOWN_PANEL = "LeftDownPanel";
+    public const string CONST_EDIT_STORE_MENU_PANEL = "EditStoreMenu";
+    public const string CONST_EDIT_STORE_MENU_CANCEL = "Cancel";
+    public const string CONST_EDIT_STORE_MENU_ACCEPT = "Accept";
+    public const string CONST_EDIT_STORE_MENU_ROTATE = "Rotate";
     public const string CONST_PARENT_GAME_OBJECT = "Game";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
