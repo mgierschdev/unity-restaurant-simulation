@@ -259,6 +259,16 @@ public class MenuHandlerController : MonoBehaviour
     {
         GameObject ScrollView = menu.UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
 
+        if(ScrollView == null){
+            return;
+        }
+
+        //Clear ScrollView
+        foreach (Transform child in ScrollView.transform){
+            Destroy(child.gameObject);
+        }
+
+        //Add new Items
         foreach (GameGridObject obj in storeList.Tables)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;

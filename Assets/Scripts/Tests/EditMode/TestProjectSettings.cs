@@ -22,7 +22,10 @@ public class TestProjectSettings
     public void TesttabMenu()
     {
         GameObject tabMenu = GameObject.Find(Settings.CONST_CENTER_TAB_MENU);
+        Debug.Log(tabMenu.transform.GetChild(0).name);
+        GameObject scrollViewPort = tabMenu.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
         Assert.NotNull(tabMenu);
+        Assert.NotNull(scrollViewPort);
     }
 
     [Test]
@@ -30,13 +33,6 @@ public class TestProjectSettings
     {
         GameObject topGameMenu = GameObject.Find(Settings.CONST_TOP_GAME_MENU);
         Assert.NotNull(topGameMenu);
-    }
-
-    [Test]
-    public void TestTopCenterScrollContent()
-    {
-        GameObject centerMenu = GameObject.Find(Settings.CONST_CENTER_SCROLL_CONTENT);
-        Assert.NotNull(centerMenu);
     }
 
     [Test]
