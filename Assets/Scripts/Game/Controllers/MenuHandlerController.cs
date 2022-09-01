@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -27,7 +26,7 @@ public class MenuHandlerController : MonoBehaviour
     private float menuRefreshRate = 3f;
     private MenuObjectList storeList;
     private GameObject leftDownPanel;
-
+    private GameObject editMenuPanel;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Start()
@@ -36,8 +35,9 @@ public class MenuHandlerController : MonoBehaviour
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
         clickController = cController.GetComponent<ClickController>();
 
-        //Left down panel
+        //Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.CONST_LEFT_DOWN_PANEL).gameObject;
+        editMenuPanel = GameObject.Find(Settings.CONST_EDIT_STORE_MENU_PANEL).gameObject;
 
         //Containing all Inventory Items
         storeList = new MenuObjectList();
@@ -67,7 +67,9 @@ public class MenuHandlerController : MonoBehaviour
 
         //Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
+        SetEditStorePanelClickListeners();
 
+        editMenuPanel.SetActive(false);
         centerTabMenu.Close();
         npcProfileMenu.Close();
 
@@ -157,6 +159,7 @@ public class MenuHandlerController : MonoBehaviour
             clickController.ClickedGameTile = null;
         }
     }
+
     private void RefresNPCProfile()
     {
         // The NPC may not longer exist
@@ -198,6 +201,15 @@ public class MenuHandlerController : MonoBehaviour
             }
         }
     }
+
+    private void CloseAllMenus()
+    {
+        while (menuStack.Count > 0)
+        {
+            CloseMenu();
+        }
+    }
+
     private void CloseMenu()
     {
         if (menuStack.Count > 0)
@@ -211,6 +223,7 @@ public class MenuHandlerController : MonoBehaviour
             }
         }
     }
+
     private void OpenMenu(MenuItem menu)
     {
         Debug.Log("Opening Menu " + menu.Name);
@@ -268,7 +281,6 @@ public class MenuHandlerController : MonoBehaviour
             return false;
         }
     }
-
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
         GameObject ScrollView = menu.UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
@@ -302,7 +314,6 @@ public class MenuHandlerController : MonoBehaviour
             item.transform.localScale = new Vector3(1, 1, 1);
         }
     }
-
     private void SetLeftDownPanelClickListeners()
     {
         GameObject store = leftDownPanel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_STORE).gameObject;
@@ -318,15 +329,44 @@ public class MenuHandlerController : MonoBehaviour
         bEmployees.onClick.AddListener(() => ItemClicked());
     }
 
-    public void ItemClicked(){
-        //Debug.Log("Clicking inventory/bEmployees");
+    private void SetEditStorePanelClickListeners()
+    {
+        GameObject accept = leftDownPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ACCEPT).gameObject;
+        Button bAccept = accept.GetComponent<Button>();
+        bAccept.onClick.AddListener(() => ItemClicked());
+
+        GameObject cancel = leftDownPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_CANCEL).gameObject;
+        Button bCancel = cancel.GetComponent<Button>();
+        bCancel.onClick.AddListener(() =>  CloseEditPanel());
+
+        GameObject rotate = leftDownPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ROTATE).gameObject;
+        Button bRotate = rotate.GetComponent<Button>();
+        bRotate.onClick.AddListener(() => ItemClicked());
     }
 
+    private void OpenStoreEditPanel()
+    {
+        CloseAllMenus();
+        //Disable Lefdown panel
+        leftDownPanel.SetActive(false);
+        editMenuPanel.SetActive(true);
+    }
+
+    // Closes the edit panel without changes 
+    private void CloseEditPanel(){
+        editMenuPanel.SetActive(false);
+        leftDownPanel.SetActive(true);
+        OpenMenu(centerTabMenu);
+    }
+
+    public void ItemClicked()
+    {
+        //Debug.Log("Clicking inventory/bEmployees");
+    }
     public void InventoryItemClicked(GameGridObject obj)
     {
         Debug.Log("Button Clicked " + obj.Name);
     }
-
     public bool IsMenuOpen()
     {
         return menuStack.Count > 0;

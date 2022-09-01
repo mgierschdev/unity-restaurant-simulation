@@ -15,4 +15,17 @@ public class TestUI
         Assert.NotNull(employees);
         Assert.NotNull(inventory);
     }
+
+    [Test]
+    public void TestEditStoreMenu()
+    {
+        GameObject panel = GameObject.Find(Settings.CONST_EDIT_STORE_MENU_PANEL).gameObject;
+        Transform cancel = panel.transform.Find(Settings.CONST_EDIT_STORE_MENU_CANCEL);
+        Transform accept = panel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ACCEPT);
+        Transform rotate = panel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ROTATE);
+        Assert.NotNull(panel);
+        Assert.NotNull(cancel);
+        Assert.NotNull(accept);
+        Assert.NotNull(rotate);
+    }
 }
