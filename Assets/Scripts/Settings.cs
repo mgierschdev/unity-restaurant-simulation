@@ -92,6 +92,7 @@ public static class Settings
     //Tiles
     public const string GRID_TILES = "Grid/Tiles/";
     public const string GRID_TILES_SIMPLE = GRID_TILES + "GridTile";
+    public const string GRID_TILES_HIGHLIGHTED_FLOOR = GRID_TILES + "HighlightedFloor@3x";
 
     // Grid Config
     public const float GRID_CELL_SIZE = 0.25f; // 0.25f default
