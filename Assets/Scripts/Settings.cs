@@ -32,10 +32,8 @@ public static class Settings
     public const string PREFAB_INVENTORY_ITEM = "Menu/InventoryItem";
     public const string PREFAB_INVENTORY_ITEM_IMAGE = "Image";
     public const string PREFAB_INVENTORY_ITEM_TEXT_PRICE = "Image/TextBackground/Price";
-
     // INVENTORY SPRITE ITEMS
     public const string SINGLE_WOODEN_TABLE = "SpriteLibs/MenuItemSprites/MenuItemSingleTableWithChair@3x";
-
     // NPC Default
     public const float MIN_DISTANCE_TO_TARGET = 0.13f;
     public const float NPC_DEFAULT_REACTION_TIME = 4;
@@ -54,9 +52,15 @@ public static class Settings
     public const string CONST_CENTER_SCROLL_CONTENT = "MenuBody/Panel/DisplayBackground/ScrollView/Viewport/ScrollContent";
     public const string CONST_CENTER_TAB_MENU_BODY = "MenuBody";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
+    public const string CONST_LEFT_DOWN_PANEL = "LeftDownPanel";
     public const string CONST_PARENT_GAME_OBJECT = "Game";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
     public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
+
+    // UI: Menu
+    public const string CONST_LEFT_DOWN_MENU_INVENTORY = "Inventory";
+    public const string CONST_LEFT_DOWN_MENU_STORE = "Store";
+    public const string CONST_LEFT_DOWN_MENU_EMPLOYEES = "Employees";
 
     // UI: Camera
     public const bool CAMERA_PERSPECTIVE_HAND = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
