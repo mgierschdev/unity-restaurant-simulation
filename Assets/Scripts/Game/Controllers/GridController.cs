@@ -121,7 +121,7 @@ public class GridController : MonoBehaviour
             tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
             tilemapColliders.color = new Color(1, 1, 1, 0.0f);
             tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.2f);
+            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
         }
 
         pathFind = new PathFind();
@@ -137,6 +137,14 @@ public class GridController : MonoBehaviour
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
         LoadTileMap(listWalkingPathileMap, tilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
+    }
+
+    public void HighlightGridBussFloor(){
+        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
+    }
+
+    public void HideGridBussFloor(){
+         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
     }
 
     private void DrawCellCoords()

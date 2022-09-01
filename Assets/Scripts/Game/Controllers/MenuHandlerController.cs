@@ -153,7 +153,8 @@ public class MenuHandlerController : MonoBehaviour
     private void RefresNPCProfile()
     {
         // The NPC may not longer exist
-        if(npc == null){
+        if (npc == null)
+        {
             return;
         }
 
@@ -279,6 +280,9 @@ public class MenuHandlerController : MonoBehaviour
         foreach (GameGridObject obj in storeList.Tables)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+            Button button = item.GetComponent<Button>();
+            //Adding click listener
+            button.onClick.AddListener(() => InventoryItemClicked(obj));
             GameObject img = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_IMAGE).gameObject;
             GameObject text = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_TEXT_PRICE).gameObject;
             TextMeshProUGUI textMesh = text.GetComponent<TextMeshProUGUI>();
@@ -290,6 +294,12 @@ public class MenuHandlerController : MonoBehaviour
             item.transform.localScale = new Vector3(1, 1, 1);
         }
     }
+
+    public void InventoryItemClicked(GameGridObject obj)
+    {
+        Debug.Log("Button Clicked " + obj.Name);
+    }
+
     public bool IsMenuOpen()
     {
         return menuStack.Count > 0;
