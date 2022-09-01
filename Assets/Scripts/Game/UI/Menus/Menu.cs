@@ -22,7 +22,6 @@ public class MenuItem
         this.Type = type;
         Buttons = new List<string>();
         Fields = new Dictionary<string, string>();
-        scrollView = UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
     }
 
     public void SetFields(Dictionary<string, string> fields)

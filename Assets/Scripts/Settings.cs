@@ -51,7 +51,7 @@ public static class Settings
     public const string CONST_NPC_PROFILE_MENU = "NPCProfile";
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenu";
     public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
-    public const string CONST_CENTER_SCROLL_CONTENT = "ScrollContent";
+    public const string CONST_CENTER_SCROLL_CONTENT = "MenuBody/Panel/DisplayBackground/ScrollView/Viewport/ScrollContent";
     public const string CONST_CENTER_TAB_MENU_BODY = "MenuBody";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const string CONST_PARENT_GAME_OBJECT = "Game";
