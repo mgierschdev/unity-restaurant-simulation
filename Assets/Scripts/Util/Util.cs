@@ -295,6 +295,9 @@ public static class Util
         {
             return TileType.WALL;
         }
+        else if (tileName == "HighlightedFloor@3x"){
+            return TileType.FLOOR_EDIT;
+        }
         else
         {
             return TileType.UNDEFINED;
@@ -427,6 +430,7 @@ public enum TileType
     ISOMETRIC_SINGLE_SQUARE_OBJECT = 11,
     ISOMETRIC_FOUR_SQUARE_OBJECT = 12,
     WALL = 13,
+    FLOOR_EDIT = 14,
     UNDEFINED = 999
 }
 

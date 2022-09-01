@@ -71,6 +71,7 @@ public class GridController : MonoBehaviour
     private Tilemap tilemapBusinessFloor;
     private List<GameTile> listBusinessFloor;
     private Dictionary<Vector3, GameTile> mapBusinessFloor;
+    private bool isMouseHoverActive;
 
     private void Awake()
     {
@@ -116,7 +117,7 @@ public class GridController : MonoBehaviour
             Debug.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
 
-        if (!Settings.DEBUG_ENABLE)
+        if (Settings.DEBUG_ENABLE)
         {
             tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
             tilemapColliders.color = new Color(1, 1, 1, 0.0f);
@@ -126,11 +127,10 @@ public class GridController : MonoBehaviour
 
         pathFind = new PathFind();
         grid = new int[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
-        InitGrid(grid);
         debugGrid = new TextMesh[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
+        isMouseHoverActive = false;
 
-        tilemapColliders.color = new Color(1, 1, 1, 0.0f);
-
+        InitGrid(grid);
         BuildGrid(listPathFindingMap, mapWorldPositionToTile, mapGridPositionToTile, mapPathFindingGrid); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
@@ -139,12 +139,35 @@ public class GridController : MonoBehaviour
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
     }
 
-    public void HighlightGridBussFloor(){
-        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
+    private void Update()
+    {
+        if (isMouseHoverActive)
+        {
+            MouseHover();
+        }
     }
 
-    public void HideGridBussFloor(){
-         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+    public void HighlightGridBussFloor()
+    {
+        // If we Highlight we are in edit mode
+        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
+        isMouseHoverActive = true;
+    }
+
+    private void MouseHover()
+    {
+        Vector3 mousePosition = Util.GetMouseInWorldPosition();
+        Vector3Int mouseInGridPosition = GetPathFindingGridFromWorldPosition(mousePosition);
+        GameTile tile = mapBusinessFloor[mousePosition];
+        
+
+       // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
+    }
+
+    public void HideGridBussFloor()
+    {
+        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+        isMouseHoverActive = false;
     }
 
     private void DrawCellCoords()
@@ -185,7 +208,7 @@ public class GridController : MonoBehaviour
 
     private void BuildGrid(List<GameTile> list, Dictionary<Vector3, GameTile> mapWorldPositionToTile, Dictionary<Vector3Int, GameTile> mapGridPositionToTile, Dictionary<Vector3Int, GameTile> mapPathFindingGrid)
     {
-        TileBase gridTile = tilemapPathFinding.GetTile(new Vector3Int(-12, 28));
+        TileBase gridTile = Resources.Load<Tile>(Settings.GRID_TILES_SIMPLE);
 
         for (int x = 0; x <= heigth; x++)
         {
