@@ -27,10 +27,15 @@ public class MenuHandlerController : MonoBehaviour
     private MenuObjectList storeList;
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
+    GridController gridController;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Start()
     {
+        // Grid Controller
+        GameObject gridObj = GameObject.Find(Settings.GAME_GRID).gameObject;
+        gridController = gridObj.GetComponent<GridController>();
+
         // Click controller
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
         clickController = cController.GetComponent<ClickController>();
@@ -45,12 +50,13 @@ public class MenuHandlerController : MonoBehaviour
         tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.CONST_NPC_PROFILE_MENU).gameObject;
 
-        if (tabMenu == null || leftDownPanel == null || cController == null)
+        if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null)
         {
             Debug.LogWarning("MenuHandlerController Menu null ");
             Debug.LogWarning("tabMenu " + tabMenu);
             Debug.LogWarning("leftDownPanel " + leftDownPanel);
             Debug.LogWarning("cController " + cController);
+            Debug.LogWarning("gridController " + cController);
         }
 
         menuStack = new Stack<MenuItem>();
@@ -302,7 +308,7 @@ public class MenuHandlerController : MonoBehaviour
             GameObject item = Instantiate(Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
             //Adding click listener
-            button.onClick.AddListener(() => InventoryItemClicked(obj));
+            button.onClick.AddListener(() => OpenStoreEditPanel(obj));
             GameObject img = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_IMAGE).gameObject;
             GameObject text = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_TEXT_PRICE).gameObject;
             TextMeshProUGUI textMesh = text.GetComponent<TextMeshProUGUI>();
@@ -344,10 +350,13 @@ public class MenuHandlerController : MonoBehaviour
         bRotate.onClick.AddListener(() => ItemClicked());
     }
 
-    private void OpenStoreEditPanel()
+    private void OpenStoreEditPanel(GameGridObject obj)
     {
         CloseAllMenus();
+        Debug.Log("Object to add "+obj.Name);
+        gridController.HighlightGridBussFloor();
         //Disable Lefdown panel
+        PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
     }
@@ -356,6 +365,8 @@ public class MenuHandlerController : MonoBehaviour
     private void CloseEditPanel(){
         editStoreMenuPanel.SetActive(false);
         leftDownPanel.SetActive(true);
+        gridController.HideGridBussFloor();
+        ResumeGame();
         OpenMenu(centerTabMenu);
     }
 
