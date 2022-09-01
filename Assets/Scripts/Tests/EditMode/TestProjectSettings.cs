@@ -33,6 +33,13 @@ public class TestProjectSettings
     }
 
     [Test]
+    public void TestTopCenterScrollContent()
+    {
+        GameObject centerMenu = GameObject.Find(Settings.CONST_CENTER_SCROLL_CONTENT);
+        Assert.NotNull(centerMenu);
+    }
+
+    [Test]
     public void TestGameGrid()
     {
         GameObject gameGrid = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
@@ -100,5 +107,23 @@ public class TestProjectSettings
     {
         Object obj = Resources.Load(Settings.PREFAB_SAND_SEA, typeof(GameObject));
         Assert.NotNull(obj);
+    }
+
+    [Test]
+    public void TestLoadingMenuItemSprites()
+    {
+        Sprite s = Resources.Load<Sprite>(Settings.SINGLE_WOODEN_TABLE);
+        Assert.NotNull(s);
+    }
+
+    [Test]
+    public void TestLoadingInventoryMenuItem()
+    {
+        GameObject item = (GameObject) Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject));
+        Transform image = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_IMAGE);
+        Transform price = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_TEXT_PRICE);
+        Assert.NotNull(item);
+        Assert.NotNull(image);  
+        Assert.NotNull(price);
     }
 }

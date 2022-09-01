@@ -12,20 +12,13 @@ public class GameGridObject : GameObjectBase
         LocalGridPosition = localGridPosition;
         Type = type;
 
-        if (type == ObjectType.NPC_COUNTER)
-        {
-            ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
-        }
-
-        if (type == ObjectType.NPC_TABLE)
-        {
-            ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
-        }
+        SetActionPoints();
     }
 
 
-    public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost)
+    public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost, string menuItemFoto)
     {
+        MenuItemSprite = menuItemFoto;
         this.TileType = tileType;
         this.Name = name;
         GridPosition = gridPosition; // Grid position, first position = 0, 0
@@ -34,14 +27,19 @@ public class GameGridObject : GameObjectBase
         Type = type;
         Cost = cost;
 
-        if (type == ObjectType.NPC_COUNTER)
+        SetActionPoints();
+    }
+
+    private void SetActionPoints()
+    {
+        if (Type == ObjectType.NPC_COUNTER)
         {
-            ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
+            ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
         }
 
-        if (type == ObjectType.NPC_TABLE)
+        if (Type == ObjectType.NPC_TABLE)
         {
-            ActionGridPosition = gridPosition + new Vector3Int(0, 1, 0);
+            ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
         }
     }
 }

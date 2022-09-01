@@ -11,8 +11,7 @@ public class MenuItem
     public List<string> Buttons { get; set; }
     public Dictionary<string, string> Fields { get; set; }
     public bool PauseGameGame { get; set; }
-
-    public List<GameGridObject> displayList;
+    public GameObject scrollView;
 
     public MenuItem(Menu menu, MenuType type, string name, GameObject gobj, bool pauseGame)
     {
@@ -23,6 +22,7 @@ public class MenuItem
         this.Type = type;
         Buttons = new List<string>();
         Fields = new Dictionary<string, string>();
+        scrollView = UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
     }
 
     public void SetFields(Dictionary<string, string> fields)
