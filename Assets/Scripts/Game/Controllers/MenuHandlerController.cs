@@ -13,7 +13,6 @@ public class MenuHandlerController : MonoBehaviour
     NPCController npc; //saves the latest reference to the npc if the menu was openned
     EmployeeController employee;
     private MenuItem centerTabMenu;
-    private MenuItem topGameMenu;
     private Stack<MenuItem> menuStack;
     private HashSet<string> openMenus;
     private bool isGamePaused;
@@ -27,6 +26,7 @@ public class MenuHandlerController : MonoBehaviour
     //Menu realtime refreshrate
     private float menuRefreshRate = 3f;
     private MenuObjectList storeList;
+    private GameObject leftDownPanel;
 
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
@@ -36,30 +36,37 @@ public class MenuHandlerController : MonoBehaviour
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
         clickController = cController.GetComponent<ClickController>();
 
+        //Left down panel
+        leftDownPanel = GameObject.Find(Settings.CONST_LEFT_DOWN_PANEL).gameObject;
+
         //Containing all Inventory Items
         storeList = new MenuObjectList();
 
         tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
-        GameObject gameMenu = transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.CONST_NPC_PROFILE_MENU).gameObject;
+
+        if (tabMenu == null || leftDownPanel == null || cController == null)
+        {
+            Debug.LogWarning("MenuHandlerController Menu null ");
+            Debug.LogWarning("tabMenu " + tabMenu);
+            Debug.LogWarning("leftDownPanel " + leftDownPanel);
+            Debug.LogWarning("cController " + cController);
+        }
 
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
 
-        topGameMenu = new MenuItem(Menu.TOP_MENU, MenuType.ON_SCREEN, Settings.CONST_TOP_GAME_MENU, gameMenu, true);
         centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu, true);
         npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.CONST_NPC_PROFILE_MENU, npcProfileGameObject, false);
 
-        topGameMenu.Buttons.Add(Settings.CONST_UI_INVENTORY_BUTTON);
-        centerTabMenu.Buttons.Add(Settings.CONST_UI_EXIT_BUTTON);
-
         //Adding inventory Items Tables
-        SetClickListeners(centerTabMenu);
-        SetClickListeners(topGameMenu);
         SetClickListeners(npcProfileMenu);
 
         //Adding Scroll content
         AddMenuItemsToScrollView(centerTabMenu);
+
+        //Setting Click Listeners to Left Down Panel
+        SetLeftDownPanelClickListeners();
 
         centerTabMenu.Close();
         npcProfileMenu.Close();
@@ -206,6 +213,7 @@ public class MenuHandlerController : MonoBehaviour
     }
     private void OpenMenu(MenuItem menu)
     {
+        Debug.Log("Opening Menu " + menu.Name);
         if (!openMenus.Contains(menu.Name))
         {
             menu.UnityObject.SetActive(true);
@@ -293,6 +301,25 @@ public class MenuHandlerController : MonoBehaviour
             item.transform.SetParent(ScrollView.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
+    }
+
+    private void SetLeftDownPanelClickListeners()
+    {
+        GameObject store = leftDownPanel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_STORE).gameObject;
+        Button bStore = store.GetComponent<Button>();
+        bStore.onClick.AddListener(() => OpenMenu(centerTabMenu));
+
+        GameObject inventory = leftDownPanel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_INVENTORY).gameObject;
+        Button bInventory = inventory.GetComponent<Button>();
+        bInventory.onClick.AddListener(() => ItemClicked());
+
+        GameObject employees = leftDownPanel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_EMPLOYEES).gameObject;
+        Button bEmployees = employees.GetComponent<Button>();
+        bEmployees.onClick.AddListener(() => ItemClicked());
+    }
+
+    public void ItemClicked(){
+        //Debug.Log("Clicking inventory/bEmployees");
     }
 
     public void InventoryItemClicked(GameGridObject obj)

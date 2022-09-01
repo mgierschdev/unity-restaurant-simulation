@@ -29,13 +29,6 @@ public class TestProjectSettings
     }
 
     [Test]
-    public void TestTopGameMenu()
-    {
-        GameObject topGameMenu = GameObject.Find(Settings.CONST_TOP_GAME_MENU);
-        Assert.NotNull(topGameMenu);
-    }
-
-    [Test]
     public void TestGameGrid()
     {
         GameObject gameGrid = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
