@@ -26,7 +26,7 @@ public class MenuHandlerController : MonoBehaviour
     private float menuRefreshRate = 3f;
     private MenuObjectList storeList;
     private GameObject leftDownPanel;
-    private GameObject editMenuPanel;
+    private GameObject editStoreMenuPanel;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Start()
@@ -37,7 +37,7 @@ public class MenuHandlerController : MonoBehaviour
 
         //Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.CONST_LEFT_DOWN_PANEL).gameObject;
-        editMenuPanel = GameObject.Find(Settings.CONST_EDIT_STORE_MENU_PANEL).gameObject;
+        editStoreMenuPanel = GameObject.Find(Settings.CONST_EDIT_STORE_MENU_PANEL).gameObject;
 
         //Containing all Inventory Items
         storeList = new MenuObjectList();
@@ -69,7 +69,7 @@ public class MenuHandlerController : MonoBehaviour
         SetLeftDownPanelClickListeners();
         SetEditStorePanelClickListeners();
 
-        editMenuPanel.SetActive(false);
+        editStoreMenuPanel.SetActive(false);
         centerTabMenu.Close();
         npcProfileMenu.Close();
 
@@ -331,15 +331,15 @@ public class MenuHandlerController : MonoBehaviour
 
     private void SetEditStorePanelClickListeners()
     {
-        GameObject accept = leftDownPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ACCEPT).gameObject;
+        GameObject accept = editStoreMenuPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ACCEPT).gameObject;
         Button bAccept = accept.GetComponent<Button>();
         bAccept.onClick.AddListener(() => ItemClicked());
 
-        GameObject cancel = leftDownPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_CANCEL).gameObject;
+        GameObject cancel = editStoreMenuPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_CANCEL).gameObject;
         Button bCancel = cancel.GetComponent<Button>();
         bCancel.onClick.AddListener(() =>  CloseEditPanel());
 
-        GameObject rotate = leftDownPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ROTATE).gameObject;
+        GameObject rotate = editStoreMenuPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ROTATE).gameObject;
         Button bRotate = rotate.GetComponent<Button>();
         bRotate.onClick.AddListener(() => ItemClicked());
     }
@@ -349,12 +349,12 @@ public class MenuHandlerController : MonoBehaviour
         CloseAllMenus();
         //Disable Lefdown panel
         leftDownPanel.SetActive(false);
-        editMenuPanel.SetActive(true);
+        editStoreMenuPanel.SetActive(true);
     }
 
     // Closes the edit panel without changes 
     private void CloseEditPanel(){
-        editMenuPanel.SetActive(false);
+        editStoreMenuPanel.SetActive(false);
         leftDownPanel.SetActive(true);
         OpenMenu(centerTabMenu);
     }
