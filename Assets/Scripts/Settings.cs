@@ -30,6 +30,11 @@ public static class Settings
     public const string PREFAB_NPC_CLIENT = "Players/Client";
     public const string PREFAB_NPC_EMPLOYEE = "Players/Employee";
     public const string PREFAB_INVENTORY_ITEM = "Menu/InventoryItem";
+    public const string PREFAB_INVENTORY_ITEM_IMAGE = "Image";
+    public const string PREFAB_INVENTORY_ITEM_TEXT_PRICE = "Image/TextBackground/Price";
+
+    // INVENTORY SPRITE ITEMS
+    public const string SINGLE_WOODEN_TABLE = "SpriteLibs/MenuItemSprites/MenuItemSingleTableWithChair@3x";
 
     // NPC Default
     public const float MIN_DISTANCE_TO_TARGET = 0.13f;
@@ -46,6 +51,7 @@ public static class Settings
     public const string CONST_NPC_PROFILE_MENU = "NPCProfile";
     public const string CONST_CANVAS_PARENT_MENU = "CanvasMenu";
     public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
+    public const string CONST_CENTER_SCROLL_CONTENT = "ScrollContent";
     public const string CONST_CENTER_TAB_MENU_BODY = "MenuBody";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const string CONST_PARENT_GAME_OBJECT = "Game";

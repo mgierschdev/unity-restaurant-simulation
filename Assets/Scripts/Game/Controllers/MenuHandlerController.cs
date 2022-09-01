@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 // This will be only element attached in the UI
 // All the buttom calls will be handled by this class.
@@ -34,6 +36,9 @@ public class MenuHandlerController : MonoBehaviour
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
         clickController = cController.GetComponent<ClickController>();
 
+        //Containing all Inventory Items
+        storeList = new MenuObjectList();
+
         tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
         GameObject gameMenu = transform.Find(Settings.CONST_TOP_GAME_MENU).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.CONST_NPC_PROFILE_MENU).gameObject;
@@ -48,9 +53,13 @@ public class MenuHandlerController : MonoBehaviour
         topGameMenu.Buttons.Add(Settings.CONST_UI_INVENTORY_BUTTON);
         centerTabMenu.Buttons.Add(Settings.CONST_UI_EXIT_BUTTON);
 
+        //Adding inventory Items Tables
         SetClickListeners(centerTabMenu);
         SetClickListeners(topGameMenu);
         SetClickListeners(npcProfileMenu);
+
+        //Adding Scroll content
+        AddMenuItemsToScrollView(centerTabMenu);
 
         centerTabMenu.Close();
         npcProfileMenu.Close();
@@ -74,10 +83,11 @@ public class MenuHandlerController : MonoBehaviour
 
     private void TimeControl()
     {
-        if(menuStack == null){
+        if (menuStack == null)
+        {
             return;
         }
-        
+
         //Handles for how long abefore activating CloseOnCLickOutside
         if (menuStack.Count > 0)
         {
@@ -140,7 +150,6 @@ public class MenuHandlerController : MonoBehaviour
             clickController.ClickedGameTile = null;
         }
     }
-
     private void RefresNPCProfile()
     {
         Dictionary<string, string> map = new Dictionary<string, string>
@@ -189,7 +198,6 @@ public class MenuHandlerController : MonoBehaviour
             }
         }
     }
-
     private void OpenMenu(MenuItem menu)
     {
         if (!openMenus.Contains(menu.Name))
@@ -215,19 +223,16 @@ public class MenuHandlerController : MonoBehaviour
             ResumeGame();
         }
     }
-
     private void PauseGame()
     {
         Time.timeScale = 0;
         isGamePaused = true;
     }
-
     private void ResumeGame()
     {
         Time.timeScale = 1;
         isGamePaused = false;
     }
-
     private bool IsClickOutside()
     {
         if (menuStack.Count > 0)
@@ -250,11 +255,27 @@ public class MenuHandlerController : MonoBehaviour
         }
     }
 
+    private void AddMenuItemsToScrollView(MenuItem menu)
+    {
+        GameObject ScrollView = menu.UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
+
+        foreach (GameGridObject obj in storeList.Tables)
+        {
+            GameObject item = Instantiate(Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+            GameObject img = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_IMAGE).gameObject;
+            GameObject text = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_TEXT_PRICE).gameObject;
+            TextMeshProUGUI textMesh = text.GetComponent<TextMeshProUGUI>();
+            textMesh.text = obj.Cost.ToString();
+            Image imgComponent = img.GetComponent<Image>();
+            Sprite sp  = Resources.Load<Sprite>(obj.MenuItemSprite);
+            imgComponent.sprite = sp;
+            item.transform.SetParent(ScrollView.transform);
+        }
+    }
     public bool IsMenuOpen()
     {
         return menuStack.Count > 0;
     }
-
     public bool IsGamePaused()
     {
         return isGamePaused;
