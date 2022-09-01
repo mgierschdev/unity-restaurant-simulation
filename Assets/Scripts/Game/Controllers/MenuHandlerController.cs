@@ -152,6 +152,11 @@ public class MenuHandlerController : MonoBehaviour
     }
     private void RefresNPCProfile()
     {
+        // The NPC may not longer exist
+        if(npc == null){
+            return;
+        }
+
         Dictionary<string, string> map = new Dictionary<string, string>
            {
            {"Name", npc.Name},

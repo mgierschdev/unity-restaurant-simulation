@@ -361,7 +361,7 @@ public class GridController : MonoBehaviour
             return tile.GridPosition;
         }
 
-        throw new System.Exception("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key");
+        return Vector3Int.zero;
     }
 
     public Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
