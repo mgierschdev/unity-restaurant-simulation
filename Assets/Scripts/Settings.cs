@@ -12,7 +12,7 @@ public static class Settings
     //GAME TAGS
     public const string NPC_TAG = "NPC";
     public const string NPC_EMPLOYEE_TAG = "Employee";
-    public const string PLAYER_TAG = "Player";  
+    public const string PLAYER_TAG = "Player";
     public const string GRID_TILE_TAG = "GridTile";
 
     // TILEMAPS
@@ -86,6 +86,13 @@ public static class Settings
     public const string GAME_GRID = "GameGrid";
 
     // UI Tags
+
+    // Grid
+
+    //Tiles
+    public const string GRID_TILES = "Grid/Tiles/";
+    public const string GRID_TILES_SIMPLE = GRID_TILES + "GridTile";
+
     // Grid Config
     public const float GRID_CELL_SIZE = 0.25f; // 0.25f default
     public const int GRID_WIDTH = 44; // Number of cell per Grid CellSize

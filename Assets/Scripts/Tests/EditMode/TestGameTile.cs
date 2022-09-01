@@ -24,10 +24,16 @@ public class TestGameTile
     }
 
     [Test]
-    public void BaseTileGrid(){
+    public void TestBaseTileGrid(){
         //Base tile used to build the floor of the build, initally positioned in -12/28
         Tilemap tilemapPathFinding = GameObject.Find(Settings.PATH_FINDING_GRID).GetComponent<Tilemap>();
         TileBase gridTile = tilemapPathFinding.GetTile(new Vector3Int(-12, 28));
+        Assert.NotNull(gridTile);
+    }
+
+    [Test]
+    public void TestLoadTileMap(){
+        TileBase gridTile = Resources.Load<Tile>(Settings.GRID_TILES_SIMPLE);
         Assert.NotNull(gridTile);
     }
 }

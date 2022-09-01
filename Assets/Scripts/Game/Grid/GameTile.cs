@@ -14,4 +14,10 @@ public class GameTile : GameObjectBase
         Type = type;
         UnityTileBase = unityTileBase;
     }
+
+    public void SwapTile(TileType name, ObjectType type, TileBase unityTileBase){
+        TileType = name;
+        this.Type = type;
+        this.UnityTileBase = unityTileBase;
+    }
 }
