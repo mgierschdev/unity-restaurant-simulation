@@ -138,15 +138,7 @@ public class GridController : MonoBehaviour
         LoadTileMap(listWalkingPathileMap, tilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
     }
-
-    private void Update()
-    {
-        if (isMouseHoverActive)
-        {
-            MouseHover();
-        }
-    }
-
+    
     public void HighlightGridBussFloor()
     {
         // If we Highlight we are in edit mode
