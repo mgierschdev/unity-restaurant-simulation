@@ -2,9 +2,15 @@ using UnityEngine;
 public class BaseObjectController : MonoBehaviour
 {
     private MenuHandlerController menu;
+    private Vector3 mousePosition;
+    private SpriteRenderer spriteRenderer;
+    private Color available;
+    private Color ocupied;
+    private Color free;
+    private Vector3 initialPosition;
+    protected GameGridObject gameGridObject;
     protected ObjectType Type;
     protected GridController grid;
-    private Vector3 mousePosition;
 
     public void Awake()
     {
@@ -14,7 +20,12 @@ public class BaseObjectController : MonoBehaviour
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         menu = menuHandler.GetComponent<MenuHandlerController>();
         grid = gameGridObject.GetComponent<GridController>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         Type = ObjectType.UNDEFINED;
+        available = new Color(0, 1, 0, 0.4f);
+        ocupied = new Color(1, 0, 0, 0.4f);
+        free = new Color(1, 1, 1, 1);
+        initialPosition = transform.position;
     }
 
     private void OnMouseDown()
@@ -31,7 +42,38 @@ public class BaseObjectController : MonoBehaviour
         {
             // Change Overlay color depending if can place or not
             // Mark 2 tiles of the object action tile and position tile
-            transform.position = grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
+            Vector3 currentPos = grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
+            Vector3 initPos = grid.GetNearestGridPositionFromWorldMap(initialPosition);
+            transform.position = new Vector3(currentPos.x, currentPos.y, 1);
+            if (grid.IsValidBussPosition(currentPos, initPos))
+            {
+                spriteRenderer.color = available;
+            }
+            else
+            {
+                spriteRenderer.color = ocupied;
+            }
+        }
+    }
+
+    // Called when the mouse is released 
+    private void OnMouseUp()
+    {
+        if (IsDragable())
+        {
+            Vector3 finalPos = grid.GetNearestGridPositionFromWorldMap(transform.position);
+            Vector3 initPos = grid.GetNearestGridPositionFromWorldMap(initialPosition);
+
+            if (!grid.IsValidBussPosition(finalPos, initPos))
+            {
+                transform.position = initialPosition;
+            }
+            else
+            {
+                initialPosition = new Vector3(initPos.x, initPos.y, 1); ;
+            }
+
+            spriteRenderer.color = free;
         }
     }
 

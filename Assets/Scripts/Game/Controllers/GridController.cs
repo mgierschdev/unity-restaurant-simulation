@@ -139,33 +139,21 @@ public class GridController : MonoBehaviour
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
     }
 
-    public void HighlightGridBussFloor()
-    {
-        // If we Highlight we are in edit mode
-        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
-        isMouseHoverActive = true;
-    }
-
     private void MouseHover()
     {
         Vector3 mousePosition = Util.GetMouseInWorldPosition();
         Vector3Int mouseInGridPosition = GetPathFindingGridFromWorldPosition(mousePosition);
 
-        if(!mapPathFindingGrid.ContainsKey(mouseInGridPosition)){
-            Debug.Log("Does not contain the position "+mouseInGridPosition);
+        if (!mapPathFindingGrid.ContainsKey(mouseInGridPosition))
+        {
+            Debug.Log("Does not contain the position " + mouseInGridPosition);
             return;
         }
-        
+
         GameTile tile = mapPathFindingGrid[mouseInGridPosition];
         TileBase highLightedTile = Resources.Load<Tile>(Settings.GRID_TILES_HIGHLIGHTED_FLOOR);
         tilemapBusinessFloor.SetTile(tile.LocalGridPosition, highLightedTile);
         // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
-    }
-
-    public void HideGridBussFloor()
-    {
-        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
-        isMouseHoverActive = false;
     }
 
     private void DrawCellCoords()
@@ -289,29 +277,6 @@ public class GridController : MonoBehaviour
         }
     }
 
-    //Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
-    public GameTile GetGameTileFromClickInPathFindingGrid(Vector3Int position)
-    {
-        if (mapPathFindingGrid.ContainsKey(position))
-        {
-            return mapPathFindingGrid[position];
-        }
-        else
-        {
-            Debug.LogWarning("IsometricGrid/GetGameTileFromClickInWorldPosition null");
-            return null;
-        }
-    }
-
-    //Default for 0.25 tile cell
-    public void SetIsometricGameTileCollider(GameTile tile)
-    {
-        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y, tile.Type, Color.blue);
-        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y, tile.Type, Color.blue);
-        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
-        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
-    }
-
     // In GameMap/Grid coordinates This sets the obstacle points around the obstacle
     private void SetGridObstacle(int x, int y, ObjectType type, Color color)
     {
@@ -358,13 +323,87 @@ public class GridController : MonoBehaviour
         SetCellColor(pos.x, pos.y + 1, Color.blue);
     }
 
-    private bool IsCoordsValid(float x, float y)
+    private bool IsCoordsValid(int x, int y)
     {
         return x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1);
     }
 
+    private void SetObjectObstacle(GameGridObject obj)
+    {
+        if (obj.Type == ObjectType.NPC_TABLE)
+        {
+            FreeBusinessSpots.Enqueue(obj);
+            grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
+            if (Settings.DEBUG_ENABLE)
+            {
+                SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            }
+        }
+        else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
+        {
+            grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
+            if (Settings.DEBUG_ENABLE)
+            {
+                SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            }
+        }
+    }
+
+    public bool IsValidBussPosition(Vector3 pos, Vector3 initial)
+    {
+        Vector3Int pathGridPos = GetPathFindingGridFromWorldPosition(pos);
+        
+        Debug.Log("Is valid cord "+ IsCoordsValid(pathGridPos.x, pathGridPos.y));
+
+        if (!IsCoordsValid(pathGridPos.x, pathGridPos.y))
+        {
+            return false;
+        }
+        
+        Debug.Log("Contains Key "+ mapBusinessFloor.ContainsKey(pos));
+        Debug.Log("PathWalking value "+grid[pathGridPos.x, pathGridPos.y]);
+
+        return (mapBusinessFloor.ContainsKey(pos) && grid[pathGridPos.x, pathGridPos.y] == 0) || initial == pos;
+    }
+
+    public void HideGridBussFloor()
+    {
+        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+        isMouseHoverActive = false;
+    }
+
+    //Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
+    public GameTile GetGameTileFromClickInPathFindingGrid(Vector3Int position)
+    {
+        if (mapPathFindingGrid.ContainsKey(position))
+        {
+            return mapPathFindingGrid[position];
+        }
+        else
+        {
+            Debug.LogWarning("IsometricGrid/GetGameTileFromClickInWorldPosition null");
+            return null;
+        }
+    }
+
+    //Default for 0.25 tile cell
+    public void SetIsometricGameTileCollider(GameTile tile)
+    {
+        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y, tile.Type, Color.blue);
+        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y, tile.Type, Color.blue);
+        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
+        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
+    }
+    public void HighlightGridBussFloor()
+    {
+        // If we Highlight we are in edit mode
+        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
+        isMouseHoverActive = true;
+    }
+
     // Returns the nearest grid World position given any world map position
-    public Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos){
+    public Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos)
+    {
         return GetWorldFromGridPosition(GetLocalGridFromWorldPosition(pos));
     }
 
@@ -480,27 +519,6 @@ public class GridController : MonoBehaviour
         listGamePrefabs.Add(obj);
         mapGamePrefabs.Add(obj.Name, obj);
         SetObjectObstacle(obj);
-    }
-
-    private void SetObjectObstacle(GameGridObject obj)
-    {
-        if (obj.Type == ObjectType.NPC_TABLE)
-        {
-            FreeBusinessSpots.Enqueue(obj);
-            grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            if (Settings.DEBUG_ENABLE)
-            {
-                SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
-            }
-        }
-        else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
-        {
-            grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            if (Settings.DEBUG_ENABLE)
-            {
-                SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
-            }
-        }
     }
 
     public GameGridObject GetFreeTable()
