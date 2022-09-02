@@ -1,4 +1,5 @@
 using UnityEngine;
+
 public class GameGridObject : GameObjectBase
 {
     public bool Busy { get; set; } //Being used by an NPC
@@ -41,6 +42,11 @@ public class GameGridObject : GameObjectBase
             ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
         }
     }
+    
+    public bool IsLastPositionEqual(Vector3Int ActionGridPosition)
+    {
+        return this.ActionGridPosition == ActionGridPosition;
+    }
 
     public void UpdateCoords(Vector3Int GridPosition, Vector3Int LocalGridPosition, Vector3 WorldPosition)
     {
@@ -53,4 +59,5 @@ public class GameGridObject : GameObjectBase
             ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
         }
     }
+
 }
