@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6676300873526667865, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6676300873526667865, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_LocalRotation.w
@@ -63,6 +63,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: dc4527509d3034af380250244a19d3fd, type: 3}
+    - target: {fileID: 8672831008513955186, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672831008513955186, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.545
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672831008513955186, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.94
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 097e89233788541f1978222bf4874128, type: 3}
 --- !u!1 &1656295977345411071 stripped

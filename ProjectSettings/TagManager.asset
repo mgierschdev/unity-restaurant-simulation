@@ -25,6 +25,7 @@ TagManager:
   - Leg-R
   - Employee
   - Table
+  - BaseObject
   layers:
   - Default
   - TransparentFX

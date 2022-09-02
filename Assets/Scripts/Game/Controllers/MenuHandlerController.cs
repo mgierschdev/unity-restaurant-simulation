@@ -27,7 +27,7 @@ public class MenuHandlerController : MonoBehaviour
     private MenuObjectList storeList;
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
-    GridController gridController;
+    private GridController gridController;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Start()
@@ -368,6 +368,10 @@ public class MenuHandlerController : MonoBehaviour
         gridController.HideGridBussFloor();
         ResumeGame();
         OpenMenu(centerTabMenu);
+    }
+
+    public bool IsEditPanelOpen(){
+        return editStoreMenuPanel.activeSelf;
     }
 
     public void ItemClicked()
