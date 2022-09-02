@@ -138,7 +138,7 @@ public class GridController : MonoBehaviour
         LoadTileMap(listWalkingPathileMap, tilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
     }
-    
+
     public void HighlightGridBussFloor()
     {
         // If we Highlight we are in edit mode
@@ -361,6 +361,11 @@ public class GridController : MonoBehaviour
     private bool IsCoordsValid(float x, float y)
     {
         return x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1);
+    }
+
+    // Returns the nearest grid World position given any world map position
+    public Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos){
+        return GetWorldFromGridPosition(GetLocalGridFromWorldPosition(pos));
     }
 
     public List<Node> GetPath(int[] start, int[] end)
