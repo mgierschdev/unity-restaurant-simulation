@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 public class BaseObjectController : MonoBehaviour
 {
     private MenuHandlerController menu;
@@ -8,6 +9,7 @@ public class BaseObjectController : MonoBehaviour
     private Color ocupied;
     private Color free;
     private Vector3 initialPosition;
+    private SortingGroup sortLayer;
     protected GameGridObject gameGridObject;
     protected ObjectType Type;
     protected GridController grid;
@@ -21,6 +23,7 @@ public class BaseObjectController : MonoBehaviour
         menu = menuHandler.GetComponent<MenuHandlerController>();
         grid = gameGridObject.GetComponent<GridController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        sortLayer = GetComponent<SortingGroup>();
         Type = ObjectType.UNDEFINED;
         available = new Color(0, 1, 0, 0.4f);
         ocupied = new Color(1, 0, 0, 0.4f);
@@ -45,6 +48,8 @@ public class BaseObjectController : MonoBehaviour
             Vector3 currentPos = grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
             Vector3 initPos = grid.GetNearestGridPositionFromWorldMap(initialPosition);
             transform.position = new Vector3(currentPos.x, currentPos.y, 1);
+            sortLayer.sortingOrder = 1;
+
             if (grid.IsValidBussPosition(currentPos, initPos))
             {
                 spriteRenderer.color = available;
@@ -63,10 +68,11 @@ public class BaseObjectController : MonoBehaviour
         {
             Vector3 finalPos = grid.GetNearestGridPositionFromWorldMap(transform.position);
             Vector3 initPos = grid.GetNearestGridPositionFromWorldMap(initialPosition);
+            sortLayer.sortingOrder = 0;
 
             if (!grid.IsValidBussPosition(finalPos, initPos))
             {
-                transform.position = initialPosition;
+                transform.position = new Vector3(initialPosition.x, initialPosition.y, 1);
             }
             else
             {
