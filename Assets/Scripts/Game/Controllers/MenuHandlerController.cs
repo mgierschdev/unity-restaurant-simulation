@@ -232,7 +232,6 @@ public class MenuHandlerController : MonoBehaviour
 
     private void OpenMenu(MenuItem menu)
     {
-        Debug.Log("Opening Menu " + menu.Name);
         if (!openMenus.Contains(menu.Name))
         {
             menu.UnityObject.SetActive(true);
@@ -367,7 +366,6 @@ public class MenuHandlerController : MonoBehaviour
         leftDownPanel.SetActive(true);
         gridController.HideGridBussFloor();
         ResumeGame();
-        OpenMenu(centerTabMenu);
     }
 
     public bool IsEditPanelOpen(){

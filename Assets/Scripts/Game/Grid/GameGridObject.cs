@@ -15,7 +15,6 @@ public class GameGridObject : GameObjectBase
         SetActionPoints();
     }
 
-
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost, string menuItemFoto)
     {
         MenuItemSprite = menuItemFoto;
@@ -36,6 +35,18 @@ public class GameGridObject : GameObjectBase
         {
             ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
         }
+
+        if (Type == ObjectType.NPC_TABLE)
+        {
+            ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
+        }
+    }
+
+    public void UpdateCoords(Vector3Int GridPosition, Vector3Int LocalGridPosition, Vector3 WorldPosition)
+    {
+        this.GridPosition = GridPosition;
+        this.LocalGridPosition = LocalGridPosition;
+        this.WorldPosition = WorldPosition;
 
         if (Type == ObjectType.NPC_TABLE)
         {

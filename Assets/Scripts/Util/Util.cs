@@ -295,7 +295,8 @@ public static class Util
         {
             return TileType.WALL;
         }
-        else if (tileName == "HighlightedFloor@3x"){
+        else if (tileName == "HighlightedFloor@3x")
+        {
             return TileType.FLOOR_EDIT;
         }
         else
