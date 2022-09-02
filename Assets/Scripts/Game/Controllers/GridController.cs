@@ -61,9 +61,11 @@ public class GridController : MonoBehaviour
 
     //Prefabs in the TilemapObjects
     private List<GameGridObject> listGamePrefabs;
+    private Dictionary<string, GameGridObject> FreeBusinessSpotsMap { get; set; }
     private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
     private Queue<GameGridObject> TablesWithClient { get; set; } // Tables to attend or chairs
     public GameGridObject Counter { get; set; }
+
     [SerializeField]
     private Dictionary<string, GameGridObject> mapGamePrefabs; //In PathfindingGrid pos
 
@@ -97,6 +99,7 @@ public class GridController : MonoBehaviour
         mapGamePrefabs = new Dictionary<string, GameGridObject>();
         FreeBusinessSpots = new Queue<GameGridObject>();
         TablesWithClient = new Queue<GameGridObject>();
+        FreeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TILEMAP_WALKING_PATH).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
@@ -333,6 +336,7 @@ public class GridController : MonoBehaviour
         if (obj.Type == ObjectType.NPC_TABLE)
         {
             FreeBusinessSpots.Enqueue(obj);
+            FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
             if (Settings.DEBUG_ENABLE)
             {
@@ -529,6 +533,7 @@ public class GridController : MonoBehaviour
     {
         if (FreeBusinessSpots.Count > 0)
         {
+            FreeBusinessSpotsMap.Remove(FreeBusinessSpots.Peek().Name);
             return FreeBusinessSpots.Dequeue();
         }
         return null;
@@ -544,13 +549,13 @@ public class GridController : MonoBehaviour
         return TablesWithClient.Count > 0;
     }
 
-    public void FreeTable(string name)
-    {
-        FreeBusinessSpots.Enqueue(mapGamePrefabs[name]);
+    public bool IsTableInFreeBussSpot(GameGridObject obj){
+        return FreeBusinessSpotsMap.ContainsKey(obj.Name);
     }
 
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
+        FreeBusinessSpotsMap.Add(obj.Name, obj);
         FreeBusinessSpots.Enqueue(obj);
     }
 

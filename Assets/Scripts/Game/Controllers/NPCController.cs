@@ -17,6 +17,7 @@ public class NPCController : GameObjectMovementBase
     private float idleTime = 0;
     private float idleMaxTime = 6f; //in seconds
     private float randMax = 3f;
+    private Vector3Int target; // walking to target
 
     private void Start()
     {
@@ -51,6 +52,13 @@ public class NPCController : GameObjectMovementBase
         UpdateTableAttended();
         UpdateIsAtRespawn();
 
+        // if the table moved
+        if (table != null && !table.IsLastPositionEqual(target))
+        {
+            GameGrid.AddFreeBusinessSpots(table);
+            GoToFinalState();
+        }
+
         if (!GameGrid.IsThereFreeTables() && LocalState != NPCState.AT_TABLE && LocalState != NPCState.WALKING_TO_TABLE && LocalState != NPCState.WAITING_TO_BE_ATTENDED && LocalState != NPCState.WALKING_UNRESPAWN)
         {
             Wander();
@@ -75,10 +83,7 @@ public class NPCController : GameObjectMovementBase
     {
         if (LocalState == NPCState.WAITING_TO_BE_ATTENDED && !table.Busy)
         {
-            table = null;
-            LocalState = NPCState.WALKING_UNRESPAWN;
-            unRespawnTile = GameGrid.GetRandomSpamPointWorldPosition();
-            GoTo(unRespawnTile.GridPosition);
+            GoToFinalState();
         }
     }
 
@@ -109,8 +114,17 @@ public class NPCController : GameObjectMovementBase
             table = GameGrid.GetFreeTable();
             table.Busy = true;
             LocalState = NPCState.WALKING_TO_TABLE;
+            target = table.ActionGridPosition;
             GoTo(table.ActionGridPosition);
         }
+    }
+
+    private void GoToFinalState()
+    {
+        table = null;
+        LocalState = NPCState.WALKING_UNRESPAWN;
+        unRespawnTile = GameGrid.GetRandomSpamPointWorldPosition();
+        GoTo(unRespawnTile.GridPosition);
     }
 
     protected void Wander()
@@ -127,8 +141,8 @@ public class NPCController : GameObjectMovementBase
             LocalState = NPCState.WALKING_WANDER;
             idleTime = 0;
             randMax = Random.Range(0, idleMaxTime);
-            Vector3Int position = GameGrid.GetRandomWalkableGridPosition();
-            GoTo(position);
+            Vector3Int wanderPos = GameGrid.GetRandomWalkableGridPosition();
+            GoTo(wanderPos);
         }
     }
 }

@@ -44,6 +44,13 @@ public class EmployeeController : GameObjectMovementBase
         UpdateRegisterCash();
         UpdateFinishRegistering();
 
+        // Client left
+        if (tableToBeAttended != null && GameGrid.IsTableInFreeBussSpot(tableToBeAttended))
+        {
+            Debug.Log("Table moved employee");
+            RestartState();
+        }
+
         animationController.SetState(LocalState);
     }
 
@@ -74,15 +81,12 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
 
+    // The client was attended we return the free table
     private void UpdateOrderAttended()
     {
         if (LocalState == NPCState.TAKING_ORDER && CurrentEnergy >= 100)
         {
-            GoTo(counter.ActionGridPosition);
-            LocalState = NPCState.WALKING_TO_COUNTER_AFTER_ORDER;
-            GameGrid.AddFreeBusinessSpots(tableToBeAttended);
-            tableToBeAttended.Busy = false;
-            tableToBeAttended = null;
+            RestartState();
         }
     }
 
@@ -145,5 +149,14 @@ public class EmployeeController : GameObjectMovementBase
     private bool IsAtGameGridObject(GameGridObject obj)
     {
         return Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(obj.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET;
+    }
+
+    private void RestartState()
+    {
+        GoTo(counter.ActionGridPosition);
+        LocalState = NPCState.WALKING_TO_COUNTER_AFTER_ORDER;
+        GameGrid.AddFreeBusinessSpots(tableToBeAttended);
+        tableToBeAttended.Busy = false;
+        tableToBeAttended = null;
     }
 }
