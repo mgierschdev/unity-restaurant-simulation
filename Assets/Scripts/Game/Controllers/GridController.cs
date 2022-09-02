@@ -349,19 +349,29 @@ public class GridController : MonoBehaviour
         }
     }
 
+    public void UpdateGridPosition(Vector3Int init, Vector3Int final)
+    {
+        if (!IsCoordsValid(init.x, init.y) || !IsCoordsValid(final.x, final.y))
+        {
+            return;
+        }
+        grid[init.x, init.y] = 0;
+        grid[final.x, final.y] = 1;
+    }
+
     public bool IsValidBussPosition(Vector3 pos, Vector3 initial)
     {
         Vector3Int pathGridPos = GetPathFindingGridFromWorldPosition(pos);
-        
-        Debug.Log("Is valid cord "+ IsCoordsValid(pathGridPos.x, pathGridPos.y));
+
+        Debug.Log("Is valid cord " + IsCoordsValid(pathGridPos.x, pathGridPos.y));
 
         if (!IsCoordsValid(pathGridPos.x, pathGridPos.y))
         {
             return false;
         }
-        
-        Debug.Log("Contains Key "+ mapBusinessFloor.ContainsKey(pos));
-        Debug.Log("PathWalking value "+grid[pathGridPos.x, pathGridPos.y]);
+
+        Debug.Log("Contains Key " + mapBusinessFloor.ContainsKey(pos));
+        Debug.Log("PathWalking value " + grid[pathGridPos.x, pathGridPos.y]);
 
         return (mapBusinessFloor.ContainsKey(pos) && grid[pathGridPos.x, pathGridPos.y] == 0) || initial == pos;
     }

@@ -70,7 +70,10 @@ public class BaseObjectController : MonoBehaviour
             }
             else
             {
-                initialPosition = new Vector3(initPos.x, initPos.y, 1); ;
+                initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
+                Vector3Int init = gameGridObject.GridPosition;
+                gameGridObject.UpdateCoords(grid.GetPathFindingGridFromWorldPosition(finalPos), grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
+                grid.UpdateGridPosition(init, gameGridObject.GridPosition);
             }
 
             spriteRenderer.color = free;
