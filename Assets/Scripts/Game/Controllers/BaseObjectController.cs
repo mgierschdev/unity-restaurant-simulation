@@ -29,7 +29,9 @@ public class BaseObjectController : MonoBehaviour
     {
         if (IsDragable())
         {
-            transform.position = Util.GetMouseInWorldPosition() + mousePosition;
+            // Change Overlay color depending if can place or not
+            // Mark 2 tiles of the object action tile and position tile
+            transform.position = grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
         }
     }
 
