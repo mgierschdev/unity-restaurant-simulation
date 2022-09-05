@@ -9,21 +9,24 @@ public class MenuHandlerController : MonoBehaviour
 {
     private GameObject tabMenu;
     private MenuItem npcProfileMenu;
-    NPCController npc; //saves the latest reference to the npc if the menu was openned
-    EmployeeController employee;
+    private NPCController npc; //saves the latest reference to the npc if the menu was openned
+    private EmployeeController employee;
     private MenuItem centerTabMenu;
     private Stack<MenuItem> menuStack;
     private HashSet<string> openMenus;
+
     private bool isGamePaused;
 
     // Click controller
     private ClickController clickController;
 
-    //Min  ammount of time the the menu has to be open before activating -> closing on click outisde
-    private float minOpenedTime = 0.5f;
+    //Min amount of time the the menu has to be open before activating -> closing on click outisde
+    private const float MIN_OPENED_TIME = 0.5f;
+
     private float openedTime;
-    //Menu realtime refreshrate
-    private float menuRefreshRate = 3f;
+
+    //Menu realtime refresh rate
+    private const float MENU_REFRESH_RATE = 3f;
     private MenuObjectList storeList;
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
@@ -62,8 +65,10 @@ public class MenuHandlerController : MonoBehaviour
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
 
-        centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu, true);
-        npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.CONST_NPC_PROFILE_MENU, npcProfileGameObject, false);
+        centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu,
+            true);
+        npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.CONST_NPC_PROFILE_MENU,
+            npcProfileGameObject, false);
 
         //Adding inventory Items Tables
         SetClickListeners(npcProfileMenu);
@@ -84,7 +89,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0) && CanCloseOnClickOutside() && IsClickOutside() && !clickController.IsLongClick)
+        if (Input.GetMouseButton(0) && CanCloseOnClickOutside() && !clickController.IsLongClick && IsClickOutside())
         {
             CloseMenu();
         }
@@ -111,7 +116,7 @@ public class MenuHandlerController : MonoBehaviour
             //Handles UI refresh rate 
             MenuItem menu = menuStack.Peek();
 
-            if (menu.Menu == Menu.NPC_PROFILE && openedTime > menuRefreshRate)
+            if (menu.Menu == Menu.NPC_PROFILE && openedTime > MENU_REFRESH_RATE)
             {
                 RefresNPCProfile();
                 openedTime = 0;
@@ -125,7 +130,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private bool CanCloseOnClickOutside()
     {
-        return openedTime > minOpenedTime;
+        return openedTime > MIN_OPENED_TIME;
     }
 
     private void CheckCLickControl()
@@ -175,10 +180,10 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         Dictionary<string, string> map = new Dictionary<string, string>
-           {
-           {"Name", npc.Name},
-           {"Debug", npc.GetDebugInfo()}
-           };
+        {
+            { "Name", npc.Name },
+            { "Debug", npc.GetDebugInfo() }
+        };
         OpenMenu(npcProfileMenu);
         npcProfileMenu.SetFields(map);
     }
@@ -257,37 +262,42 @@ public class MenuHandlerController : MonoBehaviour
             ResumeGame();
         }
     }
+
     private void PauseGame()
     {
         Time.timeScale = 0;
         isGamePaused = true;
     }
+
     private void ResumeGame()
     {
         Time.timeScale = 1;
         isGamePaused = false;
     }
+
     private bool IsClickOutside()
     {
-        if (menuStack.Count > 0)
-        {
-            MenuItem menu = menuStack.Peek();
-            if (menu.Type == MenuType.TAB_MENU)
-            {
-                GameObject menuBody = GameObject.Find(Settings.CONST_CENTER_TAB_MENU_BODY);
-                return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenu.GetComponent<RectTransform>(), Input.mousePosition) ||
-                RectTransformUtility.RectangleContainsScreenPoint(menuBody.GetComponent<RectTransform>(), Input.mousePosition));
-            }
-            else
-            {
-                return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(), Input.mousePosition);
-            }
-        }
-        else
+        if (menuStack.Count <= 0)
         {
             return false;
         }
+
+        MenuItem menu = menuStack.Peek();
+        if (menu.Type == MenuType.TAB_MENU)
+        {
+            GameObject menuBody = GameObject.Find(Settings.CONST_CENTER_TAB_MENU_BODY);
+            return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenu.GetComponent<RectTransform>(),
+                         Input.mousePosition) ||
+                     RectTransformUtility.RectangleContainsScreenPoint(menuBody.GetComponent<RectTransform>(),
+                         Input.mousePosition));
+        }
+        else
+        {
+            return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(),
+                Input.mousePosition);
+        }
     }
+
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
         GameObject scrollView = menu.UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
@@ -306,7 +316,8 @@ public class MenuHandlerController : MonoBehaviour
         //Add new Items
         foreach (GameGridObject obj in storeList.Tables)
         {
-            GameObject item = Instantiate(Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+            GameObject item = Instantiate(Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject)),
+                Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
             //Adding click listener
             button.onClick.AddListener(() => OpenStoreEditPanel(obj));
@@ -321,6 +332,7 @@ public class MenuHandlerController : MonoBehaviour
             item.transform.localScale = new Vector3(1, 1, 1);
         }
     }
+
     private void SetLeftDownPanelClickListeners()
     {
         GameObject store = leftDownPanel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_STORE).gameObject;
@@ -344,7 +356,7 @@ public class MenuHandlerController : MonoBehaviour
 
         GameObject cancel = editStoreMenuPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_CANCEL).gameObject;
         Button bCancel = cancel.GetComponent<Button>();
-        bCancel.onClick.AddListener(() =>  CloseEditPanel());
+        bCancel.onClick.AddListener(() => CloseEditPanel());
 
         GameObject rotate = editStoreMenuPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ROTATE).gameObject;
         Button bRotate = rotate.GetComponent<Button>();
@@ -355,21 +367,23 @@ public class MenuHandlerController : MonoBehaviour
     {
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
-        //Disable Lefdown panel
+        //Disable Left down panel
         PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
     }
 
     // Closes the edit panel without changes 
-    private void CloseEditPanel(){
+    private void CloseEditPanel()
+    {
         editStoreMenuPanel.SetActive(false);
         leftDownPanel.SetActive(true);
         gridController.HideGridBussFloor();
         ResumeGame();
     }
 
-    public bool IsEditPanelOpen(){
+    public bool IsEditPanelOpen()
+    {
         return editStoreMenuPanel.activeSelf;
     }
 
@@ -377,14 +391,17 @@ public class MenuHandlerController : MonoBehaviour
     {
         //Debug.Log("Clicking inventory/bEmployees");
     }
+
     public void InventoryItemClicked(GameGridObject obj)
     {
-        Debug.Log("Button Clicked " + obj.Name);
+        GameLog.Log("Button Clicked " + obj.Name);
     }
+
     public bool IsMenuOpen()
     {
         return menuStack.Count > 0;
     }
+
     public bool IsGamePaused()
     {
         return isGamePaused;

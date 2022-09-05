@@ -4,17 +4,18 @@ using UnityEngine.Rendering;
 // Name sof Objects should be unique
 public class TableController : BaseObjectController
 {
-    GameGridObject table;
-    void Start()
+    private GameGridObject table;
+    private void Start()
     {
-        table = new GameGridObject(transform.name, transform.position, grid.GetPathFindingGridFromWorldPosition(transform.position), grid.GetLocalGridFromWorldPosition(transform.position), ObjectType.NPC_TABLE, TileType.ISOMETRIC_FOUR_SQUARE_OBJECT);
+        Vector3 transformPosition = transform.position;
+        table = new GameGridObject(name, transformPosition, Grid.GetPathFindingGridFromWorldPosition(transformPosition), Grid.GetLocalGridFromWorldPosition(transformPosition), ObjectType.NPC_TABLE, TileType.ISOMETRIC_FOUR_SQUARE_OBJECT);
         table.SortingLayer = GetComponent<SortingGroup>();
         Type = table.Type;
-        gameGridObject = table;
+        GameGridObject = table;
 
-        if (!Util.IsNull(grid, "TableController/IsometricGridController null"))
+        if (!Util.IsNull(Grid, "TableController/IsometricGridController null"))
         {
-            grid.SetGridObject(table);
+            Grid.SetGridObject(table);
         }
     }
 }

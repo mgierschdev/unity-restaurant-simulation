@@ -3,23 +3,22 @@ using UnityEngine;
 public class ClickController : MonoBehaviour
 {
     //MovingOnLongtouch(), Long click or touch vars
-    private bool IsClicking { get; set; }
+    private bool isClicking;
     public bool IsLongClick { get; set; }
-    private float ClickingTime { get; set; }// To keep the coung if longclick
-    readonly float longClickDuration = 0.2f;
-
+    private float ClickingTime { get; set; } // To keep the coung if longclick
+    private const float LONG_CLICK_DURATION = 0.2f;
     private GridController gridController;
-
     public GameObject ClickedObject { get; set; }
     public GameTile ClickedGameTile { get; set; }
+    private Camera mainCamera;
 
     private void Start()
     {
         // Long Click
         ClickingTime = 0;
-        IsClicking = false;
+        isClicking = false;
         IsLongClick = false;
-
+        mainCamera = Camera.main;
         // Grid Controller
         GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
@@ -40,11 +39,11 @@ public class ClickController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             ClickingTime = 0;
-            IsClicking = true;
+            isClicking = true;
         }
 
         // During Click
-        if (IsClicking)
+        if (isClicking)
         {
             // Continues counting even while the game is paused
             if (Time.deltaTime == 0)
@@ -61,37 +60,39 @@ public class ClickController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             ClickingTime = 0;
-            IsClicking = false;
+            isClicking = false;
             IsLongClick = false;
         }
 
         // Resets isLongClick
-        if (ClickingTime > longClickDuration)
+        if (ClickingTime > LONG_CLICK_DURATION)
         {
             IsLongClick = true;
         }
     }
 
     // The object must have a collider attachedDo
-    public void ObjectClickedControl()
+    private void ObjectClickedControl()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!Input.GetMouseButtonDown(0))
         {
-            Vector3Int clickPosition = gridController.GetPathFindingGridFromWorldPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            GameTile tile = gridController.GetGameTileFromClickInPathFindingGrid(clickPosition);
+            return;
+        }
 
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+        Vector3Int clickPosition =
+            gridController.GetPathFindingGridFromWorldPosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+        GameTile tile = gridController.GetGameTileFromClickInPathFindingGrid(clickPosition);
+        Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-            if (tile != null)
-            {
-               ClickedGameTile = tile;
-            }
-            
-            if (hit.collider != null)
-            {
-                ClickedObject = GameObject.Find(hit.collider.name);
-            }
+        if (tile != null)
+        {
+            ClickedGameTile = tile;
+        }
+
+        if (hit.collider != null)
+        {
+            ClickedObject = GameObject.Find(hit.collider.name);
         }
     }
 }

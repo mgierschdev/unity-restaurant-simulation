@@ -5,17 +5,19 @@ using UnityEngine.Serialization;
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
 {
-    //Doing a different activitiy properties
+    //Doing a different activity properties
     GameGridObject table;
     GameController gameController;
-    [FormerlySerializedAs("LocalState")] [SerializeField] 
+
+    [FormerlySerializedAs("LocalState")] [SerializeField]
     private NPCState localState;
+
     private GameTile unRespawnTile;
     private PlayerAnimationStateController animationController;
 
     // Wander properties
     private float idleTime = 0;
-    private float idleMaxTime = 6f; //in seconds
+    private const float IDLE_MAX_TIME = 6f; //in seconds
     private float randMax = 3f;
     private Vector3Int target; // walking to target
 
@@ -102,27 +104,29 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateIsAtTable()
     {
-        if (localState == NPCState.WALKING_TO_TABLE)
+        if (localState != NPCState.WALKING_TO_TABLE)
         {
-            if (Vector3.Distance(transform.position,
-                    GameGrid.GetWorldFromPathFindingGridPosition(table.ActionGridPosition)) <
-                Settings.MIN_DISTANCE_TO_TARGET)
-            {
-                localState = NPCState.AT_TABLE;
-            }
+            return;
+        }
+
+        if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(table.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
+        {
+            localState = NPCState.AT_TABLE;
         }
     }
 
     private void UpdateFindPlace()
     {
-        if ((localState == NPCState.WALKING_WANDER || localState == NPCState.IDLE) && GameGrid.IsThereFreeTables())
+        if ((localState != NPCState.WALKING_WANDER && localState != NPCState.IDLE) || !GameGrid.IsThereFreeTables())
         {
-            table = GameGrid.GetFreeTable();
-            table.Busy = true;
-            localState = NPCState.WALKING_TO_TABLE;
-            target = table.ActionGridPosition;
-            GoTo(table.ActionGridPosition);
+            return;
         }
+
+        table = GameGrid.GetFreeTable();
+        table.Busy = true;
+        localState = NPCState.WALKING_TO_TABLE;
+        target = table.ActionGridPosition;
+        GoTo(table.ActionGridPosition);
     }
 
     private void GoToFinalState()
@@ -151,7 +155,7 @@ public class NPCController : GameObjectMovementBase
 
         localState = NPCState.WALKING_WANDER;
         idleTime = 0;
-        randMax = Random.Range(0, idleMaxTime);
+        randMax = Random.Range(0, IDLE_MAX_TIME);
         Vector3Int wanderPos = GameGrid.GetRandomWalkableGridPosition();
         GoTo(wanderPos);
     }
