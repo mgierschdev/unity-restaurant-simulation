@@ -17,6 +17,8 @@ public class CameraController : MonoBehaviour
     // Main Camera
     private Camera mainCamera;
     private GridController gridController;
+    private Vector3 targetVectorPosition;
+    private float targetOrthographicSize;
 
     private void Start()
     {
@@ -28,6 +30,8 @@ public class CameraController : MonoBehaviour
         menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
+        targetVectorPosition = Vector3.zero;
+        targetOrthographicSize = 2.5f;
     }
 
     // Update is called once per frame
@@ -36,19 +40,36 @@ public class CameraController : MonoBehaviour
         // Only if enabled in Settings or if no menu is open
         PerspectiveHand();
 
-        // Follow Player
-        // FollowPlayer();
+        if (targetVectorPosition != Vector3.zero)
+        {
+            FollowTarget();
+        }
     }
 
-    // private void FollowPlayer()
-    // {
-    //     if (Settings.CAMERA_FOLLOW_PLAYER)
-    //     {
-    //         Vector3 playerPosition = new Vector3(playerGameObject.transform.position.x, playerGameObject.transform.position.y, transform.position.z);
-    //         Vector3 smoothedPosition = Vector3.Lerp(transform.position, playerPosition, interpolation);
-    //         transform.position = smoothedPosition;
-    //     }
-    // }
+    // Move the camera to the target Position
+    public void GoTo(Vector3 position)
+    {
+        targetVectorPosition = position;
+    }
+
+    private bool targetReached(Vector3 pos)
+    {
+        return Vector3.Distance(transform.position, pos) < Settings.MinDistanceToTarget;
+    }
+
+    private void FollowTarget()
+    {
+        if (targetReached(targetVectorPosition) && mainCamera.orthographicSize == targetOrthographicSize)
+        {
+            targetVectorPosition = Vector3.zero;
+            return;
+        }
+        
+        Vector3 tPosition = new Vector3(targetVectorPosition.x, targetVectorPosition.y, transform.position.z);
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, tPosition, interpolation);
+        transform.position = smoothedPosition;
+        mainCamera.orthographicSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetOrthographicSize, ZOOM_SPEED * Time.deltaTime);
+    }
 
     private void PerspectiveHand()
     {
