@@ -24,7 +24,7 @@ public class EmployeeController : GameObjectMovementBase
 
         if (animationController == null)
         {
-            Debug.LogWarning("NPCController/animationController null");
+            GameLog.LogWarning("NPCController/animationController null");
         }
     }
 
@@ -48,7 +48,7 @@ public class EmployeeController : GameObjectMovementBase
         // Client left
         if (tableToBeAttended != null && GameGrid.IsTableInFreeBussSpot(tableToBeAttended))
         {
-            Debug.Log("Table moved employee");
+            GameLog.Log("Table moved employee");
             RestartState();
         }
 

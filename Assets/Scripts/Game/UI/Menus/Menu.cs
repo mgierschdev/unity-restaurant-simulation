@@ -15,11 +15,11 @@ public class MenuItem
 
     public MenuItem(Menu menu, MenuType type, string name, GameObject gobj, bool pauseGame)
     {
-        this.Menu = menu;
-        this.PauseGameGame = pauseGame;
-        this.UnityObject = gobj;
-        this.Name = name;
-        this.Type = type;
+        Menu = menu;
+        PauseGameGame = pauseGame;
+        UnityObject = gobj;
+        Name = name;
+        Type = type;
         Buttons = new List<string>();
         Fields = new Dictionary<string, string>();
     }
@@ -41,12 +41,12 @@ public class MenuItem
                 }
                 else
                 {
-                    Debug.LogWarning("MenuItem/SetFields TextMesh Null");
+                    GameLog.LogWarning("MenuItem/SetFields TextMesh Null");
                 }
             }
             else
             {
-                Debug.LogWarning("MenuItem/SetFields Object " + kvp.Key + " null");
+                GameLog.LogWarning("MenuItem/SetFields Object " + kvp.Key + " null");
             }
         }
     }

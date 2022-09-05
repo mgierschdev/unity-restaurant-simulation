@@ -1,23 +1,25 @@
 using System.Collections.Generic;
-using UnityEditor.TextCore.Text;
+using Game.Players;
 using UnityEngine;
 // This class in charge of loading the game and prefabs
-// the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour
 {
     private HashSet<NPCController> npcSet;
-    private const int NPC_MAX_NUMBER = 8;
+    private const int NPC_MAX_NUMBER = 1;
     private int npcId;
     private GridController gridController;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
+    private PlayerData playerData;
+    
     private void Start()
     {
+        playerData = new PlayerData(10000);
+        npcId = 0;
         npcSet = new HashSet<NPCController>();
         gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
-        npcId = 0;
-
+        gridController.PlayerData = playerData;
         SpamEmployee();
     }
 

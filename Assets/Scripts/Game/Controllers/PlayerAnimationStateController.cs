@@ -10,7 +10,7 @@ public class PlayerAnimationStateController : MonoBehaviour
 
         if (animator == null)
         {
-            Debug.LogWarning("PlayerAnimationStateController/Animator null");
+            GameLog.LogWarning("PlayerAnimationStateController/Animator null");
         }
     }
 
