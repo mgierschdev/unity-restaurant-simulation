@@ -16,7 +16,7 @@ public class PlayerAnimationStateController : MonoBehaviour
 
     public void SetState(NpcState state)
     {
-        if (animator == null)
+        if (!animator)
         {
             return;
         }

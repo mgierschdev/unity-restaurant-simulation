@@ -14,7 +14,6 @@ public class GridController : MonoBehaviour
     private Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
     // Isometric Grid with pathfinding
     private Tilemap tilemapPathFinding;
-    private List<GameTile> listPathFindingMap;
     private Dictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
     private Dictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
     private Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
@@ -23,7 +22,7 @@ public class GridController : MonoBehaviour
     // Path Finder object, contains the method to return the shortest path
     private PathFind pathFind;
     private int[,] grid;
-    private TextMesh[,] debugGrid;
+    // private TextMesh[,] debugGrid;
     //Floor
     private Tilemap tilemapFloor;
     private List<GameTile> listFloorTileMap;
@@ -58,7 +57,6 @@ public class GridController : MonoBehaviour
         mapWorldPositionToTile = new Dictionary<Vector3, GameTile>();
         mapGridPositionToTile = new Dictionary<Vector3Int, GameTile>();
         mapPathFindingGrid = new Dictionary<Vector3Int, GameTile>();
-        listPathFindingMap = new List<GameTile>();
         spamPoints = new List<GameTile>();
 
         tilemapFloor = GameObject.Find(Settings.TilemapFloor0).GetComponent<Tilemap>();
@@ -107,7 +105,7 @@ public class GridController : MonoBehaviour
 
         pathFind = new PathFind();
         grid = new int[Settings.GridHeight, Settings.GridWidth];
-        debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
+        // debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
         currentClickedActiveGameObject = "";
 
         InitGrid();
@@ -119,37 +117,37 @@ public class GridController : MonoBehaviour
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
     }
 
-    private void MouseHover()
-    {
-        Vector3 mousePosition = Util.GetMouseInWorldPosition();
-        Vector3Int mouseInGridPosition = GetPathFindingGridFromWorldPosition(mousePosition);
+    // private void MouseHover()
+    // {
+    //     Vector3 mousePosition = Util.GetMouseInWorldPosition();
+    //     Vector3Int mouseInGridPosition = GetPathFindingGridFromWorldPosition(mousePosition);
+    //
+    //     if (!mapPathFindingGrid.ContainsKey(mouseInGridPosition))
+    //     {
+    //         GameLog.Log("Does not contain the position " + mouseInGridPosition);
+    //         return;
+    //     }
+    //
+    //     GameTile tile = mapPathFindingGrid[mouseInGridPosition];
+    //     TileBase highLightedTile = Resources.Load<Tile>(Settings.GridTilesHighlightedFloor);
+    //     tilemapBusinessFloor.SetTile(tile.LocalGridPosition, highLightedTile);
+    //     // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
+    // }
 
-        if (!mapPathFindingGrid.ContainsKey(mouseInGridPosition))
-        {
-            GameLog.Log("Does not contain the position " + mouseInGridPosition);
-            return;
-        }
-
-        GameTile tile = mapPathFindingGrid[mouseInGridPosition];
-        TileBase highLightedTile = Resources.Load<Tile>(Settings.GridTilesHighlightedFloor);
-        tilemapBusinessFloor.SetTile(tile.LocalGridPosition, highLightedTile);
-        // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
-    }
-
-    private void DrawCellCoords()
-    {
-        foreach (GameTile tile in listPathFindingMap)
-        {
-            if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1))
-            {
-                continue;
-            }
-            debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
-                "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
-                tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
-                TextAnchor.MiddleCenter, TextAlignment.Center);
-        }
-    }
+    // private void DrawCellCoords()
+    // {
+    //     foreach (GameTile tile in listPathFindingMap)
+    //     {
+    //         if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1))
+    //         {
+    //             continue;
+    //         }
+    //         debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
+    //             "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
+    //             tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
+    //             TextAnchor.MiddleCenter, TextAlignment.Center);
+    //     }
+    // }
     
     private void InitGrid()
     {
@@ -162,18 +160,18 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private void SetIsometricCellColor(int x, int y, Color color)
-    {
-        SetCellColor(x, y, color);
-        SetCellColor(x + 1, y, color);
-        SetCellColor(x + 1, y + 1, color);
-        SetCellColor(x, y + 1, color);
-    }
+    // private void SetIsometricCellColor(int x, int y, Color color)
+    // {
+    //     SetCellColor(x, y, color);
+    //     SetCellColor(x + 1, y, color);
+    //     SetCellColor(x + 1, y + 1, color);
+    //     SetCellColor(x, y + 1, color);
+    // }
 
-    private void SetCellColor(int x, int y, Color color)
-    {
-        debugGrid[x, y].color = (Color)color;
-    }
+    // private void SetCellColor(int x, int y, Color color)
+    // {
+    //     debugGrid[x, y].color = (Color)color;
+    // }
 
     private void BuildGrid()
     {
@@ -188,7 +186,6 @@ public class GridController : MonoBehaviour
                 Vector3Int positionLocalGrid = tilemapPathFinding.WorldToCell(positionInWorld);
                 GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid,
                     Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
-                listPathFindingMap.Add(gameTile);
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
                 mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
@@ -237,21 +234,11 @@ public class GridController : MonoBehaviour
                 if (tileType == TileType.WALKABLE_PATH)
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
-
-                    // if (Settings.DEBUG_ENABLE)
-                    // {
-                    //     SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
-                    // }
                 }
 
                 if (tileType == TileType.BUS_FLOOR)
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
-
-                    // if (Settings.DEBUG_ENABLE)
-                    // {
-                    //     SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
-                    // }
                 }
 
                 if (tileType == TileType.SPAM_POINT)
@@ -267,10 +254,6 @@ public class GridController : MonoBehaviour
     {
         if (!IsCoordsValid(x, y) || x < 0 || y < 0)
         {
-            // if (Settings.DEBUG_ENABLE)
-            // {
-            //     GameLog.LogWarning("The object should be placed inside the perimeter");
-            // }
             return;
         }
 
@@ -282,7 +265,6 @@ public class GridController : MonoBehaviour
         {
             grid[x, y] = (int)type;
         }
-
         // if (ObjectType.OBSTACLE == type && Settings.DebugEnable)
         // {
         //     SetCellColor(x, y, color);
@@ -290,17 +272,17 @@ public class GridController : MonoBehaviour
     }
 
     //Sets 1 isometric cell
-    private void SetGridObstacle(Vector3Int pos)
-    {
-        grid[pos.x, pos.y] = 1;
-        grid[pos.x + 1, pos.y] = 1;
-        grid[pos.x + 1, pos.y + 1] = 1;
-        grid[pos.x, pos.y + 1] = 1;
-        SetCellColor(pos.x, pos.y, Color.blue);
-        SetCellColor(pos.x + 1, pos.y, Color.blue);
-        SetCellColor(pos.x + 1, pos.y + 1, Color.blue);
-        SetCellColor(pos.x, pos.y + 1, Color.blue);
-    }
+    // private void SetGridObstacle(Vector3Int pos)
+    // {
+    //     grid[pos.x, pos.y] = 1;
+    //     grid[pos.x + 1, pos.y] = 1;
+    //     grid[pos.x + 1, pos.y + 1] = 1;
+    //     grid[pos.x, pos.y + 1] = 1;
+    //     SetCellColor(pos.x, pos.y, Color.blue);
+    //     SetCellColor(pos.x + 1, pos.y, Color.blue);
+    //     SetCellColor(pos.x + 1, pos.y + 1, Color.blue);
+    //     SetCellColor(pos.x, pos.y + 1, Color.blue);
+    // }
 
     private bool IsCoordsValid(int x, int y)
     {
@@ -314,18 +296,10 @@ public class GridController : MonoBehaviour
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            // if (Settings.DEBUG_ENABLE)
-            // {
-            //     SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
-            // }
         }
         else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
         {
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            // if (Settings.DEBUG_ENABLE)
-            // {
-            //     SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
-            // }
         }
     }
 
@@ -370,12 +344,12 @@ public class GridController : MonoBehaviour
     }
 
     //Default for 0.25 tile cell
-    public void SetIsometricGameTileCollider(GameTile tile)
+    private void SetIsometricGameTileCollider(GameTile tile)
     {
-        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y, tile.Type, Color.blue);
-        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y, tile.Type, Color.blue);
-        SetGridObstacle((int)tile.GridPosition.x + 1, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
-        SetGridObstacle((int)tile.GridPosition.x, (int)tile.GridPosition.y + 1, tile.Type, Color.blue);
+        SetGridObstacle(tile.GridPosition.x, tile.GridPosition.y, tile.Type, Color.blue);
+        SetGridObstacle(tile.GridPosition.x + 1, tile.GridPosition.y, tile.Type, Color.blue);
+        SetGridObstacle(tile.GridPosition.x + 1, tile.GridPosition.y + 1, tile.Type, Color.blue);
+        SetGridObstacle(tile.GridPosition.x, tile.GridPosition.y + 1, tile.Type, Color.blue);
     }
 
     public void HighlightGridBussFloor()
@@ -455,7 +429,7 @@ public class GridController : MonoBehaviour
     {
         if (listWalkingPathTileMap.Count == 0)
         {
-            GameLog.LogWarning("There is not listWalkingPathileMap points");
+            GameLog.LogWarning("There is not listWalkingPathTileMap points");
             return Vector3Int.zero;
         }
 
@@ -479,18 +453,10 @@ public class GridController : MonoBehaviour
     {
         if (!IsCoordsValid(x, y) && x > 1 && y > 1)
         {
-            // if (Settings.DEBUG_ENABLE)
-            // {
-            //     GameLog.LogError("The object should be placed inside the perimeter");
-            // }
             return;
         }
 
         grid[x, y] = 0;
-        // if (Settings.DEBUG_ENABLE)
-        // {
-        //     SetCellColor(x, y, Color.white);
-        // }
     }
 
     public void SetGridObject(GameGridObject obj)

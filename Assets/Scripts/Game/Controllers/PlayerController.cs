@@ -11,7 +11,7 @@ public class PlayerController : GameObjectMovementBase
             MouseOnClick();
         }
         // Player Moving on long click/touch
-        MovingOnLongtouch();
+        MovingOnLongTouch();
     }
 
     // Called every physics step, Update called every frame

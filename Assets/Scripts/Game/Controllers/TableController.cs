@@ -8,8 +8,10 @@ public class TableController : BaseObjectController
     private void Start()
     {
         Vector3 transformPosition = transform.position;
-        table = new GameGridObject(name, transformPosition, Grid.GetPathFindingGridFromWorldPosition(transformPosition), Grid.GetLocalGridFromWorldPosition(transformPosition), ObjectType.NPC_TABLE, TileType.ISOMETRIC_FOUR_SQUARE_OBJECT);
-        table.SortingLayer = GetComponent<SortingGroup>();
+        table = new GameGridObject(name, transformPosition, Grid.GetPathFindingGridFromWorldPosition(transformPosition), Grid.GetLocalGridFromWorldPosition(transformPosition), ObjectType.NPC_TABLE, TileType.ISOMETRIC_FOUR_SQUARE_OBJECT)
+            {
+                SortingLayer = GetComponent<SortingGroup>()
+            };
         Type = table.Type;
         GameGridObject = table;
 

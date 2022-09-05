@@ -47,13 +47,13 @@ public class BaseObjectController : MonoBehaviour
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
     }
     
-    private void FixedUpdate()
-    {
-        if(spriteRenderer && Grid && GameGridObject != null)
-        {
-            spriteRenderer.color = Grid.IsThisSelectedObject(GameGridObject.Name) ? available : free;
-        }
-    }
+    // private void FixedUpdate()
+    // {
+    //     if(spriteRenderer && Grid && GameGridObject != null)
+    //     {
+    //         spriteRenderer.color = Grid.IsThisSelectedObject(GameGridObject.Name) ? available : free;
+    //     }
+    // }
     
     private void OnMouseDrag()
     {
