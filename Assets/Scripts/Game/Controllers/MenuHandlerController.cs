@@ -378,12 +378,12 @@ public class MenuHandlerController : MonoBehaviour
     private void OpenStoreEditPanel(GameGridObject obj)
     {
         GameLog.Log("Place " + obj.Name);
-        // CloseAllMenus();
-        // gridController.HighlightGridBussFloor();
-        // //Disable Left down panel
-        // PauseGame();
-        // leftDownPanel.SetActive(false);
-        // editStoreMenuPanel.SetActive(true);
+        CloseAllMenus();
+        gridController.HighlightGridBussFloor();
+        //Disable Left down panel
+        PauseGame();
+        leftDownPanel.SetActive(false);
+        editStoreMenuPanel.SetActive(true);
     }
 
     // Closes the edit panel without changes 

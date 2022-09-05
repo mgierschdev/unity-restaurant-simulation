@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameGridObject : GameObjectBase
 {
     public bool Busy { get; set; } //Being used by an NPC
+    public SpriteRenderer GameGridObjectSpriteRenderer { get; set; }
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
@@ -75,4 +76,8 @@ public class GameGridObject : GameObjectBase
         }
     }
 
+    public void Hide()
+    {
+        GameGridObjectSpriteRenderer.color = new Color(1, 1, 1, 1);
+    }
 }

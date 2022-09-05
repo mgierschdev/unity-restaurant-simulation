@@ -5,7 +5,7 @@ public class EmployeeController : GameObjectMovementBase
 {
     private GameGridObject counter;
     private GameGridObject tableToBeAttended;
-    [FormerlySerializedAs("LocalState")] [SerializeField]
+    [SerializeField]
     private NpcState localState;
     private PlayerAnimationStateController animationController;
     private const float TIME_TO_TAKE_ORDER = 80f; //Decrease per second  100/15
@@ -78,21 +78,26 @@ public class EmployeeController : GameObjectMovementBase
         localState = NpcState.REGISTERING_CASH;
     }
 
-    // The client was attended we return the free table
+    // The client was attended we return the free table and Add money to the wallet
     private void UpdateOrderAttended()
     {
-        if (localState == NpcState.TAKING_ORDER && CurrentEnergy >= 100)
+        if (localState != NpcState.TAKING_ORDER || CurrentEnergy < 100)
         {
-            RestartState();
+            return;
         }
+
+        GameGrid.PlayerData.AddMoney(Random.Range(5, 10));
+        RestartState();
     }
 
     private void UpdateTakeOrder()
     {
-        if (localState == NpcState.TAKING_ORDER)
+        if (localState != NpcState.TAKING_ORDER)
         {
-            ActivateEnergyBar(TIME_TO_TAKE_ORDER);
+            return;
         }
+
+        ActivateEnergyBar(TIME_TO_TAKE_ORDER);
     }
 
     private void UpdateAttendTable()
