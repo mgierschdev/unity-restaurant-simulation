@@ -71,7 +71,7 @@ public class CameraController : MonoBehaviour
         Vector3 tPosition = new Vector3(targetVectorPosition.x, targetVectorPosition.y, transform.position.z);
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, tPosition, interpolation);
         transform.position = smoothedPosition;
-        mainCamera.orthographicSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetOrthographicSize, ZOOM_SPEED * Time.unscaledDeltaTime);
+        mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetOrthographicSize, ZOOM_SPEED * Time.unscaledDeltaTime);
     }
 
     private void PerspectiveHand()
