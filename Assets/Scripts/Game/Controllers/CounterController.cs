@@ -10,12 +10,12 @@ public class CounterController : BaseObjectController
     {
         Transform transformObject = gameObject.transform;
         Vector3 transformPosition = transformObject.position;
-        counter = new GameGridObject(transformObject.name, transformPosition, grid.GetPathFindingGridFromWorldPosition(transformPosition), grid.GetLocalGridFromWorldPosition(transformPosition), ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT);
+        counter = new GameGridObject(transformObject.name, transformPosition, Grid.GetPathFindingGridFromWorldPosition(transformPosition), Grid.GetLocalGridFromWorldPosition(transformPosition), ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT);
         counter.SortingLayer = GetComponent<SortingGroup>();
 
-        if (!Util.IsNull(grid, "CounterController/IsometricGridController null"))
+        if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {
-            grid.SetGridObject(counter);
+            Grid.SetGridObject(counter);
         }
     }
 }
