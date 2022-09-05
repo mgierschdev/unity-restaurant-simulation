@@ -61,6 +61,7 @@ public class BaseObjectController : MonoBehaviour
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         sortLayer.sortingOrder = 1;
         spriteRenderer.color = Grid.IsValidBussPosition(currentPos, initPos) ? available : occupied;
+        Grid.DraggingObject = true;
     }
 
     // Called when the mouse is released 
@@ -73,6 +74,7 @@ public class BaseObjectController : MonoBehaviour
 
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
         Vector3 initPos = Grid.GetNearestGridPositionFromWorldMap(initialPosition);
+        Grid.DraggingObject = false;
         sortLayer.sortingOrder = 0;
 
         if (!Grid.IsValidBussPosition(finalPos, initPos))
