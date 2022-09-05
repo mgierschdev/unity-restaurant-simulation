@@ -99,10 +99,10 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
-        if (Grid.IsTableBusy(GameGridObject))
-        {
-            GameLog.Log("Table is Busy "+GameGridObject.Name);
-        }
+        // if (Grid.IsTableBusy(GameGridObject))
+        // {
+        //     GameLog.Log("Table is Busy "+GameGridObject.Name);
+        // }
         return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(GameGridObject);
     }
 }

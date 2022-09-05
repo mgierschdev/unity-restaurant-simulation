@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Game.Players;
 using UnityEngine;
+using TMPro;
 // This class in charge of loading the game and prefabs
 public class GameController : MonoBehaviour
 {
@@ -20,10 +21,15 @@ public class GameController : MonoBehaviour
         gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
         gridController.PlayerData = playerData;
+        // Setting up Current money
+        GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
+        TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
+        playerData = gridController.PlayerData;
+        moneyText.text = playerData.GetMoney();
         SpamEmployee();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (npcSet.Count < NPC_MAX_NUMBER)
         {

@@ -64,14 +64,7 @@ public class MenuHandlerController : MonoBehaviour
         menuBody = GameObject.Find(Settings.ConstCenterTabMenuBody);
         menuBodyRect = menuBody.GetComponent<RectTransform>();
 
-        // Setting up Current money
-        // GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
-        // moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-
-        if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null
-            // ||  topResourcePanelMoney == null || moneyText
-            || menuBody == null
-            )
+        if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null || menuBody == null)
         {
             GameLog.LogWarning("MenuHandlerController Menu null ");
             GameLog.LogWarning("tabMenu " + tabMenu);
@@ -79,8 +72,6 @@ public class MenuHandlerController : MonoBehaviour
             GameLog.LogWarning("cController " + cController);
             GameLog.LogWarning("gridController " + cController);
             GameLog.LogWarning("menuBody " + menuBody);
-            // GameLog.LogWarning("topResourcePanelMoney " + topResourcePanelMoney);
-            // GameLog.LogWarning("moneyText " + moneyText);
         }
 
         menuStack = new Stack<MenuItem>();
@@ -105,11 +96,9 @@ public class MenuHandlerController : MonoBehaviour
         centerTabMenu.Close();
         npcProfileMenu.Close();
         openedTime = 0;
-        playerData = gridController.PlayerData;
-       // moneyText.text = playerData.GetMoney();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Input.GetMouseButton(0) && CanCloseOnClickOutside() && !clickController.IsLongClick && IsClickOutside())
         {
@@ -325,7 +314,7 @@ public class MenuHandlerController : MonoBehaviour
     {
         GameObject scrollView = menu.UnityObject.transform.Find(Settings.ConstCenterScrollContent).gameObject;
 
-        if (scrollView == null)
+        if (!scrollView)
         {
             return;
         }
@@ -389,12 +378,12 @@ public class MenuHandlerController : MonoBehaviour
     private void OpenStoreEditPanel(GameGridObject obj)
     {
         GameLog.Log("Place " + obj.Name);
-        CloseAllMenus();
-        gridController.HighlightGridBussFloor();
-        //Disable Left down panel
-        PauseGame();
-        leftDownPanel.SetActive(false);
-        editStoreMenuPanel.SetActive(true);
+        // CloseAllMenus();
+        // gridController.HighlightGridBussFloor();
+        // //Disable Left down panel
+        // PauseGame();
+        // leftDownPanel.SetActive(false);
+        // editStoreMenuPanel.SetActive(true);
     }
 
     // Closes the edit panel without changes 
