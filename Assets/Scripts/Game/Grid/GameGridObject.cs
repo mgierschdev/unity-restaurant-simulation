@@ -17,9 +17,9 @@ public class GameGridObject : GameObjectBase
         SetActionPoints();
     }
 
-    public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost, string menuItemFoto)
+    public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost, string menuItemSprite)
     {
-        MenuItemSprite = menuItemFoto;
+        MenuItemSprite = menuItemSprite;
         TileType = tileType;
         Name = name;
         GridPosition = gridPosition; // Grid position, first position = 0, 0

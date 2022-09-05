@@ -301,7 +301,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
             // if (Settings.DEBUG_ENABLE)
             // {
-            //     Debug.DrawLine(transform.position, mousePosition, Color.blue);
+            //     GameLog.DrawLine(transform.position, mousePosition, Color.blue);
             // }
         }
     }
@@ -327,7 +327,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             // {
             //     Vector3 from = GameGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
             //     Vector3 to = GameGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
-            //     Debug.DrawLine(from, to, Color.yellow, 15f);
+            //     GameLog.DrawLine(from, to, Color.yellow, 15f);
             // }
 
             pendingMovementQueue.Enqueue(path[i].GetVector3());

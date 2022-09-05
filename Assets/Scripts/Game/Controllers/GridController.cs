@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using Game.Players;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class GridController : MonoBehaviour
 {
+    //Player Data
+    public PlayerData PlayerData { get; set; }
     //Tilemap 
     private const int WIDTH = Settings.GridWidth; // Down -> Up
     private const int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
@@ -38,6 +41,7 @@ public class GridController : MonoBehaviour
     private List<GameTile> listObjectsTileMap;
     private Dictionary<Vector3, GameTile> mapObjects;
     //Prefabs in the TilemapObjects
+    private Dictionary<string, GameGridObject> BusyBusinessSpotsMap { get; set; }
     private Dictionary<string, GameGridObject> FreeBusinessSpotsMap { get; set; }
     private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
     private Queue<GameGridObject> TablesWithClient { get; set; } // Tables to attend or chairs
@@ -46,6 +50,7 @@ public class GridController : MonoBehaviour
     private Tilemap tilemapBusinessFloor;
     private List<GameTile> listBusinessFloor;
     private Dictionary<Vector3, GameTile> mapBusinessFloor;
+    private GameGridObject currentClickedActiveGameObject;
 
     private void Awake()
     {
@@ -70,6 +75,7 @@ public class GridController : MonoBehaviour
         FreeBusinessSpots = new Queue<GameGridObject>();
         TablesWithClient = new Queue<GameGridObject>();
         FreeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
+        BusyBusinessSpotsMap =  new Dictionary<string, GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
@@ -78,27 +84,26 @@ public class GridController : MonoBehaviour
         tilemapBusinessFloor = GameObject.Find(Settings.TilemapBusinessFloor).GetComponent<Tilemap>();
         listBusinessFloor = new List<GameTile>();
         mapBusinessFloor = new Dictionary<Vector3, GameTile>();
-        ;
 
         if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null || tilemapPathFinding == null ||
             tilemapWalkingPath == null || tilemapBusinessFloor == null)
         {
-            Debug.LogWarning("GridController/tilemap");
-            Debug.LogWarning("tilemapFloor " + tilemapFloor);
-            Debug.LogWarning("tilemapColliders " + tilemapColliders);
-            Debug.LogWarning("tilemapObjects " + tilemapObjects);
-            Debug.LogWarning("tilemapPathFinding " + tilemapPathFinding);
-            Debug.LogWarning("tilemapWalkingPath " + tilemapWalkingPath);
-            Debug.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
+            GameLog.LogWarning("GridController/tilemap");
+            GameLog.LogWarning("tilemapFloor " + tilemapFloor);
+            GameLog.LogWarning("tilemapColliders " + tilemapColliders);
+            GameLog.LogWarning("tilemapObjects " + tilemapObjects);
+            GameLog.LogWarning("tilemapPathFinding " + tilemapPathFinding);
+            GameLog.LogWarning("tilemapWalkingPath " + tilemapWalkingPath);
+            GameLog.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
 
-        if (!Settings.DebugEnable)
-        {
-            tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
-            tilemapColliders.color = new Color(1, 1, 1, 0.0f);
-            tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
-        }
+        // if (!Settings.DebugEnable)
+        // {
+        //     tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
+        //     tilemapColliders.color = new Color(1, 1, 1, 0.0f);
+        //     tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
+        //     tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+        // }
 
         pathFind = new PathFind();
         grid = new int[Settings.GridHeight, Settings.GridWidth];
@@ -120,7 +125,7 @@ public class GridController : MonoBehaviour
 
         if (!mapPathFindingGrid.ContainsKey(mouseInGridPosition))
         {
-            Debug.Log("Does not contain the position " + mouseInGridPosition);
+            GameLog.Log("Does not contain the position " + mouseInGridPosition);
             return;
         }
 
@@ -138,9 +143,7 @@ public class GridController : MonoBehaviour
             {
                 continue;
             }
-
-            debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(
-                tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
+            debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
                 "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
                 tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
                 TextAnchor.MiddleCenter, TextAlignment.Center);
@@ -193,7 +196,7 @@ public class GridController : MonoBehaviour
 
                 // if (Settings.DEBUG_ENABLE)
                 // {
-                //     //Debug.Log("DEBUG: GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
+                //     //GameLog.Log("DEBUG: GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
                 // }
             }
         }
@@ -216,9 +219,7 @@ public class GridController : MonoBehaviour
                 TileBase tile = tilemap.GetTile(localPlace);
                 Vector3Int gridPosition = GetPathFindingGridFromWorldPosition(placeInWorld);
                 TileType tileType = Util.GetTileType(tile.name);
-                GameTile gameTile = new GameTile(placeInWorld, gridPosition,
-                    GetLocalGridFromWorldPosition(placeInWorld), tileType,
-                    Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
+                GameTile gameTile = new GameTile(placeInWorld, gridPosition, GetLocalGridFromWorldPosition(placeInWorld), tileType, Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
                 list.Add(gameTile);
                 map.TryAdd(gameTile.WorldPosition, gameTile);
 
@@ -267,7 +268,7 @@ public class GridController : MonoBehaviour
         {
             // if (Settings.DEBUG_ENABLE)
             // {
-            //     Debug.LogWarning("The object should be placed inside the perimeter");
+            //     GameLog.LogWarning("The object should be placed inside the perimeter");
             // }
             return;
         }
@@ -281,10 +282,10 @@ public class GridController : MonoBehaviour
             grid[x, y] = (int)type;
         }
 
-        if (ObjectType.OBSTACLE == type && Settings.DebugEnable)
-        {
-            SetCellColor(x, y, color);
-        }
+        // if (ObjectType.OBSTACLE == type && Settings.DebugEnable)
+        // {
+        //     SetCellColor(x, y, color);
+        // }
     }
 
     //Sets 1 isometric cell
@@ -362,11 +363,9 @@ public class GridController : MonoBehaviour
         {
             return mapPathFindingGrid[position];
         }
-        else
-        {
-            Debug.LogWarning("IsometricGrid/GetGameTileFromClickInWorldPosition null");
-            return null;
-        }
+        
+        GameLog.LogWarning("IsometricGrid/GetGameTileFromClickInWorldPosition null");
+        return null;
     }
 
     //Default for 0.25 tile cell
@@ -410,8 +409,7 @@ public class GridController : MonoBehaviour
     {
         if (!mapGridPositionToTile.ContainsKey(tilemapPathFinding.WorldToCell(position)))
         {
-            Debug.LogError("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " +
-                           position + "/" + tilemapPathFinding.WorldToCell(position));
+            GameLog.LogError("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " + position + "/" + tilemapPathFinding.WorldToCell(position));
         }
         else
         {
@@ -456,7 +454,7 @@ public class GridController : MonoBehaviour
     {
         if (listWalkingPathileMap.Count == 0)
         {
-            Debug.LogWarning("There is not listWalkingPathileMap points");
+            GameLog.LogWarning("There is not listWalkingPathileMap points");
             return Vector3Int.zero;
         }
 
@@ -468,7 +466,7 @@ public class GridController : MonoBehaviour
     {
         if (spamPoints.Count == 0)
         {
-            Debug.LogWarning("There is not spam points");
+            GameLog.LogWarning("There is not spam points");
         }
 
         GameTile tile = spamPoints[Random.Range(0, spamPoints.Count)];
@@ -482,7 +480,7 @@ public class GridController : MonoBehaviour
         {
             // if (Settings.DEBUG_ENABLE)
             // {
-            //     Debug.LogError("The object should be placed inside the perimeter");
+            //     GameLog.LogError("The object should be placed inside the perimeter");
             // }
             return;
         }
@@ -509,7 +507,8 @@ public class GridController : MonoBehaviour
         {
             return null;
         }
-
+        
+        BusyBusinessSpotsMap.Add(FreeBusinessSpots.Peek().Name, FreeBusinessSpots.Peek());
         FreeBusinessSpotsMap.Remove(FreeBusinessSpots.Peek().Name);
         return FreeBusinessSpots.Dequeue();
     }
@@ -529,8 +528,14 @@ public class GridController : MonoBehaviour
         return FreeBusinessSpotsMap.ContainsKey(obj.Name);
     }
 
+    public bool IsTableBusy(GameGridObject obj)
+    {
+        return BusyBusinessSpotsMap.ContainsKey(obj.Name);
+    }
+
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
+        BusyBusinessSpotsMap.Remove(obj.Name);
         FreeBusinessSpotsMap.Add(obj.Name, obj);
         FreeBusinessSpots.Enqueue(obj);
     }

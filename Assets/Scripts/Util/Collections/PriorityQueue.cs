@@ -31,7 +31,7 @@ public class PriorityQueue : IBaseGameCollections
     {
         if (rootNode.next == null)
         {
-            Debug.LogWarning("The Queue is empty");
+            GameLog.LogWarning("The Queue is empty");
             return null;
         }
         size--;
@@ -78,7 +78,7 @@ public class PriorityQueue : IBaseGameCollections
             s += q.GetFCost() + " -> ";
             q = q.next;
         }
-        Debug.Log(s);
+        GameLog.Log(s);
     }
 
     public int GetSize()

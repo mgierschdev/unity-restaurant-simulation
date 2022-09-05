@@ -32,12 +32,12 @@ public class NPCController : GameObjectMovementBase
 
         if (gameController == null)
         {
-            Debug.LogWarning("NPCController/GameController null");
+            GameLog.LogWarning("NPCController/GameController null");
         }
 
         if (animationController == null)
         {
-            Debug.LogWarning("NPCController/animationController null");
+            GameLog.LogWarning("NPCController/animationController null");
         }
     }
 

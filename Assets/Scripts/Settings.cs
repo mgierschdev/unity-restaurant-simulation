@@ -1,7 +1,6 @@
 public static class Settings
 {
     // DEBUG parameters
-    public const bool DebugEnable = false; //Only for development
     public const int DebugTextSize = 9;
     // Player Config
     public const bool PlayerWalkOnClick = true;
@@ -36,9 +35,10 @@ public static class Settings
     // UI Constants
     public const string ConstNpcProfileMenu = "NPCProfile";
     public const string ConstCanvasParentMenu = "CanvasMenu";
+    public const string ConstTopMenuDisplayMoney = ConstCanvasParentMenu + "TopGameMenu/Top Menu Display/Money";
     public const string ConstCenterTabMenu = "CenterTabMenu";
-    public const string ConstCenterScrollContent = "MenuBody/Panel/DisplayBackground/ScrollView/Viewport/ScrollContent";
     public const string ConstCenterTabMenuBody = "MenuBody";
+    public const string ConstCenterScrollContent = ConstCenterTabMenuBody+"/Panel/DisplayBackground/ScrollView/Viewport/ScrollContent";
     public const string ConstLeftDownPanel = "LeftDownPanel";
     public const string ConstEditStoreMenuPanel = "EditStoreMenu";
     public const string ConstEditStoreMenuCancel = "Cancel";

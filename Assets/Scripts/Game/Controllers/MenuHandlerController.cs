@@ -55,11 +55,11 @@ public class MenuHandlerController : MonoBehaviour
 
         if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null)
         {
-            Debug.LogWarning("MenuHandlerController Menu null ");
-            Debug.LogWarning("tabMenu " + tabMenu);
-            Debug.LogWarning("leftDownPanel " + leftDownPanel);
-            Debug.LogWarning("cController " + cController);
-            Debug.LogWarning("gridController " + cController);
+            GameLog.LogWarning("MenuHandlerController Menu null ");
+            GameLog.LogWarning("tabMenu " + tabMenu);
+            GameLog.LogWarning("leftDownPanel " + leftDownPanel);
+            GameLog.LogWarning("cController " + cController);
+            GameLog.LogWarning("gridController " + cController);
         }
 
         menuStack = new Stack<MenuItem>();
@@ -83,7 +83,6 @@ public class MenuHandlerController : MonoBehaviour
         editStoreMenuPanel.SetActive(false);
         centerTabMenu.Close();
         npcProfileMenu.Close();
-
         openedTime = 0;
     }
 
@@ -135,35 +134,38 @@ public class MenuHandlerController : MonoBehaviour
 
     private void CheckCLickControl()
     {
-        if (clickController.ClickedObject != null)
+        if (clickController.ClickedObject == null)
         {
-            ObjectType type = Util.GetObjectType(clickController.ClickedObject);
+            return;
+        }
 
-            if (type == ObjectType.NPC || type == ObjectType.EMPLOYEE)
+        ObjectType type = Util.GetObjectType(clickController.ClickedObject);
+        
+        if (type == ObjectType.NPC || type == ObjectType.EMPLOYEE)
+        {
+            Dictionary<string, string> map = new Dictionary<string, string>();
+
+            if (type == ObjectType.NPC)
             {
-                Dictionary<string, string> map = new Dictionary<string, string>();
-
-                if (type == ObjectType.NPC)
-                {
-                    npc = clickController.ClickedObject.GetComponent<NPCController>();
-                    map.Add("Name", npc.Name);
-                    map.Add("Debug", npc.GetDebugInfo());
-                }
-
-                if (type == ObjectType.EMPLOYEE)
-                {
-                    employee = clickController.ClickedObject.GetComponent<EmployeeController>();
-                    map.Add("Name", employee.Name);
-                    map.Add("Debug", employee.GetDebugInfo());
-                }
-
-                OpenMenu(npcProfileMenu);
-                npcProfileMenu.SetFields(map);
+                npc = clickController.ClickedObject.GetComponent<NPCController>();
+                map.Add("Name", npc.Name);
+                map.Add("Debug", npc.GetDebugInfo());
             }
 
-            // We reset the clicked object after the action
-            clickController.ClickedObject = null;
+            if (type == ObjectType.EMPLOYEE)
+            {
+                employee = clickController.ClickedObject.GetComponent<EmployeeController>();
+                map.Add("Name", employee.Name);
+                map.Add("Debug", employee.GetDebugInfo());
+            }
+
+            OpenMenu(npcProfileMenu);
+            npcProfileMenu.SetFields(map);
         }
+
+        // We reset the clicked object after the action
+        clickController.ClickedObject = null;
+
 
         if (clickController.ClickedGameTile != null)
         {
@@ -190,25 +192,25 @@ public class MenuHandlerController : MonoBehaviour
 
     private void SetClickListeners(MenuItem menu)
     {
-        GameObject menuGameObject = menu.UnityObject;
-
         foreach (string buttonName in menu.Buttons)
         {
             GameObject currentComponent = GameObject.Find(buttonName);
 
-            if (currentComponent != null)
+            if (currentComponent == null)
             {
-                Button buttonListener = currentComponent.GetComponent<Button>();
+                continue;
+            }
 
-                if (buttonName == Settings.ConstUIExitButton)
-                {
-                    buttonListener.onClick.AddListener(() => CloseMenu());
-                }
+            Button buttonListener = currentComponent.GetComponent<Button>();
 
-                if (buttonName == Settings.ConstUIInventoryButton)
-                {
-                    buttonListener.onClick.AddListener(() => OpenMenu(centerTabMenu));
-                }
+            if (buttonName == Settings.ConstUIExitButton)
+            {
+                buttonListener.onClick.AddListener(() => CloseMenu());
+            }
+
+            if (buttonName == Settings.ConstUIInventoryButton)
+            {
+                buttonListener.onClick.AddListener(() => OpenMenu(centerTabMenu));
             }
         }
     }
@@ -291,11 +293,9 @@ public class MenuHandlerController : MonoBehaviour
                      RectTransformUtility.RectangleContainsScreenPoint(menuBody.GetComponent<RectTransform>(),
                          Input.mousePosition));
         }
-        else
-        {
-            return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(),
-                Input.mousePosition);
-        }
+
+        return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(),
+            Input.mousePosition);
     }
 
     private void AddMenuItemsToScrollView(MenuItem menu)
@@ -389,7 +389,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void ItemClicked()
     {
-        //Debug.Log("Clicking inventory/bEmployees");
+        //GameLog.Log("Clicking inventory/bEmployees");
     }
 
     public void InventoryItemClicked(GameGridObject obj)

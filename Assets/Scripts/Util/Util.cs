@@ -42,9 +42,9 @@ public static class Util
             {
                 row += "(" + i + "," + j + ")" + grid[i, j] + " ";
             }
-            Debug.Log(row);
+            GameLog.Log(row);
         }
-        Debug.Log(" ");
+        GameLog.Log(" ");
     }
 
     public static double EuclidianDistance(int[] a, int[] b)
@@ -68,18 +68,18 @@ public static class Util
 
     public static void PrintPath(List<Node> arr)
     {
-        Debug.Log("Printing Path");
+        GameLog.Log("Printing Path");
         string s = "";
         foreach (Node i in arr)
         {
             s += " " + i.ToString();
         }
-        Debug.Log(s);
+        GameLog.Log(s);
     }
 
     public static void PrintGridPathNodes(int[,] arrayGrid)
     {
-        Debug.Log("Grid");
+        GameLog.Log("Grid");
         for (int i = 0; i < arrayGrid.GetLength(0); i++)
         {
             String s = "";
@@ -87,7 +87,7 @@ public static class Util
             {
                 s += "  .  " + arrayGrid[i, j];
             }
-            Debug.Log(s);
+            GameLog.Log(s);
         }
     }
 

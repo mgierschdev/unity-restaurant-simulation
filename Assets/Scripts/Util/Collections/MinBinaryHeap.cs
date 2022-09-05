@@ -20,7 +20,7 @@ public class MinBinaryHeap : IBaseGameCollections
     {
         if (currentHeapSize < 0)
         {
-            Debug.LogWarning("Current heap size is negative");
+            GameLog.LogWarning("Current heap size is negative");
         }
         else
         {
@@ -46,7 +46,7 @@ public class MinBinaryHeap : IBaseGameCollections
     {
         if (currentHeapSize == 0)
         {
-            Debug.LogWarning("Cannot extract from an empty heap");
+            GameLog.LogWarning("Cannot extract from an empty heap");
             return null;
         }
         else
@@ -147,7 +147,7 @@ public class MinBinaryHeap : IBaseGameCollections
         {
             s += nodes[i].GetFCost() + " ";
         }
-        Debug.Log(s);
+        GameLog.Log(s);
     }
 
     private void Swap(int i, int j)
