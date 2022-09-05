@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     private MenuHandlerController menuHandlerController;
     // Main Camera
     private Camera mainCamera;
+    private GridController gridController;
 
     private void Start()
     {
@@ -23,10 +24,10 @@ public class CameraController : MonoBehaviour
         targetPosition = mainCamera.orthographicSize;
         touchStart = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        // playerGameObject = GameObject.FindGameObjectWithTag(Settings.PLAYER_TAG);
         GameObject parentCanvas = GameObject.Find(Settings.ConstCanvasParentMenu);
         menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
-        // Util.IsNull(playerGameObject, "CameraController/PlayerController is null");
+        GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
+        gridController = gameGridObject.GetComponent<GridController>();
     }
 
     // Update is called once per frame
@@ -51,7 +52,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (!Settings.CameraPerspectiveHand || menuHandlerController.IsGamePaused())
+        if (!Settings.CameraPerspectiveHand || gridController.DraggingObject)
         {
             return;
         }

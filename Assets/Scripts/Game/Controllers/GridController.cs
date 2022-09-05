@@ -51,6 +51,7 @@ public class GridController : MonoBehaviour
     private List<GameTile> listBusinessFloor;
     private Dictionary<Vector3, GameTile> mapBusinessFloor;
     private string currentClickedActiveGameObject;
+    public bool DraggingObject;
 
     private void Awake()
     {
