@@ -10,9 +10,6 @@ public class BaseObjectController : MonoBehaviour
     protected GameGridObject GameGridObject;
     protected GridController Grid;
     protected ObjectType Type;
-    private Color available;
-    private Color occupied;
-    private Color free;
     private Vector3 initialPosition;
     private Vector3 mousePosition;
     private SortingGroup sortLayer;
@@ -28,9 +25,6 @@ public class BaseObjectController : MonoBehaviour
         Grid = gameGridObject.GetComponent<GridController>();
         sortLayer = GetComponent<SortingGroup>();
         Type = ObjectType.UNDEFINED;
-        available = new Color(0, 1, 0, 0.4f);
-        occupied = new Color(1, 0, 0, 0.4f);
-        free = new Color(1, 1, 1, 1);
         GameGridObject = null;
         initialPosition = transform.position;
     }
@@ -42,7 +36,7 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
         GameGridObject.GameGridObjectSpriteRenderer = spriteRenderer;
-        spriteRenderer.color = available;
+        spriteRenderer.color = Util.Available;
         Grid.SetActiveGameGridObject(GameGridObject.Name);
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
     }
@@ -60,7 +54,7 @@ public class BaseObjectController : MonoBehaviour
         Vector3 initPos = Grid.GetNearestGridPositionFromWorldMap(initialPosition);
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         sortLayer.sortingOrder = 1;
-        spriteRenderer.color = Grid.IsValidBussPosition(currentPos, initPos) ? available : occupied;
+        spriteRenderer.color = Grid.IsValidBussPosition(currentPos, initPos) ? Util.Available : Util.Occupied;
         Grid.DraggingObject = true;
     }
 
@@ -89,7 +83,7 @@ public class BaseObjectController : MonoBehaviour
             Grid.UpdateGridPosition(init, GameGridObject.GridPosition);
         }
         
-        spriteRenderer.color = Grid.IsThisSelectedObject(GameGridObject.Name) ? available : free;
+        spriteRenderer.color = Grid.IsThisSelectedObject(GameGridObject.Name) ? Util.Available : Util.Free;
     }
 
     private bool IsDraggable()

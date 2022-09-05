@@ -78,6 +78,6 @@ public class GameGridObject : GameObjectBase
 
     public void Hide()
     {
-        GameGridObjectSpriteRenderer.color = new Color(1, 1, 1, 1);
+        GameGridObjectSpriteRenderer.color = Util.Free;
     }
 }

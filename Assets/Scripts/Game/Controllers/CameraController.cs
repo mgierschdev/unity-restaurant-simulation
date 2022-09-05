@@ -19,6 +19,7 @@ public class CameraController : MonoBehaviour
     private GridController gridController;
     private Vector3 targetVectorPosition;
     private float targetOrthographicSize;
+    private MenuHandlerController menuController;
 
     private void Start()
     {
@@ -30,12 +31,14 @@ public class CameraController : MonoBehaviour
         menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        menuController = menuHandler.GetComponent<MenuHandlerController>();
         targetVectorPosition = Vector3.zero;
         targetOrthographicSize = 2.5f;
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         // Only if enabled in Settings or if no menu is open
         PerspectiveHand();
@@ -59,7 +62,7 @@ public class CameraController : MonoBehaviour
 
     private void FollowTarget()
     {
-        if (targetReached(targetVectorPosition) && mainCamera.orthographicSize == targetOrthographicSize)
+        if (targetReached(targetVectorPosition) && mainCamera.orthographicSize >= targetOrthographicSize)
         {
             targetVectorPosition = Vector3.zero;
             return;
@@ -68,12 +71,12 @@ public class CameraController : MonoBehaviour
         Vector3 tPosition = new Vector3(targetVectorPosition.x, targetVectorPosition.y, transform.position.z);
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, tPosition, interpolation);
         transform.position = smoothedPosition;
-        mainCamera.orthographicSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetOrthographicSize, ZOOM_SPEED * Time.deltaTime);
+        mainCamera.orthographicSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetOrthographicSize, ZOOM_SPEED * Time.unscaledDeltaTime);
     }
 
     private void PerspectiveHand()
     {
-        if (!Settings.CameraPerspectiveHand || gridController.DraggingObject)
+        if (!Settings.CameraPerspectiveHand || gridController.DraggingObject || menuController.IsMenuOpen())
         {
             return;
         }

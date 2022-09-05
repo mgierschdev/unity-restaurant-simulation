@@ -8554,6 +8554,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: e31605315961d42ffb8f4c93880a5eaa, type: 3}
+    - target: {fileID: 6690773760403639539, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690773760403639539, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690773760403639539, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690773760403639539, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7077515298240516130, guid: 1ead69177400d435abd15d36dbb0defb, type: 3}
       propertyPath: m_Name
       value: Table
@@ -9965,6 +9981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbd489214392491e8fe7ef8012b46e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DraggingObject: 0
 --- !u!1001 &1053038930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13257,6 +13274,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7c9ebe6a661ed49c98543f17cf16e709, type: 3}
+    - target: {fileID: 7260202763949826933, guid: 6d0fea3654d21468abf2b461b3d0a924, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d0fea3654d21468abf2b461b3d0a924, type: 3}
 --- !u!224 &1977968222 stripped
