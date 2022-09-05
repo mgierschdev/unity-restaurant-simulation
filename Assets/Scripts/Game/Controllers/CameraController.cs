@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     private Vector3 touchStart;
     private Vector3 direction;
-    public float interpolation = Settings.CAMERA_FOLLOW_INTERPOLATION;
+    public float interpolation = Settings.CameraFollowInterpolation;
     // MouseScroll zoom 
     private float targetPosition;
     private const float ZOOM_SPEED = 35;
@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
         touchStart = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - mainCamera.ScreenToWorldPoint(Input.mousePosition);
         // playerGameObject = GameObject.FindGameObjectWithTag(Settings.PLAYER_TAG);
-        GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
+        GameObject parentCanvas = GameObject.Find(Settings.ConstCanvasParentMenu);
         menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
         // Util.IsNull(playerGameObject, "CameraController/PlayerController is null");
     }
@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (!Settings.CAMERA_PERSPECTIVE_HAND || menuHandlerController.IsGamePaused())
+        if (!Settings.CameraPerspectiveHand || menuHandlerController.IsGamePaused())
         {
             return;
         }
@@ -69,10 +69,10 @@ public class CameraController : MonoBehaviour
             Vector3 transformPosition = transform.position;
 
             // then we clamp the value
-            float clampX = Mathf.Clamp(transformPosition.x, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_X[0],
-                Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_X[1]); // left and right
-            float clampY = Mathf.Clamp(transformPosition.y, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_Y[0],
-                Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_Y[1]); // units down, and up
+            float clampX = Mathf.Clamp(transformPosition.x, Settings.CameraPerspectiveHandClampX[0],
+                Settings.CameraPerspectiveHandClampX[1]); // left and right
+            float clampY = Mathf.Clamp(transformPosition.y, Settings.CameraPerspectiveHandClampY[0],
+                Settings.CameraPerspectiveHandClampY[1]); // units down, and up
             transform.position = new Vector3(clampX, clampY, transformPosition.z);
         }
         else if (Input.mouseScrollDelta != Vector2.zero)

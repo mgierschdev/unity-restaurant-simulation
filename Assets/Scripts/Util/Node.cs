@@ -13,8 +13,8 @@ public class Node
 
     public Node(int[] a)
     {
-        this.x = a[0];
-        this.y = a[1];
+        x = a[0];
+        y = a[1];
     }
 
     public override string ToString()

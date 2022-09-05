@@ -6,9 +6,9 @@ using Random = UnityEngine.Random;
 public class GridController : MonoBehaviour
 {
     //Tilemap 
-    private const int WIDTH = Settings.GRID_WIDTH; // Down -> Up
-    private const int HEIGHT = Settings.GRID_HEIGHT; // along side from left to right x = -20, y= -22 ||  x along side left to right
-    private Vector3Int gridOriginPosition = new Vector3Int(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
+    private const int WIDTH = Settings.GridWidth; // Down -> Up
+    private const int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
+    private Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
     // Isometric Grid with pathfinding
     private Tilemap tilemapPathFinding;
     private List<GameTile> listPathFindingMap;
@@ -49,33 +49,33 @@ public class GridController : MonoBehaviour
 
     private void Awake()
     {
-        tilemapPathFinding = GameObject.Find(Settings.PATH_FINDING_GRID).GetComponent<Tilemap>();
+        tilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
         mapWorldPositionToTile = new Dictionary<Vector3, GameTile>();
         mapGridPositionToTile = new Dictionary<Vector3Int, GameTile>();
         mapPathFindingGrid = new Dictionary<Vector3Int, GameTile>();
         listPathFindingMap = new List<GameTile>();
         spamPoints = new List<GameTile>();
 
-        tilemapFloor = GameObject.Find(Settings.TILEMAP_FLOOR_0).GetComponent<Tilemap>();
+        tilemapFloor = GameObject.Find(Settings.TilemapFloor0).GetComponent<Tilemap>();
         mapFloor = new Dictionary<Vector3, GameTile>();
         listFloorTileMap = new List<GameTile>();
 
-        tilemapColliders = GameObject.Find(Settings.TILEMAP_COLLIDERS).GetComponent<Tilemap>();
+        tilemapColliders = GameObject.Find(Settings.TilemapColliders).GetComponent<Tilemap>();
         mapColliders = new Dictionary<Vector3, GameTile>();
         listCollidersTileMap = new List<GameTile>();
 
-        tilemapObjects = GameObject.Find(Settings.TILEMAP_OBJECTS).GetComponent<Tilemap>();
+        tilemapObjects = GameObject.Find(Settings.TilemapObjects).GetComponent<Tilemap>();
         mapObjects = new Dictionary<Vector3, GameTile>();
         listObjectsTileMap = new List<GameTile>();
         FreeBusinessSpots = new Queue<GameGridObject>();
         TablesWithClient = new Queue<GameGridObject>();
         FreeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
 
-        tilemapWalkingPath = GameObject.Find(Settings.TILEMAP_WALKING_PATH).GetComponent<Tilemap>();
+        tilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
         listWalkingPathileMap = new List<GameTile>();
 
-        tilemapBusinessFloor = GameObject.Find(Settings.TILEMAP_BUSINESS_FLOOR).GetComponent<Tilemap>();
+        tilemapBusinessFloor = GameObject.Find(Settings.TilemapBusinessFloor).GetComponent<Tilemap>();
         listBusinessFloor = new List<GameTile>();
         mapBusinessFloor = new Dictionary<Vector3, GameTile>();
         ;
@@ -92,7 +92,7 @@ public class GridController : MonoBehaviour
             Debug.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
 
-        if (!Settings.DEBUG_ENABLE)
+        if (!Settings.DebugEnable)
         {
             tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
             tilemapColliders.color = new Color(1, 1, 1, 0.0f);
@@ -101,8 +101,8 @@ public class GridController : MonoBehaviour
         }
 
         pathFind = new PathFind();
-        grid = new int[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
-        debugGrid = new TextMesh[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
+        grid = new int[Settings.GridHeight, Settings.GridWidth];
+        debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
 
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
@@ -125,7 +125,7 @@ public class GridController : MonoBehaviour
         }
 
         GameTile tile = mapPathFindingGrid[mouseInGridPosition];
-        TileBase highLightedTile = Resources.Load<Tile>(Settings.GRID_TILES_HIGHLIGHTED_FLOOR);
+        TileBase highLightedTile = Resources.Load<Tile>(Settings.GridTilesHighlightedFloor);
         tilemapBusinessFloor.SetTile(tile.LocalGridPosition, highLightedTile);
         // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
     }
@@ -142,7 +142,7 @@ public class GridController : MonoBehaviour
             debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(
                 tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
                 "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
-                tile.WorldPosition.y, tile.WorldPosition, Settings.DEBUG_TEXT_SIZE, Color.black,
+                tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
                 TextAnchor.MiddleCenter, TextAlignment.Center);
         }
     }
@@ -173,7 +173,7 @@ public class GridController : MonoBehaviour
 
     private void BuildGrid()
     {
-        TileBase gridTile = Resources.Load<Tile>(Settings.GRID_TILES_SIMPLE);
+        TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesSimple);
 
         for (int x = 0; x <= HEIGHT; x++)
         {
@@ -281,7 +281,7 @@ public class GridController : MonoBehaviour
             grid[x, y] = (int)type;
         }
 
-        if (ObjectType.OBSTACLE == type && Settings.DEBUG_ENABLE)
+        if (ObjectType.OBSTACLE == type && Settings.DebugEnable)
         {
             SetCellColor(x, y, color);
         }

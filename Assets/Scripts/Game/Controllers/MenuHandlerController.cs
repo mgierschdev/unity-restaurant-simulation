@@ -36,22 +36,22 @@ public class MenuHandlerController : MonoBehaviour
     private void Start()
     {
         // Grid Controller
-        GameObject gridObj = GameObject.Find(Settings.GAME_GRID).gameObject;
+        GameObject gridObj = GameObject.Find(Settings.GameGrid).gameObject;
         gridController = gridObj.GetComponent<GridController>();
 
         // Click controller
-        GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
         clickController = cController.GetComponent<ClickController>();
 
         //Left down panel and Edit store panel
-        leftDownPanel = GameObject.Find(Settings.CONST_LEFT_DOWN_PANEL).gameObject;
-        editStoreMenuPanel = GameObject.Find(Settings.CONST_EDIT_STORE_MENU_PANEL).gameObject;
+        leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
+        editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
 
         //Containing all Inventory Items
         storeList = new MenuObjectList();
 
-        tabMenu = transform.Find(Settings.CONST_CENTER_TAB_MENU).gameObject;
-        GameObject npcProfileGameObject = transform.Find(Settings.CONST_NPC_PROFILE_MENU).gameObject;
+        tabMenu = transform.Find(Settings.ConstCenterTabMenu).gameObject;
+        GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
 
         if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null)
         {
@@ -65,9 +65,9 @@ public class MenuHandlerController : MonoBehaviour
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
 
-        centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.CONST_CENTER_TAB_MENU, tabMenu,
+        centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.ConstCenterTabMenu, tabMenu,
             true);
-        npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.CONST_NPC_PROFILE_MENU,
+        npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.ConstNpcProfileMenu,
             npcProfileGameObject, false);
 
         //Adding inventory Items Tables
@@ -200,12 +200,12 @@ public class MenuHandlerController : MonoBehaviour
             {
                 Button buttonListener = currentComponent.GetComponent<Button>();
 
-                if (buttonName == Settings.CONST_UI_EXIT_BUTTON)
+                if (buttonName == Settings.ConstUIExitButton)
                 {
                     buttonListener.onClick.AddListener(() => CloseMenu());
                 }
 
-                if (buttonName == Settings.CONST_UI_INVENTORY_BUTTON)
+                if (buttonName == Settings.ConstUIInventoryButton)
                 {
                     buttonListener.onClick.AddListener(() => OpenMenu(centerTabMenu));
                 }
@@ -285,7 +285,7 @@ public class MenuHandlerController : MonoBehaviour
         MenuItem menu = menuStack.Peek();
         if (menu.Type == MenuType.TAB_MENU)
         {
-            GameObject menuBody = GameObject.Find(Settings.CONST_CENTER_TAB_MENU_BODY);
+            GameObject menuBody = GameObject.Find(Settings.ConstCenterTabMenuBody);
             return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenu.GetComponent<RectTransform>(),
                          Input.mousePosition) ||
                      RectTransformUtility.RectangleContainsScreenPoint(menuBody.GetComponent<RectTransform>(),
@@ -300,7 +300,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
-        GameObject scrollView = menu.UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
+        GameObject scrollView = menu.UnityObject.transform.Find(Settings.ConstCenterScrollContent).gameObject;
 
         if (scrollView == null)
         {
@@ -316,13 +316,13 @@ public class MenuHandlerController : MonoBehaviour
         //Add new Items
         foreach (GameGridObject obj in storeList.Tables)
         {
-            GameObject item = Instantiate(Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject)),
+            GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)),
                 Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
             //Adding click listener
             button.onClick.AddListener(() => OpenStoreEditPanel(obj));
-            GameObject img = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_IMAGE).gameObject;
-            GameObject text = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_TEXT_PRICE).gameObject;
+            GameObject img = item.transform.Find(Settings.PrefabInventoryItemImage).gameObject;
+            GameObject text = item.transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
             TextMeshProUGUI textMesh = text.GetComponent<TextMeshProUGUI>();
             textMesh.text = obj.Cost.ToString();
             Image imgComponent = img.GetComponent<Image>();
@@ -335,30 +335,30 @@ public class MenuHandlerController : MonoBehaviour
 
     private void SetLeftDownPanelClickListeners()
     {
-        GameObject store = leftDownPanel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_STORE).gameObject;
+        GameObject store = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuStore).gameObject;
         Button bStore = store.GetComponent<Button>();
         bStore.onClick.AddListener(() => OpenMenu(centerTabMenu));
 
-        GameObject inventory = leftDownPanel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_INVENTORY).gameObject;
+        GameObject inventory = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuInventory).gameObject;
         Button bInventory = inventory.GetComponent<Button>();
         bInventory.onClick.AddListener(() => ItemClicked());
 
-        GameObject employees = leftDownPanel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_EMPLOYEES).gameObject;
+        GameObject employees = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuEmployees).gameObject;
         Button bEmployees = employees.GetComponent<Button>();
         bEmployees.onClick.AddListener(() => ItemClicked());
     }
 
     private void SetEditStorePanelClickListeners()
     {
-        GameObject accept = editStoreMenuPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ACCEPT).gameObject;
+        GameObject accept = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuAccept).gameObject;
         Button bAccept = accept.GetComponent<Button>();
         bAccept.onClick.AddListener(() => ItemClicked());
 
-        GameObject cancel = editStoreMenuPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_CANCEL).gameObject;
+        GameObject cancel = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuCancel).gameObject;
         Button bCancel = cancel.GetComponent<Button>();
         bCancel.onClick.AddListener(() => CloseEditPanel());
 
-        GameObject rotate = editStoreMenuPanel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ROTATE).gameObject;
+        GameObject rotate = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
         Button bRotate = rotate.GetComponent<Button>();
         bRotate.onClick.AddListener(() => ItemClicked());
     }

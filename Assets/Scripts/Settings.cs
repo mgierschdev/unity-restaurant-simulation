@@ -1,103 +1,77 @@
 public static class Settings
 {
     // DEBUG parameters
-    public const bool DEBUG_ENABLE = false; //Only for development
-    public const int DEBUG_TEXT_SIZE = 9;
-
+    public const bool DebugEnable = false; //Only for development
+    public const int DebugTextSize = 9;
     // Player Config
-    public const bool PLAYER_WALK_WITH_KEYBOARD = false;
-    public const bool PLAYER_WALK_ON_CLICK = true;
-    public const float PLAYER_MOVEMENT_SPEED = 3f;
-
+    public const bool PlayerWalkOnClick = true;
+    public const float PlayerMovementSpeed = 3f;
     //GAME TAGS
-    public const string NPC_TAG = "NPC";
-    public const string NPC_EMPLOYEE_TAG = "Employee";
-    public const string PLAYER_TAG = "Player";
-    public const string GRID_TILE_TAG = "GridTile";
-
+    public const string NpcTag = "NPC";
+    public const string NpcEmployeeTag = "Employee";
     // TILEMAPS
-    public const string TILEMAP_FLOOR_0 = "TilemapFloor0";
-    public const string TILEMAP_COLLIDERS = "TilemapColliders";
-    public const string TILEMAP_OBJECTS = "TilemapObjects";
-    public const string TILEMAP_WALKING_PATH = "TilemapWalkingPath";
-    public const string TILEMAP_BUSINESS_FLOOR = "TilemapBusinessFloor";
-    public const string PATH_FINDING_GRID = "PathFindingGrid";
-
+    public const string TilemapFloor0 = "TilemapFloor0";
+    public const string TilemapColliders = "TilemapColliders";
+    public const string TilemapObjects = "TilemapObjects";
+    public const string TilemapWalkingPath = "TilemapWalkingPath";
+    public const string TilemapBusinessFloor = "TilemapBusinessFloor";
+    public const string PathFindingGrid = "PathFindingGrid";
     // PREFABS AND OBJECTS
-    public const string PREFAB_GRID_TILE = "Grid/GridTile";
-    public const string PREFAB_SAND_SEA = "Grid/SandAndSea@3x";
-    public const string PREFAB_PLAYER = "Players/Player";
-    public const string PREFAB_NPC_CLIENT = "Players/Client";
-    public const string PREFAB_NPC_EMPLOYEE = "Players/Employee";
-    public const string PREFAB_INVENTORY_ITEM = "Menu/InventoryItem";
-    public const string PREFAB_INVENTORY_ITEM_IMAGE = "Image";
-    public const string PREFAB_INVENTORY_ITEM_TEXT_PRICE = "Image/TextBackground/Price";
+    public const string PrefabGridTile = "Grid/GridTile";
+    public const string PrefabSandSea = "Grid/SandAndSea@3x";
+    public const string PrefabPlayer = "Players/Player";
+    public const string PrefabNpcClient = "Players/Client";
+    public const string PrefabNpcEmployee = "Players/Employee";
+    public const string PrefabInventoryItem = "Menu/InventoryItem";
+    public const string PrefabInventoryItemImage = "Image";
+    public const string PrefabInventoryItemTextPrice = "Image/TextBackground/Price";
     // INVENTORY SPRITE ITEMS
-    public const string SINGLE_WOODEN_TABLE = "SpriteLibs/MenuItemSprites/MenuItemSingleTableWithChair@3x";
+    public const string SingleWoodenTable = "SpriteLibs/MenuItemSprites/MenuItemSingleTableWithChair@3x";
     // NPC Default
-    public const float MIN_DISTANCE_TO_TARGET = 0.13f;
-    public const float NPC_DEFAULT_REACTION_TIME = 4;
-    public const float NPC_DEFAULT_MOVEMENT_SPEED = 3f; // 0.7f
-    public const float NPC_DEFAULT_RECOVERY_TIME = 10;
-    public const int NPC_DEFAULT_ENERGY = 100;
-    public const string NPC_ENERGY_BAR = "EnergyBar";
-    public const string NPC_CHARACTER = "Character";
-    public const string NPC_ENERGY_BAR_TEXT = "ProgressText";
-
+    public const float MinDistanceToTarget = 0.13f;
+    public const float NpcDefaultMovementSpeed = 3f; // 0.7f
+    public const int NpcDefaultEnergy = 100;
+    public const string NpcEnergyBar = "EnergyBar";
+    public const string NpcCharacter = "Character";
     // UI Constants
-    public const string DEFAULT_LETTER_FONT = "Roboto-Regular";
-    public const string CONST_NPC_PROFILE_MENU = "NPCProfile";
-    public const string CONST_CANVAS_PARENT_MENU = "CanvasMenu";
-    public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
-    public const string CONST_CENTER_SCROLL_CONTENT = "MenuBody/Panel/DisplayBackground/ScrollView/Viewport/ScrollContent";
-    public const string CONST_CENTER_TAB_MENU_BODY = "MenuBody";
-    public const string CONST_TOP_GAME_MENU = "TopGameMenu";
-    public const string CONST_LEFT_DOWN_PANEL = "LeftDownPanel";
-    public const string CONST_EDIT_STORE_MENU_PANEL = "EditStoreMenu";
-    public const string CONST_EDIT_STORE_MENU_CANCEL = "Cancel";
-    public const string CONST_EDIT_STORE_MENU_ACCEPT = "Accept";
-    public const string CONST_EDIT_STORE_MENU_ROTATE = "Rotate";
-    public const string CONST_PARENT_GAME_OBJECT = "Game";
-    public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
-    public const int CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL = 200;
-
+    public const string ConstNpcProfileMenu = "NPCProfile";
+    public const string ConstCanvasParentMenu = "CanvasMenu";
+    public const string ConstCenterTabMenu = "CenterTabMenu";
+    public const string ConstCenterScrollContent = "MenuBody/Panel/DisplayBackground/ScrollView/Viewport/ScrollContent";
+    public const string ConstCenterTabMenuBody = "MenuBody";
+    public const string ConstLeftDownPanel = "LeftDownPanel";
+    public const string ConstEditStoreMenuPanel = "EditStoreMenu";
+    public const string ConstEditStoreMenuCancel = "Cancel";
+    public const string ConstEditStoreMenuAccept = "Accept";
+    public const string ConstEditStoreMenuRotate = "Rotate";
+    public const string ConstParentGameObject = "Game";
+    public const int ConstDefaultCameraOrthographicsize = 7;
+    public const int ConstDefaultBackgroundOrderingLevel = 200;
     // UI: Menu
-    public const string CONST_LEFT_DOWN_MENU_INVENTORY = "Inventory";
-    public const string CONST_LEFT_DOWN_MENU_STORE = "Store";
-    public const string CONST_LEFT_DOWN_MENU_EMPLOYEES = "Employees";
-
+    public const string ConstLeftDownMenuInventory = "Inventory";
+    public const string ConstLeftDownMenuStore = "Store";
+    public const string ConstLeftDownMenuEmployees = "Employees";
     // UI: Camera
-    public const bool CAMERA_PERSPECTIVE_HAND = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_X = { -20f, 20 };
-    public static float[] CAMERA_PERSPECTIVE_HAND_CLAMP_Y = { -20, 20f }; // X = -8, 1 || Y = Initial default -8, 1
-    public const bool CAMERA_FOLLOW_PLAYER = false;
-    public const float CAMERA_FOLLOW_INTERPOLATION = 0.034f;
-
+    public const bool CameraPerspectiveHand = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
+    public static float[] CameraPerspectiveHandClampX = { -20f, 20 };
+    public static float[] CameraPerspectiveHandClampY = { -20, 20f }; // X = -8, 1 || Y = Initial default -8, 1
+    public const float CameraFollowInterpolation = 0.034f;
     // UI : Camera
-    public const int CONST_DEFAULT_CAMERA_WIDTH = 1500;
-    public const int CONST_DEFAULT_CAMERA_HEIGHT = 1600;
-
+    public const int ConstDefaultCameraWidth = 1500;
+    public const int ConstDefaultCameraHeight = 1600;
     //UI: Buttons listeners
-    public const string CONST_UI_EXIT_BUTTON = "ExitButton";
-    public const string CONST_UI_INVENTORY_BUTTON = "Inventory";
-
+    public const string ConstUIExitButton = "ExitButton";
+    public const string ConstUIInventoryButton = "Inventory";
     //SCENE
-    public const string CONST_SCENE_MAIN = "World";
-    public const string GAME_GRID = "GameGrid";
-
-    // UI Tags
-
-    // Grid
-
+    public const string GameGrid = "GameGrid";
     //Tiles
     private const string GRID_TILES = "Grid/Tiles/";
-    public const string GRID_TILES_SIMPLE = GRID_TILES + "GridTile";
-    public const string GRID_TILES_HIGHLIGHTED_FLOOR = GRID_TILES + "HighlightedFloor@3x";
-
+    public const string GridTilesSimple = GRID_TILES + "GridTile";
+    public const string GridTilesHighlightedFloor = GRID_TILES + "HighlightedFloor@3x";
     // Grid Config
-    public const float GRID_CELL_SIZE = 0.25f; // 0.25f default
-    public const int GRID_WIDTH = 44; // Number of cell per Grid CellSize
-    public const int GRID_HEIGHT = 50;
-    public const int GRID_START_X = -22;
-    public const int GRID_START_Y = -32;
+    public const float GridCellSize = 0.25f; // 0.25f default
+    public const int GridWidth = 44; // Number of cell per Grid CellSize
+    public const int GridHeight = 50;
+    public const int GridStartX = -22;
+    public const int GrtGridStartY = -32;
 }

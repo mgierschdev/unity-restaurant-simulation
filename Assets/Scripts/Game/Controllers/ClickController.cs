@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class ClickController : MonoBehaviour
 {
-    //MovingOnLongtouch(), Long click or touch vars
     private bool isClicking;
     public bool IsLongClick { get; set; }
-    private float ClickingTime { get; set; } // To keep the coung if longclick
+    private float ClickingTime { get; set; }
     private const float LONG_CLICK_DURATION = 0.2f;
     private GridController gridController;
     public GameObject ClickedObject { get; set; }
@@ -20,7 +19,7 @@ public class ClickController : MonoBehaviour
         IsLongClick = false;
         mainCamera = Camera.main;
         // Grid Controller
-        GameObject gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
+        GameObject gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
     }
 

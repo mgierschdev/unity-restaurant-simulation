@@ -5842,7 +5842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b690c783fcba4da9aad2345fbe647a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  touchStart: {x: 0, y: 0, z: 0}
   interpolation: 0.034
 --- !u!224 &451626884
 RectTransform:
@@ -10066,8 +10065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbd489214392491e8fe7ef8012b46e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemapColliders: {fileID: 0}
-  tilemapObjects: {fileID: 0}
 --- !u!1001 &1053038930
 PrefabInstance:
   m_ObjectHideFlags: 0

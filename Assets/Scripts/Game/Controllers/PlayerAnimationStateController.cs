@@ -5,7 +5,7 @@ public class PlayerAnimationStateController : MonoBehaviour
     private Animator animator;
     public void Start()
     {
-        GameObject character = gameObject.transform.Find(Settings.NPC_CHARACTER).gameObject;
+        GameObject character = gameObject.transform.Find(Settings.NpcCharacter).gameObject;
         animator = character.GetComponent<Animator>();
 
         if (animator == null)
@@ -14,25 +14,25 @@ public class PlayerAnimationStateController : MonoBehaviour
         }
     }
 
-    public void SetState(NPCState state)
+    public void SetState(NpcState state)
     {
         if (animator == null)
         {
             return;
         }
         
-        if (state == NPCState.IDLE || state == NPCState.AT_COUNTER || state == NPCState.TAKING_ORDER || state == NPCState.REGISTERING_CASH)
+        if (state == NpcState.IDLE || state == NpcState.AT_COUNTER || state == NpcState.TAKING_ORDER || state == NpcState.REGISTERING_CASH)
         {
-            animator.SetTrigger(AnimatorState.IDLE);
+            animator.SetTrigger(AnimatorState.Idle);
         }
-        else if (state == NPCState.WALKING_TO_TABLE || state == NPCState.WALKING_TO_COUNTER || state == NPCState.WALKING_UNRESPAWN || state == NPCState.WALKING_TO_COUNTER_AFTER_ORDER || state == NPCState.WALKING_WANDER)
+        else if (state == NpcState.WALKING_TO_TABLE || state == NpcState.WALKING_TO_COUNTER || state == NpcState.WALKING_UNRESPAWN || state == NpcState.WALKING_TO_COUNTER_AFTER_ORDER || state == NpcState.WALKING_WANDER)
         {
-            animator.ResetTrigger(AnimatorState.IDLE);
-            animator.SetTrigger(AnimatorState.WALKING);
+            animator.ResetTrigger(AnimatorState.Idle);
+            animator.SetTrigger(AnimatorState.Walking);
         }
         else
         {
-            animator.SetTrigger(AnimatorState.IDLE);
+            animator.SetTrigger(AnimatorState.Idle);
         }
     }
 }

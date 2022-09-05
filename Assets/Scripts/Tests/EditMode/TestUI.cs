@@ -6,10 +6,10 @@ public class TestUI
     [Test]
     public void TestLeftDownPanel()
     {
-        GameObject panel = GameObject.Find(Settings.CONST_LEFT_DOWN_PANEL).gameObject;
-        Transform inventory = panel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_INVENTORY);
-        Transform store = panel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_STORE);
-        Transform employees = panel.transform.Find(Settings.CONST_LEFT_DOWN_MENU_EMPLOYEES);
+        GameObject panel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
+        Transform inventory = panel.transform.Find(Settings.ConstLeftDownMenuInventory);
+        Transform store = panel.transform.Find(Settings.ConstLeftDownMenuStore);
+        Transform employees = panel.transform.Find(Settings.ConstLeftDownMenuEmployees);
         Assert.NotNull(panel);
         Assert.NotNull(store);
         Assert.NotNull(employees);
@@ -19,10 +19,10 @@ public class TestUI
     [Test]
     public void TestEditStoreMenu()
     {
-        GameObject panel = GameObject.Find(Settings.CONST_EDIT_STORE_MENU_PANEL).gameObject;
-        Transform cancel = panel.transform.Find(Settings.CONST_EDIT_STORE_MENU_CANCEL);
-        Transform accept = panel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ACCEPT);
-        Transform rotate = panel.transform.Find(Settings.CONST_EDIT_STORE_MENU_ROTATE);
+        GameObject panel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
+        Transform cancel = panel.transform.Find(Settings.ConstEditStoreMenuCancel);
+        Transform accept = panel.transform.Find(Settings.ConstEditStoreMenuAccept);
+        Transform rotate = panel.transform.Find(Settings.ConstEditStoreMenuRotate);
         Assert.NotNull(panel);
         Assert.NotNull(cancel);
         Assert.NotNull(accept);

@@ -10,7 +10,7 @@ public class NPCController : GameObjectMovementBase
     GameController gameController;
 
     [FormerlySerializedAs("LocalState")] [SerializeField]
-    private NPCState localState;
+    private NpcState localState;
 
     private GameTile unRespawnTile;
     private PlayerAnimationStateController animationController;
@@ -25,8 +25,8 @@ public class NPCController : GameObjectMovementBase
     {
         Type = ObjectType.NPC;
         Name = transform.name;
-        localState = NPCState.IDLE;
-        GameObject gameObj = GameObject.Find(Settings.CONST_PARENT_GAME_OBJECT);
+        localState = NpcState.IDLE;
+        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
         gameController = gameObj.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
 
@@ -61,9 +61,9 @@ public class NPCController : GameObjectMovementBase
             GoToFinalState();
         }
 
-        if (!GameGrid.IsThereFreeTables() && localState != NPCState.AT_TABLE &&
-            localState != NPCState.WALKING_TO_TABLE && localState != NPCState.WAITING_TO_BE_ATTENDED &&
-            localState != NPCState.WALKING_UNRESPAWN)
+        if (!GameGrid.IsThereFreeTables() && localState != NpcState.AT_TABLE &&
+            localState != NpcState.WALKING_TO_TABLE && localState != NpcState.WAITING_TO_BE_ATTENDED &&
+            localState != NpcState.WALKING_UNRESPAWN)
         {
             Wander();
         }
@@ -73,11 +73,11 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateIsAtRespawn()
     {
-        if (localState == NPCState.WALKING_UNRESPAWN)
+        if (localState == NpcState.WALKING_UNRESPAWN)
         {
             if (Vector3.Distance(transform.position,
                     GameGrid.GetWorldFromPathFindingGridPosition(unRespawnTile.GridPosition)) <
-                Settings.MIN_DISTANCE_TO_TARGET)
+                Settings.MinDistanceToTarget)
             {
                 gameController.RemoveNpc(this);
                 Destroy(gameObject);
@@ -87,7 +87,7 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateTableAttended()
     {
-        if (localState == NPCState.WAITING_TO_BE_ATTENDED && !table.Busy)
+        if (localState == NpcState.WAITING_TO_BE_ATTENDED && !table.Busy)
         {
             GoToFinalState();
         }
@@ -95,36 +95,36 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateWaitToBeAttended()
     {
-        if (localState == NPCState.AT_TABLE)
+        if (localState == NpcState.AT_TABLE)
         {
             GameGrid.AddClientToTable(table);
-            localState = NPCState.WAITING_TO_BE_ATTENDED;
+            localState = NpcState.WAITING_TO_BE_ATTENDED;
         }
     }
 
     private void UpdateIsAtTable()
     {
-        if (localState != NPCState.WALKING_TO_TABLE)
+        if (localState != NpcState.WALKING_TO_TABLE)
         {
             return;
         }
 
-        if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(table.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET)
+        if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(table.ActionGridPosition)) < Settings.MinDistanceToTarget)
         {
-            localState = NPCState.AT_TABLE;
+            localState = NpcState.AT_TABLE;
         }
     }
 
     private void UpdateFindPlace()
     {
-        if ((localState != NPCState.WALKING_WANDER && localState != NPCState.IDLE) || !GameGrid.IsThereFreeTables())
+        if ((localState != NpcState.WALKING_WANDER && localState != NpcState.IDLE) || !GameGrid.IsThereFreeTables())
         {
             return;
         }
 
         table = GameGrid.GetFreeTable();
         table.Busy = true;
-        localState = NPCState.WALKING_TO_TABLE;
+        localState = NpcState.WALKING_TO_TABLE;
         target = table.ActionGridPosition;
         GoTo(table.ActionGridPosition);
     }
@@ -132,7 +132,7 @@ public class NPCController : GameObjectMovementBase
     private void GoToFinalState()
     {
         table = null;
-        localState = NPCState.WALKING_UNRESPAWN;
+        localState = NpcState.WALKING_UNRESPAWN;
         unRespawnTile = GameGrid.GetRandomSpamPointWorldPosition();
         GoTo(unRespawnTile.GridPosition);
     }
@@ -146,14 +146,14 @@ public class NPCController : GameObjectMovementBase
 
         // we could add more random by deciding to move or not 
         idleTime += Time.deltaTime;
-        localState = NPCState.IDLE;
+        localState = NpcState.IDLE;
 
         if (idleTime < randMax)
         {
             return;
         }
 
-        localState = NPCState.WALKING_WANDER;
+        localState = NpcState.WALKING_WANDER;
         idleTime = 0;
         randMax = Random.Range(0, IDLE_MAX_TIME);
         Vector3Int wanderPos = GameGrid.GetRandomWalkableGridPosition();

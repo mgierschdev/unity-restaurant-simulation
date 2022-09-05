@@ -9,7 +9,7 @@ public class EmployeeController : GameObjectMovementBase
     private GameGridObject counter;
     private GameGridObject tableToBeAttended;
     [FormerlySerializedAs("LocalState")] [SerializeField]
-    private NPCState localState;
+    private NpcState localState;
     private PlayerAnimationStateController animationController;
     private const float TIME_TO_TAKE_ORDER = 80f; //Decrease per second  100/15
     private const float TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
@@ -17,7 +17,7 @@ public class EmployeeController : GameObjectMovementBase
     private void Start()
     {
         Type = ObjectType.EMPLOYEE;
-        localState = NPCState.IDLE;
+        localState = NpcState.IDLE;
         Name = transform.name;
         counter = GameGrid.Counter;
         animationController = GetComponent<PlayerAnimationStateController>();
@@ -57,15 +57,15 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateFinishRegistering()
     {
-        if (localState == NPCState.REGISTERING_CASH && CurrentEnergy >= 100)
+        if (localState == NpcState.REGISTERING_CASH && CurrentEnergy >= 100)
         {
-            localState = NPCState.AT_COUNTER; // we are at counter 
+            localState = NpcState.AT_COUNTER; // we are at counter 
         }
     }
 
     private void UpdateRegisterCash()
     {
-        if (localState == NPCState.REGISTERING_CASH)
+        if (localState == NpcState.REGISTERING_CASH)
         {
             ActivateEnergyBar(TIME_TO_REGISTER_IN_CASH);
         }
@@ -73,18 +73,18 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounterAfterOrder()
     {
-        if (localState != NPCState.WALKING_TO_COUNTER_AFTER_ORDER || counter == null || !IsAtGameGridObject(counter))
+        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || counter == null || !IsAtGameGridObject(counter))
         {
             return;
         }
         
-        localState = NPCState.REGISTERING_CASH;
+        localState = NpcState.REGISTERING_CASH;
     }
 
     // The client was attended we return the free table
     private void UpdateOrderAttended()
     {
-        if (localState == NPCState.TAKING_ORDER && CurrentEnergy >= 100)
+        if (localState == NpcState.TAKING_ORDER && CurrentEnergy >= 100)
         {
             RestartState();
         }
@@ -92,7 +92,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateTakeOrder()
     {
-        if (localState == NPCState.TAKING_ORDER)
+        if (localState == NpcState.TAKING_ORDER)
         {
             ActivateEnergyBar(TIME_TO_TAKE_ORDER);
         }
@@ -100,57 +100,57 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateAttendTable()
     {
-        if (localState != NPCState.AT_COUNTER || !GameGrid.IsThereCustomer())
+        if (localState != NpcState.AT_COUNTER || !GameGrid.IsThereCustomer())
         {
             return;
         }
         tableToBeAttended = GameGrid.GetTableWithClient();
-        localState = NPCState.WALKING_TO_TABLE;
+        localState = NpcState.WALKING_TO_TABLE;
         GoTo(tableToBeAttended.ActionGridPosition);
     }
 
     private void UpdateIsTakingOrder()
     {
-        if (localState != NPCState.WALKING_TO_TABLE || !IsAtGameGridObject(tableToBeAttended))
+        if (localState != NpcState.WALKING_TO_TABLE || !IsAtGameGridObject(tableToBeAttended))
         {
             return;
         } 
         
-        localState = NPCState.TAKING_ORDER;
+        localState = NpcState.TAKING_ORDER;
     }
     
     //First State
     private void UpdateGoNextToCounter()
     {
-        if (localState != NPCState.IDLE || counter == null)
+        if (localState != NpcState.IDLE || counter == null)
         {
             return;
         }
         
         counter = GameGrid.Counter;
-        localState = NPCState.WALKING_TO_COUNTER;
+        localState = NpcState.WALKING_TO_COUNTER;
         GoTo(counter.ActionGridPosition);
     }
 
     private void UpdateIsAtCounter()
     {
-        if (localState != NPCState.WALKING_TO_COUNTER || !IsAtGameGridObject(counter) || counter == null)
+        if (localState != NpcState.WALKING_TO_COUNTER || !IsAtGameGridObject(counter) || counter == null)
         {
             return;
         }
 
-        localState = NPCState.AT_COUNTER;
+        localState = NpcState.AT_COUNTER;
     }
 
     private bool IsAtGameGridObject(GameGridObject obj)
     {
-        return Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(obj.ActionGridPosition)) < Settings.MIN_DISTANCE_TO_TARGET;
+        return Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(obj.ActionGridPosition)) < Settings.MinDistanceToTarget;
     }
 
     private void RestartState()
     {
         GoTo(counter.ActionGridPosition);
-        localState = NPCState.WALKING_TO_COUNTER_AFTER_ORDER;
+        localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         GameGrid.AddFreeBusinessSpots(tableToBeAttended);
         tableToBeAttended.Busy = false;
         tableToBeAttended = null;
