@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using TMPro;
@@ -30,6 +31,7 @@ public class BaseObjectController : MonoBehaviour
         available = new Color(0, 1, 0, 0.4f);
         occupied = new Color(1, 0, 0, 0.4f);
         free = new Color(1, 1, 1, 1);
+        GameGridObject = null;
         initialPosition = transform.position;
     }
 
@@ -40,9 +42,19 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
+        Grid.SetActiveGameGridObject(GameGridObject.Name);
+        spriteRenderer.color = available;
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
     }
-
+    
+    private void FixedUpdate()
+    {
+        if(spriteRenderer && Grid && GameGridObject != null)
+        {
+            spriteRenderer.color = Grid.IsThisSelectedObject(GameGridObject.Name) ? available : free;
+        }
+    }
+    
     private void OnMouseDrag()
     {
         if (!IsDraggable())

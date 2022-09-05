@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game.Players;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,8 @@ public class MenuHandlerController : MonoBehaviour
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
     private GridController gridController;
+    private PlayerData playerData;
+    private TextMeshProUGUI moneyText;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Start()
@@ -53,13 +56,20 @@ public class MenuHandlerController : MonoBehaviour
         tabMenu = transform.Find(Settings.ConstCenterTabMenu).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
 
-        if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null)
+        // Setting up Current money
+        GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
+        moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
+
+        if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null ||
+            topResourcePanelMoney == null || moneyText)
         {
             GameLog.LogWarning("MenuHandlerController Menu null ");
             GameLog.LogWarning("tabMenu " + tabMenu);
             GameLog.LogWarning("leftDownPanel " + leftDownPanel);
             GameLog.LogWarning("cController " + cController);
             GameLog.LogWarning("gridController " + cController);
+            GameLog.LogWarning("topResourcePanelMoney " + topResourcePanelMoney);
+            GameLog.LogWarning("moneyText " + moneyText);
         }
 
         menuStack = new Stack<MenuItem>();
@@ -84,6 +94,8 @@ public class MenuHandlerController : MonoBehaviour
         centerTabMenu.Close();
         npcProfileMenu.Close();
         openedTime = 0;
+        playerData = gridController.PlayerData;
+        moneyText.text = playerData.GetMoney();
     }
 
     private void Update()
@@ -140,7 +152,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         ObjectType type = Util.GetObjectType(clickController.ClickedObject);
-        
+
         if (type == ObjectType.NPC || type == ObjectType.EMPLOYEE)
         {
             Dictionary<string, string> map = new Dictionary<string, string>();
