@@ -20,7 +20,7 @@ public class PlayerAnimationStateController : MonoBehaviour
         {
             return;
         }
-
+        
         if (state == NPCState.IDLE || state == NPCState.AT_COUNTER || state == NPCState.TAKING_ORDER || state == NPCState.REGISTERING_CASH)
         {
             animator.SetTrigger(AnimatorState.IDLE);

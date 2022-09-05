@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class EnergyBarController : MonoBehaviour
 {
-    public Slider Slider { get; set; }
+    private Slider Slider { get; set; }
     public EnergyBarController EnergyBar { get; set; }
-    public bool Visible { get; set; }
+    private bool Visible { get; set; }
 
     public void Start()
     {
@@ -25,17 +25,12 @@ public class EnergyBarController : MonoBehaviour
         Slider.value = energy;
     }
 
-    public void SetMaxEnergy(int maxEnergy)
+    private void SetMaxEnergy(int maxEnergy)
     {
         Slider.maxValue = maxEnergy;
         Slider.value = maxEnergy;
     }
-
-    public void SubstractEnergy(int maxEnergy)
-    {
-        Slider.value -= maxEnergy;
-    }
-
+    
     public void SetInactive()
     {
         Visible = false;

@@ -43,16 +43,16 @@ public class GameGridObject : GameObjectBase
         }
     }
     
-    public bool IsLastPositionEqual(Vector3Int ActionGridPosition)
+    public bool IsLastPositionEqual(Vector3Int actionGridPosition)
     {
-        return this.ActionGridPosition == ActionGridPosition;
+        return this.ActionGridPosition == actionGridPosition;
     }
 
-    public void UpdateCoords(Vector3Int GridPosition, Vector3Int LocalGridPosition, Vector3 WorldPosition)
+    public void UpdateCoords(Vector3Int gridPosition, Vector3Int localGridPosition, Vector3 worldPosition)
     {
-        this.GridPosition = GridPosition;
-        this.LocalGridPosition = LocalGridPosition;
-        this.WorldPosition = WorldPosition;
+        GridPosition = gridPosition;
+        LocalGridPosition = localGridPosition;
+        WorldPosition = worldPosition;
 
         if (Type == ObjectType.NPC_TABLE)
         {

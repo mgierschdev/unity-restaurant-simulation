@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class GameTile : GameObjectBase
 {
-    public TileBase UnityTileBase { get; set; }
+    private TileBase unityTileBase;
 
     public GameTile(Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, TileType name, ObjectType type, TileBase unityTileBase)
     {
@@ -12,12 +12,12 @@ public class GameTile : GameObjectBase
         LocalGridPosition = localGridPosition;
         TileType = name;
         Type = type;
-        UnityTileBase = unityTileBase;
+        this.unityTileBase = unityTileBase;
     }
 
-    public void SwapTile(TileType name, ObjectType type, TileBase unityTileBase){
+    public void SwapTile(TileType name, ObjectType type, TileBase tileBase){
         TileType = name;
-        this.Type = type;
-        this.UnityTileBase = unityTileBase;
+        Type = type;
+        unityTileBase = tileBase;
     }
 }

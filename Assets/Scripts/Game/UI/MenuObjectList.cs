@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuObjectList : MonoBehaviour
+public class MenuObjectList
 {
 
     public List<GameGridObject> Tables { get; set; }

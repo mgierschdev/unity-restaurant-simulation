@@ -232,15 +232,17 @@ public class MenuHandlerController : MonoBehaviour
 
     private void OpenMenu(MenuItem menu)
     {
-        if (!openMenus.Contains(menu.Name))
+        if (openMenus.Contains(menu.Name))
         {
-            menu.UnityObject.SetActive(true);
-            menuStack.Push(menu);
-            openMenus.Add(menu.Name);
-            if (menu.PauseGameGame)
-            {
-                HandleTimeScale();
-            }
+            return;
+        }
+
+        menu.UnityObject.SetActive(true);
+        menuStack.Push(menu);
+        openMenus.Add(menu.Name);
+        if (menu.PauseGameGame)
+        {
+            HandleTimeScale();
         }
     }
 
@@ -272,9 +274,9 @@ public class MenuHandlerController : MonoBehaviour
             MenuItem menu = menuStack.Peek();
             if (menu.Type == MenuType.TAB_MENU)
             {
-                GameObject MenuBody = GameObject.Find(Settings.CONST_CENTER_TAB_MENU_BODY);
+                GameObject menuBody = GameObject.Find(Settings.CONST_CENTER_TAB_MENU_BODY);
                 return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenu.GetComponent<RectTransform>(), Input.mousePosition) ||
-                RectTransformUtility.RectangleContainsScreenPoint(MenuBody.GetComponent<RectTransform>(), Input.mousePosition));
+                RectTransformUtility.RectangleContainsScreenPoint(menuBody.GetComponent<RectTransform>(), Input.mousePosition));
             }
             else
             {
@@ -288,15 +290,15 @@ public class MenuHandlerController : MonoBehaviour
     }
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
-        GameObject ScrollView = menu.UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
+        GameObject scrollView = menu.UnityObject.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
 
-        if (ScrollView == null)
+        if (scrollView == null)
         {
             return;
         }
 
         //Clear ScrollView
-        foreach (Transform child in ScrollView.transform)
+        foreach (Transform child in scrollView.transform)
         {
             Destroy(child.gameObject);
         }
@@ -315,7 +317,7 @@ public class MenuHandlerController : MonoBehaviour
             Image imgComponent = img.GetComponent<Image>();
             Sprite sp = Resources.Load<Sprite>(obj.MenuItemSprite);
             imgComponent.sprite = sp;
-            item.transform.SetParent(ScrollView.transform);
+            item.transform.SetParent(scrollView.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
     }
@@ -352,7 +354,6 @@ public class MenuHandlerController : MonoBehaviour
     private void OpenStoreEditPanel(GameGridObject obj)
     {
         CloseAllMenus();
-        Debug.Log("Object to add "+obj.Name);
         gridController.HighlightGridBussFloor();
         //Disable Lefdown panel
         PauseGame();
@@ -372,7 +373,7 @@ public class MenuHandlerController : MonoBehaviour
         return editStoreMenuPanel.activeSelf;
     }
 
-    public void ItemClicked()
+    private void ItemClicked()
     {
         //Debug.Log("Clicking inventory/bEmployees");
     }

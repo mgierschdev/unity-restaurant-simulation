@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.TextCore.Text;
 using UnityEngine;
 // This class in charge of loading the game and prefabs
 // the gameBackground Pivot should be in 1,1.
@@ -8,10 +9,10 @@ public class GameController : MonoBehaviour
     private HashSet<EmployeeController> NPCEmployeeSet;
     private int npcMaxNumber = 8;
     private int NPCidx;
-    GridController gridController;
-    GameObject gameGridObject;
-    GameTile tileSpawn;
-    void Start()
+    private GridController gridController;
+    private GameObject gameGridObject;
+    private GameTile tileSpawn;
+    private void Start()
     {
         NPCSet = new HashSet<NPCController>();
         NPCEmployeeSet = new HashSet<EmployeeController>();
@@ -51,7 +52,7 @@ public class GameController : MonoBehaviour
         NPCEmployeeSet.Add(employeeController);
         NPCidx++;
     }
-    public void RemoveNPC(NPCController controller)
+    public void RemoveNpc(NPCController controller)
     {
         if (NPCSet.Contains(controller))
         {
@@ -59,7 +60,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("GameController/RemoveNPC NPC Controller does not exist");
+            GameLog.LogWarning("GameController/RemoveNPC NPC Controller does not exist");
         }
     }
 }

@@ -60,7 +60,6 @@ public class GridController : MonoBehaviour
     private Dictionary<Vector3, GameTile> mapObjects;
 
     //Prefabs in the TilemapObjects
-    private List<GameGridObject> listGamePrefabs;
     private Dictionary<string, GameGridObject> FreeBusinessSpotsMap { get; set; }
     private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
     private Queue<GameGridObject> TablesWithClient { get; set; } // Tables to attend or chairs
@@ -73,7 +72,6 @@ public class GridController : MonoBehaviour
     private Tilemap tilemapBusinessFloor;
     private List<GameTile> listBusinessFloor;
     private Dictionary<Vector3, GameTile> mapBusinessFloor;
-    private bool isMouseHoverActive;
 
     private void Awake()
     {
@@ -95,7 +93,6 @@ public class GridController : MonoBehaviour
         tilemapObjects = GameObject.Find(Settings.TILEMAP_OBJECTS).GetComponent<Tilemap>();
         mapObjects = new Dictionary<Vector3, GameTile>();
         listObjectsTileMap = new List<GameTile>();
-        listGamePrefabs = new List<GameGridObject>();
         mapGamePrefabs = new Dictionary<string, GameGridObject>();
         FreeBusinessSpots = new Queue<GameGridObject>();
         TablesWithClient = new Queue<GameGridObject>();
@@ -131,7 +128,6 @@ public class GridController : MonoBehaviour
         pathFind = new PathFind();
         grid = new int[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
         debugGrid = new TextMesh[Settings.GRID_HEIGHT, Settings.GRID_WIDTH];
-        isMouseHoverActive = false;
 
         InitGrid(grid);
         BuildGrid(listPathFindingMap, mapWorldPositionToTile, mapGridPositionToTile, mapPathFindingGrid); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
@@ -213,17 +209,17 @@ public class GridController : MonoBehaviour
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
                 tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
 
-                if (Settings.DEBUG_ENABLE)
-                {
-                    //Debug.Log("DEBUG: GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
-                }
+                // if (Settings.DEBUG_ENABLE)
+                // {
+                //     //Debug.Log("DEBUG: GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
+                // }
             }
         }
 
-        if (Settings.DEBUG_ENABLE)
-        {
-            DrawCellCoords();
-        }
+        // if (Settings.DEBUG_ENABLE)
+        // {
+        //     DrawCellCoords();
+        // }
     }
 
     private void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3, GameTile> map)
@@ -256,20 +252,20 @@ public class GridController : MonoBehaviour
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
 
-                    if (Settings.DEBUG_ENABLE)
-                    {
-                        SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
-                    }
+                    // if (Settings.DEBUG_ENABLE)
+                    // {
+                    //     SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
+                    // }
                 }
 
                 if (tileType == TileType.BUS_FLOOR)
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
 
-                    if (Settings.DEBUG_ENABLE)
-                    {
-                        SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
-                    }
+                    // if (Settings.DEBUG_ENABLE)
+                    // {
+                    //     SetIsometricCellSolor(gridPosition.x, gridPosition.y, Color.white);
+                    // }
                 }
 
                 if (tileType == TileType.SPAM_POINT)
@@ -290,11 +286,10 @@ public class GridController : MonoBehaviour
 
         if (!IsCoordsValid(x, y) || x < 0 || y < 0)
         {
-            if (Settings.DEBUG_ENABLE)
-            {
-                Debug.LogWarning("The object should be placed inside the perimeter");
-            }
-
+            // if (Settings.DEBUG_ENABLE)
+            // {
+            //     Debug.LogWarning("The object should be placed inside the perimeter");
+            // }
             return;
         }
 
@@ -338,18 +333,18 @@ public class GridController : MonoBehaviour
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            if (Settings.DEBUG_ENABLE)
-            {
-                SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
-            }
+            // if (Settings.DEBUG_ENABLE)
+            // {
+            //     SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            // }
         }
         else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
         {
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            if (Settings.DEBUG_ENABLE)
-            {
-                SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
-            }
+            // if (Settings.DEBUG_ENABLE)
+            // {
+            //     SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            // }
         }
     }
 
@@ -377,7 +372,6 @@ public class GridController : MonoBehaviour
     public void HideGridBussFloor()
     {
         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
-        isMouseHoverActive = false;
     }
 
     //Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
@@ -406,7 +400,6 @@ public class GridController : MonoBehaviour
     {
         // If we Highlight we are in edit mode
         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
-        isMouseHoverActive = true;
     }
 
     // Returns the nearest grid World position given any world map position
@@ -498,33 +491,31 @@ public class GridController : MonoBehaviour
     }
 
     // Unset position in Grid
-    public void FreeGridPosition(int x, int y)
+    private void FreeGridPosition(int x, int y)
     {
         if (!IsCoordsValid(x, y) && x > 1 && y > 1)
         {
-            if (Settings.DEBUG_ENABLE)
-            {
-                Debug.LogError("The object should be placed inside the perimeter");
-            }
+            // if (Settings.DEBUG_ENABLE)
+            // {
+            //     Debug.LogError("The object should be placed inside the perimeter");
+            // }
             return;
         }
 
         grid[x, y] = 0;
-        if (Settings.DEBUG_ENABLE)
-        {
-            SetCellColor(x, y, Color.white);
-        }
+        // if (Settings.DEBUG_ENABLE)
+        // {
+        //     SetCellColor(x, y, Color.white);
+        // }
     }
 
     public void SetGridObject(GameGridObject obj)
     {
-
         if (obj.Type == ObjectType.NPC_COUNTER)
         {
             Counter = obj;
         }
-
-        listGamePrefabs.Add(obj);
+        
         mapGamePrefabs.Add(obj.Name, obj);
         SetObjectObstacle(obj);
     }
