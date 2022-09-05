@@ -14,9 +14,9 @@ public class CameraController : MonoBehaviour
 
     // MouseScroll zoom 
     private float targetPosition;
-    private float zoomSpeed = 35;
-    private float minZoomSize = 1;
-    private float maxZoomSize = 5;
+    private const float ZOOM_SPEED = 35;
+    private const float MIN_ZOOM_SIZE = 1;
+    private const float MAX_ZOOM_SIZE = 5;
 
     // Menu Controller
     private MenuHandlerController menuHandlerController;
@@ -66,19 +66,20 @@ public class CameraController : MonoBehaviour
                 direction.y = touchStart.y - Camera.main.ScreenToWorldPoint(Input.mousePosition).y;
                 direction.x = touchStart.x - Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
                 Camera.main.transform.position += new Vector3(direction.x, direction.y, 0);
+                Vector3 transformPosition = transform.position;
 
                 // then we clamp the value
-                float clampX = Mathf.Clamp(transform.position.x, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_X[0], Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_X[1]); // left and right
-                float clampY = Mathf.Clamp(transform.position.y, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_Y[0], Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_Y[1]); // units down, and up
-                transform.position = new Vector3(clampX, clampY, transform.position.z);
+                float clampX = Mathf.Clamp(transformPosition.x, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_X[0], Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_X[1]); // left and right
+                float clampY = Mathf.Clamp(transformPosition.y, Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_Y[0], Settings.CAMERA_PERSPECTIVE_HAND_CLAMP_Y[1]); // units down, and up
+                transform.position = new Vector3(clampX, clampY, transformPosition.z);
             }
             else if (Input.mouseScrollDelta != Vector2.zero)
             {
                 // Camera zoom
                 float scroll = Input.GetAxis("Mouse ScrollWheel");
-                targetPosition -= scroll * zoomSpeed;
-                targetPosition = Mathf.Clamp(targetPosition, minZoomSize, maxZoomSize);
-                Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetPosition, zoomSpeed * Time.deltaTime);
+                targetPosition -= scroll * ZOOM_SPEED;
+                targetPosition = Mathf.Clamp(targetPosition, MIN_ZOOM_SIZE, MAX_ZOOM_SIZE);
+                Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetPosition, ZOOM_SPEED * Time.deltaTime);
             }
         }
     }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+
 public class BaseObjectController : MonoBehaviour
 {
     private MenuHandlerController menu;
@@ -33,7 +34,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (IsDragable())
+        if (IsDraggable())
         {
             mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
         }
@@ -41,30 +42,24 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (IsDragable())
+        if (!IsDraggable())
         {
-            // Change Overlay color depending if can place or not
-            // Mark 2 tiles of the object action tile and position tile
-            Vector3 currentPos = grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
-            Vector3 initPos = grid.GetNearestGridPositionFromWorldMap(initialPosition);
-            transform.position = new Vector3(currentPos.x, currentPos.y, 1);
-            sortLayer.sortingOrder = 1;
-
-            if (grid.IsValidBussPosition(currentPos, initPos))
-            {
-                spriteRenderer.color = available;
-            }
-            else
-            {
-                spriteRenderer.color = ocupied;
-            }
+            return;
         }
+
+        // Change Overlay color depending if can place or not
+        // Mark 2 tiles of the object action tile and position tile
+        Vector3 currentPos = grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
+        Vector3 initPos = grid.GetNearestGridPositionFromWorldMap(initialPosition);
+        transform.position = new Vector3(currentPos.x, currentPos.y, 1);
+        sortLayer.sortingOrder = 1;
+        spriteRenderer.color = grid.IsValidBussPosition(currentPos, initPos) ? available : ocupied;
     }
 
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (IsDragable())
+        if (IsDraggable())
         {
             Vector3 finalPos = grid.GetNearestGridPositionFromWorldMap(transform.position);
             Vector3 initPos = grid.GetNearestGridPositionFromWorldMap(initialPosition);
@@ -78,7 +73,8 @@ public class BaseObjectController : MonoBehaviour
             {
                 initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
                 Vector3Int init = gameGridObject.GridPosition;
-                gameGridObject.UpdateCoords(grid.GetPathFindingGridFromWorldPosition(finalPos), grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
+                gameGridObject.UpdateCoords(grid.GetPathFindingGridFromWorldPosition(finalPos),
+                    grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
                 grid.UpdateGridPosition(init, gameGridObject.GridPosition);
             }
 
@@ -86,7 +82,7 @@ public class BaseObjectController : MonoBehaviour
         }
     }
 
-    private bool IsDragable()
+    private bool IsDraggable()
     {
         return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen();
     }

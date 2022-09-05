@@ -6,8 +6,9 @@ using UnityEngine;
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
     public string Name { get; set; }
+
     // Getters and setters
-    public ObjectType Type { get; set; }
+    protected ObjectType Type { get; set; }
     public float Speed { get; set; }
     public Vector3 Velocity { get; set; }
     public Vector3Int Position { get; set; } //PathFindingGrid Position
@@ -15,26 +16,29 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     // Movement 
     private Rigidbody2D body;
-    private MoveDirection MoveDirection;
+    private MoveDirection moveDirection;
     private bool side; // false right, true left
 
     //Movement Queue
-    private float minDistanceToTarget = Settings.MIN_DISTANCE_TO_TARGET;
+    private readonly float minDistanceToTarget = Settings.MIN_DISTANCE_TO_TARGET;
     private Queue pendingMovementQueue;
     private Vector3 currentTargetPosition;
     private Vector3Int FinalTarget { get; set; }
+
     private GameObject gameGridObject;
+
     // ClickController for the long click duration for the player
     private ClickController clickController;
+
     //Energy Bar
     private EnergyBarController energyBar;
-    public float CurrentEnergy { get; set; }
-    private float speedDrecreaseEnergyBar;
+    protected float CurrentEnergy { get; set; }
+    private float speedDecreaseEnergyBar;
 
     // Debug attributes
-    private string NPCDebug;
+    private string npcDebug;
     private Queue<string> stateHistory;
-    private int stateHistoryMaxSize = 20;
+    private const int STATE_HISTORY_MAX_SIZE = 20;
 
 
     private void Awake()
@@ -67,7 +71,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         FinalTarget = Util.GetVector3IntPositiveInfinity();
         side = false; // The side in which the character is facing by default = false meaning right.
-        speedDrecreaseEnergyBar = 20f;
+        speedDecreaseEnergyBar = 20f;
     }
 
     // Overlap spehre
@@ -84,7 +88,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             energyBar.SetActive();
             CurrentEnergy = 0;
-            speedDrecreaseEnergyBar = val;
+            speedDecreaseEnergyBar = val;
         }
     }
 
@@ -95,7 +99,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             if (CurrentEnergy <= 100)
             {
-                CurrentEnergy += Time.deltaTime * speedDrecreaseEnergyBar;
+                CurrentEnergy += Time.deltaTime * speedDecreaseEnergyBar;
                 energyBar.SetEnergy((int)CurrentEnergy);
             }
             else
@@ -113,20 +117,20 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Position = new Vector3Int(Position.x, Position.y);
     }
 
-    public void UpdateObjectDirection()
+    private void UpdateObjectDirection()
     {
-        if (side && (MoveDirection == MoveDirection.DOWN ||
-        MoveDirection == MoveDirection.UPRIGHT ||
-        MoveDirection == MoveDirection.DOWNRIGHT ||
-        MoveDirection == MoveDirection.RIGHT))
+        if (side && (moveDirection == MoveDirection.DOWN ||
+                     moveDirection == MoveDirection.UPRIGHT ||
+                     moveDirection == MoveDirection.DOWNRIGHT ||
+                     moveDirection == MoveDirection.RIGHT))
         {
             side = false;
             FlipSide();
         }
-        else if (!side && (MoveDirection == MoveDirection.UP ||
-        MoveDirection == MoveDirection.UPLEFT ||
-        MoveDirection == MoveDirection.DOWNLEFT ||
-        MoveDirection == MoveDirection.LEFT))
+        else if (!side && (moveDirection == MoveDirection.UP ||
+                           moveDirection == MoveDirection.UPLEFT ||
+                           moveDirection == MoveDirection.DOWNLEFT ||
+                           moveDirection == MoveDirection.LEFT))
         {
             side = true;
             FlipSide();
@@ -137,24 +141,23 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         Vector3 tmp = gameObject.transform.localScale;
         tmp.x = -tmp.x;
-        gameObject.transform.localScale = tmp;
+        transform.localScale = tmp;
     }
 
     protected void UpdateTargetMovement()
     {
-
         if (IsInTargetPosition())
         {
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
-                MoveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
+                moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
                 UpdateObjectDirection();
             }
             else
             {
                 //target reached 
-                MoveDirection = MoveDirection.IDLE;
+                moveDirection = MoveDirection.IDLE;
                 UpdateObjectDirection();
             }
         }
@@ -185,6 +188,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             clickController = cController.GetComponent<ClickController>();
         }
     }
+
     public void AddMovement(Vector3 direction)
     {
         if (direction != new Vector3(0, 0))
@@ -194,15 +198,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    public void AddMovement()
+    private void AddMovement()
     {
-        if (pendingMovementQueue.Count != 0)
+        if (pendingMovementQueue.Count == 0)
         {
-            Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
-            Vector3 direction = GameGrid.GetWorldFromPathFindingGridPosition(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
-            currentTargetPosition = new Vector3(direction.x, direction.y);
+            return;
         }
 
+        Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
+        Vector3 direction =
+            GameGrid.GetWorldFromPathFindingGridPosition(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
+        currentTargetPosition = new Vector3(direction.x, direction.y);
     }
 
     protected void ResetMovementIfMoving()
@@ -260,6 +266,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             merge.Add(path[i]);
         }
+
         return merge;
     }
 
@@ -280,6 +287,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             degrees += 360;
         }
+
         return Util.GetDirectionFromAngles(degrees);
     }
 
@@ -291,10 +299,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
             AddMovement(Util.GetVectorFromDirection(GetDirectionFromPositions(transform.position, mousePosition)));
 
-            if (Settings.DEBUG_ENABLE)
-            {
-                Debug.DrawLine(transform.position, mousePosition, Color.blue);
-            }
+            // if (Settings.DEBUG_ENABLE)
+            // {
+            //     Debug.DrawLine(transform.position, mousePosition, Color.blue);
+            // }
         }
     }
 
@@ -314,20 +322,20 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         for (int i = 1; i < path.Count; i++)
         {
-            Vector3 from = GameGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
-            Vector3 to = GameGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
 
-            if (Settings.DEBUG_ENABLE)
-            {
-                Debug.DrawLine(from, to, Color.yellow, 15f);
-            }
+            // if (Settings.DEBUG_ENABLE)
+            // {
+            //     Vector3 from = GameGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
+            //     Vector3 to = GameGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
+            //     Debug.DrawLine(from, to, Color.yellow, 15f);
+            // }
 
             pendingMovementQueue.Enqueue(path[i].GetVector3());
         }
 
         if (path.Count == 0)
         {
-            Debug.LogWarning("Path out of reach");
+            GameLog.LogWarning("Path out of reach");
             return;
         }
 
@@ -347,10 +355,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void SetDebug()
     {
-        NPCDebug = "";
+        npcDebug = "";
         for (int i = 0; i < stateHistory.Count; i++)
         {
-            NPCDebug += stateHistory.ElementAt(i) + "<br>";
+            npcDebug += stateHistory.ElementAt(i) + "<br>";
         }
     }
 
@@ -358,10 +366,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         stateHistory.Enqueue(s);
 
-        if (stateHistory.Count > stateHistoryMaxSize)
+        if (stateHistory.Count > STATE_HISTORY_MAX_SIZE)
         {
             stateHistory.Dequeue();
         }
+
         SetDebug();
     }
 
@@ -375,7 +384,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             AddMovement();
         }
-        AddStateHistory("Pending movingQueue Size: "+pendingMovementQueue.Count); 
+
+        AddStateHistory("Pending movingQueue Size: " + pendingMovementQueue.Count);
     }
 
     public void SetClickController(ClickController controller)
@@ -390,8 +400,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public string GetDebugInfo()
     {
-        return NPCDebug;
+        return npcDebug;
     }
+
     public float[] GetPositionAsArray()
     {
         return new float[] { Position.x, Position.y };
@@ -404,6 +415,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public bool IsInFinalTargetPosition()
     {
-        return Vector3.Distance(FinalTarget, Position) < minDistanceToTarget || FinalTarget == Util.GetVector3IntPositiveInfinity();
+        return Vector3.Distance(FinalTarget, Position) < minDistanceToTarget ||
+               FinalTarget == Util.GetVector3IntPositiveInfinity();
     }
 }

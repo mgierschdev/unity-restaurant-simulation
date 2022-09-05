@@ -3,10 +3,10 @@ using UnityEngine;
 public class ClickController : MonoBehaviour
 {
     //MovingOnLongtouch(), Long click or touch vars
-    public bool IsClicking { get; set; }
+    private bool IsClicking { get; set; }
     public bool IsLongClick { get; set; }
-    public float ClickingTime { get; set; }// To keep the coung if longclick
-    private float longClickDuration = 0.2f;
+    private float ClickingTime { get; set; }// To keep the coung if longclick
+    readonly float longClickDuration = 0.2f;
 
     private GridController gridController;
 

@@ -5,13 +5,13 @@ using UnityEngine.Rendering;
 public class CounterController : BaseObjectController
 {
     GameGridObject counter;
-
-
-    void Start()
+    
+    private void Start()
     {
-        counter = new GameGridObject(transform.name, transform.position, grid.GetPathFindingGridFromWorldPosition(transform.position), grid.GetLocalGridFromWorldPosition(transform.position), ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT);
+        Transform transformObject = gameObject.transform;
+        Vector3 transformPosition = transformObject.position;
+        counter = new GameGridObject(transformObject.name, transformPosition, grid.GetPathFindingGridFromWorldPosition(transformPosition), grid.GetLocalGridFromWorldPosition(transformPosition), ObjectType.NPC_COUNTER, TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT);
         counter.SortingLayer = GetComponent<SortingGroup>();
-
 
         if (!Util.IsNull(grid, "CounterController/IsometricGridController null"))
         {

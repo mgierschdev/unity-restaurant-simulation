@@ -90,7 +90,7 @@ public static class Settings
     // Grid
 
     //Tiles
-    public const string GRID_TILES = "Grid/Tiles/";
+    private const string GRID_TILES = "Grid/Tiles/";
     public const string GRID_TILES_SIMPLE = GRID_TILES + "GridTile";
     public const string GRID_TILES_HIGHLIGHTED_FLOOR = GRID_TILES + "HighlightedFloor@3x";
 

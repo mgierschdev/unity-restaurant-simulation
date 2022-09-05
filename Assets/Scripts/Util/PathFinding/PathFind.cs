@@ -66,7 +66,6 @@ public class PathFind
             {
                 // build path
                 return BuildPath(current);
-                break;
             }
 
             // Go in all directions
