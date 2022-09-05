@@ -1,7 +1,4 @@
-using PlasticPipe.PlasticProtocol.Client.Proxies;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 public class EmployeeController : GameObjectMovementBase

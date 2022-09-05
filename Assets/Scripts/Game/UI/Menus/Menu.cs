@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class MenuItem
 {
-    public MenuType Type { get; set; }
-    public Menu Menu { get; set; }
-    public string Name { get; set; }
-    public GameObject UnityObject { get; set; }
-    public List<string> Buttons { get; set; }
-    public Dictionary<string, string> Fields { get; set; }
-    public bool PauseGameGame { get; set; }
-    public GameObject scrollView;
+    public MenuType Type { get;}
+    public Menu Menu { get;}
+    public string Name { get; }
+    public GameObject UnityObject { get; }
+    private Dictionary<string, string> Fields { get; set; }
+    public bool PauseGameGame { get; }
 
-    public MenuItem(Menu menu, MenuType type, string name, GameObject gobj, bool pauseGame)
+    public MenuItem(Menu menu, MenuType type, string name, GameObject gameObj, bool pauseGame)
     {
         Menu = menu;
         PauseGameGame = pauseGame;
-        UnityObject = gobj;
+        UnityObject = gameObj;
         Name = name;
         Type = type;
-        Buttons = new List<string>();
         Fields = new Dictionary<string, string>();
     }
 
@@ -31,11 +28,11 @@ public class MenuItem
         {
             GameObject go = GameObject.Find(kvp.Key);
 
-            if (go != null)
+            if (go)
             {
                 TextMeshProUGUI textMesh = go.GetComponent<TextMeshProUGUI>();
 
-                if (textMesh != null)
+                if (textMesh)
                 {
                     textMesh.text = kvp.Value;
                 }

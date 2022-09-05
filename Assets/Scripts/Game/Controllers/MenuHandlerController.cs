@@ -5,12 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // This will be only element attached in the UI
-// All the buttom calls will be handled by this class.
+// All the bottom calls will be handled by this class.
 public class MenuHandlerController : MonoBehaviour
 {
     private GameObject tabMenu;
+    private RectTransform tabMenuRect;
     private MenuItem npcProfileMenu;
-    private NPCController npc; //saves the latest reference to the npc if the menu was openned
+    private NPCController npc; //saves the latest reference to the npc if the menu was opened
     private EmployeeController employee;
     private MenuItem centerTabMenu;
     private Stack<MenuItem> menuStack;
@@ -21,7 +22,7 @@ public class MenuHandlerController : MonoBehaviour
     // Click controller
     private ClickController clickController;
 
-    //Min amount of time the the menu has to be open before activating -> closing on click outisde
+    //Min amount of time the the menu has to be open before activating -> closing on click outside
     private const float MIN_OPENED_TIME = 0.5f;
 
     private float openedTime;
@@ -31,6 +32,8 @@ public class MenuHandlerController : MonoBehaviour
     private MenuObjectList storeList;
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
+    private GameObject menuBody;
+    private RectTransform menuBodyRect;
     private GridController gridController;
     private PlayerData playerData;
     private TextMeshProUGUI moneyText;
@@ -55,21 +58,29 @@ public class MenuHandlerController : MonoBehaviour
 
         tabMenu = transform.Find(Settings.ConstCenterTabMenu).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
+        tabMenuRect = tabMenu.GetComponent<RectTransform>();
+        
+        // Menu Body
+        menuBody = GameObject.Find(Settings.ConstCenterTabMenuBody);
+        menuBodyRect = menuBody.GetComponent<RectTransform>();
 
         // Setting up Current money
-        GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
-        moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
+        // GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
+        // moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
 
-        if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null ||
-            topResourcePanelMoney == null || moneyText)
+        if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null
+            // ||  topResourcePanelMoney == null || moneyText
+            || menuBody == null
+            )
         {
             GameLog.LogWarning("MenuHandlerController Menu null ");
             GameLog.LogWarning("tabMenu " + tabMenu);
             GameLog.LogWarning("leftDownPanel " + leftDownPanel);
             GameLog.LogWarning("cController " + cController);
             GameLog.LogWarning("gridController " + cController);
-            GameLog.LogWarning("topResourcePanelMoney " + topResourcePanelMoney);
-            GameLog.LogWarning("moneyText " + moneyText);
+            GameLog.LogWarning("menuBody " + menuBody);
+            // GameLog.LogWarning("topResourcePanelMoney " + topResourcePanelMoney);
+            // GameLog.LogWarning("moneyText " + moneyText);
         }
 
         menuStack = new Stack<MenuItem>();
@@ -81,7 +92,7 @@ public class MenuHandlerController : MonoBehaviour
             npcProfileGameObject, false);
 
         //Adding inventory Items Tables
-        SetClickListeners(npcProfileMenu);
+        // SetClickListeners(npcProfileMenu);
 
         //Adding Scroll content
         AddMenuItemsToScrollView(centerTabMenu);
@@ -95,7 +106,7 @@ public class MenuHandlerController : MonoBehaviour
         npcProfileMenu.Close();
         openedTime = 0;
         playerData = gridController.PlayerData;
-        moneyText.text = playerData.GetMoney();
+       // moneyText.text = playerData.GetMoney();
     }
 
     private void Update()
@@ -105,7 +116,7 @@ public class MenuHandlerController : MonoBehaviour
             CloseMenu();
         }
 
-        //Min  ammount of time the the menu has to be open before activating -> closing on click outisde
+        //Min amount of time the the menu has to be open before activating -> closing on click outside
         TimeControl();
 
         // Checks for clicks to the objects in the UI
@@ -119,7 +130,7 @@ public class MenuHandlerController : MonoBehaviour
             return;
         }
 
-        //Handles for how long abefore activating CloseOnCLickOutside
+        //Handles for how long before activating CloseOnCLickOutside
         if (menuStack.Count > 0)
         {
             openedTime += Time.unscaledDeltaTime;
@@ -129,7 +140,7 @@ public class MenuHandlerController : MonoBehaviour
 
             if (menu.Menu == Menu.NPC_PROFILE && openedTime > MENU_REFRESH_RATE)
             {
-                RefresNPCProfile();
+                RefreshNpcProfile();
                 openedTime = 0;
             }
         }
@@ -146,7 +157,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void CheckCLickControl()
     {
-        if (clickController.ClickedObject == null)
+        if (!clickController.ClickedObject)
         {
             return;
         }
@@ -185,10 +196,10 @@ public class MenuHandlerController : MonoBehaviour
         }
     }
 
-    private void RefresNPCProfile()
+    private void RefreshNpcProfile()
     {
         // The NPC may not longer exist
-        if (npc == null)
+        if (!npc)
         {
             return;
         }
@@ -202,30 +213,30 @@ public class MenuHandlerController : MonoBehaviour
         npcProfileMenu.SetFields(map);
     }
 
-    private void SetClickListeners(MenuItem menu)
-    {
-        foreach (string buttonName in menu.Buttons)
-        {
-            GameObject currentComponent = GameObject.Find(buttonName);
-
-            if (currentComponent == null)
-            {
-                continue;
-            }
-
-            Button buttonListener = currentComponent.GetComponent<Button>();
-
-            if (buttonName == Settings.ConstUIExitButton)
-            {
-                buttonListener.onClick.AddListener(() => CloseMenu());
-            }
-
-            if (buttonName == Settings.ConstUIInventoryButton)
-            {
-                buttonListener.onClick.AddListener(() => OpenMenu(centerTabMenu));
-            }
-        }
-    }
+    // private void SetClickListeners(MenuItem menu)
+    // {
+    //     foreach (string buttonName in menu.Buttons)
+    //     {
+    //         GameObject currentComponent = GameObject.Find(buttonName);
+    //
+    //         if (currentComponent == null)
+    //         {
+    //             continue;
+    //         }
+    //
+    //         Button buttonListener = currentComponent.GetComponent<Button>();
+    //
+    //         if (buttonName == Settings.ConstUIExitButton)
+    //         {
+    //             buttonListener.onClick.AddListener(CloseMenu);
+    //         }
+    //
+    //         if (buttonName == Settings.ConstUIInventoryButton)
+    //         {
+    //             buttonListener.onClick.AddListener(() => OpenMenu(centerTabMenu));
+    //         }
+    //     }
+    // }
 
     private void CloseAllMenus()
     {
@@ -297,12 +308,12 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         MenuItem menu = menuStack.Peek();
+        
         if (menu.Type == MenuType.TAB_MENU)
         {
-            GameObject menuBody = GameObject.Find(Settings.ConstCenterTabMenuBody);
-            return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenu.GetComponent<RectTransform>(),
+            return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenuRect,
                          Input.mousePosition) ||
-                     RectTransformUtility.RectangleContainsScreenPoint(menuBody.GetComponent<RectTransform>(),
+                     RectTransformUtility.RectangleContainsScreenPoint(menuBodyRect,
                          Input.mousePosition));
         }
 
@@ -353,30 +364,31 @@ public class MenuHandlerController : MonoBehaviour
 
         GameObject inventory = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuInventory).gameObject;
         Button bInventory = inventory.GetComponent<Button>();
-        bInventory.onClick.AddListener(() => ItemClicked());
+        bInventory.onClick.AddListener(ItemClicked);
 
         GameObject employees = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuEmployees).gameObject;
         Button bEmployees = employees.GetComponent<Button>();
-        bEmployees.onClick.AddListener(() => ItemClicked());
+        bEmployees.onClick.AddListener(ItemClicked);
     }
 
     private void SetEditStorePanelClickListeners()
     {
         GameObject accept = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuAccept).gameObject;
         Button bAccept = accept.GetComponent<Button>();
-        bAccept.onClick.AddListener(() => ItemClicked());
+        bAccept.onClick.AddListener(ItemClicked);
 
         GameObject cancel = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuCancel).gameObject;
         Button bCancel = cancel.GetComponent<Button>();
-        bCancel.onClick.AddListener(() => CloseEditPanel());
+        bCancel.onClick.AddListener(CloseEditPanel);
 
         GameObject rotate = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
         Button bRotate = rotate.GetComponent<Button>();
-        bRotate.onClick.AddListener(() => ItemClicked());
+        bRotate.onClick.AddListener(ItemClicked);
     }
 
     private void OpenStoreEditPanel(GameGridObject obj)
     {
+        GameLog.Log("Place " + obj.Name);
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
         //Disable Left down panel

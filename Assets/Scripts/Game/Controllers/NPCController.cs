@@ -16,7 +16,7 @@ public class NPCController : GameObjectMovementBase
     private PlayerAnimationStateController animationController;
 
     // Wander properties
-    private float idleTime = 0;
+    private float idleTime;
     private const float IDLE_MAX_TIME = 6f; //in seconds
     private float randMax = 3f;
     private Vector3Int target; // walking to target

@@ -6,7 +6,6 @@ using UnityEngine;
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
     public string Name { get; set; }
-
     // Getters and setters
     protected ObjectType Type { get; set; }
     public float Speed { get; set; }
@@ -30,7 +29,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // ClickController for the long click duration for the player
     private ClickController clickController;
 
-    //Energy Bar
+    //Energy Bars
     private EnergyBarController energyBar;
     protected float CurrentEnergy { get; set; }
     private float speedDecreaseEnergyBar;
@@ -74,7 +73,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speedDecreaseEnergyBar = 20f;
     }
 
-    // Overlap spehre
+    // Overlap sphere
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
@@ -167,15 +166,15 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    private void ActivateEnergyBar()
-    {
-        energyBar.SetActive();
-    }
+    // private void ActivateEnergyBar()
+    // {
+    //     energyBar.SetActive();
+    // }
 
-    private void AddEnergyBar()
-    {
-        energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
-    }
+    // private void AddEnergyBar()
+    // {
+    //     energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
+    // }
 
     private void ClickUpdateController()
     {
@@ -211,7 +210,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         currentTargetPosition = new Vector3(direction.x, direction.y);
     }
 
-    protected void ResetMovementIfMoving()
+    private void ResetMovementIfMoving()
     {
         // If the player is moving, we change direction and empty the previous queue
         if (pendingMovementQueue.Count != 0)
@@ -233,7 +232,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     }
 
     // Resets the planned Path
-    protected void ResetMovementQueue()
+    private void ResetMovementQueue()
     {
         currentTargetPosition = Vector3.negativeInfinity;
         pendingMovementQueue = new Queue();
@@ -271,10 +270,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     }
 
 
-    private List<Node> GetPath(int[] from, int[] to)
-    {
-        return GameGrid.GetPath(from, to);
-    }
+    // private List<Node> GetPath(int[] from, int[] to)
+    // {
+    //     return GameGrid.GetPath(from, to);
+    // }
 
     //A to B direction
     private MoveDirection GetDirectionFromPositions(Vector3 a, Vector3 b)
@@ -291,19 +290,21 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return Util.GetDirectionFromAngles(degrees);
     }
 
-    protected void MovingOnLongtouch()
+    protected void MovingOnLongTouch()
     {
-        if (clickController != null && clickController.IsLongClick)
+        if (!clickController || !clickController.IsLongClick)
         {
-            ResetMovementIfMoving();
-            Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            AddMovement(Util.GetVectorFromDirection(GetDirectionFromPositions(transform.position, mousePosition)));
-
-            // if (Settings.DEBUG_ENABLE)
-            // {
-            //     GameLog.DrawLine(transform.position, mousePosition, Color.blue);
-            // }
+            return;
         }
+
+        ResetMovementIfMoving();
+        Vector3 mousePosition = Util.GetMouseInWorldPosition();
+        AddMovement(Util.GetVectorFromDirection(GetDirectionFromPositions(transform.position, mousePosition)));
+
+        // if (Settings.DEBUG_ENABLE)
+        // {
+        //     GameLog.DrawLine(transform.position, mousePosition, Color.blue);
+        // }
     }
 
     private void AddPath(List<Node> path)
@@ -322,7 +323,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         for (int i = 1; i < path.Count; i++)
         {
-
             // if (Settings.DEBUG_ENABLE)
             // {
             //     Vector3 from = GameGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
@@ -344,7 +344,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void MouseOnClick()
     {
-        if (Input.GetMouseButtonDown(0) && clickController != null && !clickController.IsLongClick)
+        if (Input.GetMouseButtonDown(0) && clickController && !clickController.IsLongClick)
         {
             UpdatePosition();
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
@@ -376,7 +376,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public void GoTo(Vector3Int pos)
     {
-        List<Node> path = GameGrid.GetPath(new int[] { (int)Position.x, (int)Position.y }, new int[] { pos.x, pos.y });
+        List<Node> path = GameGrid.GetPath(new[] { Position.x, Position.y }, new[] { pos.x, pos.y });
         AddStateHistory("Time: " + Time.fixedTime + " steps: " + path.Count + " t: " + pos.x + "," + pos.y);
         FinalTarget = pos;
         AddPath(path);
@@ -393,10 +393,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         this.clickController = controller;
     }
 
-    private bool IsWalking()
-    {
-        return pendingMovementQueue.Count > 0;
-    }
+    // private bool IsWalking()
+    // {
+    //     return pendingMovementQueue.Count > 0;
+    // }
 
     public string GetDebugInfo()
     {

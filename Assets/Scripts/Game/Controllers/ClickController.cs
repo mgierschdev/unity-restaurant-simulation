@@ -28,7 +28,7 @@ public class ClickController : MonoBehaviour
         // Controls the state of the first and long click
         ClickControl();
 
-        //Object Cliked Control, sets the last ClickedObject
+        //Object Clicked Control, sets the last ClickedObject
         ObjectClickedControl();
     }
 
@@ -89,7 +89,7 @@ public class ClickController : MonoBehaviour
             ClickedGameTile = tile;
         }
 
-        if (hit.collider != null)
+        if (hit.collider)
         {
             ClickedObject = GameObject.Find(hit.collider.name);
         }

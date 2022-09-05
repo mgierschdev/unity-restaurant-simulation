@@ -1,5 +1,5 @@
 public static class AnimatorState
 {
-    public static string Walking = "Walking";
-    public static string Idle = "Idle";
+    public const string Walking = "Walking";
+    public const string Idle = "Idle";
 }
