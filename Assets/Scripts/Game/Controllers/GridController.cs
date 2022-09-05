@@ -30,7 +30,7 @@ public class GridController : MonoBehaviour
     private Dictionary<Vector3, GameTile> mapFloor;
     //WalkingPath 
     private Tilemap tilemapWalkingPath;
-    private List<GameTile> listWalkingPathileMap;
+    private List<GameTile> listWalkingPathTileMap;
     private Dictionary<Vector3, GameTile> mapWalkingPath;
     //Colliders
     private Tilemap tilemapColliders;
@@ -50,7 +50,7 @@ public class GridController : MonoBehaviour
     private Tilemap tilemapBusinessFloor;
     private List<GameTile> listBusinessFloor;
     private Dictionary<Vector3, GameTile> mapBusinessFloor;
-    private GameGridObject currentClickedActiveGameObject;
+    private string currentClickedActiveGameObject;
 
     private void Awake()
     {
@@ -79,7 +79,7 @@ public class GridController : MonoBehaviour
 
         tilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
-        listWalkingPathileMap = new List<GameTile>();
+        listWalkingPathTileMap = new List<GameTile>();
 
         tilemapBusinessFloor = GameObject.Find(Settings.TilemapBusinessFloor).GetComponent<Tilemap>();
         listBusinessFloor = new List<GameTile>();
@@ -108,13 +108,14 @@ public class GridController : MonoBehaviour
         pathFind = new PathFind();
         grid = new int[Settings.GridHeight, Settings.GridWidth];
         debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
+        currentClickedActiveGameObject = "";
 
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
-        LoadTileMap(listWalkingPathileMap, tilemapWalkingPath, mapWalkingPath);
+        LoadTileMap(listWalkingPathTileMap, tilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
     }
 
@@ -149,7 +150,7 @@ public class GridController : MonoBehaviour
                 TextAnchor.MiddleCenter, TextAlignment.Center);
         }
     }
-
+    
     private void InitGrid()
     {
         for (int i = 0; i < grid.GetLength(0); i++)
@@ -452,13 +453,13 @@ public class GridController : MonoBehaviour
 
     public Vector3Int GetRandomWalkableGridPosition()
     {
-        if (listWalkingPathileMap.Count == 0)
+        if (listWalkingPathTileMap.Count == 0)
         {
             GameLog.LogWarning("There is not listWalkingPathileMap points");
             return Vector3Int.zero;
         }
 
-        GameTile tile = listWalkingPathileMap[Random.Range(0, listWalkingPathileMap.Count)];
+        GameTile tile = listWalkingPathTileMap[Random.Range(0, listWalkingPathTileMap.Count)];
         return tile.GridPosition;
     }
 
@@ -549,4 +550,15 @@ public class GridController : MonoBehaviour
     {
         TablesWithClient.Enqueue(obj);
     }
+    // Used to highlight the current object being edited
+    public void SetActiveGameGridObject(string objName)
+    {
+        currentClickedActiveGameObject = objName;
+    }
+
+    public bool IsThisSelectedObject(string objName)
+    {
+        return currentClickedActiveGameObject == objName;
+    }
+    
 }

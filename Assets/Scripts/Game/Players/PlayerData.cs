@@ -30,9 +30,9 @@ namespace Game.Players
             return money - amount < 0;
         }
 
-        public double GetMoney()
+        public string GetMoney()
         {
-            return money;
+            return money+"$";
         }
     }
 }
