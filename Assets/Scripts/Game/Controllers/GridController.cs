@@ -94,15 +94,12 @@ public class GridController : MonoBehaviour
             GameLog.LogWarning("tilemapWalkingPath " + tilemapWalkingPath);
             GameLog.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
-
-        // if (!Settings.DebugEnable)
-        // {
-        //     tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
-        //     tilemapColliders.color = new Color(1, 1, 1, 0.0f);
-        //     tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-        //     tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
-        // }
-
+        
+        tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
+        tilemapColliders.color = new Color(1, 1, 1, 0.0f);
+        tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
+        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+        
         pathFind = new PathFind();
         grid = new int[Settings.GridHeight, Settings.GridWidth];
         // debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
