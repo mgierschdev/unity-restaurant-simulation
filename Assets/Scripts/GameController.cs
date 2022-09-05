@@ -15,7 +15,6 @@ public class GameController : MonoBehaviour
     
     private void Start()
     {
-        playerData = new PlayerData(10000);
         npcId = 0;
         npcSet = new HashSet<NPCController>();
         gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
@@ -24,8 +23,8 @@ public class GameController : MonoBehaviour
         // Setting up Current money
         GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-        playerData = gridController.PlayerData;
-        moneyText.text = playerData.GetMoney();
+        playerData = new PlayerData(100, moneyText);
+        gridController.PlayerData = playerData;
         SpamEmployee();
     }
 

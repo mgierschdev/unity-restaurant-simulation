@@ -40,6 +40,7 @@ public class GridController : MonoBehaviour
     private List<GameTile> listObjectsTileMap;
     private Dictionary<Vector3, GameTile> mapObjects;
     //Prefabs in the TilemapObjects
+    private Dictionary<string, GameGridObject> businessObjects;
     private Dictionary<string, GameGridObject> BusyBusinessSpotsMap { get; set; }
     private Dictionary<string, GameGridObject> FreeBusinessSpotsMap { get; set; }
     private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
@@ -74,6 +75,7 @@ public class GridController : MonoBehaviour
         TablesWithClient = new Queue<GameGridObject>();
         FreeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
         BusyBusinessSpotsMap =  new Dictionary<string, GameGridObject>();
+        businessObjects = new Dictionary<string, GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3, GameTile>();
@@ -288,6 +290,7 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
+        businessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_TABLE)
         {
             FreeBusinessSpots.Enqueue(obj);
@@ -325,6 +328,9 @@ public class GridController : MonoBehaviour
 
     public void HideGridBussFloor()
     {
+        GameGridObject gameGridObject = businessObjects[currentClickedActiveGameObject];
+        gameGridObject.Hide();
+        currentClickedActiveGameObject = "";
         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
     }
 
@@ -516,6 +522,11 @@ public class GridController : MonoBehaviour
     // Used to highlight the current object being edited
     public void SetActiveGameGridObject(string objName)
     {
+        if (currentClickedActiveGameObject != "")
+        {
+            GameGridObject obj = businessObjects[currentClickedActiveGameObject];
+            obj.Hide();
+        }
         currentClickedActiveGameObject = objName;
     }
 

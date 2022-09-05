@@ -21,11 +21,11 @@ public class BaseObjectController : MonoBehaviour
     {
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
+        spriteRenderer = GetComponent<SpriteRenderer>();
         Util.IsNull(gameGridObject, "BaseObjectController/GridController null");
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         menu = menuHandler.GetComponent<MenuHandlerController>();
         Grid = gameGridObject.GetComponent<GridController>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         sortLayer = GetComponent<SortingGroup>();
         Type = ObjectType.UNDEFINED;
         available = new Color(0, 1, 0, 0.4f);
@@ -41,19 +41,11 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
-
-        Grid.SetActiveGameGridObject(GameGridObject.Name);
+        GameGridObject.GameGridObjectSpriteRenderer = spriteRenderer;
         spriteRenderer.color = available;
+        Grid.SetActiveGameGridObject(GameGridObject.Name);
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
     }
-    
-    // private void FixedUpdate()
-    // {
-    //     if(spriteRenderer && Grid && GameGridObject != null)
-    //     {
-    //         spriteRenderer.color = Grid.IsThisSelectedObject(GameGridObject.Name) ? available : free;
-    //     }
-    // }
     
     private void OnMouseDrag()
     {
@@ -89,20 +81,21 @@ public class BaseObjectController : MonoBehaviour
         }
         else
         {
-            initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
             Vector3Int init = GameGridObject.GridPosition;
+            initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
             GameGridObject.UpdateCoords(Grid.GetPathFindingGridFromWorldPosition(finalPos), Grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
             Grid.UpdateGridPosition(init, GameGridObject.GridPosition);
         }
-        spriteRenderer.color = free;
+        
+        spriteRenderer.color = Grid.IsThisSelectedObject(GameGridObject.Name) ? available : free;
     }
 
     private bool IsDraggable()
     {
-        // if (Grid.IsTableBusy(GameGridObject))
-        // {
-        //     GameLog.Log("Table is Busy "+GameGridObject.Name);
-        // }
+        if (GameGridObject != null && Grid.IsTableBusy(GameGridObject))
+        {
+            GameLog.Log("Table is Busy "+GameGridObject.Name);
+        }
         return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(GameGridObject);
     }
 }
