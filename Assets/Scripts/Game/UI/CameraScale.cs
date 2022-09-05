@@ -29,12 +29,12 @@ public class CameraScale : MonoBehaviour
     private void ScaleCamera()
     {
         currentWindowAspectRatio = (float)Screen.width / (float)Screen.height;
-        targetSpectRatio = (float)Settings.CONST_DEFAULT_CAMERA_WIDTH / (float)Settings.CONST_DEFAULT_CAMERA_HEIGHT;
+        targetSpectRatio = (float)Settings.ConstDefaultCameraWidth / (float)Settings.ConstDefaultCameraHeight;
         // should be scaled to this ammount
         float newScaleHeight = currentWindowAspectRatio / targetSpectRatio;
         if (newScaleHeight > 1)
         {
-            mainCamera.orthographicSize = Settings.CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE - (newScaleHeight - 1) * Settings.CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE ;
+            mainCamera.orthographicSize = Settings.ConstDefaultCameraOrthographicsize - (newScaleHeight - 1) * Settings.ConstDefaultCameraOrthographicsize ;
         }
     }
 }

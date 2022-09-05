@@ -17,7 +17,7 @@ public class EnergyBarController : MonoBehaviour
         {
             Debug.LogWarning("EnergyBarController/Slider null");
         }
-        SetMaxEnergy(Settings.NPC_DEFAULT_ENERGY);
+        SetMaxEnergy(Settings.NpcDefaultEnergy);
     }
 
     public void SetEnergy(int energy)

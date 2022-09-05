@@ -6,7 +6,7 @@ public class PlayerController : GameObjectMovementBase
     private void Update()
     {
         // Player Movement on click
-        if (Settings.PLAYER_WALK_ON_CLICK)
+        if (Settings.PlayerWalkOnClick)
         {
             MouseOnClick();
         }

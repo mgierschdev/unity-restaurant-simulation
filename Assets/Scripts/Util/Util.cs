@@ -6,7 +6,7 @@ using UnityEngine;
 // This will contain Utility functions, to create Unity Object and other
 public static class Util
 {
-    private const int sortingLevel = Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL; // Background 
+    private const int sortingLevel = Settings.ConstDefaultBackgroundOrderingLevel; // Background 
 
     // Creates a Text object in the scene
     public static TextMesh CreateTextObject(string name, GameObject parent, string text, Vector3 localPosition, int fontSize, Color color, TextAnchor textAnchor, TextAlignment textAlignment)
@@ -94,41 +94,41 @@ public static class Util
     public static Vector2Int GetXYInGameMap(Vector3 position)
     {
         return new Vector2Int(
-            (int)Math.Round((position.x - Settings.GRID_START_X) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero),
-            (int)Math.Round((position.y - Settings.GRID_START_Y) * 1 / Settings.GRID_CELL_SIZE, MidpointRounding.AwayFromZero));
+            (int)Math.Round((position.x - Settings.GridStartX) * 1 / Settings.GridCellSize, MidpointRounding.AwayFromZero),
+            (int)Math.Round((position.y - Settings.GrtGridStartY) * 1 / Settings.GridCellSize, MidpointRounding.AwayFromZero));
     }
 
     public static MoveDirection GetDirectionFromVector(Vector3 vector)
     {
-        if (vector == Vector3.left * Settings.GRID_CELL_SIZE)
+        if (vector == Vector3.left * Settings.GridCellSize)
         {
             return MoveDirection.LEFT;
         }
-        else if (vector == Vector3.right * Settings.GRID_CELL_SIZE)
+        else if (vector == Vector3.right * Settings.GridCellSize)
         {
             return MoveDirection.RIGHT;
         }
-        else if (vector == Vector3.up * Settings.GRID_CELL_SIZE)
+        else if (vector == Vector3.up * Settings.GridCellSize)
         {
             return MoveDirection.UP;
         }
-        else if (vector == Vector3.down * Settings.GRID_CELL_SIZE)
+        else if (vector == Vector3.down * Settings.GridCellSize)
         {
             return MoveDirection.DOWN;
         }
-        else if (vector == new Vector3(-1, -1, 0) * Settings.GRID_CELL_SIZE)
+        else if (vector == new Vector3(-1, -1, 0) * Settings.GridCellSize)
         {
             return MoveDirection.DOWNLEFT;
         }
-        else if (vector == new Vector3(1, -1, 0) * Settings.GRID_CELL_SIZE)
+        else if (vector == new Vector3(1, -1, 0) * Settings.GridCellSize)
         {
             return MoveDirection.DOWNRIGHT;
         }
-        else if (vector == new Vector3(-1, 1, 0) * Settings.GRID_CELL_SIZE)
+        else if (vector == new Vector3(-1, 1, 0) * Settings.GridCellSize)
         {
             return MoveDirection.UPLEFT;
         }
-        else if (vector == new Vector3(1, 1, 0) * Settings.GRID_CELL_SIZE)
+        else if (vector == new Vector3(1, 1, 0) * Settings.GridCellSize)
         {
             return MoveDirection.UPRIGHT;
         }
@@ -145,35 +145,35 @@ public static class Util
 
         if (d == MoveDirection.LEFT)
         {
-            dir = Vector3.left * Settings.GRID_CELL_SIZE;
+            dir = Vector3.left * Settings.GridCellSize;
         }
         else if (d == MoveDirection.RIGHT)
         {
-            dir = Vector3.right * Settings.GRID_CELL_SIZE;
+            dir = Vector3.right * Settings.GridCellSize;
         }
         else if (d == MoveDirection.UP)
         {
-            dir = Vector3.up * Settings.GRID_CELL_SIZE;
+            dir = Vector3.up * Settings.GridCellSize;
         }
         else if (d == MoveDirection.DOWN)
         {
-            dir = Vector3.down * Settings.GRID_CELL_SIZE;
+            dir = Vector3.down * Settings.GridCellSize;
         }
         else if (d == MoveDirection.DOWNLEFT)
         {
-            dir = new Vector3(-1, -1, 0) * Settings.GRID_CELL_SIZE;
+            dir = new Vector3(-1, -1, 0) * Settings.GridCellSize;
         }
         else if (d == MoveDirection.DOWNRIGHT)
         {
-            dir = new Vector3(1, -1, 0) * Settings.GRID_CELL_SIZE;
+            dir = new Vector3(1, -1, 0) * Settings.GridCellSize;
         }
         else if (d == MoveDirection.UPLEFT)
         {
-            dir = new Vector3(-1, 1, 0) * Settings.GRID_CELL_SIZE;
+            dir = new Vector3(-1, 1, 0) * Settings.GridCellSize;
         }
         else if (d == MoveDirection.UPRIGHT)
         {
-            dir = new Vector3(1, 1, 0) * Settings.GRID_CELL_SIZE;
+            dir = new Vector3(1, 1, 0) * Settings.GridCellSize;
         }
         return new Vector3(dir.x, dir.y);
     }
@@ -181,16 +181,16 @@ public static class Util
     // Gets the GRID cell position in a non-isometric grid
     public static Vector3 GetCellPosition(int x, int y)
     {
-        Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
-        Vector3 cellPosition = new Vector3(x, y) * Settings.GRID_CELL_SIZE + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
+        Vector3 gridOriginPosition = new Vector3(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
+        Vector3 cellPosition = new Vector3(x, y) * Settings.GridCellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
         return new Vector3(cellPosition.x, cellPosition.y);
     }
 
     // Gets the cell position in a non-isometric grid
     public static Vector3 GetCellPosition(Vector3 position)
     {
-        Vector3 gridOriginPosition = new Vector3(Settings.GRID_START_X, Settings.GRID_START_Y, Settings.CONST_DEFAULT_BACKGROUND_ORDERING_LEVEL);
-        Vector3 cellPosition = position * Settings.GRID_CELL_SIZE + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
+        Vector3 gridOriginPosition = new Vector3(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
+        Vector3 cellPosition = position * Settings.GridCellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
         return new Vector3(cellPosition.x, cellPosition.y);
     }
 
@@ -247,152 +247,95 @@ public static class Util
 
     public static TileType GetTileType(string tileName)
     {
-        if (tileName == "floor1")
+        return tileName switch
         {
-            return TileType.SPAM_POINT;
-        }
-        else if (tileName == "floor2")
-        {
-            return TileType.WALKABLE_PATH;
-        }
-        else if (tileName == "floor3")
-        {
-            return TileType.FLOOR_3;
-        }
-        else if (tileName == "floor4")
-        {
-            return TileType.BUS_FLOOR;
-        }
-        else if (tileName == "floor5")
-        {
-            return TileType.WALL;
-        }
-        else if (tileName == "Complete@3x")
-        {
-            return TileType.FLOOR_OBSTACLE;
-        }
-        else if (tileName == "MediumHorizontal@3x")
-        {
-            return TileType.FLOOR_MEDIUM_HORIZONTAL_OBSTACLE;
-        }
-        else if (tileName == "MediumVertical@3x")
-        {
-            return TileType.FLOOR_MEDIUM_VERTICAL_OBSTACLE;
-        }
-        else if (tileName == "ShortHorizontal@3x")
-        {
-            return TileType.FLOOR_SHORT_HORIZONTAL_OBSTACLE;
-        }
-        else if (tileName == "ShortVertical@3x")
-        {
-            return TileType.FLOOR_SHORT_VERTICAL_OBSTACLE;
-        }
-        else if (tileName == "GridTile")
-        {
-            return TileType.ISOMETRIC_GRID_TILE;
-        }
-        else if (tileName == "Wall@3x")
-        {
-            return TileType.WALL;
-        }
-        else if (tileName == "HighlightedFloor@3x")
-        {
-            return TileType.FLOOR_EDIT;
-        }
-        else
-        {
-            return TileType.UNDEFINED;
-        }
+            "floor1" => TileType.SPAM_POINT,
+            "floor2" => TileType.WALKABLE_PATH,
+            "floor3" => TileType.FLOOR_3,
+            "floor4" => TileType.BUS_FLOOR,
+            "floor5" => TileType.WALL,
+            "Complete@3x" => TileType.FLOOR_OBSTACLE,
+            "MediumHorizontal@3x" => TileType.FLOOR_MEDIUM_HORIZONTAL_OBSTACLE,
+            "MediumVertical@3x" => TileType.FLOOR_MEDIUM_VERTICAL_OBSTACLE,
+            "ShortHorizontal@3x" => TileType.FLOOR_SHORT_HORIZONTAL_OBSTACLE,
+            "ShortVertical@3x" => TileType.FLOOR_SHORT_VERTICAL_OBSTACLE,
+            "GridTile" => TileType.ISOMETRIC_GRID_TILE,
+            "Wall@3x" => TileType.WALL,
+            "HighlightedFloor@3x" => TileType.FLOOR_EDIT,
+            _ => TileType.UNDEFINED
+        };
     }
 
     public static ObjectType GetTileObjectType(TileType type)
     {
-        if (TileType.FLOOR_OBSTACLE == type ||
-        TileType.FLOOR_MEDIUM_HORIZONTAL_OBSTACLE == type ||
-        TileType.FLOOR_MEDIUM_VERTICAL_OBSTACLE == type ||
-        TileType.FLOOR_SHORT_HORIZONTAL_OBSTACLE == type ||
-        TileType.FLOOR_SHORT_VERTICAL_OBSTACLE == type ||
-        TileType.ISOMETRIC_GRID_TILE == type ||
-        TileType.WALL == type)
+        switch (type)
         {
-            return ObjectType.OBSTACLE;
-        }
-        else if (type == TileType.SPAM_POINT ||
-        type == TileType.FLOOR_3 ||
-        type == TileType.BUS_FLOOR ||
-        type == TileType.WALKABLE_PATH)
-        {
-            return ObjectType.FLOOR;
-        }
-        else
-        {
-            return ObjectType.UNDEFINED;
+            case TileType.FLOOR_OBSTACLE:
+            case TileType.FLOOR_MEDIUM_HORIZONTAL_OBSTACLE:
+            case TileType.FLOOR_MEDIUM_VERTICAL_OBSTACLE:
+            case TileType.FLOOR_SHORT_HORIZONTAL_OBSTACLE:
+            case TileType.FLOOR_SHORT_VERTICAL_OBSTACLE:
+            case TileType.ISOMETRIC_GRID_TILE:
+            case TileType.WALL:
+                return ObjectType.OBSTACLE;
+            case TileType.SPAM_POINT:
+            case TileType.FLOOR_3:
+            case TileType.BUS_FLOOR:
+            case TileType.WALKABLE_PATH:
+                return ObjectType.FLOOR;
+            default:
+                return ObjectType.UNDEFINED;
         }
     }
 
     public static ObjectType GetObjectType(GameObject gameObject)
     {
-        if (gameObject.tag == Settings.NPC_TAG)
+        return gameObject.tag switch
         {
-            return ObjectType.NPC;
-        }
-        else if (gameObject.tag == Settings.NPC_EMPLOYEE_TAG)
-        {
-            return ObjectType.EMPLOYEE;
-
-        }
-        else
-        {
-            return ObjectType.UNDEFINED;
-        }
+            Settings.NpcTag => ObjectType.NPC,
+            Settings.NpcEmployeeTag => ObjectType.EMPLOYEE,
+            _ => ObjectType.UNDEFINED
+        };
     }
 
     public static void PrintAllComponents(GameObject gameObject)
     {
-        UnityEngine.Component[] components = gameObject.GetComponents(typeof(UnityEngine.Component));
+        Component[] components = gameObject.GetComponents(typeof(Component));
 
-        foreach (UnityEngine.Component c in components)
+        foreach (Component c in components)
         {
-            Debug.Log(c.name + " " + c.ToString());
-
+            GameLog.Log(c.name + " " + c.ToString());
         }
     }
 
     public static bool IsNull(GameObject gameObject, string message)
     {
-        if (gameObject == null)
-        {
-            Debug.LogWarning(message);
-            return true;
-        }
-        else
+        if (gameObject != null)
         {
             return false;
         }
+
+        GameLog.LogWarning(message);
+            return true;
+
     }
     public static bool IsNull(GridController gameObject, string message)
     {
         if (gameObject == null)
         {
-            Debug.LogWarning(message);
+            GameLog.LogWarning(message);
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
     public static bool IsNull(EnergyBarController gameObject, string message)
     {
         if (gameObject == null)
         {
-            Debug.LogWarning(message);
+            GameLog.LogWarning(message);
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public static Vector3Int GetVector3IntPositiveInfinity()
@@ -450,7 +393,7 @@ public enum MoveDirection
 }
 
 //Players and NPCs, to set the NPC to wander or other states
-public enum NPCState
+public enum NpcState
 {
     IDLE = 0,
     WALKING_TO_TABLE = 1,
@@ -459,18 +402,16 @@ public enum NPCState
     AT_COUNTER = 4,
     WALKING_WANDER = 5,
     TAKING_ORDER = 6,
-    WALKING_TO_REGISTER = 7,
-    WAITING_TO_BE_ATTENDED = 8,
-    WALKING_UNRESPAWN = 9,
-    WALKING_TO_COUNTER_AFTER_ORDER = 10,
-    REGISTERING_CASH = 11
+    WAITING_TO_BE_ATTENDED = 7,
+    WALKING_UNRESPAWN = 8,
+    WALKING_TO_COUNTER_AFTER_ORDER = 9,
+    REGISTERING_CASH = 10
 }
 
 // List of Menus
 public enum Menu
 {
     CENTER_TAB_MENU,
-    TOP_MENU,
     NPC_PROFILE
 }
 
@@ -478,12 +419,5 @@ public enum Menu
 public enum MenuType
 {
     TAB_MENU,
-    DIALOG,
-    ON_SCREEN
-}
-
-public enum Tabs
-{
-    CONFIG_TAB,
-    ITEMS_TAB
+    DIALOG
 }

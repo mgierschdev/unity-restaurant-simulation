@@ -20,7 +20,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private bool side; // false right, true left
 
     //Movement Queue
-    private readonly float minDistanceToTarget = Settings.MIN_DISTANCE_TO_TARGET;
+    private readonly float minDistanceToTarget = Settings.MinDistanceToTarget;
     private Queue pendingMovementQueue;
     private Vector3 currentTargetPosition;
     private Vector3Int FinalTarget { get; set; }
@@ -45,17 +45,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         // Debug parameters
         stateHistory = new Queue<string>();
-        Speed = Settings.NPC_DEFAULT_MOVEMENT_SPEED;
+        Speed = Settings.NpcDefaultMovementSpeed;
 
         // Energy bar
-        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
+        energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
         if (!Util.IsNull(energyBar, "GameObjectMovementBase/energyBar null"))
         {
             energyBar.SetInactive();
         }
 
         // Game Grid
-        gameGridObject = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
+        gameGridObject = GameObject.FindGameObjectWithTag(Settings.GameGrid);
         body = GetComponent<Rigidbody2D>();
 
         if (!Util.IsNull(gameGridObject, "GameObjectMovementBase/gameGridObject null"))
@@ -174,14 +174,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void AddEnergyBar()
     {
-        energyBar = gameObject.transform.Find(Settings.NPC_ENERGY_BAR).gameObject.GetComponent<EnergyBarController>();
+        energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
     }
 
     private void ClickUpdateController()
     {
         Type = ObjectType.PLAYER;
-        Speed = Settings.PLAYER_MOVEMENT_SPEED;
-        GameObject cController = GameObject.FindGameObjectWithTag(Settings.CONST_PARENT_GAME_OBJECT);
+        Speed = Settings.PlayerMovementSpeed;
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
 
         if (!Util.IsNull(cController, "PlayerController/clickController null"))
         {

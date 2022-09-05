@@ -17,8 +17,8 @@ public class BaseObjectController : MonoBehaviour
 
     public void Awake()
     {
-        GameObject menuHandler = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU).gameObject;
-        GameObject gameGridObject = GameObject.Find(Settings.GAME_GRID).gameObject;
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
         Util.IsNull(gameGridObject, "BaseObjectController/GridController null");
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         menu = menuHandler.GetComponent<MenuHandlerController>();

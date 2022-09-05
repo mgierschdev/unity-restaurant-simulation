@@ -5,58 +5,54 @@ using UnityEngine;
 // the gameBackground Pivot should be in 1,1.
 public class GameController : MonoBehaviour
 {
-    private HashSet<NPCController> NPCSet;
-    private HashSet<EmployeeController> NPCEmployeeSet;
-    private int npcMaxNumber = 8;
-    private int NPCidx;
+    private HashSet<NPCController> npcSet;
+    private const int NPC_MAX_NUMBER = 8;
+    private int npcId;
     private GridController gridController;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
     private void Start()
     {
-        NPCSet = new HashSet<NPCController>();
-        NPCEmployeeSet = new HashSet<EmployeeController>();
-        gameGridObject = gameObject.transform.Find(Settings.GAME_GRID).gameObject;
+        npcSet = new HashSet<NPCController>();
+        gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
-        NPCidx = 0;
+        npcId = 0;
 
         SpamEmployee();
     }
 
     private void FixedUpdate()
     {
-        if (NPCSet.Count < npcMaxNumber)
+        if (npcSet.Count < NPC_MAX_NUMBER)
         {
-            SpamNPC();
+            SpamNpc();
         }
     }
-    private void SpamNPC()
+    private void SpamNpc()
     {
         tileSpawn = gridController.GetRandomSpamPointWorldPosition();
-        GameObject npcObject = Instantiate(Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
+        GameObject npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(gameObject.transform);
-        npcObject.name = NPCidx + "-" + Settings.PREFAB_NPC_CLIENT;
+        npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
         NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
-
-        NPCSet.Add(isometricNPCController);
-        NPCidx++;
+        npcSet.Add(isometricNPCController);
+        npcId++;
     }
     private void SpamEmployee()
     {
         //Adding Employees
         tileSpawn = gridController.GetRandomSpamPointWorldPosition();
-        GameObject employeeObject = Instantiate(Resources.Load(Settings.PREFAB_NPC_EMPLOYEE, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
+        GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         employeeObject.transform.SetParent(gameObject.transform);
-        employeeObject.name = NPCidx + "-" + Settings.PREFAB_NPC_EMPLOYEE;
+        employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
         EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
-        NPCEmployeeSet.Add(employeeController);
-        NPCidx++;
+        npcId++;
     }
     public void RemoveNpc(NPCController controller)
     {
-        if (NPCSet.Contains(controller))
+        if (npcSet.Contains(controller))
         {
-            NPCSet.Remove(controller);
+            npcSet.Remove(controller);
         }
         else
         {

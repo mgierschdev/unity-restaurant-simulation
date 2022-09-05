@@ -6,7 +6,7 @@ public class TestProjectSettings
     [Test]
     public void TestparentCanvas()
     {
-        GameObject parentCanvas = GameObject.Find(Settings.CONST_CANVAS_PARENT_MENU);
+        GameObject parentCanvas = GameObject.Find(Settings.ConstCanvasParentMenu);
         Assert.NotNull(parentCanvas);
     }
 
@@ -14,16 +14,16 @@ public class TestProjectSettings
     [Test]
     public void TestNPCProfile()
     {
-        GameObject npcProfile = GameObject.Find(Settings.CONST_NPC_PROFILE_MENU);
+        GameObject npcProfile = GameObject.Find(Settings.ConstNpcProfileMenu);
         Assert.NotNull(npcProfile);
     }
 
     [Test]
     public void TesttabMenu()
     {
-        GameObject tabMenu = GameObject.Find(Settings.CONST_CENTER_TAB_MENU);
+        GameObject tabMenu = GameObject.Find(Settings.ConstCenterTabMenu);
         Debug.Log(tabMenu.transform.GetChild(0).name);
-        GameObject scrollViewPort = tabMenu.transform.Find(Settings.CONST_CENTER_SCROLL_CONTENT).gameObject;
+        GameObject scrollViewPort = tabMenu.transform.Find(Settings.ConstCenterScrollContent).gameObject;
         Assert.NotNull(tabMenu);
         Assert.NotNull(scrollViewPort);
     }
@@ -31,86 +31,86 @@ public class TestProjectSettings
     [Test]
     public void TestGameGrid()
     {
-        GameObject gameGrid = GameObject.FindGameObjectWithTag(Settings.GAME_GRID);
+        GameObject gameGrid = GameObject.FindGameObjectWithTag(Settings.GameGrid);
         Assert.NotNull(gameGrid);
     }
 
     [Test]
     public void TestTileFloor0()
     {
-        GameObject tilemap = GameObject.Find(Settings.TILEMAP_FLOOR_0);
+        GameObject tilemap = GameObject.Find(Settings.TilemapFloor0);
         Assert.NotNull(tilemap);
     }
 
     [Test]
     public void TestTileColliders()
     {
-        GameObject tilemap = GameObject.Find(Settings.TILEMAP_COLLIDERS);
+        GameObject tilemap = GameObject.Find(Settings.TilemapColliders);
         Assert.NotNull(tilemap);
     }
 
     [Test]
     public void TestTileObjects()
     {
-        GameObject tilemap = GameObject.Find(Settings.TILEMAP_OBJECTS);
+        GameObject tilemap = GameObject.Find(Settings.TilemapObjects);
         Assert.NotNull(tilemap);
     }
 
     [Test]
     public void TestPathFindingObjects()
     {
-        GameObject tilemap = GameObject.Find(Settings.PATH_FINDING_GRID);
+        GameObject tilemap = GameObject.Find(Settings.PathFindingGrid);
         Assert.NotNull(tilemap);
     }
 
     [Test]
     public void TestPrefabLoadGridTile()
     {
-        Object obj = Resources.Load(Settings.PREFAB_GRID_TILE, typeof(GameObject));
+        Object obj = Resources.Load(Settings.PrefabGridTile, typeof(GameObject));
         Assert.NotNull(obj);
     }
 
     [Test]
     public void TestPrefabLoadInventoryItem()
     {
-        Object obj = Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject));
+        Object obj = Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject));
         Assert.NotNull(obj);
     }
 
     [Test]
     public void TestPrefabLoadIsometricNPC()
     {
-        Object obj = Resources.Load(Settings.PREFAB_NPC_CLIENT, typeof(GameObject));
+        Object obj = Resources.Load(Settings.PrefabNpcClient, typeof(GameObject));
         Assert.NotNull(obj);
     }
 
     [Test]
     public void TestPrefabLoadIsometricPlayer()
     {
-        Object obj = Resources.Load(Settings.PREFAB_PLAYER, typeof(GameObject));
+        Object obj = Resources.Load(Settings.PrefabPlayer, typeof(GameObject));
         Assert.NotNull(obj);
     }
 
     [Test]
     public void TestPrefabLoadSandAndSea()
     {
-        Object obj = Resources.Load(Settings.PREFAB_SAND_SEA, typeof(GameObject));
+        Object obj = Resources.Load(Settings.PrefabSandSea, typeof(GameObject));
         Assert.NotNull(obj);
     }
 
     [Test]
     public void TestLoadingMenuItemSprites()
     {
-        Sprite s = Resources.Load<Sprite>(Settings.SINGLE_WOODEN_TABLE);
+        Sprite s = Resources.Load<Sprite>(Settings.SingleWoodenTable);
         Assert.NotNull(s);
     }
 
     [Test]
     public void TestLoadingInventoryMenuItem()
     {
-        GameObject item = (GameObject) Resources.Load(Settings.PREFAB_INVENTORY_ITEM, typeof(GameObject));
-        Transform image = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_IMAGE);
-        Transform price = item.transform.Find(Settings.PREFAB_INVENTORY_ITEM_TEXT_PRICE);
+        GameObject item = (GameObject) Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject));
+        Transform image = item.transform.Find(Settings.PrefabInventoryItemImage);
+        Transform price = item.transform.Find(Settings.PrefabInventoryItemTextPrice);
         Assert.NotNull(item);
         Assert.NotNull(image);  
         Assert.NotNull(price);
