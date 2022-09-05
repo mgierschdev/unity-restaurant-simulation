@@ -40,5 +40,10 @@ namespace Game.Players
         {
             return money+"$";
         }
+        
+        public double GetMoneyDouble()
+        {
+            return money;
+        }
     }
 }

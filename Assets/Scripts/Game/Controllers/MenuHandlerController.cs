@@ -37,6 +37,7 @@ public class MenuHandlerController : MonoBehaviour
     private GridController gridController;
     private PlayerData playerData;
     private TextMeshProUGUI moneyText;
+    private CameraController cameraController;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Start()
@@ -63,8 +64,12 @@ public class MenuHandlerController : MonoBehaviour
         // Menu Body
         menuBody = GameObject.Find(Settings.ConstCenterTabMenuBody);
         menuBodyRect = menuBody.GetComponent<RectTransform>();
+        
+        //Camera controller
+        GameObject cameraObject = GameObject.Find(Settings.MainCamera).gameObject;
+        cameraController = cameraObject.GetComponent<CameraController>();
 
-        if (tabMenu == null || leftDownPanel == null || cController == null || gridController == null || menuBody == null)
+        if (!tabMenu || !leftDownPanel || !cController || !gridController || !menuBody || !cameraObject)
         {
             GameLog.LogWarning("MenuHandlerController Menu null ");
             GameLog.LogWarning("tabMenu " + tabMenu);
@@ -72,6 +77,7 @@ public class MenuHandlerController : MonoBehaviour
             GameLog.LogWarning("cController " + cController);
             GameLog.LogWarning("gridController " + cController);
             GameLog.LogWarning("menuBody " + menuBody);
+            GameLog.LogWarning("cameraObject " + cameraObject);
         }
 
         menuStack = new Stack<MenuItem>();
@@ -81,13 +87,7 @@ public class MenuHandlerController : MonoBehaviour
             true);
         npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.ConstNpcProfileMenu,
             npcProfileGameObject, false);
-
-        //Adding inventory Items Tables
-        // SetClickListeners(npcProfileMenu);
-
-        //Adding Scroll content
-        AddMenuItemsToScrollView(centerTabMenu);
-
+        
         //Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
         SetEditStorePanelClickListeners();
@@ -98,7 +98,7 @@ public class MenuHandlerController : MonoBehaviour
         openedTime = 0;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetMouseButton(0) && CanCloseOnClickOutside() && !clickController.IsLongClick && IsClickOutside())
         {
@@ -202,31 +202,6 @@ public class MenuHandlerController : MonoBehaviour
         npcProfileMenu.SetFields(map);
     }
 
-    // private void SetClickListeners(MenuItem menu)
-    // {
-    //     foreach (string buttonName in menu.Buttons)
-    //     {
-    //         GameObject currentComponent = GameObject.Find(buttonName);
-    //
-    //         if (currentComponent == null)
-    //         {
-    //             continue;
-    //         }
-    //
-    //         Button buttonListener = currentComponent.GetComponent<Button>();
-    //
-    //         if (buttonName == Settings.ConstUIExitButton)
-    //         {
-    //             buttonListener.onClick.AddListener(CloseMenu);
-    //         }
-    //
-    //         if (buttonName == Settings.ConstUIInventoryButton)
-    //         {
-    //             buttonListener.onClick.AddListener(() => OpenMenu(centerTabMenu));
-    //         }
-    //     }
-    // }
-
     private void CloseAllMenus()
     {
         while (menuStack.Count > 0)
@@ -256,6 +231,11 @@ public class MenuHandlerController : MonoBehaviour
             return;
         }
 
+        if(menu.Type == MenuType.TAB_MENU)
+        {
+            AddMenuItemsToScrollView(centerTabMenu);
+        }
+        
         menu.UnityObject.SetActive(true);
         menuStack.Push(menu);
         openMenus.Add(menu.Name);
@@ -328,12 +308,19 @@ public class MenuHandlerController : MonoBehaviour
         //Add new Items
         foreach (GameGridObject obj in storeList.Tables)
         {
-            GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)),
-                Vector3.zero, Quaternion.identity) as GameObject;
+            GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
-            //Adding click listener
-            button.onClick.AddListener(() => OpenStoreEditPanel(obj));
             GameObject img = item.transform.Find(Settings.PrefabInventoryItemImage).gameObject;
+            Image image = img.GetComponent<Image>();
+            //Adding click listener
+            if (obj.Cost <= gridController.PlayerData.GetMoneyDouble())
+            {
+                button.onClick.AddListener(() => OpenStoreEditPanel(obj));
+            }
+            else
+            {
+                image.color = Util.Unavailable;
+            }
             GameObject text = item.transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
             TextMeshProUGUI textMesh = text.GetComponent<TextMeshProUGUI>();
             textMesh.text = obj.Cost.ToString();
@@ -353,7 +340,7 @@ public class MenuHandlerController : MonoBehaviour
 
         GameObject inventory = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuInventory).gameObject;
         Button bInventory = inventory.GetComponent<Button>();
-        bInventory.onClick.AddListener(ItemClicked);
+        bInventory.onClick.AddListener(OpenEditPanel);
 
         GameObject employees = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuEmployees).gameObject;
         Button bEmployees = employees.GetComponent<Button>();
@@ -372,18 +359,36 @@ public class MenuHandlerController : MonoBehaviour
 
         GameObject rotate = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
         Button bRotate = rotate.GetComponent<Button>();
-        bRotate.onClick.AddListener(ItemClicked);
+        bRotate.onClick.AddListener(OpenEmployeePanel);
     }
 
     private void OpenStoreEditPanel(GameGridObject obj)
     {
-        GameLog.Log("Place " + obj.Name);
+        GameLog.Log("Object to find a Place for " + obj.Name);
+        // we fix the camera in case the player is zoomed
+        cameraController.GoTo(new Vector3(1,1,0));
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
         //Disable Left down panel
         PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
+    }
+
+    private void OpenEditPanel()
+    {
+        // we fix the camera in case the player is zoomed
+        cameraController.GoTo(new Vector3(1,1,0));
+        CloseAllMenus();
+        gridController.HighlightGridBussFloor();
+        PauseGame();
+        leftDownPanel.SetActive(false);
+        editStoreMenuPanel.SetActive(true);
+    }
+
+    private void OpenEmployeePanel()
+    {
+        Debug.Log("Opening Employee panel");
     }
 
     // Closes the edit panel without changes 

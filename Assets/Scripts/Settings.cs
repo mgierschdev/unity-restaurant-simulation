@@ -89,6 +89,7 @@ public static class Settings
 
     //SCENE
     public const string GameGrid = "GameGrid";
+    public const string MainCamera = "MainCamera";
 
     //Tiles
     private const string GRID_TILES = "Grid/Tiles/";

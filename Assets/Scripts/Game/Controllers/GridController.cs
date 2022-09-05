@@ -329,9 +329,12 @@ public class GridController : MonoBehaviour
 
     public void HideGridBussFloor()
     {
-        GameGridObject gameGridObject = businessObjects[currentClickedActiveGameObject];
-        gameGridObject.Hide();
-        currentClickedActiveGameObject = "";
+        if (currentClickedActiveGameObject != "")
+        {
+            GameGridObject gameGridObject = businessObjects[currentClickedActiveGameObject];
+            gameGridObject.Hide();
+            currentClickedActiveGameObject = "";   
+        }
         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
     }
 

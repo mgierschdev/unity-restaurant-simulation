@@ -74,7 +74,6 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-        
         localState = NpcState.REGISTERING_CASH;
     }
 
@@ -85,7 +84,6 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-
         GameGrid.PlayerData.AddMoney(Random.Range(5, 10));
         RestartState();
     }
@@ -116,8 +114,7 @@ public class EmployeeController : GameObjectMovementBase
         if (localState != NpcState.WALKING_TO_TABLE || !IsAtGameGridObject(tableToBeAttended))
         {
             return;
-        } 
-        
+        }
         localState = NpcState.TAKING_ORDER;
     }
     
@@ -128,7 +125,6 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-        
         counter = GameGrid.Counter;
         localState = NpcState.WALKING_TO_COUNTER;
         GoTo(counter.ActionGridPosition);
@@ -140,7 +136,6 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-
         localState = NpcState.AT_COUNTER;
     }
 
