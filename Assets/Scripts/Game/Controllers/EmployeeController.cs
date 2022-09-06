@@ -21,7 +21,8 @@ public class EmployeeController : GameObjectMovementBase
         Name = transform.name;
         counter = GameGrid.Counter;
         animationController = GetComponent<PlayerAnimationStateController>();
-
+        idleTime = 0;
+        
         if (animationController == null)
         {
             GameLog.LogWarning("NPCController/animationController null");
@@ -53,6 +54,7 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         animationController.SetState(localState);
+        idleTime += Time.deltaTime;
     }
 
     private void UpdateFinishRegistering()
