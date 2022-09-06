@@ -9,8 +9,11 @@ public static class Util
     private const int sortingLevel = Settings.ConstDefaultBackgroundOrderingLevel; // Background 
     public static Color Unavailable = new Color(0.1f, 0.1f, 0.1f, 1);
     public static Color Available = new Color(0, 1, 0, 0.4f);
+    public static Color LightAvailable = new Color(0, 1, 0, 0.2f);
+    public static Color LightOccupied = new Color(1, 0, 0, 0.2f);
     public static Color Occupied = new Color(1, 0, 0, 0.4f);
     public static Color Free = new Color(1, 1, 1, 1);
+    public static Color Hidden = new Color(0, 0, 0, 0);
 
     // Creates a Text object in the scene
     public static TextMesh CreateTextObject(string name, GameObject parent, string text, Vector3 localPosition, int fontSize, Color color, TextAnchor textAnchor, TextAlignment textAlignment)

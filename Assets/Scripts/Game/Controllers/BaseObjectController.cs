@@ -1,7 +1,6 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
-using TMPro;
 
 public class BaseObjectController : MonoBehaviour
 {
@@ -14,10 +13,18 @@ public class BaseObjectController : MonoBehaviour
     private Vector3 mousePosition;
     private SortingGroup sortLayer;
 
+    private List<SpriteRenderer> tiles;
+
     public void Awake()
     {
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
+        GameObject objectActionTile = transform.Find(Settings.BaseObjectActionTile).gameObject;
+        GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
+        tiles = new List<SpriteRenderer>(){
+              objectActionTile.GetComponent<SpriteRenderer>(),
+              objectTileUnder.GetComponent<SpriteRenderer>()
+        };
         spriteRenderer = GetComponent<SpriteRenderer>();
         Util.IsNull(gameGridObject, "BaseObjectController/GridController null");
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
@@ -27,6 +34,22 @@ public class BaseObjectController : MonoBehaviour
         Type = ObjectType.UNDEFINED;
         this.gameGridObject = null;
         initialPosition = transform.position;
+    }
+
+    private void Update()
+    {
+        if(Grid.DraggingObject){
+            return;
+        }
+
+        if (menu.IsEditPanelOpen())
+        {
+            LightAvailableUnderTiles();
+        }
+        else
+        {
+            HideUnderTiles();
+        }
     }
 
     private void OnMouseDown()
@@ -40,7 +63,7 @@ public class BaseObjectController : MonoBehaviour
         Grid.SetActiveGameGridObject(gameGridObject);
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
     }
-    
+
     private void OnMouseDrag()
     {
         if (!menu.IsEditPanelOpen() || !IsDraggable())
@@ -54,7 +77,14 @@ public class BaseObjectController : MonoBehaviour
         Vector3 initPos = Grid.GetNearestGridPositionFromWorldMap(initialPosition);
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         sortLayer.sortingOrder = 1;
-        spriteRenderer.color = Grid.IsValidBussPosition(currentPos, gameGridObject) ? Util.Available : Util.Occupied;
+
+        if(Grid.IsValidBussPosition(currentPos, gameGridObject)){
+            spriteRenderer.color = Util.Available;
+            LightAvailableUnderTiles();
+        }else{
+            LightOccupiedUnderTiles();
+            spriteRenderer.color = Util.Occupied;
+        }
         Grid.DraggingObject = true;
     }
 
@@ -82,7 +112,7 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.UpdateCoords(Grid.GetPathFindingGridFromWorldPosition(finalPos), Grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
             Grid.UpdateGridPosition(init, gameGridObject);
         }
-        
+
         spriteRenderer.color = Grid.IsThisSelectedObject(gameGridObject.Name) ? Util.Available : Util.Free;
     }
 
@@ -92,11 +122,53 @@ public class BaseObjectController : MonoBehaviour
         {
             return false;
         }
-        
+
         if (gameGridObject != null && Grid.IsTableBusy(gameGridObject))
         {
-            GameLog.Log("Table is Busy "+gameGridObject.Name);
+            GameLog.Log("Table is Busy " + gameGridObject.Name); // To Show in the UI
         }
         return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
+    }
+
+    private void HideUnderTiles()
+    {
+        if (gameGridObject == null)
+        {
+            return;
+        }
+
+        if (gameGridObject.Type == ObjectType.NPC_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
+        {
+            tiles[0].color = Util.Hidden;
+        }
+        tiles[1].color = Util.Hidden;
+    }
+
+    private void LightOccupiedUnderTiles()
+    {
+        if (gameGridObject == null)
+        {
+            return;
+        }
+
+        if (gameGridObject.Type == ObjectType.NPC_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
+        {
+            tiles[0].color = Util.LightOccupied;
+        }
+        tiles[1].color = Util.LightOccupied;
+    }
+
+    private void LightAvailableUnderTiles()
+    {
+        if (gameGridObject == null)
+        {
+            return;
+        }
+
+        if (gameGridObject.Type == ObjectType.NPC_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
+        {
+            tiles[0].color = Util.LightAvailable;
+        }
+        tiles[1].color = Util.LightAvailable;
     }
 }
