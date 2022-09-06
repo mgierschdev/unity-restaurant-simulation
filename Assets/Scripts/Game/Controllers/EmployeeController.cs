@@ -9,8 +9,8 @@ public class EmployeeController : GameObjectMovementBase
     private NpcState localState;
     private PlayerAnimationStateController animationController;
     private const float TIME_TO_TAKING_ORDER = 80f; //Decrease per second  100/15
-    private const float TIME_IDLE_BEFORE_TAKING_ORDER = 4f;
-    private const int RANDOM_PROBABILITY_TO_WAIT = 50;
+    private const float TIME_IDLE_BEFORE_TAKING_ORDER = 2f;
+    private const int RANDOM_PROBABILITY_TO_WAIT = 30;
     private const float TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
     private float idleTime;
 
