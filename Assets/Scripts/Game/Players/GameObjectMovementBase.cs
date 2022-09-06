@@ -150,18 +150,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
-                moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
-                UpdateObjectDirection();
             }
             else
             {
                 //target reached 
                 moveDirection = MoveDirection.IDLE;
-                UpdateObjectDirection();
             }
         }
         else
         {
+            moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
+            UpdateObjectDirection();
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
         }
     }
