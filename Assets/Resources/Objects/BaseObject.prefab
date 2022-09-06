@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3333251543529677162}
   - component: {fileID: 8672831008513955186}
   - component: {fileID: 2196587791373552997}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BaseObject
   m_TagString: NonBlockingObstacle
   m_Icon: {fileID: 0}
