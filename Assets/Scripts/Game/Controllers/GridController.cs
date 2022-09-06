@@ -337,10 +337,6 @@ public class GridController : MonoBehaviour
         Vector3Int currentGridActionPoint = currentGridPos + Util.GetActionCellOffSet(initial.Type);
         Vector3 currentActionPointWorldPos = worldPos + Util.GetActionCellOffSetWorldPositon(initial.Type);
 
-        Debug.Log(worldPos == initial.WorldPosition );
-        Debug.Log(currentGridActionPoint ==  initial.ActionGridPosition );
-        Debug.Log(" ");
-
         if (worldPos == initial.WorldPosition ||
             currentGridActionPoint == initial.ActionGridPosition ||
             currentGridActionPoint == initial.GridPosition ||
@@ -374,7 +370,6 @@ public class GridController : MonoBehaviour
         if (currentClickedActiveGameObject != "")
         {
             GameGridObject gameGridObject = businessObjects[currentClickedActiveGameObject];
-            Debug.Log("Hide " + gameGridObject.Name);
             gameGridObject.Hide();
             currentClickedActiveGameObject = "";
         }

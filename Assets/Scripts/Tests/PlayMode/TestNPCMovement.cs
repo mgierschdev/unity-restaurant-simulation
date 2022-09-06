@@ -34,8 +34,8 @@ public class TestNPCMovement
     // Calculated in Unity world coords
     public IEnumerator TestMovementDOWN()
     {
-        Debug.Log("Testing Movement down");
-        Debug.Log("NPC Controller: is null ? "+(npcController == null));
+        GameLog.Log("Testing Movement down");
+        GameLog.Log("NPC Controller: is null ? "+(npcController == null));
 
         npcController.Speed = 100;
         npcController.Position = initialTestingPosition;
