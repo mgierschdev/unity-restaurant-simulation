@@ -16,7 +16,6 @@ public class MenuHandlerController : MonoBehaviour
     private MenuItem centerTabMenu;
     private Stack<MenuItem> menuStack;
     private HashSet<string> openMenus;
-
     private bool isGamePaused;
 
     // Click controller
@@ -24,7 +23,6 @@ public class MenuHandlerController : MonoBehaviour
 
     //Min amount of time the the menu has to be open before activating -> closing on click outside
     private const float MIN_OPENED_TIME = 0.5f;
-
     private float openedTime;
 
     //Menu realtime refresh rate
