@@ -8,6 +8,14 @@ public static class GameLog
         Debug.Log(message);
 #endif
     }
+
+    public static void Log(Vector3Int message)
+    {
+#if UNITY_EDITOR
+        Debug.Log(message);
+#endif
+    }
+
     public static void LogWarning(string message)
     {
 #if UNITY_EDITOR

@@ -9,7 +9,7 @@ public class NPCController : GameObjectMovementBase
     GameGridObject table;
     GameController gameController;
 
-    [FormerlySerializedAs("LocalState")] [SerializeField]
+    [SerializeField]
     private NpcState localState;
 
     private GameTile unRespawnTile;

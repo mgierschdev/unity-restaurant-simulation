@@ -53,7 +53,7 @@ public class TestBinaryHeap
         for (int i = 0; i < heap.GetSize(); i++)
         {
             PathNode p = heap.Poll();
-            Debug.Log(p.GetFCost() + " > " + node.GetFCost());
+            GameLog.Log(p.GetFCost() + " > " + node.GetFCost());
             Assert.GreaterOrEqual(node.GetFCost(), p.GetFCost());
             node = p;
         }

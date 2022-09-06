@@ -22,7 +22,7 @@ public class TestProjectSettings
     public void TesttabMenu()
     {
         GameObject tabMenu = GameObject.Find(Settings.ConstCenterTabMenu);
-        Debug.Log(tabMenu.transform.GetChild(0).name);
+        GameLog.Log(tabMenu.transform.GetChild(0).name);
         GameObject scrollViewPort = tabMenu.transform.Find(Settings.ConstCenterScrollContent).gameObject;
         Assert.NotNull(tabMenu);
         Assert.NotNull(scrollViewPort);

@@ -8,8 +8,11 @@ public class EmployeeController : GameObjectMovementBase
     [SerializeField]
     private NpcState localState;
     private PlayerAnimationStateController animationController;
-    private const float TIME_TO_TAKE_ORDER = 80f; //Decrease per second  100/15
+    private const float TIME_TO_TAKING_ORDER = 80f; //Decrease per second  100/15
+    private const float TIME_IDLE_BEFORE_TAKING_ORDER = 10f;
+    private const int RANDOM_PROBABILITY_TO_WAIT = 90;
     private const float TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
+    private float idleTime;
 
     private void Start()
     {
@@ -95,15 +98,23 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        ActivateEnergyBar(TIME_TO_TAKE_ORDER);
+        ActivateEnergyBar(TIME_TO_TAKING_ORDER);
     }
 
     private void UpdateAttendTable()
     {
-        if (localState != NpcState.AT_COUNTER || !GameGrid.IsThereCustomer())
+        if (localState != NpcState.AT_COUNTER || !GameGrid.IsThereCustomer() || idleTime < TIME_IDLE_BEFORE_TAKING_ORDER)
         {
             return;
         }
+
+        // We can we idle and not attend the table
+        float idleProbability  = Random.Range(0, 100);
+        if(idleProbability < RANDOM_PROBABILITY_TO_WAIT){
+            GameLog.Log("Waiting...");
+            idleTime = 0;
+        }
+
         tableToBeAttended = GameGrid.GetTableWithClient();
         localState = NpcState.WALKING_TO_TABLE;
         GoTo(tableToBeAttended.ActionGridPosition);
@@ -117,7 +128,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         localState = NpcState.TAKING_ORDER;
     }
-    
+
     //First State
     private void UpdateGoNextToCounter()
     {
@@ -137,6 +148,7 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
         localState = NpcState.AT_COUNTER;
+        idleTime = 0;
     }
 
     private bool IsAtGameGridObject(GameGridObject obj)
