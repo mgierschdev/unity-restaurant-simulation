@@ -7,7 +7,7 @@ public class BaseObjectController : MonoBehaviour
 {
     private MenuHandlerController menu;
     private SpriteRenderer spriteRenderer;
-    protected GameGridObject GameGridObject;
+    protected GameGridObject gameGridObject;
     protected GridController Grid;
     protected ObjectType Type;
     private Vector3 initialPosition;
@@ -25,7 +25,7 @@ public class BaseObjectController : MonoBehaviour
         Grid = gameGridObject.GetComponent<GridController>();
         sortLayer = GetComponent<SortingGroup>();
         Type = ObjectType.UNDEFINED;
-        GameGridObject = null;
+        this.gameGridObject = null;
         initialPosition = transform.position;
     }
 
@@ -35,9 +35,9 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
-        GameGridObject.GameGridObjectSpriteRenderer = spriteRenderer;
+        gameGridObject.GameGridObjectSpriteRenderer = spriteRenderer;
         spriteRenderer.color = Util.Available;
-        Grid.SetActiveGameGridObject(GameGridObject.Name);
+        Grid.SetActiveGameGridObject(gameGridObject);
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
     }
     
@@ -54,7 +54,7 @@ public class BaseObjectController : MonoBehaviour
         Vector3 initPos = Grid.GetNearestGridPositionFromWorldMap(initialPosition);
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         sortLayer.sortingOrder = 1;
-        spriteRenderer.color = Grid.IsValidBussPosition(currentPos, initPos) ? Util.Available : Util.Occupied;
+        spriteRenderer.color = Grid.IsValidBussPosition(currentPos, gameGridObject) ? Util.Available : Util.Occupied;
         Grid.DraggingObject = true;
     }
 
@@ -71,19 +71,19 @@ public class BaseObjectController : MonoBehaviour
         Grid.DraggingObject = false;
         sortLayer.sortingOrder = 0;
 
-        if (!Grid.IsValidBussPosition(finalPos, initPos))
+        if (!Grid.IsValidBussPosition(finalPos, gameGridObject))
         {
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 1);
         }
         else
         {
-            Vector3Int init = GameGridObject.GridPosition;
+            Vector3Int init = gameGridObject.GridPosition;
             initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
-            GameGridObject.UpdateCoords(Grid.GetPathFindingGridFromWorldPosition(finalPos), Grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
-            Grid.UpdateGridPosition(init, GameGridObject.GridPosition);
+            gameGridObject.UpdateCoords(Grid.GetPathFindingGridFromWorldPosition(finalPos), Grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
+            Grid.UpdateGridPosition(init, gameGridObject);
         }
         
-        spriteRenderer.color = Grid.IsThisSelectedObject(GameGridObject.Name) ? Util.Available : Util.Free;
+        spriteRenderer.color = Grid.IsThisSelectedObject(gameGridObject.Name) ? Util.Available : Util.Free;
     }
 
     private bool IsDraggable()
@@ -93,10 +93,10 @@ public class BaseObjectController : MonoBehaviour
             return false;
         }
         
-        if (GameGridObject != null && Grid.IsTableBusy(GameGridObject))
+        if (gameGridObject != null && Grid.IsTableBusy(gameGridObject))
         {
-            // GameLog.Log("Table is Busy "+GameGridObject.Name);
+            GameLog.Log("Table is Busy "+gameGridObject.Name);
         }
-        return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(GameGridObject);
+        return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
     }
 }

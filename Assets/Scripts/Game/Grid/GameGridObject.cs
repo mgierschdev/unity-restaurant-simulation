@@ -61,7 +61,7 @@ public class GameGridObject : GameObjectBase
     
     public bool IsLastPositionEqual(Vector3Int actionGridPosition)
     {
-        return this.ActionGridPosition == actionGridPosition;
+        return ActionGridPosition == actionGridPosition;
     }
 
     public void UpdateCoords(Vector3Int gridPosition, Vector3Int localGridPosition, Vector3 worldPosition)
@@ -69,11 +69,7 @@ public class GameGridObject : GameObjectBase
         GridPosition = gridPosition;
         LocalGridPosition = localGridPosition;
         WorldPosition = worldPosition;
-
-        if (Type == ObjectType.NPC_TABLE)
-        {
-            ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
-        }
+        SetActionPoints();
     }
 
     public void Hide()
