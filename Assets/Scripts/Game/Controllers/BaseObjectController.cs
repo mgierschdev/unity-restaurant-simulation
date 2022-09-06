@@ -31,7 +31,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!IsDraggable())
+        if (!menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
         }
@@ -43,7 +43,7 @@ public class BaseObjectController : MonoBehaviour
     
     private void OnMouseDrag()
     {
-        if (!IsDraggable())
+        if (!menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
         }
@@ -61,7 +61,7 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (!IsDraggable())
+        if (!menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
         }
@@ -88,9 +88,14 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
+        if (!menu.IsEditPanelOpen())
+        {
+            return false;
+        }
+        
         if (GameGridObject != null && Grid.IsTableBusy(GameGridObject))
         {
-            GameLog.Log("Table is Busy "+GameGridObject.Name);
+            // GameLog.Log("Table is Busy "+GameGridObject.Name);
         }
         return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(GameGridObject);
     }
