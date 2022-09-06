@@ -9,8 +9,8 @@ public class EmployeeController : GameObjectMovementBase
     private NpcState localState;
     private PlayerAnimationStateController animationController;
     private const float TIME_TO_TAKING_ORDER = 80f; //Decrease per second  100/15
-    private const float TIME_IDLE_BEFORE_TAKING_ORDER = 10f;
-    private const int RANDOM_PROBABILITY_TO_WAIT = 90;
+    private const float TIME_IDLE_BEFORE_TAKING_ORDER = 4f;
+    private const int RANDOM_PROBABILITY_TO_WAIT = 50;
     private const float TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
     private float idleTime;
 
@@ -22,7 +22,7 @@ public class EmployeeController : GameObjectMovementBase
         counter = GameGrid.Counter;
         animationController = GetComponent<PlayerAnimationStateController>();
         idleTime = 0;
-        
+
         if (animationController == null)
         {
             GameLog.LogWarning("NPCController/animationController null");
@@ -115,6 +115,7 @@ public class EmployeeController : GameObjectMovementBase
         if(idleProbability < RANDOM_PROBABILITY_TO_WAIT){
             GameLog.Log("Waiting...");
             idleTime = 0;
+            return;
         }
 
         tableToBeAttended = GameGrid.GetTableWithClient();
