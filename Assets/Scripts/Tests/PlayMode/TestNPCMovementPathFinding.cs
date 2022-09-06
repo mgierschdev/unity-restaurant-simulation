@@ -45,7 +45,7 @@ public class TestNPCMovementPathFinding
         firstNPCController.Speed = 100;
         firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(2f);
-        Debug.Log(firstNPCController.Position);
+        GameLog.Log(firstNPCController.Position);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
     }

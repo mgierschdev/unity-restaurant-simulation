@@ -47,7 +47,7 @@ public class TestPlayerMovementPathFinding
         playerController.Speed = 100;
         playerController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(1f);
-        Debug.Log(playerController.Position);
+        GameLog.Log(playerController.Position);
         Assert.AreEqual(playerController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(playerController.GetPositionAsArray()[1], endPosition[1]);
         gameGridController.FreeTestGridObstacles(5, 1, 15);

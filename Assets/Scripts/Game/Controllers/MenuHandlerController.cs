@@ -386,7 +386,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void OpenEmployeePanel()
     {
-        Debug.Log("Opening Employee panel");
+        GameLog.Log("Opening Employee panel"); // TODO
     }
 
     // Closes the edit panel without changes 
