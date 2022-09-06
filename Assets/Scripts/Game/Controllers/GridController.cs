@@ -75,7 +75,7 @@ public class GridController : MonoBehaviour
         FreeBusinessSpots = new Queue<GameGridObject>();
         TablesWithClient = new Queue<GameGridObject>();
         FreeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
-        BusyBusinessSpotsMap =  new Dictionary<string, GameGridObject>();
+        BusyBusinessSpotsMap = new Dictionary<string, GameGridObject>();
         businessObjects = new Dictionary<string, GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
@@ -97,12 +97,12 @@ public class GridController : MonoBehaviour
             GameLog.LogWarning("tilemapWalkingPath " + tilemapWalkingPath);
             GameLog.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
-        
+
         tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
         tilemapColliders.color = new Color(1, 1, 1, 0.0f);
         tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
-        
+
         pathFind = new PathFind();
         grid = new int[Settings.GridHeight, Settings.GridWidth];
         // debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
@@ -148,7 +148,7 @@ public class GridController : MonoBehaviour
     //             TextAnchor.MiddleCenter, TextAlignment.Center);
     //     }
     // }
-    
+
     private void InitGrid()
     {
         for (int i = 0; i < grid.GetLength(0); i++)
@@ -297,34 +297,76 @@ public class GridController : MonoBehaviour
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
+            grid[obj.ActionGridPosition.x, obj.ActionGridPosition.y] = -1;
         }
         else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
         {
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
+
+            if (obj.Type == ObjectType.NPC_COUNTER)
+            {
+                grid[obj.ActionGridPosition.x, obj.ActionGridPosition.y] = -1;
+            }
         }
     }
 
-    public void UpdateGridPosition(Vector3Int init, Vector3Int final)
+    public void UpdateGridPosition(Vector3Int init, GameGridObject final)
     {
-        if (!IsCoordsValid(init.x, init.y) || !IsCoordsValid(final.x, final.y))
+        if (!IsCoordsValid(init.x, init.y) || !IsCoordsValid(final.GridPosition.x, final.GridPosition.y))
         {
             return;
         }
 
+        if (final.Type == ObjectType.NPC_TABLE)
+        {
+            Vector3Int initActionCell = init + Util.GetActionCellOffSet(final.Type);
+            if (IsCoordsValid(initActionCell.x, initActionCell.y))
+            {
+                grid[initActionCell.x, initActionCell.y] = 0;
+                grid[final.ActionGridPosition.x, final.ActionGridPosition.y] = -1; // The position in which the table should be attended should be free
+            }
+        }
+
         grid[init.x, init.y] = 0;
-        grid[final.x, final.y] = 1;
+        grid[final.GridPosition.x, final.GridPosition.y] = 1;
     }
 
-    public bool IsValidBussPosition(Vector3 pos, Vector3 initial)
+    public bool IsValidBussPosition(Vector3 worldPos, GameGridObject initial)
     {
-        Vector3Int pathGridPos = GetPathFindingGridFromWorldPosition(pos);
+        Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
+        Vector3Int currentGridActionPoint = currentGridPos + Util.GetActionCellOffSet(initial.Type);
+        Vector3 currentActionPointWorldPos = worldPos + Util.GetActionCellOffSetWorldPositon(initial.Type);
 
-        if (!IsCoordsValid(pathGridPos.x, pathGridPos.y))
+        Debug.Log(worldPos == initial.WorldPosition );
+        Debug.Log(currentGridActionPoint ==  initial.ActionGridPosition );
+        Debug.Log(" ");
+
+        if (worldPos == initial.WorldPosition ||
+            currentGridActionPoint == initial.ActionGridPosition ||
+            currentGridActionPoint == initial.GridPosition ||
+            currentGridPos == initial.ActionGridPosition
+            )
+        {
+            return true;
+        }
+        
+        if (!IsCoordsValid(currentGridPos.x, currentGridPos.y) ||
+        !IsCoordsValid(currentGridActionPoint.x, currentGridActionPoint.y) ||
+        grid[currentGridActionPoint.x, currentGridActionPoint.y] != 0
+        )
         {
             return false;
         }
 
-        return (mapBusinessFloor.ContainsKey(pos) && grid[pathGridPos.x, pathGridPos.y] == 0) || initial == pos;
+        if (grid[currentGridPos.x, currentGridPos.y] == 0 &&
+        grid[currentGridPos.x, currentGridPos.y] != -1 &&
+        mapBusinessFloor.ContainsKey(worldPos) &&
+        mapBusinessFloor.ContainsKey(currentActionPointWorldPos))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void HideGridBussFloor()
@@ -332,8 +374,9 @@ public class GridController : MonoBehaviour
         if (currentClickedActiveGameObject != "")
         {
             GameGridObject gameGridObject = businessObjects[currentClickedActiveGameObject];
+            Debug.Log("Hide " + gameGridObject.Name);
             gameGridObject.Hide();
-            currentClickedActiveGameObject = "";   
+            currentClickedActiveGameObject = "";
         }
         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
     }
@@ -345,7 +388,7 @@ public class GridController : MonoBehaviour
         {
             return mapPathFindingGrid[position];
         }
-        
+
         GameLog.LogWarning("IsometricGrid/GetGameTileFromClickInWorldPosition null");
         return null;
     }
@@ -481,7 +524,7 @@ public class GridController : MonoBehaviour
         {
             return null;
         }
-        
+
         BusyBusinessSpotsMap.Add(FreeBusinessSpots.Peek().Name, FreeBusinessSpots.Peek());
         FreeBusinessSpotsMap.Remove(FreeBusinessSpots.Peek().Name);
         return FreeBusinessSpots.Dequeue();
@@ -524,19 +567,18 @@ public class GridController : MonoBehaviour
         TablesWithClient.Enqueue(obj);
     }
     // Used to highlight the current object being edited
-    public void SetActiveGameGridObject(string objName)
+    public void SetActiveGameGridObject(GameGridObject obj)
     {
         if (currentClickedActiveGameObject != "")
         {
-            GameGridObject obj = businessObjects[currentClickedActiveGameObject];
             obj.Hide();
         }
-        currentClickedActiveGameObject = objName;
+        currentClickedActiveGameObject = obj.Name;
     }
 
     public bool IsThisSelectedObject(string objName)
     {
         return currentClickedActiveGameObject == objName;
     }
-    
+
 }

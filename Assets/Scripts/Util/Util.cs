@@ -7,11 +7,11 @@ using UnityEngine;
 public static class Util
 {
     private const int sortingLevel = Settings.ConstDefaultBackgroundOrderingLevel; // Background 
-    public static Color Unavailable = new Color(0.1f,0.1f,0.1f,1);
+    public static Color Unavailable = new Color(0.1f, 0.1f, 0.1f, 1);
     public static Color Available = new Color(0, 1, 0, 0.4f);
     public static Color Occupied = new Color(1, 0, 0, 0.4f);
     public static Color Free = new Color(1, 1, 1, 1);
-    
+
     // Creates a Text object in the scene
     public static TextMesh CreateTextObject(string name, GameObject parent, string text, Vector3 localPosition, int fontSize, Color color, TextAnchor textAnchor, TextAlignment textAlignment)
     {
@@ -320,7 +320,7 @@ public static class Util
         }
 
         GameLog.LogWarning(message);
-            return true;
+        return true;
 
     }
     public static bool IsNull(GridController gameObject, string message)
@@ -345,6 +345,16 @@ public static class Util
     public static Vector3Int GetVector3IntPositiveInfinity()
     {
         return new Vector3Int(int.MaxValue, int.MaxValue, int.MaxValue);
+    }
+
+    public static Vector3 GetActionCellOffSetWorldPositon(ObjectType type)
+    {
+        return type == ObjectType.NPC_TABLE ? new Vector3(-0.50f, 0.25f, 0) : Vector3.zero;
+    }
+
+    public static Vector3Int GetActionCellOffSet(ObjectType type)
+    {
+        return type == ObjectType.NPC_TABLE ? new Vector3Int(0, 1, 0) : Vector3Int.zero;
     }
 }
 

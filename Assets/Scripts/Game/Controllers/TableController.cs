@@ -13,8 +13,9 @@ public class TableController : BaseObjectController
                 SortingLayer = GetComponent<SortingGroup>()
             };
         Type = table.Type;
-        GameGridObject = table;
+        gameGridObject = table;
 
+        // we set the object in the grid
         if (!Util.IsNull(Grid, "TableController/IsometricGridController null"))
         {
             Grid.SetGridObject(table);
