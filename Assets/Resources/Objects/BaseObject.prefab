@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 8672831008513955186}
   - component: {fileID: 2196587791373552997}
   - component: {fileID: 8219651510767328666}
+  - component: {fileID: 8057531189722791312}
   m_Layer: 14
   m_Name: BaseObject
   m_TagString: NonBlockingObstacle
@@ -241,12 +242,21 @@ MonoBehaviour:
   - m_Name: 1 Square Objects
     m_Hash: 0
     m_CategoryList:
+    - m_Name: Chair-1L
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 54d555d678c714490ad975f33e777f1d, type: 3}
+    - m_Name: Chair-1R
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: ee7d52be841fb485d98ae60bd4882dcc, type: 3}
     - m_Name: 1 Square Isometric
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
   - m_Name: 4 Square Objects
     m_Hash: 0
     m_CategoryList:
+    - m_Name: ServedTable-1
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 1ae3404dc82e24896ba3e90f08e8cf2b, type: 3}
     - m_Name: 4 Square Isometric
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: 6ed4648a93fc44cfda6bcd0133afecf8, type: 3}
@@ -265,7 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CategoryHash: 0
   m_labelHash: 0
-  m_SpriteKey: -8.012326e+32
+  m_SpriteKey: 1.8496186e+24
 --- !u!212 &7601953221558675645
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -312,7 +322,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.545, y: 0.94}
+  m_Size: {x: 0.9969231, y: 0.9969231}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -348,7 +358,7 @@ PolygonCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.9969231, y: 0.9969231}
-    newSize: {x: 0.545, y: 0.94}
+    newSize: {x: 0.9969231, y: 0.9969231}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -379,3 +389,15 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 3
   m_CellSwizzle: 0
+--- !u!114 &8057531189722791312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6313366968590005356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945471a21aa34409f80b3a3584a52c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

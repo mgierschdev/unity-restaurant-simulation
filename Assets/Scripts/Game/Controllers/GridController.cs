@@ -291,9 +291,9 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
-        businessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_TABLE)
         {
+            businessObjects.TryAdd(obj.Name, obj);
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
