@@ -8,10 +8,8 @@ public class NPCController : GameObjectMovementBase
     //Doing a different activity properties
     GameGridObject table;
     GameController gameController;
-
     [SerializeField]
     private NpcState localState;
-
     private GameTile unRespawnTile;
     private PlayerAnimationStateController animationController;
 

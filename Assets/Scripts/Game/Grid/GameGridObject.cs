@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class GameGridObject : GameObjectBase
 {
-    public bool Busy { get; set; } //Being used by an NPC
     public SpriteRenderer GameGridObjectSpriteRenderer { get; set; }
+    public bool Busy { get; set; } //Being used by an NPC
     public NPCController UsedBy { get; set; }
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
@@ -32,7 +32,7 @@ public class GameGridObject : GameObjectBase
 
         SetActionPoints();
     }
-
+    
     private void SetActionPoints()
     {
         switch (Type)
@@ -45,7 +45,7 @@ public class GameGridObject : GameObjectBase
                 break;
             case ObjectType.EMPLOYEE:
                 break;
-            case ObjectType.NPC_TABLE:
+            case ObjectType.NPC_SINGLE_TABLE:
                 ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
                 break;
             case ObjectType.NPC_COUNTER:

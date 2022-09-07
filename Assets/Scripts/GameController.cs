@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
         GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         employeeObject.transform.SetParent(gameObject.transform);
         employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
-        EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
+        //EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
         npcId++;
     }
     public void RemoveNpc(NPCController controller)
