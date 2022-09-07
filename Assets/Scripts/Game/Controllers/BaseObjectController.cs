@@ -38,7 +38,8 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-        if(Grid.DraggingObject){
+        if (Grid.DraggingObject)
+        {
             return;
         }
 
@@ -59,7 +60,6 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
         gameGridObject.GameGridObjectSpriteRenderer = spriteRenderer;
-        spriteRenderer.color = Util.Available;
         Grid.SetActiveGameGridObject(gameGridObject);
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
     }
@@ -78,10 +78,13 @@ public class BaseObjectController : MonoBehaviour
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         sortLayer.sortingOrder = 1;
 
-        if(Grid.IsValidBussPosition(currentPos, gameGridObject)){
+        if (Grid.IsValidBussPosition(currentPos, gameGridObject))
+        {
             spriteRenderer.color = Util.Available;
             LightAvailableUnderTiles();
-        }else{
+        }
+        else
+        {
             LightOccupiedUnderTiles();
             spriteRenderer.color = Util.Occupied;
         }
@@ -112,8 +115,6 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.UpdateCoords(Grid.GetPathFindingGridFromWorldPosition(finalPos), Grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
             Grid.UpdateGridPosition(init, gameGridObject);
         }
-
-        spriteRenderer.color = Grid.IsThisSelectedObject(gameGridObject.Name) ? Util.Available : Util.Free;
     }
 
     private bool IsDraggable()
@@ -125,7 +126,11 @@ public class BaseObjectController : MonoBehaviour
 
         if (gameGridObject != null && Grid.IsTableBusy(gameGridObject))
         {
-            GameLog.Log("Table is Busy " + gameGridObject.Name); // To Show in the UI
+            // GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
+            // GameLog.Log("Used by " + gameGridObject.UsedBy.name);
+            gameGridObject.UsedBy.GoToFinalState();
+            gameGridObject.FreeObject();
+            Grid.AddFreeBusinessSpots(gameGridObject);
         }
         return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
     }

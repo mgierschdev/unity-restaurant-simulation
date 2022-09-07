@@ -5,6 +5,7 @@ public class GameGridObject : GameObjectBase
 {
     public bool Busy { get; set; } //Being used by an NPC
     public SpriteRenderer GameGridObjectSpriteRenderer { get; set; }
+    public NPCController UsedBy { get; set; }
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
@@ -58,7 +59,7 @@ public class GameGridObject : GameObjectBase
                 throw new ArgumentOutOfRangeException();
         }
     }
-    
+
     public bool IsLastPositionEqual(Vector3Int actionGridPosition)
     {
         return ActionGridPosition == actionGridPosition;
@@ -75,5 +76,22 @@ public class GameGridObject : GameObjectBase
     public void Hide()
     {
         GameGridObjectSpriteRenderer.color = Util.Free;
+    }
+
+    public void Show()
+    {
+        GameGridObjectSpriteRenderer.color = Util.Available;
+    }
+
+    public void SetUsed(NPCController npc)
+    {
+        UsedBy = npc;
+        Busy = true;
+    }
+
+    public void FreeObject()
+    {
+        UsedBy = null;
+        Busy = false;
     }
 }

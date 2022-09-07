@@ -123,13 +123,14 @@ public class NPCController : GameObjectMovementBase
         }
 
         table = GameGrid.GetFreeTable();
-        table.Busy = true;
+        table.SetUsed(this);
+        table.UsedBy = this;
         localState = NpcState.WALKING_TO_TABLE;
         target = table.ActionGridPosition;
         GoTo(table.ActionGridPosition);
     }
 
-    private void GoToFinalState()
+    public void GoToFinalState()
     {
         table = null;
         localState = NpcState.WALKING_UNRESPAWN;

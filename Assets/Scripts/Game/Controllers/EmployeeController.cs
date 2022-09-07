@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EmployeeController : GameObjectMovementBase
 {
@@ -32,6 +31,15 @@ public class EmployeeController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
+
+        // Client left or table was moved of position
+        if (tableToBeAttended != null && GameGrid.IsTableInFreeBussSpot(tableToBeAttended))
+        {
+            GameLog.Log("Object being used moved " + tableToBeAttended.Name);
+            ResetMovement(); // we stop the player from moving
+            RestartState(); // we reset the state
+        }
+
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
@@ -47,13 +55,6 @@ public class EmployeeController : GameObjectMovementBase
         UpdateRegisterCash();
         UpdateFinishRegistering();
 
-        // Client left
-        if (tableToBeAttended != null && GameGrid.IsTableInFreeBussSpot(tableToBeAttended))
-        {
-            GameLog.Log("Table moved employee");
-            RestartState();
-        }
-
         animationController.SetState(localState);
         idleTime += Time.deltaTime;
     }
@@ -63,6 +64,9 @@ public class EmployeeController : GameObjectMovementBase
         if (localState == NpcState.REGISTERING_CASH && CurrentEnergy >= 100)
         {
             localState = NpcState.AT_COUNTER; // we are at counter 
+            double orderCost = Random.Range(5, 10);
+            GameLog.Log("Added to the wallet: " + orderCost);
+            GameGrid.PlayerData.AddMoney(orderCost);
         }
     }
 
@@ -90,8 +94,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-        GameGrid.PlayerData.AddMoney(Random.Range(5, 10));
-        RestartState();
+        RestartStateAfterAttendingTable();
     }
 
     private void UpdateTakeOrder()
@@ -112,8 +115,9 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         // We can we idle and not attend the table
-        float idleProbability  = Random.Range(0, 100);
-        if(idleProbability < RANDOM_PROBABILITY_TO_WAIT){
+        float idleProbability = Random.Range(0, 100);
+        if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
+        {
             GameLog.Log("Waiting...");
             idleTime = 0;
             return;
@@ -161,11 +165,19 @@ public class EmployeeController : GameObjectMovementBase
         return Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(target)) < Settings.MinDistanceToTarget;
     }
 
-    private void RestartState()
+    private void RestartStateAfterAttendingTable()
     {
         GoTo(counter.ActionGridPosition);
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         GameGrid.AddFreeBusinessSpots(tableToBeAttended);
+        tableToBeAttended.Busy = false;
+        tableToBeAttended = null;
+    }
+
+    private void RestartState()
+    {
+        GoTo(counter.ActionGridPosition);
+        localState = NpcState.WALKING_TO_COUNTER;
         tableToBeAttended.Busy = false;
         tableToBeAttended = null;
     }

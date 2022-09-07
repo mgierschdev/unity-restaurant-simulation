@@ -42,11 +42,6 @@ public class CameraController : MonoBehaviour
     {
         // Only if enabled in Settings or if no menu is open
         PerspectiveHand();
-
-        if (targetVectorPosition != Vector3.zero)
-        {
-            FollowTarget();
-        }
     }
 
     // Move the camera to the target Position
@@ -55,22 +50,21 @@ public class CameraController : MonoBehaviour
         targetVectorPosition = position;
     }
 
-    private bool targetReached(Vector3 pos)
+    private bool TargetReached(Vector3 pos)
     {
         return Vector3.Distance(transform.position, pos) < Settings.MinDistanceToTarget;
     }
 
     private void FollowTarget()
     {
-        if (targetReached(targetVectorPosition) && mainCamera.orthographicSize >= targetOrthographicSize)
+        if (TargetReached(targetVectorPosition) && mainCamera.orthographicSize >= targetOrthographicSize)
         {
             targetVectorPosition = Vector3.zero;
             return;
         }
-        
-        Vector3 tPosition = new Vector3(targetVectorPosition.x, targetVectorPosition.y, transform.position.z);
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, tPosition, interpolation);
-        transform.position = smoothedPosition;
+        // Vector3 tPosition = new Vector3(targetVectorPosition.x, targetVectorPosition.y, transform.position.z);
+        // Vector3 smoothedPosition = Vector3.Lerp(transform.position, tPosition, interpolation);
+        // transform.position = smoothedPosition;
         mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetOrthographicSize, ZOOM_SPEED * Time.unscaledDeltaTime);
     }
 
