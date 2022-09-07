@@ -8,7 +8,6 @@ public class MenuItem
     public Menu Menu { get;}
     public string Name { get; }
     public GameObject UnityObject { get; }
-    private Dictionary<string, string> Fields { get; set; }
     public bool PauseGameGame { get; }
 
     public MenuItem(Menu menu, MenuType type, string name, GameObject gameObj, bool pauseGame)
@@ -18,12 +17,10 @@ public class MenuItem
         UnityObject = gameObj;
         Name = name;
         Type = type;
-        Fields = new Dictionary<string, string>();
     }
 
     public void SetFields(Dictionary<string, string> fields)
     {
-        this.Fields = fields;
         foreach (KeyValuePair<string, string> kvp in fields)
         {
             GameObject go = GameObject.Find(kvp.Key);

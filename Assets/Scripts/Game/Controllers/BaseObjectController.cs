@@ -14,17 +14,50 @@ public class BaseObjectController : MonoBehaviour
     private SortingGroup sortLayer;
 
     private List<SpriteRenderer> tiles;
+    public List<GameObject> ActionTiles {get; set;}
+    public bool[] BusyActionTiles {get; set;}
 
     public void Awake()
     {
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
-        GameObject objectActionTile = transform.Find(Settings.BaseObjectActionTile).gameObject;
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
-        tiles = new List<SpriteRenderer>(){
+        GameObject objectActionTile = transform.Find(Settings.BaseObjectActionTile).gameObject;
+
+        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
+        {
+            BusyActionTiles = new bool[1];
+            tiles = new List<SpriteRenderer>(){
+              objectTileUnder.GetComponent<SpriteRenderer>(),
+              objectActionTile.GetComponent<SpriteRenderer>()};
+
+            ActionTiles = new List<GameObject>(){
+                objectActionTile
+              };
+        }
+        else if (Type == ObjectType.NPC_DOUBLE_TABLE)
+        {
+            BusyActionTiles = new bool[2];
+            GameObject objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2).gameObject;
+            tiles = new List<SpriteRenderer>(){
+              objectTileUnder.GetComponent<SpriteRenderer>(),
               objectActionTile.GetComponent<SpriteRenderer>(),
+              objectSecondActionTile.GetComponent<SpriteRenderer>()};
+
+            ActionTiles = new List<GameObject>(){
+                objectActionTile,
+                objectSecondActionTile
+              };
+        }
+        else
+        {
+            tiles = new List<SpriteRenderer>(){
               objectTileUnder.GetComponent<SpriteRenderer>()
-        };
+              };
+            ActionTiles = new List<GameObject>();
+            BusyActionTiles = new bool[1];
+        }
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         Util.IsNull(gameGridObject, "BaseObjectController/GridController null");
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
@@ -74,7 +107,6 @@ public class BaseObjectController : MonoBehaviour
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
         Vector3 currentPos = Grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
-        Vector3 initPos = Grid.GetNearestGridPositionFromWorldMap(initialPosition);
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         sortLayer.sortingOrder = 1;
 
@@ -100,7 +132,6 @@ public class BaseObjectController : MonoBehaviour
         }
 
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
-        Vector3 initPos = Grid.GetNearestGridPositionFromWorldMap(initialPosition);
         Grid.DraggingObject = false;
         sortLayer.sortingOrder = 0;
 
@@ -132,7 +163,7 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.FreeObject();
             Grid.AddFreeBusinessSpots(gameGridObject);
         }
-        return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
+        return Type != ObjectType.UNDEFINED && Type == ObjectType.NPC_SINGLE_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
     }
 
     private void HideUnderTiles()
@@ -142,11 +173,11 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        if (gameGridObject.Type == ObjectType.NPC_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
+        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
         {
-            tiles[0].color = Util.Hidden;
+            tiles[1].color = Util.Hidden;
         }
-        tiles[1].color = Util.Hidden;
+        tiles[0].color = Util.Hidden;
     }
 
     private void LightOccupiedUnderTiles()
@@ -156,11 +187,11 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        if (gameGridObject.Type == ObjectType.NPC_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
+        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
         {
-            tiles[0].color = Util.LightOccupied;
+            tiles[1].color = Util.LightOccupied;
         }
-        tiles[1].color = Util.LightOccupied;
+        tiles[0].color = Util.LightOccupied;
     }
 
     private void LightAvailableUnderTiles()
@@ -170,10 +201,10 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        if (gameGridObject.Type == ObjectType.NPC_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
+        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
         {
-            tiles[0].color = Util.LightAvailable;
+            tiles[1].color = Util.LightAvailable;
         }
-        tiles[1].color = Util.LightAvailable;
+        tiles[0].color = Util.LightAvailable;
     }
 }

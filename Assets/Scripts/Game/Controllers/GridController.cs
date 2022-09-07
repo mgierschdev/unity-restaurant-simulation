@@ -293,7 +293,7 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
-        if (obj.Type == ObjectType.NPC_TABLE)
+        if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             businessObjects.TryAdd(obj.Name, obj);
             FreeBusinessSpots.Enqueue(obj);
@@ -319,7 +319,7 @@ public class GridController : MonoBehaviour
             return;
         }
 
-        if (final.Type == ObjectType.NPC_TABLE)
+        if (final.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             Vector3Int initActionCell = init + Util.GetActionCellOffSet(final.Type);
             if (IsCoordsValid(initActionCell.x, initActionCell.y))

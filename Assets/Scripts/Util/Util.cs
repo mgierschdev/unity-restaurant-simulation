@@ -290,9 +290,19 @@ public static class Util
             case TileType.BUS_FLOOR:
             case TileType.WALKABLE_PATH:
                 return ObjectType.FLOOR;
+            case TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT:
+                break;
+            case TileType.ISOMETRIC_FOUR_SQUARE_OBJECT:
+                break;
+            case TileType.FLOOR_EDIT:
+                break;
+            case TileType.UNDEFINED:
+                break;
             default:
                 return ObjectType.UNDEFINED;
         }
+
+        return ObjectType.UNDEFINED;
     }
 
     public static ObjectType GetObjectType(GameObject gameObject)
@@ -352,12 +362,12 @@ public static class Util
 
     public static Vector3 GetActionCellOffSetWorldPositon(ObjectType type)
     {
-        return type == ObjectType.NPC_TABLE ? new Vector3(-0.50f, 0.25f, 0) : Vector3.zero;
+        return type == ObjectType.NPC_SINGLE_TABLE ? new Vector3(-0.50f, 0.25f, 0) : Vector3.zero;
     }
 
     public static Vector3Int GetActionCellOffSet(ObjectType type)
     {
-        return type == ObjectType.NPC_TABLE ? new Vector3Int(0, 1, 0) : Vector3Int.zero;
+        return type == ObjectType.NPC_SINGLE_TABLE ? new Vector3Int(0, 1, 0) : Vector3Int.zero;
     }
 }
 
@@ -369,9 +379,10 @@ public enum ObjectType
     NPC = 2,
     PLAYER = 3,
     EMPLOYEE = 4,
-    NPC_TABLE = 5,
-    NPC_COUNTER = 6,
-    FLOOR = 7,
+    NPC_COUNTER = 5,
+    FLOOR = 6,
+    NPC_SINGLE_TABLE = 7,
+    NPC_DOUBLE_TABLE = 8,
     UNDEFINED = 999
 }
 

@@ -21,11 +21,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[0].m_Name
-      value: SingleTable-1
+      value: DoubleTable-1
       objectReference: {fileID: 0}
     - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[1].m_Name
       value: 1 Square Isometric
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[2].m_Name
+      value: DoubleTable-1
       objectReference: {fileID: 0}
     - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[0].m_Name
@@ -38,11 +42,15 @@ PrefabInstance:
     - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[0].m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
+      objectReference: {fileID: 21300000, guid: 4e37d43038b1148908946dd4fd51136f, type: 3}
     - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[1].m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+    - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[2].m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4e37d43038b1148908946dd4fd51136f, type: 3}
     - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[0].m_Sprite
       value: 
@@ -141,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6313366968590005356, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Name
-      value: Table
+      value: SingleTable
       objectReference: {fileID: 0}
     - target: {fileID: 7601953221558675645, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Size.x
@@ -169,11 +177,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8672831008513955186, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.92
+      value: 0.84
       objectReference: {fileID: 0}
     - target: {fileID: 8672831008513955186, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.94
+      value: 0.86
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7601953221558675645, guid: 097e89233788541f1978222bf4874128, type: 3}
