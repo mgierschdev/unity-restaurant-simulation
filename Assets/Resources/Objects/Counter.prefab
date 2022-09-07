@@ -75,7 +75,8 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 0.94
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8057531189722791312, guid: 097e89233788541f1978222bf4874128, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 097e89233788541f1978222bf4874128, type: 3}
 --- !u!1 &1656295977345411071 stripped
 GameObject:

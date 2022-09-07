@@ -10,8 +10,9 @@ public class EmployeeController : GameObjectMovementBase
     private PlayerAnimationStateController animationController;
     private const float TIME_TO_TAKING_ORDER = 80f; //Decrease per second  100/15
     private const float TIME_IDLE_BEFORE_TAKING_ORDER = 2f;
-    private const int RANDOM_PROBABILITY_TO_WAIT = 30;
+    private const int RANDOM_PROBABILITY_TO_WAIT = 0;
     private const float TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
+    private Vector3Int coordOfTableToBeAttended;
     private float idleTime;
 
     private void Start()
@@ -75,7 +76,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounterAfterOrder()
     {
-        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || counter == null || !IsAtGameGridObject(counter))
+        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || counter == null || !IsAtGameGridObject(counter.ActionGridPosition))
         {
             return;
         }
@@ -120,12 +121,13 @@ public class EmployeeController : GameObjectMovementBase
 
         tableToBeAttended = GameGrid.GetTableWithClient();
         localState = NpcState.WALKING_TO_TABLE;
-        GoTo(tableToBeAttended.ActionGridPosition);
+        coordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(counter.ActionGridPosition, tableToBeAttended.ActionGridPosition);
+        GoTo(coordOfTableToBeAttended);
     }
 
     private void UpdateIsTakingOrder()
     {
-        if (localState != NpcState.WALKING_TO_TABLE || !IsAtGameGridObject(tableToBeAttended))
+        if (localState != NpcState.WALKING_TO_TABLE || !IsAtGameGridObject(coordOfTableToBeAttended))
         {
             return;
         }
@@ -146,7 +148,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounter()
     {
-        if (localState != NpcState.WALKING_TO_COUNTER || !IsAtGameGridObject(counter) || counter == null)
+        if (localState != NpcState.WALKING_TO_COUNTER || !IsAtGameGridObject(counter.ActionGridPosition) || counter == null)
         {
             return;
         }
@@ -154,9 +156,9 @@ public class EmployeeController : GameObjectMovementBase
         idleTime = 0;
     }
 
-    private bool IsAtGameGridObject(GameGridObject obj)
+    private bool IsAtGameGridObject(Vector3Int target)
     {
-        return Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(obj.ActionGridPosition)) < Settings.MinDistanceToTarget;
+        return Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(target)) < Settings.MinDistanceToTarget;
     }
 
     private void RestartState()
