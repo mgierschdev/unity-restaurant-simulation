@@ -57,7 +57,7 @@ public class NPCController : GameObjectMovementBase
         // if the table moved
         if (table != null && !table.IsLastPositionEqual(target))
         {
-            GameGrid.AddFreeBusinessSpots(table);
+            // GameGrid.AddFreeBusinessSpots(table);
             GoToFinalState();
         }
 
