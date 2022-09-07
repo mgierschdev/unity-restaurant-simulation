@@ -16,6 +16,8 @@ public class CounterController : BaseObjectController
         };
 
         gameGridObject = counter;
+        gameGridObject.Type = ObjectType.NPC_COUNTER;
+        Type = ObjectType.NPC_COUNTER;
 
         if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {

@@ -51,6 +51,7 @@ public class GridController : MonoBehaviour
     private List<GameTile> listBusinessFloor;
     private Dictionary<Vector3, GameTile> mapBusinessFloor;
     private string currentClickedActiveGameObject;
+    private int[,] arroundVectorPoints;
     public bool DraggingObject;
 
     private void Awake()
@@ -107,6 +108,7 @@ public class GridController : MonoBehaviour
         grid = new int[Settings.GridHeight, Settings.GridWidth];
         // debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
         currentClickedActiveGameObject = "";
+        arroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
@@ -345,7 +347,7 @@ public class GridController : MonoBehaviour
         {
             return true;
         }
-        
+
         if (!IsCoordsValid(currentGridPos.x, currentGridPos.y) ||
         !IsCoordsValid(currentGridActionPoint.x, currentGridActionPoint.y) ||
         grid[currentGridActionPoint.x, currentGridActionPoint.y] != 0
@@ -555,6 +557,28 @@ public class GridController : MonoBehaviour
     public GameGridObject GetTableWithClient()
     {
         return TablesWithClient.Count <= 0 ? null : TablesWithClient.Dequeue();
+    }
+
+    public Vector3Int GetClosestPathGridPoint(Vector3Int init, Vector3Int target)
+    {
+        float min = float.MaxValue;
+        Vector3Int result = target;
+
+        for (int i = 0; i < arroundVectorPoints.GetLength(0); i++)
+        {
+            int x = arroundVectorPoints[i, 0] + target.x;
+            int y = arroundVectorPoints[i, 1] + target.y;
+
+            Vector3Int tmp = new Vector3Int(x, y, 0);
+
+            if (IsCoordsValid(x, y) && grid[x, y] == 0 && min > Vector3Int.Distance(init, tmp))
+            {
+
+                min = Vector3Int.Distance(init, tmp);
+                result = tmp;
+            }
+        }
+        return result;
     }
 
     public void AddClientToTable(GameGridObject obj)
