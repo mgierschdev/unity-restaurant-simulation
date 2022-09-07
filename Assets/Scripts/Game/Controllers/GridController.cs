@@ -590,9 +590,11 @@ public class GridController : MonoBehaviour
     {
         if (currentClickedActiveGameObject != "")
         {
-            obj.Hide();
+            GameGridObject gameGridObject = businessObjects[currentClickedActiveGameObject];
+            gameGridObject.Hide();
         }
         currentClickedActiveGameObject = obj.Name;
+        obj.Show();
     }
 
     public bool IsThisSelectedObject(string objName)

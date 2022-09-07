@@ -237,6 +237,15 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         pendingMovementQueue = new Queue();
     }
 
+    protected void ResetMovement()
+    {
+        currentTargetPosition = transform.position; // we are already at target and not moving
+        pendingMovementQueue = new Queue();
+        if (energyBar.IsActive())
+        {
+            energyBar.SetInactive();
+        }
+    }
 
     private List<Node> MergePath(List<Node> path)
     {
