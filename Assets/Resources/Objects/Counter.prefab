@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015554977731466099, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteKey
-      value: -1.5446235e+19
+      value: 1.4654167e+35
       objectReference: {fileID: 0}
     - target: {fileID: 6313366968590005356, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Name
