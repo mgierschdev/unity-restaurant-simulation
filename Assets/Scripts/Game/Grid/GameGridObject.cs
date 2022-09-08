@@ -1,18 +1,22 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GameGridObject : GameObjectBase
 {
-    public SpriteRenderer GameGridObjectSpriteRenderer { get; set; }
+    private SpriteRenderer spriteRenderer;
+    private List<GameObject> actionTiles;
+    private List<SpriteRenderer> tiles;
+    private ObjectRotation position; // Facing position
+    private Transform objectTransform;
+    private int actionTile;
     public bool Busy { get; set; } //Being used by an NPC
     public NPCController UsedBy { get; set; }
-    //public Vector3Int ActionGridPosition { get; set; } // Cell position that NPC has to move tos
-    public List<GameObject> ActionTiles { get; set; }
 
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
+        position = ObjectRotation.FRONT;
         TileType = tileType;
         Name = name;
         GridPosition = gridPosition; // Grid position, first position = 0, 0
@@ -23,6 +27,7 @@ public class GameGridObject : GameObjectBase
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost, string menuItemSprite)
     {
+        position = ObjectRotation.FRONT;
         MenuItemSprite = menuItemSprite;
         TileType = tileType;
         Name = name;
@@ -33,9 +38,43 @@ public class GameGridObject : GameObjectBase
         Cost = cost;
     }
 
+    public GameGridObject(Transform transform, Vector3Int gridPosition, Vector3Int localGridPosition, int cost, ObjectRotation position)
+    {
+        objectTransform = transform;
+        Name = transform.name;
+        WorldPosition = transform.position; // World position on Unity coords
+        GridPosition = gridPosition; // Grid position, first position = 0, 0
+        LocalGridPosition = localGridPosition;
+        Type = ObjectType.UNDEFINED;
+        Cost = cost;
+        this.position = position;
+        spriteRenderer = transform.GetComponent<SpriteRenderer>();
+        SortingLayer = transform.GetComponent<SortingGroup>();
+
+        GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
+        Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
+        Transform objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2);
+        SpriteRenderer tileUnder = objectTileUnder.GetComponent<SpriteRenderer>();
+        SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
+        SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
+
+        actionTiles = new List<GameObject>(){
+            objectActionTile.gameObject,
+            objectSecondActionTile.gameObject
+        };
+
+        tiles = new List<SpriteRenderer>(){
+            tileUnder,
+            actionTileSpriteRenderer,
+            secondActionTileSprite
+        };
+
+        UpdateRotation(position);
+    }
+
     public bool IsLastPositionEqual(Vector3 actionGridPosition)
     {
-        return Util.IsAtDistanceWithObject(GetFirstActionTile(), actionGridPosition);
+        return Util.IsAtDistanceWithObject(GetActionTile(), actionGridPosition);
     }
 
     public void UpdateCoords(Vector3Int gridPosition, Vector3Int localGridPosition, Vector3 worldPosition)
@@ -47,12 +86,12 @@ public class GameGridObject : GameObjectBase
 
     public void Hide()
     {
-        GameGridObjectSpriteRenderer.color = Util.Free;
+        spriteRenderer.color = Util.Free;
     }
 
     public void Show()
     {
-        GameGridObjectSpriteRenderer.color = Util.Available;
+        spriteRenderer.color = Util.Available;
     }
 
     public void SetUsed(NPCController npc)
@@ -67,13 +106,72 @@ public class GameGridObject : GameObjectBase
         Busy = false;
     }
 
-    public Vector3 GetFirstActionTile()
+    public Vector3 GetActionTile()
     {
-        return ActionTiles[0].transform.position;
+        return actionTiles[actionTile].transform.position;
     }
 
-    public Vector3 GetSecondActionTile()
+    public void RotateObject()
     {
-        return ActionTiles[1].transform.position;
+        int pos = ((int)position + 1) % 4;
+        ObjectRotation newPos = (ObjectRotation)pos;
+        UpdateRotation(newPos);
+    }
+
+    private void UpdateRotation(ObjectRotation newPosition)
+    {
+        switch (newPosition)
+        {
+            case ObjectRotation.FRONT:
+
+                actionTile = 0;
+                tiles[actionTile + 1].color = Util.Hidden;
+                tiles[actionTile + 2].color = Util.Hidden;
+                return;
+            case ObjectRotation.FRONT_INVERTED:
+                actionTile = 0;
+                tiles[actionTile + 1].color = Util.Hidden;
+                tiles[actionTile + 2].color = Util.Hidden;
+                return;
+            case ObjectRotation.BACK:
+                actionTile = 1;
+                tiles[actionTile + 1].color = Util.Hidden;
+                tiles[actionTile + 2].color = Util.Hidden;
+                return;
+            case ObjectRotation.BACK_INVERTED:
+                actionTile = 1;
+                tiles[actionTile + 1].color = Util.Hidden;
+                tiles[actionTile + 2].color = Util.Hidden;
+                return;
+        }
+    }
+
+    public void HideUnderTiles()
+    {
+        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
+        {
+            tiles[1].color = Util.Hidden;
+        }
+        tiles[0].color = Util.Hidden;
+    }
+
+    public void LightOccupiedUnderTiles()
+    {
+
+        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
+        {
+            tiles[1].color = Util.LightOccupied;
+        }
+        tiles[0].color = Util.LightOccupied;
+    }
+
+    public void LightAvailableUnderTiles()
+    {
+
+        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
+        {
+            tiles[1].color = Util.LightAvailable;
+        }
+        tiles[0].color = Util.LightAvailable;
     }
 }
