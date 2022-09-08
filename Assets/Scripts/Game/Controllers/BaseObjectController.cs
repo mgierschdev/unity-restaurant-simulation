@@ -99,13 +99,11 @@ public class BaseObjectController : MonoBehaviour
 
         if (Grid.IsValidBussPosition(currentPos, gameGridObject, actionTileOne))
         {
-            spriteRenderer.color = Util.Available;
             LightAvailableUnderTiles();
         }
         else
         {
             LightOccupiedUnderTiles();
-            spriteRenderer.color = Util.Occupied;
         }
         Grid.DraggingObject = true;
     }
@@ -132,6 +130,7 @@ public class BaseObjectController : MonoBehaviour
             initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
             gameGridObject.UpdateCoords(Grid.GetPathFindingGridFromWorldPosition(finalPos), Grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
             Grid.UpdateGridPosition(init, gameGridObject);
+            LightAvailableUnderTiles();
         }
     }
 
@@ -174,6 +173,8 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
+        spriteRenderer.color = Util.Occupied;
+
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
         {
             tiles[1].color = Util.LightOccupied;
@@ -187,6 +188,8 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
+
+        spriteRenderer.color = Util.Available;
 
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
         {
