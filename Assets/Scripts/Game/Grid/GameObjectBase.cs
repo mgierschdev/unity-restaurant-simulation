@@ -11,7 +11,6 @@ public abstract class GameObjectBase
     public ObjectType Type { get; set; }
     public TileType TileType { get; set; }
     private Vector3 tileOffset = new Vector3(0, 0.25f, 0);
-    public Vector3Int ActionGridPosition { get; set; } // Cell position that NPC has to move tos
     public double Cost { get; set; }
     public string MenuItemSprite { get; set; } // Foto to display
 

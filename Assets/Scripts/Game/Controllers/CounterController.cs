@@ -14,8 +14,9 @@ public class CounterController : BaseObjectController
         {
             SortingLayer = GetComponent<SortingGroup>()
         };
-
+        
         gameGridObject = counter;
+        counter.ActionTiles = ActionTiles;
         gameGridObject.Type = ObjectType.NPC_COUNTER;
         Type = ObjectType.NPC_COUNTER;
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameGridObject : GameObjectBase
@@ -6,6 +7,9 @@ public class GameGridObject : GameObjectBase
     public SpriteRenderer GameGridObjectSpriteRenderer { get; set; }
     public bool Busy { get; set; } //Being used by an NPC
     public NPCController UsedBy { get; set; }
+    //public Vector3Int ActionGridPosition { get; set; } // Cell position that NPC has to move tos
+    public List<GameObject> ActionTiles { get; set; }
+
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
@@ -15,8 +19,6 @@ public class GameGridObject : GameObjectBase
         WorldPosition = worldPosition; // World position on Unity coords
         LocalGridPosition = localGridPosition;
         Type = type;
-
-        SetActionPoints();
     }
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost, string menuItemSprite)
@@ -29,40 +31,11 @@ public class GameGridObject : GameObjectBase
         LocalGridPosition = localGridPosition;
         Type = type;
         Cost = cost;
-
-        SetActionPoints();
-    }
-    
-    private void SetActionPoints()
-    {
-        switch (Type)
-        {
-            case ObjectType.OBSTACLE:
-                break;
-            case ObjectType.NPC:
-                break;
-            case ObjectType.PLAYER:
-                break;
-            case ObjectType.EMPLOYEE:
-                break;
-            case ObjectType.NPC_SINGLE_TABLE:
-                ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
-                break;
-            case ObjectType.NPC_COUNTER:
-                ActionGridPosition = GridPosition + new Vector3Int(0, 1, 0);
-                break;
-            case ObjectType.FLOOR:
-                break;
-            case ObjectType.UNDEFINED:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
     }
 
-    public bool IsLastPositionEqual(Vector3Int actionGridPosition)
+    public bool IsLastPositionEqual(Vector3 actionGridPosition)
     {
-        return ActionGridPosition == actionGridPosition;
+        return Util.IsAtDistanceWithObject(GetFirstActionTile(), actionGridPosition);
     }
 
     public void UpdateCoords(Vector3Int gridPosition, Vector3Int localGridPosition, Vector3 worldPosition)
@@ -70,7 +43,6 @@ public class GameGridObject : GameObjectBase
         GridPosition = gridPosition;
         LocalGridPosition = localGridPosition;
         WorldPosition = worldPosition;
-        SetActionPoints();
     }
 
     public void Hide()
@@ -93,5 +65,15 @@ public class GameGridObject : GameObjectBase
     {
         UsedBy = null;
         Busy = false;
+    }
+
+    public Vector3 GetFirstActionTile()
+    {
+        return ActionTiles[0].transform.position;
+    }
+
+    public Vector3 GetSecondActionTile()
+    {
+        return ActionTiles[1].transform.position;
     }
 }

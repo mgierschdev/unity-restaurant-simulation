@@ -14,6 +14,7 @@ public class TableController : BaseObjectController
             };
         Type = table.Type;
         gameGridObject = table;
+        gameGridObject.ActionTiles = ActionTiles;
 
         // we set the object in the grid
         if (!Util.IsNull(Grid, "TableController/IsometricGridController null"))

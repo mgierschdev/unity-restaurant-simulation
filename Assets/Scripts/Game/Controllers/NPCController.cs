@@ -18,6 +18,7 @@ public class NPCController : GameObjectMovementBase
     private const float IDLE_MAX_TIME = 6f; //in seconds
     private float randMax = 3f;
     private Vector3Int target; // walking to target
+    private Vector3 targetInWorldPosition;
 
     private void Start()
     {
@@ -53,7 +54,7 @@ public class NPCController : GameObjectMovementBase
         UpdateIsAtRespawn();
 
         // if the table moved
-        if (table != null && !table.IsLastPositionEqual(target))
+        if (table != null && !table.IsLastPositionEqual(targetInWorldPosition))
         {
             // GameGrid.AddFreeBusinessSpots(table);
             GoToFinalState();
@@ -73,9 +74,8 @@ public class NPCController : GameObjectMovementBase
     {
         if (localState == NpcState.WALKING_UNRESPAWN)
         {
-            if (Vector3.Distance(transform.position,
-                    GameGrid.GetWorldFromPathFindingGridPosition(unRespawnTile.GridPosition)) <
-                Settings.MinDistanceToTarget)
+            if (Util.IsAtDistanceWithObject(transform.position,
+                    GameGrid.GetWorldFromPathFindingGridPosition(unRespawnTile.GridPosition)))
             {
                 gameController.RemoveNpc(this);
                 Destroy(gameObject);
@@ -107,7 +107,7 @@ public class NPCController : GameObjectMovementBase
             return;
         }
 
-        if (Vector3.Distance(transform.position, GameGrid.GetWorldFromPathFindingGridPosition(table.ActionGridPosition)) < Settings.MinDistanceToTarget)
+        if (Util.IsAtDistanceWithObject(transform.position, targetInWorldPosition))
         {
             localState = NpcState.AT_TABLE;
         }
@@ -124,8 +124,9 @@ public class NPCController : GameObjectMovementBase
         table.SetUsed(this);
         table.UsedBy = this;
         localState = NpcState.WALKING_TO_TABLE;
-        target = table.ActionGridPosition;
-        GoTo(table.ActionGridPosition);
+        targetInWorldPosition = table.GetFirstActionTile();
+        target = GameGrid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
+        GoTo(target);
     }
 
     public void GoToFinalState()

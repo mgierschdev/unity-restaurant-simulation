@@ -50,14 +50,9 @@ public class CameraController : MonoBehaviour
         targetVectorPosition = position;
     }
 
-    private bool TargetReached(Vector3 pos)
-    {
-        return Vector3.Distance(transform.position, pos) < Settings.MinDistanceToTarget;
-    }
-
     private void FollowTarget()
     {
-        if (TargetReached(targetVectorPosition) && mainCamera.orthographicSize >= targetOrthographicSize)
+        if (Util.IsAtDistanceWithObject(transform.position, targetVectorPosition) && mainCamera.orthographicSize >= targetOrthographicSize)
         {
             targetVectorPosition = Vector3.zero;
             return;
