@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 
 public class GameGridObject : GameObjectBase
 {
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer SpriteRenderer { get; set; }
     private List<GameObject> actionTiles;
     private List<SpriteRenderer> tiles;
     private ObjectRotation position; // Facing position
@@ -48,7 +48,7 @@ public class GameGridObject : GameObjectBase
         Type = type;
         Cost = cost;
         this.position = position;
-        spriteRenderer = transform.GetComponent<SpriteRenderer>();
+        SpriteRenderer = transform.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
@@ -86,12 +86,12 @@ public class GameGridObject : GameObjectBase
 
     public void Hide()
     {
-        spriteRenderer.color = Util.Free;
+        SpriteRenderer.color = Util.Free;
     }
 
     public void Show()
     {
-        spriteRenderer.color = Util.Available;
+        SpriteRenderer.color = Util.Available;
     }
 
     public void SetUsed(NPCController npc)

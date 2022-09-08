@@ -38,7 +38,7 @@ public class MenuHandlerController : MonoBehaviour
     private CameraController cameraController;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
-    private void Start()
+    private void Awake()
     {
         // Grid Controller
         GameObject gridObj = GameObject.Find(Settings.GameGrid).gameObject;
@@ -400,6 +400,7 @@ public class MenuHandlerController : MonoBehaviour
 
     public bool IsEditPanelOpen()
     {
+        Debug.Log("IsEditPanelOpen: "+editStoreMenuPanel.activeSelf);
         return editStoreMenuPanel.activeSelf;
     }
 

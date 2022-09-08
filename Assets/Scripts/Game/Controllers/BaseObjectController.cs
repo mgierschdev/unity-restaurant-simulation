@@ -1,36 +1,26 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class BaseObjectController : MonoBehaviour
 {
-    private MenuHandlerController menu;
-    private SpriteRenderer spriteRenderer;
+    protected MenuHandlerController Menu { get; set; }
     private Vector3 initialPosition;
     private Vector3 mousePosition;
-    private SortingGroup sortLayer;
     //Initial object position
     private Vector3Int initialActionTileOne;
     private const int COST = 20; // temporal
     protected GameGridObject gameGridObject;
-    protected GridController Grid;
-
-    public void Awake()
-    {
-        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
-        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
-        menu = menuHandler.GetComponent<MenuHandlerController>();
-    }
+    protected GridController Grid { get; set; }
 
     private void Update()
     {
-        Debug.Log("Grid "+Grid);
+        Debug.Log("Grid " + Grid);
 
-        if (!Grid || Grid.DraggingObject)
+        if (!Menu || !Grid || Grid.DraggingObject)
         {
             return;
         }
 
-        if (menu.IsEditPanelOpen())
+        if (Menu.IsEditPanelOpen())
         {
             gameGridObject.LightAvailableUnderTiles();
         }
@@ -42,7 +32,11 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!menu.IsEditPanelOpen() || !IsDraggable())
+
+        Debug.Log("BaseObjectController: Menu on mouse down: "+ Menu);
+        
+
+        if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
         }
@@ -54,7 +48,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (!menu.IsEditPanelOpen() || !IsDraggable())
+        if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
         }
@@ -63,17 +57,17 @@ public class BaseObjectController : MonoBehaviour
         // Mark 2 tiles of the object action tile and position tile
         Vector3 currentPos = Grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
-        sortLayer.sortingOrder = 1;
+        gameGridObject.SortingLayer.sortingOrder = 1;
 
         if (Grid.IsValidBussPosition(currentPos, gameGridObject, initialActionTileOne))
         {
-            spriteRenderer.color = Util.Available;
+            gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
         else
         {
             gameGridObject.LightOccupiedUnderTiles();
-            spriteRenderer.color = Util.Occupied;
+            gameGridObject.SpriteRenderer.color = Util.Occupied;
         }
         Grid.DraggingObject = true;
     }
@@ -81,19 +75,19 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (!menu.IsEditPanelOpen() || !IsDraggable())
+        if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
         }
 
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
         Grid.DraggingObject = false;
-        sortLayer.sortingOrder = 0;
+        gameGridObject.SortingLayer.sortingOrder = 0;
 
         if (!Grid.IsValidBussPosition(finalPos, gameGridObject, initialActionTileOne))
         {
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 1);
-            spriteRenderer.color = Util.Available;
+            gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
         else
@@ -107,7 +101,7 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
-        if (!menu.IsEditPanelOpen())
+        if (!Menu || !Menu.IsEditPanelOpen())
         {
             return false;
         }
@@ -120,6 +114,8 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.FreeObject();
             Grid.AddFreeBusinessSpots(gameGridObject);
         }
-        return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
+
+        Debug.Log("IsDraggable(): GameGrid object " + gameGridObject);
+        return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
     }
 }
