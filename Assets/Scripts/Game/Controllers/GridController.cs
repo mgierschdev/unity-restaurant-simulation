@@ -305,7 +305,7 @@ public class GridController : MonoBehaviour
             Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
             grid[ActionGridPosition.x, ActionGridPosition.y] = -1;
         }
-        else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
+        else
         {
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
 
