@@ -14,7 +14,7 @@ public class BaseObjectController : MonoBehaviour
     private SortingGroup sortLayer;
     private List<SpriteRenderer> tiles;
     protected List<GameObject> ActionTiles { get; set; }
-    //Initial object action position
+    //Initial object position
     private Vector3Int actionTileOne;
 
     public void Awake()
@@ -99,11 +99,13 @@ public class BaseObjectController : MonoBehaviour
 
         if (Grid.IsValidBussPosition(currentPos, gameGridObject, actionTileOne))
         {
+            spriteRenderer.color = Util.Available;
             LightAvailableUnderTiles();
         }
         else
         {
             LightOccupiedUnderTiles();
+            spriteRenderer.color = Util.Occupied;
         }
         Grid.DraggingObject = true;
     }
@@ -123,6 +125,8 @@ public class BaseObjectController : MonoBehaviour
         if (!Grid.IsValidBussPosition(finalPos, gameGridObject, actionTileOne))
         {
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 1);
+            spriteRenderer.color = Util.Available;
+            LightAvailableUnderTiles();
         }
         else
         {
@@ -130,7 +134,6 @@ public class BaseObjectController : MonoBehaviour
             initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
             gameGridObject.UpdateCoords(Grid.GetPathFindingGridFromWorldPosition(finalPos), Grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
             Grid.UpdateGridPosition(init, gameGridObject);
-            LightAvailableUnderTiles();
         }
     }
 
@@ -173,8 +176,6 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        spriteRenderer.color = Util.Occupied;
-
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
         {
             tiles[1].color = Util.LightOccupied;
@@ -188,8 +189,6 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
-
-        spriteRenderer.color = Util.Available;
 
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE || gameGridObject.Type == ObjectType.NPC_COUNTER)
         {
