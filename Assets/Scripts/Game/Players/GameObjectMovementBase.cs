@@ -19,7 +19,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private bool side; // false right, true left
 
     //Movement Queue
-    private readonly float minDistanceToTarget = Settings.MinDistanceToTarget;
     private Queue pendingMovementQueue;
     private Vector3 currentTargetPosition;
     private Vector3Int FinalTarget { get; set; }
@@ -418,12 +417,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private bool IsInTargetPosition()
     {
-        return Vector3.Distance(currentTargetPosition, transform.position) < minDistanceToTarget;
+        return Util.IsAtDistanceWithObject(currentTargetPosition, transform.position);
     }
 
     public bool IsInFinalTargetPosition()
     {
-        return Vector3.Distance(FinalTarget, Position) < minDistanceToTarget ||
+        return Util.IsAtDistanceWithObject(FinalTarget, Position) ||
                FinalTarget == Util.GetVector3IntPositiveInfinity();
     }
 }

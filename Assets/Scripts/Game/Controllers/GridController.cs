@@ -299,7 +299,8 @@ public class GridController : MonoBehaviour
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            grid[obj.ActionGridPosition.x, obj.ActionGridPosition.y] = -1;
+            Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetFirstActionTile());
+            grid[ActionGridPosition.x, ActionGridPosition.y] = -1;
         }
         else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
         {
@@ -307,7 +308,8 @@ public class GridController : MonoBehaviour
 
             if (obj.Type == ObjectType.NPC_COUNTER)
             {
-                grid[obj.ActionGridPosition.x, obj.ActionGridPosition.y] = -1;
+                Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetFirstActionTile());
+                grid[ActionGridPosition.x, ActionGridPosition.y] = -1;
             }
         }
     }
@@ -324,8 +326,9 @@ public class GridController : MonoBehaviour
             Vector3Int initActionCell = init + Util.GetActionCellOffSet(final.Type);
             if (IsCoordsValid(initActionCell.x, initActionCell.y))
             {
+                Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(final.GetFirstActionTile());
                 grid[initActionCell.x, initActionCell.y] = 0;
-                grid[final.ActionGridPosition.x, final.ActionGridPosition.y] = -1; // The position in which the table should be attended should be free
+                grid[ActionGridPosition.x, ActionGridPosition.y] = -1; // The position in which the table should be attended should be free
             }
         }
 
@@ -338,11 +341,12 @@ public class GridController : MonoBehaviour
         Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
         Vector3Int currentGridActionPoint = currentGridPos + Util.GetActionCellOffSet(initial.Type);
         Vector3 currentActionPointWorldPos = worldPos + Util.GetActionCellOffSetWorldPositon(initial.Type);
+        Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(initial.GetFirstActionTile());
 
         if (worldPos == initial.WorldPosition ||
-            currentGridActionPoint == initial.ActionGridPosition ||
+            currentGridActionPoint == ActionGridPosition ||
             currentGridActionPoint == initial.GridPosition ||
-            currentGridPos == initial.ActionGridPosition
+            currentGridPos == ActionGridPosition
             )
         {
             return true;
@@ -601,5 +605,4 @@ public class GridController : MonoBehaviour
     {
         return currentClickedActiveGameObject == objName;
     }
-
 }

@@ -147,9 +147,21 @@ PrefabInstance:
       propertyPath: m_SpriteKey
       value: 1.8496186e+24
       objectReference: {fileID: 0}
+    - target: {fileID: 5187907431167298053, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5187907431167298053, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6313366968590005356, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Name
       value: SingleTable
+      objectReference: {fileID: 0}
+    - target: {fileID: 6961405434689085044, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7601953221558675645, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Size.x

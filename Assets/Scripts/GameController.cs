@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using Game.Players;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 // This class in charge of loading the game and prefabs
 public class GameController : MonoBehaviour
 {
     private HashSet<NPCController> npcSet;
-    private const int NPC_MAX_NUMBER = 20;
+    private const int NPC_MAX_NUMBER = 4;
     private int npcId;
     private GridController gridController;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
     private PlayerData playerData;
-    
+
     private void Start()
     {
         npcId = 0;

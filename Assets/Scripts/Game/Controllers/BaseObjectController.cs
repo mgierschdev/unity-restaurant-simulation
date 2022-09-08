@@ -12,60 +12,44 @@ public class BaseObjectController : MonoBehaviour
     private Vector3 initialPosition;
     private Vector3 mousePosition;
     private SortingGroup sortLayer;
-
     private List<SpriteRenderer> tiles;
-    public List<GameObject> ActionTiles {get; set;}
-    public bool[] BusyActionTiles {get; set;}
+    protected List<GameObject> ActionTiles { get; set; }
 
     public void Awake()
     {
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
-        GameObject objectActionTile = transform.Find(Settings.BaseObjectActionTile).gameObject;
+        Util.IsNull(gameGridObject, "BaseObjectController/GridController null");
+        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
 
-        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
+        Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
+        Transform objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2);
+        SpriteRenderer tileUnder = objectTileUnder.GetComponent<SpriteRenderer>();
+        ActionTiles = new List<GameObject>();
+        tiles = new List<SpriteRenderer>(){
+            tileUnder
+        };
+
+        if (objectActionTile)
         {
-            BusyActionTiles = new bool[1];
-            tiles = new List<SpriteRenderer>(){
-              objectTileUnder.GetComponent<SpriteRenderer>(),
-              objectActionTile.GetComponent<SpriteRenderer>()};
-
-            ActionTiles = new List<GameObject>(){
-                objectActionTile
-              };
+            SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
+            tiles.Add(actionTileSpriteRenderer);
+            ActionTiles.Add(objectActionTile.gameObject);
         }
-        else if (Type == ObjectType.NPC_DOUBLE_TABLE)
-        {
-            BusyActionTiles = new bool[2];
-            GameObject objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2).gameObject;
-            tiles = new List<SpriteRenderer>(){
-              objectTileUnder.GetComponent<SpriteRenderer>(),
-              objectActionTile.GetComponent<SpriteRenderer>(),
-              objectSecondActionTile.GetComponent<SpriteRenderer>()};
 
-            ActionTiles = new List<GameObject>(){
-                objectActionTile,
-                objectSecondActionTile
-              };
-        }
-        else
+        if (objectSecondActionTile)
         {
-            tiles = new List<SpriteRenderer>(){
-              objectTileUnder.GetComponent<SpriteRenderer>()
-              };
-            ActionTiles = new List<GameObject>();
-            BusyActionTiles = new bool[1];
+            SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
+            tiles.Add(secondActionTileSprite);
+            ActionTiles.Add(objectSecondActionTile.gameObject);
         }
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        Util.IsNull(gameGridObject, "BaseObjectController/GridController null");
-        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         menu = menuHandler.GetComponent<MenuHandlerController>();
         Grid = gameGridObject.GetComponent<GridController>();
         sortLayer = GetComponent<SortingGroup>();
         Type = ObjectType.UNDEFINED;
-        this.gameGridObject = null;
         initialPosition = transform.position;
     }
 
