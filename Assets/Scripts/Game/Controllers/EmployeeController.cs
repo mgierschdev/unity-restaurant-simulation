@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EmployeeController : GameObjectMovementBase
 {
-    private GameGridObject counter;
+    // private GameGridObject counter;
     private GameGridObject tableToBeAttended;
     [SerializeField]
     private NpcState localState;
@@ -19,7 +19,6 @@ public class EmployeeController : GameObjectMovementBase
         Type = ObjectType.EMPLOYEE;
         localState = NpcState.IDLE;
         Name = transform.name;
-        counter = GameGrid.Counter;
         animationController = GetComponent<PlayerAnimationStateController>();
         idleTime = 0;
 
@@ -80,7 +79,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounterAfterOrder()
     {
-        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || counter == null || !Util.IsAtDistanceWithObject(transform.position,counter.GetActionTile()))
+        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || GameGrid.Counter == null || !Util.IsAtDistanceWithObject(transform.position, GameGrid.Counter.GetActionTile()))
         {
             return;
         }
@@ -123,9 +122,9 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        tableToBeAttended = GameGrid.GetTableWithClient();
+        tableToBeAttended = GameGrid.GetTableWithClient();  
         localState = NpcState.WALKING_TO_TABLE;
-        coordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(GameGrid.GetPathFindingGridFromWorldPosition(counter.GetActionTile()), GameGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile()));
+        coordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()), GameGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile()));
         GoTo(coordOfTableToBeAttended);
     }
 
@@ -141,18 +140,17 @@ public class EmployeeController : GameObjectMovementBase
     //First State
     private void UpdateGoNextToCounter()
     {
-        if (localState != NpcState.IDLE || counter == null)
+        if (localState != NpcState.IDLE || GameGrid.Counter == null)
         {
             return;
         }
-        counter = GameGrid.Counter;
         localState = NpcState.WALKING_TO_COUNTER;
-        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(counter.GetActionTile()));
+        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()));
     }
 
     private void UpdateIsAtCounter()
     {
-        if (localState != NpcState.WALKING_TO_COUNTER || !Util.IsAtDistanceWithObject(transform.position, counter.GetActionTile()) || counter == null)
+        if (localState != NpcState.WALKING_TO_COUNTER || !Util.IsAtDistanceWithObject(transform.position, GameGrid.Counter.GetActionTile()) || GameGrid.Counter == null)
         {
             return;
         }
@@ -162,7 +160,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void RestartStateAfterAttendingTable()
     {
-        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(counter.GetActionTile()));
+        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()));
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         GameGrid.AddFreeBusinessSpots(tableToBeAttended);
         tableToBeAttended.Busy = false;
@@ -171,7 +169,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void RestartState()
     {
-        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(counter.GetActionTile()));
+        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()));
         localState = NpcState.WALKING_TO_COUNTER;
         tableToBeAttended.Busy = false;
         tableToBeAttended = null;
