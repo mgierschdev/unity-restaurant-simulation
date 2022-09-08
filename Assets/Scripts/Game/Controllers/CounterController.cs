@@ -1,19 +1,17 @@
 using UnityEngine;
-using UnityEngine.Rendering;
-
 // Name sof Objects should be unique
 public class CounterController : BaseObjectController
 {
-    GameGridObject counter;
+    private const int COST = 999;
 
     private void Start()
-    {   
-        gameGridObject.Type = ObjectType.NPC_COUNTER;
-        Type = ObjectType.NPC_COUNTER;
-
+    {
+        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
+        Grid = gameGrid.GetComponent<GridController>();
+        gameGridObject = new GameGridObject(this.transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.FRONT, ObjectType.NPC_COUNTER);
         if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {
-            Grid.SetGridObject(counter);
+            Grid.SetGridObject(gameGridObject);
         }
     }
 }

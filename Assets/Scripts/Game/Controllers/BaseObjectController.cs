@@ -16,20 +16,16 @@ public class BaseObjectController : MonoBehaviour
 
     public void Awake()
     {
-        Transform transformObject = gameObject.transform;
-        Vector3 transformPosition = transformObject.position;
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
-        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
-        Util.IsNull(gameGrid, "BaseObjectController/GridController null");
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         menu = menuHandler.GetComponent<MenuHandlerController>();
-        Grid = gameGrid.GetComponent<GridController>();
-        gameGridObject = new GameGridObject(this.transform, Grid.GetPathFindingGridFromWorldPosition(transformPosition), Grid.GetLocalGridFromWorldPosition(transformPosition), COST, ObjectRotation.FRONT);
     }
 
     private void Update()
     {
-        if (Grid.DraggingObject)
+        Debug.Log("Grid "+Grid);
+
+        if (!Grid || Grid.DraggingObject)
         {
             return;
         }

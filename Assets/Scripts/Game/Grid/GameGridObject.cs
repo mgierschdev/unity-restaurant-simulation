@@ -38,14 +38,14 @@ public class GameGridObject : GameObjectBase
         Cost = cost;
     }
 
-    public GameGridObject(Transform transform, Vector3Int gridPosition, Vector3Int localGridPosition, int cost, ObjectRotation position)
+    public GameGridObject(Transform transform, Vector3Int gridPosition, Vector3Int localGridPosition, int cost, ObjectRotation position, ObjectType type)
     {
         objectTransform = transform;
         Name = transform.name;
         WorldPosition = transform.position; // World position on Unity coords
         GridPosition = gridPosition; // Grid position, first position = 0, 0
         LocalGridPosition = localGridPosition;
-        Type = ObjectType.UNDEFINED;
+        Type = type;
         Cost = cost;
         this.position = position;
         spriteRenderer = transform.GetComponent<SpriteRenderer>();
