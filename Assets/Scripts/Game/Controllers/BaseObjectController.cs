@@ -14,6 +14,8 @@ public class BaseObjectController : MonoBehaviour
     private SortingGroup sortLayer;
     private List<SpriteRenderer> tiles;
     protected List<GameObject> ActionTiles { get; set; }
+    //Initial object action position
+    private Vector3Int actionTileOne;
 
     public void Awake()
     {
@@ -50,7 +52,6 @@ public class BaseObjectController : MonoBehaviour
         Grid = gameGridObject.GetComponent<GridController>();
         sortLayer = GetComponent<SortingGroup>();
         Type = ObjectType.UNDEFINED;
-        initialPosition = transform.position;
     }
 
     private void Update()
@@ -79,6 +80,8 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject.GameGridObjectSpriteRenderer = spriteRenderer;
         Grid.SetActiveGameGridObject(gameGridObject);
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
+        actionTileOne = Grid.GetPathFindingGridFromWorldPosition(gameGridObject.GetFirstActionTile());
+        initialPosition = transform.position;
     }
 
     private void OnMouseDrag()
@@ -94,7 +97,7 @@ public class BaseObjectController : MonoBehaviour
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         sortLayer.sortingOrder = 1;
 
-        if (Grid.IsValidBussPosition(currentPos, gameGridObject))
+        if (Grid.IsValidBussPosition(currentPos, gameGridObject, actionTileOne))
         {
             spriteRenderer.color = Util.Available;
             LightAvailableUnderTiles();
@@ -119,7 +122,7 @@ public class BaseObjectController : MonoBehaviour
         Grid.DraggingObject = false;
         sortLayer.sortingOrder = 0;
 
-        if (!Grid.IsValidBussPosition(finalPos, gameGridObject))
+        if (!Grid.IsValidBussPosition(finalPos, gameGridObject, actionTileOne))
         {
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 1);
         }

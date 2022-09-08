@@ -336,17 +336,18 @@ public class GridController : MonoBehaviour
         grid[final.GridPosition.x, final.GridPosition.y] = 1;
     }
 
-    public bool IsValidBussPosition(Vector3 worldPos, GameGridObject initial)
+    public bool IsValidBussPosition(Vector3 worldPos, GameGridObject initial, Vector3Int actionTileOne)
     {
         Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
-        Vector3Int currentGridActionPoint = currentGridPos + Util.GetActionCellOffSet(initial.Type);
         Vector3 currentActionPointWorldPos = worldPos + Util.GetActionCellOffSetWorldPositon(initial.Type);
-        Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(initial.GetFirstActionTile());
+        
+        Vector3Int currentGridActionPoint = currentGridPos + Util.GetActionCellOffSet(initial.Type);
+        
 
         if (worldPos == initial.WorldPosition ||
-            currentGridActionPoint == ActionGridPosition ||
+            currentGridActionPoint == actionTileOne ||
             currentGridActionPoint == initial.GridPosition ||
-            currentGridPos == ActionGridPosition
+            currentGridPos == actionTileOne
             )
         {
             return true;
