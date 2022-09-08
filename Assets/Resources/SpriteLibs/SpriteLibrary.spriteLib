@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Library:
-  - m_Name: 1 Square Objects
-    m_Hash: -683635477
+  - m_Name: Single
+    m_Hash: -854908369
     m_CategoryList: []
     m_OverrideEntries:
     - m_Name: Counter
@@ -22,6 +22,33 @@ MonoBehaviour:
       m_Sprite: {fileID: 21300000, guid: dc4527509d3034af380250244a19d3fd, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: dc4527509d3034af380250244a19d3fd, type: 3}
+    - m_Name: SingleTable-1
+      m_Hash: -1529734353
+      m_Sprite: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
+    - m_Name: SingleTableMirror
+      m_Hash: 1634325640
+      m_Sprite: {fileID: 21300000, guid: bd484b00c6cd743a7a9b72c40efdab7d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: bd484b00c6cd743a7a9b72c40efdab7d, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  - m_Name: Double
+    m_Hash: -582223911
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: DoubleTable
+      m_Hash: -521844217
+      m_Sprite: {fileID: 21300000, guid: 4e37d43038b1148908946dd4fd51136f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 4e37d43038b1148908946dd4fd51136f, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: Chairs
+    m_Hash: -2116698410
+    m_CategoryList: []
+    m_OverrideEntries:
     - m_Name: Chair-1L
       m_Hash: 1702323851
       m_Sprite: {fileID: 21300000, guid: 54d555d678c714490ad975f33e777f1d, type: 3}
@@ -32,32 +59,6 @@ MonoBehaviour:
       m_Sprite: {fileID: 21300000, guid: ee7d52be841fb485d98ae60bd4882dcc, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: ee7d52be841fb485d98ae60bd4882dcc, type: 3}
-    - m_Name: SingleTable-1
-      m_Hash: -1529734353
-      m_Sprite: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
-    - m_Name: DoubleTable-1
-      m_Hash: -379218298
-      m_Sprite: {fileID: 21300000, guid: 4e37d43038b1148908946dd4fd51136f, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 4e37d43038b1148908946dd4fd51136f, type: 3}
-    m_FromMain: 0
-    m_EntryOverrideCount: 5
-  - m_Name: 4 Square Objects
-    m_Hash: -1390849539
-    m_CategoryList: []
-    m_OverrideEntries:
-    - m_Name: Entry
-      m_Hash: -354373004
-      m_Sprite: {fileID: 21300000, guid: 104b7349e0ea94ed693a840af30fe6c7, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 104b7349e0ea94ed693a840af30fe6c7, type: 3}
-    - m_Name: ServedTable-1
-      m_Hash: -1387176783
-      m_Sprite: {fileID: 21300000, guid: 1ae3404dc82e24896ba3e90f08e8cf2b, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 1ae3404dc82e24896ba3e90f08e8cf2b, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 2
   m_PrimaryLibraryGUID: 
