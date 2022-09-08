@@ -400,11 +400,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         this.clickController = controller;
     }
 
-    // private bool IsWalking()
-    // {
-    //     return pendingMovementQueue.Count > 0;
-    // }
-
     public string GetDebugInfo()
     {
         return npcDebug;
