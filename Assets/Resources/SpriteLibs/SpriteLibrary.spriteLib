@@ -27,8 +27,8 @@ MonoBehaviour:
       m_Sprite: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
-    - m_Name: SingleTableMirror
-      m_Hash: 1634325640
+    - m_Name: SingleTable-1-Mirror
+      m_Hash: -1089003077
       m_Sprite: {fileID: 21300000, guid: bd484b00c6cd743a7a9b72c40efdab7d, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: bd484b00c6cd743a7a9b72c40efdab7d, type: 3}

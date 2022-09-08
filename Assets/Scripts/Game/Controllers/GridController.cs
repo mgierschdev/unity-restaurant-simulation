@@ -299,7 +299,7 @@ public class GridController : MonoBehaviour
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetFirstActionTile());
+            Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
             grid[ActionGridPosition.x, ActionGridPosition.y] = -1;
         }
         else if (obj.TileType == TileType.ISOMETRIC_SINGLE_SQUARE_OBJECT)
@@ -308,7 +308,7 @@ public class GridController : MonoBehaviour
 
             if (obj.Type == ObjectType.NPC_COUNTER)
             {
-                Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetFirstActionTile());
+                Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
                 grid[ActionGridPosition.x, ActionGridPosition.y] = -1;
             }
         }
@@ -326,7 +326,7 @@ public class GridController : MonoBehaviour
             Vector3Int initActionCell = init + Util.GetActionCellOffSet(final.Type);
             if (IsCoordsValid(initActionCell.x, initActionCell.y))
             {
-                Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(final.GetFirstActionTile());
+                Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(final.GetActionTile());
                 grid[initActionCell.x, initActionCell.y] = 0;
                 grid[ActionGridPosition.x, ActionGridPosition.y] = -1; // The position in which the table should be attended should be free
             }

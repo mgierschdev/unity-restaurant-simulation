@@ -370,7 +370,8 @@ public static class Util
         return type == ObjectType.NPC_SINGLE_TABLE ? new Vector3Int(0, 1, 0) : Vector3Int.zero;
     }
 
-    public static bool IsAtDistanceWithObject(Vector3 a, Vector3 b){
+    public static bool IsAtDistanceWithObject(Vector3 a, Vector3 b)
+    {
         return Vector3.Distance(new Vector3(a.x, a.y, 0), new Vector3(b.x, b.y, 0)) < Settings.MinDistanceToTarget;
     }
 }
@@ -388,6 +389,14 @@ public enum ObjectType
     NPC_SINGLE_TABLE = 7,
     NPC_DOUBLE_TABLE = 8,
     UNDEFINED = 999
+}
+
+public enum ObjectRotation
+{
+    FRONT = 1,
+    FRONT_INVERTED = 2,
+    BACK = 3,
+    BACK_INVERTED = 4
 }
 
 // To reference from fileNames to object names

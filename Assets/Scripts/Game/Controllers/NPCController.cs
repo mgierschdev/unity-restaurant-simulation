@@ -124,7 +124,7 @@ public class NPCController : GameObjectMovementBase
         table.SetUsed(this);
         table.UsedBy = this;
         localState = NpcState.WALKING_TO_TABLE;
-        targetInWorldPosition = table.GetFirstActionTile();
+        targetInWorldPosition = table.GetActionTile();
         target = GameGrid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
         GoTo(target);
     }
