@@ -4,16 +4,15 @@ using UnityEngine.Rendering;
 // Name sof Objects should be unique
 public class TableController : BaseObjectController
 {
-    private GameGridObject table;
+    private const int COST = 20;
     private void Start()
     {
-        Type = ObjectType.NPC_SINGLE_TABLE;
-        gameGridObject.Type = ObjectType.NPC_SINGLE_TABLE;
-        
-        // we set the object in the grid
-        if (!Util.IsNull(Grid, "TableController/IsometricGridController null"))
+        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
+        Grid = gameGrid.GetComponent<GridController>();
+        gameGridObject = new GameGridObject(this.transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.FRONT, ObjectType.NPC_SINGLE_TABLE);
+        if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {
-            Grid.SetGridObject(table);
+            Grid.SetGridObject(gameGridObject);
         }
     }
 }
