@@ -297,9 +297,6 @@ public class GridController : MonoBehaviour
         {
             businessObjects.TryAdd(obj.Name, obj);
             FreeBusinessSpots.Enqueue(obj); 
-            
-            Debug.Log("FreeBusinessSpotsMap size: "+FreeBusinessSpotsMap.Count);
-
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
             Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
@@ -516,8 +513,6 @@ public class GridController : MonoBehaviour
 
     public void SetGridObject(GameGridObject obj)
     {
-        Debug.Log("SetGridObject: Adding "+obj.Name);
-
         if (obj.Type == ObjectType.NPC_COUNTER)
         {
             Counter = obj;

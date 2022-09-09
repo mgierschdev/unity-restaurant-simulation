@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     private GameObject gameGridObject;
     private GameTile tileSpawn;
     private PlayerData playerData;
+    GameObject NPCS;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
         playerData = new PlayerData(20, moneyText);
         gridController.PlayerData = playerData;
+        NPCS = GameObject.Find(Settings.NPCS).gameObject;
         SpamEmployee();
     }
 
@@ -39,7 +41,7 @@ public class GameController : MonoBehaviour
     {
         tileSpawn = gridController.GetRandomSpamPointWorldPosition();
         GameObject npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
-        npcObject.transform.SetParent(gameObject.transform);
+        npcObject.transform.SetParent(NPCS.transform);
         npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
         NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
         npcSet.Add(isometricNPCController);
@@ -50,7 +52,7 @@ public class GameController : MonoBehaviour
         //Adding Employees
         tileSpawn = gridController.GetRandomSpamPointWorldPosition();
         GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
-        employeeObject.transform.SetParent(gameObject.transform);
+        employeeObject.transform.SetParent(NPCS.transform);
         employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
         //EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
         npcId++;

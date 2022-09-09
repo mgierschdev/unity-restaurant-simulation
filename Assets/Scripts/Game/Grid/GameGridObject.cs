@@ -13,7 +13,6 @@ public class GameGridObject : GameObjectBase
     public bool Busy { get; set; } //Being used by an NPC
     public NPCController UsedBy { get; set; }
 
-
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
         position = ObjectRotation.FRONT;
@@ -120,28 +119,43 @@ public class GameGridObject : GameObjectBase
 
     private void UpdateRotation(ObjectRotation newPosition)
     {
+
+        if(Type != ObjectType.NPC_SINGLE_TABLE){
+            return;
+        }
+
+        Sprite singleSpriteWood = Resources.Load<Sprite>(Settings.SingleWoodenTableSprite);
+        Sprite singleSpriteWoodMirror = Resources.Load<Sprite>(Settings.SingleWoodenTableSpriteMirror);
+
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
-
+                SpriteRenderer.sprite = singleSpriteWood;
+                objectTransform.localScale = new Vector3(1, 1, 1);
                 actionTile = 0;
-                tiles[actionTile + 1].color = Util.Hidden;
-                tiles[actionTile + 2].color = Util.Hidden;
+                tiles[1].color = Util.Hidden;
+                tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.FRONT_INVERTED:
+                SpriteRenderer.sprite = singleSpriteWood;
+                objectTransform.localScale = new Vector3(-1, 1, 1);
                 actionTile = 0;
-                tiles[actionTile + 1].color = Util.Hidden;
-                tiles[actionTile + 2].color = Util.Hidden;
+                tiles[1].color = Util.Hidden;
+                tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.BACK:
+                SpriteRenderer.sprite = singleSpriteWoodMirror;
+                objectTransform.localScale = new Vector3(1, 1, 1);
                 actionTile = 1;
-                tiles[actionTile + 1].color = Util.Hidden;
-                tiles[actionTile + 2].color = Util.Hidden;
+                tiles[1].color = Util.Hidden;
+                tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.BACK_INVERTED:
+                SpriteRenderer.sprite = singleSpriteWoodMirror;
+                objectTransform.localScale = new Vector3(-1, 1, 1);
                 actionTile = 1;
-                tiles[actionTile + 1].color = Util.Hidden;
-                tiles[actionTile + 2].color = Util.Hidden;
+                tiles[1].color = Util.Hidden;
+                tiles[2].color = Util.Hidden;
                 return;
         }
     }

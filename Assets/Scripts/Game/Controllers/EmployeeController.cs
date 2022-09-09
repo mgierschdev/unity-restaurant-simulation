@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EmployeeController : GameObjectMovementBase
 {
-    // private GameGridObject counter;
     private GameGridObject tableToBeAttended;
     [SerializeField]
     private NpcState localState;

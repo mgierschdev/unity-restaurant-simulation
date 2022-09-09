@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 // Controls NPCs players
 // Attached to: NPC Objects
