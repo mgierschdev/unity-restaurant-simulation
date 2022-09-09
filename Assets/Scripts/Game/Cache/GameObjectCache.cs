@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-// Will handle all GetComponent and Find Calls and cache them
+// Will handle all GetComponent and Find Calls and cache the items for future reference
 public static class GameObjectCache {
 
 }

@@ -35,6 +35,10 @@ public static class Settings
     // INVENTORY SPRITE ITEMS
     public const string SingleWoodenTable = "SpriteLibs/MenuItemSprites/MenuItemSingleTableWithChair@3x";
 
+    //OBJECT SPRITES
+    public const string SingleWoodenTableSprite = "Objects/Sprites/SingleTable-1@3x";
+    public const string SingleWoodenTableSpriteMirror = "Objects/Sprites/SingleTable-1-Mirror@3x";
+
     // NPC Default
     public const float MinDistanceToTarget = 0.13f;
     public const float NpcDefaultMovementSpeed = 5f; // 0.7f
@@ -48,7 +52,7 @@ public static class Settings
     public const string ConstTopMenuDisplayMoney = "MoneyText";
     public const string ConstCenterTabMenu = "CenterTabMenu";
     public const string ConstCenterTabMenuBody = "MenuBody";
-    
+
     public const string ConstCenterScrollContent =
         ConstCenterTabMenuBody + "/Panel/DisplayBackground/ScrollView/Viewport/ScrollContent";
 
@@ -83,6 +87,7 @@ public static class Settings
     //SCENE
     public const string GameGrid = "GameGrid";
     public const string MainCamera = "MainCamera";
+    public const string NPCS = "NPCS"; //Stores all NPCs
 
     //Tiles
     private const string GRID_TILES = "Grid/Tiles/";

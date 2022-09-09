@@ -10,11 +10,9 @@ public class TableController : BaseObjectController
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
 
-        Debug.Log("TableController: Setting menu " + Menu);
-
         GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
         Grid = gameGrid.GetComponent<GridController>();
-        gameGridObject = new GameGridObject(this.transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.FRONT, ObjectType.NPC_SINGLE_TABLE);
+        gameGridObject = new GameGridObject(this.transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.BACK, ObjectType.NPC_SINGLE_TABLE);
         if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {
             Grid.SetGridObject(gameGridObject);

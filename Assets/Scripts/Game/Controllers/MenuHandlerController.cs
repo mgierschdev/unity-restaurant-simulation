@@ -400,7 +400,6 @@ public class MenuHandlerController : MonoBehaviour
 
     public bool IsEditPanelOpen()
     {
-        Debug.Log("IsEditPanelOpen: "+editStoreMenuPanel.activeSelf);
         return editStoreMenuPanel.activeSelf;
     }
 

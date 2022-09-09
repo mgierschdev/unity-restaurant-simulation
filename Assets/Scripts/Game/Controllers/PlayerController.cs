@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class PlayerController : GameObjectMovementBase
 {
     // For Handling non-physics related objects

@@ -13,8 +13,6 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Grid " + Grid);
-
         if (!Menu || !Grid || Grid.DraggingObject)
         {
             return;
@@ -32,10 +30,6 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-
-        Debug.Log("BaseObjectController: Menu on mouse down: "+ Menu);
-        
-
         if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
@@ -114,8 +108,6 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.FreeObject();
             Grid.AddFreeBusinessSpots(gameGridObject);
         }
-
-        Debug.Log("IsDraggable(): GameGrid object " + gameGridObject);
         return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
     }
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-// Name sof Objects should be unique
 public class CounterController : BaseObjectController
 {
     private const int COST = 999;
