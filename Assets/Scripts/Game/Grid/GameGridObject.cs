@@ -120,7 +120,8 @@ public class GameGridObject : GameObjectBase
     private void UpdateRotation(ObjectRotation newPosition)
     {
 
-        if(Type != ObjectType.NPC_SINGLE_TABLE){
+        if (Type != ObjectType.NPC_SINGLE_TABLE)
+        {
             return;
         }
 
@@ -164,9 +165,9 @@ public class GameGridObject : GameObjectBase
     {
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
-            tiles[1].color = Util.Hidden;
+            tiles[actionTile + 1].color = Util.Hidden;
         }
-        tiles[0].color = Util.Hidden;
+        tiles[actionTile + 1].color = Util.Hidden;
     }
 
     public void LightOccupiedUnderTiles()
@@ -174,9 +175,9 @@ public class GameGridObject : GameObjectBase
 
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
-            tiles[1].color = Util.LightOccupied;
+            tiles[actionTile + 1].color = Util.LightOccupied;
         }
-        tiles[0].color = Util.LightOccupied;
+        tiles[actionTile + 1].color = Util.LightOccupied;
     }
 
     public void LightAvailableUnderTiles()
@@ -184,8 +185,8 @@ public class GameGridObject : GameObjectBase
 
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
-            tiles[1].color = Util.LightAvailable;
+            tiles[actionTile + 1].color = Util.LightAvailable;
         }
-        tiles[0].color = Util.LightAvailable;
+        tiles[actionTile + 1].color = Util.LightAvailable;
     }
 }

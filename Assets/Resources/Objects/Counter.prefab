@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 936321674220596749, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252620339932531752, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4015554977731466099, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteKey
       value: 1.4654167e+35
@@ -63,6 +71,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: dc4527509d3034af380250244a19d3fd, type: 3}
+    - target: {fileID: 8476283550727071602, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Color.a
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8672831008513955186, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
       value: 0

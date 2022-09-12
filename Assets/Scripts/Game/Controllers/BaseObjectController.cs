@@ -53,7 +53,7 @@ public class BaseObjectController : MonoBehaviour
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         gameGridObject.SortingLayer.sortingOrder = 1;
 
-        if (Grid.IsValidBussPosition(currentPos, gameGridObject, initialActionTileOne))
+        if (Grid.IsValidBussPosition(gameGridObject, currentPos, initialActionTileOne))
         {
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
@@ -78,7 +78,7 @@ public class BaseObjectController : MonoBehaviour
         Grid.DraggingObject = false;
         gameGridObject.SortingLayer.sortingOrder = 0;
 
-        if (!Grid.IsValidBussPosition(finalPos, gameGridObject, initialActionTileOne))
+        if (!Grid.IsValidBussPosition(gameGridObject, finalPos,  initialActionTileOne))
         {
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 1);
             gameGridObject.SpriteRenderer.color = Util.Available;
