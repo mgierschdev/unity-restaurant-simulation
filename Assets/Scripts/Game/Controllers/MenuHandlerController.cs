@@ -347,17 +347,9 @@ public class MenuHandlerController : MonoBehaviour
 
     private void SetEditStorePanelClickListeners()
     {
-        GameObject accept = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuAccept).gameObject;
-        Button bAccept = accept.GetComponent<Button>();
-        bAccept.onClick.AddListener(ItemClicked);
-
         GameObject cancel = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuCancel).gameObject;
         Button bCancel = cancel.GetComponent<Button>();
         bCancel.onClick.AddListener(CloseEditPanel);
-
-        GameObject rotate = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
-        Button bRotate = rotate.GetComponent<Button>();
-        bRotate.onClick.AddListener(OpenEmployeePanel);
     }
 
     private void OpenStoreEditPanel(GameGridObject obj)
