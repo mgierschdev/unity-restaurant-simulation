@@ -512,6 +512,13 @@ public class GridController : MonoBehaviour
         grid[x, y] = 0;
     }
 
+    public void FreeObject(GameGridObject gameGridObject)
+    {
+        grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 0;
+        Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+        grid[gridActionTile.x, gridActionTile.y] = 0;
+    }
+
     public void SetGridObject(GameGridObject obj)
     {
         if (obj.Type == ObjectType.NPC_COUNTER)
