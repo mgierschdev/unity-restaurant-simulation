@@ -13,7 +13,8 @@ public class GameGridObject : GameObjectBase
     private int actionTile;
     public bool Busy { get; set; } //Being used by an NPC
     public NPCController UsedBy { get; set; }
-    GameObject EditMenu { get; set; }
+    public GameObject EditMenu { get; set; }
+    public GridController GridController { get; set; }
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
@@ -39,7 +40,7 @@ public class GameGridObject : GameObjectBase
         Cost = cost;
     }
 
-    public GameGridObject(Transform transform, Vector3Int gridPosition, Vector3Int localGridPosition, int cost, ObjectRotation position, ObjectType type, GameObject EditMenu)
+    public GameGridObject(Transform transform, Vector3Int gridPosition, Vector3Int localGridPosition, int cost, ObjectRotation position, ObjectType type, GameObject editMenu, GridController gridController)
     {
         objectTransform = transform;
         Name = transform.name;
@@ -51,6 +52,8 @@ public class GameGridObject : GameObjectBase
         this.position = position;
         SpriteRenderer = transform.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
+        EditMenu = editMenu;
+        GridController = gridController;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -71,14 +74,16 @@ public class GameGridObject : GameObjectBase
         };
 
         UpdateRotation(position);
+        SetEditPanelClickListeners();
     }
 
-    private void SetEditPanelCLickListeners()
+    private void SetEditPanelClickListeners()
     {
-        GameObject saveObj = objectTransform.Find(Settings.ConstEditStoreMenuSave).gameObject;
+        GameObject saveObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObj.GetComponent<Button>();
         save.onClick.AddListener(() => StoreInInventory());
-        GameObject rotateObj = objectTransform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
+        Debug.Log(save.name);
+        GameObject rotateObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
         Button rotate = rotateObj.GetComponent<Button>();
         rotate.onClick.AddListener(() => RotateObject());
     }
@@ -87,8 +92,8 @@ public class GameGridObject : GameObjectBase
     {
         GameLog.Log("Storing item in Inventory " + Name);
         //Show POPUP confirming action
+        GridController.FreeObject(this);
         UnityEngine.Object.Destroy(objectTransform);
-        
     }
 
     public bool IsLastPositionEqual(Vector3 actionGridPosition)
