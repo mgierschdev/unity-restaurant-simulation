@@ -106,11 +106,13 @@ public class GameGridObject : GameObjectBase
     public void Hide()
     {
         SpriteRenderer.color = Util.Free;
+        EditMenu.SetActive(false);
     }
 
     public void Show()
     {
         SpriteRenderer.color = Util.Available;
+        EditMenu.SetActive(true);
     }
 
     public void SetUsed(NPCController npc)
