@@ -81,11 +81,10 @@ public class GameGridObject : GameObjectBase
     {
         GameObject saveObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObj.GetComponent<Button>();
-        save.onClick.AddListener(() => StoreInInventory());
-        Debug.Log(save.name);
+        save.onClick.AddListener(StoreInInventory);
         GameObject rotateObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
         Button rotate = rotateObj.GetComponent<Button>();
-        rotate.onClick.AddListener(() => RotateObject());
+        rotate.onClick.AddListener(RotateObject);
     }
 
     private void StoreInInventory()
@@ -139,6 +138,7 @@ public class GameGridObject : GameObjectBase
 
     public void RotateObject()
     {
+        Debug.Log("Rotating object");
         int pos = ((int)position + 1) % 4;
         ObjectRotation newPos = (ObjectRotation)pos;
         UpdateRotation(newPos);
@@ -202,6 +202,7 @@ public class GameGridObject : GameObjectBase
 
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
+            tiles[actionTile].color = Util.LightOccupied;
             tiles[actionTile + 1].color = Util.LightOccupied;
         }
         tiles[actionTile + 1].color = Util.LightOccupied;
@@ -212,6 +213,7 @@ public class GameGridObject : GameObjectBase
 
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
+            tiles[actionTile].color = Util.LightAvailable;
             tiles[actionTile + 1].color = Util.LightAvailable;
         }
         tiles[actionTile + 1].color = Util.LightAvailable;
