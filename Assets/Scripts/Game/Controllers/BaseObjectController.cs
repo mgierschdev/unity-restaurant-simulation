@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BaseObjectController : MonoBehaviour
 {
@@ -11,36 +10,6 @@ public class BaseObjectController : MonoBehaviour
     private const int COST = 20; // temporal
     protected GameGridObject gameGridObject;
     protected GridController Grid { get; set; }
-    protected GameObject EditPanel;
-
-    private void Start()
-    {
-        //Edit Panel Disable
-        EditPanel = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-        SetEditPanelCLickListeners();
-        EditPanel.SetActive(false);
-    }
-
-    private void SetEditPanelCLickListeners()
-    {
-        GameObject saveObj = transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
-        Button save = saveObj.GetComponent<Button>();
-        save.onClick.AddListener(() => StoreInInventory());
-        GameObject rotateObj = transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
-        Button rotate = rotateObj.GetComponent<Button>();
-        rotate.onClick.AddListener(() => Rotate());
-    }
-
-    private void StoreInInventory()
-    {
-        GameLog.Log("Storing item in Inventory " + this.name);
-        //Show POPUP confirming action
-        Destroy(gameObject);
-    }
-
-    private void Rotate(){
-        gameGridObject.RotateObject();
-    }
 
     private void Update()
     {

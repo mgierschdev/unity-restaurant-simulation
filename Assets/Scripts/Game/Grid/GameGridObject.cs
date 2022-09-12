@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class GameGridObject : GameObjectBase
 {
@@ -12,6 +13,7 @@ public class GameGridObject : GameObjectBase
     private int actionTile;
     public bool Busy { get; set; } //Being used by an NPC
     public NPCController UsedBy { get; set; }
+    GameObject EditMenu { get; set; }
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
@@ -37,7 +39,7 @@ public class GameGridObject : GameObjectBase
         Cost = cost;
     }
 
-    public GameGridObject(Transform transform, Vector3Int gridPosition, Vector3Int localGridPosition, int cost, ObjectRotation position, ObjectType type)
+    public GameGridObject(Transform transform, Vector3Int gridPosition, Vector3Int localGridPosition, int cost, ObjectRotation position, ObjectType type, GameObject EditMenu)
     {
         objectTransform = transform;
         Name = transform.name;
@@ -69,6 +71,24 @@ public class GameGridObject : GameObjectBase
         };
 
         UpdateRotation(position);
+    }
+
+    private void SetEditPanelCLickListeners()
+    {
+        GameObject saveObj = objectTransform.Find(Settings.ConstEditStoreMenuSave).gameObject;
+        Button save = saveObj.GetComponent<Button>();
+        save.onClick.AddListener(() => StoreInInventory());
+        GameObject rotateObj = objectTransform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
+        Button rotate = rotateObj.GetComponent<Button>();
+        rotate.onClick.AddListener(() => RotateObject());
+    }
+
+    private void StoreInInventory()
+    {
+        GameLog.Log("Storing item in Inventory " + Name);
+        //Show POPUP confirming action
+        UnityEngine.Object.Destroy(objectTransform);
+        
     }
 
     public bool IsLastPositionEqual(Vector3 actionGridPosition)
