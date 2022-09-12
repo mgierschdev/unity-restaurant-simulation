@@ -26,19 +26,19 @@ public class GridController : MonoBehaviour
     //Floor
     private Tilemap tilemapFloor;
     private List<GameTile> listFloorTileMap;
-    private Dictionary<Vector3, GameTile> mapFloor;
+    private Dictionary<Vector3Int, GameTile> mapFloor;
     //WalkingPath 
     private Tilemap tilemapWalkingPath;
     private List<GameTile> listWalkingPathTileMap;
-    private Dictionary<Vector3, GameTile> mapWalkingPath;
+    private Dictionary<Vector3Int, GameTile> mapWalkingPath;
     //Colliders
     private Tilemap tilemapColliders;
     private List<GameTile> listCollidersTileMap;
-    private Dictionary<Vector3, GameTile> mapColliders;
+    private Dictionary<Vector3Int, GameTile> mapColliders;
     //Objects
     private Tilemap tilemapObjects;
     private List<GameTile> listObjectsTileMap;
-    private Dictionary<Vector3, GameTile> mapObjects;
+    private Dictionary<Vector3Int, GameTile> mapObjects;
     //Prefabs in the TilemapObjects
     private Dictionary<string, GameGridObject> businessObjects;
     private Dictionary<string, GameGridObject> BusyBusinessSpotsMap { get; set; }
@@ -49,7 +49,7 @@ public class GridController : MonoBehaviour
     //Business floor
     private Tilemap tilemapBusinessFloor;
     private List<GameTile> listBusinessFloor;
-    private Dictionary<Vector3, GameTile> mapBusinessFloor;
+    private Dictionary<Vector3Int, GameTile> mapBusinessFloor;
     private string currentClickedActiveGameObject;
     private int[,] arroundVectorPoints;
     public bool DraggingObject;
@@ -63,15 +63,15 @@ public class GridController : MonoBehaviour
         spamPoints = new List<GameTile>();
 
         tilemapFloor = GameObject.Find(Settings.TilemapFloor0).GetComponent<Tilemap>();
-        mapFloor = new Dictionary<Vector3, GameTile>();
+        mapFloor = new Dictionary<Vector3Int, GameTile>();
         listFloorTileMap = new List<GameTile>();
 
         tilemapColliders = GameObject.Find(Settings.TilemapColliders).GetComponent<Tilemap>();
-        mapColliders = new Dictionary<Vector3, GameTile>();
+        mapColliders = new Dictionary<Vector3Int, GameTile>();
         listCollidersTileMap = new List<GameTile>();
 
         tilemapObjects = GameObject.Find(Settings.TilemapObjects).GetComponent<Tilemap>();
-        mapObjects = new Dictionary<Vector3, GameTile>();
+        mapObjects = new Dictionary<Vector3Int, GameTile>();
         listObjectsTileMap = new List<GameTile>();
         FreeBusinessSpots = new Queue<GameGridObject>();
         TablesWithClient = new Queue<GameGridObject>();
@@ -80,12 +80,12 @@ public class GridController : MonoBehaviour
         businessObjects = new Dictionary<string, GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
-        mapWalkingPath = new Dictionary<Vector3, GameTile>();
+        mapWalkingPath = new Dictionary<Vector3Int, GameTile>();
         listWalkingPathTileMap = new List<GameTile>();
 
         tilemapBusinessFloor = GameObject.Find(Settings.TilemapBusinessFloor).GetComponent<Tilemap>();
         listBusinessFloor = new List<GameTile>();
-        mapBusinessFloor = new Dictionary<Vector3, GameTile>();
+        mapBusinessFloor = new Dictionary<Vector3Int, GameTile>();
 
         if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null || tilemapPathFinding == null ||
             tilemapWalkingPath == null || tilemapBusinessFloor == null)
@@ -207,7 +207,7 @@ public class GridController : MonoBehaviour
         // }
     }
 
-    private void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3, GameTile> map)
+    private void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3Int, GameTile> map)
     {
         foreach (Vector3 pos in tilemap.cellBounds.allPositionsWithin)
         {
@@ -221,7 +221,7 @@ public class GridController : MonoBehaviour
                 TileType tileType = Util.GetTileType(tile.name);
                 GameTile gameTile = new GameTile(placeInWorld, gridPosition, GetLocalGridFromWorldPosition(placeInWorld), tileType, Util.GetTileObjectType(Util.GetTileType(tile.name)), tile);
                 list.Add(gameTile);
-                map.TryAdd(gameTile.WorldPosition, gameTile);
+                map.TryAdd(gridPosition, gameTile);
 
                 if (tileType == TileType.FLOOR_OBSTACLE)
                 {
@@ -296,7 +296,7 @@ public class GridController : MonoBehaviour
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             businessObjects.TryAdd(obj.Name, obj);
-            FreeBusinessSpots.Enqueue(obj); 
+            FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
             Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
@@ -336,35 +336,36 @@ public class GridController : MonoBehaviour
         grid[final.GridPosition.x, final.GridPosition.y] = 1;
     }
 
-    public bool IsValidBussPosition(Vector3 worldPos, GameGridObject initial, Vector3Int actionTileOne)
+    // worldPos = Current position of the object while dragging, actionTileOne: the initial actiontile in grid coord
+    public bool IsValidBussPosition(GameGridObject initial, Vector3 worldPos, Vector3Int actionTileOne)
     {
         Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
-        Vector3 currentActionPointWorldPos = worldPos + Util.GetActionCellOffSetWorldPositon(initial.Type);
-        
-        Vector3Int currentGridActionPoint = currentGridPos + Util.GetActionCellOffSet(initial.Type);
-        
+        Vector3 currentActionPointWorldPos = initial.GetActionTile();
+        Vector3Int currentActionPointInGrid = GetPathFindingGridFromWorldPosition(currentActionPointWorldPos);
 
+        // If we are at the initial grid position we return true
         if (worldPos == initial.WorldPosition ||
-            currentGridActionPoint == actionTileOne ||
-            currentGridActionPoint == initial.GridPosition ||
+            currentActionPointInGrid == actionTileOne ||
+            currentActionPointInGrid == initial.GridPosition ||
             currentGridPos == actionTileOne
             )
         {
             return true;
         }
 
+        // If the coords are ousite the perimter we return false, or if the position is different than 0
         if (!IsCoordsValid(currentGridPos.x, currentGridPos.y) ||
-        !IsCoordsValid(currentGridActionPoint.x, currentGridActionPoint.y) ||
-        grid[currentGridActionPoint.x, currentGridActionPoint.y] != 0
+        !IsCoordsValid(currentActionPointInGrid.x, currentActionPointInGrid.y) ||
+        grid[currentActionPointInGrid.x, currentActionPointInGrid.y] != 0 ||
+        grid[currentGridPos.x, currentGridPos.y] != 0
         )
         {
             return false;
         }
 
-        if (grid[currentGridPos.x, currentGridPos.y] == 0 &&
-        grid[currentGridPos.x, currentGridPos.y] != -1 &&
-        mapBusinessFloor.ContainsKey(worldPos) &&
-        mapBusinessFloor.ContainsKey(currentActionPointWorldPos))
+        // if the current grid position is in the buss map we return trues
+        if (mapBusinessFloor.ContainsKey(currentGridPos) &&
+        mapBusinessFloor.ContainsKey(currentActionPointInGrid))
         {
             return true;
         }
