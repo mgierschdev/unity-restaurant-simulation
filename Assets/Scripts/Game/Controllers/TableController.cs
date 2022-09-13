@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 // Name sof Objects should be unique
 public class TableController : BaseObjectController
@@ -8,12 +9,15 @@ public class TableController : BaseObjectController
     {
         //Edit Panel Disable
         GameObject EditPanel = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
+        GameObject saveObj = EditPanel.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
+        Button save = saveObj.GetComponent<Button>();
+        save.onClick.AddListener(PrintH);
 
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
         GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
-        
+
         Grid = gameGrid.GetComponent<GridController>();
         gameGridObject = new GameGridObject(this.transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.FRONT, ObjectType.NPC_SINGLE_TABLE, EditPanel, Grid);
         if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
@@ -21,5 +25,10 @@ public class TableController : BaseObjectController
             Grid.SetGridObject(gameGridObject);
             EditPanel.SetActive(false);
         }
+    }
+
+    protected void PrintH()
+    {
+        Debug.Log("Print on Click");
     }
 }
