@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BaseObjectController : MonoBehaviour
 {
@@ -11,17 +10,6 @@ public class BaseObjectController : MonoBehaviour
     private const int COST = 20; // temporal
     protected GameGridObject gameGridObject;
     protected GridController Grid { get; set; }
-
-    private void Start(){
-        GameObject obj = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-        GameObject saveObj = obj.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
-        Button save = saveObj.GetComponent<Button>();
-        save.onClick.AddListener(PrintH);
-    }
-
-    private void PrintH(){
-        Debug.Log("Print on lick");
-    }
 
     private void Update()
     {
@@ -63,7 +51,6 @@ public class BaseObjectController : MonoBehaviour
         // Mark 2 tiles of the object action tile and position tile
         Vector3 currentPos = Grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
-        gameGridObject.SortingLayer.sortingOrder = 1;
 
         if (Grid.IsValidBussPosition(gameGridObject, currentPos, initialActionTileOne))
         {
@@ -88,7 +75,6 @@ public class BaseObjectController : MonoBehaviour
 
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
         Grid.DraggingObject = false;
-        gameGridObject.SortingLayer.sortingOrder = 0;
 
         if (!Grid.IsValidBussPosition(gameGridObject, finalPos, initialActionTileOne))
         {
