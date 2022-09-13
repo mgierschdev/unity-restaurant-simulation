@@ -74,7 +74,9 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
+        Vector3Int init = gameGridObject.GridPosition;
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
+        Vector3Int finalActionTile = Grid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         Grid.DraggingObject = false;
 
         if (!Grid.IsValidBussPosition(gameGridObject, finalPos, initialActionTileOne))
@@ -85,10 +87,11 @@ public class BaseObjectController : MonoBehaviour
         }
         else
         {
-            Vector3Int init = gameGridObject.GridPosition;
+            Debug.Log("Swapping positions");
+            gameGridObject.UpdateCoords();
             initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
-            gameGridObject.UpdateCoords(Grid.GetPathFindingGridFromWorldPosition(finalPos), Grid.GetLocalGridFromWorldPosition(finalPos), finalPos);
-            Grid.UpdateGridPosition(init, gameGridObject);
+            Grid.SwapCoords(init.x, init.y, gameGridObject.GridPosition.x, gameGridObject.GridPosition.y);
+            Grid.SwapCoords(initialActionTileOne.x, initialActionTileOne.y, finalActionTile.x, finalActionTile.y);
         }
     }
 

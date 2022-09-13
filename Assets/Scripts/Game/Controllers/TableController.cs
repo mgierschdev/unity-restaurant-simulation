@@ -9,10 +9,6 @@ public class TableController : BaseObjectController
     {
         //Edit Panel Disable
         GameObject EditPanel = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-        GameObject saveObj = EditPanel.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
-        Button save = saveObj.GetComponent<Button>();
-        save.onClick.AddListener(PrintH);
-
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
@@ -27,8 +23,4 @@ public class TableController : BaseObjectController
         }
     }
 
-    protected void PrintH()
-    {
-        Debug.Log("Print on Click");
-    }
 }

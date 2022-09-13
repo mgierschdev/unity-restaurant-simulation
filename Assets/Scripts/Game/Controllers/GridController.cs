@@ -223,16 +223,6 @@ public class GridController : MonoBehaviour
                 list.Add(gameTile);
                 map.TryAdd(gridPosition, gameTile);
 
-                if (tileType == TileType.FLOOR_OBSTACLE)
-                {
-                    SetIsometricGameTileCollider(gameTile);
-                }
-
-                if (tileType == TileType.ISOMETRIC_GRID_TILE)
-                {
-                    SetIsometricGameTileCollider(gameTile);
-                }
-
                 if (tileType == TileType.WALKABLE_PATH)
                 {
                     grid[gridPosition.x, gridPosition.y] = 0;
@@ -252,7 +242,7 @@ public class GridController : MonoBehaviour
     }
 
     // In GameMap/Grid coordinates This sets the obstacle points around the obstacle
-    private void SetGridObstacle(int x, int y, ObjectType type, Color color)
+    private void SetGridObstacle(int x, int y, ObjectType type)
     {
         if (!IsCoordsValid(x, y) || x < 0 || y < 0)
         {
@@ -267,24 +257,7 @@ public class GridController : MonoBehaviour
         {
             grid[x, y] = (int)type;
         }
-        // if (ObjectType.OBSTACLE == type && Settings.DebugEnable)
-        // {
-        //     SetCellColor(x, y, color);
-        // }
     }
-
-    //Sets 1 isometric cell
-    // private void SetGridObstacle(Vector3Int pos)
-    // {
-    //     grid[pos.x, pos.y] = 1;
-    //     grid[pos.x + 1, pos.y] = 1;
-    //     grid[pos.x + 1, pos.y + 1] = 1;
-    //     grid[pos.x, pos.y + 1] = 1;
-    //     SetCellColor(pos.x, pos.y, Color.blue);
-    //     SetCellColor(pos.x + 1, pos.y, Color.blue);
-    //     SetCellColor(pos.x + 1, pos.y + 1, Color.blue);
-    //     SetCellColor(pos.x, pos.y + 1, Color.blue);
-    // }
 
     private bool IsCoordsValid(int x, int y)
     {
@@ -312,28 +285,6 @@ public class GridController : MonoBehaviour
                 grid[ActionGridPosition.x, ActionGridPosition.y] = -1;
             }
         }
-    }
-
-    public void UpdateGridPosition(Vector3Int init, GameGridObject final)
-    {
-        if (!IsCoordsValid(init.x, init.y) || !IsCoordsValid(final.GridPosition.x, final.GridPosition.y))
-        {
-            return;
-        }
-
-        if (final.Type == ObjectType.NPC_SINGLE_TABLE)
-        {
-            Vector3Int initActionCell = init + Util.GetActionCellOffSet(final.Type);
-            if (IsCoordsValid(initActionCell.x, initActionCell.y))
-            {
-                Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(final.GetActionTile());
-                grid[initActionCell.x, initActionCell.y] = 0;
-                grid[ActionGridPosition.x, ActionGridPosition.y] = -1; // The position in which the table should be attended should be free
-            }
-        }
-
-        grid[init.x, init.y] = 0;
-        grid[final.GridPosition.x, final.GridPosition.y] = 1;
     }
 
     // worldPos = Current position of the object while dragging, actionTileOne: the initial actiontile in grid coord
@@ -396,15 +347,6 @@ public class GridController : MonoBehaviour
         return null;
     }
 
-    //Default for 0.25 tile cell
-    private void SetIsometricGameTileCollider(GameTile tile)
-    {
-        SetGridObstacle(tile.GridPosition.x, tile.GridPosition.y, tile.Type, Color.blue);
-        SetGridObstacle(tile.GridPosition.x + 1, tile.GridPosition.y, tile.Type, Color.blue);
-        SetGridObstacle(tile.GridPosition.x + 1, tile.GridPosition.y + 1, tile.Type, Color.blue);
-        SetGridObstacle(tile.GridPosition.x, tile.GridPosition.y + 1, tile.Type, Color.blue);
-    }
-
     public void HighlightGridBussFloor()
     {
         // If we Highlight we are in edit mode
@@ -465,7 +407,7 @@ public class GridController : MonoBehaviour
         //int x, int y, ObjectType type, Color? color = null
         for (int i = x1; i <= x2; i++)
         {
-            SetGridObstacle(row, i, ObjectType.OBSTACLE, Color.black);
+            SetGridObstacle(row, i, ObjectType.OBSTACLE);
         }
     }
 
@@ -512,6 +454,15 @@ public class GridController : MonoBehaviour
         grid[x, y] = 0;
     }
 
+    public void SwapCoords(int x1, int y1, int x2, int y2)
+    {
+        GameLog.Log(" ");
+        GameLog.Log("Swapping: " + grid[x1, y1] + " " + grid[x2, y2]);
+        (grid[x1, y1], grid[x2, y2]) = (grid[x2, y2], grid[x1, y1]);
+        GameLog.Log("Swapping: " + grid[x1, y1] + " " + grid[x2, y2]);
+    }
+
+    // called when the object is destroyed
     public void FreeObject(GameGridObject gameGridObject)
     {
         grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 0;
@@ -613,5 +564,34 @@ public class GridController : MonoBehaviour
     public bool IsThisSelectedObject(string objName)
     {
         return currentClickedActiveGameObject == objName;
+    }
+
+    public string BussGridToText()
+    {
+        string output = " ";
+        int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
+        int minX = int.MaxValue;
+        int minY = int.MaxValue; 
+        int maxX = int.MinValue;
+        int maxY = int.MinValue; 
+
+        foreach(GameTile tile in listBusinessFloor){
+            minX = Mathf.Min(minX, tile.GridPosition.x);
+            minY = Mathf.Min(minY, tile.GridPosition.y);
+            maxX = Mathf.Max(maxX, tile.GridPosition.x);
+            maxY = Mathf.Max(maxY, tile.GridPosition.y);
+
+            busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
+        }
+
+        for (int i = minX; i <= maxX; i++)
+        {
+            for (int j = minY; j <= maxY; j++)
+            {
+                output += " " + busGrid[i, j];
+            }
+            output += "\n";
+        }
+        return output;
     }
 }
