@@ -14,7 +14,7 @@ public class GameGridObject : GameObjectBase
     public bool Busy { get; set; } //Being used by an NPC
     public NPCController UsedBy { get; set; }
     public GameObject EditMenu { get; set; }
-    public GridController GridController { get; set; }
+    private GridController gridController;
     private GameObject objectWithSprite;
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
@@ -55,7 +55,7 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
         EditMenu = editMenu;
-        GridController = gridController;
+        this.gridController = gridController;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -93,7 +93,7 @@ public class GameGridObject : GameObjectBase
     {
         GameLog.Log("Storing item in Inventory " + Name);
         //Show POPUP confirming action
-        GridController.FreeObject(this);
+        gridController.FreeObject(this);
         Object.Destroy(objectTransform.gameObject);
     }
 
@@ -102,11 +102,11 @@ public class GameGridObject : GameObjectBase
         return Util.IsAtDistanceWithObject(GetActionTile(), actionGridPosition);
     }
 
-    public void UpdateCoords(Vector3Int gridPosition, Vector3Int localGridPosition, Vector3 worldPosition)
+    public void UpdateCoords()
     {
-        GridPosition = gridPosition;
-        LocalGridPosition = localGridPosition;
-        WorldPosition = worldPosition;
+        GridPosition = gridController.GetPathFindingGridFromWorldPosition(objectTransform.position);
+        LocalGridPosition = gridController.GetLocalGridFromWorldPosition(objectTransform.position);
+        WorldPosition = objectTransform.position;
     }
 
     public void Hide()
@@ -140,12 +140,13 @@ public class GameGridObject : GameObjectBase
 
     public void RotateObject()
     {
-        Debug.Log("1. Rotating " + position);
+        Vector3Int prev = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
         position++;
         int pos = (int)position % 4 == 0 ? 4 : (int)position % 4;
-        Debug.Log("1. Rotating " + position);
         ObjectRotation newPos = (ObjectRotation)pos;
         UpdateRotation(newPos);
+        Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
+        gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
     }
 
     private void UpdateRotation(ObjectRotation newPosition)
