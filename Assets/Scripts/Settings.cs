@@ -28,9 +28,10 @@ public static class Settings
     public const string PrefabInventoryItem = "Menu/InventoryItem";
     public const string PrefabInventoryItemImage = "Image";
     public const string PrefabInventoryItemTextPrice = "Image/TextBackground/Price";
-    public const string BaseObjectUnderTile = "Tiles/UnderTile";
-    public const string BaseObjectActionTile = "Tiles/ActionTile";
-    public const string BaseObjectActionTile2 = "Tiles/ActionTile2";
+    public const string BaseObjectUnderTile = "Object/Tiles/UnderTile";
+    public const string BaseObjectActionTile = "Object/Tiles/ActionTile";
+    public const string BaseObjectActionTile2 = "Object/Tiles/ActionTile2";
+    public const string BaseObjectSpriteRenderer = "Object";
 
     // INVENTORY SPRITE ITEMS
     public const string SingleWoodenTable = "SpriteLibs/MenuItemSprites/MenuItemSingleTableWithChair@3x";

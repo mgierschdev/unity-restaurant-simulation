@@ -15,6 +15,7 @@ public class GameGridObject : GameObjectBase
     public NPCController UsedBy { get; set; }
     public GameObject EditMenu { get; set; }
     public GridController GridController { get; set; }
+    private GameObject objectWithSprite;
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
@@ -50,7 +51,8 @@ public class GameGridObject : GameObjectBase
         Type = type;
         Cost = cost;
         this.position = position;
-        SpriteRenderer = transform.GetComponent<SpriteRenderer>();
+        objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
+        SpriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
         EditMenu = editMenu;
         GridController = gridController;
@@ -92,7 +94,7 @@ public class GameGridObject : GameObjectBase
         GameLog.Log("Storing item in Inventory " + Name);
         //Show POPUP confirming action
         GridController.FreeObject(this);
-        UnityEngine.Object.Destroy(objectTransform);
+        Object.Destroy(objectTransform.gameObject);
     }
 
     public bool IsLastPositionEqual(Vector3 actionGridPosition)
@@ -138,8 +140,10 @@ public class GameGridObject : GameObjectBase
 
     public void RotateObject()
     {
-        Debug.Log("Rotating object");
-        int pos = ((int)position + 1) % 4;
+        Debug.Log("1. Rotating " + position);
+        position++;
+        int pos = (int)position % 4 == 0 ? 4 : (int)position % 4;
+        Debug.Log("1. Rotating " + position);
         ObjectRotation newPos = (ObjectRotation)pos;
         UpdateRotation(newPos);
     }
@@ -159,31 +163,35 @@ public class GameGridObject : GameObjectBase
         {
             case ObjectRotation.FRONT:
                 SpriteRenderer.sprite = singleSpriteWood;
-                objectTransform.localScale = new Vector3(1, 1, 1);
+                objectWithSprite.transform.localScale = new Vector3(1, 1, 1);
                 actionTile = 0;
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.Hidden;
+                tiles[actionTile + 1].color = Util.LightAvailable;
                 return;
             case ObjectRotation.FRONT_INVERTED:
                 SpriteRenderer.sprite = singleSpriteWood;
-                objectTransform.localScale = new Vector3(-1, 1, 1);
+                objectWithSprite.transform.localScale = new Vector3(-1, 1, 1);
                 actionTile = 0;
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.Hidden;
+                tiles[actionTile + 1].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK:
                 SpriteRenderer.sprite = singleSpriteWoodMirror;
-                objectTransform.localScale = new Vector3(1, 1, 1);
+                objectWithSprite.transform.localScale = new Vector3(1, 1, 1);
                 actionTile = 1;
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.Hidden;
+                tiles[actionTile + 1].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK_INVERTED:
                 SpriteRenderer.sprite = singleSpriteWoodMirror;
-                objectTransform.localScale = new Vector3(-1, 1, 1);
+                objectWithSprite.transform.localScale = new Vector3(-1, 1, 1);
                 actionTile = 1;
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.Hidden;
+                tiles[actionTile + 1].color = Util.LightAvailable;
                 return;
         }
     }
@@ -201,7 +209,6 @@ public class GameGridObject : GameObjectBase
 
     public void LightOccupiedUnderTiles()
     {
-
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
             tiles[actionTile].color = Util.LightOccupied;
