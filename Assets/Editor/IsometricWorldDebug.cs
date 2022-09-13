@@ -69,7 +69,6 @@ public class IsometricWorldDebug : EditorWindow
         if (gridDebugEnabled && gameGridController)
         {
             gridDebugContent.text = gameGridController.BussGridToText();
-            Debug.Log("Setting grid debug content");
         }
     }
 }

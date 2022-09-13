@@ -147,6 +147,7 @@ public class GameGridObject : GameObjectBase
         UpdateRotation(newPos);
         Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
         gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
+        UpdateCoords();
     }
 
     private void UpdateRotation(ObjectRotation newPosition)

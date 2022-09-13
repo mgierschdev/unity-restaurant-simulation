@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class BaseObjectController : MonoBehaviour
 {
@@ -52,6 +53,9 @@ public class BaseObjectController : MonoBehaviour
         // Mark 2 tiles of the object action tile and position tile
         Vector3 currentPos = Grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
+        //So it will overlay over the rest of the items while dragging
+        gameGridObject.SortingLayer.sortingOrder = 2;
+        
 
         if (Grid.IsValidBussPosition(gameGridObject, currentPos, initialActionTileOne))
         {
@@ -87,11 +91,12 @@ public class BaseObjectController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Swapping positions");
+            Debug.Log("Valid position changing cords");
             gameGridObject.UpdateCoords();
-            initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
-            Grid.SwapCoords(init.x, init.y, gameGridObject.GridPosition.x, gameGridObject.GridPosition.y);
+            Vector3Int initGridPosition = Grid.GetPathFindingGridFromWorldPosition(initialPosition);
+            Grid.SwapCoords(initGridPosition.x, initGridPosition.y, gameGridObject.GridPosition.x, gameGridObject.GridPosition.y);
             Grid.SwapCoords(initialActionTileOne.x, initialActionTileOne.y, finalActionTile.x, finalActionTile.y);
+            initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
         }
     }
 
