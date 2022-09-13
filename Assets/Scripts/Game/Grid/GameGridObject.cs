@@ -165,33 +165,29 @@ public class GameGridObject : GameObjectBase
                 SpriteRenderer.sprite = singleSpriteWood;
                 objectWithSprite.transform.localScale = new Vector3(1, 1, 1);
                 actionTile = 0;
-                tiles[1].color = Util.Hidden;
+                tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
-                tiles[actionTile + 1].color = Util.LightAvailable;
                 return;
             case ObjectRotation.FRONT_INVERTED:
                 SpriteRenderer.sprite = singleSpriteWood;
                 objectWithSprite.transform.localScale = new Vector3(-1, 1, 1);
                 actionTile = 0;
-                tiles[1].color = Util.Hidden;
+                tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
-                tiles[actionTile + 1].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK:
                 SpriteRenderer.sprite = singleSpriteWoodMirror;
                 objectWithSprite.transform.localScale = new Vector3(1, 1, 1);
                 actionTile = 1;
                 tiles[1].color = Util.Hidden;
-                tiles[2].color = Util.Hidden;
-                tiles[actionTile + 1].color = Util.LightAvailable;
+                tiles[2].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK_INVERTED:
                 SpriteRenderer.sprite = singleSpriteWoodMirror;
                 objectWithSprite.transform.localScale = new Vector3(-1, 1, 1);
                 actionTile = 1;
                 tiles[1].color = Util.Hidden;
-                tiles[2].color = Util.Hidden;
-                tiles[actionTile + 1].color = Util.LightAvailable;
+                tiles[2].color = Util.LightAvailable;
                 return;
         }
     }
@@ -203,28 +199,35 @@ public class GameGridObject : GameObjectBase
             tiles[actionTile].color = Util.Hidden;
             tiles[actionTile + 1].color = Util.Hidden;
         }
-
-        tiles[actionTile + 1].color = Util.Hidden;
+        else
+        {
+            tiles[actionTile + 1].color = Util.Hidden;
+        }
     }
 
     public void LightOccupiedUnderTiles()
     {
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
-            tiles[actionTile].color = Util.LightOccupied;
+            tiles[0].color = Util.LightOccupied;
             tiles[actionTile + 1].color = Util.LightOccupied;
         }
-        tiles[actionTile + 1].color = Util.LightOccupied;
+        else
+        {
+            tiles[actionTile + 1].color = Util.LightOccupied;
+        }
     }
 
     public void LightAvailableUnderTiles()
     {
-
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
-            tiles[actionTile].color = Util.LightAvailable;
+            tiles[0].color = Util.LightAvailable;
             tiles[actionTile + 1].color = Util.LightAvailable;
         }
-        tiles[actionTile + 1].color = Util.LightAvailable;
+        else
+        {
+            tiles[actionTile + 1].color = Util.LightAvailable;
+        }
     }
 }
