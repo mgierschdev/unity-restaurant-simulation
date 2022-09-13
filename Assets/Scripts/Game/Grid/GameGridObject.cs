@@ -192,8 +192,10 @@ public class GameGridObject : GameObjectBase
     {
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
+            tiles[actionTile].color = Util.Hidden;
             tiles[actionTile + 1].color = Util.Hidden;
         }
+
         tiles[actionTile + 1].color = Util.Hidden;
     }
 

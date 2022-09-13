@@ -8948,7 +8948,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.9385492}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -13.479919, y: -1092.77}
+  m_AnchoredPosition: {x: -13.479858, y: -1092.77}
   m_SizeDelta: {x: 438.33337, y: 2185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &752405866
@@ -9781,7 +9781,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 454929258}
   m_Direction: 2
   m_Value: 1.0000004
-  m_Size: 0.7107539
+  m_Size: 0.71075386
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13622,6 +13622,14 @@ PrefabInstance:
     - target: {fileID: 1821819744092069859, guid: 1e88e95bb3a1f4eb1908228b328dda6b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5294199867955422854, guid: 1e88e95bb3a1f4eb1908228b328dda6b, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 451626878}
+    - target: {fileID: 5294199867955422854, guid: 1e88e95bb3a1f4eb1908228b328dda6b, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 477100387
       objectReference: {fileID: 0}
     - target: {fileID: 7077515298240516130, guid: 1e88e95bb3a1f4eb1908228b328dda6b, type: 3}
       propertyPath: m_Name
