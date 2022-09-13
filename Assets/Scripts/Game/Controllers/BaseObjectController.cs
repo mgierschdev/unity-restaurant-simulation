@@ -34,6 +34,7 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
+
         Grid.SetActiveGameGridObject(gameGridObject);
         mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
         initialActionTileOne = Grid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
