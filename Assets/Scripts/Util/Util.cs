@@ -306,6 +306,28 @@ public static class Util
         return ObjectType.UNDEFINED;
     }
 
+    // Object definition in MenuObjectList
+    // E.g:
+    // new GameGridObject("Wooden table"
+    // new GameGridObject("Dark wood table"
+    // new GameGridObject("Wooden table"
+    // new GameGridObject("Dark wood table"
+    // new GameGridObject("Wooden table"
+    // new GameGridObject("Dark wood table"
+    // new GameGridObject("Wooden table"
+    // new GameGridObject("Dark wood table"
+    // new GameGridObject("Iron table"
+    public static ObjectName GetObjectName(string name)
+    {
+        switch (name)
+        {
+            case "Wooden table":
+                return ObjectName.WOONDEN_TABLE_SINGLE;
+        }
+
+        return ObjectName.UNDEFINED;
+    }
+
     public static ObjectType GetObjectType(GameObject gameObject)
     {
         return gameObject.tag switch
@@ -322,7 +344,7 @@ public static class Util
 
         foreach (Component c in components)
         {
-            GameLog.Log("Component: "+c.name + " " + c.ToString()+" "+c.GetType());
+            GameLog.Log("Component: " + c.name + " " + c.ToString() + " " + c.GetType());
         }
     }
 
@@ -375,91 +397,4 @@ public static class Util
     {
         return Vector3.Distance(new Vector3(a.x, a.y, 0), new Vector3(b.x, b.y, 0)) < Settings.MinDistanceToTarget;
     }
-}
-
-//Item types
-// to reference the type of object, each with different properties
-public enum ObjectType
-{
-    OBSTACLE = 1,
-    NPC = 2,
-    PLAYER = 3,
-    EMPLOYEE = 4,
-    NPC_COUNTER = 5,
-    FLOOR = 6,
-    NPC_SINGLE_TABLE = 7,
-    NPC_DOUBLE_TABLE = 8,
-    UNDEFINED = 999
-}
-
-public enum ObjectRotation
-{
-    FRONT = 1,
-    FRONT_INVERTED = 2,
-    BACK = 3,
-    BACK_INVERTED = 4
-}
-
-// To reference from fileNames to object names
-public enum TileType
-{
-    SPAM_POINT = 1,
-    WALKABLE_PATH = 2,
-    FLOOR_3 = 3,
-    BUS_FLOOR = 4,
-    FLOOR_OBSTACLE = 5,
-    FLOOR_MEDIUM_HORIZONTAL_OBSTACLE = 6,
-    FLOOR_MEDIUM_VERTICAL_OBSTACLE = 7,
-    FLOOR_SHORT_HORIZONTAL_OBSTACLE = 8,
-    FLOOR_SHORT_VERTICAL_OBSTACLE = 9,
-    ISOMETRIC_GRID_TILE = 10,
-    ISOMETRIC_SINGLE_SQUARE_OBJECT = 11,
-    ISOMETRIC_FOUR_SQUARE_OBJECT = 12,
-    WALL = 13,
-    FLOOR_EDIT = 14,
-    UNDEFINED = 999
-}
-
-//Players and NPCs move directions
-public enum MoveDirection
-{
-    IDLE = 0,
-    UP = 1,
-    DOWN = 2,
-    LEFT = 3,
-    RIGHT = 4,
-    UPLEFT = 5,
-    UPRIGHT = 6,
-    DOWNLEFT = 7,
-    DOWNRIGHT = 8
-}
-
-//Players and NPCs, to set the NPC to wander or other states
-public enum NpcState
-{
-    IDLE = 0,
-    WALKING_TO_TABLE = 1,
-    AT_TABLE = 2,
-    WALKING_TO_COUNTER = 3,
-    AT_COUNTER = 4,
-    WALKING_WANDER = 5,
-    TAKING_ORDER = 6,
-    WAITING_TO_BE_ATTENDED = 7,
-    WALKING_UNRESPAWN = 8,
-    WALKING_TO_COUNTER_AFTER_ORDER = 9,
-    REGISTERING_CASH = 10
-}
-
-// List of Menus
-public enum Menu
-{
-    CENTER_TAB_MENU,
-    NPC_PROFILE
-}
-
-//Menu Types
-public enum MenuType
-{
-    TAB_MENU,
-    DIALOG
 }

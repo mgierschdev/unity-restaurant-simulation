@@ -268,7 +268,7 @@ public class GridController : MonoBehaviour
     {
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            businessObjects.TryAdd(obj.Name, obj);
+            businessObjects.Add(obj.Name, obj);
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
@@ -401,7 +401,7 @@ public class GridController : MonoBehaviour
         return tile.GetWorldPositionWithOffset();
     }
 
-    private Vector3 GetWorldFromGridPosition(Vector3Int position)
+    private Vector3     GetWorldFromGridPosition(Vector3Int position)
     {
         return tilemapPathFinding.CellToWorld(position);
     }
@@ -550,7 +550,6 @@ public class GridController : MonoBehaviour
         {
             int x = arroundVectorPoints[i, 0] + target.x;
             int y = arroundVectorPoints[i, 1] + target.y;
-
             Vector3Int tmp = new Vector3Int(x, y, 0);
 
             if (IsCoordValid(x, y) && grid[x, y] == 0 && min > Vector3Int.Distance(init, tmp))
@@ -622,4 +621,57 @@ public class GridController : MonoBehaviour
         }
         return grid[x, y] == 0 && mapBusinessFloor.ContainsKey(new Vector3Int(x, y));
     }
+    //TODO: Case in which there is no space in the buss to place items
+    public void PlaceGameObject(GameGridObject obj)
+    {
+        GameObject parent = GameObject.Find(Settings.TilemapObjects);
+        Vector3Int newPos = Util.GetVector3IntPositiveInfinity();
+        Vector3Int newActionTile = Util.GetVector3IntPositiveInfinity();
+        ObjectRotation rotation = ObjectRotation.FRONT;
+        bool isValid = false;
+
+        foreach (KeyValuePair<string, GameGridObject> dic in businessObjects)
+        {
+            GameGridObject current = dic.Value;
+
+            if (current.Type == ObjectType.NPC_SINGLE_TABLE)
+            {
+
+                newPos = current.GridPosition + new Vector3Int(1, 0, 0);
+                Debug.Log("current " + current.Name);
+                Debug.Log("Current new position " + newPos);
+                Debug.Log("Current position " + current.GridPosition);
+                Debug.Log("Current rotation " + rotation);
+                
+                newActionTile = GetPathFindingGridFromWorldPosition(current.GetActionTile()) + new Vector3Int(1, 0, 0);
+                rotation = current.Position;
+                isValid = true;
+                
+                if (IsValidBussCoord(newPos) && IsValidBussCoord(newActionTile))
+                {
+                    break;
+                }
+            }
+        }
+
+        // Found a good posiion
+        if (isValid && obj.Type == ObjectType.NPC_SINGLE_TABLE)
+        {
+            Vector3 spawnPositon = GetNearestGridPositionFromWorldMap(new Vector3(5.5f, 0.25f));
+            GameObject newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spawnPositon.x, spawnPositon.y, 1), Quaternion.identity, parent.transform) as GameObject;
+            TableController newObjectController = newObject.GetComponent<TableController>();
+           // newObjectController.SetRotation(ObjectRotation.FRONT);
+        }
+        else
+        {
+            //We iterate the entire buss array floor until we find a position
+
+        }
+    }
+
+    //First check current objects that are equal and find a pos next to one of them
+    //businessObjects
+    // npcObject.transform.SetParent(NPCS.transform);
+    // tilemapObjects
+
 }

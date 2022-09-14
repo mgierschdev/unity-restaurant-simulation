@@ -21,6 +21,7 @@ public static class Settings
 
     // PREFABS AND OBJECTS
     public const string PrefabGridTile = "Grid/GridTile";
+    public const string PrefabSingleTable = "Objects/SingleTable";
     public const string PrefabSandSea = "Grid/SandAndSea@3x";
     public const string PrefabPlayer = "Players/Player";
     public const string PrefabNpcClient = "Players/Client";
