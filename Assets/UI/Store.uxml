@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="Screen" style="flex-grow: 1; flex-direction: column; justify-content: space-between;">
+        <ui:VisualElement name="Top" style="align-items: center;">
+            <ui:VisualElement name="TopStats" style="background-color: rgba(255, 255, 255, 0.48); width: 109px; height: 33px; -unity-background-image-tint-color: rgba(255, 255, 255, 0.31); position: relative; top: auto; left: auto; flex-direction: column-reverse; align-items: center; justify-content: flex-start;">
+                <ui:Label text="Available $" display-tooltip-when-elided="true" name="TopStats" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Down" style="height: auto; align-items: auto; flex-direction: row; justify-content: space-between; bottom: 40px;">
+            <ui:VisualElement name="Left" style="flex-direction: column; left: 20px;">
+                <ui:VisualElement name="DownLeftPanel" style="flex-wrap: nowrap; align-items: center;">
+                    <ui:VisualElement style="flex-direction: row;">
+                        <ui:Button text="Button" display-tooltip-when-elided="true" style="height: 50px; width: 100px; -unity-text-align: middle-center; position: relative; top: auto; left: auto; flex-wrap: nowrap; align-items: auto; white-space: nowrap;" />
+                        <ui:Button text="Button" display-tooltip-when-elided="true" style="height: 50px; width: 100px; -unity-text-align: middle-center; position: relative; top: auto; left: auto; flex-wrap: nowrap; align-items: auto; white-space: nowrap;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row;">
+                        <ui:Button text="Button" display-tooltip-when-elided="true" style="height: 50px; width: 100px; -unity-text-align: middle-center; position: relative; top: auto; left: auto; flex-wrap: nowrap; align-items: auto; white-space: nowrap;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Right" style="right: 20px;">
+                <ui:VisualElement name="DownRightPanel">
+                    <ui:Button text="Button" display-tooltip-when-elided="true" style="height: 100px; width: 200px; -unity-text-align: middle-center; position: relative; top: auto; left: auto; flex-wrap: nowrap; align-items: auto; white-space: nowrap;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
