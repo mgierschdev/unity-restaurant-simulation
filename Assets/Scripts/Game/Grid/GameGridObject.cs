@@ -111,7 +111,6 @@ public class GameGridObject : GameObjectBase
 
     public void Hide()
     {
-        Debug.Log("Closing Menu " + Name);
         HideUnderTiles();
         EditMenu.SetActive(false);
     }
@@ -177,7 +176,6 @@ public class GameGridObject : GameObjectBase
         Vector3Int rotatedActionTile = gridController.GetPathFindingGridFromWorldPosition(actionTiles[GetRotationActionTile(tmp)].transform.position);
         // we flip the object back 
         objectWithSprite.transform.localScale = GetRotationVector(position);
-        Debug.Log(rotatedPosition + " " + rotatedActionTile);
         if (gridController.IsFreeBussCoord(rotatedPosition.x, rotatedPosition.y) ||
         gridController.IsFreeBussCoord(rotatedActionTile.x, rotatedActionTile.y))
         {
@@ -233,7 +231,6 @@ public class GameGridObject : GameObjectBase
 
     private Vector3 GetRotationVector(ObjectRotation objectRotation)
     {
-        Debug.Log("Object rotation " + objectRotation);
         switch (objectRotation)
         {
             case ObjectRotation.FRONT:
@@ -251,8 +248,6 @@ public class GameGridObject : GameObjectBase
 
     private int GetRotationActionTile(ObjectRotation objectRotation)
     {
-        Debug.Log("Object rotation " + objectRotation);
-
         switch (objectRotation)
         {
             case ObjectRotation.FRONT:

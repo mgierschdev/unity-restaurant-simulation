@@ -70,7 +70,7 @@ public class ClickController : MonoBehaviour
         }
     }
 
-    // The object must have a collider attachedDo
+    // The object must have a collider attached
     private void ObjectClickedControl()
     {
         if (!Input.GetMouseButtonDown(0))
@@ -78,8 +78,7 @@ public class ClickController : MonoBehaviour
             return;
         }
 
-        Vector3Int clickPosition =
-            gridController.GetPathFindingGridFromWorldPosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+        Vector3Int clickPosition = gridController.GetPathFindingGridFromWorldPosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
         GameTile tile = gridController.GetGameTileFromClickInPathFindingGrid(clickPosition);
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);

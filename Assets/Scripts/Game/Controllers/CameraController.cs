@@ -70,6 +70,7 @@ public class CameraController : MonoBehaviour
             return;
         }
 
+        // This most be setted before comparing with the next Input.GetMouseButtonDown(0)
         if (Input.GetMouseButtonDown(0))
         {
             touchStart = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -95,7 +96,7 @@ public class CameraController : MonoBehaviour
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             targetPosition -= scroll * ZOOM_SPEED;
             targetPosition = Mathf.Clamp(targetPosition, MIN_ZOOM_SIZE, MAX_ZOOM_SIZE);
-            mainCamera.orthographicSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetPosition, ZOOM_SPEED * Time.deltaTime);
+            mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetPosition, ZOOM_SPEED * Time.fixedDeltaTime);
         }
     }
 }
