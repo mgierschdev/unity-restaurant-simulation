@@ -356,7 +356,6 @@ public class MenuHandlerController : MonoBehaviour
     {
         GameLog.Log("Object to find a Place for " + obj.Name);
         // we fix the camera in case the player is zoomed
-        cameraController.GoTo(new Vector3(1,1,0));
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
         //Disable Left down panel
@@ -368,7 +367,6 @@ public class MenuHandlerController : MonoBehaviour
     private void OpenEditPanel()
     {
         // we fix the camera in case the player is zoomed
-        cameraController.GoTo(new Vector3(1,1,0));
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
         PauseGame();
