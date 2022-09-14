@@ -58,11 +58,11 @@ public class MenuHandlerController : MonoBehaviour
         tabMenu = transform.Find(Settings.ConstCenterTabMenu).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
         tabMenuRect = tabMenu.GetComponent<RectTransform>();
-        
+
         // Menu Body
         menuBody = GameObject.Find(Settings.ConstCenterTabMenuBody);
         menuBodyRect = menuBody.GetComponent<RectTransform>();
-        
+
         //Camera controller
         GameObject cameraObject = GameObject.Find(Settings.MainCamera).gameObject;
         cameraController = cameraObject.GetComponent<CameraController>();
@@ -85,7 +85,7 @@ public class MenuHandlerController : MonoBehaviour
             true);
         npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.ConstNpcProfileMenu,
             npcProfileGameObject, false);
-        
+
         //Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
         SetEditStorePanelClickListeners();
@@ -229,11 +229,11 @@ public class MenuHandlerController : MonoBehaviour
             return;
         }
 
-        if(menu.Type == MenuType.TAB_MENU)
+        if (menu.Type == MenuType.TAB_MENU)
         {
             AddMenuItemsToScrollView(centerTabMenu);
         }
-        
+
         menu.UnityObject.SetActive(true);
         menuStack.Push(menu);
         openMenus.Add(menu.Name);
@@ -275,7 +275,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         MenuItem menu = menuStack.Peek();
-        
+
         if (menu.Type == MenuType.TAB_MENU)
         {
             return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenuRect,
@@ -358,6 +358,7 @@ public class MenuHandlerController : MonoBehaviour
         // we fix the camera in case the player is zoomed
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
+        gridController.PlaceGameObject(obj);
         //Disable Left down panel
         PauseGame();
         leftDownPanel.SetActive(false);
