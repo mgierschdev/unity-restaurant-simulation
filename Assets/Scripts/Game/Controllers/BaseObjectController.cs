@@ -48,6 +48,8 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
+        //If dragging clean previous position on the grid
+        Grid.FreeObject(gameGridObject);
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
@@ -55,7 +57,7 @@ public class BaseObjectController : MonoBehaviour
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         //So it will overlay over the rest of the items while dragging
         gameGridObject.SortingLayer.sortingOrder = 2;
-        
+
 
         if (Grid.IsValidBussPosition(gameGridObject, currentPos, initialActionTileOne))
         {
@@ -78,9 +80,7 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        Vector3Int init = gameGridObject.GridPosition;
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
-        Vector3Int finalActionTile = Grid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         Grid.DraggingObject = false;
 
         if (!Grid.IsValidBussPosition(gameGridObject, finalPos, initialActionTileOne))
@@ -91,13 +91,11 @@ public class BaseObjectController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Valid position changing cords");
             gameGridObject.UpdateCoords();
-            Vector3Int initGridPosition = Grid.GetPathFindingGridFromWorldPosition(initialPosition);
-            Grid.SwapCoords(initGridPosition.x, initGridPosition.y, gameGridObject.GridPosition.x, gameGridObject.GridPosition.y);
-            Grid.SwapCoords(initialActionTileOne.x, initialActionTileOne.y, finalActionTile.x, finalActionTile.y);
             initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
         }
+
+        Grid.UpdateObjectPosition(gameGridObject);
     }
 
     private bool IsDraggable()

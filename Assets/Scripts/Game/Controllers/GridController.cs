@@ -470,6 +470,13 @@ public class GridController : MonoBehaviour
         grid[gridActionTile.x, gridActionTile.y] = 0;
     }
 
+    public void UpdateObjectPosition(GameGridObject gameGridObject)
+    {
+        grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
+        Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+        grid[gridActionTile.x, gridActionTile.y] = -1;
+    }
+
     public void SetGridObject(GameGridObject obj)
     {
         if (obj.Type == ObjectType.NPC_COUNTER)
@@ -571,11 +578,12 @@ public class GridController : MonoBehaviour
         string output = " ";
         int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
         int minX = int.MaxValue;
-        int minY = int.MaxValue; 
+        int minY = int.MaxValue;
         int maxX = int.MinValue;
-        int maxY = int.MinValue; 
+        int maxY = int.MinValue;
 
-        foreach(GameTile tile in listBusinessFloor){
+        foreach (GameTile tile in listBusinessFloor)
+        {
             minX = Mathf.Min(minX, tile.GridPosition.x);
             minY = Mathf.Min(minY, tile.GridPosition.y);
             maxX = Mathf.Max(maxX, tile.GridPosition.x);
