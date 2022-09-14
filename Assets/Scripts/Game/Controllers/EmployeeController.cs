@@ -63,7 +63,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             localState = NpcState.AT_COUNTER; // we are at counter 
             double orderCost = Random.Range(5, 10);
-            GameLog.Log("Added to the wallet: " + orderCost);
+            GameLog.Log("TODO: +" + orderCost);
             GameGrid.PlayerData.AddMoney(orderCost);
         }
     }
