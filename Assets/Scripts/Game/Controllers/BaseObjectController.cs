@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class BaseObjectController : MonoBehaviour
 {
@@ -49,7 +48,8 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
         //If dragging clean previous position on the grid
-        Grid.FreeObject(gameGridObject);
+        Grid.FreeCoord(Grid.GetPathFindingGridFromWorldPosition(initialPosition));
+        Grid.FreeCoord(initialActionTileOne);
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
@@ -59,7 +59,7 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject.SortingLayer.sortingOrder = 2;
 
 
-        if (Grid.IsValidBussPosition(gameGridObject, currentPos, initialActionTileOne))
+        if (Grid.IsValidBussPosition(gameGridObject, currentPos))
         {
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
@@ -83,7 +83,7 @@ public class BaseObjectController : MonoBehaviour
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
         Grid.DraggingObject = false;
 
-        if (!Grid.IsValidBussPosition(gameGridObject, finalPos, initialActionTileOne))
+        if (!Grid.IsValidBussPosition(gameGridObject, finalPos))
         {
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 1);
             gameGridObject.SpriteRenderer.color = Util.Available;
@@ -95,6 +95,8 @@ public class BaseObjectController : MonoBehaviour
             initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
         }
 
+        //So it will overlay over the rest of the items while dragging
+        gameGridObject.SortingLayer.sortingOrder = 0;
         Grid.UpdateObjectPosition(gameGridObject);
     }
 

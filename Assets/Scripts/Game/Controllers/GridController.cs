@@ -244,7 +244,7 @@ public class GridController : MonoBehaviour
     // In GameMap/Grid coordinates This sets the obstacle points around the obstacle
     private void SetGridObstacle(int x, int y, ObjectType type)
     {
-        if (!IsCoordsValid(x, y) || x < 0 || y < 0)
+        if (!IsCoordValid(x, y) || x < 0 || y < 0)
         {
             return;
         }
@@ -259,7 +259,7 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private bool IsCoordsValid(int x, int y)
+    private bool IsCoordValid(int x, int y)
     {
         return x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1);
     }
@@ -287,26 +287,26 @@ public class GridController : MonoBehaviour
         }
     }
 
-    // worldPos = Current position of the object while dragging, actionTileOne: the initial actiontile in grid coord
-    public bool IsValidBussPosition(GameGridObject initial, Vector3 worldPos, Vector3Int actionTileOne)
+    // Used while dragging
+    // worldPos = Current position that you are moving the object
+    // actionTileOne: the initial actiontile in grid coord
+    // gameGridObject : the game gridObject
+    public bool IsValidBussPosition(GameGridObject gameGridObject, Vector3 worldPos)
     {
         Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
-        Vector3 currentActionPointWorldPos = initial.GetActionTile();
+        Vector3 currentActionPointWorldPos = gameGridObject.GetActionTile();
         Vector3Int currentActionPointInGrid = GetPathFindingGridFromWorldPosition(currentActionPointWorldPos);
 
         // If we are at the initial grid position we return true
-        if (worldPos == initial.WorldPosition ||
-            currentActionPointInGrid == actionTileOne ||
-            currentActionPointInGrid == initial.GridPosition ||
-            currentGridPos == actionTileOne
-            )
+        if (worldPos == gameGridObject.WorldPosition ||
+            currentActionPointInGrid == gameGridObject.GridPosition)
         {
             return true;
         }
 
         // If the coords are ousite the perimter we return false, or if the position is different than 0
-        if (!IsCoordsValid(currentGridPos.x, currentGridPos.y) ||
-        !IsCoordsValid(currentActionPointInGrid.x, currentActionPointInGrid.y) ||
+        if (!IsCoordValid(currentGridPos.x, currentGridPos.y) ||
+        !IsCoordValid(currentActionPointInGrid.x, currentActionPointInGrid.y) ||
         grid[currentActionPointInGrid.x, currentActionPointInGrid.y] != 0 ||
         grid[currentGridPos.x, currentGridPos.y] != 0
         )
@@ -314,7 +314,7 @@ public class GridController : MonoBehaviour
             return false;
         }
 
-        // if the current grid position is in the buss map we return trues
+        // if the current grid position is in the buss map we return true
         if (mapBusinessFloor.ContainsKey(currentGridPos) &&
         mapBusinessFloor.ContainsKey(currentActionPointInGrid))
         {
@@ -322,6 +322,11 @@ public class GridController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool IsValidBussCoord(Vector3Int pos)
+    {
+        return mapBusinessFloor.ContainsKey(pos);
     }
 
     public void HideGridBussFloor()
@@ -446,7 +451,7 @@ public class GridController : MonoBehaviour
     // Unset position in Grid
     private void FreeGridPosition(int x, int y)
     {
-        if (!IsCoordsValid(x, y) && x > 1 && y > 1)
+        if (!IsCoordValid(x, y) && x > 1 && y > 1)
         {
             return;
         }
@@ -456,10 +461,7 @@ public class GridController : MonoBehaviour
 
     public void SwapCoords(int x1, int y1, int x2, int y2)
     {
-        GameLog.Log(" ");
-        GameLog.Log("Swapping: " + grid[x1, y1] + " " + grid[x2, y2]);
         (grid[x1, y1], grid[x2, y2]) = (grid[x2, y2], grid[x1, y1]);
-        GameLog.Log("Swapping: " + grid[x1, y1] + " " + grid[x2, y2]);
     }
 
     // called when the object is destroyed
@@ -468,6 +470,11 @@ public class GridController : MonoBehaviour
         grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 0;
         Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         grid[gridActionTile.x, gridActionTile.y] = 0;
+    }
+
+    public void FreeCoord(Vector3Int pos)
+    {
+        grid[pos.x, pos.y] = 0;
     }
 
     public void UpdateObjectPosition(GameGridObject gameGridObject)
@@ -522,7 +529,11 @@ public class GridController : MonoBehaviour
     {
         BusyBusinessSpotsMap.Remove(obj.Name);
         FreeBusinessSpotsMap.Add(obj.Name, obj);
-        FreeBusinessSpots.Enqueue(obj);
+
+        if (!FreeBusinessSpots.Contains(obj))
+        {
+            FreeBusinessSpots.Enqueue(obj);
+        }
     }
 
     public GameGridObject GetTableWithClient()
@@ -542,7 +553,7 @@ public class GridController : MonoBehaviour
 
             Vector3Int tmp = new Vector3Int(x, y, 0);
 
-            if (IsCoordsValid(x, y) && grid[x, y] == 0 && min > Vector3Int.Distance(init, tmp))
+            if (IsCoordValid(x, y) && grid[x, y] == 0 && min > Vector3Int.Distance(init, tmp))
             {
 
                 min = Vector3Int.Distance(init, tmp);
@@ -601,5 +612,14 @@ public class GridController : MonoBehaviour
             output += "\n";
         }
         return output;
+    }
+
+    public bool IsFreeBussCoord(int x, int y)
+    {
+        if (!IsCoordValid(x, y))
+        {
+            return false;
+        }
+        return grid[x, y] == 0 && mapBusinessFloor.ContainsKey(new Vector3Int(x, y));
     }
 }

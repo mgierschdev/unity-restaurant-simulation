@@ -91,8 +91,8 @@ public class GameGridObject : GameObjectBase
 
     private void StoreInInventory()
     {
-        GameLog.Log("Storing item in Inventory " + Name);
-        //Show POPUP confirming action
+        //TODO: Show POPUP confirming action
+        GameLog.Log("TODO: Storing item in Inventory " + Name);
         gridController.FreeObject(this);
         Object.Destroy(objectTransform.gameObject);
     }
@@ -111,7 +111,8 @@ public class GameGridObject : GameObjectBase
 
     public void Hide()
     {
-        SpriteRenderer.color = Util.Free;
+        Debug.Log("Closing Menu " + Name);
+        HideUnderTiles();
         EditMenu.SetActive(false);
     }
 
@@ -140,14 +141,50 @@ public class GameGridObject : GameObjectBase
 
     public void RotateObject()
     {
+        if (!IsValidRotation())
+        {
+            //TODO: Show popup message
+            GameLog.Log("Rotation is invalid");
+            return;
+        }
+
         Vector3Int prev = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
         position++;
-        int pos = (int)position % 4 == 0 ? 4 : (int)position % 4;
-        ObjectRotation newPos = (ObjectRotation)pos;
-        UpdateRotation(newPos);
+
+        if ((int)position >= 5)
+        {
+            position = ObjectRotation.FRONT;
+        }
+        UpdateRotation(position);
         Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
         gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
+    }
+
+    private bool IsValidRotation()
+    {
+        ObjectRotation tmp = position;
+        tmp++;
+
+        if ((int)tmp >= 5)
+        {
+            tmp = ObjectRotation.FRONT;
+        }
+
+        // we flip the object temporaly to check the new action tile position
+        objectWithSprite.transform.localScale = GetRotationVector(tmp);
+        Vector3Int rotatedPosition = gridController.GetPathFindingGridFromWorldPosition(objectTransform.position);
+        Vector3Int rotatedActionTile = gridController.GetPathFindingGridFromWorldPosition(actionTiles[GetRotationActionTile(tmp)].transform.position);
+        // we flip the object back 
+        objectWithSprite.transform.localScale = GetRotationVector(position);
+        Debug.Log(rotatedPosition + " " + rotatedActionTile);
+        if (gridController.IsFreeBussCoord(rotatedPosition.x, rotatedPosition.y) ||
+        gridController.IsFreeBussCoord(rotatedActionTile.x, rotatedActionTile.y))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void UpdateRotation(ObjectRotation newPosition)
@@ -165,71 +202,87 @@ public class GameGridObject : GameObjectBase
         {
             case ObjectRotation.FRONT:
                 SpriteRenderer.sprite = singleSpriteWood;
-                objectWithSprite.transform.localScale = new Vector3(1, 1, 1);
-                actionTile = 0;
+                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
+                actionTile = GetRotationActionTile(ObjectRotation.FRONT);
                 tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.FRONT_INVERTED:
                 SpriteRenderer.sprite = singleSpriteWood;
-                objectWithSprite.transform.localScale = new Vector3(-1, 1, 1);
-                actionTile = 0;
+                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
+                actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
                 tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.BACK:
                 SpriteRenderer.sprite = singleSpriteWoodMirror;
-                objectWithSprite.transform.localScale = new Vector3(1, 1, 1);
-                actionTile = 1;
+                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
+                actionTile = GetRotationActionTile(ObjectRotation.BACK);
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK_INVERTED:
                 SpriteRenderer.sprite = singleSpriteWoodMirror;
-                objectWithSprite.transform.localScale = new Vector3(-1, 1, 1);
-                actionTile = 1;
+                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
+                actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.LightAvailable;
                 return;
         }
     }
 
+    private Vector3 GetRotationVector(ObjectRotation objectRotation)
+    {
+        Debug.Log("Object rotation " + objectRotation);
+        switch (objectRotation)
+        {
+            case ObjectRotation.FRONT:
+                return new Vector3(1, 1, 1);
+            case ObjectRotation.BACK:
+                return new Vector3(1, 1, 1);
+            case ObjectRotation.FRONT_INVERTED:
+                return new Vector3(-1, 1, 1);
+            case ObjectRotation.BACK_INVERTED:
+                return new Vector3(-1, 1, 1);
+        }
+
+        return Vector3.positiveInfinity;
+    }
+
+    private int GetRotationActionTile(ObjectRotation objectRotation)
+    {
+        Debug.Log("Object rotation " + objectRotation);
+
+        switch (objectRotation)
+        {
+            case ObjectRotation.FRONT:
+                return 0;
+            case ObjectRotation.BACK:
+                return 1;
+            case ObjectRotation.FRONT_INVERTED:
+                return 0;
+            case ObjectRotation.BACK_INVERTED:
+                return 1;
+        }
+
+        return int.MaxValue;
+    }
+
     public void HideUnderTiles()
     {
-        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
-        {
-            tiles[actionTile].color = Util.Hidden;
-            tiles[actionTile + 1].color = Util.Hidden;
-        }
-        else
-        {
-            tiles[actionTile + 1].color = Util.Hidden;
-        }
+        tiles[0].color = Util.Hidden;
+        tiles[actionTile + 1].color = Util.Hidden;
     }
 
     public void LightOccupiedUnderTiles()
     {
-        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
-        {
-            tiles[0].color = Util.LightOccupied;
-            tiles[actionTile + 1].color = Util.LightOccupied;
-        }
-        else
-        {
-            tiles[actionTile + 1].color = Util.LightOccupied;
-        }
+        tiles[0].color = Util.LightOccupied;
+        tiles[actionTile + 1].color = Util.LightOccupied;
     }
 
     public void LightAvailableUnderTiles()
     {
-        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
-        {
-            tiles[0].color = Util.LightAvailable;
-            tiles[actionTile + 1].color = Util.LightAvailable;
-        }
-        else
-        {
-            tiles[actionTile + 1].color = Util.LightAvailable;
-        }
+        tiles[0].color = Util.LightAvailable;
+        tiles[actionTile + 1].color = Util.LightAvailable;
     }
 }
