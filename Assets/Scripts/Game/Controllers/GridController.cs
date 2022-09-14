@@ -315,8 +315,7 @@ public class GridController : MonoBehaviour
         }
 
         // if the current grid position is in the buss map we return true
-        if (mapBusinessFloor.ContainsKey(currentGridPos) &&
-        mapBusinessFloor.ContainsKey(currentActionPointInGrid))
+        if (IsValidBussCoord(currentGridPos) && IsValidBussCoord(currentActionPointInGrid))
         {
             return true;
         }
@@ -401,7 +400,7 @@ public class GridController : MonoBehaviour
         return tile.GetWorldPositionWithOffset();
     }
 
-    private Vector3     GetWorldFromGridPosition(Vector3Int position)
+    private Vector3 GetWorldFromGridPosition(Vector3Int position)
     {
         return tilemapPathFinding.CellToWorld(position);
     }
@@ -613,19 +612,20 @@ public class GridController : MonoBehaviour
         return output;
     }
 
-    public bool IsFreeBussCoord(int x, int y)
+    public bool IsFreeBussCoord(Vector3Int pos)
     {
-        if (!IsCoordValid(x, y))
+        if (!IsCoordValid(pos.x, pos.y))
         {
             return false;
         }
-        return grid[x, y] == 0 && mapBusinessFloor.ContainsKey(new Vector3Int(x, y));
+        return grid[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
     }
     //TODO: Case in which there is no space in the buss to place items
     public void PlaceGameObject(GameGridObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
-        Vector3Int newPos = Util.GetVector3IntPositiveInfinity();
+        Vector3 newVectorPos = Vector3.positiveInfinity;
+        Vector3Int newGridPos = Util.GetVector3IntPositiveInfinity();
         Vector3Int newActionTile = Util.GetVector3IntPositiveInfinity();
         ObjectRotation rotation = ObjectRotation.FRONT;
         bool isValid = false;
@@ -637,18 +637,15 @@ public class GridController : MonoBehaviour
             if (current.Type == ObjectType.NPC_SINGLE_TABLE)
             {
 
-                newPos = current.GridPosition + new Vector3Int(1, 0, 0);
-                Debug.Log("current " + current.Name);
-                Debug.Log("Current new position " + newPos);
-                Debug.Log("Current position " + current.GridPosition);
-                Debug.Log("Current rotation " + rotation);
-                
-                newActionTile = GetPathFindingGridFromWorldPosition(current.GetActionTile()) + new Vector3Int(1, 0, 0);
+                newGridPos = GetPathFindingGridFromWorldPosition(GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0, 0.50f, 0)));
+                newActionTile = GetPathFindingGridFromWorldPosition(GetNearestGridPositionFromWorldMap(current.GetActionTile() + new Vector3(0, 0.50f, 0)));
+                Debug.Log(GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0.50f, 0.25f, 0)));
+                newVectorPos = GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0.50f, 0.25f, 0));
                 rotation = current.Position;
-                isValid = true;
-                
-                if (IsValidBussCoord(newPos) && IsValidBussCoord(newActionTile))
+
+                if (IsFreeBussCoord(newGridPos) && IsFreeBussCoord(newActionTile))
                 {
+                    isValid = true;
                     break;
                 }
             }
@@ -657,10 +654,10 @@ public class GridController : MonoBehaviour
         // Found a good posiion
         if (isValid && obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            Vector3 spawnPositon = GetNearestGridPositionFromWorldMap(new Vector3(5.5f, 0.25f));
+            Vector3 spawnPositon = newVectorPos;
             GameObject newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spawnPositon.x, spawnPositon.y, 1), Quaternion.identity, parent.transform) as GameObject;
             TableController newObjectController = newObject.GetComponent<TableController>();
-           // newObjectController.SetRotation(ObjectRotation.FRONT);
+            // newObjectController.SetRotation(ObjectRotation.FRONT);
         }
         else
         {
@@ -669,9 +666,8 @@ public class GridController : MonoBehaviour
         }
     }
 
-    //First check current objects that are equal and find a pos next to one of them
-    //businessObjects
+    // First check current objects that are equal and find a pos next to one of them
+    // businessObjects
     // npcObject.transform.SetParent(NPCS.transform);
     // tilemapObjects
-
 }

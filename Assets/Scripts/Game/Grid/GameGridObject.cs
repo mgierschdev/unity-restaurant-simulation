@@ -176,8 +176,7 @@ public class GameGridObject : GameObjectBase
         Vector3Int rotatedActionTile = gridController.GetPathFindingGridFromWorldPosition(actionTiles[GetRotationActionTile(tmp)].transform.position);
         // we flip the object back 
         objectWithSprite.transform.localScale = GetRotationVector(Position);
-        if (gridController.IsFreeBussCoord(rotatedPosition.x, rotatedPosition.y) ||
-        gridController.IsFreeBussCoord(rotatedActionTile.x, rotatedActionTile.y))
+        if (gridController.IsFreeBussCoord(rotatedPosition) || gridController.IsFreeBussCoord(rotatedActionTile))
         {
             return true;
         }
