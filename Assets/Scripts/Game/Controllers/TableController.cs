@@ -9,9 +9,6 @@ public class TableController : BaseObjectController
     {
         //Edit Panel Disable
         GameObject EditPanel = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
-        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
-        Menu = menuHandler.GetComponent<MenuHandlerController>();
         GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
         Grid = gameGrid.GetComponent<GridController>();
         gameGridObject = new GameGridObject(transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.FRONT, ObjectType.NPC_SINGLE_TABLE, EditPanel, Grid);

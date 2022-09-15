@@ -69,7 +69,7 @@ public class MenuHandlerController : MonoBehaviour
 
         if (!tabMenu || !leftDownPanel || !cController || !gridController || !menuBody || !cameraObject)
         {
-            GameLog.LogWarning("MenuHandlerController Menu null ");
+            GameLog.LogWarning("UIHandler Menu null ");
             GameLog.LogWarning("tabMenu " + tabMenu);
             GameLog.LogWarning("leftDownPanel " + leftDownPanel);
             GameLog.LogWarning("cController " + cController);
