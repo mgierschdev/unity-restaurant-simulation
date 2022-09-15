@@ -9,6 +9,9 @@ public class UIHandler : MonoBehaviour
     private VisualElement rootVisualElement;
     private List<Button> bottomLeftPanel;
     private Button exitEditModeButton;
+    [SerializeField]
+    public VisualTreeAsset StoreListEntry;
+    private ListView storeItems;
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,6 +29,7 @@ public class UIHandler : MonoBehaviour
         Button employeeButton = rootVisualElement.Q<Button>("EmployeeButton");
         Button editButton = rootVisualElement.Q<Button>("EditButton");
         exitEditModeButton = rootVisualElement.Q<Button>("ExitEditModeButton");
+        storeItems = rootVisualElement.Q<ListView>("StoreListView");
 
         storeButton.RegisterCallback<ClickEvent>(SetButtonBehaviour);
         employeeButton.RegisterCallback<ClickEvent>(SetButtonBehaviour);
@@ -36,6 +40,34 @@ public class UIHandler : MonoBehaviour
         bottomLeftPanel.Add(employeeButton);
         bottomLeftPanel.Add(editButton);
         exitEditModeButton.visible = false;
+
+        PopulateStoreListView();
+    }
+
+    private void PopulateStoreListView()
+    {
+
+        storeItems.makeItem = () =>
+        {
+            // Instantiate the UXML template for the entry
+            var newListEntry = StoreListEntry.Instantiate();
+            string name = "test";
+            newListEntry.userData = name;
+
+            return newListEntry;
+        };
+
+        storeItems.bindItem = (item, index) =>
+        {
+            (item.userData as string).GetType();
+        };
+
+         List<string> list = new List<string>();
+         list.Add("1");
+         list.Add("2");
+         list.Add("3");
+         list.Add("4");
+         storeItems.itemsSource = list;
     }
 
     private void SetButtonBehaviour(ClickEvent evt)
