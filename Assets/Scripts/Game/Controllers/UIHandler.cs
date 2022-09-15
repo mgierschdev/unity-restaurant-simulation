@@ -7,12 +7,15 @@ public class UIHandler : MonoBehaviour
     private GridController gridController;
     private UIDocument gameUI;
     private VisualElement rootVisualElement;
-    private List<Button> bottomLeftPanel;
+    private List<Button> bottomLeftPanelList;
     private Button exitEditModeButton;
+
+    //Store List attributes
     [SerializeField]
     public VisualTreeAsset StoreListEntry;
     private ListView storeItems;
-    // Start is called before the first frame update
+    private VisualElement storeListContainer;
+
     void Awake()
     {
         // Grid Controller
@@ -22,7 +25,7 @@ public class UIHandler : MonoBehaviour
         // UI elements
         gameUI = GetComponent<UIDocument>();
         rootVisualElement = gameUI.rootVisualElement;
-        bottomLeftPanel = new List<Button>();
+        bottomLeftPanelList = new List<Button>();
         // VisualTreeAsset visualTree = rootVisualElement.visualTreeAssetSource;
         //TemplateContainer templateContainer = visualTree.CloneTree();
         Button storeButton = rootVisualElement.Q<Button>("StoreButton");
@@ -30,22 +33,32 @@ public class UIHandler : MonoBehaviour
         Button editButton = rootVisualElement.Q<Button>("EditButton");
         exitEditModeButton = rootVisualElement.Q<Button>("ExitEditModeButton");
         storeItems = rootVisualElement.Q<ListView>("StoreListView");
+        storeListContainer = rootVisualElement.Q<ListView>("StoreListContainer");
 
-        storeButton.RegisterCallback<ClickEvent>(SetButtonBehaviour);
+        storeButton.RegisterCallback<ClickEvent>(OpenStoreWindow);
         employeeButton.RegisterCallback<ClickEvent>(SetButtonBehaviour);
         editButton.RegisterCallback<ClickEvent>(OpenEditPanel);
         exitEditModeButton.RegisterCallback<ClickEvent>(CloseEditPanel);
 
-        bottomLeftPanel.Add(storeButton);
-        bottomLeftPanel.Add(employeeButton);
-        bottomLeftPanel.Add(editButton);
+        bottomLeftPanelList.Add(storeButton);
+        bottomLeftPanelList.Add(employeeButton);
+        bottomLeftPanelList.Add(editButton);
         exitEditModeButton.visible = false;
 
         PopulateStoreListView();
+        storeListContainer.visible = false;
+    }
+
+    private void OpenStoreWindow(ClickEvent evt)
+    {
+        storeListContainer.visible = true;
+        gridController.DraggingObject = true;// Blocks perspective hand
     }
 
     private void PopulateStoreListView()
     {
+
+        Debug.Log(StoreListEntry.name);
 
         storeItems.makeItem = () =>
         {
@@ -62,12 +75,12 @@ public class UIHandler : MonoBehaviour
             (item.userData as string).GetType();
         };
 
-         List<string> list = new List<string>();
-         list.Add("1");
-         list.Add("2");
-         list.Add("3");
-         list.Add("4");
-         storeItems.itemsSource = list;
+        List<string> list = new List<string>();
+        list.Add("1");
+        list.Add("2");
+        list.Add("3");
+        list.Add("4");
+        storeItems.itemsSource = list;
     }
 
     private void SetButtonBehaviour(ClickEvent evt)
@@ -110,7 +123,7 @@ public class UIHandler : MonoBehaviour
 
     private void HideLeftDownPanel()
     {
-        foreach (Button b in bottomLeftPanel)
+        foreach (Button b in bottomLeftPanelList)
         {
             b.visible = false;
         }
@@ -118,7 +131,7 @@ public class UIHandler : MonoBehaviour
 
     private void ShowLeftDownPanel()
     {
-        foreach (Button b in bottomLeftPanel)
+        foreach (Button b in bottomLeftPanelList)
         {
             b.visible = true;
         }

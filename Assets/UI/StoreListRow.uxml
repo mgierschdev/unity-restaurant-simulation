@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement style="flex-direction: row; height: 100px;">
-        <ui:VisualElement name="Picture" style="width: 100px; height: 100px; background-color: rgba(255, 255, 255, 255);" />
-        <ui:VisualElement style="flex-grow: 1;">
+        <ui:VisualElement name="Picture" style="width: 100px; height: 100px; background-color: rgb(152, 152, 152);" />
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(209, 209, 209, 255);">
             <ui:Label text="Item Name" display-tooltip-when-elided="true" />
             <ui:Label text="Item Description" display-tooltip-when-elided="true" />
             <ui:Label text="Item price" display-tooltip-when-elided="true" />
