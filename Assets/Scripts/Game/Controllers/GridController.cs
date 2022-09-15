@@ -531,6 +531,7 @@ public class GridController : MonoBehaviour
 
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
+        Debug.Log("Adding Free buss spot: "+obj.Name);
         BusyBusinessSpotsMap.Remove(obj.Name);
         FreeBusinessSpotsMap.Add(obj.Name, obj);
 
@@ -647,38 +648,15 @@ public class GridController : MonoBehaviour
                 {
                     // We place the object 
                     Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
-                    Debug.Log("SpamPosition " + spamPosition + " gridPosition " + nextTile[0]);
                     GameObject newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                     break;
                 }
-
-                // newGridPos = GetPathFindingGridFromWorldPosition(GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0, 0.50f, 0)));
-                // newActionTile = GetPathFindingGridFromWorldPosition(GetNearestGridPositionFromWorldMap(current.GetActionTile() + new Vector3(0, 0.50f, 0)));
-                // Debug.Log(GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0.50f, 0.25f, 0)));
-                // newVectorPos = GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0.50f, 0.25f, 0));
-                // rotation = current.Position;
-
-                // if (IsFreeBussCoord(newGridPos) && IsFreeBussCoord(newActionTile))
-                // {
-                //     isValid = true;
-                //     break;
-                // }
             }
         }
 
-        // Found a good posiion
-        // if (isValid && obj.Type == ObjectType.NPC_SINGLE_TABLE)
-        // {
-        //     Vector3 spawnPositon = newVectorPos;
-        //     GameObject newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spawnPositon.x, spawnPositon.y, 1), Quaternion.identity, parent.transform) as GameObject;
-        //     TableController newObjectController = newObject.GetComponent<TableController>();
-        //     // newObjectController.SetRotation(ObjectRotation.FRONT);
-        // }
-        // else
-        // {
-        //     //We iterate the entire buss array floor until we find a position
-
-        // }
+        // Found a good position
+        // TODO: if all busy find a 2 free position on the entire grid
+        GameLog.Log("All busy: finding a 2 free position on the entire grid");
     }
 
     private Vector3Int[] GetNextTile(GameGridObject gameGridObject)
@@ -711,6 +689,8 @@ public class GridController : MonoBehaviour
 
         }
 
+        maps += "\n\n\n";
+
         maps += "Queue TablesWithClient size: " + TablesWithClient.Count + "\n";
         foreach (GameGridObject g in TablesWithClient)
         {
@@ -718,11 +698,15 @@ public class GridController : MonoBehaviour
 
         }
 
+        maps += "\n\n\n";
+
         objects += "businessObjects size: " + businessObjects.Count + " \n";
         foreach (GameGridObject g in businessObjects.Values)
         {
             objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
         }
+
+        objects += "\n\n\n";
 
         objects += "BusyBusinessSpotsMap size: " + BusyBusinessSpotsMap.Count + " \n";
         foreach (GameGridObject g in BusyBusinessSpotsMap.Values)
@@ -730,12 +714,18 @@ public class GridController : MonoBehaviour
             objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
         }
 
+        objects += "\n\n\n";
+
         objects += "FreeBusinessSpotsMap size: " + FreeBusinessSpotsMap.Count + " \n";
         foreach (GameGridObject g in FreeBusinessSpotsMap.Values)
         {
             objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
         }
 
-        return "";
+        return maps + " " + objects;
+    }
+
+    public int GetObjectCount(){
+        return businessObjects.Count;
     }
 }
