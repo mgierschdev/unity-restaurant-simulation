@@ -96,6 +96,7 @@ public class CameraController : MonoBehaviour
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             targetPosition -= scroll * ZOOM_SPEED;
             targetPosition = Mathf.Clamp(targetPosition, MIN_ZOOM_SIZE, MAX_ZOOM_SIZE);
+            // fixedDeltaTime works with the time scale = 0
             mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetPosition, ZOOM_SPEED * Time.fixedDeltaTime);
         }
     }
