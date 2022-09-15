@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:VisualElement name="Screen" style="flex-grow: 1; flex-direction: column; justify-content: space-between;">
+    <ui:VisualElement name="Screen" style="flex-grow: 1; flex-direction: column; justify-content: space-between; opacity: 0;">
         <ui:VisualElement name="Top" style="align-items: center; flex-direction: row; justify-content: space-around;">
             <ui:VisualElement name="LevelStat" style="background-color: rgba(255, 255, 255, 0.48); width: 109px; height: 33px; -unity-background-image-tint-color: rgba(255, 255, 255, 0.31); position: relative; top: auto; left: auto; flex-direction: column-reverse; align-items: center; justify-content: flex-start;">
                 <ui:Label text="LevelStat" display-tooltip-when-elided="true" name="LevelStat" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start;" />

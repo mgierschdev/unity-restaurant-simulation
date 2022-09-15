@@ -22,7 +22,7 @@ public class GridController : MonoBehaviour
     // Path Finder object, contains the method to return the shortest path
     private PathFind pathFind;
     private int[,] grid;
-    // private TextMesh[,] debugGrid;
+    private TextMesh[,] debugGrid;
     //Floor
     private Tilemap tilemapFloor;
     private List<GameTile> listFloorTileMap;
@@ -106,7 +106,7 @@ public class GridController : MonoBehaviour
 
         pathFind = new PathFind();
         grid = new int[Settings.GridHeight, Settings.GridWidth];
-        // debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
+        debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
         currentClickedActiveGameObject = "";
         arroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 
@@ -136,20 +136,20 @@ public class GridController : MonoBehaviour
     //     // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
     // }
 
-    // private void DrawCellCoords()
-    // {
-    //     foreach (GameTile tile in listPathFindingMap)
-    //     {
-    //         if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1))
-    //         {
-    //             continue;
-    //         }
-    //         debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
-    //             "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
-    //             tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
-    //             TextAnchor.MiddleCenter, TextAlignment.Center);
-    //     }
-    // }
+    private void DrawCellCoords()
+    {
+        foreach (GameTile tile in mapPathFindingGrid.Values)
+        {
+            if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1))
+            {
+                continue;
+            }
+            debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
+                "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
+                tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
+                TextAnchor.MiddleCenter, TextAlignment.Center);
+        }
+    }
 
     private void InitGrid()
     {
@@ -162,18 +162,18 @@ public class GridController : MonoBehaviour
         }
     }
 
-    // private void SetIsometricCellColor(int x, int y, Color color)
-    // {
-    //     SetCellColor(x, y, color);
-    //     SetCellColor(x + 1, y, color);
-    //     SetCellColor(x + 1, y + 1, color);
-    //     SetCellColor(x, y + 1, color);
-    // }
+    private void SetIsometricCellColor(int x, int y, Color color)
+    {
+        SetCellColor(x, y, color);
+        SetCellColor(x + 1, y, color);
+        SetCellColor(x + 1, y + 1, color);
+        SetCellColor(x, y + 1, color);
+    }
 
-    // private void SetCellColor(int x, int y, Color color)
-    // {
-    //     debugGrid[x, y].color = (Color)color;
-    // }
+    private void SetCellColor(int x, int y, Color color)
+    {
+        debugGrid[x, y].color = (Color)color;
+    }
 
     private void BuildGrid()
     {
@@ -201,10 +201,8 @@ public class GridController : MonoBehaviour
             }
         }
 
-        // if (Settings.DEBUG_ENABLE)
-        // {
-        //     DrawCellCoords();
-        // }
+
+        DrawCellCoords();
     }
 
     private void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3Int, GameTile> map)
@@ -394,12 +392,19 @@ public class GridController : MonoBehaviour
         return Vector3Int.zero;
     }
 
-    public Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
+    public Vector3 GetWorldFromPathFindingGridPositionWithOffSet(Vector3Int position)
     {
         GameTile tile = mapPathFindingGrid[position];
         return tile.GetWorldPositionWithOffset();
     }
 
+    public Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
+    {
+        GameTile tile = mapPathFindingGrid[position];
+        return tile.WorldPosition;
+    }
+
+    // This in local Grid position
     private Vector3 GetWorldFromGridPosition(Vector3Int position)
     {
         return tilemapPathFinding.CellToWorld(position);
@@ -636,38 +641,101 @@ public class GridController : MonoBehaviour
 
             if (current.Type == ObjectType.NPC_SINGLE_TABLE)
             {
+                Vector3Int[] nextTile = GetNextTile(current);
 
-                newGridPos = GetPathFindingGridFromWorldPosition(GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0, 0.50f, 0)));
-                newActionTile = GetPathFindingGridFromWorldPosition(GetNearestGridPositionFromWorldMap(current.GetActionTile() + new Vector3(0, 0.50f, 0)));
-                Debug.Log(GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0.50f, 0.25f, 0)));
-                newVectorPos = GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0.50f, 0.25f, 0));
-                rotation = current.Position;
-
-                if (IsFreeBussCoord(newGridPos) && IsFreeBussCoord(newActionTile))
+                if (nextTile.GetLength(0) != 0)
                 {
-                    isValid = true;
+                    // We place the object 
+                    Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
+                    Debug.Log("SpamPosition " + spamPosition + " gridPosition " + nextTile[0]);
+                    GameObject newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                     break;
                 }
+
+                // newGridPos = GetPathFindingGridFromWorldPosition(GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0, 0.50f, 0)));
+                // newActionTile = GetPathFindingGridFromWorldPosition(GetNearestGridPositionFromWorldMap(current.GetActionTile() + new Vector3(0, 0.50f, 0)));
+                // Debug.Log(GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0.50f, 0.25f, 0)));
+                // newVectorPos = GetNearestGridPositionFromWorldMap(current.WorldPosition + new Vector3(0.50f, 0.25f, 0));
+                // rotation = current.Position;
+
+                // if (IsFreeBussCoord(newGridPos) && IsFreeBussCoord(newActionTile))
+                // {
+                //     isValid = true;
+                //     break;
+                // }
             }
         }
 
         // Found a good posiion
-        if (isValid && obj.Type == ObjectType.NPC_SINGLE_TABLE)
-        {
-            Vector3 spawnPositon = newVectorPos;
-            GameObject newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spawnPositon.x, spawnPositon.y, 1), Quaternion.identity, parent.transform) as GameObject;
-            TableController newObjectController = newObject.GetComponent<TableController>();
-            // newObjectController.SetRotation(ObjectRotation.FRONT);
-        }
-        else
-        {
-            //We iterate the entire buss array floor until we find a position
+        // if (isValid && obj.Type == ObjectType.NPC_SINGLE_TABLE)
+        // {
+        //     Vector3 spawnPositon = newVectorPos;
+        //     GameObject newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spawnPositon.x, spawnPositon.y, 1), Quaternion.identity, parent.transform) as GameObject;
+        //     TableController newObjectController = newObject.GetComponent<TableController>();
+        //     // newObjectController.SetRotation(ObjectRotation.FRONT);
+        // }
+        // else
+        // {
+        //     //We iterate the entire buss array floor until we find a position
 
-        }
+        // }
     }
 
-    // First check current objects that are equal and find a pos next to one of them
-    // businessObjects
-    // npcObject.transform.SetParent(NPCS.transform);
-    // tilemapObjects
+    private Vector3Int[] GetNextTile(GameGridObject gameGridObject)
+    {
+        int[,] positions = new int[,] { { 1, 0 }, { -1, 0 } };
+
+
+        for (int i = 0; i < positions.GetLength(0); i++)
+        {
+            Vector3Int offset = new Vector3Int(positions[i, 0], positions[i, 1], 0);
+            Vector3Int position = gameGridObject.GridPosition + offset;
+            Vector3Int actionPosition = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile()) + offset;
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPosition))
+            {
+                return new Vector3Int[] { position, actionPosition };
+            }
+        }
+        return new Vector3Int[] { };
+    }
+
+    public string DebugBussData()
+    {
+        string objects = "";
+        string maps = "";
+
+        maps += "Queue FreeBusinessSpots size: " + FreeBusinessSpots.Count + "\n";
+        foreach (GameGridObject g in FreeBusinessSpots)
+        {
+            maps += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+
+        }
+
+        maps += "Queue TablesWithClient size: " + TablesWithClient.Count + "\n";
+        foreach (GameGridObject g in TablesWithClient)
+        {
+            maps += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+
+        }
+
+        objects += "businessObjects size: " + businessObjects.Count + " \n";
+        foreach (GameGridObject g in businessObjects.Values)
+        {
+            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+        }
+
+        objects += "BusyBusinessSpotsMap size: " + BusyBusinessSpotsMap.Count + " \n";
+        foreach (GameGridObject g in BusyBusinessSpotsMap.Values)
+        {
+            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+        }
+
+        objects += "FreeBusinessSpotsMap size: " + FreeBusinessSpotsMap.Count + " \n";
+        foreach (GameGridObject g in FreeBusinessSpotsMap.Values)
+        {
+            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+        }
+
+        return "";
+    }
 }
