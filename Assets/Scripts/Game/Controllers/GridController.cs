@@ -202,7 +202,7 @@ public class GridController : MonoBehaviour
         }
 
 
-        DrawCellCoords();
+        //DrawCellCoords();
     }
 
     private void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3Int, GameTile> map)
@@ -531,7 +531,6 @@ public class GridController : MonoBehaviour
 
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
-        Debug.Log("Adding Free buss spot: "+obj.Name);
         BusyBusinessSpotsMap.Remove(obj.Name);
         FreeBusinessSpotsMap.Add(obj.Name, obj);
 

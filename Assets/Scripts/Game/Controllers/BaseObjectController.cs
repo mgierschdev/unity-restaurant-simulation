@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BaseObjectController : MonoBehaviour
 {
-    protected MenuHandlerController Menu { get; set; }
+    protected UIHandler Menu { get; set; }
     private Vector3 initialPosition;
     private Vector3 mousePosition;
     //Initial object position

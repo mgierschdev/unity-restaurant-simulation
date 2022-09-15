@@ -1,0 +1,40 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI/MainPanel.uss?fileID=7433441132597879392&amp;guid=868470487b77148ee92d8b529844c576&amp;type=3#MainPanel" />
+    <ui:VisualElement name="Screen" picking-mode="Ignore" style="flex-grow: 1; flex-direction: column; justify-content: space-between; opacity: 1; display: flex; visibility: visible; overflow: hidden;">
+        <ui:VisualElement name="Top" picking-mode="Ignore" class="main-container" style="align-items: center; flex-direction: row; justify-content: space-around;">
+            <ui:VisualElement name="LevelStat" class="top-bar-labels">
+                <ui:Label text="LevelStat" display-tooltip-when-elided="true" name="LevelStat" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start; overflow: hidden;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="MoneyStat" class="top-bar-labels">
+                <ui:Label text="Available $" display-tooltip-when-elided="true" name="MoneyStat" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="VIPMoneyStat" class="top-bar-labels">
+                <ui:Label text="VIPMoneyStat" display-tooltip-when-elided="true" name="VIPMoneyStat" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Center" picking-mode="Ignore" class="main-container" style="width: auto; justify-content: flex-start; align-items: stretch; display: none; opacity: 1;">
+            <ui:VisualElement style="flex-direction: column; align-items: stretch; flex-grow: 1;">
+                <ui:Label text="Store" display-tooltip-when-elided="true" class="center-menu-title" />
+                <ui:ListView focusable="true" name="store-list-view" style="height: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Down" picking-mode="Ignore" class="main-container down-panel" style="align-items: flex-end;">
+            <ui:VisualElement name="Left" picking-mode="Ignore" class="down-panel-container" style="flex-direction: column; left: 40px;">
+                <ui:VisualElement name="DownLeftPanel" picking-mode="Ignore" style="flex-wrap: nowrap; align-items: center;">
+                    <ui:VisualElement picking-mode="Ignore" style="flex-direction: row;">
+                        <ui:Button display-tooltip-when-elided="true" name="EmployeeButton" class="employee-button down-panel-button" />
+                        <ui:Button display-tooltip-when-elided="true" name="StoreButton" class="store-button down-panel-button" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row;">
+                        <ui:Button display-tooltip-when-elided="true" name="EditButton" class="modify-button down-panel-button" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Right" picking-mode="Ignore" class="down-panel-container" style="right: 40px; bottom: 40px;">
+                <ui:VisualElement name="DownRightPanel" picking-mode="Ignore">
+                    <ui:Button display-tooltip-when-elided="true" name="ExitEditModeButton" class="down-panel-button exit-edit-panel-button" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

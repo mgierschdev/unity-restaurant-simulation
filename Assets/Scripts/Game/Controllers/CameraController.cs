@@ -12,14 +12,11 @@ public class CameraController : MonoBehaviour
     private const float ZOOM_SPEED = 35;
     private const float MIN_ZOOM_SIZE = 1;
     private const float MAX_ZOOM_SIZE = 5;
-    // Menu Controller
-    private MenuHandlerController menuHandlerController;
     // Main Camera
     private Camera mainCamera;
     private GridController gridController;
     private Vector3 targetVectorPosition;
     private float targetOrthographicSize;
-    private MenuHandlerController menuController;
 
     private void Start()
     {
@@ -27,12 +24,8 @@ public class CameraController : MonoBehaviour
         targetPosition = mainCamera.orthographicSize;
         touchStart = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         direction = touchStart - mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        GameObject parentCanvas = GameObject.Find(Settings.ConstCanvasParentMenu);
-        menuHandlerController = parentCanvas.GetComponent<MenuHandlerController>();
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
-        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
-        menuController = menuHandler.GetComponent<MenuHandlerController>();
         targetVectorPosition = Vector3.zero;
         targetOrthographicSize = 2.5f;
     }
@@ -65,7 +58,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (!Settings.CameraPerspectiveHand || gridController.DraggingObject || menuController.IsMenuOpen())
+        if (!Settings.CameraPerspectiveHand || gridController.DraggingObject)
         {
             return;
         }
