@@ -95,6 +95,11 @@ public class UIHandler : MonoBehaviour
     // The only contract to with the edit panel logic
     public bool IsEditPanelOpen()
     {
+        if (!gridController)
+        {
+            return false;
+        }
+
         return exitEditModeButton.visible;
     }
 }
