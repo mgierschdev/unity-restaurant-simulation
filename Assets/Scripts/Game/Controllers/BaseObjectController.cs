@@ -11,9 +11,18 @@ public class BaseObjectController : MonoBehaviour
     protected GameGridObject gameGridObject;
     protected GridController Grid { get; set; }
 
+    private void Awake()
+    {
+        GameObject gameObject = GameObject.Find("UI(New)");
+        Menu = gameObject.GetComponent<UIHandler>();
+        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
+        Grid = gameGrid.GetComponent<GridController>();
+        Debug.Log("Menu " + Menu.name + " Grid " + Grid.name);
+    }
+
     private void Update()
     {
-        if (!Menu || !Grid || Grid.DraggingObject)
+        if (!Menu || !Grid || gameGridObject == null || Grid.DraggingObject)
         {
             return;
         }
@@ -30,7 +39,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
+        if (!Menu || !Grid || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
         }
@@ -102,12 +111,12 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
-        if (!Menu || !Menu.IsEditPanelOpen())
+        if (!Menu || !Menu.IsEditPanelOpen() || gameGridObject == null)
         {
             return false;
         }
 
-        if (gameGridObject != null && Grid.IsTableBusy(gameGridObject))
+        if (Grid.IsTableBusy(gameGridObject))
         {
             // GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
             // GameLog.Log("Used by " + gameGridObject.UsedBy.name);
@@ -115,6 +124,12 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.FreeObject();
             Grid.AddFreeBusinessSpots(gameGridObject);
         }
-        return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Menu.IsEditPanelOpen() && !Grid.IsTableBusy(gameGridObject);
+
+        Debug.Log("Game Grid Object " + gameGridObject);
+
+        return gameGridObject.Type != ObjectType.UNDEFINED &&
+        gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE &&
+        Menu.IsEditPanelOpen() &&
+        !Grid.IsTableBusy(gameGridObject);
     }
 }

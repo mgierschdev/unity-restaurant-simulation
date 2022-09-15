@@ -629,17 +629,12 @@ public class GridController : MonoBehaviour
     public void PlaceGameObject(GameGridObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
-        Vector3 newVectorPos = Vector3.positiveInfinity;
-        Vector3Int newGridPos = Util.GetVector3IntPositiveInfinity();
-        Vector3Int newActionTile = Util.GetVector3IntPositiveInfinity();
-        ObjectRotation rotation = ObjectRotation.FRONT;
-        bool isValid = false;
 
         foreach (KeyValuePair<string, GameGridObject> dic in businessObjects)
         {
             GameGridObject current = dic.Value;
 
-            if (current.Type == ObjectType.NPC_SINGLE_TABLE)
+            if (current.Type == ObjectType.NPC_SINGLE_TABLE && obj.Type == ObjectType.NPC_SINGLE_TABLE)
             {
                 Vector3Int[] nextTile = GetNextTile(current);
 
@@ -647,7 +642,7 @@ public class GridController : MonoBehaviour
                 {
                     // We place the object 
                     Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
-                    GameObject newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                    GameObject dummy = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                     break;
                 }
             }
@@ -655,7 +650,7 @@ public class GridController : MonoBehaviour
 
         // Found a good position
         // TODO: if all busy find a 2 free position on the entire grid
-        GameLog.Log("All busy: finding a 2 free position on the entire grid");
+        GameLog.Log("TODO: All busy: finding a 2 free position on the entire grid");
     }
 
     private Vector3Int[] GetNextTile(GameGridObject gameGridObject)
@@ -685,7 +680,6 @@ public class GridController : MonoBehaviour
         foreach (GameGridObject g in FreeBusinessSpots)
         {
             maps += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
-
         }
 
         maps += "\n\n\n";
@@ -694,7 +688,6 @@ public class GridController : MonoBehaviour
         foreach (GameGridObject g in TablesWithClient)
         {
             maps += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
-
         }
 
         maps += "\n\n\n";
