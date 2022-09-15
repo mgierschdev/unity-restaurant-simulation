@@ -74,7 +74,7 @@ public class NPCController : GameObjectMovementBase
         if (localState == NpcState.WALKING_UNRESPAWN)
         {
             if (Util.IsAtDistanceWithObject(transform.position,
-                    GameGrid.GetWorldFromPathFindingGridPosition(unRespawnTile.GridPosition)))
+                    GameGrid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
             {
                 gameController.RemoveNpc(this);
                 Destroy(gameObject);

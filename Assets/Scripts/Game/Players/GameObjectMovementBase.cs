@@ -204,7 +204,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
         Vector3 direction =
-            GameGrid.GetWorldFromPathFindingGridPosition(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
+            GameGrid.GetWorldFromPathFindingGridPositionWithOffSet(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
         currentTargetPosition = new Vector3(direction.x, direction.y);
     }
 
