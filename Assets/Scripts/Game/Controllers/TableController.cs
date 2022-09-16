@@ -13,7 +13,7 @@ public class TableController : BaseObjectController
        
        if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {
-            string id = Grid.GetObjectCount() + 1 + "-" + Time.deltaTime;
+            string id = Grid.GetObjectCount() + 1 + "-" + Time.frameCount;
             name = "SingleTable." + id;
             gameGridObject.Name = name;
             gameGridObject.Hide();
