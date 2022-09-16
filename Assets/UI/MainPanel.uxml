@@ -3,21 +3,21 @@
     <ui:VisualElement name="Screen" picking-mode="Ignore" style="flex-grow: 1; flex-direction: column; justify-content: space-between; opacity: 1; display: flex; visibility: visible; overflow: hidden;">
         <ui:VisualElement name="Top" picking-mode="Ignore" class="main-container" style="align-items: center; flex-direction: row; justify-content: space-around;">
             <ui:VisualElement name="LevelStat" class="top-bar-labels">
-                <ui:Label text="LevelStat" display-tooltip-when-elided="true" name="LevelStat" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start; overflow: hidden;" />
+                <ui:Label text="LevelStat" display-tooltip-when-elided="true" name="LevelStat" class="top-bar-text" />
             </ui:VisualElement>
             <ui:VisualElement name="MoneyStat" class="top-bar-labels">
-                <ui:Label text="Available $" display-tooltip-when-elided="true" name="MoneyStat" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start;" />
+                <ui:Label text="Available $" display-tooltip-when-elided="true" name="MoneyStat" class="top-bar-text" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start;" />
             </ui:VisualElement>
-            <ui:VisualElement name="VIPMoneyStat" class="top-bar-labels">
-                <ui:Label text="VIPMoneyStat" display-tooltip-when-elided="true" name="VIPMoneyStat" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start;" />
+            <ui:VisualElement name="VIPMoneyStat" class="top-bar-labels" style="-unity-text-align: upper-left;">
+                <ui:Label text="VIPMoneyStat" display-tooltip-when-elided="true" name="VIPMoneyStat" class="top-bar-text" style="-unity-background-image-tint-color: rgba(255, 255, 255, 0.45); -unity-text-align: upper-center; width: 101px; align-items: center; justify-content: flex-start;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Center" picking-mode="Ignore" class="main-container" style="width: auto; justify-content: flex-end; align-items: center; display: flex; opacity: 1;">
-            <ui:VisualElement name="StoreListContainer" style="flex-direction: column; align-items: stretch; flex-grow: 1; width: 300px; background-color: rgba(255, 255, 255, 255);">
+            <ui:VisualElement name="StoreListContainer" style="flex-direction: column; align-items: stretch; flex-grow: 1; width: 300px; background-color: rgb(255, 255, 255); display: none;">
                 <ui:VisualElement name="Title">
-                    <ui:Label text="Store" display-tooltip-when-elided="true" class="center-menu-title" style="flex-grow: 1; flex-shrink: 1; align-items: center; flex-direction: column; flex-wrap: nowrap; background-color: rgba(255, 255, 255, 255);" />
+                    <ui:Label text="Store" display-tooltip-when-elided="true" class="center-menu-title" style="flex-grow: 1; flex-shrink: 1; align-items: center; flex-direction: column; flex-wrap: nowrap; background-color: rgb(255, 255, 255);" />
                 </ui:VisualElement>
-                <ui:ListView focusable="true" name="StoreListView" binding-path="StoreListRow" fixed-item-height="100" header-title="Test List" show-border="false" horizontal-scrolling="true" show-alternating-row-backgrounds="All" show-foldout-header="false" show-add-remove-footer="false" reorderable="false" reorder-mode="Simple" tabindex="0" show-bound-collection-size="false" style="height: auto; background-color: rgb(255, 255, 255);" />
+                <ui:ListView focusable="true" name="StoreListView" binding-path="StoreListRow" fixed-item-height="100" header-title="Test List" show-border="false" horizontal-scrolling="true" show-alternating-row-backgrounds="All" show-foldout-header="false" show-add-remove-footer="false" reorderable="false" reorder-mode="Simple" tabindex="0" show-bound-collection-size="false" style="height: auto; background-color: rgb(255, 255, 255); display: flex;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Down" picking-mode="Ignore" class="main-container down-panel" style="align-items: flex-end;">
@@ -34,7 +34,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="Right" picking-mode="Ignore" class="down-panel-container" style="right: 40px; bottom: 40px;">
                 <ui:VisualElement name="DownRightPanel" picking-mode="Ignore">
-                    <ui:Button display-tooltip-when-elided="true" name="ExitEditModeButton" class="down-panel-button exit-edit-panel-button" />
+                    <ui:Button display-tooltip-when-elided="true" name="ExitEditModeButton" class="down-panel-button exit-edit-panel-button" style="display: flex;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
