@@ -17,6 +17,9 @@ public class UIHandler : MonoBehaviour
     private VisualElement centerContainer;
     private VisualElement downPanelContainer;
 
+    // Drag effect with mouse
+    private Vector3 initPointerDownPosition;
+
     void Awake()
     {
         // Grid Controller
@@ -27,8 +30,8 @@ public class UIHandler : MonoBehaviour
         gameUI = GetComponent<UIDocument>();
         rootVisualElement = gameUI.rootVisualElement;
         bottomLeftPanelList = new List<Button>();
-        // VisualTreeAsset visualTree = rootVisualElement.visualTreeAssetSource;
-        //TemplateContainer templateContainer = visualTree.CloneTree();
+
+        // Querying elements from the UI tree xmlu
         Button storeButton = rootVisualElement.Q<Button>("StoreButton");
         Button employeeButton = rootVisualElement.Q<Button>("EmployeeButton");
         Button editButton = rootVisualElement.Q<Button>("EditButton");
@@ -44,6 +47,12 @@ public class UIHandler : MonoBehaviour
         exitEditModeButton.RegisterCallback<ClickEvent>(CloseEditPanel);
         closeCenterPanelButton.RegisterCallback<ClickEvent>(CloseCenterPanel);
 
+        //Adding drag with mouse
+        listView.RegisterCallback<PointerDownEvent>(ListViewRegisterDownEvent);
+        listView.RegisterCallback<PointerMoveEvent>(ListViewMoveEvent);
+        listView.RegisterCallback<PointerUpEvent>(ListViewPointerUpEvent);
+        //Adding drag with mouse
+
         bottomLeftPanelList.Add(storeButton);
         bottomLeftPanelList.Add(employeeButton);
         bottomLeftPanelList.Add(editButton);
@@ -51,6 +60,26 @@ public class UIHandler : MonoBehaviour
 
         PopulateStoreListView();
         centerContainer.visible = false;
+        initPointerDownPosition = Vector3.positiveInfinity;
+    }
+
+    private void ListViewPointerUpEvent(PointerUpEvent pointer)
+    {
+        initPointerDownPosition = Vector3.positiveInfinity;
+    }
+
+    private void ListViewMoveEvent(PointerMoveEvent pointer)
+    {
+        if (initPointerDownPosition == Vector3.positiveInfinity)
+        {
+            return;
+        }
+        
+    }
+
+    private void ListViewRegisterDownEvent(PointerDownEvent pointer)
+    {
+        initPointerDownPosition = pointer.position;
     }
 
     private void CloseCenterPanel(ClickEvent ent)
