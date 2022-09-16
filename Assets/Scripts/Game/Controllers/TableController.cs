@@ -26,5 +26,4 @@ public class TableController : BaseObjectController
     {
         gameGridObject.UpdateRotation(rotation);
     }
-
 }
