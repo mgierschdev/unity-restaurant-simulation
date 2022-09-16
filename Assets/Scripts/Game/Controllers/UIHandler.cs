@@ -33,7 +33,7 @@ public class UIHandler : MonoBehaviour
         Button editButton = rootVisualElement.Q<Button>("EditButton");
         exitEditModeButton = rootVisualElement.Q<Button>("ExitEditModeButton");
         storeItems = rootVisualElement.Q<ListView>("StoreListView");
-        storeListContainer = rootVisualElement.Q<ListView>("StoreListContainer");
+        storeListContainer = rootVisualElement.Q<VisualElement>("StoreListContainer");
 
         storeButton.RegisterCallback<ClickEvent>(OpenStoreWindow);
         employeeButton.RegisterCallback<ClickEvent>(SetButtonBehaviour);
@@ -94,8 +94,9 @@ public class UIHandler : MonoBehaviour
         // we fix the camera in case the player is zoomed
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
-        exitEditModeButton.visible = true;
         PauseGame();
+        exitEditModeButton.visible = true;
+        Debug.Log("ExitEdit button "+exitEditModeButton);
     }
 
     private void CloseEditPanel(ClickEvent evt)
@@ -120,7 +121,6 @@ public class UIHandler : MonoBehaviour
     {
         Time.timeScale = 1;
     }
-
     private void HideLeftDownPanel()
     {
         foreach (Button b in bottomLeftPanelList)
@@ -128,7 +128,6 @@ public class UIHandler : MonoBehaviour
             b.visible = false;
         }
     }
-
     private void ShowLeftDownPanel()
     {
         foreach (Button b in bottomLeftPanelList)

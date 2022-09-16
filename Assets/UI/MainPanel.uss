@@ -8,7 +8,8 @@
     left: auto;
     flex-direction: column-reverse;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    -unity-text-align: middle-center;
 }
 
 .down-panel-button {
@@ -84,4 +85,14 @@
     margin-bottom: 10px;
     margin-right: 10px;
     margin-left: 10px;
+}
+
+.top-bar-text {
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.45);
+    -unity-text-align: upper-center;
+    width: 101px;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 255);
 }

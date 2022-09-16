@@ -9,7 +9,6 @@ public class TableController : BaseObjectController
     {
         //Edit Panel Disable
         GameObject EditPanel = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-
         gameGridObject = new GameGridObject(transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.FRONT, ObjectType.NPC_SINGLE_TABLE, EditPanel, Grid);
        
        if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
@@ -17,6 +16,7 @@ public class TableController : BaseObjectController
             string id = Grid.GetObjectCount() + 1 + "-" + Time.fixedDeltaTime;
             name = "SingleTable." + id;
             gameGridObject.Name = name;
+            gameGridObject.Hide();
             Grid.SetGridObject(gameGridObject);
         }
     }
