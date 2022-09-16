@@ -9,7 +9,7 @@ using UnityEngine;
 // Script used for the Jenkins Build
 public class BuildScript
 {
-    static void PerformAndroidBuild()
+    public void PerformAndroidBuild()
     {
         string[] defaultScene = {
             "Assets/Scenes/World.unity",
@@ -34,7 +34,7 @@ public class BuildScript
         }
     }
 
-    static void PerformIOSBuild()
+    public void PerformIOSBuild()
     {
         string[] defaultScene = {
             "Assets/Scenes/World.unity",
