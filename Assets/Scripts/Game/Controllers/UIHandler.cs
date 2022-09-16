@@ -13,8 +13,9 @@ public class UIHandler : MonoBehaviour
     //Store List attributes
     [SerializeField]
     public VisualTreeAsset StoreListEntry;
-    private ListView storeItems;
-    private VisualElement storeListContainer;
+    private ListView listView;
+    private VisualElement centerContainer;
+    private VisualElement downPanelContainer;
 
     void Awake()
     {
@@ -32,8 +33,9 @@ public class UIHandler : MonoBehaviour
         Button employeeButton = rootVisualElement.Q<Button>("EmployeeButton");
         Button editButton = rootVisualElement.Q<Button>("EditButton");
         exitEditModeButton = rootVisualElement.Q<Button>("ExitEditModeButton");
-        storeItems = rootVisualElement.Q<ListView>("StoreListView");
-        storeListContainer = rootVisualElement.Q<VisualElement>("StoreListContainer");
+        listView = rootVisualElement.Q<ListView>("ListView");
+        centerContainer = rootVisualElement.Q<VisualElement>("Center");
+        downPanelContainer = rootVisualElement.Q<VisualElement>("Down");
 
         storeButton.RegisterCallback<ClickEvent>(OpenStoreWindow);
         employeeButton.RegisterCallback<ClickEvent>(SetButtonBehaviour);
@@ -46,21 +48,19 @@ public class UIHandler : MonoBehaviour
         exitEditModeButton.visible = false;
 
         PopulateStoreListView();
-        storeListContainer.visible = false;
+        centerContainer.visible = false;
     }
 
     private void OpenStoreWindow(ClickEvent evt)
     {
-        storeListContainer.visible = true;
+        centerContainer.visible = true;
         gridController.DraggingObject = true;// Blocks perspective hand
+        downPanelContainer.visible = false;
     }
 
     private void PopulateStoreListView()
     {
-
-        Debug.Log(StoreListEntry.name);
-
-        storeItems.makeItem = () =>
+        listView.makeItem = () =>
         {
             // Instantiate the UXML template for the entry
             var newListEntry = StoreListEntry.Instantiate();
@@ -70,17 +70,19 @@ public class UIHandler : MonoBehaviour
             return newListEntry;
         };
 
-        storeItems.bindItem = (item, index) =>
+        listView.bindItem = (item, index) =>
         {
             (item.userData as string).GetType();
         };
 
         List<string> list = new List<string>();
-        list.Add("1");
-        list.Add("2");
-        list.Add("3");
-        list.Add("4");
-        storeItems.itemsSource = list;
+
+        for (int i = 0; i < 50; i++)
+        {
+            list.Add(i.ToString());
+        }
+
+        listView.itemsSource = list;
     }
 
     private void SetButtonBehaviour(ClickEvent evt)
@@ -96,7 +98,7 @@ public class UIHandler : MonoBehaviour
         gridController.HighlightGridBussFloor();
         PauseGame();
         exitEditModeButton.visible = true;
-        Debug.Log("ExitEdit button "+exitEditModeButton);
+        Debug.Log("ExitEdit button " + exitEditModeButton);
     }
 
     private void CloseEditPanel(ClickEvent evt)
