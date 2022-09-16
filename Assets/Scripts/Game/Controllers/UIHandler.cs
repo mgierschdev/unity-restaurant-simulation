@@ -32,6 +32,7 @@ public class UIHandler : MonoBehaviour
         Button storeButton = rootVisualElement.Q<Button>("StoreButton");
         Button employeeButton = rootVisualElement.Q<Button>("EmployeeButton");
         Button editButton = rootVisualElement.Q<Button>("EditButton");
+        Button closeCenterPanelButton = rootVisualElement.Q<Button>("CloseCenterPanelButton");
         exitEditModeButton = rootVisualElement.Q<Button>("ExitEditModeButton");
         listView = rootVisualElement.Q<ListView>("ListView");
         centerContainer = rootVisualElement.Q<VisualElement>("Center");
@@ -41,6 +42,7 @@ public class UIHandler : MonoBehaviour
         employeeButton.RegisterCallback<ClickEvent>(SetButtonBehaviour);
         editButton.RegisterCallback<ClickEvent>(OpenEditPanel);
         exitEditModeButton.RegisterCallback<ClickEvent>(CloseEditPanel);
+        closeCenterPanelButton.RegisterCallback<ClickEvent>(CloseCenterPanel);
 
         bottomLeftPanelList.Add(storeButton);
         bottomLeftPanelList.Add(employeeButton);
@@ -48,6 +50,10 @@ public class UIHandler : MonoBehaviour
         exitEditModeButton.visible = false;
 
         PopulateStoreListView();
+        centerContainer.visible = false;
+    }
+
+    private void CloseCenterPanel(ClickEvent ent){
         centerContainer.visible = false;
     }
 
