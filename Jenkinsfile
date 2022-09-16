@@ -43,6 +43,6 @@ pipeline {
         //         //  bat "\"${UNITY_PATH}\" -batchmode -projectPath . -executeMethod BuildScript.PerformBuild -logFile build.log"
         //         // /Applications/Unity/Hub/Editor/2021.3.5f1/Unity.app/Contents/MacOS/Unity -projectPath '/Users/macbookpro/work/Repositories/TestUnityProject' -executeMethod BuildScript.PerformBuild -logFile 'build.log' 
         //     }
-        }
+        // }
     }                       
 }
