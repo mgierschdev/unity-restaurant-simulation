@@ -5,7 +5,6 @@ pipeline {
             customWorkspace "/Users/macbookpro/work/Repositories/Jenkins/"
         }
     }
-    env.BUILD_NUMBER
     environment {
         UNITY_PATH = "/Applications/Unity/Hub/Editor/2022.1.16f1/Unity.app/Contents/MacOS/Unity"
         BUILD_ID = "${env.BUILD_ID}"
