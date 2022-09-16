@@ -13,7 +13,7 @@ class BuildScript
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = defaultScene;
-        buildPlayerOptions.locationPathName = "AndroidBuild" + System.DateTime.Now;
+        buildPlayerOptions.locationPathName = ".";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.None;
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -38,8 +38,8 @@ class BuildScript
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = defaultScene;
-        buildPlayerOptions.locationPathName = "iOSBuild" + System.DateTime.Now;
-        buildPlayerOptions.target = BuildTarget.iOS;
+        buildPlayerOptions.locationPathName = ".";
+        buildPlayerOptions.target = BuildTarget.;
         buildPlayerOptions.options = BuildOptions.None;
 
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
