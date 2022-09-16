@@ -17,7 +17,6 @@ public class BaseObjectController : MonoBehaviour
         Menu = gameObject.GetComponent<UIHandler>();
         GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
         Grid = gameGrid.GetComponent<GridController>();
-        Debug.Log("Menu " + Menu.name + " Grid " + Grid.name);
     }
 
     private void Update()
@@ -124,8 +123,6 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.FreeObject();
             Grid.AddFreeBusinessSpots(gameGridObject);
         }
-
-        Debug.Log("Game Grid Object " + gameGridObject);
 
         return gameGridObject.Type != ObjectType.UNDEFINED &&
         gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE &&
