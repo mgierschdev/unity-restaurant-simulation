@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -9,7 +5,7 @@ using UnityEngine;
 // Script used for the Jenkins Build
 class BuildScript
 {
-    static void PerformAndroidBuild()
+    public static void PerformAndroidBuild()
     {
         string[] defaultScene = {
             "Assets/Scenes/World.unity",
@@ -34,7 +30,7 @@ class BuildScript
         }
     }
 
-    statics void PerformIOSBuild()
+    public static void PerformIOSBuild()
     {
         string[] defaultScene = {
             "Assets/Scenes/World.unity",
