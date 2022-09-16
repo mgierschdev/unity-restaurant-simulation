@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BaseObjectController : MonoBehaviour
 {
-    protected UIHandler Menu { get; set; }
+    protected MenuHandlerController Menu { get; set; }
     private Vector3 initialPosition;
     private Vector3 mousePosition;
     //Initial object position
@@ -13,8 +13,9 @@ public class BaseObjectController : MonoBehaviour
 
     private void Awake()
     {
-        GameObject gameObject = GameObject.Find("UI(New)");
-        Menu = gameObject.GetComponent<UIHandler>();
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
+        Menu = menuHandler.GetComponent<MenuHandlerController>();
         GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
         Grid = gameGrid.GetComponent<GridController>();
     }
