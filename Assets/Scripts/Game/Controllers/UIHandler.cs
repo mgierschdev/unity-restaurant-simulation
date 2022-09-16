@@ -53,8 +53,11 @@ public class UIHandler : MonoBehaviour
         centerContainer.visible = false;
     }
 
-    private void CloseCenterPanel(ClickEvent ent){
+    private void CloseCenterPanel(ClickEvent ent)
+    {
         centerContainer.visible = false;
+        downPanelContainer.visible = true;
+        gridController.DraggingObject = false;// Enables perspective hand
     }
 
     private void OpenStoreWindow(ClickEvent evt)
