@@ -2,10 +2,10 @@ pipeline {
     agent { 
         node {
             label "master"
-            customWorkspace '/Users/macbookpro/work/Repositories/Jenkins'
+            customWorkspace "/Users/macbookpro/work/Repositories/Jenkins/"
         }
     }
-    
+    env.BUILD_NUMBER
     environment {
         UNITY_PATH = "/Applications/Unity/Hub/Editor/2022.1.16f1/Unity.app/Contents/MacOS/Unity"
     }
@@ -24,8 +24,10 @@ pipeline {
         }
         stage('Build IOS') {
             steps { 
+
                 echo 'Bulding....'
-                sh "${UNITY_PATH} -quit -batchmode -projectPath . -executeMethod  BuildScript.PerformIOSBuild -stackTraceLogType Full --silent-crashes"
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh "${UNITY_PATH} -quit -batchmode -projectPath IOS/${env.BUILD_ID}/ -executeMethod  BuildScript.PerformIOSBuild -stackTraceLogType Full --silent-crashes"
                         
                 //  bat "\"${UNITY_PATH}\" -batchmode -projectPath . -executeMethod BuildScript.PerformBuild -logFile build.log"
                 // /Applications/Unity/Hub/Editor/2021.3.5f1/Unity.app/Contents/MacOS/Unity -projectPath '/Users/macbookpro/work/Repositories/TestUnityProject' -executeMethod BuildScript.PerformBuild -logFile 'build.log' 
@@ -35,7 +37,8 @@ pipeline {
         stage('Build Android') {
             steps { 
                 echo 'Bulding....'
-                sh "${UNITY_PATH} -quit -batchmode -projectPath . -executeMethod  BuildScript.PerformAndroidBuild -stackTraceLogType Full --silent-crashes"
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh "${UNITY_PATH} -quit -batchmode -projectPath Android/${env.BUILD_ID}/ -executeMethod  BuildScript.PerformAndroidBuild -stackTraceLogType Full --silent-crashes"
                         
                 //  bat "\"${UNITY_PATH}\" -batchmode -projectPath . -executeMethod BuildScript.PerformBuild -logFile build.log"
                 // /Applications/Unity/Hub/Editor/2021.3.5f1/Unity.app/Contents/MacOS/Unity -projectPath '/Users/macbookpro/work/Repositories/TestUnityProject' -executeMethod BuildScript.PerformBuild -logFile 'build.log' 
