@@ -37,8 +37,7 @@ pipeline {
                 echo 'Bulding....'
                 echo "Running ${BUILD_ID} on ${JENKINS_URL}"
                 sh "${UNITY_PATH} -quit -batchmode -projectPath ${PROJECT_PATH} -executeMethod BuildScript.PerformAndroidBuild -stackTraceLogType Full"
-
-// /Applications/Unity/Hub/Editor/2022.1.16f1/Unity.app/Contents/MacOS/Unity -quit -batchmode -projectPath . -executeMethod BuildScript.PerformAndroidBuild -stackTraceLogType Full -logfile ~/Unity/Unity.log
+                // /Applications/Unity/Hub/Editor/2022.1.16f1/Unity.app/Contents/MacOS/Unity -quit -batchmode -projectPath . -executeMethod BuildScript.PerformAndroidBuild -stackTraceLogType Full -logfile ~/Unity/Unity.log
             }
         }
     }                       
