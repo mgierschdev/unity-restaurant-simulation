@@ -1,6 +1,8 @@
+using System;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
-using UnityEngine;
+
 
 // Script used for the Jenkins Build
 class BuildScript
@@ -13,7 +15,7 @@ class BuildScript
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = defaultScene;
-        buildPlayerOptions.locationPathName = "~/Unity/Android/unity.apk";
+        buildPlayerOptions.locationPathName = "~/Unity/Android/android"+DateTime.Now+".apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.None;
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
