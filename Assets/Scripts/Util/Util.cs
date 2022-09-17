@@ -396,4 +396,10 @@ public static class Util
     {
         return Vector3.Distance(new Vector3(a.x, a.y, 0), new Vector3(b.x, b.y, 0)) < Settings.MinDistanceToTarget;
     }
+
+    public static long GetUnixTimeNow()
+    {
+        var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
+        return (long)timeSpan.TotalSeconds;
+    }
 }
