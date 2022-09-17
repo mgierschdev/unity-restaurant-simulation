@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         UNITY_PATH = "/Applications/Unity/Hub/Editor/2022.1.16f1/Unity.app/Contents/MacOS/Unity"
-        PROJECT_PATH = "/Users/macbookpro/Work/Repositories/Jenkins/"
+        PROJECT_PATH = "/Users/macbookpro/Work/Repositories/UnityProject/"
         BUILD_ID = "${env.BUILD_ID}"
         JENKINS_URL = "${env.JENKINS_URL}"
     }
@@ -37,9 +37,8 @@ pipeline {
                 echo 'Bulding....'
                 echo "Running ${BUILD_ID} on ${JENKINS_URL}"
                 sh "${UNITY_PATH} -quit -batchmode -projectPath ${PROJECT_PATH} -executeMethod BuildScript.PerformAndroidBuild -stackTraceLogType Full"
-                        
-                //  bat "\"${UNITY_PATH}\" -batchmode -projectPath . -executeMethod BuildScript.PerformBuild -logFile build.log"
-                // /Applications/Unity/Hub/Editor/2021.3.5f1/Unity.app/Contents/MacOS/Unity -projectPath '/Users/macbookpro/work/Repositories/TestUnityProject' -executeMethod BuildScript.PerformBuild -logFile 'build.log' 
+
+// /Applications/Unity/Hub/Editor/2022.1.16f1/Unity.app/Contents/MacOS/Unity -quit -batchmode -projectPath . -executeMethod BuildScript.PerformAndroidBuild -stackTraceLogType Full -logfile ~/Unity/Unity.log
             }
         }
     }                       
