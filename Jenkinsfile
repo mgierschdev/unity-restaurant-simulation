@@ -29,14 +29,14 @@ pipeline {
 
                 echo 'Bulding....'
                 echo "Running ${BUILD_ID} on ${JENKINS_URL}"
-                sh "${UNITY_PATH} -quit -batchmode -projectPath ${PROJECT_PATH} -executeMethod BuildScript.PerformIOSBuild -stackTraceLogType Full"
+                sh "${UNITY_PATH} -quit -batchmode -projectPath ${PROJECT_PATH} -executeMethod BuildScript.PerformIOSBuild -stackTraceLogType Full -logfile"
             }
         }
         stage('Build Android') {
             steps { 
                 echo 'Bulding....'
                 echo "Running ${BUILD_ID} on ${JENKINS_URL}"
-                sh "${UNITY_PATH} -quit -batchmode -projectPath ${PROJECT_PATH} -executeMethod BuildScript.PerformAndroidBuild -stackTraceLogType Full"
+                sh "${UNITY_PATH} -quit -batchmode -projectPath ${PROJECT_PATH} -executeMethod BuildScript.PerformAndroidBuild -stackTraceLogType Full -logfile"
                 // /Applications/Unity/Hub/Editor/2022.1.16f1/Unity.app/Contents/MacOS/Unity -quit -batchmode -projectPath . -executeMethod BuildScript.PerformAndroidBuild -stackTraceLogType Full -logfile ~/Unity/Unity.log
             }
         }
