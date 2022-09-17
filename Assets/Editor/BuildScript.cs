@@ -8,12 +8,12 @@ class BuildScript
     public static void PerformAndroidBuild()
     {
         string[] defaultScene = {
-            "Assets/Scenes/World.unity",
+            "Assets/World.unity",
             };
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = defaultScene;
-        buildPlayerOptions.locationPathName = ".";
+        buildPlayerOptions.locationPathName = "~/Unity/Android/unity.apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.None;
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -33,13 +33,13 @@ class BuildScript
     public static void PerformIOSBuild()
     {
         string[] defaultScene = {
-            "Assets/Scenes/World.unity",
+            "Assets/World.unity",
             };
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = defaultScene;
-        buildPlayerOptions.locationPathName = ".";
-        buildPlayerOptions.target = BuildTarget.;
+        buildPlayerOptions.locationPathName = "~/Unity/IOS/";
+        buildPlayerOptions.target = BuildTarget.iOS;
         buildPlayerOptions.options = BuildOptions.None;
 
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
