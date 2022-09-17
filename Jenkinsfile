@@ -28,7 +28,7 @@ pipeline {
 
                 echo 'Bulding....'
                 echo "Running ${BUILD_ID} on ${JENKINS_URL}"
-                sh "${UNITY_PATH} -quit -batchmode -projectPath . -executeMethod  BuildScript.PerformIOSBuild -stackTraceLogType Full"
+                sh "${UNITY_PATH} -quit -batchmode -projectPath . -executeMethod BuildScript.PerformIOSBuild -stackTraceLogType Full"
             }
         }
         stage('Build Android') {
