@@ -657,12 +657,12 @@ public class GridController : MonoBehaviour
     {
         int[,] positions = new int[,] { { 1, 0 }, { -1, 0 } };
 
-
         for (int i = 0; i < positions.GetLength(0); i++)
         {
             Vector3Int offset = new Vector3Int(positions[i, 0], positions[i, 1], 0);
             Vector3Int position = gameGridObject.GridPosition + offset;
             Vector3Int actionPosition = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile()) + offset;
+            Debug.Log(position + " " + position);
             if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPosition))
             {
                 return new Vector3Int[] { position, actionPosition };
@@ -717,7 +717,8 @@ public class GridController : MonoBehaviour
         return maps + " " + objects;
     }
 
-    public int GetObjectCount(){
+    public int GetObjectCount()
+    {
         return businessObjects.Count;
     }
 }

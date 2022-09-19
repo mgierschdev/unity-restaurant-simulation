@@ -19,10 +19,4 @@ public class TableController : BaseObjectController
             Grid.SetGridObject(gameGridObject);
         }
     }
-
-    // Only intented to be used during first Instantiation, otherwise will break the Edit panel logic
-    public void SetRotation(ObjectRotation rotation)
-    {
-        gameGridObject.UpdateRotation(rotation);
-    }
 }

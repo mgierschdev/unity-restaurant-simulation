@@ -111,23 +111,21 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
+
         if (!Menu || !Menu.IsEditPanelOpen() || gameGridObject == null)
         {
             return false;
         }
 
-        if (Grid.IsTableBusy(gameGridObject))
-        {
-            // GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
-            // GameLog.Log("Used by " + gameGridObject.UsedBy.name);
-            gameGridObject.UsedBy.GoToFinalState();
-            gameGridObject.FreeObject();
-            Grid.AddFreeBusinessSpots(gameGridObject);
-        }
+        // if (Grid.IsTableBusy(gameGridObject))
+        // {
+        //     // GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
+        //     // GameLog.Log("Used by " + gameGridObject.UsedBy.name);
+        //     // gameGridObject.UsedBy.GoToFinalState();
+        //     // gameGridObject.FreeObject();
+        //     // Grid.AddFreeBusinessSpots(gameGridObject);
+        // }
 
-        return gameGridObject.Type != ObjectType.UNDEFINED &&
-        gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE &&
-        Menu.IsEditPanelOpen() &&
-        !Grid.IsTableBusy(gameGridObject);
+        return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Menu.IsEditPanelOpen();
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Controlled attached to Game Object.
 public class ClickController : MonoBehaviour
 {
     private bool isClicking;
@@ -10,6 +11,8 @@ public class ClickController : MonoBehaviour
     public GameObject ClickedObject { get; set; }
     public GameTile ClickedGameTile { get; set; }
     private Camera mainCamera;
+
+    public bool MouseOverUI { get; set; }
 
     private void Start()
     {
@@ -70,10 +73,10 @@ public class ClickController : MonoBehaviour
         }
     }
 
-    // The object must have a collider attached
+    // The object must have a collider attached, used for when clicking individual NPCs or detecting long click for the player
     private void ObjectClickedControl()
     {
-        if (!Input.GetMouseButtonDown(0))
+        if (!Input.GetMouseButtonDown(0) || MouseOverUI)
         {
             return;
         }
@@ -83,6 +86,15 @@ public class ClickController : MonoBehaviour
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
+        Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
+
+
+        Debug.Log("Hits " + hits.GetLength(0));
+        foreach (Collider2D r in hits)
+        {
+            Debug.Log(r.name);
+        }
+
         if (tile != null)
         {
             ClickedGameTile = tile;
@@ -90,6 +102,7 @@ public class ClickController : MonoBehaviour
 
         if (hit.collider)
         {
+            Debug.Log("collider2D " + hit.collider);
             ClickedObject = GameObject.Find(hit.collider.name);
         }
     }
