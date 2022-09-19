@@ -8,7 +8,7 @@ public class GameGridObject : GameObjectBase
     public SpriteRenderer SpriteRenderer { get; set; }
     private List<GameObject> actionTiles;
     private List<SpriteRenderer> tiles;
-    public ObjectRotation Position { get; set; } // Facing position
+    public ObjectRotation FacingPosition { get; set; } // Facing position
     private Transform objectTransform;
     private int actionTile;
     public bool Busy { get; set; } //Being used by an NPC
@@ -16,10 +16,10 @@ public class GameGridObject : GameObjectBase
     public GameObject EditMenu { get; set; }
     private GridController gridController;
     private GameObject objectWithSprite;
-
+    
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
-        Position = ObjectRotation.FRONT;
+        FacingPosition = ObjectRotation.FRONT;
         TileType = tileType;
         Name = name;
         GridPosition = gridPosition; // Grid position, first position = 0, 0
@@ -30,7 +30,7 @@ public class GameGridObject : GameObjectBase
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost, string menuItemSprite)
     {
-        Position = ObjectRotation.FRONT;
+        FacingPosition = ObjectRotation.FRONT;
         MenuItemSprite = menuItemSprite;
         TileType = tileType;
         Name = name;
@@ -50,7 +50,7 @@ public class GameGridObject : GameObjectBase
         LocalGridPosition = localGridPosition;
         Type = type;
         Cost = cost;
-        this.Position = position;
+        this.FacingPosition = position;
         objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
         SpriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
@@ -148,13 +148,13 @@ public class GameGridObject : GameObjectBase
         }
 
         Vector3Int prev = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
-        Position++;
+        FacingPosition++;
 
-        if ((int)Position >= 5)
+        if ((int)FacingPosition >= 5)
         {
-            Position = ObjectRotation.FRONT;
+            FacingPosition = ObjectRotation.FRONT;
         }
-        UpdateRotation(Position);
+        UpdateRotation(FacingPosition);
         Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
         gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
@@ -162,7 +162,7 @@ public class GameGridObject : GameObjectBase
 
     private bool IsValidRotation()
     {
-        ObjectRotation tmp = Position;
+        ObjectRotation tmp = FacingPosition;
         tmp++;
 
         if ((int)tmp >= 5)
@@ -175,7 +175,7 @@ public class GameGridObject : GameObjectBase
         Vector3Int rotatedPosition = gridController.GetPathFindingGridFromWorldPosition(objectTransform.position);
         Vector3Int rotatedActionTile = gridController.GetPathFindingGridFromWorldPosition(actionTiles[GetRotationActionTile(tmp)].transform.position);
         // we flip the object back 
-        objectWithSprite.transform.localScale = GetRotationVector(Position);
+        objectWithSprite.transform.localScale = GetRotationVector(FacingPosition);
         if (gridController.IsFreeBussCoord(rotatedPosition) || gridController.IsFreeBussCoord(rotatedActionTile))
         {
             return true;
