@@ -117,14 +117,15 @@ public class BaseObjectController : MonoBehaviour
             return false;
         }
 
-        // if (Grid.IsTableBusy(gameGridObject))
-        // {
-        //     // GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
-        //     // GameLog.Log("Used by " + gameGridObject.UsedBy.name);
-        //     // gameGridObject.UsedBy.GoToFinalState();
-        //     // gameGridObject.FreeObject();
-        //     // Grid.AddFreeBusinessSpots(gameGridObject);
-        // }
+        // If you move a table while busy the NPC will self destroy
+        if (Grid.IsTableBusy(gameGridObject))
+        {
+            // GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
+            // GameLog.Log("Used by " + gameGridObject.UsedBy.name);
+            gameGridObject.UsedBy.GoToFinalState();
+            gameGridObject.FreeObject();
+            Grid.AddFreeBusinessSpots(gameGridObject);
+        }
 
         return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Menu.IsEditPanelOpen();
     }
