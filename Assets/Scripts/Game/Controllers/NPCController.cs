@@ -18,6 +18,7 @@ public class NPCController : GameObjectMovementBase
     private float randMax = 3f;
     private Vector3Int target; // walking to target
     private Vector3 targetInWorldPosition;
+    private bool IsNPCVisible;
 
     private void Start()
     {
@@ -41,6 +42,12 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
+        //checks whether the npc is visible
+        // if (enabled)
+        // {
+        //     Debug.Log(transform.name + " " + enabled);
+        // }
+
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
@@ -65,9 +72,11 @@ public class NPCController : GameObjectMovementBase
         {
             Wander();
         }
-
+        // TODO: only change inside camera CLAMP
+        // animationController.SetState(NpcState.IDLE);
         animationController.SetState(localState);
     }
+
 
     private void UpdateIsAtRespawn()
     {

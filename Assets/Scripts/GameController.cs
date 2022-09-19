@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private HashSet<NPCController> npcSet;
-    private const int NPC_MAX_NUMBER = 10;
+    private const int NPC_MAX_NUMBER = 1;
     private int npcId;
     private GridController gridController;
     private GameObject gameGridObject;
