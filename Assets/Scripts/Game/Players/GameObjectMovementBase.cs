@@ -109,8 +109,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdatePosition()
     {
-        body.angularVelocity = 0;
-        body.rotation = 0;
+        // body.angularVelocity = 0;
+        // body.rotation = 0;
         Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
     }
