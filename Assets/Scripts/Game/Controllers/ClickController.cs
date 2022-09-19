@@ -86,15 +86,6 @@ public class ClickController : MonoBehaviour
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-        Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
-
-
-        Debug.Log("Hits " + hits.GetLength(0));
-        foreach (Collider2D r in hits)
-        {
-            Debug.Log(r.name);
-        }
-
         if (tile != null)
         {
             ClickedGameTile = tile;
