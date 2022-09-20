@@ -30,7 +30,6 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Mouse down over object ");
         if (!Menu || !Grid || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
@@ -93,7 +92,7 @@ public class BaseObjectController : MonoBehaviour
         {
             initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
         }
-        
+
         gameGridObject.UpdateCoords();
         //So it will overlay over the rest of the items while dragging
         gameGridObject.SortingLayer.sortingOrder = 0;
@@ -102,7 +101,6 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
-
         if (!Menu || !Menu.IsEditPanelOpen() || gameGridObject == null)
         {
             return false;
@@ -118,6 +116,20 @@ public class BaseObjectController : MonoBehaviour
             Grid.AddFreeBusinessSpots(gameGridObject);
         }
 
-        return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Menu.IsEditPanelOpen();
+        return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Menu.IsEditPanelOpen() && !IsClickingButton();
+    }
+
+    private bool IsClickingButton()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
+        foreach (Collider2D r in hits)
+        {
+            if (r.name.Contains("Button"))
+            {
+                Debug.Log("Is clicking button ");
+                return true;
+            }
+        }
+        return false;
     }
 }

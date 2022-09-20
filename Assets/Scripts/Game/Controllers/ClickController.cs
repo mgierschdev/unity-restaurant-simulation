@@ -11,6 +11,7 @@ public class ClickController : MonoBehaviour
     public GameObject ClickedObject { get; set; }
     public GameTile ClickedGameTile { get; set; }
     private Camera mainCamera;
+    public bool IsPressingButton { get; set; }
 
     public bool MouseOverUI { get; set; }
 
@@ -93,7 +94,6 @@ public class ClickController : MonoBehaviour
 
         if (hit.collider)
         {
-            Debug.Log("collider2D " + hit.collider);
             ClickedObject = GameObject.Find(hit.collider.name);
         }
     }
