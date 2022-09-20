@@ -10,14 +10,6 @@ public class BaseObjectController : MonoBehaviour
     private const int COST = 20; // temporal
     protected GameGridObject gameGridObject;
     protected GridController Grid { get; set; }
-    private void Awake()
-    {
-        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
-        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
-        Menu = menuHandler.GetComponent<MenuHandlerController>();
-        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
-        Grid = gameGrid.GetComponent<GridController>();
-    }
 
     private void Update()
     {
@@ -38,6 +30,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log("Mouse down over object ");
         if (!Menu || !Grid || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
@@ -65,7 +58,6 @@ public class BaseObjectController : MonoBehaviour
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         //So it will overlay over the rest of the items while dragging
         gameGridObject.SortingLayer.sortingOrder = 2;
-
 
         if (Grid.IsValidBussPosition(gameGridObject, currentPos))
         {
@@ -99,10 +91,10 @@ public class BaseObjectController : MonoBehaviour
         }
         else
         {
-            gameGridObject.UpdateCoords();
             initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
         }
-
+        
+        gameGridObject.UpdateCoords();
         //So it will overlay over the rest of the items while dragging
         gameGridObject.SortingLayer.sortingOrder = 0;
         Grid.UpdateObjectPosition(gameGridObject);
