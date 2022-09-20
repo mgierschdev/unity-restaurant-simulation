@@ -99,10 +99,20 @@ public class GridController : MonoBehaviour
             GameLog.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
         }
 
-        tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
-        tilemapColliders.color = new Color(1, 1, 1, 0.0f);
-        tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+        if (Settings.CellDebug)
+        {
+            tilemapPathFinding.color = new Color(1, 1, 1, 0.4f);
+            tilemapColliders.color = new Color(1, 1, 1, 0.4f);
+            tilemapWalkingPath.color = new Color(1, 1, 1, 0.4f);
+            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
+        }
+        else
+        {
+            tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
+            tilemapColliders.color = new Color(1, 1, 1, 0.0f);
+            tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
+            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+        }
 
         pathFind = new PathFind();
         grid = new int[Settings.GridHeight, Settings.GridWidth];
@@ -597,6 +607,35 @@ public class GridController : MonoBehaviour
         return currentClickedActiveGameObject == objName;
     }
 
+    public int[,] GetBussGrid()
+    {
+        int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
+        int minX = int.MaxValue;
+        int minY = int.MaxValue;
+        int maxX = int.MinValue;
+        int maxY = int.MinValue;
+
+        foreach (GameTile tile in listBusinessFloor)
+        {
+            minX = Mathf.Min(minX, tile.GridPosition.x);
+            minY = Mathf.Min(minY, tile.GridPosition.y);
+            maxX = Mathf.Max(maxX, tile.GridPosition.x);
+            maxY = Mathf.Max(maxY, tile.GridPosition.y);
+
+            busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
+        }
+
+        int[,] reducedBusGrid = new int[maxX - minX + 1, maxY - minY + 1];
+        for (int i = minX; i <= maxX; i++)
+        {
+            for (int j = minY; j <= maxY; j++)
+            {
+                reducedBusGrid[i - minX, j - minY] = busGrid[i, j];
+            }
+        }
+        return reducedBusGrid;
+    }
+
     public string BussGridToText()
     {
         string output = " ";
@@ -655,14 +694,11 @@ public class GridController : MonoBehaviour
                     Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
                     if (nextTile[1] == Vector3Int.up)
                     {
-                        Debug.Log("Placing front ");
                         dummy = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                     }
                     else
                     {
-                        Debug.Log("Placing inverted ");
                         dummy = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-
                     }
 
                     break;
@@ -673,13 +709,14 @@ public class GridController : MonoBehaviour
         if (dummy == null)
         {
             // We search in the entire Grid
+            Debug.Log("Place not found");
         }
     }
 
     //Gets the closest next tile to the object
     private Vector3Int[] GetNextTile(GameGridObject gameGridObject)
     {
-        int[,] positions = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 } };
+        int[,] positions = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 2, 2 }, { 0, -2 }, { -2, 0 }, { 0, 2 }, { 2, 0 } };
         int[,] side = new int[,] { { 0, 1 }, { 1, 0 } };
 
         for (int i = 0; i < positions.GetLength(0); i++)
@@ -688,27 +725,56 @@ public class GridController : MonoBehaviour
             Vector3Int position = gameGridObject.GridPosition + offset;
 
 
-            Debug.Log(side[0, 0] + " " + side[0, 1] + " Actionpoint ");
+            // Debug.Log(side[0, 0] + " " + side[0, 1] + " Actionpoint ");
             Vector3Int actionPoint = position + new Vector3Int(side[0, 0], side[0, 1], 0);
 
-            Debug.Log(side[1, 0] + " " + side[1, 1] + " Actionpoint2 ");
+            // Debug.Log(side[1, 0] + " " + side[1, 1] + " Actionpoint2 ");
             Vector3Int actionPoint2 = position + new Vector3Int(side[1, 0], side[1, 1], 0);
 
+            bool isClosingGrid = IsClosingIsland(position);
 
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint))
+
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid)
             {
-                Debug.Log(position + " " + actionPoint + " front");
+                // Debug.Log(position + " " + actionPoint + " front");
                 return new Vector3Int[] { position, Vector3Int.up }; //front
             }
 
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2))
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2) && !isClosingGrid)
             {
-                Debug.Log(position + " " + actionPoint2 + " inverted");
+                // Debug.Log(position + " " + actionPoint2 + " inverted");
                 return new Vector3Int[] { position, Vector3Int.right }; // front inverted
             }
         }
 
         return new Vector3Int[] { };
+    }
+
+    private bool IsClosingIsland(Vector3Int position)
+    {
+        int[,] bGrid = GetBussGrid();
+        string output = " ";
+        for (int i = 0; i < bGrid.GetLength(0); i++)
+        {
+            for (int j = 0; j < bGrid.GetLength(1); j++)
+            {
+                if (bGrid[i, j] == -1)
+                {
+                    output += " " + 0;
+                }
+                else
+                {
+                    output += " " + bGrid[i, j];
+                }
+
+
+            }
+            output += "\n";
+        }
+
+        Debug.Log(output);
+        Debug.Log(" ");
+        return false;
     }
 
     public string DebugBussData()
