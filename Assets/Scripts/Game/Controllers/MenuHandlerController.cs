@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using Game.Players;
 using TMPro;
 using UnityEngine;
@@ -35,7 +36,6 @@ public class MenuHandlerController : MonoBehaviour
     private GridController gridController;
     private PlayerData playerData;
     private TextMeshProUGUI moneyText;
-    private CameraController cameraController;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -63,11 +63,7 @@ public class MenuHandlerController : MonoBehaviour
         menuBody = GameObject.Find(Settings.ConstCenterTabMenuBody);
         menuBodyRect = menuBody.GetComponent<RectTransform>();
 
-        //Camera controller
-        GameObject cameraObject = GameObject.Find(Settings.MainCamera).gameObject;
-        cameraController = cameraObject.GetComponent<CameraController>();
-
-        if (!tabMenu || !leftDownPanel || !cController || !gridController || !menuBody || !cameraObject)
+        if (!tabMenu || !leftDownPanel || !cController || !gridController || !menuBody)
         {
             GameLog.LogWarning("UIHandler Menu null ");
             GameLog.LogWarning("tabMenu " + tabMenu);
@@ -75,7 +71,6 @@ public class MenuHandlerController : MonoBehaviour
             GameLog.LogWarning("cController " + cController);
             GameLog.LogWarning("gridController " + cController);
             GameLog.LogWarning("menuBody " + menuBody);
-            GameLog.LogWarning("cameraObject " + cameraObject);
         }
 
         menuStack = new Stack<MenuItem>();
@@ -352,17 +347,41 @@ public class MenuHandlerController : MonoBehaviour
         bCancel.onClick.AddListener(CloseEditPanel);
     }
 
+
     private void OpenStoreEditPanel(GameGridObject obj)
     {
+        // TODO: Discount the price of the object
         GameLog.Log("Object to find a Place for " + obj.Name);
         // we fix the camera in case the player is zoomed
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
+
+        //debug
+        StartCoroutine(TestPlacingObjects(obj));
+        //debug
+
         gridController.PlaceGameObject(obj);
+
         //Disable Left down panel
         PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
+    }
+    IEnumerator TestPlacingObjects(GameGridObject obj)
+    {
+        //Print the time of when the function is first called.
+        // Debug.Log("Started Coroutine at timestamp : " + Time.time);
+
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        for (int i = 0; i < 100; i++)
+        {
+             yield return new WaitForSeconds(0.25f);
+            // Debug.Log("Placing object");
+            gridController.PlaceGameObject(obj);
+        }
+        //After we have waited 5 seconds print the time again.
+        // Debug.Log("Finished Coroutine at timestamp : " + Time.time);
+        yield return new WaitForSeconds(0);
     }
 
     private void OpenEditPanel()
