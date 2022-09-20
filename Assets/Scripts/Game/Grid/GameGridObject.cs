@@ -109,7 +109,6 @@ public class GameGridObject : GameObjectBase
 
     public void UpdateCoords()
     {
-        Debug.Log("Updating position");
         GridPosition = gridController.GetPathFindingGridFromWorldPosition(objectTransform.position);
         LocalGridPosition = gridController.GetLocalGridFromWorldPosition(objectTransform.position);
         WorldPosition = objectTransform.position;

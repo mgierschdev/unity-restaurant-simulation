@@ -42,12 +42,6 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
-        //checks whether the npc is visible
-        // if (enabled)
-        // {
-        //     Debug.Log(transform.name + " " + enabled);
-        // }
-
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
