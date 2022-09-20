@@ -22,10 +22,12 @@ public class TestUI
         GameObject panel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
         Transform cancel = panel.transform.Find(Settings.ConstEditStoreMenuCancel);
         Transform accept = panel.transform.Find(Settings.ConstEditStoreMenuAccept);
-        Transform rotate = panel.transform.Find(Settings.ConstEditStoreMenuRotate);
+        Transform rotateLeft = panel.transform.Find(Settings.ConstEditStoreMenuRotateLeft);
+        Transform rotateRight = panel.transform.Find(Settings.ConstEditStoreMenuRotateRight);
         Assert.NotNull(panel);
         Assert.NotNull(cancel);
         Assert.NotNull(accept);
-        Assert.NotNull(rotate);
+        Assert.NotNull(rotateLeft);
+        Assert.NotNull(rotateRight);
     }
 }

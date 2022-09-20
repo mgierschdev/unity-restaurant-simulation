@@ -10,7 +10,6 @@ public class BaseObjectController : MonoBehaviour
     private const int COST = 20; // temporal
     protected GameGridObject gameGridObject;
     protected GridController Grid { get; set; }
-
     private void Awake()
     {
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
