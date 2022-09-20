@@ -85,12 +85,12 @@ public class GameGridObject : GameObjectBase
         Button save = saveObj.GetComponent<Button>();
         save.onClick.AddListener(StoreInInventory);
 
-        GameObject rotateObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
-        Button rotate = rotateObj.GetComponent<Button>();
-        rotate.onClick.AddListener(RotateObjectLeft);
+        GameObject rotateObjLeft = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
+        Button rotateLeft = rotateObjLeft.GetComponent<Button>();
+        rotateLeft.onClick.AddListener(RotateObjectLeft);
 
         GameObject rotateObjRight = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotateRight).gameObject;
-        Button rotateRight = rotateObj.GetComponent<Button>();
+        Button rotateRight = rotateObjRight.GetComponent<Button>();
         rotateRight.onClick.AddListener(RotateObjectRight);
     }
 
@@ -179,8 +179,9 @@ public class GameGridObject : GameObjectBase
 
         if ((int)FacingPosition <= 0)
         {
-            FacingPosition = ObjectRotation.FRONT;
+            FacingPosition = ObjectRotation.BACK_INVERTED;
         }
+
         UpdateRotation(FacingPosition);
         Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
         gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
@@ -202,6 +203,10 @@ public class GameGridObject : GameObjectBase
         if ((int)tmp >= 5)
         {
             tmp = ObjectRotation.FRONT;
+        }
+        else if ((int)tmp <= 0)
+        {
+            tmp = ObjectRotation.BACK_INVERTED;
         }
 
         // we flip the object temporaly to check the new action tile position
