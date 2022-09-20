@@ -5,6 +5,12 @@ public class CounterController : BaseObjectController
 
     private void Start()
     {
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
+        Menu = menuHandler.GetComponent<MenuHandlerController>();
+        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
+        Grid = gameGrid.GetComponent<GridController>();
+
         //Edit Panel Disable
         GameObject EditPanel = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
         EditPanel.SetActive(false);
