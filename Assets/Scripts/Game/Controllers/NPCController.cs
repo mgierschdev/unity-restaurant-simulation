@@ -77,7 +77,6 @@ public class NPCController : GameObjectMovementBase
         animationController.SetState(localState);
     }
 
-
     private void UpdateIsAtRespawn()
     {
         if (localState == NpcState.WALKING_UNRESPAWN)

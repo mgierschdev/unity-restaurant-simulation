@@ -63,7 +63,8 @@ public static class Settings
     public const string ConstEditItemMenuPanel = "EditItem";
     public const string ConstEditStoreMenuCancel = "Cancel";
     public const string ConstEditStoreMenuAccept = "Accept";
-    public const string ConstEditStoreMenuRotate = "Rotate";
+    public const string ConstEditStoreMenuRotateLeft = "RotateLeft";
+    public const string ConstEditStoreMenuRotateRight = "RotateRight";
     public const string ConstEditStoreMenuSave = "Save";
     public const string ConstParentGameObject = "Game";
     public const int ConstDefaultCameraOrthographicsize = 7;

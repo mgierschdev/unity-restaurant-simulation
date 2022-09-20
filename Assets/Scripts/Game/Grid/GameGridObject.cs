@@ -16,7 +16,7 @@ public class GameGridObject : GameObjectBase
     public GameObject EditMenu { get; set; }
     private GridController gridController;
     private GameObject objectWithSprite;
-    
+
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
         FacingPosition = ObjectRotation.FRONT;
@@ -84,9 +84,14 @@ public class GameGridObject : GameObjectBase
         GameObject saveObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObj.GetComponent<Button>();
         save.onClick.AddListener(StoreInInventory);
-        GameObject rotateObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotate).gameObject;
+
+        GameObject rotateObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
         Button rotate = rotateObj.GetComponent<Button>();
-        rotate.onClick.AddListener(RotateObject);
+        rotate.onClick.AddListener(RotateObjectLeft);
+
+        GameObject rotateObjRight = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotateRight).gameObject;
+        Button rotateRight = rotateObj.GetComponent<Button>();
+        rotateRight.onClick.AddListener(RotateObjectRight);
     }
 
     private void StoreInInventory()
@@ -138,9 +143,9 @@ public class GameGridObject : GameObjectBase
         return actionTiles[actionTile].transform.position;
     }
 
-    public void RotateObject()
+    public void RotateObjectRight()
     {
-        if (!IsValidRotation())
+        if (!IsValidRotation(1)) //right
         {
             //TODO: Show popup message
             GameLog.Log("Rotation is invalid");
@@ -160,10 +165,39 @@ public class GameGridObject : GameObjectBase
         UpdateCoords();
     }
 
-    private bool IsValidRotation()
+    public void RotateObjectLeft()
+    {
+        if (!IsValidRotation(0)) //left
+        {
+            //TODO: Show popup message
+            GameLog.Log("Rotation is invalid");
+            return;
+        }
+
+        Vector3Int prev = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
+        FacingPosition--;
+
+        if ((int)FacingPosition <= 0)
+        {
+            FacingPosition = ObjectRotation.FRONT;
+        }
+        UpdateRotation(FacingPosition);
+        Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
+        gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
+        UpdateCoords();
+    }
+
+    private bool IsValidRotation(int side)
     {
         ObjectRotation tmp = FacingPosition;
-        tmp++;
+        if (side == 0)
+        {
+            tmp--;
+        }
+        else
+        {
+            tmp++;
+        }
 
         if ((int)tmp >= 5)
         {
