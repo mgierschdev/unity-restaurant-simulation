@@ -4,6 +4,7 @@ public static class Settings
     public const int DebugTextSize = 9;
 
     // Player Config
+    public const bool CellDebug = true;
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
 
@@ -20,8 +21,12 @@ public static class Settings
     public const string PathFindingGrid = "PathFindingGrid";
 
     // PREFABS AND OBJECTS
+    public const string Button = "Button";
     public const string PrefabGridTile = "Grid/GridTile";
     public const string PrefabSingleTable = "Objects/SingleTable";
+    public const string PrefabSingleTableFrontInverted = "Objects/SingleTableFrontInverted";
+    public const string SingleTableRotationFrontInverted = "FrontInverted";
+    public const string SingleTableRotationFront = "Front";
     public const string PrefabSandSea = "Grid/SandAndSea@3x";
     public const string PrefabPlayer = "Players/Player";
     public const string PrefabNpcClient = "Players/Client";

@@ -201,8 +201,10 @@ public class GridController : MonoBehaviour
             }
         }
 
-
-        //DrawCellCoords();
+        if (Settings.CellDebug)
+        {
+            DrawCellCoords();
+        }
     }
 
     private void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3Int, GameTile> map)
@@ -264,14 +266,16 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
+        Vector3Int actionGridPosition = Vector3Int.zero;
+
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             businessObjects.Add(obj.Name, obj);
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
-            grid[ActionGridPosition.x, ActionGridPosition.y] = -1;
+            actionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
+            grid[actionGridPosition.x, actionGridPosition.y] = -1;
         }
         else
         {
@@ -279,9 +283,15 @@ public class GridController : MonoBehaviour
 
             if (obj.Type == ObjectType.NPC_COUNTER)
             {
-                Vector3Int ActionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
-                grid[ActionGridPosition.x, ActionGridPosition.y] = -1;
+                actionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
+                grid[actionGridPosition.x, actionGridPosition.y] = -1;
             }
+        }
+
+        if (Settings.CellDebug)
+        {
+            SetCellColor(obj.GridPosition.x, obj.GridPosition.y, Color.blue);
+            SetCellColor(actionGridPosition.x, actionGridPosition.y, Color.cyan);
         }
     }
 
@@ -629,6 +639,7 @@ public class GridController : MonoBehaviour
     public void PlaceGameObject(GameGridObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
+        GameObject dummy = null;
 
         foreach (KeyValuePair<string, GameGridObject> dic in businessObjects)
         {
@@ -642,32 +653,61 @@ public class GridController : MonoBehaviour
                 {
                     // We place the object 
                     Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
-                    GameObject dummy = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                    if (nextTile[1] == Vector3Int.up)
+                    {
+                        Debug.Log("Placing front ");
+                        dummy = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                    }
+                    else
+                    {
+                        Debug.Log("Placing inverted ");
+                        dummy = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+
+                    }
+
                     break;
                 }
             }
         }
 
-        // Found a good position
-        // TODO: if all busy find a 2 free position on the entire grid
-        GameLog.Log("TODO: All busy: finding a 2 free position on the entire grid");
+        if (dummy == null)
+        {
+            // We search in the entire Grid
+        }
     }
 
+    //Gets the closest next tile to the object
     private Vector3Int[] GetNextTile(GameGridObject gameGridObject)
     {
-        int[,] positions = new int[,] { { 1, 0 }, { -1, 0 } };
+        int[,] positions = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 } };
+        int[,] side = new int[,] { { 0, 1 }, { 1, 0 } };
 
         for (int i = 0; i < positions.GetLength(0); i++)
         {
             Vector3Int offset = new Vector3Int(positions[i, 0], positions[i, 1], 0);
             Vector3Int position = gameGridObject.GridPosition + offset;
-            Vector3Int actionPosition = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile()) + offset;
-            Debug.Log(position + " " + position);
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPosition))
+
+
+            Debug.Log(side[0, 0] + " " + side[0, 1] + " Actionpoint ");
+            Vector3Int actionPoint = position + new Vector3Int(side[0, 0], side[0, 1], 0);
+
+            Debug.Log(side[1, 0] + " " + side[1, 1] + " Actionpoint2 ");
+            Vector3Int actionPoint2 = position + new Vector3Int(side[1, 0], side[1, 1], 0);
+
+
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint))
             {
-                return new Vector3Int[] { position, actionPosition };
+                Debug.Log(position + " " + actionPoint + " front");
+                return new Vector3Int[] { position, Vector3Int.up }; //front
+            }
+
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2))
+            {
+                Debug.Log(position + " " + actionPoint2 + " inverted");
+                return new Vector3Int[] { position, Vector3Int.right }; // front inverted
             }
         }
+
         return new Vector3Int[] { };
     }
 

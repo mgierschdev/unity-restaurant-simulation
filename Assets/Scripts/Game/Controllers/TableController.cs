@@ -11,10 +11,17 @@ public class TableController : BaseObjectController
         Menu = menuHandler.GetComponent<MenuHandlerController>();
         GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
         Grid = gameGrid.GetComponent<GridController>();
+        ObjectRotation rotation = ObjectRotation.FRONT;
 
         //Edit Panel Disable
+        if (transform.name.Contains(Settings.SingleTableRotationFrontInverted))
+        {
+            rotation = ObjectRotation.FRONT_INVERTED;
+
+        }
+
         GameObject EditPanel = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-        gameGridObject = new GameGridObject(transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.FRONT, ObjectType.NPC_SINGLE_TABLE, EditPanel, Grid);
+        gameGridObject = new GameGridObject(transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, rotation, ObjectType.NPC_SINGLE_TABLE, EditPanel, Grid);
 
         if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {

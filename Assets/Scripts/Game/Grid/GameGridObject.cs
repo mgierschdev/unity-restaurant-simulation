@@ -97,7 +97,7 @@ public class GameGridObject : GameObjectBase
     private void StoreInInventory()
     {
         //TODO: Show POPUP confirming action
-        GameLog.Log("TODO: Storing item in Inventory " + Name);
+        //GameLog.Log("TODO: Storing item in Inventory " + Name);
         gridController.FreeObject(this);
         Object.Destroy(objectTransform.gameObject);
     }

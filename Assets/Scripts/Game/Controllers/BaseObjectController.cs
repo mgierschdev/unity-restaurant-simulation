@@ -124,9 +124,8 @@ public class BaseObjectController : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
         foreach (Collider2D r in hits)
         {
-            if (r.name.Contains("Button"))
+            if (r.name.Contains(Settings.Button))
             {
-                Debug.Log("Is clicking button ");
                 return true;
             }
         }
