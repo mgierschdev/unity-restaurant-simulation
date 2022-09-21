@@ -13,6 +13,11 @@ public class EmployeeController : GameObjectMovementBase
     private Vector3Int coordOfTableToBeAttended;
     private float idleTime;
 
+    //Time in the current state
+    private float stateTime;
+    private NpcState prevState;
+    private const float MAX_TABLE_WAITING_TIME = 10f;
+
     private void Start()
     {
         Type = ObjectType.EMPLOYEE;
@@ -20,6 +25,9 @@ public class EmployeeController : GameObjectMovementBase
         Name = transform.name;
         animationController = GetComponent<PlayerAnimationStateController>();
         idleTime = 0;
+        // keeps the time in the current state
+        stateTime = 0;
+        prevState = localState;
 
         if (animationController == null)
         {
@@ -52,6 +60,27 @@ public class EmployeeController : GameObjectMovementBase
         UpdateIsAtCounterAfterOrder();
         UpdateRegisterCash();
         UpdateFinishRegistering();
+
+        // keeps the time in the current state
+        if (prevState == localState)
+        {
+           // GameLog.Log("Current state time " + stateTime);
+            stateTime += Time.deltaTime;
+        }
+        else
+        {
+            stateTime = 0;
+            prevState = localState;
+        }
+
+
+        //Defult time to restart
+        if (localState == NpcState.WALKING_TO_TABLE && stateTime >= 3f)
+        {
+            //GameLog.Log("NPC stuck restarting");
+            ResetMovement(); // we stop the player from moving
+            RestartState(); // we reset the state
+        }
 
         animationController.SetState(localState);
         idleTime += Time.deltaTime;
@@ -121,7 +150,7 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        tableToBeAttended = GameGrid.GetTableWithClient();  
+        tableToBeAttended = GameGrid.GetTableWithClient();
         localState = NpcState.WALKING_TO_TABLE;
         coordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()), GameGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile()));
         GoTo(coordOfTableToBeAttended);

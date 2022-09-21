@@ -1,7 +1,7 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
@@ -330,12 +330,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         for (int i = 1; i < path.Count; i++)
         {
-            // if (Settings.DEBUG_ENABLE)
-            // {
-            //     Vector3 from = GameGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
-            //     Vector3 to = GameGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
-            //     GameLog.DrawLine(from, to, Color.yellow, 15f);
-            // }
+            if (Settings.CellDebug)
+            {
+                Vector3 from = GameGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
+                Vector3 to = GameGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
+                Debug.DrawLine(from, to, Color.yellow, 15f);
+            }
 
             pendingMovementQueue.Enqueue(path[i].GetVector3());
         }

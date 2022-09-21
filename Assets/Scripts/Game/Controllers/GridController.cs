@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Game.Players;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
+using Game.Players;
 
 public class GridController : MonoBehaviour
 {
@@ -316,7 +316,8 @@ public class GridController : MonoBehaviour
         Vector3Int currentActionPointInGrid = GetPathFindingGridFromWorldPosition(currentActionPointWorldPos);
         bool isClosingGrid = IsClosingIsland(currentGridPos);
 
-        if(isClosingGrid){
+        if (isClosingGrid)
+        {
             return false;
         }
 
@@ -595,7 +596,7 @@ public class GridController : MonoBehaviour
     {
         TablesWithClient.Enqueue(obj);
     }
-    
+
     // Used to highlight the current object being edited
     public void SetActiveGameGridObject(GameGridObject obj)
     {
@@ -667,7 +668,14 @@ public class GridController : MonoBehaviour
         {
             for (int j = minY; j <= maxY; j++)
             {
-                output += " " + busGrid[i, j];
+                if (busGrid[i, j] == -1)
+                {
+                    output += " 0";
+                }
+                else
+                {
+                    output += " " + busGrid[i, j];
+                }
             }
             output += "\n";
         }
@@ -699,7 +707,7 @@ public class GridController : MonoBehaviour
                 if (nextTile.GetLength(0) != 0)
                 {
                     //Debug
-                    //Debug.Log(BussGridToText());
+                    Debug.Log(BussGridToText());
                     // We place the object 
                     Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
                     if (nextTile[1] == Vector3Int.up)
@@ -765,7 +773,7 @@ public class GridController : MonoBehaviour
         {
             for (int j = 0; j < bGrid.GetLength(1); j++)
             {
-                if (bGrid[i, j] == 0)
+                if (bGrid[i, j] == 0 || bGrid[i, j] == -1)
                 {
                     count++;
                     if (count > 1)
@@ -777,6 +785,7 @@ public class GridController : MonoBehaviour
                 }
             }
         }
+        
         return false;
     }
 
@@ -790,10 +799,8 @@ public class GridController : MonoBehaviour
         bGrid[x, y] = 2;
         DFS(bGrid, x, y - 1);
         DFS(bGrid, x - 1, y);
-        DFS(bGrid, x - 1, y - 1);
         DFS(bGrid, x, y + 1);
         DFS(bGrid, x + 1, y);
-        DFS(bGrid, x + 1, y + 1);
     }
 
     public string DebugBussData()
