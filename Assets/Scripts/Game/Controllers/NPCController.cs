@@ -20,6 +20,11 @@ public class NPCController : GameObjectMovementBase
     private Vector3 targetInWorldPosition;
     private bool IsNPCVisible;
 
+    //Time in the current state
+    private float stateTime;
+    private NpcState prevState;
+    private const float MAX_TABLE_WAITING_TIME = 10f;
+
     private void Start()
     {
         Type = ObjectType.NPC;
@@ -28,6 +33,8 @@ public class NPCController : GameObjectMovementBase
         GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
         gameController = gameObj.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
+        stateTime = 0;
+        prevState = localState;
 
         if (gameController == null)
         {
@@ -66,6 +73,16 @@ public class NPCController : GameObjectMovementBase
         {
             Wander();
         }
+
+        // keeps the time in the current state
+        if(prevState == localState){
+            GameLog.Log("Current state time "+stateTime);
+            stateTime += Time.deltaTime;
+        }else{
+            stateTime = 0;
+            prevState = localState;
+        }
+
         // TODO: only change inside camera CLAMP
         // animationController.SetState(NpcState.IDLE);
         animationController.SetState(localState);

@@ -595,6 +595,7 @@ public class GridController : MonoBehaviour
     {
         TablesWithClient.Enqueue(obj);
     }
+    
     // Used to highlight the current object being edited
     public void SetActiveGameGridObject(GameGridObject obj)
     {
@@ -681,7 +682,7 @@ public class GridController : MonoBehaviour
         }
         return grid[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
     }
-    //TODO: Case in which there is no space in the buss to place items
+
     public void PlaceGameObject(GameGridObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
@@ -753,7 +754,6 @@ public class GridController : MonoBehaviour
                 return new Vector3Int[] { position, Vector3Int.right }; // front inverted
             }
         }
-
         return new Vector3Int[] { };
     }
 
