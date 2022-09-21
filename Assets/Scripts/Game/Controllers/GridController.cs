@@ -616,7 +616,6 @@ public class GridController : MonoBehaviour
 
     public int[,] GetBussGrid(Vector3Int position)
     {
-        Debug.Log("Candidate Position " + position.x + "," + position.y);
         int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
         int[,] gridClone = (int[,])grid.Clone();
         gridClone[position.x, position.y] = 1;
