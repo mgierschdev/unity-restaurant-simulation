@@ -1,7 +1,7 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
@@ -113,6 +113,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // body.rotation = 0;
         Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
+
+        if (transform.name.Contains("Employee"))
+        {
+            Debug.Log("Currently at pos " + Position);
+        }
     }
 
     private void UpdateObjectDirection()
@@ -381,9 +386,16 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         SetDebug();
     }
 
-    public void GoTo(Vector3Int pos)
+    public bool GoTo(Vector3Int pos)
     {
         List<Node> path = GameGrid.GetPath(new[] { Position.x, Position.y }, new[] { pos.x, pos.y });
+
+        if (path.Count == 0)
+        {
+            GameLog.Log("No path found " + transform.name);
+            return false;
+        }
+
         AddStateHistory("Time: " + Time.fixedTime + " steps: " + path.Count + " t: " + pos.x + "," + pos.y);
         FinalTarget = pos;
         AddPath(path);
@@ -393,6 +405,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
 
         AddStateHistory("Pending movingQueue Size: " + pendingMovementQueue.Count);
+        return true;
     }
 
     public void SetClickController(ClickController controller)
