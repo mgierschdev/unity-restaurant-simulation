@@ -1,5 +1,19 @@
+using UnityEngine;
+
 public class PlayerController : GameObjectMovementBase
 {
+    [SerializeField]
+    NpcState localState;
+    PlayerAnimationStateController animationController;
+    private void Start()
+    {
+        animationController = GetComponent<PlayerAnimationStateController>();
+        localState = NpcState.IDLE;
+        // Click controller
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
+        ClickController clickController = cController.GetComponent<ClickController>();
+        SetClickController(clickController);
+    }
     // For Handling non-physics related objects
     private void Update()
     {
@@ -10,11 +24,12 @@ public class PlayerController : GameObjectMovementBase
         }
         // Player Moving on long click/touch
         MovingOnLongTouch();
+        animationController.SetState(localState);
     }
 
     // Called every physics step, Update called every frame
     private void FixedUpdate()
-    {   
+    {
         UpdateTargetMovement();
         UpdatePosition();
     }

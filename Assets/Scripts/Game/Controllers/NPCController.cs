@@ -76,7 +76,7 @@ public class NPCController : GameObjectMovementBase
 
         // keeps the time in the current state
         if(prevState == localState){
-            GameLog.Log("Current state time "+stateTime);
+            //GameLog.Log("Current state time "+stateTime);
             stateTime += Time.deltaTime;
         }else{
             stateTime = 0;
