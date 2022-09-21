@@ -54,6 +54,26 @@ public static class Util
         GameLog.Log(" ");
     }
 
+    public static void PrintBussGrid(int[,] bGrid)
+    {
+        string output = " ";
+        for (int i = 0; i < bGrid.GetLength(0); i++)
+        {
+            for (int j = 0; j < bGrid.GetLength(1); j++)
+            {
+                if (bGrid[i, j] == -1)
+                {
+                    output += " 0";
+                }
+                else
+                {
+                    output += " " + bGrid[i, j];
+                }
+            }
+            output += "\n";
+        }
+        Debug.Log(output);
+    }
     public static double EuclidianDistance(int[] a, int[] b)
     {
         double distance = System.Math.Sqrt(System.Math.Pow(a[0] - b[0], 2) + System.Math.Pow(a[1] - b[1], 2));

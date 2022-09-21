@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using Game.Players;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
-using Game.Players;
 
 public class GridController : MonoBehaviour
 {
@@ -616,7 +616,11 @@ public class GridController : MonoBehaviour
 
     public int[,] GetBussGrid(Vector3Int position)
     {
+        Debug.Log("Candidate Position " + position.x + "," + position.y);
         int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
+        int[,] gridClone = (int[,])grid.Clone();
+        gridClone[position.x, position.y] = 1;
+
         int minX = int.MaxValue;
         int minY = int.MaxValue;
         int maxX = int.MinValue;
@@ -628,16 +632,14 @@ public class GridController : MonoBehaviour
             minY = Mathf.Min(minY, tile.GridPosition.y);
             maxX = Mathf.Max(maxX, tile.GridPosition.x);
             maxY = Mathf.Max(maxY, tile.GridPosition.y);
-
-            busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
+            busGrid[tile.GridPosition.x, tile.GridPosition.y] = gridClone[tile.GridPosition.x, tile.GridPosition.y];
         }
-        // Setting the candidate to one
-        busGrid[position.x, position.y] = 1;
 
-        int[,] reducedBusGrid = new int[maxX - minX, maxY - minY];
-        for (int i = minX; i < maxX; i++)
+        int[,] reducedBusGrid = new int[maxX - minX + 1, maxY - minY + 1];
+
+        for (int i = minX; i <= maxX; i++)
         {
-            for (int j = minY; j < maxY; j++)
+            for (int j = minY; j <= maxY; j++)
             {
                 reducedBusGrid[i - minX, j - minY] = busGrid[i, j];
             }
@@ -691,7 +693,7 @@ public class GridController : MonoBehaviour
         return grid[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
     }
 
-    public void PlaceGameObject(GameGridObject obj)
+    public bool PlaceGameObject(GameGridObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
         GameObject dummy = null;
@@ -706,8 +708,6 @@ public class GridController : MonoBehaviour
 
                 if (nextTile.GetLength(0) != 0)
                 {
-                    //Debug
-                    Debug.Log(BussGridToText());
                     // We place the object 
                     Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
                     if (nextTile[1] == Vector3Int.up)
@@ -718,6 +718,7 @@ public class GridController : MonoBehaviour
                     {
                         dummy = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                     }
+                    return true;
                     break;
                 }
             }
@@ -728,6 +729,7 @@ public class GridController : MonoBehaviour
             // We search in the entire Grid
             Debug.Log("Place not found");
         }
+        return false;
     }
 
     //Gets the closest next tile to the object
@@ -769,23 +771,28 @@ public class GridController : MonoBehaviour
     {
         int[,] bGrid = GetBussGrid(position);
         int count = 0;
+
         for (int i = 0; i < bGrid.GetLength(0); i++)
         {
             for (int j = 0; j < bGrid.GetLength(1); j++)
             {
                 if (bGrid[i, j] == 0 || bGrid[i, j] == -1)
                 {
-                    count++;
-                    if (count > 1)
+                    if (count > 0)
                     {
-                        Debug.Log("is closing an island");
                         return true;
                     }
+
                     DFS(bGrid, i, j);
+                    count++;
                 }
             }
         }
-        
+
+        if (count > 1)
+        {
+            return true;
+        }
         return false;
     }
 
