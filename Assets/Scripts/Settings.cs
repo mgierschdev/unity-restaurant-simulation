@@ -4,7 +4,7 @@ public static class Settings
     public const int DebugTextSize = 9;
 
     // Player Config
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
 

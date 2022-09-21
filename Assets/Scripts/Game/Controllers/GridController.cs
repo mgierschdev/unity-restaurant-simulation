@@ -632,10 +632,10 @@ public class GridController : MonoBehaviour
         // Setting the candidate to one
         busGrid[position.x, position.y] = 1;
 
-        int[,] reducedBusGrid = new int[maxX - minX + 1, maxY - minY + 1];
-        for (int i = minX; i <= maxX; i++)
+        int[,] reducedBusGrid = new int[maxX - minX, maxY - minY];
+        for (int i = minX; i < maxX; i++)
         {
-            for (int j = minY; j <= maxY; j++)
+            for (int j = minY; j < maxY; j++)
             {
                 reducedBusGrid[i - minX, j - minY] = busGrid[i, j];
             }
@@ -697,6 +697,8 @@ public class GridController : MonoBehaviour
 
                 if (nextTile.GetLength(0) != 0)
                 {
+                    //Debug
+                    //Debug.Log(BussGridToText());
                     // We place the object 
                     Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
                     if (nextTile[1] == Vector3Int.up)
@@ -707,7 +709,6 @@ public class GridController : MonoBehaviour
                     {
                         dummy = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                     }
-
                     break;
                 }
             }
@@ -769,6 +770,7 @@ public class GridController : MonoBehaviour
                     count++;
                     if (count > 1)
                     {
+                        Debug.Log("is closing an island");
                         return true;
                     }
                     DFS(bGrid, i, j);
