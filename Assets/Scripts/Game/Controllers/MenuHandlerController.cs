@@ -357,10 +357,14 @@ public class MenuHandlerController : MonoBehaviour
         gridController.HighlightGridBussFloor();
 
         //debug
-        StartCoroutine(TestPlacingObjects(obj));
+        // StartCoroutine(TestPlacingObjects(obj));
         //debug
-
-        gridController.PlaceGameObject(obj);
+        
+        if(gridController.PlaceGameObject(obj)){
+            GameLog.Log("Object Placed");
+        }else{
+            GameLog.Log("Place not found");
+        }
 
         //Disable Left down panel
         PauseGame();
