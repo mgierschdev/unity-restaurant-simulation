@@ -29,9 +29,9 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: -6423504061535638344, guid: e5f8c681cecf741b4933cc4deb568e75, type: 3}
     - m_Name: Head-3
       m_Hash: 279255548
-      m_Sprite: {fileID: 21300000, guid: 85d9aa600d13a484980d5c4dc58caaa0, type: 3}
+      m_Sprite: {fileID: -6708479663810116428, guid: c799a5a79514544e593282a10cee6e76, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: -6708479663810116428, guid: c799a5a79514544e593282a10cee6e76, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 3
   - m_Name: Arms
@@ -130,5 +130,3 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 1
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 0
-  m_Version: 1
