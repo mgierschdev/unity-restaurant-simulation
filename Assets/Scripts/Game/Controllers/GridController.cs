@@ -314,6 +314,11 @@ public class GridController : MonoBehaviour
         Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
         Vector3 currentActionPointWorldPos = gameGridObject.GetActionTile();
         Vector3Int currentActionPointInGrid = GetPathFindingGridFromWorldPosition(currentActionPointWorldPos);
+        bool isClosingGrid = IsClosingIsland(currentGridPos);
+
+        if(isClosingGrid){
+            return false;
+        }
 
         // If we are at the initial grid position we return true
         if (worldPos == gameGridObject.WorldPosition ||
@@ -607,7 +612,7 @@ public class GridController : MonoBehaviour
         return currentClickedActiveGameObject == objName;
     }
 
-    public int[,] GetBussGrid()
+    public int[,] GetBussGrid(Vector3Int position)
     {
         int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
         int minX = int.MaxValue;
@@ -624,6 +629,8 @@ public class GridController : MonoBehaviour
 
             busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
         }
+        // Setting the candidate to one
+        busGrid[position.x, position.y] = 1;
 
         int[,] reducedBusGrid = new int[maxX - minX + 1, maxY - minY + 1];
         for (int i = minX; i <= maxX; i++)
@@ -733,7 +740,6 @@ public class GridController : MonoBehaviour
 
             bool isClosingGrid = IsClosingIsland(position);
 
-
             if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid)
             {
                 // Debug.Log(position + " " + actionPoint + " front");
@@ -752,29 +758,40 @@ public class GridController : MonoBehaviour
 
     private bool IsClosingIsland(Vector3Int position)
     {
-        int[,] bGrid = GetBussGrid();
-        string output = " ";
+        int[,] bGrid = GetBussGrid(position);
+        int count = 0;
         for (int i = 0; i < bGrid.GetLength(0); i++)
         {
             for (int j = 0; j < bGrid.GetLength(1); j++)
             {
-                if (bGrid[i, j] == -1)
+                if (bGrid[i, j] == 0)
                 {
-                    output += " " + 0;
+                    count++;
+                    if (count > 1)
+                    {
+                        return true;
+                    }
+                    DFS(bGrid, i, j);
                 }
-                else
-                {
-                    output += " " + bGrid[i, j];
-                }
-
-
             }
-            output += "\n";
+        }
+        return false;
+    }
+
+    private void DFS(int[,] bGrid, int x, int y)
+    {
+        if (x < 0 || y < 0 || x >= bGrid.GetLength(0) || y >= bGrid.GetLength(1) || bGrid[x, y] == 2 || bGrid[x, y] == 1)
+        {
+            return;
         }
 
-        Debug.Log(output);
-        Debug.Log(" ");
-        return false;
+        bGrid[x, y] = 2;
+        DFS(bGrid, x, y - 1);
+        DFS(bGrid, x - 1, y);
+        DFS(bGrid, x - 1, y - 1);
+        DFS(bGrid, x, y + 1);
+        DFS(bGrid, x + 1, y);
+        DFS(bGrid, x + 1, y + 1);
     }
 
     public string DebugBussData()
