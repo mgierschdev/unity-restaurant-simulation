@@ -347,7 +347,6 @@ public class MenuHandlerController : MonoBehaviour
         bCancel.onClick.AddListener(CloseEditPanel);
     }
 
-
     private void OpenStoreEditPanel(GameGridObject obj)
     {
         if (!gridController.PlayerData.CanSubtract(obj.Cost))
@@ -368,11 +367,11 @@ public class MenuHandlerController : MonoBehaviour
         if (gridController.PlaceGameObject(obj))
         {
             gridController.PlayerData.Subtract(obj.Cost);
-            GameLog.Log("TODO: Object Placed discounting " + (-obj.Cost));
+            // GameLog.Log("TODO: Object Placed discounting " + (-obj.Cost));
         }
         else
         {
-            GameLog.Log("TODO: Place not found");
+            // GameLog.Log("TODO: Place not found");
         }
 
         //Disable Left down panel
