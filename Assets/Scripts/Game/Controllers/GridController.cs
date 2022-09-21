@@ -723,12 +723,7 @@ public class GridController : MonoBehaviour
                 }
             }
         }
-
-        if (dummy == null)
-        {
-            // We search in the entire Grid
-            Debug.Log("Place not found");
-        }
+        
         return false;
     }
 

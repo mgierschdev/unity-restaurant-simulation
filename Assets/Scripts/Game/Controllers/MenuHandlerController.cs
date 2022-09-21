@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using Game.Players;
 using TMPro;
 using UnityEngine;
@@ -350,8 +350,13 @@ public class MenuHandlerController : MonoBehaviour
 
     private void OpenStoreEditPanel(GameGridObject obj)
     {
-        // TODO: Discount the price of the object
-        GameLog.Log("Object to find a Place for " + obj.Name);
+        if (!gridController.PlayerData.CanSubtract(obj.Cost))
+        {
+            GameLog.Log("TODO: Insufficient funds "+gridController.PlayerData.GetMoney());
+            return;
+        }
+
+        // GameLog.Log("Object to find a Place for " + obj.Name);
         // we fix the camera in case the player is zoomed
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
@@ -359,11 +364,15 @@ public class MenuHandlerController : MonoBehaviour
         //debug
         // StartCoroutine(TestPlacingObjects(obj));
         //debug
-        
-        if(gridController.PlaceGameObject(obj)){
-            GameLog.Log("Object Placed");
-        }else{
-            GameLog.Log("Place not found");
+
+        if (gridController.PlaceGameObject(obj))
+        {
+            gridController.PlayerData.Subtract(obj.Cost);
+            GameLog.Log("TODO: Object Placed discounting " + (-obj.Cost));
+        }
+        else
+        {
+            GameLog.Log("TODO: Place not found");
         }
 
         //Disable Left down panel
@@ -379,7 +388,7 @@ public class MenuHandlerController : MonoBehaviour
         //yield on a new YieldInstruction that waits for 5 seconds.
         for (int i = 0; i < 10; i++)
         {
-             yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.25f);
             // Debug.Log("Placing object");
             gridController.PlaceGameObject(obj);
         }

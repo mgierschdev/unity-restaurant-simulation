@@ -32,7 +32,7 @@ namespace Game.Players
 
         public bool CanSubtract(double amount)
         {
-            return money - amount < 0;
+            return money - amount >= 0;
         }
 
         public string GetMoney()
