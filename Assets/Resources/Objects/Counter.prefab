@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9206159661534326175, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteKey
-      value: 1.4654167e+35
+      value: -1.1595795e-28
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1408918025379172294, guid: 097e89233788541f1978222bf4874128, type: 3}

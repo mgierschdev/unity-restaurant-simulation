@@ -13,15 +13,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Library:
-  - m_Name: Single
-    m_Hash: -854908369
+  - m_Name: Tables
+    m_Hash: -2081749225
     m_CategoryList: []
     m_OverrideEntries:
-    - m_Name: Counter
-      m_Hash: 245345764
-      m_Sprite: {fileID: 21300000, guid: dc4527509d3034af380250244a19d3fd, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: dc4527509d3034af380250244a19d3fd, type: 3}
     - m_Name: SingleTable-wood-1
       m_Hash: -641609612
       m_Sprite: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
@@ -33,9 +28,9 @@ MonoBehaviour:
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: 301d1fcda3b0a425988a7aaf54bc42fe, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 3
-  - m_Name: Inverted
-    m_Hash: -1001671218
+    m_EntryOverrideCount: 2
+  - m_Name: Tables-Inverted
+    m_Hash: 1866049991
     m_CategoryList: []
     m_OverrideEntries:
     - m_Name: SingleTable-wood-1
@@ -59,6 +54,17 @@ MonoBehaviour:
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: StoreObjects
+    m_Hash: -122527870
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Counter
+      m_Hash: 245345764
+      m_Sprite: {fileID: 21300000, guid: dc4527509d3034af380250244a19d3fd, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: dc4527509d3034af380250244a19d3fd, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 1
   m_PrimaryLibraryGUID: 

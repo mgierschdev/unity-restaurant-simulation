@@ -43,8 +43,8 @@ public static class Settings
     public const string SingleWoodenTable = "SpriteLibs/MenuItemSprites/MenuItemSingleTableWithChair@3x";
 
     //OBJECT SPRITES
-    public const string SingleWoodenTableSprite = "Objects/Sprites/SingleTable-1@3x";
-    public const string SingleWoodenTableSpriteMirror = "Objects/Sprites/SingleTable-1-Mirror@3x";
+    public const string SingleWoodenTableSprite = "Objects/Sprites/SingleTable-wood-1@3x";
+    public const string SingleWoodenTableSpriteMirror = "Objects/Sprites/SingleTable-wood-1-Mirror@3x";
 
     // NPC Default
     public const float MinDistanceToTarget = 0.13f;
