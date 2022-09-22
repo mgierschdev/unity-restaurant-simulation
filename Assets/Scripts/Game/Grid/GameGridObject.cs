@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -16,6 +17,8 @@ public class GameGridObject : GameObjectBase
     public GameObject EditMenu { get; set; }
     private GridController gridController;
     private GameObject objectWithSprite;
+    private SpriteResolver test;
+
 
     public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
     {
