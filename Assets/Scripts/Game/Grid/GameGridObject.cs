@@ -54,6 +54,7 @@ public class GameGridObject : GameObjectBase
         objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
         SpriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
+        SortingLayer.sortingOrder = 2;
         EditMenu = editMenu;
         this.gridController = gridController;
 
