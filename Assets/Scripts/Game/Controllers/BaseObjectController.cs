@@ -56,7 +56,7 @@ public class BaseObjectController : MonoBehaviour
         Vector3 currentPos = Grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         //So it will overlay over the rest of the items while dragging
-        gameGridObject.SortingLayer.sortingOrder = 2;
+        gameGridObject.SortingLayer.sortingOrder = 999;
 
         if (Grid.IsValidBussPosition(gameGridObject, currentPos))
         {
@@ -84,18 +84,18 @@ public class BaseObjectController : MonoBehaviour
 
         if (!Grid.IsValidBussPosition(gameGridObject, finalPos))
         {
-            transform.position = new Vector3(initialPosition.x, initialPosition.y, 1);
+            transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
         else
         {
-            initialPosition = new Vector3(finalPos.x, finalPos.y, 1);
+            initialPosition = new Vector3(finalPos.x, finalPos.y, 0);
         }
 
         gameGridObject.UpdateCoords();
         //So it will overlay over the rest of the items while dragging
-        gameGridObject.SortingLayer.sortingOrder = 0;
+        gameGridObject.SortingLayer.sortingOrder = gameGridObject.GridPosition.y * - 1;
         Grid.UpdateObjectPosition(gameGridObject);
     }
 

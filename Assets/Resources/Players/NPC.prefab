@@ -371,7 +371,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 4
 --- !u!223 &8670690836376135464
 Canvas:
   m_ObjectHideFlags: 0
@@ -1015,7 +1015,6 @@ GameObject:
   - component: {fileID: 2962024432630426327}
   - component: {fileID: 3339015991518568952}
   - component: {fileID: 5075699132121997877}
-  - component: {fileID: 1963237914337714751}
   - component: {fileID: 6414089864778020525}
   m_Layer: 10
   m_Name: NPC
@@ -1112,7 +1111,7 @@ MonoBehaviour:
   - {x: -0.1875, y: 0.89367676, z: 0}
   m_ShapePathHash: -547645219
   m_Mesh: {fileID: 0}
-  m_InstanceId: 70250
+  m_InstanceId: 93466
 --- !u!210 &3339015991518568952
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1123,7 +1122,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
 --- !u!114 &5075699132121997877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,18 +1135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e00e24d5eb42b459b874779e0a2339aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!156049354 &1963237914337714751
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7444181978888355381}
-  m_Enabled: 1
-  m_CellSize: {x: 2, y: 1, z: 2}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 3
-  m_CellSwizzle: 0
 --- !u!60 &6414089864778020525
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1658,7 +1645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 655012138465969822, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -13.883091
+      value: -13.883213
       objectReference: {fileID: 0}
     - target: {fileID: 655012138465969822, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       propertyPath: m_Bounds.m_Center.z
@@ -1670,7 +1657,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 655012138465969822, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 1.3214736
+      value: 1.3215957
       objectReference: {fileID: 0}
     - target: {fileID: 655012138465969822, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       propertyPath: m_Bounds.m_Extent.z
