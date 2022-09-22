@@ -50,14 +50,14 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 340563791835858273, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
     - m_Name: Arm-Right-3
       m_Hash: 59841242
-      m_Sprite: {fileID: 21300000, guid: ce193e239978341f8a40898d221152ed, type: 3}
+      m_Sprite: {fileID: -8005484076173542656, guid: c799a5a79514544e593282a10cee6e76, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: -8005484076173542656, guid: c799a5a79514544e593282a10cee6e76, type: 3}
     - m_Name: Arm-Left-3
       m_Hash: 304374541
-      m_Sprite: {fileID: 21300000, guid: 358950464d7f341b08cf8a7aeed840b5, type: 3}
+      m_Sprite: {fileID: 3928661985911514014, guid: c799a5a79514544e593282a10cee6e76, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: 3928661985911514014, guid: c799a5a79514544e593282a10cee6e76, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 4
   - m_Name: Bodies
@@ -66,14 +66,14 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: Body-1
       m_Hash: 1990230790
-      m_Sprite: {fileID: 2405931416225617757, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
+      m_Sprite: {fileID: -4140312724987917524, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: -4140312724987917524, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
     - m_Name: Body-3
       m_Hash: 414114346
-      m_Sprite: {fileID: 21300000, guid: 7fa52583a8df84e8fa3425883b61c24c, type: 3}
+      m_Sprite: {fileID: -2295197845745893252, guid: c799a5a79514544e593282a10cee6e76, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: -2295197845745893252, guid: c799a5a79514544e593282a10cee6e76, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 2
   - m_Name: Legs
@@ -82,14 +82,14 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: Leg-Left-1
       m_Hash: 280345313
-      m_Sprite: {fileID: -4623746925482877279, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
+      m_Sprite: {fileID: -589371692094931729, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: -589371692094931729, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
     - m_Name: Leg-Right-1
       m_Hash: -1235802370
-      m_Sprite: {fileID: 111846706476534589, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
+      m_Sprite: {fileID: -5372000153173434697, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: -5372000153173434697, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 2
   - m_Name: Shoes
@@ -98,24 +98,24 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: Shoe-Left-1
       m_Hash: -396757481
-      m_Sprite: {fileID: 787729091404449967, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
+      m_Sprite: {fileID: 883279710630550324, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: 883279710630550324, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
     - m_Name: Shoe-Right-1
       m_Hash: -495870565
-      m_Sprite: {fileID: 7232341378135728162, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
+      m_Sprite: {fileID: -4382759382344569169, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: -4382759382344569169, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
     - m_Name: Shoe-Left-3
       m_Hash: 106403643
-      m_Sprite: {fileID: 21300000, guid: 2d603237a4d6b4573a77cc7a64d5fdbd, type: 3}
+      m_Sprite: {fileID: 1150873013375788725, guid: c799a5a79514544e593282a10cee6e76, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: 1150873013375788725, guid: c799a5a79514544e593282a10cee6e76, type: 3}
     - m_Name: Shoe-Right
       m_Hash: 239868977
-      m_Sprite: {fileID: 21300000, guid: 908bcf03e045f455ea51925505ee2090, type: 3}
+      m_Sprite: {fileID: -6854336943717705776, guid: c799a5a79514544e593282a10cee6e76, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: -6854336943717705776, guid: c799a5a79514544e593282a10cee6e76, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 4
   - m_Name: Waist
@@ -124,9 +124,9 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: Waist-1
       m_Hash: 1997690031
-      m_Sprite: {fileID: 7801950885432304576, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
+      m_Sprite: {fileID: 6401782981642100168, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 0}
+      m_SpriteOverride: {fileID: 6401782981642100168, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 1
   m_PrimaryLibraryGUID: 
