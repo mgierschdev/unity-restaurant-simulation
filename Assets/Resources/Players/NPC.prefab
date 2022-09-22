@@ -1112,7 +1112,7 @@ MonoBehaviour:
   - {x: -0.1875, y: 0.89367676, z: 0}
   m_ShapePathHash: -547645219
   m_Mesh: {fileID: 0}
-  m_InstanceId: 57554
+  m_InstanceId: 70250
 --- !u!210 &3339015991518568952
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1173,10 +1173,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1, y: 0.5}
-      - {x: 0, y: 0}
-      - {x: -1, y: 0.5}
-      - {x: 0, y: 1}
+    - - {x: 1, y: 0}
+      - {x: 0, y: -0.5}
+      - {x: -1, y: 0}
+      - {x: 0, y: 0.5}
 --- !u!1001 &2469509050983801247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1658,7 +1658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 655012138465969822, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -13.883213
+      value: -13.883091
       objectReference: {fileID: 0}
     - target: {fileID: 655012138465969822, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       propertyPath: m_Bounds.m_Center.z
@@ -1670,7 +1670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 655012138465969822, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 1.3215957
+      value: 1.3214736
       objectReference: {fileID: 0}
     - target: {fileID: 655012138465969822, guid: b16705dde02e3415f8021efa4eb14e13, type: 3}
       propertyPath: m_Bounds.m_Extent.z
