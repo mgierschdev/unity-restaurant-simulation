@@ -158,7 +158,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsTakingOrder()
     {
-        if (localState != NpcState.WALKING_TO_TABLE || !Util.IsAtDistanceWithObject(transform.position, GameGrid.GetWorldFromPathFindingGridPositionWithOffSet(coordOfTableToBeAttended)))
+        if (localState != NpcState.WALKING_TO_TABLE || !Util.IsAtDistanceWithObjectTraslate(transform.position, GameGrid.GetWorldFromPathFindingGridPositionWithOffSet(coordOfTableToBeAttended), transform))
         {
             return;
         }

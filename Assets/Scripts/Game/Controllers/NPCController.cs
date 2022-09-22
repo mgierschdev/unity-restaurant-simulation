@@ -125,8 +125,9 @@ public class NPCController : GameObjectMovementBase
             return;
         }
 
-        if (Util.IsAtDistanceWithObject(transform.position, targetInWorldPosition))
+        if (Util.IsAtDistanceWithObjectTraslate(transform.position, targetInWorldPosition, transform))
         {
+            Debug.Log("Arriving at the table disgtance: "+Util.IsAtDistanceWithObject(transform.position, targetInWorldPosition));
             localState = NpcState.AT_TABLE;
         }
     }
@@ -144,6 +145,7 @@ public class NPCController : GameObjectMovementBase
         localState = NpcState.WALKING_TO_TABLE;
         targetInWorldPosition = table.GetActionTile();
         target = GameGrid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
+        Debug.Log("Going to table "+target+" world position "+targetInWorldPosition);
         GoTo(target);
     }
 
