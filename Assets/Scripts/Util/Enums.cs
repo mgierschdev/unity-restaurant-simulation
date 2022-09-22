@@ -86,9 +86,10 @@ public enum MenuType
 }
 
 // Object deifnition in in MenuObjectList.cs
-public enum ObjectName
+public enum TableType
 {
     WOONDEN_TABLE_SINGLE = 1,
+    SQUARED_WOONDEN_TABLE_SINGLE = 2,
     UNDEFINED = 999
 }
 

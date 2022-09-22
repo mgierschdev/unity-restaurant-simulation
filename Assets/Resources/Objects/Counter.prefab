@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[0].m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284510378439025032, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[0].m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2067414965128996655, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -14,6 +22,14 @@ PrefabInstance:
     - target: {fileID: 4015554977731466099, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteKey
       value: 1.4654167e+35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Size.x
+      value: 0.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Size.y
+      value: 0.855
       objectReference: {fileID: 0}
     - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Sprite
