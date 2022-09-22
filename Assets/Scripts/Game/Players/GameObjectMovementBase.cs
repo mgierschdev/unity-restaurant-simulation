@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
@@ -37,10 +38,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private string npcDebug;
     private Queue<string> stateHistory;
     private const int STATE_HISTORY_MAX_SIZE = 20;
+    private SortingGroup sortingLayer;
 
 
     private void Awake()
     {
+        //Sortering layer
+        sortingLayer = transform.GetComponent<SortingGroup>();
+
         // Debug parameters
         stateHistory = new Queue<string>();
         Speed = Settings.NpcDefaultMovementSpeed;
@@ -66,7 +71,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         //Update Object initial position
         currentTargetPosition = transform.position;
-
         FinalTarget = Util.GetVector3IntPositiveInfinity();
         side = false; // The side in which the character is facing by default = false meaning right.
         speedDecreaseEnergyBar = 20f;
@@ -113,6 +117,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // body.rotation = 0;
         Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
+        sortingLayer.sortingOrder = -1 * Position.y;
 
         // if (transform.name.Contains("Employee"))
         // {
