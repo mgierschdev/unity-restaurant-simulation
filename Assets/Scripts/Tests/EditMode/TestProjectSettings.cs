@@ -108,11 +108,11 @@ public class TestProjectSettings
     [Test]
     public void TestLoadingInventoryMenuItem()
     {
-        GameObject item = (GameObject) Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject));
+        GameObject item = (GameObject)Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject));
         Transform image = item.transform.Find(Settings.PrefabInventoryItemImage);
         Transform price = item.transform.Find(Settings.PrefabInventoryItemTextPrice);
         Assert.NotNull(item);
-        Assert.NotNull(image);  
+        Assert.NotNull(image);
         Assert.NotNull(price);
     }
 }
