@@ -570,7 +570,7 @@ public class GridController : MonoBehaviour
     {
         return TablesWithClient.Count <= 0 ? null : TablesWithClient.Dequeue();
     }
-
+    // It gets the closest free coord next to the target
     public Vector3Int GetClosestPathGridPoint(Vector3Int init, Vector3Int target)
     {
         float min = float.MaxValue;
@@ -582,7 +582,7 @@ public class GridController : MonoBehaviour
             int y = arroundVectorPoints[i, 1] + target.y;
             Vector3Int tmp = new Vector3Int(x, y, 0);
 
-            if (IsCoordValid(x, y) && grid[x, y] == 0 && min > Vector3Int.Distance(init, tmp))
+            if ((IsCoordValid(x, y) && grid[x, y] == 0 || IsCoordValid(x, y) && grid[x, y] == -1 )&& min > Vector3Int.Distance(init, tmp))
             {
 
                 min = Vector3Int.Distance(init, tmp);
