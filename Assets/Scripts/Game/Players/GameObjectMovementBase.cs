@@ -114,10 +114,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
 
-        if (transform.name.Contains("Employee"))
-        {
-            Debug.Log("Currently at pos " + Position);
-        }
+        // if (transform.name.Contains("Employee"))
+        // {
+        //     Debug.Log("Currently at pos " + Position);
+        // }
     }
 
     private void UpdateObjectDirection()
