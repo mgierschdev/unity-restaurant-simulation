@@ -38,6 +38,11 @@ public class ClickController : MonoBehaviour
 
     private void ClickControl()
     {
+
+        // gridController.GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition()), accurate
+        
+        //Debug.Log(gridController.GetWorldFromPathFindingGridPositionWithOffSet(gridController.GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition())));
+
         // first click 
         if (Input.GetMouseButtonDown(0))
         {
