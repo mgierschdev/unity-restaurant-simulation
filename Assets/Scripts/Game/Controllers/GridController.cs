@@ -386,6 +386,15 @@ public class GridController : MonoBehaviour
         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
     }
 
+    public Vector3 GetGridWorldPositionMapMouseDrag()
+    {
+        Vector3 currentPos = GetWorldFromPathFindingGridPositionWithOffSet(GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition()));//Grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
+        //test
+        Vector3 offset = new Vector3(0, 0.25f, 0);
+        currentPos -= offset;
+        return currentPos;
+    }
+
     // Returns the nearest grid World position given any world map position
     public Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos)
     {

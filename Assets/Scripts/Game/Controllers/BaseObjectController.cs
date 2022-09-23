@@ -53,12 +53,13 @@ public class BaseObjectController : MonoBehaviour
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
-        Vector3 currentPos = Grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
+        Vector3 currentPos = Grid.GetGridWorldPositionMapMouseDrag();
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         //So it will overlay over the rest of the items while dragging
+
         gameGridObject.SortingLayer.sortingOrder = 999;
 
-        if (Grid.IsValidBussPosition(gameGridObject, currentPos))
+        if (Grid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
         {
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
@@ -82,7 +83,7 @@ public class BaseObjectController : MonoBehaviour
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
         Grid.DraggingObject = false;
 
-        if (!Grid.IsValidBussPosition(gameGridObject, finalPos))
+        if (!Grid.IsValidBussPosition(gameGridObject, finalPos) && !IsOverNPC())
         {
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
             gameGridObject.SpriteRenderer.color = Util.Available;
@@ -126,6 +127,20 @@ public class BaseObjectController : MonoBehaviour
         {
             if (r.name.Contains(Settings.Button))
             {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool IsOverNPC()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
+        foreach (Collider2D r in hits)
+        {
+            if (r.name.Contains(Settings.PrefabNpcClient) ||r.name.Contains(Settings.PrefabNpcEmployee) )
+            {
+                Debug.Log("Is over NPC");
                 return true;
             }
         }
