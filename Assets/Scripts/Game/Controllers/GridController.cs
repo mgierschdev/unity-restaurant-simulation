@@ -52,6 +52,7 @@ public class GridController : MonoBehaviour
     private Dictionary<Vector3Int, GameTile> mapBusinessFloor;
     private string currentClickedActiveGameObject;
     private int[,] arroundVectorPoints;
+    private GameController gameController;
 
     public MenuObjectList ObjectListConfiguration { get; set; }
     public bool DraggingObject;
@@ -91,6 +92,10 @@ public class GridController : MonoBehaviour
 
         //ObjectListConfiguration
         ObjectListConfiguration = new MenuObjectList();
+
+        //GameController
+        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
+        gameController = gameObj.GetComponent<GameController>();
 
         if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null || tilemapPathFinding == null ||
             tilemapWalkingPath == null || tilemapBusinessFloor == null)
@@ -343,12 +348,39 @@ public class GridController : MonoBehaviour
             return false;
         }
 
+        // It cannot overlap any NPC
+        if (OverlapsNPC(currentGridPos))
+        {
+            return false;
+        }
+
         // if the current grid position is in the buss map we return true
         if (IsValidBussCoord(currentGridPos) && IsValidBussCoord(currentActionPointInGrid))
         {
             return true;
         }
 
+        return false;
+    }
+
+
+    //checks if the position overlaps any npc position
+    private bool OverlapsNPC(Vector3Int position)
+    {
+        // We cannot place on top of the employee
+        if (position == GetPathFindingGridFromWorldPosition(gameController.EmployeeObject.transform.position))
+        {
+            return false;
+        }
+
+        foreach (NPCController npcController in gameController.NpcSet)
+        {
+            Vector3Int npcPosition = GetPathFindingGridFromWorldPosition(npcController.transform.position);
+            if (npcPosition == position)
+            {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -760,13 +792,13 @@ public class GridController : MonoBehaviour
 
             bool isClosingGrid = IsClosingIsland(position);
 
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid)
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid && !OverlapsNPC(position))
             {
                 // Debug.Log(position + " " + actionPoint + " front");
                 return new Vector3Int[] { position, Vector3Int.up }; //front
             }
 
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2) && !isClosingGrid)
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2) && !isClosingGrid && !OverlapsNPC(position))
             {
                 // Debug.Log(position + " " + actionPoint2 + " inverted");
                 return new Vector3Int[] { position, Vector3Int.right }; // front inverted

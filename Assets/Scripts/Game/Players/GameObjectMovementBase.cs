@@ -40,7 +40,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
 
-
     private void Awake()
     {
         //Sortering layer

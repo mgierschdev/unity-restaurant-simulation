@@ -5,8 +5,9 @@ using UnityEngine;
 // This class in charge of loading the game and prefabs
 public class GameController : MonoBehaviour
 {
-    private HashSet<NPCController> npcSet;
-    private const int NPC_MAX_NUMBER = 1;
+    public HashSet<NPCController> NpcSet {get; set;}
+    public GameObject EmployeeObject {get; set;}
+    private const int NPC_MAX_NUMBER = 10;
     private int npcId;
     private GridController gridController;
     private GameObject gameGridObject;
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         npcId = 0;
-        npcSet = new HashSet<NPCController>();
+        NpcSet = new HashSet<NPCController>();
         gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
         gridController.PlayerData = playerData;
@@ -32,7 +33,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (npcSet.Count < NPC_MAX_NUMBER)
+        if (NpcSet.Count < NPC_MAX_NUMBER)
         {
             SpamNpc();
         }
@@ -44,7 +45,7 @@ public class GameController : MonoBehaviour
         npcObject.transform.SetParent(NPCS.transform);
         npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
         NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
-        npcSet.Add(isometricNPCController);
+        NpcSet.Add(isometricNPCController);
         npcId++;
     }
     private void SpamEmployee()
@@ -59,9 +60,9 @@ public class GameController : MonoBehaviour
     }
     public void RemoveNpc(NPCController controller)
     {
-        if (npcSet.Contains(controller))
+        if (NpcSet.Contains(controller))
         {
-            npcSet.Remove(controller);
+            NpcSet.Remove(controller);
         }
         else
         {
