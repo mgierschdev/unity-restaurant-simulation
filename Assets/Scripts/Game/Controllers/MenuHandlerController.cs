@@ -146,7 +146,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             return;
         }
-        
+
         if (type == ObjectType.NPC || type == ObjectType.EMPLOYEE)
         {
             Dictionary<string, string> map = new Dictionary<string, string>();
@@ -274,14 +274,9 @@ public class MenuHandlerController : MonoBehaviour
 
         if (menu.Type == MenuType.TAB_MENU)
         {
-            return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenuRect,
-                         Input.mousePosition) ||
-                     RectTransformUtility.RectangleContainsScreenPoint(menuBodyRect,
-                         Input.mousePosition));
+            return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenuRect, Input.mousePosition) || RectTransformUtility.RectangleContainsScreenPoint(menuBodyRect, Input.mousePosition));
         }
-
-        return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(),
-            Input.mousePosition);
+        return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(), Input.mousePosition);
     }
 
     private void AddMenuItemsToScrollView(MenuItem menu)
@@ -365,7 +360,7 @@ public class MenuHandlerController : MonoBehaviour
         gridController.HighlightGridBussFloor();
 
         // Load test debug
-        // StartCoroutine(TestPlacingObjects(obj));
+        //StartCoroutine(TestPlacingObjects(obj));
         // Load test debug
 
         if (gridController.PlaceGameObject(obj))
@@ -389,9 +384,9 @@ public class MenuHandlerController : MonoBehaviour
         // Debug.Log("Started Coroutine at timestamp : " + Time.time);
 
         //yield on a new YieldInstruction that waits for 5 seconds.
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 10000; i++)
         {
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.15f); // 0.15f
             // Debug.Log("Placing object");
             gridController.PlaceGameObject(obj);
         }
