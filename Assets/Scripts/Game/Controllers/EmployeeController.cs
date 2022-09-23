@@ -10,7 +10,7 @@ public class EmployeeController : GameObjectMovementBase
     private const float TIME_IDLE_BEFORE_TAKING_ORDER = 2f;
     private const int RANDOM_PROBABILITY_TO_WAIT = 0;
     private const float TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
-    private Vector3Int coordOfTableToBeAttended;
+    public Vector3Int CoordOfTableToBeAttended { get; set; }
     private float idleTime;
 
     //Time in the current state
@@ -64,7 +64,7 @@ public class EmployeeController : GameObjectMovementBase
         // keeps the time in the current state
         if (prevState == localState)
         {
-           // GameLog.Log("Current state time " + stateTime);
+            // GameLog.Log("Current state time " + stateTime);
             stateTime += Time.deltaTime;
         }
         else
@@ -152,13 +152,13 @@ public class EmployeeController : GameObjectMovementBase
 
         tableToBeAttended = GameGrid.GetTableWithClient();
         localState = NpcState.WALKING_TO_TABLE;
-        coordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()), GameGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile()));
-        GoTo(coordOfTableToBeAttended);
+        CoordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()), GameGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile()));
+        GoTo(CoordOfTableToBeAttended);
     }
 
     private void UpdateIsTakingOrder()
     {
-        if (localState != NpcState.WALKING_TO_TABLE || !Util.IsAtDistanceWithObjectTraslate(transform.position, GameGrid.GetWorldFromPathFindingGridPositionWithOffSet(coordOfTableToBeAttended), transform))
+        if (localState != NpcState.WALKING_TO_TABLE || !Util.IsAtDistanceWithObjectTraslate(transform.position, GameGrid.GetWorldFromPathFindingGridPositionWithOffSet(CoordOfTableToBeAttended), transform))
         {
             return;
         }

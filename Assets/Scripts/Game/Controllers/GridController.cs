@@ -368,9 +368,9 @@ public class GridController : MonoBehaviour
     private bool OverlapsNPC(Vector3Int position)
     {
         // We cannot place on top of the employee
-        if (position == GetPathFindingGridFromWorldPosition(gameController.EmployeeObject.transform.position))
+        if (position == GetPathFindingGridFromWorldPosition(gameController.EmployeeController.transform.position) || position == gameController.EmployeeController.CoordOfTableToBeAttended)
         {
-            return false;
+            return true;
         }
 
         foreach (NPCController npcController in gameController.NpcSet)
