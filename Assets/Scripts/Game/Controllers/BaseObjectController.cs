@@ -85,7 +85,6 @@ public class BaseObjectController : MonoBehaviour
 
         if (!Grid.IsValidBussPosition(gameGridObject, finalPos) || IsOverNPC())
         {
-            Debug.Log("Invalid "+Grid.IsValidBussPosition(gameGridObject, finalPos)+" "+IsOverNPC());
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
@@ -141,7 +140,6 @@ public class BaseObjectController : MonoBehaviour
         {
             if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee) )
             {
-                Debug.Log("Is over NPC");
                 return true;
             }
         }
