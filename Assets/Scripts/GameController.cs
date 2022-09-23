@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public HashSet<NPCController> NpcSet {get; set;}
-    public GameObject EmployeeObject {get; set;}
+    public EmployeeController EmployeeController {get; set;}
     private const int NPC_MAX_NUMBER = 10;
     private int npcId;
     private GridController gridController;
@@ -52,10 +52,10 @@ public class GameController : MonoBehaviour
     {
         //Adding Employees
         tileSpawn = gridController.GetRandomSpamPointWorldPosition();
-        EmployeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
-        EmployeeObject.transform.SetParent(NPCS.transform);
-        EmployeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
-        //EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
+        GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
+        employeeObject.transform.SetParent(NPCS.transform);
+        employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
+        EmployeeController = employeeObject.GetComponent<EmployeeController>();
         npcId++;
     }
     public void RemoveNpc(NPCController controller)
