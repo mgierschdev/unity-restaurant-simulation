@@ -42,6 +42,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void Awake()
     {
+        //Setting default init name
+        Name = transform.name;
+        
         //Sortering layer
         sortingLayer = transform.GetComponent<SortingGroup>();
 

@@ -135,13 +135,18 @@ public class MenuHandlerController : MonoBehaviour
 
     private void CheckCLickControl()
     {
-        if (!clickController.ClickedObject)
+        if (clickController == null || !clickController.ClickedObject)
         {
             return;
         }
 
         ObjectType type = Util.GetObjectType(clickController.ClickedObject);
 
+        if (clickController.ClickedObject.name.Contains(Settings.PrefabNpcEmployee))
+        {
+            return;
+        }
+        
         if (type == ObjectType.NPC || type == ObjectType.EMPLOYEE)
         {
             Dictionary<string, string> map = new Dictionary<string, string>();
@@ -350,7 +355,7 @@ public class MenuHandlerController : MonoBehaviour
     {
         if (!gridController.PlayerData.CanSubtract(obj.Cost))
         {
-            GameLog.Log("TODO: Insufficient funds "+gridController.PlayerData.GetMoney());
+            GameLog.Log("TODO: Insufficient funds " + gridController.PlayerData.GetMoney());
             return;
         }
 
@@ -359,9 +364,9 @@ public class MenuHandlerController : MonoBehaviour
         CloseAllMenus();
         gridController.HighlightGridBussFloor();
 
-        // debug
-        StartCoroutine(TestPlacingObjects(obj));
-        // debug
+        // Load test debug
+        // StartCoroutine(TestPlacingObjects(obj));
+        // Load test debug
 
         if (gridController.PlaceGameObject(obj))
         {
