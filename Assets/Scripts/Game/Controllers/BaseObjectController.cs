@@ -83,8 +83,9 @@ public class BaseObjectController : MonoBehaviour
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
         Grid.DraggingObject = false;
 
-        if (!Grid.IsValidBussPosition(gameGridObject, finalPos) && !IsOverNPC())
+        if (!Grid.IsValidBussPosition(gameGridObject, finalPos) || IsOverNPC())
         {
+            Debug.Log("Invalid "+Grid.IsValidBussPosition(gameGridObject, finalPos)+" "+IsOverNPC());
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
@@ -138,7 +139,7 @@ public class BaseObjectController : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
         foreach (Collider2D r in hits)
         {
-            if (r.name.Contains(Settings.PrefabNpcClient) ||r.name.Contains(Settings.PrefabNpcEmployee) )
+            if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee) )
             {
                 Debug.Log("Is over NPC");
                 return true;
