@@ -52,6 +52,8 @@ public class GridController : MonoBehaviour
     private Dictionary<Vector3Int, GameTile> mapBusinessFloor;
     private string currentClickedActiveGameObject;
     private int[,] arroundVectorPoints;
+
+    public MenuObjectList ObjectListConfiguration { get; set; }
     public bool DraggingObject;
 
     private void Awake()
@@ -86,6 +88,9 @@ public class GridController : MonoBehaviour
         tilemapBusinessFloor = GameObject.Find(Settings.TilemapBusinessFloor).GetComponent<Tilemap>();
         listBusinessFloor = new List<GameTile>();
         mapBusinessFloor = new Dictionary<Vector3Int, GameTile>();
+
+        //ObjectListConfiguration
+        ObjectListConfiguration = new MenuObjectList();
 
         if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null || tilemapPathFinding == null ||
             tilemapWalkingPath == null || tilemapBusinessFloor == null)
@@ -582,7 +587,7 @@ public class GridController : MonoBehaviour
             int y = arroundVectorPoints[i, 1] + target.y;
             Vector3Int tmp = new Vector3Int(x, y, 0);
 
-            if ((IsCoordValid(x, y) && grid[x, y] == 0 || IsCoordValid(x, y) && grid[x, y] == -1 )&& min > Vector3Int.Distance(init, tmp))
+            if ((IsCoordValid(x, y) && grid[x, y] == 0 || IsCoordValid(x, y) && grid[x, y] == -1) && min > Vector3Int.Distance(init, tmp))
             {
 
                 min = Vector3Int.Distance(init, tmp);
@@ -692,7 +697,7 @@ public class GridController : MonoBehaviour
         return grid[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
     }
 
-    public bool PlaceGameObject(GameGridObject obj)
+    public bool PlaceGameObject(StoreGameObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
         GameObject dummy = null;
@@ -722,7 +727,7 @@ public class GridController : MonoBehaviour
                 }
             }
         }
-        
+
         return false;
     }
 

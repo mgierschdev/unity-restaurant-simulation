@@ -12,7 +12,6 @@ public abstract class GameObjectBase
     public TileType TileType { get; set; }
     private Vector3 tileOffset = new Vector3(0, 0.25f, 0);
     public double Cost { get; set; }
-    public string MenuItemSprite { get; set; } // Foto to display
 
     public void UpdateSortingLayer()
     {

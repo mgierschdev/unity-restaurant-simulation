@@ -11,11 +11,7 @@ public class CounterController : BaseObjectController
         GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
         Grid = gameGrid.GetComponent<GridController>();
 
-        //Edit Panel Disable
-        GameObject EditPanel = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-        EditPanel.SetActive(false);
-
-        gameGridObject = new GameGridObject(transform, Grid.GetPathFindingGridFromWorldPosition(transform.position), Grid.GetLocalGridFromWorldPosition(transform.position), COST, ObjectRotation.FRONT, ObjectType.NPC_COUNTER, EditPanel, Grid);
+        gameGridObject = new GameGridObject(transform, Grid, ObjectRotation.FRONT, Grid.ObjectListConfiguration.GetStoreObject(StoreItemType.COUNTER));
         if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {
             Grid.SetGridObject(gameGridObject);

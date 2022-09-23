@@ -28,7 +28,6 @@ public class MenuHandlerController : MonoBehaviour
 
     //Menu realtime refresh rate
     private const float MENU_REFRESH_RATE = 3f;
-    private MenuObjectList storeList;
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
     private GameObject menuBody;
@@ -51,9 +50,6 @@ public class MenuHandlerController : MonoBehaviour
         //Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
         editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
-
-        //Containing all Inventory Items
-        storeList = new MenuObjectList();
 
         tabMenu = transform.Find(Settings.ConstCenterTabMenu).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
@@ -299,7 +295,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         //Add new Items
-        foreach (GameGridObject obj in storeList.Tables)
+        foreach (StoreGameObject obj in gridController.ObjectListConfiguration.Tables)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
@@ -314,11 +310,14 @@ public class MenuHandlerController : MonoBehaviour
             {
                 image.color = Util.Unavailable;
             }
+
             GameObject text = item.transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
             TextMeshProUGUI textMesh = text.GetComponent<TextMeshProUGUI>();
             textMesh.text = obj.Cost.ToString();
+
             Image imgComponent = img.GetComponent<Image>();
             Sprite sp = Resources.Load<Sprite>(obj.MenuItemSprite);
+
             imgComponent.sprite = sp;
             item.transform.SetParent(scrollView.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
@@ -347,7 +346,7 @@ public class MenuHandlerController : MonoBehaviour
         bCancel.onClick.AddListener(CloseEditPanel);
     }
 
-    private void OpenStoreEditPanel(GameGridObject obj)
+    private void OpenStoreEditPanel(StoreGameObject obj)
     {
         if (!gridController.PlayerData.CanSubtract(obj.Cost))
         {
@@ -361,7 +360,7 @@ public class MenuHandlerController : MonoBehaviour
         gridController.HighlightGridBussFloor();
 
         // debug
-        StartCoroutine(TestPlacingObjects(obj));
+        // StartCoroutine(TestPlacingObjects(obj));
         // debug
 
         if (gridController.PlaceGameObject(obj))
@@ -379,7 +378,7 @@ public class MenuHandlerController : MonoBehaviour
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
     }
-    IEnumerator TestPlacingObjects(GameGridObject obj)
+    IEnumerator TestPlacingObjects(StoreGameObject obj)
     {
         //Print the time of when the function is first called.
         // Debug.Log("Started Coroutine at timestamp : " + Time.time);

@@ -6,62 +6,35 @@ using UnityEngine.UI;
 
 public class GameGridObject : GameObjectBase
 {
-    public SpriteRenderer SpriteRenderer { get; set; }
     private List<GameObject> actionTiles;
     private List<SpriteRenderer> tiles;
-    public ObjectRotation FacingPosition { get; set; } // Facing position
+    private GridController gridController;
+    private GameObject objectWithSprite;
+    private SpriteResolver spriteResolver;
     private Transform objectTransform;
     private int actionTile;
+    private StoreGameObject storeGameObject;
+    public SpriteRenderer SpriteRenderer { get; set; }
+    public ObjectRotation FacingPosition { get; set; } // Facing position
     public bool Busy { get; set; } //Being used by an NPC
     public NPCController UsedBy { get; set; }
     public GameObject EditMenu { get; set; }
-    private GridController gridController;
-    private GameObject objectWithSprite;
-    private SpriteResolver TestSpriteResolver;
-    private SpriteLibrary library;
 
-
-
-    public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType)
-    {
-        FacingPosition = ObjectRotation.FRONT;
-        TileType = tileType;
-        Name = name;
-        GridPosition = gridPosition; // Grid position, first position = 0, 0
-        WorldPosition = worldPosition; // World position on Unity coords
-        LocalGridPosition = localGridPosition;
-        Type = type;
-    }
-
-    public GameGridObject(string name, Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, ObjectType type, TileType tileType, int cost, string menuItemSprite)
-    {
-        FacingPosition = ObjectRotation.FRONT;
-        MenuItemSprite = menuItemSprite;
-        TileType = tileType;
-        Name = name;
-        GridPosition = gridPosition; // Grid position, first position = 0, 0
-        WorldPosition = worldPosition; // World position on Unity coords
-        LocalGridPosition = localGridPosition;
-        Type = type;
-        Cost = cost;
-    }
-
-    public GameGridObject(Transform transform, Vector3Int gridPosition, Vector3Int localGridPosition, int cost, ObjectRotation position, ObjectType type, GameObject editMenu, GridController gridController)
+    public GameGridObject(Transform transform, GridController gridController, ObjectRotation position, StoreGameObject storeGameObject)
     {
         objectTransform = transform;
         Name = transform.name;
         WorldPosition = transform.position; // World position on Unity coords
-        GridPosition = gridPosition; // Grid position, first position = 0, 0
-        LocalGridPosition = localGridPosition;
-        Type = type;
-        Cost = cost;
-        this.FacingPosition = position;
+        GridPosition = gridController.GetPathFindingGridFromWorldPosition(transform.position); // Grid position, first position = 0, 0
+        LocalGridPosition = gridController.GetLocalGridFromWorldPosition(transform.position);
+        Type = storeGameObject.Type;
+        this.storeGameObject = storeGameObject;
         objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
         SpriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
         SortingLayer.sortingOrder = -1 * GridPosition.y;
-        EditMenu = editMenu;
         this.gridController = gridController;
+        FacingPosition = position;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -69,6 +42,16 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer tileUnder = objectTileUnder.GetComponent<SpriteRenderer>();
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
+
+        spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();//TEST TODO
+        
+        if(storeGameObject.Type == ObjectType.NPC_SINGLE_TABLE){
+            spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
+        }
+
+        //Edit Panel Disable
+        EditMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
+        EditMenu.SetActive(false);
 
         actionTiles = new List<GameObject>(){
             objectActionTile.gameObject,
@@ -84,25 +67,28 @@ public class GameGridObject : GameObjectBase
         UpdateRotation(position);
         SetEditPanelClickListeners();
 
-
         LoadSpriteLibrary();
     }
 
     private void LoadSpriteLibrary()
     {
-        SpriteLibrary spriteLibrary = objectTransform.GetComponent<SpriteLibrary>();
 
-        if(!spriteLibrary){
-            return;
-        }
 
-        Debug.Log(spriteLibrary);
-        Debug.Log(spriteLibrary.spriteLibraryAsset.name);
 
-        foreach (string s in spriteLibrary.spriteLibraryAsset.GetCategoryLabelNames("Single"))
-        {
-            Debug.Log(s);
-        }
+        // SpriteLibrary spriteLibrary = objectTransform.GetComponent<SpriteLibrary>();
+
+        // if (!spriteLibrary)
+        // {
+        //     return;
+        // }
+
+        // Debug.Log(spriteLibrary);
+        // Debug.Log(spriteLibrary.spriteLibraryAsset.name);
+
+        // foreach (string s in spriteLibrary.spriteLibraryAsset.GetCategoryLabelNames("Single"))
+        // {
+        //     Debug.Log(s);
+        // }
     }
 
 
@@ -257,35 +243,32 @@ public class GameGridObject : GameObjectBase
         {
             return;
         }
-
-        Sprite singleSpriteWood = Resources.Load<Sprite>(Settings.SingleWoodenTableSprite);
-        Sprite singleSpriteWoodMirror = Resources.Load<Sprite>(Settings.SingleWoodenTableSpriteMirror);
-
+        
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
-                SpriteRenderer.sprite = singleSpriteWood;
+                spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
                 actionTile = GetRotationActionTile(ObjectRotation.FRONT);
                 tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.FRONT_INVERTED:
-                SpriteRenderer.sprite = singleSpriteWood;
+                spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
                 actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
                 tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.BACK:
-                SpriteRenderer.sprite = singleSpriteWoodMirror;
+                spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTablesInverted, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
                 actionTile = GetRotationActionTile(ObjectRotation.BACK);
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK_INVERTED:
-                SpriteRenderer.sprite = singleSpriteWoodMirror;
+                spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTablesInverted, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
                 actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
                 tiles[1].color = Util.Hidden;
