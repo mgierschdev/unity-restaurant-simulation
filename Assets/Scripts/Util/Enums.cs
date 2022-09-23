@@ -9,7 +9,6 @@ public enum ObjectType
     NPC_COUNTER = 5,
     FLOOR = 6,
     NPC_SINGLE_TABLE = 7,
-    NPC_DOUBLE_TABLE = 8,
     UNDEFINED = 999
 }
 
@@ -86,10 +85,19 @@ public enum MenuType
 }
 
 // Object deifnition in in MenuObjectList.cs
-public enum TableType
+public enum StoreItemType
 {
     WOONDEN_TABLE_SINGLE = 1,
     SQUARED_WOONDEN_TABLE_SINGLE = 2,
+    TABLE_SINGLE_3 = 3,
+    TABLE_SINGLE_4 = 4,
+    TABLE_SINGLE_5 = 5,
+    TABLE_SINGLE_6 = 6,
+    TABLE_SINGLE_7 = 7,
+    TABLE_SINGLE_8 = 8,
+    TABLE_SINGLE_9 = 9,
+    TABLE_SINGLE_10 = 10,
+    COUNTER = 11,
     UNDEFINED = 999
 }
 

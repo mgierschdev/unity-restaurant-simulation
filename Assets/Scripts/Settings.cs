@@ -12,6 +12,9 @@ public static class Settings
     public const string NpcTag = "NPC";
     public const string NpcEmployeeTag = "Employee";
 
+    //STORE SPRITES
+    public const string StoreSpritePath = "SpriteLibs/MenuItemSprites/";
+
     // TILEMAPS
     public const string TilemapFloor0 = "TilemapFloor0";
     public const string TilemapColliders = "TilemapColliders";
@@ -20,6 +23,11 @@ public static class Settings
     public const string TilemapBusinessFloor = "TilemapBusinessFloor";
     public const string PathFindingGrid = "PathFindingGrid";
 
+    //SPRITE LIBS CATEGORIES
+    public const string SpriteLibCategoryTables = "Tables";
+    public const string SpriteLibCategoryTablesInverted = "Tables-inverted";
+    public const string SpriteLibCategoryStoreObjects = "StoreObjects";
+
     // PREFABS AND OBJECTS
     public const string Button = "Button";
     public const string PrefabGridTile = "Grid/GridTile";
@@ -27,7 +35,6 @@ public static class Settings
     public const string PrefabSingleTableFrontInverted = "Objects/SingleTableFrontInverted";
     public const string SingleTableRotationFrontInverted = "FrontInverted";
     public const string SingleTableRotationFront = "Front";
-    public const string PrefabSandSea = "Grid/SandAndSea@3x";
     public const string PrefabPlayer = "Players/Player";
     public const string PrefabNpcClient = "Players/Client";
     public const string PrefabNpcEmployee = "Players/Employee";
@@ -38,13 +45,6 @@ public static class Settings
     public const string BaseObjectActionTile = "Object/Tiles/ActionTile";
     public const string BaseObjectActionTile2 = "Object/Tiles/ActionTile2";
     public const string BaseObjectSpriteRenderer = "Object";
-
-    // INVENTORY SPRITE ITEMS
-    public const string SingleWoodenTable = "SpriteLibs/MenuItemSprites/MenuItemSingleTableWithChair@3x";
-
-    //OBJECT SPRITES
-    public const string SingleWoodenTableSprite = "Objects/Sprites/SingleTable-wood-1@3x";
-    public const string SingleWoodenTableSpriteMirror = "Objects/Sprites/SingleTable-wood-1-Mirror@3x";
 
     // NPC Default
     public const float MinDistanceToTarget = 0.13f;

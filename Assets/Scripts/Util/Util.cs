@@ -271,28 +271,7 @@ public static class Util
             return MoveDirection.IDLE;
         }
     }
-
-    // Object definition in MenuObjectList
-    // E.g:
-    // new GameGridObject("Wooden table"
-    // new GameGridObject("Dark wood table"
-    // new GameGridObject("Wooden table"
-    // new GameGridObject("Dark wood table"
-    // new GameGridObject("Wooden table"
-    // new GameGridObject("Dark wood table"
-    // new GameGridObject("Wooden table"
-    // new GameGridObject("Dark wood table"
-    // new GameGridObject("Iron table"
-    public static TableType GetTableTypes(string tableName)
-    {
-        return tableName switch
-        {
-            "SingleTable-wood-1" => TableType.WOONDEN_TABLE_SINGLE,
-            "SingleTable-squared-wood-2" => TableType.SQUARED_WOONDEN_TABLE_SINGLE,
-            _ => TableType.UNDEFINED
-        };
-    }
-
+    
     public static TileType GetTileType(string tileName)
     {
         return tileName switch

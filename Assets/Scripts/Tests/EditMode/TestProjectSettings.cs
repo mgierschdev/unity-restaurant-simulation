@@ -92,20 +92,6 @@ public class TestProjectSettings
     }
 
     [Test]
-    public void TestPrefabLoadSandAndSea()
-    {
-        Object obj = Resources.Load(Settings.PrefabSandSea, typeof(GameObject));
-        Assert.NotNull(obj);
-    }
-
-    [Test]
-    public void TestLoadingMenuItemSprites()
-    {
-        Sprite s = Resources.Load<Sprite>(Settings.SingleWoodenTable);
-        Assert.NotNull(s);
-    }
-
-    [Test]
     public void TestLoadingInventoryMenuItem()
     {
         GameObject item = (GameObject)Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject));
