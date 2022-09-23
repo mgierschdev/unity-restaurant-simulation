@@ -420,7 +420,7 @@ public class GridController : MonoBehaviour
 
     public Vector3 GetGridWorldPositionMapMouseDrag()
     {
-        Vector3 currentPos = GetWorldFromPathFindingGridPositionWithOffSet(GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition()));//Grid.GetNearestGridPositionFromWorldMap(Util.GetMouseInWorldPosition() + mousePosition);
+        Vector3 currentPos = GetWorldFromPathFindingGridPositionWithOffSet(GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition()));
         //test
         Vector3 offset = new Vector3(0, 0.25f, 0);
         currentPos -= offset;
