@@ -9,8 +9,7 @@ using UnityEngine.UI;
 // All the bottom calls will be handled by this class.
 public class MenuHandlerController : MonoBehaviour
 {
-    private GameObject tabMenu;
-    private RectTransform tabMenuRect;
+    private GameObject centerPanel;
     private MenuItem npcProfileMenu;
     private NPCController npc; //saves the latest reference to the npc if the menu was opened
     private EmployeeController employee;
@@ -30,11 +29,10 @@ public class MenuHandlerController : MonoBehaviour
     private const float MENU_REFRESH_RATE = 3f;
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
-    private GameObject menuBody;
-    private RectTransform menuBodyRect;
     private GridController gridController;
     private PlayerData playerData;
     private TextMeshProUGUI moneyText;
+    private List<RectTransform> visibleRects;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -50,32 +48,35 @@ public class MenuHandlerController : MonoBehaviour
         //Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
         editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
-
-        tabMenu = transform.Find(Settings.ConstCenterTabMenu).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
-        tabMenuRect = tabMenu.GetComponent<RectTransform>();
 
         // Menu Body
-        menuBody = GameObject.Find(Settings.ConstCenterTabMenuBody);
-        menuBodyRect = menuBody.GetComponent<RectTransform>();
+        // TODO: repeated code 
+        centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
 
-        if (!tabMenu || !leftDownPanel || !cController || !gridController || !menuBody)
+
+        GameObject CenterPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
+        GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
+        visibleRects = new List<RectTransform>();
+        visibleRects.Add(CenterPanelSideMenu.GetComponent<RectTransform>());
+        visibleRects.Add(CenterPanelViewPanel.GetComponent<RectTransform>());
+
+
+
+        if (!centerPanel || !leftDownPanel || !cController || !gridController)
         {
             GameLog.LogWarning("UIHandler Menu null ");
-            GameLog.LogWarning("tabMenu " + tabMenu);
+            GameLog.LogWarning("tabMenu " + centerPanel);
             GameLog.LogWarning("leftDownPanel " + leftDownPanel);
             GameLog.LogWarning("cController " + cController);
             GameLog.LogWarning("gridController " + cController);
-            GameLog.LogWarning("menuBody " + menuBody);
         }
 
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
 
-        centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.ConstCenterTabMenu, tabMenu,
-            true);
-        npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.ConstNpcProfileMenu,
-            npcProfileGameObject, false);
+        centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.ConstCenterTabMenu, centerPanel, true);
+        npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.ConstNpcProfileMenu, npcProfileGameObject, false);
 
         //Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
@@ -274,8 +275,16 @@ public class MenuHandlerController : MonoBehaviour
 
         if (menu.Type == MenuType.TAB_MENU)
         {
-            return !(RectTransformUtility.RectangleContainsScreenPoint(tabMenuRect, Input.mousePosition) || RectTransformUtility.RectangleContainsScreenPoint(menuBodyRect, Input.mousePosition));
+            foreach (RectTransform rect in visibleRects)
+            {
+                if (RectTransformUtility.RectangleContainsScreenPoint(rect, Input.mousePosition))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
+
         return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(), Input.mousePosition);
     }
 
