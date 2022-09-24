@@ -56,13 +56,9 @@ public static class Settings
     // UI Constants
     public const string ConstNpcProfileMenu = "NPCProfile";
     public const string ConstCanvasParentMenu = "CanvasMenu";
-    public const string ConstTopMenuDisplayMoney = "MoneyText";
-    public const string ConstCenterTabMenu = "CenterTabMenu";
-    public const string ConstCenterTabMenuBody = "MenuBody";
-
-    public const string ConstCenterScrollContent =
-        ConstCenterTabMenuBody + "/Panel/DisplayBackground/ScrollView/Viewport/ScrollContent";
-
+    public const string ConstTopMenuDisplayMoney = "MoneyLabel";
+    public const string ConstCenterTabMenu = "CenterPanel";
+    public const string ConstCenterScrollContent = "ViewPanel/MainContent/ScrollView/Viewport/Content";
     public const string ConstLeftDownPanel = "LeftDownPanel";
     public const string ConstEditStoreMenuPanel = "EditStoreMenu";
     public const string ConstEditItemMenuPanel = "EditItem";
