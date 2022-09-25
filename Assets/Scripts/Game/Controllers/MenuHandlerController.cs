@@ -53,15 +53,11 @@ public class MenuHandlerController : MonoBehaviour
         // Menu Body
         // TODO: repeated code 
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
-
-
         GameObject CenterPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
         GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
         visibleRects = new List<RectTransform>();
         visibleRects.Add(CenterPanelSideMenu.GetComponent<RectTransform>());
         visibleRects.Add(CenterPanelViewPanel.GetComponent<RectTransform>());
-
-
 
         if (!centerPanel || !leftDownPanel || !cController || !gridController)
         {
@@ -172,8 +168,6 @@ public class MenuHandlerController : MonoBehaviour
 
         // We reset the clicked object after the action
         clickController.ClickedObject = null;
-
-
         if (clickController.ClickedGameTile != null)
         {
             clickController.ClickedGameTile = null;
