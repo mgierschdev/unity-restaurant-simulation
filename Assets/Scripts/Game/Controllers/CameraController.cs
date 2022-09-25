@@ -18,6 +18,8 @@ public class CameraController : MonoBehaviour
     private GridController gridController;
     private Vector3 targetVectorPosition;
     private float targetOrthographicSize;
+    // Menu Controller
+    private MenuHandlerController menuHandlerController;
 
     private void Start()
     {
@@ -27,6 +29,8 @@ public class CameraController : MonoBehaviour
         direction = pointerDownStart - mainCamera.ScreenToWorldPoint(Input.mousePosition);
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        menuHandlerController = menuHandler.GetComponent<MenuHandlerController>();
         targetVectorPosition = Vector3.zero;
         targetOrthographicSize = 2.5f;
     }
@@ -52,11 +56,11 @@ public class CameraController : MonoBehaviour
             return;
         }
         mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetOrthographicSize, ZOOM_SPEED * Time.unscaledDeltaTime);
-    }   
+    }
 
     private void PerspectiveHand()
     {
-        if (!Settings.CameraPerspectiveHand || gridController.DraggingObject)
+        if (!Settings.CameraPerspectiveHand || gridController.DraggingObject || menuHandlerController.IsMenuOpen())
         {
             return;
         }
