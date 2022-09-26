@@ -1,7 +1,7 @@
 public static class Settings
 {
     // DEBUG parameters
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
 
     // Player Config

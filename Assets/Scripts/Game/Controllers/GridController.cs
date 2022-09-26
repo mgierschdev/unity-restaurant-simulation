@@ -128,7 +128,7 @@ public class GridController : MonoBehaviour
         grid = new int[Settings.GridHeight, Settings.GridWidth];
         debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
         currentClickedActiveGameObject = "";
-        arroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
+        arroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
 
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
@@ -610,7 +610,7 @@ public class GridController : MonoBehaviour
             FreeBusinessSpots.Enqueue(obj);
         }
     }
-
+    
     public GameGridObject GetTableWithClient()
     {
         return TablesWithClient.Count <= 0 ? null : TablesWithClient.Dequeue();
@@ -618,7 +618,6 @@ public class GridController : MonoBehaviour
     // It gets the closest free coord next to the target
     public Vector3Int GetClosestPathGridPoint(Vector3Int init, Vector3Int target)
     {
-        float min = float.MaxValue;
         Vector3Int result = target;
 
         for (int i = 0; i < arroundVectorPoints.GetLength(0); i++)
@@ -627,10 +626,8 @@ public class GridController : MonoBehaviour
             int y = arroundVectorPoints[i, 1] + target.y;
             Vector3Int tmp = new Vector3Int(x, y, 0);
 
-            if ((IsCoordValid(x, y) && grid[x, y] == 0 || IsCoordValid(x, y) && grid[x, y] == -1) && min > Vector3Int.Distance(init, tmp))
+            if (IsCoordValid(x, y) && grid[x, y] == 0)
             {
-
-                min = Vector3Int.Distance(init, tmp);
                 result = tmp;
             }
         }
