@@ -75,10 +75,13 @@ public class NPCController : GameObjectMovementBase
         }
 
         // keeps the time in the current state
-        if(prevState == localState){
+        if (prevState == localState)
+        {
             //GameLog.Log("Current state time "+stateTime);
             stateTime += Time.deltaTime;
-        }else{
+        }
+        else
+        {
             stateTime = 0;
             prevState = localState;
         }
@@ -103,7 +106,7 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateTableAttended()
     {
-        if (localState == NpcState.WAITING_TO_BE_ATTENDED && !table.Busy)
+        if ((localState == NpcState.WAITING_TO_BE_ATTENDED)&& !table.Busy)
         {
             GoToFinalState();
         }
