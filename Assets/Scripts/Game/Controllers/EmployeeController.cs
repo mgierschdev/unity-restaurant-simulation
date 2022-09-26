@@ -151,8 +151,18 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         tableToBeAttended = GameGrid.GetTableWithClient();
+        Vector3Int localTarget =  GameGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
+        CoordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()), localTarget);
+        
+        // Meaning we did not find a correct spot to standup, we return
+        // and enqueue de table to the list again 
+        if(localTarget == CoordOfTableToBeAttended){
+            GameLog.Log("We could not find a proper place to standUp");
+            GameGrid.AddClientToTable(tableToBeAttended);
+            return;    
+        }
+
         localState = NpcState.WALKING_TO_TABLE;
-        CoordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()), GameGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile()));
         GoTo(CoordOfTableToBeAttended);
     }
 
