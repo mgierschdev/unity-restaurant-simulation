@@ -363,7 +363,7 @@ public class MenuHandlerController : MonoBehaviour
         gridController.HighlightGridBussFloor();
 
         // Load test debug
-        //StartCoroutine(TestPlacingObjects(obj));
+        StartCoroutine(TestPlacingObjects(obj));
         // Load test debug
 
         if (gridController.PlaceGameObject(obj))
@@ -387,7 +387,7 @@ public class MenuHandlerController : MonoBehaviour
         // Debug.Log("Started Coroutine at timestamp : " + Time.time);
 
         //yield on a new YieldInstruction that waits for 5 seconds.
-        for (int i = 0; i < 10000; i++)
+        for (int i = 0; i < 100; i++)
         {
             yield return new WaitForSeconds(0.15f); // 0.15f
             // Debug.Log("Placing object");
