@@ -1,7 +1,7 @@
 public static class Settings
 {
     // DEBUG parameters
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
 
     // Player Config
@@ -25,7 +25,7 @@ public static class Settings
 
     //SPRITE LIBS CATEGORIES
     public const string SpriteLibCategoryTables = "Tables";
-    public const string SpriteLibCategoryTablesInverted = "Tables-inverted";
+    public const string SpriteLibCategoryTablesInverted = "Tables-Inverted";
     public const string SpriteLibCategoryStoreObjects = "StoreObjects";
 
     // PREFABS AND OBJECTS
@@ -102,7 +102,7 @@ public static class Settings
 
     // Grid Config
     public const float GridCellSize = 0.25f; // 0.25f default
-    public const int GridWidth = 20; // Number of cell per Grid CellSize
+    public const int GridWidth = 25; // Number of cell per Grid CellSize
     public const int GridHeight = 20;
     public const int GridStartX = 0;
     public const int GrtGridStartY = 0;
