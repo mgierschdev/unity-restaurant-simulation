@@ -277,9 +277,9 @@ public static class Util
         return tileName switch
         {
             "floor1" => TileType.SPAM_POINT,
-            "floor2" => TileType.WALKABLE_PATH,
+            "WalkTile@3x" => TileType.WALKABLE_PATH,
             "floor3" => TileType.FLOOR_3,
-            "floor4" => TileType.BUS_FLOOR,
+            "BussTile@3x" => TileType.BUS_FLOOR,
             "floor5" => TileType.WALL,
             "Complete@3x" => TileType.FLOOR_OBSTACLE,
             "MediumHorizontal@3x" => TileType.FLOOR_MEDIUM_HORIZONTAL_OBSTACLE,

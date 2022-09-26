@@ -207,12 +207,11 @@ public class GridController : MonoBehaviour
                 Vector3 positionInWorld = tilemapPathFinding.CellToWorld(positionInGrid);
                 Vector3Int positionLocalGrid = tilemapPathFinding.WorldToCell(positionInWorld);
                 GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid,
-                    Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
+                Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
                 mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
-                tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0),
-                    gridTile);
+                tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
 
                 // if (Settings.DEBUG_ENABLE)
                 // {
@@ -690,6 +689,27 @@ public class GridController : MonoBehaviour
             }
         }
         return reducedBusGrid;
+    }
+
+    public string EntireGridToText()
+    {
+        string output = " ";
+        for (int i = 0; i < grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < grid.GetLength(1); j++)
+            {
+                if (grid[i, j] == -1)
+                {
+                    output += " 0";
+                }
+                else
+                {
+                    output += " " + grid[i, j];
+                }
+            }
+            output += "\n";
+        }
+        return output;
     }
 
     public string BussGridToText()

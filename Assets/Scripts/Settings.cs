@@ -1,7 +1,7 @@
 public static class Settings
 {
     // DEBUG parameters
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
 
     // Player Config
@@ -102,8 +102,8 @@ public static class Settings
 
     // Grid Config
     public const float GridCellSize = 0.25f; // 0.25f default
-    public const int GridWidth = 44; // Number of cell per Grid CellSize
-    public const int GridHeight = 50;
-    public const int GridStartX = -22;
-    public const int GrtGridStartY = -32;
+    public const int GridWidth = 20; // Number of cell per Grid CellSize
+    public const int GridHeight = 20;
+    public const int GridStartX = 0;
+    public const int GrtGridStartY = 0;
 }

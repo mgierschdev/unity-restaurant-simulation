@@ -100,7 +100,6 @@ public class ClickController : MonoBehaviour
             ClickedObject = GameObject.Find(hit.collider.name);
         }
     }
-
     public double TimePassedSinceLastClick()
     {
         return 0 > (Time.unscaledTime - LastClickTime) ? 0 : Time.unscaledTime - LastClickTime;
