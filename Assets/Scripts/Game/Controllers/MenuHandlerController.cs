@@ -363,7 +363,7 @@ public class MenuHandlerController : MonoBehaviour
         gridController.HighlightGridBussFloor();
 
         // Load test debug
-        StartCoroutine(TestPlacingObjects(obj));
+        //StartCoroutine(TestPlacingObjects(obj));
         // Load test debug
 
         if (gridController.PlaceGameObject(obj))

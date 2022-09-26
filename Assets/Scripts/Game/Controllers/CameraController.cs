@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     private const float ZOOM_SPEED_PINCH = 8f;
     private const float MIN_ZOOM_SIZE = 1;
     private const float MAX_ZOOM_SIZE = 5;
+    private const float MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = 0.1f;//Adding a small delay to perspective hand
     // Main Camera
     private Camera mainCamera;
     private GridController gridController;
@@ -20,6 +21,7 @@ public class CameraController : MonoBehaviour
     private float targetOrthographicSize;
     // Menu Controller
     private MenuHandlerController menuHandlerController;
+    private ClickController clickController;
 
     private void Start()
     {
@@ -27,10 +29,16 @@ public class CameraController : MonoBehaviour
         targetPosition = mainCamera.orthographicSize;
         pointerDownStart = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         direction = pointerDownStart - mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        // Grid controller
         GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
+        // Menu controller
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         menuHandlerController = menuHandler.GetComponent<MenuHandlerController>();
+        // Click controller
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
+        clickController = cController.GetComponent<ClickController>();
+
         targetVectorPosition = Vector3.zero;
         targetOrthographicSize = 2.5f;
     }
@@ -62,6 +70,11 @@ public class CameraController : MonoBehaviour
     {
         if (!Settings.CameraPerspectiveHand || gridController.DraggingObject || menuHandlerController.IsMenuOpen())
         {
+            return;
+        }
+
+        //Adding a small delay to perspective hand
+        if(!menuHandlerController.IsMenuOpen() && clickController.TimePassedSinceLastClick() < MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND){
             return;
         }
 
