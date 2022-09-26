@@ -12,8 +12,8 @@ public class ClickController : MonoBehaviour
     public GameTile ClickedGameTile { get; set; }
     private Camera mainCamera;
     public bool IsPressingButton { get; set; }
-
     public bool MouseOverUI { get; set; }
+    private float LastClickTime;
 
     private void Start()
     {
@@ -22,6 +22,8 @@ public class ClickController : MonoBehaviour
         isClicking = false;
         IsLongClick = false;
         mainCamera = Camera.main;
+        // Time passed between clicks 
+        LastClickTime = 0;
         // Grid Controller
         GameObject gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
@@ -38,14 +40,10 @@ public class ClickController : MonoBehaviour
 
     private void ClickControl()
     {
-
-        // gridController.GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition()), accurate
-        
-        //Debug.Log(gridController.GetWorldFromPathFindingGridPositionWithOffSet(gridController.GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition())));
-
         // first click 
         if (Input.GetMouseButtonDown(0))
         {
+            LastClickTime = Time.unscaledTime;
             ClickingTime = 0;
             isClicking = true;
         }
@@ -101,5 +99,10 @@ public class ClickController : MonoBehaviour
         {
             ClickedObject = GameObject.Find(hit.collider.name);
         }
+    }
+
+    public double TimePassedSinceLastClick()
+    {
+        return 0 > (Time.unscaledTime - LastClickTime) ? 0 : Time.unscaledTime - LastClickTime;
     }
 }
