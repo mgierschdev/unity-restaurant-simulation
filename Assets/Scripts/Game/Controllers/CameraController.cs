@@ -38,7 +38,6 @@ public class CameraController : MonoBehaviour
         // Click controller
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
         clickController = cController.GetComponent<ClickController>();
-
         targetVectorPosition = Vector3.zero;
         targetOrthographicSize = 2.5f;
     }
