@@ -44,8 +44,13 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
 
         spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();//TEST TODO
-        
-        if(storeGameObject.Type == ObjectType.NPC_SINGLE_TABLE){
+
+        if (storeGameObject.Type == ObjectType.NPC_SINGLE_TABLE)
+        {
+            spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
+        }
+        else if (storeGameObject.Type == ObjectType.SINGLE_CONTAINER)
+        {
             spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
         }
 
@@ -243,7 +248,7 @@ public class GameGridObject : GameObjectBase
         {
             return;
         }
-        
+
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
