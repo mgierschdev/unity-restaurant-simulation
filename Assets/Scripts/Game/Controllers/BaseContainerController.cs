@@ -1,7 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-// Name sof Objects should be unique
-public class TableController : BaseObjectController
+public class BaseContainerController : BaseObjectController
 {
     private const int COST = 20;
     private void Start()
@@ -19,12 +20,12 @@ public class TableController : BaseObjectController
             rotation = ObjectRotation.FRONT_INVERTED;
         }
 
-        gameGridObject = new GameGridObject(transform, Grid, rotation, Grid.ObjectListConfiguration.GetStoreObject(StoreItemType.WOODEN_TABLE_SINGLE));
+        gameGridObject = new GameGridObject(transform, Grid, rotation, Grid.ObjectListConfiguration.GetStoreObject(StoreItemType.WOODEN_BASE_CONTAINER));
 
         if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
         {
             string id = Grid.GetObjectCount() + 1 + "-" + Time.frameCount;
-            name = "SingleTable." + id;
+            name = "BaseContainer." + id;
             gameGridObject.Name = name;
             gameGridObject.Hide();
             Grid.SetGridObject(gameGridObject);

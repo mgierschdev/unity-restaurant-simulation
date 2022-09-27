@@ -298,7 +298,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         //Add new Items
-        foreach (StoreGameObject obj in gridController.ObjectListConfiguration.Tables)
+        foreach (StoreGameObject obj in gridController.ObjectListConfiguration.AllStoreItems)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
