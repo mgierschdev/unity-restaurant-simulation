@@ -98,21 +98,19 @@ public class BaseObjectController : MonoBehaviour
         Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
         Grid.DraggingObject = false;
 
-        if (!Grid.IsValidBussPosition(gameGridObject, finalPos) || IsOverNPC())
+        if (Grid.IsValidBussPosition(gameGridObject, finalPos) && !IsOverNPC())
         {
+            initialPosition = new Vector3(finalPos.x, finalPos.y, 0);
+        }
+        else
+        {
+            Debug.Log("Is valid " + Grid.IsValidBussPosition(gameGridObject, finalPos) + " " + finalPos + " Is over NPC " + IsOverNPC());
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
-        else
-        {
-            initialPosition = new Vector3(finalPos.x, finalPos.y, 0);
-        }
 
         gameGridObject.UpdateCoords();
-        //So it will overlay over the rest of the items while dragging
-        gameGridObject.SortingLayer.sortingOrder = gameGridObject.GridPosition.y * -1;
-        Grid.UpdateObjectPosition(gameGridObject);
     }
 
     private bool IsDraggable()
@@ -131,10 +129,11 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.FreeObject();
             Grid.AddFreeBusinessSpots(gameGridObject);
         }
-
+        // If overlaps with any UI button 
         return gameGridObject.Type != ObjectType.UNDEFINED && Menu.IsEditPanelOpen() && !IsClickingButton();
     }
 
+    // If overlaps with any UI button
     private bool IsClickingButton()
     {
         Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());

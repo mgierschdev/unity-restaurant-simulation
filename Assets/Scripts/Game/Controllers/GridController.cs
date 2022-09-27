@@ -328,14 +328,7 @@ public class GridController : MonoBehaviour
         Vector3 currentActionPointWorldPos = gameGridObject.GetActionTile();
         Vector3Int currentActionPointInGrid = GetPathFindingGridFromWorldPosition(currentActionPointWorldPos);
         bool isClosingGrid = IsClosingIsland(currentGridPos);
-
-        // If it doesnt have aciton point we just check that is doesnt close any island and that is valid buss pos and valid coord
-        if (!gameGridObject.StoreGameObject.HasActionPoint)
-        {
-            Debug.Log(IsValidBussCoord(currentGridPos) +" "+IsCoordValid(currentGridPos.x, currentGridPos.y)+" "+isClosingGrid);
-            return IsValidBussCoord(currentGridPos) && IsCoordValid(currentGridPos.x, currentGridPos.y) && !isClosingGrid;
-        }
-
+         Debug.Log("IsValidBussPosition: " + IsValidBussCoord(currentGridPos) + " " + IsCoordValid(currentGridPos.x, currentGridPos.y) + " " + !isClosingGrid + " final pos  : " + worldPos);
         if (isClosingGrid)
         {
             return false;
@@ -346,6 +339,12 @@ public class GridController : MonoBehaviour
             currentActionPointInGrid == gameGridObject.GridPosition)
         {
             return true;
+        }
+
+        // If it doesnt have aciton point we just check that is doesnt close any island and that is valid buss pos and valid coord
+        if (!gameGridObject.StoreGameObject.HasActionPoint)
+        {
+            return IsValidBussCoord(currentGridPos) && IsCoordValid(currentGridPos.x, currentGridPos.y) && grid[currentGridPos.x, currentGridPos.y] == 0;
         }
 
         // If the coords are ousite the perimter we return false, or if the position is different than 0
@@ -566,8 +565,11 @@ public class GridController : MonoBehaviour
     public void UpdateObjectPosition(GameGridObject gameGridObject)
     {
         grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
-        Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
-        grid[gridActionTile.x, gridActionTile.y] = -1;
+        if (gameGridObject.StoreGameObject.HasActionPoint)
+        {
+            Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+            grid[gridActionTile.x, gridActionTile.y] = -1;
+        }
     }
 
     public void SetGridObject(GameGridObject obj)
