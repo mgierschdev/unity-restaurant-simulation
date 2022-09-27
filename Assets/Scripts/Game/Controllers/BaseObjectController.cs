@@ -11,22 +11,6 @@ public class BaseObjectController : MonoBehaviour
     protected GridController Grid { get; set; }
     protected ObjectRotation InitialObjectRotation;
 
-    private void Start()
-    {
-        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
-        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
-        Menu = menuHandler.GetComponent<MenuHandlerController>();
-        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
-        Grid = gameGrid.GetComponent<GridController>();
-        InitialObjectRotation = ObjectRotation.FRONT;
-
-        //Edit Panel Disable
-        if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
-        {
-            InitialObjectRotation = ObjectRotation.FRONT_INVERTED;
-        }
-    }
-
     private void Update()
     {
         if (!Menu || !Grid || gameGridObject == null || Grid.DraggingObject)
@@ -41,6 +25,21 @@ public class BaseObjectController : MonoBehaviour
         else
         {
             gameGridObject.HideUnderTiles();
+        }
+    }
+
+    protected void Init()
+    {
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
+        Menu = menuHandler.GetComponent<MenuHandlerController>();
+        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
+        Grid = gameGrid.GetComponent<GridController>();
+        InitialObjectRotation = ObjectRotation.FRONT;
+        //Edit Panel Disable
+        if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
+        {
+            InitialObjectRotation = ObjectRotation.FRONT_INVERTED;
         }
     }
 
@@ -124,7 +123,7 @@ public class BaseObjectController : MonoBehaviour
         }
 
         // If you move a table while busy the NPC will self destroy
-        if (Grid.IsTableBusy(gameGridObject))
+        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Grid.IsTableBusy(gameGridObject))
         {
             // GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
             // GameLog.Log("Used by " + gameGridObject.UsedBy.name);

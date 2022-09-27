@@ -13,7 +13,7 @@ public class GameGridObject : GameObjectBase
     private SpriteResolver spriteResolver;
     private Transform objectTransform;
     private int actionTile;
-    private StoreGameObject storeGameObject;
+    public StoreGameObject StoreGameObject { get; set; }
     public SpriteRenderer SpriteRenderer { get; set; }
     public ObjectRotation FacingPosition { get; set; } // Facing position
     public bool Busy { get; set; } //Being used by an NPC
@@ -28,7 +28,7 @@ public class GameGridObject : GameObjectBase
         GridPosition = gridController.GetPathFindingGridFromWorldPosition(transform.position); // Grid position, first position = 0, 0
         LocalGridPosition = gridController.GetLocalGridFromWorldPosition(transform.position);
         Type = storeGameObject.Type;
-        this.storeGameObject = storeGameObject;
+        this.StoreGameObject = storeGameObject;
         objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
         SpriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
@@ -68,7 +68,7 @@ public class GameGridObject : GameObjectBase
     public void Init()
     {
         string id = gridController.GetObjectCount() + 1 + "-" + Time.frameCount;
-        objectTransform.name = storeGameObject.Type+"." + id;
+        objectTransform.name = StoreGameObject.Type + "." + id;
         Name = objectTransform.name;
         Hide();
     }
@@ -134,6 +134,12 @@ public class GameGridObject : GameObjectBase
 
     public Vector3 GetActionTile()
     {
+        // if doesnt have action point returns the object actual position
+        if (!StoreGameObject.HasActionPoint)
+        {
+            return tiles[0].transform.position;
+        }
+
         return actionTiles[actionTile].transform.position;
     }
 
@@ -222,28 +228,28 @@ public class GameGridObject : GameObjectBase
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(StoreGameObject.SpriteLibCategory, StoreGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
                 actionTile = GetRotationActionTile(ObjectRotation.FRONT);
                 tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.FRONT_INVERTED:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(StoreGameObject.SpriteLibCategory, StoreGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
                 actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
                 tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.BACK:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(StoreGameObject.SpriteLibCategory + "-Inverted", StoreGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
                 actionTile = GetRotationActionTile(ObjectRotation.BACK);
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK_INVERTED:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(StoreGameObject.SpriteLibCategory + "-Inverted", StoreGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
                 actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
                 tiles[1].color = Util.Hidden;
@@ -295,12 +301,19 @@ public class GameGridObject : GameObjectBase
     public void LightOccupiedUnderTiles()
     {
         tiles[0].color = Util.LightOccupied;
-        tiles[actionTile + 1].color = Util.LightOccupied;
+
+        if (StoreGameObject.HasActionPoint)
+        {
+            tiles[actionTile + 1].color = Util.LightOccupied;
+        }
     }
 
     public void LightAvailableUnderTiles()
     {
         tiles[0].color = Util.LightAvailable;
-        tiles[actionTile + 1].color = Util.LightAvailable;
+        if (StoreGameObject.HasActionPoint)
+        {
+            tiles[actionTile + 1].color = Util.LightAvailable;
+        }
     }
 }
