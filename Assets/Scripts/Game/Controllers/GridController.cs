@@ -114,14 +114,14 @@ public class GridController : MonoBehaviour
             tilemapPathFinding.color = new Color(1, 1, 1, 0.4f);
             tilemapColliders.color = new Color(1, 1, 1, 0.4f);
             tilemapWalkingPath.color = new Color(1, 1, 1, 0.4f);
-            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
+            //tilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
         }
         else
         {
             tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
             tilemapColliders.color = new Color(1, 1, 1, 0.0f);
             tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+            //tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
         }
 
         pathFind = new PathFind();
@@ -132,11 +132,11 @@ public class GridController : MonoBehaviour
 
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
-        LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
         LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
         LoadTileMap(listWalkingPathTileMap, tilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
+        LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
     }
 
     // private void MouseHover()
@@ -255,6 +255,11 @@ public class GridController : MonoBehaviour
                 if (tileType == TileType.SPAM_POINT)
                 {
                     spamPoints.Add(gameTile);
+                }
+
+                if (tileType == TileType.ISOMETRIC_PRODUCTION_LINE)
+                {
+                    grid[gridPosition.x, gridPosition.y] = 1;
                 }
             }
         }
@@ -610,7 +615,7 @@ public class GridController : MonoBehaviour
             FreeBusinessSpots.Enqueue(obj);
         }
     }
-    
+
     public GameGridObject GetTableWithClient()
     {
         return TablesWithClient.Count <= 0 ? null : TablesWithClient.Dequeue();

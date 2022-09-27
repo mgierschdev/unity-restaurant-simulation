@@ -289,6 +289,7 @@ public static class Util
             "GridTile" => TileType.ISOMETRIC_GRID_TILE,
             "Wall@3x" => TileType.WALL,
             "HighlightedFloor@3x" => TileType.FLOOR_EDIT,
+            "BaseContainer@3x" => TileType.ISOMETRIC_PRODUCTION_LINE,
             _ => TileType.UNDEFINED
         };
     }
