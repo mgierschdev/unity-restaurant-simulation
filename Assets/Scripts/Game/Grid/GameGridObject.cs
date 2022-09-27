@@ -44,15 +44,7 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
 
         spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();//TEST TODO
-
-        if (storeGameObject.Type == ObjectType.NPC_SINGLE_TABLE)
-        {
-            spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
-        }
-        else if (storeGameObject.Type == ObjectType.SINGLE_CONTAINER)
-        {
-            spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
-        }
+        spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
 
         //Edit Panel Disable
         EditMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
@@ -71,31 +63,7 @@ public class GameGridObject : GameObjectBase
 
         UpdateRotation(position);
         SetEditPanelClickListeners();
-
-        LoadSpriteLibrary();
     }
-
-    private void LoadSpriteLibrary()
-    {
-
-
-
-        // SpriteLibrary spriteLibrary = objectTransform.GetComponent<SpriteLibrary>();
-
-        // if (!spriteLibrary)
-        // {
-        //     return;
-        // }
-
-        // Debug.Log(spriteLibrary);
-        // Debug.Log(spriteLibrary.spriteLibraryAsset.name);
-
-        // foreach (string s in spriteLibrary.spriteLibraryAsset.GetCategoryLabelNames("Single"))
-        // {
-        //     Debug.Log(s);
-        // }
-    }
-
 
     private void SetEditPanelClickListeners()
     {
@@ -243,37 +211,31 @@ public class GameGridObject : GameObjectBase
 
     public void UpdateRotation(ObjectRotation newPosition)
     {
-
-        if (Type != ObjectType.NPC_SINGLE_TABLE)
-        {
-            return;
-        }
-
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
-                spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
                 actionTile = GetRotationActionTile(ObjectRotation.FRONT);
                 tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.FRONT_INVERTED:
-                spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTables, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
                 actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
                 tiles[1].color = Util.LightAvailable;
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.BACK:
-                spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTablesInverted, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory+"-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
                 actionTile = GetRotationActionTile(ObjectRotation.BACK);
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK_INVERTED:
-                spriteResolver.SetCategoryAndLabel(Settings.SpriteLibCategoryTablesInverted, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory+"-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
                 actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
                 tiles[1].color = Util.Hidden;

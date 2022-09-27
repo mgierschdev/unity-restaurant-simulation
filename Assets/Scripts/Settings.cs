@@ -25,8 +25,9 @@ public static class Settings
 
     //SPRITE LIBS CATEGORIES
     public const string SpriteLibCategoryTables = "Tables";
-    public const string SpriteLibCategoryContainers = "BaseContainers";
     public const string SpriteLibCategoryTablesInverted = "Tables-Inverted";
+    public const string SpriteLibCategoryContainers = "BaseContainers";
+    public const string SpriteLibCategoryContainersInverted = "BaseContainers-Inverted";
     public const string SpriteLibCategoryStoreObjects = "StoreObjects";
 
     // PREFABS AND OBJECTS
