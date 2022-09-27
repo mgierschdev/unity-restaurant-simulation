@@ -328,12 +328,14 @@ public class GridController : MonoBehaviour
         Vector3 currentActionPointWorldPos = gameGridObject.GetActionTile();
         Vector3Int currentActionPointInGrid = GetPathFindingGridFromWorldPosition(currentActionPointWorldPos);
         bool isClosingGrid = IsClosingIsland(currentGridPos);
-         Debug.Log("IsValidBussPosition: " + IsValidBussCoord(currentGridPos) + " " + IsCoordValid(currentGridPos.x, currentGridPos.y) + " " + !isClosingGrid + " final pos  : " + worldPos);
+        Debug.Log("IsValidBussPosition: " + IsValidBussCoord(currentGridPos) + " isValidCoord " + IsCoordValid(currentGridPos.x, currentGridPos.y) + " isCLosingGrid " + !isClosingGrid + " final pos  : " + worldPos);
+        Debug.Log("isClosingGrid 1 " + gameGridObject.Name);
         if (isClosingGrid)
         {
             return false;
         }
 
+        Debug.Log("isClosingGrid 2");
         // If we are at the initial grid position we return true
         if (worldPos == gameGridObject.WorldPosition ||
             currentActionPointInGrid == gameGridObject.GridPosition)
@@ -341,11 +343,16 @@ public class GridController : MonoBehaviour
             return true;
         }
 
+        Debug.Log("Original Pos 1");
+
         // If it doesnt have aciton point we just check that is doesnt close any island and that is valid buss pos and valid coord
         if (!gameGridObject.StoreGameObject.HasActionPoint)
         {
-            return IsValidBussCoord(currentGridPos) && IsCoordValid(currentGridPos.x, currentGridPos.y) && grid[currentGridPos.x, currentGridPos.y] == 0;
+            Debug.Log(IsValidBussCoord(currentGridPos) + " Current grid pos value: " + (grid[currentGridPos.x, currentGridPos.y] == 0) + " Current grid position " + currentGridPos +" value: "+grid[currentGridPos.x, currentGridPos.y]);
+
+            return IsValidBussCoord(currentGridPos) && grid[currentGridPos.x, currentGridPos.y] == 0;
         }
+        Debug.Log("Original Pos 2");
 
         // If the coords are ousite the perimter we return false, or if the position is different than 0
         if (!IsCoordValid(currentGridPos.x, currentGridPos.y) ||
