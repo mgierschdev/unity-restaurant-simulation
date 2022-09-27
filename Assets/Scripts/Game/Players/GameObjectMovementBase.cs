@@ -115,16 +115,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdatePosition()
     {
-        // body.angularVelocity = 0;
-        // body.rotation = 0;
         Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
         sortingLayer.sortingOrder = -1 * Position.y;
-
-        // if (transform.name.Contains("Employee"))
-        // {
-        //     Debug.Log("Currently at pos " + Position);
-        // }
     }
 
     private void UpdateObjectDirection()
