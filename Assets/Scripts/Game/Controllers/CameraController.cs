@@ -72,11 +72,6 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        //Adding a small delay to perspective hand
-        // if(!menuHandlerController.IsMenuOpen() && clickController.TimePassedSinceLastClick() < MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND){
-        //     return;
-        // }
-
         // This most be setted, before comparing with the next Input.GetMouseButtonDown(0)
         // It works for touches to becase Input.simulateMouseWithTouches is enabled by default
         if (Input.GetMouseButtonDown(0))

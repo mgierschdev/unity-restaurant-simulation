@@ -73,8 +73,9 @@ public class BaseObjectController : MonoBehaviour
         currentPos = Grid.GetGridWorldPositionMapMouseDrag();
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         //So it will overlay over the rest of the items while dragging
+        Vector3Int currentGridPosition = Grid.GetPathFindingGridFromWorldPosition(transform.position);
 
-        gameGridObject.SortingLayer.sortingOrder = 999;
+        gameGridObject.SortingLayer.sortingOrder = currentGridPosition.y * -1;
 
         if (Grid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
         {
@@ -99,12 +100,9 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-
         if (currentValidPos)
         {
             initialPosition = currentPos;
-            gameGridObject.UpdateCoords();
-
         }
         else
         {
@@ -112,20 +110,10 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
-        // if (Grid.IsValidBussPosition(gameGridObject, finalPos) && !IsOverNPC())
-        // {
 
-        // }
-        // else
-        // {
-        // Debug.Log("Is valid " + Grid.IsValidBussPosition(gameGridObject, finalPos) + " " + finalPos + " Is over NPC " + IsOverNPC());
-
-        // transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
-        // gameGridObject.SpriteRenderer.color = Util.Available;
-        // gameGridObject.LightAvailableUnderTiles();
-        // }
-
-
+        gameGridObject.UpdateCoords();
+        Grid.DraggingObject = false;
+        gameGridObject.SortingLayer.sortingOrder = gameGridObject.GridPosition.y * -1;
     }
 
     private bool IsDraggable()

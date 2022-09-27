@@ -103,7 +103,6 @@ public class GameGridObject : GameObjectBase
 
     public void UpdateCoords()
     {
-        SortingLayer.sortingOrder = GridPosition.y * -1;
         GridPosition = gridController.GetPathFindingGridFromWorldPosition(objectTransform.position);
         LocalGridPosition = gridController.GetLocalGridFromWorldPosition(objectTransform.position);
         WorldPosition = objectTransform.position;
@@ -196,7 +195,7 @@ public class GameGridObject : GameObjectBase
         {
             return true;
         }
-        
+
         ObjectRotation tmp = FacingPosition;
         if (side == 0)
         {
