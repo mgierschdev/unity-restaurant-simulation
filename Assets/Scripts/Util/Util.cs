@@ -381,16 +381,6 @@ public static class Util
         return new Vector3Int(int.MaxValue, int.MaxValue, int.MaxValue);
     }
 
-    public static Vector3 GetActionCellOffSetWorldPositon(ObjectType type)
-    {
-        return type == ObjectType.NPC_SINGLE_TABLE ? new Vector3(-0.50f, 0.25f, 0) : Vector3.zero;
-    }
-
-    public static Vector3Int GetActionCellOffSet(ObjectType type)
-    {
-        return type == ObjectType.NPC_SINGLE_TABLE ? new Vector3Int(0, 1, 0) : Vector3Int.zero;
-    }
-
     public static bool IsAtDistanceWithObject(Vector3 a, Vector3 b)
     {
         return Vector3.Distance(new Vector3(a.x, a.y, 0), new Vector3(b.x, b.y, 0)) < Settings.MinDistanceToTarget;

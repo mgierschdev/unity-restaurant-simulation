@@ -291,10 +291,9 @@ public class GridController : MonoBehaviour
     private void SetObjectObstacle(GameGridObject obj)
     {
         Vector3Int actionGridPosition = Vector3Int.zero;
-
+        businessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            businessObjects.Add(obj.Name, obj);
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
@@ -329,6 +328,13 @@ public class GridController : MonoBehaviour
         Vector3 currentActionPointWorldPos = gameGridObject.GetActionTile();
         Vector3Int currentActionPointInGrid = GetPathFindingGridFromWorldPosition(currentActionPointWorldPos);
         bool isClosingGrid = IsClosingIsland(currentGridPos);
+
+        // If it doesnt have aciton point we just check that is doesnt close any island and that is valid buss pos and valid coord
+        if (!gameGridObject.StoreGameObject.HasActionPoint)
+        {
+            Debug.Log(IsValidBussCoord(currentGridPos) +" "+IsCoordValid(currentGridPos.x, currentGridPos.y)+" "+isClosingGrid);
+            return IsValidBussCoord(currentGridPos) && IsCoordValid(currentGridPos.x, currentGridPos.y) && !isClosingGrid;
+        }
 
         if (isClosingGrid)
         {
@@ -768,27 +774,24 @@ public class GridController : MonoBehaviour
         foreach (KeyValuePair<string, GameGridObject> dic in businessObjects)
         {
             GameGridObject current = dic.Value;
+            Vector3Int[] nextTile = GetNextTile(current);
 
-            if (current.Type == ObjectType.NPC_SINGLE_TABLE && obj.Type == ObjectType.NPC_SINGLE_TABLE)
+            if (nextTile.GetLength(0) != 0)
             {
-                Vector3Int[] nextTile = GetNextTile(current);
-
-                if (nextTile.GetLength(0) != 0)
+                // We place the object 
+                Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
+                if (nextTile[1] == Vector3Int.up)
                 {
-                    // We place the object 
-                    Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
-                    if (nextTile[1] == Vector3Int.up)
-                    {
-                        dummy = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-                    }
-                    else
-                    {
-                        dummy = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-                    }
-                    return true;
-                    break;
+                    dummy = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 }
+                else
+                {
+                    dummy = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                }
+                return true;
+                break;
             }
+
         }
 
         return false;
