@@ -107,7 +107,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounterAfterOrder()
     {
-        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || GameGrid.Counter == null || !Util.IsAtDistanceWithObject(transform.position, GameGrid.Counter.GetActionTile()))
+        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || GameGrid.Counter == null || !Util.IsAtDistanceWithObjectTraslate(transform.position, GameGrid.Counter.GetActionTile(), transform))
         {
             return;
         }
