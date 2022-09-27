@@ -192,6 +192,11 @@ public class GameGridObject : GameObjectBase
 
     private bool IsValidRotation(int side)
     {
+        if (!StoreGameObject.HasActionPoint)
+        {
+            return true;
+        }
+        
         ObjectRotation tmp = FacingPosition;
         if (side == 0)
         {

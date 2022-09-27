@@ -5,6 +5,8 @@ public class BaseObjectController : MonoBehaviour
     protected MenuHandlerController Menu { get; set; }
     private Vector3 initialPosition;
     private Vector3 mousePosition;
+    private Vector3 currentPos; //Current position of the object including while dragging
+    private bool currentValidPos; //Current valid position for the object including while dragging
     //Initial object position
     private Vector3Int initialActionTileOne;
     protected GameGridObject gameGridObject;
@@ -68,7 +70,7 @@ public class BaseObjectController : MonoBehaviour
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
-        Vector3 currentPos = Grid.GetGridWorldPositionMapMouseDrag();
+        currentPos = Grid.GetGridWorldPositionMapMouseDrag();
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         //So it will overlay over the rest of the items while dragging
 
@@ -76,11 +78,13 @@ public class BaseObjectController : MonoBehaviour
 
         if (Grid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
         {
+            currentValidPos = true;
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
         else
         {
+            currentValidPos = false;
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.SpriteRenderer.color = Util.Occupied;
         }
@@ -95,22 +99,33 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        Vector3 finalPos = Grid.GetNearestGridPositionFromWorldMap(transform.position);
-        Grid.DraggingObject = false;
 
-        if (Grid.IsValidBussPosition(gameGridObject, finalPos) && !IsOverNPC())
+        if (currentValidPos)
         {
-            initialPosition = new Vector3(finalPos.x, finalPos.y, 0);
+            initialPosition = currentPos;
+            gameGridObject.UpdateCoords();
+
         }
         else
         {
-            Debug.Log("Is valid " + Grid.IsValidBussPosition(gameGridObject, finalPos) + " " + finalPos + " Is over NPC " + IsOverNPC());
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
             gameGridObject.SpriteRenderer.color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
+        // if (Grid.IsValidBussPosition(gameGridObject, finalPos) && !IsOverNPC())
+        // {
 
-        gameGridObject.UpdateCoords();
+        // }
+        // else
+        // {
+        // Debug.Log("Is valid " + Grid.IsValidBussPosition(gameGridObject, finalPos) + " " + finalPos + " Is over NPC " + IsOverNPC());
+
+        // transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
+        // gameGridObject.SpriteRenderer.color = Util.Available;
+        // gameGridObject.LightAvailableUnderTiles();
+        // }
+
+
     }
 
     private bool IsDraggable()
