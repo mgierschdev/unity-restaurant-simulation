@@ -35,8 +35,8 @@ public static class Settings
     public const string PrefabGridTile = "Grid/GridTile";
     public const string PrefabSingleTable = "Objects/SingleTable";
     public const string PrefabSingleTableFrontInverted = "Objects/SingleTableFrontInverted";
-    public const string SingleTableRotationFrontInverted = "FrontInverted";
-    public const string SingleTableRotationFront = "Front";
+    public const string ObjectRotationFrontInverted = "Inverted";
+    public const string ObjectRotationFront = "Front";
     public const string PrefabPlayer = "Players/Player";
     public const string PrefabNpcClient = "Players/Client";
     public const string PrefabNpcEmployee = "Players/Employee";

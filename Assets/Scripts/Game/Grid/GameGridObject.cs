@@ -65,6 +65,14 @@ public class GameGridObject : GameObjectBase
         SetEditPanelClickListeners();
     }
 
+    public void Init()
+    {
+        string id = gridController.GetObjectCount() + 1 + "-" + Time.frameCount;
+        objectTransform.name = storeGameObject.Type+"." + id;
+        Name = objectTransform.name;
+        Hide();
+    }
+
     private void SetEditPanelClickListeners()
     {
         GameObject saveObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
@@ -228,14 +236,14 @@ public class GameGridObject : GameObjectBase
                 tiles[2].color = Util.Hidden;
                 return;
             case ObjectRotation.BACK:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory+"-Inverted", storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
                 actionTile = GetRotationActionTile(ObjectRotation.BACK);
                 tiles[1].color = Util.Hidden;
                 tiles[2].color = Util.LightAvailable;
                 return;
             case ObjectRotation.BACK_INVERTED:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory+"-Inverted", storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
                 actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
                 tiles[1].color = Util.Hidden;

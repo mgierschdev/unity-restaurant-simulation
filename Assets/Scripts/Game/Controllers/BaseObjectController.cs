@@ -7,9 +7,25 @@ public class BaseObjectController : MonoBehaviour
     private Vector3 mousePosition;
     //Initial object position
     private Vector3Int initialActionTileOne;
-    private const int COST = 20; // temporal
     protected GameGridObject gameGridObject;
     protected GridController Grid { get; set; }
+    protected ObjectRotation InitialObjectRotation;
+
+    private void Start()
+    {
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
+        Menu = menuHandler.GetComponent<MenuHandlerController>();
+        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
+        Grid = gameGrid.GetComponent<GridController>();
+        InitialObjectRotation = ObjectRotation.FRONT;
+
+        //Edit Panel Disable
+        if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
+        {
+            InitialObjectRotation = ObjectRotation.FRONT_INVERTED;
+        }
+    }
 
     private void Update()
     {
@@ -96,7 +112,7 @@ public class BaseObjectController : MonoBehaviour
 
         gameGridObject.UpdateCoords();
         //So it will overlay over the rest of the items while dragging
-        gameGridObject.SortingLayer.sortingOrder = gameGridObject.GridPosition.y * - 1;
+        gameGridObject.SortingLayer.sortingOrder = gameGridObject.GridPosition.y * -1;
         Grid.UpdateObjectPosition(gameGridObject);
     }
 
@@ -117,7 +133,7 @@ public class BaseObjectController : MonoBehaviour
             Grid.AddFreeBusinessSpots(gameGridObject);
         }
 
-        return gameGridObject.Type != ObjectType.UNDEFINED && gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Menu.IsEditPanelOpen() && !IsClickingButton();
+        return gameGridObject.Type != ObjectType.UNDEFINED && Menu.IsEditPanelOpen() && !IsClickingButton();
     }
 
     private bool IsClickingButton()
@@ -138,7 +154,7 @@ public class BaseObjectController : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
         foreach (Collider2D r in hits)
         {
-            if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee) )
+            if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee))
             {
                 return true;
             }
