@@ -13,15 +13,6 @@ public abstract class GameObjectBase
     private Vector3 tileOffset = new Vector3(0, 0.25f, 0);
     public double Cost { get; set; }
 
-    public void UpdateSortingLayer()
-    {
-        // Some objects may not have sorting layer defined
-        if (SortingLayer != null)
-        {
-            SortingLayer.sortingOrder = 1;
-        }
-    }
-
     public Vector3 GetWorldPositionWithOffset()
     {
         return WorldPosition + tileOffset;
