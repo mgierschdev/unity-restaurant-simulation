@@ -346,7 +346,6 @@ public class GridController : MonoBehaviour
         // If it doesnt have aciton point we just check that is doesnt close any island and that is valid buss pos and valid coord
         if (!gameGridObject.StoreGameObject.HasActionPoint)
         {
-            Debug.Log("Is valid position " + IsValidBussCoord(currentGridPos) + " " + grid[currentGridPos.x, currentGridPos.y]);
             return IsValidBussCoord(currentGridPos) && grid[currentGridPos.x, currentGridPos.y] == 0;
         }
 
@@ -569,8 +568,6 @@ public class GridController : MonoBehaviour
 
     public void UpdateObjectPosition(GameGridObject gameGridObject)
     {
-        //
-        Debug.Log("Updating object position " + gameGridObject.Name);
         grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
         if (gameGridObject.StoreGameObject.HasActionPoint)
         {
