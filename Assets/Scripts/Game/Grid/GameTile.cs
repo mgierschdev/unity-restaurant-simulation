@@ -10,5 +10,6 @@ public class GameTile : GameObjectBase
         LocalGridPosition = localGridPosition;
         TileType = name;
         Type = type;
+        UnityTileBase = unityTileBase;
     }
 }

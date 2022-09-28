@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     private float targetOrthographicSize;
     // Menu Controller
     private MenuHandlerController menuHandlerController;
-    private ClickController clickController;
+    // private ClickController clickController;
 
     private void Start()
     {
@@ -36,8 +36,8 @@ public class CameraController : MonoBehaviour
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         menuHandlerController = menuHandler.GetComponent<MenuHandlerController>();
         // Click controller
-        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
-        clickController = cController.GetComponent<ClickController>();
+        // GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
+        // clickController = cController.GetComponent<ClickController>();
         targetVectorPosition = Vector3.zero;
         targetOrthographicSize = 2.5f;
     }
@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (!Settings.CameraPerspectiveHand || gridController.DraggingObject || menuHandlerController.IsMenuOpen())
+        if (!Settings.CameraPerspectiveHand || gridController.GetDragginObject() || menuHandlerController.IsMenuOpen())
         {
             return;
         }

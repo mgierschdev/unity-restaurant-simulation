@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using TMPro;
 using Game.Players;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -54,9 +54,8 @@ public class GridController : MonoBehaviour
     private string currentClickedActiveGameObject;
     private int[,] arroundVectorPoints;
     private GameController gameController;
-
-    public MenuObjectList ObjectListConfiguration { get; set; }
-    public bool DraggingObject;
+    private MenuObjectList ObjectListConfiguration;
+    private bool DraggingObject;
 
     private void Awake()
     {
@@ -293,14 +292,13 @@ public class GridController : MonoBehaviour
 
     private void SetObjectObstacle(GameGridObject obj)
     {
-        Vector3Int actionGridPosition = Vector3Int.zero;
+        Vector3Int actionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
         businessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             FreeBusinessSpots.Enqueue(obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            actionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
             grid[actionGridPosition.x, actionGridPosition.y] = -1;
         }
         else
@@ -309,7 +307,6 @@ public class GridController : MonoBehaviour
 
             if (obj.Type == ObjectType.NPC_COUNTER)
             {
-                actionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
                 grid[actionGridPosition.x, actionGridPosition.y] = -1;
             }
         }
@@ -360,7 +357,7 @@ public class GridController : MonoBehaviour
         }
 
         // It cannot overlap any NPC
-        if (OverlapsNPC(currentGridPos))
+        if (gameController.PositionOverlapsNPC(currentGridPos))
         {
             return false;
         }
@@ -371,27 +368,6 @@ public class GridController : MonoBehaviour
             return true;
         }
 
-        return false;
-    }
-
-
-    //checks if the position overlaps any npc position
-    private bool OverlapsNPC(Vector3Int position)
-    {
-        // We cannot place on top of the employee
-        if (position == GetPathFindingGridFromWorldPosition(gameController.EmployeeController.transform.position) || position == gameController.EmployeeController.CoordOfTableToBeAttended)
-        {
-            return true;
-        }
-
-        foreach (NPCController npcController in gameController.NpcSet)
-        {
-            Vector3Int npcPosition = GetPathFindingGridFromWorldPosition(npcController.transform.position);
-            if (npcPosition == position)
-            {
-                return true;
-            }
-        }
         return false;
     }
 
@@ -636,7 +612,7 @@ public class GridController : MonoBehaviour
         return TablesWithClient.Count <= 0 ? null : TablesWithClient.Dequeue();
     }
     // It gets the closest free coord next to the target
-    public Vector3Int GetClosestPathGridPoint(Vector3Int init, Vector3Int target)
+    public Vector3Int GetClosestPathGridPoint(Vector3Int target)
     {
         Vector3Int result = target;
 
@@ -669,6 +645,11 @@ public class GridController : MonoBehaviour
         }
         currentClickedActiveGameObject = obj.Name;
         obj.Show();
+    }
+
+    public void ClearCurrentClickedActiveGameObject()
+    {
+        currentClickedActiveGameObject = "";
     }
 
     public bool IsThisSelectedObject(string objName)
@@ -719,8 +700,8 @@ public class GridController : MonoBehaviour
 
     public bool PlaceGameObject(StoreGameObject obj)
     {
+        //TODO: Obj type to be used
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
-        GameObject dummy = null;
 
         foreach (KeyValuePair<string, GameGridObject> dic in businessObjects)
         {
@@ -731,13 +712,14 @@ public class GridController : MonoBehaviour
             {
                 // We place the object 
                 Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
+                GameObject newObject;
                 if (nextTile[1] == Vector3Int.up)
                 {
-                    dummy = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 }
                 else
                 {
-                    dummy = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 }
                 return true;
                 break;
@@ -766,13 +748,13 @@ public class GridController : MonoBehaviour
 
             bool isClosingGrid = IsClosingIsland(position);
 
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid && !OverlapsNPC(position))
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid && !gameController.PositionOverlapsNPC(position))
             {
                 // Debug.Log(position + " " + actionPoint + " front");
                 return new Vector3Int[] { position, Vector3Int.up }; //front
             }
 
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2) && !isClosingGrid && !OverlapsNPC(position))
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2) && !isClosingGrid && !gameController.PositionOverlapsNPC(position))
             {
                 // Debug.Log(position + " " + actionPoint2 + " inverted");
                 return new Vector3Int[] { position, Vector3Int.right }; // front inverted
@@ -922,5 +904,19 @@ public class GridController : MonoBehaviour
     public int GetObjectCount()
     {
         return businessObjects.Count;
+    }
+
+    public MenuObjectList GetObjectListConfiguration()
+    {
+        return ObjectListConfiguration;
+    }
+    public bool GetDragginObject()
+    {
+        return DraggingObject;
+    }
+
+    public void SetDraggingObject(bool value)
+    {
+        DraggingObject = value;
     }
 }

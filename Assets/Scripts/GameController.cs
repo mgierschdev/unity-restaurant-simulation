@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 // This class in charge of loading the game and prefabs
+// This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    public HashSet<NPCController> NpcSet {get; set;}
-    public EmployeeController EmployeeController {get; set;}
     private const int NPC_MAX_NUMBER = 5;
     private int npcId;
     private GridController gridController;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
-    GameObject NPCS;
+    private GameObject NPCS;
+    private HashSet<NPCController> NpcSet;
+    private EmployeeController employeeController;
 
     private void Start()
     {
@@ -46,7 +47,7 @@ public class GameController : MonoBehaviour
         GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         employeeObject.transform.SetParent(NPCS.transform);
         employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
-        EmployeeController = employeeObject.GetComponent<EmployeeController>();
+        employeeController = employeeObject.GetComponent<EmployeeController>();
         npcId++;
     }
     public void RemoveNpc(NPCController controller)
@@ -59,5 +60,31 @@ public class GameController : MonoBehaviour
         {
             GameLog.LogWarning("GameController/RemoveNPC NPC Controller does not exist");
         }
+    }
+
+    public bool PositionOverlapsNPC(Vector3Int position)
+    {
+        // We cannot place on top of the employee
+        if (position == gridController.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.CoordOfTableToBeAttended)
+        {
+            return true;
+        }
+
+        foreach (NPCController npcController in NpcSet)
+        {
+            Vector3Int npcPosition = gridController.GetPathFindingGridFromWorldPosition(npcController.transform.position);
+            if (npcPosition == position)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Recalculates the paths of moving NPCs, so they wont go over tables
+    public void ReCalculatePaths()
+    {
+
+
     }
 }

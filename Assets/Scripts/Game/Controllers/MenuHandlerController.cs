@@ -55,9 +55,10 @@ public class MenuHandlerController : MonoBehaviour
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
         GameObject CenterPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
         GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
-        visibleRects = new List<RectTransform>();
-        visibleRects.Add(CenterPanelSideMenu.GetComponent<RectTransform>());
-        visibleRects.Add(CenterPanelViewPanel.GetComponent<RectTransform>());
+        visibleRects = new List<RectTransform>{
+            CenterPanelSideMenu.GetComponent<RectTransform>(),
+            CenterPanelViewPanel.GetComponent<RectTransform>()
+        };
 
         if (!centerPanel || !leftDownPanel || !cController || !gridController)
         {
@@ -298,7 +299,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         //Add new Items
-        foreach (StoreGameObject obj in gridController.ObjectListConfiguration.AllStoreItems)
+        foreach (StoreGameObject obj in gridController.GetObjectListConfiguration().AllStoreItems)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();

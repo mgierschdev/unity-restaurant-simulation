@@ -60,9 +60,6 @@ public class GameGridObject : GameObjectBase
             actionTileSpriteRenderer,
             secondActionTileSprite
         };
-
-        Debug.Log("Instantiating object " + Name);
-
         UpdateRotation(position);
         SetEditPanelClickListeners();
     }
@@ -82,8 +79,6 @@ public class GameGridObject : GameObjectBase
 
     private void SetEditPanelClickListeners()
     {
-        Debug.Log("Adding click listener " + Name);
-
         GameObject saveObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObj.GetComponent<Button>();
         save.onClick.AddListener(StoreInInventory);
@@ -102,7 +97,9 @@ public class GameGridObject : GameObjectBase
         //TODO: Show POPUP confirming action
         //GameLog.Log("TODO: Storing item in Inventory " + Name);
         gridController.PlayerData.StoreItem(this);
-        gridController.FreeObject(this);
+        gridController.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current seledted in the grid 
+        gridController.FreeObject(this); 
+        //gridController.FreeCoord();
         Object.Destroy(objectTransform.gameObject);
     }
 
