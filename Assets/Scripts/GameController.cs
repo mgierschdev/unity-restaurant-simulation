@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Game.Players;
-using TMPro;
 using UnityEngine;
 // This class in charge of loading the game and prefabs
 public class GameController : MonoBehaviour
@@ -12,7 +10,6 @@ public class GameController : MonoBehaviour
     private GridController gridController;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
-    private PlayerData playerData;
     GameObject NPCS;
 
     private void Start()
@@ -21,12 +18,6 @@ public class GameController : MonoBehaviour
         NpcSet = new HashSet<NPCController>();
         gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
-        gridController.PlayerData = playerData;
-        // Setting up Current money
-        GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
-        TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-        playerData = new PlayerData(20000, moneyText);  
-        gridController.PlayerData = playerData;
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         SpamEmployee();
     }
