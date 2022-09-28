@@ -1,7 +1,7 @@
 public static class Settings
 {
     // DEBUG parameters
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
 
     // Player Config
@@ -97,7 +97,6 @@ public static class Settings
     //SCENE
     public const string GameGrid = "GameGrid";
     public const string MainCamera = "MainCamera";
-    public const string NPCS = "NPCS"; //Stores all NPCs
 
     //Tiles
     private const string GRID_TILES = "Grid/Tiles/";

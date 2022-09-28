@@ -114,14 +114,14 @@ public class GridController : MonoBehaviour
             tilemapPathFinding.color = new Color(1, 1, 1, 0.4f);
             tilemapColliders.color = new Color(1, 1, 1, 0.4f);
             tilemapWalkingPath.color = new Color(1, 1, 1, 0.4f);
-            //tilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
+            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
         }
         else
         {
             tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
             tilemapColliders.color = new Color(1, 1, 1, 0.0f);
             tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-            //tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
         }
 
         pathFind = new PathFind();
@@ -208,15 +208,15 @@ public class GridController : MonoBehaviour
                 Vector3Int positionLocalGrid = tilemapPathFinding.WorldToCell(positionInWorld);
                 GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid,
                 Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
-                mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
-                mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
-                mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
+                mapWorldPositionToTile.Add(gameTile.WorldPosition, gameTile);
+                mapPathFindingGrid.Add(gameTile.GridPosition, gameTile);
+                mapGridPositionToTile.Add(gameTile.LocalGridPosition, gameTile);
                 tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
 
-                // if (Settings.DEBUG_ENABLE)
-                // {
-                //     //GameLog.Log("DEBUG: GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
-                // }
+                if (Settings.CellDebug)
+                {
+                    GameLog.Log("DEBUG: Setting GridCell map "+gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
+                }
             }
         }
 
@@ -255,11 +255,6 @@ public class GridController : MonoBehaviour
                 if (tileType == TileType.SPAM_POINT)
                 {
                     spamPoints.Add(gameTile);
-                }
-
-                if (tileType == TileType.ISOMETRIC_PRODUCTION_LINE)
-                {
-                    grid[gridPosition.x, gridPosition.y] = 1;
                 }
             }
         }
@@ -701,64 +696,6 @@ public class GridController : MonoBehaviour
         return reducedBusGrid;
     }
 
-    public string EntireGridToText()
-    {
-        string output = " ";
-        for (int i = 0; i < grid.GetLength(0); i++)
-        {
-            for (int j = 0; j < grid.GetLength(1); j++)
-            {
-                if (grid[i, j] == -1)
-                {
-                    output += " 0";
-                }
-                else
-                {
-                    output += " " + grid[i, j];
-                }
-            }
-            output += "\n";
-        }
-        return output;
-    }
-
-    public string BussGridToText()
-    {
-        string output = " ";
-        int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
-        int minX = int.MaxValue;
-        int minY = int.MaxValue;
-        int maxX = int.MinValue;
-        int maxY = int.MinValue;
-
-        foreach (GameTile tile in listBusinessFloor)
-        {
-            minX = Mathf.Min(minX, tile.GridPosition.x);
-            minY = Mathf.Min(minY, tile.GridPosition.y);
-            maxX = Mathf.Max(maxX, tile.GridPosition.x);
-            maxY = Mathf.Max(maxY, tile.GridPosition.y);
-
-            busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
-        }
-
-        for (int i = minX; i <= maxX; i++)
-        {
-            for (int j = minY; j <= maxY; j++)
-            {
-                if (busGrid[i, j] == -1)
-                {
-                    output += " 0";
-                }
-                else
-                {
-                    output += " " + busGrid[i, j];
-                }
-            }
-            output += "\n";
-        }
-        return output;
-    }
-
     public bool IsFreeBussCoord(Vector3Int pos)
     {
         if (!IsCoordValid(pos.x, pos.y))
@@ -921,6 +858,55 @@ public class GridController : MonoBehaviour
         }
 
         return maps + " " + objects;
+    }
+    public string BussGridToText()
+    {
+        string output = " ";
+        int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
+        int minX = int.MaxValue;
+        int minY = int.MaxValue;
+        int maxX = int.MinValue;
+        int maxY = int.MinValue;
+
+        foreach (GameTile tile in listBusinessFloor)
+        {
+            minX = Mathf.Min(minX, tile.GridPosition.x);
+            minY = Mathf.Min(minY, tile.GridPosition.y);
+            maxX = Mathf.Max(maxX, tile.GridPosition.x);
+            maxY = Mathf.Max(maxY, tile.GridPosition.y);
+
+            busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
+        }
+
+        for (int i = minX; i <= maxX; i++)
+        {
+            for (int j = minY; j <= maxY; j++)
+            {
+                output += " " + busGrid[i, j];
+            }
+            output += "\n";
+        }
+        return output;
+    }
+    public string EntireGridToText()
+    {
+        string output = " ";
+        for (int i = 0; i < grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < grid.GetLength(1); j++)
+            {
+                if (grid[i, j] == -1)
+                {
+                    output += " 0";
+                }
+                else
+                {
+                    output += " " + grid[i, j];
+                }
+            }
+            output += "\n";
+        }
+        return output;
     }
 
     public int GetObjectCount()
