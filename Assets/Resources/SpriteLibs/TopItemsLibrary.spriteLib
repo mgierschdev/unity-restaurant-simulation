@@ -22,8 +22,13 @@ MonoBehaviour:
       m_Sprite: {fileID: 21300000, guid: 3f5d94d018d56404891b05e7b6a74d71, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: 3f5d94d018d56404891b05e7b6a74d71, type: 3}
+    - m_Name: Empty
+      m_Hash: -1459219776
+      m_Sprite: {fileID: 0}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 0}
     m_FromMain: 0
-    m_EntryOverrideCount: 1
+    m_EntryOverrideCount: 2
   - m_Name: CoffeMachines
     m_Hash: 1241748715
     m_CategoryList: []
