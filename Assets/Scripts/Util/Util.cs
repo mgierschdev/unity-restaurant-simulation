@@ -271,7 +271,7 @@ public static class Util
             return MoveDirection.IDLE;
         }
     }
-    
+
     public static TileType GetTileType(string tileName)
     {
         return tileName switch
@@ -402,5 +402,13 @@ public static class Util
     {
         var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
         return (long)timeSpan.TotalSeconds;
+    }
+
+    // Returns the sorting given the coords of the objects
+    public static int GetSorting(Vector3Int pos)
+    {
+        int x = pos.x;
+        int y = pos.y;
+        return (x + y) * -1;
     }
 }

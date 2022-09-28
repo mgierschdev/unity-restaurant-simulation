@@ -32,7 +32,7 @@ public class GameGridObject : GameObjectBase
         objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
         SpriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
-        SortingLayer.sortingOrder = -1 * GridPosition.y;
+        SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
         this.gridController = gridController;
         FacingPosition = position;
 

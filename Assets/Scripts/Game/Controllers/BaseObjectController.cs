@@ -47,6 +47,8 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log("Cliking");
+
         if (!Menu || !Grid || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
@@ -60,6 +62,8 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDrag()
     {
+        Debug.Log("Dragging "+transform.position);
+
         if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
@@ -75,7 +79,7 @@ public class BaseObjectController : MonoBehaviour
         //So it will overlay over the rest of the items while dragging
         Vector3Int currentGridPosition = Grid.GetPathFindingGridFromWorldPosition(transform.position);
 
-        gameGridObject.SortingLayer.sortingOrder = currentGridPosition.y * -1;
+        gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(currentGridPosition);
 
         if (Grid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
         {
@@ -95,6 +99,8 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
+        Debug.Log("Releasing: currentValidPosition " + currentValidPos);
+
         if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
@@ -113,7 +119,7 @@ public class BaseObjectController : MonoBehaviour
 
         gameGridObject.UpdateCoords();
         Grid.DraggingObject = false;
-        gameGridObject.SortingLayer.sortingOrder = gameGridObject.GridPosition.y * -1;
+        gameGridObject.SortingLayer.sortingOrder =  Util.GetSorting(gameGridObject.GridPosition);
     }
 
     private bool IsDraggable()

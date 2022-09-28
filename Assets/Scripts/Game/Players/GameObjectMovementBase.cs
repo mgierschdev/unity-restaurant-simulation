@@ -117,7 +117,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
-        sortingLayer.sortingOrder = -1 * Position.y;
+        sortingLayer.sortingOrder =  Util.GetSorting(Position);
     }
 
     private void UpdateObjectDirection()
