@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 
 namespace Game.Players
@@ -6,12 +7,16 @@ namespace Game.Players
     {
         private double money;
         private TextMeshProUGUI moneyText;
+        private List<GameGridObject> storedIventory;
+        public List<GameGridObject> Inventory { get; set; }
 
         public PlayerData(double money, TextMeshProUGUI moneyText)
         {
             this.money = money;
             this.moneyText = moneyText;
             moneyText.text = GetMoney();
+            Inventory = new List<GameGridObject>();
+            storedIventory = new List<GameGridObject>();
         }
 
         public void AddMoney(double amount)
@@ -37,12 +42,17 @@ namespace Game.Players
 
         public string GetMoney()
         {
-            return money+"$";
+            return money + "$";
         }
-        
+
         public double GetMoneyDouble()
         {
             return money;
+        }
+        
+        public void StoreItem(GameGridObject obj){
+            storedIventory.Add(obj);
+            GameLog.Log("Stored items: "+storedIventory.Count);
         }
     }
 }

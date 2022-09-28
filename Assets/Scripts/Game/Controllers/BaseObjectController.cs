@@ -47,8 +47,6 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Cliking");
-
         if (!Menu || !Grid || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
@@ -62,8 +60,6 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        Debug.Log("Dragging "+transform.position);
-
         if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
@@ -99,8 +95,6 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        Debug.Log("Releasing: currentValidPosition " + currentValidPos);
-
         if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
