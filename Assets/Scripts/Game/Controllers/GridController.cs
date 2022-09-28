@@ -330,8 +330,7 @@ public class GridController : MonoBehaviour
         }
 
         // If we are at the initial grid position we return true
-        if (worldPos == gameGridObject.WorldPosition ||
-            currentActionPointInGrid == gameGridObject.GridPosition)
+        if (worldPos == gameGridObject.WorldPosition)
         {
             return true;
         }
@@ -362,6 +361,7 @@ public class GridController : MonoBehaviour
         // if the current grid position is in the buss map we return true
         if (IsValidBussCoord(currentGridPos) && IsValidBussCoord(currentActionPointInGrid))
         {
+            Debug.Log("Is Valid current Buss position "+currentGridPos);
             return true;
         }
 
@@ -735,9 +735,7 @@ public class GridController : MonoBehaviour
                 return true;
                 break;
             }
-
         }
-
         return false;
     }
 
