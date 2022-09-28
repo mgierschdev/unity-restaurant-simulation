@@ -5,13 +5,12 @@ using UnityEngine;
 public class NPCController : GameObjectMovementBase
 {
     //Doing a different activity properties
-    GameGridObject table;
-    GameController gameController;
+    private GameGridObject table;
+    private GameController gameController;
     [SerializeField]
     private NpcState localState;
     private GameTile unRespawnTile;
     private PlayerAnimationStateController animationController;
-
     // Wander properties
     private float idleTime;
     private const float IDLE_MAX_TIME = 6f; //in seconds
@@ -19,7 +18,6 @@ public class NPCController : GameObjectMovementBase
     private Vector3Int target; // walking to target
     private Vector3 targetInWorldPosition;
     private bool IsNPCVisible;
-
     //Time in the current state
     private float stateTime; //TODO: to be used in order for the NPC to leave after certain time
     private NpcState prevState;
@@ -106,7 +104,7 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateTableAttended()
     {
-        if ((localState == NpcState.WAITING_TO_BE_ATTENDED)&& !table.Busy)
+        if ((localState == NpcState.WAITING_TO_BE_ATTENDED)&& !table.GetBusy())
         {
             GoToFinalState();
         }
@@ -143,7 +141,7 @@ public class NPCController : GameObjectMovementBase
 
         table = GameGrid.GetFreeTable();
         table.SetUsed(this);
-        table.UsedBy = this;
+        table.SetUsedBy(this);
         localState = NpcState.WALKING_TO_TABLE;
         targetInWorldPosition = table.GetActionTile();
         target = GameGrid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);

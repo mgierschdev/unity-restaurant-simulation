@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class BaseObjectController : MonoBehaviour
 {
-    protected MenuHandlerController Menu { get; set; }
     private Vector3 initialPosition;
     private Vector3 currentPos; //Current position of the object including while dragging
     private bool currentValidPos; //Current valid position for the object including while dragging
@@ -11,6 +10,7 @@ public class BaseObjectController : MonoBehaviour
     protected GameGridObject gameGridObject;
     protected GridController Grid { get; set; }
     protected ObjectRotation InitialObjectRotation;
+    protected MenuHandlerController Menu { get; set; }
 
     private void Update()
     {
@@ -78,14 +78,14 @@ public class BaseObjectController : MonoBehaviour
         if (Grid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
         {
             currentValidPos = true;
-            gameGridObject.SpriteRenderer.color = Util.Available;
+            gameGridObject.GetSpriteRenderer().color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
         else
         {
             currentValidPos = false;
             gameGridObject.LightOccupiedUnderTiles();
-            gameGridObject.SpriteRenderer.color = Util.Occupied;
+            gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
         Grid.SetDraggingObject(true);
     }
@@ -105,13 +105,13 @@ public class BaseObjectController : MonoBehaviour
         else
         {
             transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
-            gameGridObject.SpriteRenderer.color = Util.Available;
+            gameGridObject.GetSpriteRenderer().color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
 
         gameGridObject.UpdateCoords();
         Grid.SetDraggingObject(false);
-        gameGridObject.SortingLayer.sortingOrder =  Util.GetSorting(gameGridObject.GridPosition);
+        gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
     }
 
     private bool IsDraggable()
@@ -126,7 +126,7 @@ public class BaseObjectController : MonoBehaviour
         {
             // GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
             // GameLog.Log("Used by " + gameGridObject.UsedBy.name);
-            gameGridObject.UsedBy.GoToFinalState();
+            gameGridObject.GetUsedBy().GoToFinalState();
             gameGridObject.FreeObject();
             Grid.AddFreeBusinessSpots(gameGridObject);
         }

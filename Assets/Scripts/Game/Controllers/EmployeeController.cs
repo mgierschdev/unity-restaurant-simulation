@@ -107,7 +107,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounterAfterOrder()
     {
-        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || GameGrid.Counter == null || !Util.IsAtDistanceWithObjectTraslate(transform.position, GameGrid.Counter.GetActionTile(), transform))
+        if (localState != NpcState.WALKING_TO_COUNTER_AFTER_ORDER || GameGrid.GetCounter() == null || !Util.IsAtDistanceWithObjectTraslate(transform.position, GameGrid.GetCounter().GetActionTile(), transform))
         {
             return;
         }
@@ -178,17 +178,17 @@ public class EmployeeController : GameObjectMovementBase
     //First State
     private void UpdateGoNextToCounter()
     {
-        if (localState != NpcState.IDLE || GameGrid.Counter == null)
+        if (localState != NpcState.IDLE || GameGrid.GetCounter() == null)
         {
             return;
         }
         localState = NpcState.WALKING_TO_COUNTER;
-        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()));
+        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.GetCounter().GetActionTile()));
     }
 
     private void UpdateIsAtCounter()
     {
-        if (localState != NpcState.WALKING_TO_COUNTER || !Util.IsAtDistanceWithObject(transform.position, GameGrid.Counter.GetActionTile()) || GameGrid.Counter == null)
+        if (localState != NpcState.WALKING_TO_COUNTER || !Util.IsAtDistanceWithObject(transform.position, GameGrid.GetCounter().GetActionTile()) || GameGrid.GetCounter() == null)
         {
             return;
         }
@@ -198,18 +198,18 @@ public class EmployeeController : GameObjectMovementBase
 
     private void RestartStateAfterAttendingTable()
     {
-        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()));
+        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.GetCounter().GetActionTile()));
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         GameGrid.AddFreeBusinessSpots(tableToBeAttended);
-        tableToBeAttended.Busy = false;
+        tableToBeAttended.SetBusy(false);
         tableToBeAttended = null;
     }
 
     private void RestartState()
     {
-        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()));
+        GoTo(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.GetCounter().GetActionTile()));
         localState = NpcState.WALKING_TO_COUNTER;
-        tableToBeAttended.Busy = false;
+        tableToBeAttended.SetBusy(false);
         tableToBeAttended = null;
     }
 }

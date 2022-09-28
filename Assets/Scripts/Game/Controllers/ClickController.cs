@@ -8,12 +8,13 @@ public class ClickController : MonoBehaviour
     private float ClickingTime { get; set; }
     private const float LONG_CLICK_DURATION = 0.2f;
     private GridController gridController;
-    public GameObject ClickedObject { get; set; }
-    public GameTile ClickedGameTile { get; set; }
     private Camera mainCamera;
-    public bool IsPressingButton { get; set; }
-    public bool MouseOverUI { get; set; }
-    private float LastClickTime;
+    private float lastClickTime;
+
+    private bool isPressingButton;
+    private bool mouseOverUI;
+    private GameObject clickedObject;
+    private GameTile clickedGameTile;
 
     private void Start()
     {
@@ -23,7 +24,7 @@ public class ClickController : MonoBehaviour
         IsLongClick = false;
         mainCamera = Camera.main;
         // Time passed between clicks 
-        LastClickTime = 0;
+        lastClickTime = 0;
         // Grid Controller
         GameObject gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         gridController = gameGridObject.GetComponent<GridController>();
@@ -43,7 +44,7 @@ public class ClickController : MonoBehaviour
         // first click 
         if (Input.GetMouseButtonDown(0))
         {
-            LastClickTime = Time.unscaledTime;
+            lastClickTime = Time.unscaledTime;
             ClickingTime = 0;
             isClicking = true;
         }
@@ -80,7 +81,7 @@ public class ClickController : MonoBehaviour
     // The object must have a collider attached, used for when clicking individual NPCs or detecting long click for the player
     private void ObjectClickedControl()
     {
-        if (!Input.GetMouseButtonDown(0) || MouseOverUI)
+        if (!Input.GetMouseButtonDown(0) || mouseOverUI)
         {
             return;
         }
@@ -92,16 +93,39 @@ public class ClickController : MonoBehaviour
 
         if (tile != null)
         {
-            ClickedGameTile = tile;
+            clickedGameTile = tile;
         }
 
         if (hit.collider)
         {
-            ClickedObject = GameObject.Find(hit.collider.name);
+            clickedObject = GameObject.Find(hit.collider.name);
         }
     }
     public double TimePassedSinceLastClick()
     {
-        return 0 > (Time.unscaledTime - LastClickTime) ? 0 : Time.unscaledTime - LastClickTime;
+        return 0 > (Time.unscaledTime - lastClickTime) ? 0 : Time.unscaledTime - lastClickTime;
+    }
+
+    public bool GetIsPressingButton()
+    {
+        return isPressingButton;
+    }
+
+    public GameObject GetClickedObject()
+    {
+        return clickedObject;
+    }
+
+    public GameTile GetClickedGameTile()
+    {
+        return clickedGameTile;
+    }
+    public void SetClickedGameTile(GameTile tile)
+    {
+        clickedGameTile = tile;
+    }
+    public void SetClickedObject(GameObject obj)
+    {
+        clickedObject = obj;
     }
 }
