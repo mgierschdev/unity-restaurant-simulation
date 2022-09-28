@@ -776,7 +776,6 @@ GameObject:
   - component: {fileID: 3237402050046180269}
   - component: {fileID: 3082684804310544805}
   - component: {fileID: 1284510378439025032}
-  - component: {fileID: 3333251543529677162}
   - component: {fileID: 4371176762895389721}
   - component: {fileID: 1737829387842801693}
   m_Layer: 14
@@ -833,18 +832,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Library: []
   m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 307c8e2ec54c84e2da8be07d24771b76, type: 3}
---- !u!114 &3333251543529677162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6313366968590005356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39d95edf35762462694afccc238676be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!60 &4371176762895389721
 PolygonCollider2D:
   m_ObjectHideFlags: 0

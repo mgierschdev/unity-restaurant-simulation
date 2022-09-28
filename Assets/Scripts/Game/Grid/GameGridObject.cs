@@ -61,20 +61,29 @@ public class GameGridObject : GameObjectBase
             secondActionTileSprite
         };
 
+        Debug.Log("Instantiating object " + Name);
+
         UpdateRotation(position);
         SetEditPanelClickListeners();
     }
 
-    public void Init()
+    private void SetID()
     {
         string id = gridController.GetObjectCount() + 1 + "-" + Time.frameCount;
         objectTransform.name = StoreGameObject.Type + "." + id;
         Name = objectTransform.name;
+    }
+
+    public void Init()
+    {
+       // SetID();
         Hide();
     }
 
     private void SetEditPanelClickListeners()
     {
+        Debug.Log("Adding click listener " + Name);
+
         GameObject saveObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObj.GetComponent<Button>();
         save.onClick.AddListener(StoreInInventory);
