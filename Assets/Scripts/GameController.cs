@@ -25,9 +25,9 @@ public class GameController : MonoBehaviour
         // Setting up Current money
         GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-        playerData = new PlayerData(20000, moneyText);
+        playerData = new PlayerData(20000, moneyText);  
         gridController.PlayerData = playerData;
-        NPCS = GameObject.Find(Settings.NPCS).gameObject;
+        NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         SpamEmployee();
     }
 

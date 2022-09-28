@@ -44,7 +44,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         //Setting default init name
         Name = transform.name;
-        
+
         //Sortering layer
         sortingLayer = transform.GetComponent<SortingGroup>();
 
@@ -392,7 +392,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (path.Count == 0)
         {
-            GameLog.Log("No path found " + transform.name);
+            GameLog.Log("No path found " + transform.name + " From " + Position + " to " + pos);
             return false;
         }
 

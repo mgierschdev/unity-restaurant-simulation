@@ -38,7 +38,6 @@ public enum TileType
     ISOMETRIC_FOUR_SQUARE_OBJECT = 12,
     WALL = 13,
     FLOOR_EDIT = 14,
-    ISOMETRIC_PRODUCTION_LINE = 15,
     UNDEFINED = 999
 }
 
