@@ -152,7 +152,7 @@ public class EmployeeController : GameObjectMovementBase
 
         tableToBeAttended = GameGrid.GetTableWithClient();
         Vector3Int localTarget =  GameGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
-        CoordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(GameGrid.GetPathFindingGridFromWorldPosition(GameGrid.Counter.GetActionTile()), localTarget);
+        CoordOfTableToBeAttended = GameGrid.GetClosestPathGridPoint(localTarget);
         
         // Meaning we did not find a correct spot to standup, we return
         // and enqueue de table to the list again 

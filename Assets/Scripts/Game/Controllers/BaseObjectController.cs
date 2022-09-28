@@ -4,7 +4,6 @@ public class BaseObjectController : MonoBehaviour
 {
     protected MenuHandlerController Menu { get; set; }
     private Vector3 initialPosition;
-    private Vector3 mousePosition;
     private Vector3 currentPos; //Current position of the object including while dragging
     private bool currentValidPos; //Current valid position for the object including while dragging
     //Initial object position
@@ -15,7 +14,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-        if (!Menu || !Grid || gameGridObject == null || Grid.DraggingObject)
+        if (!Menu || !Grid || gameGridObject == null || Grid.GetDragginObject())
         {
             return;
         }
@@ -53,7 +52,6 @@ public class BaseObjectController : MonoBehaviour
         }
 
         Grid.SetActiveGameGridObject(gameGridObject);
-        mousePosition = gameObject.transform.position - Util.GetMouseInWorldPosition();
         initialActionTileOne = Grid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         initialPosition = transform.position;
     }
@@ -89,7 +87,7 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.SpriteRenderer.color = Util.Occupied;
         }
-        Grid.DraggingObject = true;
+        Grid.SetDraggingObject(true);
     }
 
     // Called when the mouse is released 
@@ -112,7 +110,7 @@ public class BaseObjectController : MonoBehaviour
         }
 
         gameGridObject.UpdateCoords();
-        Grid.DraggingObject = false;
+        Grid.SetDraggingObject(false);
         gameGridObject.SortingLayer.sortingOrder =  Util.GetSorting(gameGridObject.GridPosition);
     }
 

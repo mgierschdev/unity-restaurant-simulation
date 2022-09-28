@@ -15,7 +15,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public GridController GameGrid { get; set; }
 
     // Movement 
-    private Rigidbody2D body;
     private MoveDirection moveDirection;
     private bool side; // false right, true left
 
@@ -61,7 +60,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         // Game Grid
         gameGridObject = GameObject.FindGameObjectWithTag(Settings.GameGrid);
-        body = GetComponent<Rigidbody2D>();
 
         if (!Util.IsNull(gameGridObject, "GameObjectMovementBase/gameGridObject null"))
         {
@@ -81,7 +79,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // Overlap sphere
     private void Start()
     {
-        body = GetComponent<Rigidbody2D>();
         UpdatePosition();
         ClickUpdateController();
     }

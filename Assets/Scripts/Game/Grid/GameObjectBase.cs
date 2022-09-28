@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Tilemaps;
 
 public abstract class GameObjectBase
 {
@@ -11,6 +12,7 @@ public abstract class GameObjectBase
     public ObjectType Type { get; set; }
     public TileType TileType { get; set; }
     private Vector3 tileOffset = new Vector3(0, 0.25f, 0);
+    public TileBase UnityTileBase { get; set; }
     public double Cost { get; set; }
 
     public Vector3 GetWorldPositionWithOffset()

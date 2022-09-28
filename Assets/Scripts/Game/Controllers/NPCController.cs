@@ -21,7 +21,7 @@ public class NPCController : GameObjectMovementBase
     private bool IsNPCVisible;
 
     //Time in the current state
-    private float stateTime;
+    private float stateTime; //TODO: to be used in order for the NPC to leave after certain time
     private NpcState prevState;
     private const float MAX_TABLE_WAITING_TIME = 10f;
 

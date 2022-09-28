@@ -1,8 +1,6 @@
-using System;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-
 
 // Script used for the Jenkins Build
 class BuildScript
@@ -14,11 +12,14 @@ class BuildScript
             "Assets/World.unity",
             };
 
-        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = defaultScene;
-        buildPlayerOptions.locationPathName = "~/Unity/Android/android" + Util.GetUnixTimeNow() + ".apk";
-        buildPlayerOptions.target = BuildTarget.Android;
-        buildPlayerOptions.options = BuildOptions.None;
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
+        {
+            scenes = defaultScene,
+            locationPathName = "~/Unity/Android/android" + Util.GetUnixTimeNow() + ".apk",
+            target = BuildTarget.Android,
+            options = BuildOptions.None
+        };
+
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
         BuildSummary summary = report.summary;
@@ -39,11 +40,13 @@ class BuildScript
             "Assets/World.unity",
             };
 
-        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = defaultScene;
-        buildPlayerOptions.locationPathName = "~/Unity/IOS/" + Util.GetUnixTimeNow() + "/";
-        buildPlayerOptions.target = BuildTarget.iOS;
-        buildPlayerOptions.options = BuildOptions.None;
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
+        {
+            scenes = defaultScene,
+            locationPathName = "~/Unity/IOS/" + Util.GetUnixTimeNow() + "/",
+            target = BuildTarget.iOS,
+            options = BuildOptions.None
+        };
 
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
         BuildSummary summary = report.summary;
