@@ -17,14 +17,11 @@ public class MenuHandlerController : MonoBehaviour
     private Stack<MenuItem> menuStack;
     private HashSet<string> openMenus;
     private bool isGamePaused;
-
     // Click controller
     private ClickController clickController;
-
     //Min amount of time the the menu has to be open before activating -> closing on click outside
     private const float MIN_OPENED_TIME = 0.5f;
     private float openedTime;
-
     //Menu realtime refresh rate
     private const float MENU_REFRESH_RATE = 3f;
     private GameObject leftDownPanel;
@@ -133,14 +130,14 @@ public class MenuHandlerController : MonoBehaviour
 
     private void CheckCLickControl()
     {
-        if (clickController == null || !clickController.ClickedObject)
+        if (clickController == null || !clickController.GetClickedObject())
         {
             return;
         }
 
-        ObjectType type = Util.GetObjectType(clickController.ClickedObject);
+        ObjectType type = Util.GetObjectType(clickController.GetClickedObject());
 
-        if (clickController.ClickedObject.name.Contains(Settings.PrefabNpcEmployee))
+        if (clickController.GetClickedObject().name.Contains(Settings.PrefabNpcEmployee))
         {
             return;
         }
@@ -151,14 +148,14 @@ public class MenuHandlerController : MonoBehaviour
 
             if (type == ObjectType.NPC)
             {
-                npc = clickController.ClickedObject.GetComponent<NPCController>();
+                npc = clickController.GetClickedObject().GetComponent<NPCController>();
                 map.Add("Name", npc.Name);
                 map.Add("Debug", npc.GetDebugInfo());
             }
 
             if (type == ObjectType.EMPLOYEE)
             {
-                employee = clickController.ClickedObject.GetComponent<EmployeeController>();
+                employee = clickController.GetClickedObject().GetComponent<EmployeeController>();
                 map.Add("Name", employee.Name);
                 map.Add("Debug", employee.GetDebugInfo());
             }
@@ -168,10 +165,10 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         // We reset the clicked object after the action
-        clickController.ClickedObject = null;
-        if (clickController.ClickedGameTile != null)
+        clickController.SetClickedObject(null);
+        if (clickController.GetClickedGameTile() != null)
         {
-            clickController.ClickedGameTile = null;
+            clickController.SetClickedGameTile(null);
         }
     }
 

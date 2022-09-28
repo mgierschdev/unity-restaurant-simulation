@@ -13,12 +13,13 @@ public class GameGridObject : GameObjectBase
     private SpriteResolver spriteResolver;
     private Transform objectTransform;
     private int actionTile;
-    public StoreGameObject StoreGameObject { get; set; }
-    public SpriteRenderer SpriteRenderer { get; set; }
-    public ObjectRotation FacingPosition { get; set; } // Facing position
-    public bool Busy { get; set; } //Being used by an NPC
-    public NPCController UsedBy { get; set; }
-    public GameObject EditMenu { get; set; }
+
+    private StoreGameObject storeGameObject;
+    private SpriteRenderer spriteRenderer;
+    private ObjectRotation facingPosition; // Facing position
+    private bool busy; //Being used by an NPC
+    private NPCController usedBy;
+    private GameObject editMenu;
 
     public GameGridObject(Transform transform, GridController gridController, ObjectRotation position, StoreGameObject storeGameObject)
     {
@@ -28,13 +29,13 @@ public class GameGridObject : GameObjectBase
         GridPosition = gridController.GetPathFindingGridFromWorldPosition(transform.position); // Grid position, first position = 0, 0
         LocalGridPosition = gridController.GetLocalGridFromWorldPosition(transform.position);
         Type = storeGameObject.Type;
-        this.StoreGameObject = storeGameObject;
+        this.storeGameObject = storeGameObject;
         objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
-        SpriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
+        spriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
         this.gridController = gridController;
-        FacingPosition = position;
+        facingPosition = position;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -47,8 +48,8 @@ public class GameGridObject : GameObjectBase
         spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
 
         //Edit Panel Disable
-        EditMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-        EditMenu.SetActive(false);
+        editMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
+        editMenu.SetActive(false);
 
         actionTiles = new List<GameObject>(){
             objectActionTile.gameObject,
@@ -67,27 +68,27 @@ public class GameGridObject : GameObjectBase
     private void SetID()
     {
         string id = gridController.GetObjectCount() + 1 + "-" + Time.frameCount;
-        objectTransform.name = StoreGameObject.Type + "." + id;
+        objectTransform.name = storeGameObject.Type + "." + id;
         Name = objectTransform.name;
     }
 
     public void Init()
     {
-       // SetID();
+        // SetID();
         Hide();
     }
 
     private void SetEditPanelClickListeners()
     {
-        GameObject saveObj = EditMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
+        GameObject saveObj = editMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObj.GetComponent<Button>();
         save.onClick.AddListener(StoreInInventory);
 
-        GameObject rotateObjLeft = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
+        GameObject rotateObjLeft = editMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
         Button rotateLeft = rotateObjLeft.GetComponent<Button>();
         rotateLeft.onClick.AddListener(RotateObjectLeft);
 
-        GameObject rotateObjRight = EditMenu.transform.Find(Settings.ConstEditStoreMenuRotateRight).gameObject;
+        GameObject rotateObjRight = editMenu.transform.Find(Settings.ConstEditStoreMenuRotateRight).gameObject;
         Button rotateRight = rotateObjRight.GetComponent<Button>();
         rotateRight.onClick.AddListener(RotateObjectRight);
     }
@@ -98,7 +99,7 @@ public class GameGridObject : GameObjectBase
         //GameLog.Log("TODO: Storing item in Inventory " + Name);
         gridController.PlayerData.StoreItem(this);
         gridController.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current seledted in the grid 
-        gridController.FreeObject(this); 
+        gridController.FreeObject(this);
         //gridController.FreeCoord();
         Object.Destroy(objectTransform.gameObject);
     }
@@ -119,31 +120,31 @@ public class GameGridObject : GameObjectBase
     public void Hide()
     {
         HideUnderTiles();
-        EditMenu.SetActive(false);
+        editMenu.SetActive(false);
     }
 
     public void Show()
     {
-        SpriteRenderer.color = Util.Available;
-        EditMenu.SetActive(true);
+        spriteRenderer.color = Util.Available;
+        editMenu.SetActive(true);
     }
 
     public void SetUsed(NPCController npc)
     {
-        UsedBy = npc;
-        Busy = true;
+        usedBy = npc;
+        busy = true;
     }
 
     public void FreeObject()
     {
-        UsedBy = null;
-        Busy = false;
+        usedBy = null;
+        busy = false;
     }
 
     public Vector3 GetActionTile()
     {
         // if doesnt have action point returns the object actual position
-        if (!StoreGameObject.HasActionPoint)
+        if (!storeGameObject.HasActionPoint)
         {
             return tiles[0].transform.position;
         }
@@ -161,13 +162,13 @@ public class GameGridObject : GameObjectBase
         }
 
         Vector3Int prev = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
-        FacingPosition++;
+        facingPosition++;
 
-        if ((int)FacingPosition >= 5)
+        if ((int)facingPosition >= 5)
         {
-            FacingPosition = ObjectRotation.FRONT;
+            facingPosition = ObjectRotation.FRONT;
         }
-        UpdateRotation(FacingPosition);
+        UpdateRotation(facingPosition);
         Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
         gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
@@ -183,14 +184,14 @@ public class GameGridObject : GameObjectBase
         }
 
         Vector3Int prev = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
-        FacingPosition--;
+        facingPosition--;
 
-        if ((int)FacingPosition <= 0)
+        if ((int)facingPosition <= 0)
         {
-            FacingPosition = ObjectRotation.BACK_INVERTED;
+            facingPosition = ObjectRotation.BACK_INVERTED;
         }
 
-        UpdateRotation(FacingPosition);
+        UpdateRotation(facingPosition);
         Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
         gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
@@ -198,12 +199,12 @@ public class GameGridObject : GameObjectBase
 
     private bool IsValidRotation(int side)
     {
-        if (!StoreGameObject.HasActionPoint)
+        if (!storeGameObject.HasActionPoint)
         {
             return true;
         }
 
-        ObjectRotation tmp = FacingPosition;
+        ObjectRotation tmp = facingPosition;
         if (side == 0)
         {
             tmp--;
@@ -227,7 +228,7 @@ public class GameGridObject : GameObjectBase
         Vector3Int rotatedPosition = gridController.GetPathFindingGridFromWorldPosition(objectTransform.position);
         Vector3Int rotatedActionTile = gridController.GetPathFindingGridFromWorldPosition(actionTiles[GetRotationActionTile(tmp)].transform.position);
         // we flip the object back 
-        objectWithSprite.transform.localScale = GetRotationVector(FacingPosition);
+        objectWithSprite.transform.localScale = GetRotationVector(facingPosition);
         if (gridController.IsFreeBussCoord(rotatedPosition) || gridController.IsFreeBussCoord(rotatedActionTile))
         {
             return true;
@@ -241,9 +242,9 @@ public class GameGridObject : GameObjectBase
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
-                spriteResolver.SetCategoryAndLabel(StoreGameObject.SpriteLibCategory, StoreGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
-                if (StoreGameObject.HasActionPoint)
+                if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.FRONT);
                     tiles[1].color = Util.LightAvailable;
@@ -251,10 +252,10 @@ public class GameGridObject : GameObjectBase
                 }
                 return;
             case ObjectRotation.FRONT_INVERTED:
-                spriteResolver.SetCategoryAndLabel(StoreGameObject.SpriteLibCategory, StoreGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
 
-                if (StoreGameObject.HasActionPoint)
+                if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
                     tiles[1].color = Util.LightAvailable;
@@ -262,9 +263,9 @@ public class GameGridObject : GameObjectBase
                 }
                 return;
             case ObjectRotation.BACK:
-                spriteResolver.SetCategoryAndLabel(StoreGameObject.SpriteLibCategory + "-Inverted", StoreGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
-                if (StoreGameObject.HasActionPoint)
+                if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.BACK);
                     tiles[1].color = Util.Hidden;
@@ -272,9 +273,9 @@ public class GameGridObject : GameObjectBase
                 }
                 return;
             case ObjectRotation.BACK_INVERTED:
-                spriteResolver.SetCategoryAndLabel(StoreGameObject.SpriteLibCategory + "-Inverted", StoreGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
-                if (StoreGameObject.HasActionPoint)
+                if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
                     tiles[1].color = Util.Hidden;
@@ -329,7 +330,7 @@ public class GameGridObject : GameObjectBase
     {
         tiles[0].color = Util.LightOccupied;
 
-        if (StoreGameObject.HasActionPoint)
+        if (storeGameObject.HasActionPoint)
         {
             tiles[actionTile + 1].color = Util.LightOccupied;
         }
@@ -338,9 +339,69 @@ public class GameGridObject : GameObjectBase
     public void LightAvailableUnderTiles()
     {
         tiles[0].color = Util.LightAvailable;
-        if (StoreGameObject.HasActionPoint)
+        if (storeGameObject.HasActionPoint)
         {
             tiles[actionTile + 1].color = Util.LightAvailable;
         }
+    }
+
+    public void SetStoreGameObject(StoreGameObject obj)
+    {
+        storeGameObject = obj;
+    }
+
+    public StoreGameObject GetStoreGameObject()
+    {
+        return storeGameObject;
+    }
+
+    public void SetSpriteRenderer(SpriteRenderer renderer)
+    {
+        spriteRenderer = renderer;
+    }
+
+    public SpriteRenderer GetSpriteRenderer()
+    {
+        return spriteRenderer;
+    }
+
+    public void SetFacingPosition(ObjectRotation rotation)
+    {
+        facingPosition = rotation;
+    }
+
+    public ObjectRotation GetFacingPosition()
+    {
+        return facingPosition;
+    }
+
+    public bool GetBusy()
+    {
+        return busy;
+    }
+
+    public void SetBusy(bool val)
+    {
+        busy = val;
+    }
+
+    public void SetUsedBy(NPCController controller)
+    {
+        usedBy = controller;
+    }
+
+    public NPCController GetUsedBy()
+    {
+        return usedBy;
+    }
+
+    public GameObject GetEditMenu()
+    {
+        return editMenu;
+    }
+
+    public void SetEditMenu(GameObject obj)
+    {
+        editMenu = obj;
     }
 }

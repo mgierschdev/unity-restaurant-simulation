@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class EnergyBarController : MonoBehaviour
 {
     private Slider Slider { get; set; }
-    public EnergyBarController EnergyBar { get; set; }
+    private EnergyBarController energyBar;
     private bool Visible { get; set; }
 
     public void Start()

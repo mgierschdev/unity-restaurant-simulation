@@ -6,7 +6,6 @@ public class CameraController : MonoBehaviour
 {
     private Vector3 pointerDownStart;
     private Vector3 direction;
-    public float interpolation = Settings.CameraFollowInterpolation;
     // MouseScroll zoom 
     private float targetPosition;
     private const float ZOOM_SPEED = 35;
@@ -22,6 +21,7 @@ public class CameraController : MonoBehaviour
     // Menu Controller
     private MenuHandlerController menuHandlerController;
     // private ClickController clickController;
+    // private float interpolation = Settings.CameraFollowInterpolation;
 
     private void Start()
     {
