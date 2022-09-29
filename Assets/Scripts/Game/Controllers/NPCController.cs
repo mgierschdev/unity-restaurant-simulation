@@ -193,9 +193,19 @@ public class NPCController : GameObjectMovementBase
         localState = NpcState.WALKING_WANDER_5;
         idleTime = 0;
         randMax = Random.Range(0, IDLE_MAX_TIME);
-        Vector3Int wanderPos = Grid.GetRandomWalkableGridPosition();
-        target = wanderPos;
+        target = GetRandomWalkablePosition();
         GoTo(target);
+    }
+
+    private Vector3Int GetRandomWalkablePosition()
+    {
+        Vector3Int wanderPos = Position;
+        // There is a small chance that the NPC will go to the same place 
+        while (wanderPos != Position)
+        {
+            wanderPos = Grid.GetRandomWalkableGridPosition();
+        }
+        return wanderPos;
     }
 
     public NpcState GetNpcState()
