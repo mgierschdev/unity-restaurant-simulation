@@ -542,9 +542,9 @@ public class GridController : MonoBehaviour
         grid[pos.x, pos.y] = 0;
     }
 
-    public void ReCalculateNpcStates()
+    public void ReCalculateNpcStates(GameGridObject obj)
     {
-        gameController.ReCalculateNpcStates();
+        gameController.ReCalculateNpcStates(obj);
     }
 
     public void UpdateObjectPosition(GameGridObject gameGridObject)

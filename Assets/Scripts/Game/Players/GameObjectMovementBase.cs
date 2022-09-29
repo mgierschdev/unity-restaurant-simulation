@@ -114,7 +114,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         Position = Grid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
-        sortingLayer.sortingOrder =  Util.GetSorting(Position);
+        sortingLayer.sortingOrder = Util.GetSorting(Position);
     }
 
     private void UpdateObjectDirection()
@@ -336,7 +336,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             {
                 Vector3 from = Grid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
                 Vector3 to = Grid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
-                Debug.DrawLine(from, to, Color.yellow, 15f);
+                Debug.DrawLine(from, to, Util.GetRandomColor(), 15f);
             }
 
             pendingMovementQueue.Enqueue(path[i].GetVector3());

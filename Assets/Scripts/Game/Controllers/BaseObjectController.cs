@@ -127,7 +127,9 @@ public class BaseObjectController : MonoBehaviour
             if (gameGridObject.GetUsedBy().GetNpcState() == NpcState.WALKING_TO_TABLE_1)
             {
                 gameGridObject.GetUsedBy().RecalculateGoTo();
+
             }else if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE){
+                
                 gameGridObject.GetUsedBy().GoToFinalState();
                 gameGridObject.FreeObject();
                 Grid.AddFreeBusinessSpots(gameGridObject);
@@ -135,7 +137,7 @@ public class BaseObjectController : MonoBehaviour
         }
         else
         {
-            Grid.ReCalculateNpcStates(); // In case of changing the grid
+            Grid.ReCalculateNpcStates(gameGridObject); // In case of changing the grid
         }
         // If overlaps with any UI button 
         return gameGridObject.Type != ObjectType.UNDEFINED && Menu.IsEditPanelOpen() && !IsClickingButton();

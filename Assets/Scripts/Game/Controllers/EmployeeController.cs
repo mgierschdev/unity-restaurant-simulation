@@ -153,13 +153,34 @@ public class EmployeeController : GameObjectMovementBase
         GoToTableToBeAttended();
     }
 
-    public void RecalculateState()
+    public void RecalculateState(GameGridObject obj)
     {
-       ResetState();
+        if (obj == tableToBeAttended || obj.Type == ObjectType.NPC_COUNTER)
+        {
+            ResetState();
+        }
+        else if (localState == NpcState.WALKING_TO_TABLE_1)
+        {
+            Debug.Log("Recalculating path");
+            GoToTableToBeAttended();
+        }
+        else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER_9 || localState == NpcState.WALKING_TO_COUNTER_3)
+        {
+            GoToCounter();
+        }
+    }
+
+    private void GoToCounter()
+    {
+        target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
+        GoTo(target);
     }
     private void GoToTableToBeAttended()
     {
-        tableToBeAttended = Grid.GetTableWithClient();
+        if (tableToBeAttended == null)
+        {
+            tableToBeAttended = Grid.GetTableWithClient();
+        }
         Vector3Int localTarget = Grid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
         CoordOfTableToBeAttended = Grid.GetClosestPathGridPoint(localTarget);
 
@@ -167,7 +188,7 @@ public class EmployeeController : GameObjectMovementBase
         // and enqueue de table to the list again 
         if (localTarget == CoordOfTableToBeAttended)
         {
-            GameLog.Log("We could not find a proper place to standUp");
+            GameLog.Log("We could not find a proper place to standup");
             Grid.AddClientToTable(tableToBeAttended);
             return;
         }
@@ -208,8 +229,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void RestartStateAfterAttendingTable()
     {
-        target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
-        GoTo(target);
+        GoToCounter();
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER_9;
         Grid.AddFreeBusinessSpots(tableToBeAttended);
         tableToBeAttended.SetBusy(false);

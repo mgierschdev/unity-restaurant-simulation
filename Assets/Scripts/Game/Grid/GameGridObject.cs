@@ -104,7 +104,7 @@ public class GameGridObject : GameObjectBase
         {
             Grid.RemoveBussTable(this);
         }
-        Grid.ReCalculateNpcStates();
+        Grid.ReCalculateNpcStates(this);
         Object.Destroy(objectTransform.gameObject);
     }
 
