@@ -12,10 +12,12 @@ public class EmployeeController : GameObjectMovementBase
     private const float TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
     public Vector3Int CoordOfTableToBeAttended { get; set; }
     private float idleTime;
-
     //Time in the current state
     private float stateTime;
     private NpcState prevState;
+    //Current Goto Target
+    private Vector3Int target;
+
     private const float MAX_TABLE_WAITING_TIME = 10f;
 
     private void Start()
@@ -37,15 +39,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
-
-        // Client left or table was moved of position
-        if (tableToBeAttended != null && Grid.IsTableInFreeBussSpot(tableToBeAttended))
-        {
-            GameLog.Log("Object being used moved " + tableToBeAttended.Name);
-            ResetMovement(); // we stop the player from moving
-            RestartState(); // we reset the state
-        }
-
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
@@ -84,6 +77,12 @@ public class EmployeeController : GameObjectMovementBase
 
         animationController.SetState(localState);
         idleTime += Time.deltaTime;
+    }
+
+    private void ResetState()
+    {
+        ResetMovement(); // we stop the player from moving
+        RestartState(); // we reset the state
     }
 
     private void UpdateFinishRegistering()
@@ -150,20 +149,30 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
+        localState = NpcState.WALKING_TO_TABLE_1;
+        GoToTableToBeAttended();
+    }
+
+    public void RecalculateState()
+    {
+       ResetState();
+    }
+    private void GoToTableToBeAttended()
+    {
         tableToBeAttended = Grid.GetTableWithClient();
-        Vector3Int localTarget =  Grid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
+        Vector3Int localTarget = Grid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
         CoordOfTableToBeAttended = Grid.GetClosestPathGridPoint(localTarget);
-        
+
         // Meaning we did not find a correct spot to standup, we return
         // and enqueue de table to the list again 
-        if(localTarget == CoordOfTableToBeAttended){
+        if (localTarget == CoordOfTableToBeAttended)
+        {
             GameLog.Log("We could not find a proper place to standUp");
             Grid.AddClientToTable(tableToBeAttended);
-            return;    
+            return;
         }
-
-        localState = NpcState.WALKING_TO_TABLE_1;
-        GoTo(CoordOfTableToBeAttended);
+        target = CoordOfTableToBeAttended;
+        GoTo(target);
     }
 
     private void UpdateIsTakingOrder()
@@ -183,7 +192,8 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
         localState = NpcState.WALKING_TO_COUNTER_3;
-        GoTo(Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile()));
+        target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
+        GoTo(target);
     }
 
     private void UpdateIsAtCounter()
@@ -198,7 +208,8 @@ public class EmployeeController : GameObjectMovementBase
 
     private void RestartStateAfterAttendingTable()
     {
-        GoTo(Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile()));
+        target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
+        GoTo(target);
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER_9;
         Grid.AddFreeBusinessSpots(tableToBeAttended);
         tableToBeAttended.SetBusy(false);
@@ -207,9 +218,18 @@ public class EmployeeController : GameObjectMovementBase
 
     private void RestartState()
     {
-        GoTo(Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile()));
+        target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
+        GoTo(target);
         localState = NpcState.WALKING_TO_COUNTER_3;
-        tableToBeAttended.SetBusy(false);
+        if (tableToBeAttended != null)
+        {
+            tableToBeAttended.SetBusy(false);
+        }
         tableToBeAttended = null;
+    }
+
+    public NpcState GetNpcState()
+    {
+        return localState;
     }
 }

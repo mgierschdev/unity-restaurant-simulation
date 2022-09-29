@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     private const int NPC_MAX_NUMBER = 5;
     private int npcId;
-    private GridController gridController;
+    private GridController Grid;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
     private GameObject NPCS;
@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
         npcId = 0;
         NpcSet = new HashSet<NPCController>();
         gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
-        gridController = gameGridObject.GetComponent<GridController>();
+        Grid = gameGridObject.GetComponent<GridController>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         SpamEmployee();
     }
@@ -32,7 +32,7 @@ public class GameController : MonoBehaviour
     }
     private void SpamNpc()
     {
-        tileSpawn = gridController.GetRandomSpamPointWorldPosition();
+        tileSpawn = Grid.GetRandomSpamPointWorldPosition();
         GameObject npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(NPCS.transform);
         npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
     private void SpamEmployee()
     {
         //Adding Employees
-        tileSpawn = gridController.GetRandomSpamPointWorldPosition();
+        tileSpawn = Grid.GetRandomSpamPointWorldPosition();
         GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         employeeObject.transform.SetParent(NPCS.transform);
         employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
@@ -65,14 +65,14 @@ public class GameController : MonoBehaviour
     public bool PositionOverlapsNPC(Vector3Int position)
     {
         // We cannot place on top of the employee
-        if (position == gridController.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.CoordOfTableToBeAttended)
+        if (position == Grid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.CoordOfTableToBeAttended)
         {
             return true;
         }
 
         foreach (NPCController npcController in NpcSet)
         {
-            Vector3Int npcPosition = gridController.GetPathFindingGridFromWorldPosition(npcController.transform.position);
+            Vector3Int npcPosition = Grid.GetPathFindingGridFromWorldPosition(npcController.transform.position);
             if (npcPosition == position)
             {
                 return true;
@@ -84,27 +84,24 @@ public class GameController : MonoBehaviour
     //Recalculates the paths of moving NPCs or they current state depending on whether the grid changed
     public void ReCalculateNpcStates()
     {
+        employeeController.RecalculateState();
+
         foreach (NPCController npcController in NpcSet)
         {
             if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE_1)
             {
-
-                //Debug.Log("NPCs on walking state " + npcController.Name + " waking to " + npcController.GetTable().Name);
-                if (npcController.CheckIfTableIsStored())
+                if (Grid.IsTableStored(npcController.GetTable().Name))
                 {
-                    //Debug.Log("Stored: " + npcController.Name + " " + npcController.GetNpcState() + " " + (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE_1));
+                    Debug.Log("Resetting NPC state: "+npcController.Name);
+                    //The table is stored, NPC state reseted
+                    npcController.GoToFinalState();
                 }
                 else
                 {
-
-                    //Debug.Log("Recalculating Goto ");
                     npcController.RecalculateGoTo();
                 }
-            }
-            else
-            {
-                //Debug.Log("NPC " + npcController.Name + " " + npcController.GetNpcState() + " " + (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE_1));
             }
         }
     }
 }
+

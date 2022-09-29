@@ -50,7 +50,6 @@ public class NPCController : GameObjectMovementBase
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
-
         //Handle NPC States
         UpdateFindPlace();
         UpdateIsAtTable();
@@ -77,8 +76,7 @@ public class NPCController : GameObjectMovementBase
             prevState = localState;
         }
 
-        // TODO: only change inside camera CLAMP
-        // animationController.SetState(NpcState.IDLE);
+        // TODO: only change inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
         animationController.SetState(localState);
     }
 
@@ -86,8 +84,7 @@ public class NPCController : GameObjectMovementBase
     {
         if (localState == NpcState.WALKING_UNRESPAWN_8)
         {
-            if (Util.IsAtDistanceWithObject(transform.position,
-                    Grid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
+            if (Util.IsAtDistanceWithObject(transform.position, Grid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
             {
                 gameController.RemoveNpc(this);
                 Destroy(gameObject);
@@ -194,18 +191,6 @@ public class NPCController : GameObjectMovementBase
     public NpcState GetNpcState()
     {
         return localState;
-    }
-
-    // check if the table that the NPC is going to is now stored, if so we reset
-    public bool CheckIfTableIsStored()
-    {
-        if (Grid.IsTableStored(table.Name))
-        {
-            GameLog.Log("Item with the id " + table.Name + " Has been stored");
-            GoToFinalState();
-            return true;
-        }
-        return false;
     }
 
     public GameGridObject GetTable()
