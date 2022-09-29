@@ -201,7 +201,7 @@ public class NPCController : GameObjectMovementBase
     {
         Vector3Int wanderPos = Position;
         // There is a small chance that the NPC will go to the same place 
-        while (wanderPos != Position)
+        while (wanderPos == Position)
         {
             wanderPos = Grid.GetRandomWalkableGridPosition();
         }
