@@ -124,11 +124,18 @@ public class BaseObjectController : MonoBehaviour
         // If you move a table while busy the NPC will self destroy
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Grid.IsTableBusy(gameGridObject))
         {
-            GameLog.Log("Moving Busy object" + gameGridObject.Name); // To Show in the UI
-            // GameLog.Log("Used by " + gameGridObject.UsedBy.name);
-            gameGridObject.GetUsedBy().RecalculateGoTo();
-            // gameGridObject.FreeObject();
-            // Grid.AddFreeBusinessSpots(gameGridObject);
+            if (gameGridObject.GetUsedBy().GetNpcState() == NpcState.WALKING_TO_TABLE_1)
+            {
+                gameGridObject.GetUsedBy().RecalculateGoTo();
+            }else if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE){
+                gameGridObject.GetUsedBy().GoToFinalState();
+                gameGridObject.FreeObject();
+                Grid.AddFreeBusinessSpots(gameGridObject);
+            }
+        }
+        else
+        {
+            Grid.ReCalculateNpcStates(); // In case of changing the grid
         }
         // If overlaps with any UI button 
         return gameGridObject.Type != ObjectType.UNDEFINED && Menu.IsEditPanelOpen() && !IsClickingButton();

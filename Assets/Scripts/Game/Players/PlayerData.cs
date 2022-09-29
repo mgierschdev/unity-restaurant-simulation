@@ -55,19 +55,13 @@ namespace Game.Players
 
         public void StoreItem(GameGridObject obj)
         {
+            Debug.Log("Is table stored: " + obj.Name);
             storedIventory.Add(obj);
             setStoredInventory.Add(obj.Name);
-            GameLog.Log("Stored items: " + storedIventory.Count);
         }
 
         public bool IsItemStored(string nameID)
         {
-            // Debug.Log("does set contain  " + nameID + " " + setStoredInventory.Contains(nameID) + " " + setStoredInventory.Count);
-            // Debug.Log("Priting set ");
-            // foreach (string s in setStoredInventory)
-            // {
-            //     Debug.Log("s : " + s);
-            // }
             return setStoredInventory.Contains(nameID);
         }
 
