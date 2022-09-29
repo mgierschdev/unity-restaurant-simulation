@@ -140,7 +140,17 @@ public class NPCController : GameObjectMovementBase
     {
         targetInWorldPosition = table.GetActionTile();
         target = Grid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
-        GoTo(target);
+
+        if (!GoTo(target))
+        {
+            if (table != null)
+            {
+                table.SetUsed(null);
+                Grid.AddFreeBusinessSpots(table);
+                table = null;
+                GoToFinalState();
+            }
+        }
     }
 
     public void RecalculateGoTo()
