@@ -44,8 +44,8 @@ public class GridController : MonoBehaviour
     private Dictionary<string, GameGridObject> businessObjects;
     private Dictionary<string, GameGridObject> BusyBusinessSpotsMap { get; set; }
     private Dictionary<string, GameGridObject> FreeBusinessSpotsMap { get; set; }
-    private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
-    private Queue<GameGridObject> TablesWithClient { get; set; } // Tables to attend or chairs
+    private List<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
+    private List<GameGridObject> TablesWithClient { get; set; } // Tables to attend or chairs
     private GameGridObject counter;
     //Business floors
     private Tilemap tilemapBusinessFloor;
@@ -83,8 +83,8 @@ public class GridController : MonoBehaviour
         tilemapObjects = GameObject.Find(Settings.TilemapObjects).GetComponent<Tilemap>();
         mapObjects = new Dictionary<Vector3Int, GameTile>();
         listObjectsTileMap = new List<GameTile>();
-        FreeBusinessSpots = new Queue<GameGridObject>();
-        TablesWithClient = new Queue<GameGridObject>();
+        FreeBusinessSpots = new List<GameGridObject>();
+        TablesWithClient = new List<GameGridObject>();
         FreeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
         BusyBusinessSpotsMap = new Dictionary<string, GameGridObject>();
         businessObjects = new Dictionary<string, GameGridObject>();
@@ -296,7 +296,7 @@ public class GridController : MonoBehaviour
         businessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            FreeBusinessSpots.Enqueue(obj);
+            Util.EnqueueToList(FreeBusinessSpots, obj);
             FreeBusinessSpotsMap.Add(obj.Name, obj);
             grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
             grid[actionGridPosition.x, actionGridPosition.y] = -1;
@@ -576,9 +576,9 @@ public class GridController : MonoBehaviour
             return null;
         }
 
-        BusyBusinessSpotsMap.Add(FreeBusinessSpots.Peek().Name, FreeBusinessSpots.Peek());
-        FreeBusinessSpotsMap.Remove(FreeBusinessSpots.Peek().Name);
-        return FreeBusinessSpots.Dequeue();
+        BusyBusinessSpotsMap.Add(Util.PeekFromList(FreeBusinessSpots).Name, Util.PeekFromList(FreeBusinessSpots));
+        FreeBusinessSpotsMap.Remove(Util.PeekFromList(FreeBusinessSpots).Name);
+        return Util.DequeueFromList(FreeBusinessSpots);
     }
 
     public bool IsThereFreeTables()
@@ -600,6 +600,29 @@ public class GridController : MonoBehaviour
     {
         return BusyBusinessSpotsMap.ContainsKey(obj.Name);
     }
+    // We remove an active item an store it
+    public void RemoveBussTable(GameGridObject obj)
+    {
+        if (FreeBusinessSpots.Contains(obj))
+        {
+            FreeBusinessSpots.Remove(obj);
+        }
+
+        if (TablesWithClient.Contains(obj))
+        {
+            TablesWithClient.Remove(obj);
+        }
+
+        if (BusyBusinessSpotsMap.ContainsKey(obj.Name))
+        {
+            BusyBusinessSpotsMap.Remove(obj.Name);
+        }
+
+        if (FreeBusinessSpotsMap.ContainsKey(obj.Name))
+        {
+            FreeBusinessSpotsMap.Remove(obj.Name);
+        }
+    }
 
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
@@ -608,13 +631,13 @@ public class GridController : MonoBehaviour
 
         if (!FreeBusinessSpots.Contains(obj))
         {
-            FreeBusinessSpots.Enqueue(obj);
+            Util.EnqueueToList(FreeBusinessSpots, obj);
         }
     }
 
     public GameGridObject GetTableWithClient()
     {
-        return TablesWithClient.Count <= 0 ? null : TablesWithClient.Dequeue();
+        return TablesWithClient.Count <= 0 ? null : Util.DequeueFromList(TablesWithClient);
     }
     // It gets the closest free coord next to the target
     public Vector3Int GetClosestPathGridPoint(Vector3Int target)
@@ -637,7 +660,7 @@ public class GridController : MonoBehaviour
 
     public void AddClientToTable(GameGridObject obj)
     {
-        TablesWithClient.Enqueue(obj);
+        Util.EnqueueToList(TablesWithClient, obj);
     }
 
     // Used to highlight the current object being edited
@@ -810,7 +833,6 @@ public class GridController : MonoBehaviour
         DFS(bGrid, x, y + 1);
         DFS(bGrid, x + 1, y);
     }
-
     public string DebugBussData()
     {
         string objects = "";

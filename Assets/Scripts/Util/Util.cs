@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
 
 // This will contain Utility functions, to create Unity Object and other
 public static class Util
@@ -411,4 +411,28 @@ public static class Util
         int y = pos.y;
         return (x + y) * -1;
     }
+
+    public static void EnqueueToList(List<GameGridObject> list, GameGridObject obj)
+    {
+        list.Insert(0, obj);
+    }
+
+    public static GameGridObject DequeueFromList(List<GameGridObject> list)
+    {
+        if (list.Count == 0)
+        {
+            GameLog.Log("There is no spots to dequeue");
+            return null;
+        }
+
+        GameGridObject obj = list.Last();
+        list.RemoveAt(list.Count - 1);
+        return obj;
+    }
+
+    public static GameGridObject PeekFromList(List<GameGridObject> list)
+    {
+        return list.Last();
+    }
+
 }

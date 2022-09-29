@@ -8,7 +8,7 @@ public class GameGridObject : GameObjectBase
 {
     private List<GameObject> actionTiles;
     private List<SpriteRenderer> tiles;
-    private GridController gridController;
+    private GridController Grid;
     private GameObject objectWithSprite;
     private SpriteResolver spriteResolver;
     private Transform objectTransform;
@@ -33,7 +33,7 @@ public class GameGridObject : GameObjectBase
         spriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
-        this.gridController = gridController;
+        this.Grid = gridController;
         facingPosition = position;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
@@ -66,7 +66,7 @@ public class GameGridObject : GameObjectBase
 
     private void SetID()
     {
-        string id = gridController.GetObjectCount() + 1 + "-" + Time.frameCount;
+        string id = Grid.GetObjectCount() + 1 + "-" + Time.frameCount;
         objectTransform.name = storeGameObject.Type + "." + id;
         Name = objectTransform.name;
     }
@@ -92,14 +92,19 @@ public class GameGridObject : GameObjectBase
         rotateRight.onClick.AddListener(RotateObjectRight);
     }
 
+    //Store Item in inventory
     private void StoreInInventory()
     {
         //TODO: Show POPUP confirming action
         //GameLog.Log("TODO: Storing item in Inventory " + Name);
-        gridController.playerData.StoreItem(this);
-        gridController.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current seledted in the grid 
-        gridController.FreeObject(this);
-        gridController.ReCalculateNpcStates();
+        Grid.playerData.StoreItem(this);
+        Grid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current seledted in the grid 
+        Grid.FreeObject(this);
+        if (Type == ObjectType.NPC_SINGLE_TABLE)
+        {
+            Grid.RemoveBussTable(this);
+        }
+        Grid.ReCalculateNpcStates();
         Object.Destroy(objectTransform.gameObject);
     }
 
@@ -110,10 +115,10 @@ public class GameGridObject : GameObjectBase
 
     public void UpdateCoords()
     {
-        GridPosition = gridController.GetPathFindingGridFromWorldPosition(objectTransform.position);
-        LocalGridPosition = gridController.GetLocalGridFromWorldPosition(objectTransform.position);
+        GridPosition = Grid.GetPathFindingGridFromWorldPosition(objectTransform.position);
+        LocalGridPosition = Grid.GetLocalGridFromWorldPosition(objectTransform.position);
         WorldPosition = objectTransform.position;
-        gridController.UpdateObjectPosition(this);
+        Grid.UpdateObjectPosition(this);
     }
 
     public void Hide()
@@ -160,7 +165,7 @@ public class GameGridObject : GameObjectBase
             return;
         }
 
-        Vector3Int prev = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
+        Vector3Int prev = Grid.GetPathFindingGridFromWorldPosition(GetActionTile());
         facingPosition++;
 
         if ((int)facingPosition >= 5)
@@ -168,8 +173,8 @@ public class GameGridObject : GameObjectBase
             facingPosition = ObjectRotation.FRONT;
         }
         UpdateRotation(facingPosition);
-        Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
-        gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
+        Vector3Int post = Grid.GetPathFindingGridFromWorldPosition(GetActionTile());
+        Grid.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
     }
 
@@ -182,7 +187,7 @@ public class GameGridObject : GameObjectBase
             return;
         }
 
-        Vector3Int prev = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
+        Vector3Int prev = Grid.GetPathFindingGridFromWorldPosition(GetActionTile());
         facingPosition--;
 
         if ((int)facingPosition <= 0)
@@ -191,8 +196,8 @@ public class GameGridObject : GameObjectBase
         }
 
         UpdateRotation(facingPosition);
-        Vector3Int post = gridController.GetPathFindingGridFromWorldPosition(GetActionTile());
-        gridController.SwapCoords(prev.x, prev.y, post.x, post.y);
+        Vector3Int post = Grid.GetPathFindingGridFromWorldPosition(GetActionTile());
+        Grid.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
     }
 
@@ -224,11 +229,11 @@ public class GameGridObject : GameObjectBase
 
         // we flip the object temporaly to check the new action tile position
         objectWithSprite.transform.localScale = GetRotationVector(tmp);
-        Vector3Int rotatedPosition = gridController.GetPathFindingGridFromWorldPosition(objectTransform.position);
-        Vector3Int rotatedActionTile = gridController.GetPathFindingGridFromWorldPosition(actionTiles[GetRotationActionTile(tmp)].transform.position);
+        Vector3Int rotatedPosition = Grid.GetPathFindingGridFromWorldPosition(objectTransform.position);
+        Vector3Int rotatedActionTile = Grid.GetPathFindingGridFromWorldPosition(actionTiles[GetRotationActionTile(tmp)].transform.position);
         // we flip the object back 
         objectWithSprite.transform.localScale = GetRotationVector(facingPosition);
-        if (gridController.IsFreeBussCoord(rotatedPosition) || gridController.IsFreeBussCoord(rotatedActionTile))
+        if (Grid.IsFreeBussCoord(rotatedPosition) || Grid.IsFreeBussCoord(rotatedActionTile))
         {
             return true;
         }
@@ -368,7 +373,7 @@ public class GameGridObject : GameObjectBase
     {
         usedBy = controller;
     }
-    
+
     public NPCController GetUsedBy()
     {
         return usedBy;
