@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class GridController : MonoBehaviour
 {
     //Player Data
-    public PlayerData PlayerData { get; set; }
+    public PlayerData playerData;
     //Tilemap 
     private const int WIDTH = Settings.GridWidth; // Down -> Up
     private const int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
@@ -47,7 +47,7 @@ public class GridController : MonoBehaviour
     private Queue<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
     private Queue<GameGridObject> TablesWithClient { get; set; } // Tables to attend or chairs
     private GameGridObject counter;
-    //Business floor
+    //Business floors
     private Tilemap tilemapBusinessFloor;
     private List<GameTile> listBusinessFloor;
     private Dictionary<Vector3Int, GameTile> mapBusinessFloor;
@@ -63,7 +63,7 @@ public class GridController : MonoBehaviour
         // Setting up Current money
         GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-        PlayerData = new PlayerData(20000, moneyText);
+        playerData = new PlayerData(20000, moneyText);
 
         // TILEMAP DATA 
         tilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
@@ -542,6 +542,11 @@ public class GridController : MonoBehaviour
         grid[pos.x, pos.y] = 0;
     }
 
+    public void ReCalculateNpcStates()
+    {
+        gameController.ReCalculateNpcStates();
+    }
+
     public void UpdateObjectPosition(GameGridObject gameGridObject)
     {
         grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
@@ -555,7 +560,7 @@ public class GridController : MonoBehaviour
     public void SetGridObject(GameGridObject obj)
     {
         // we add all the objects to the player inventory
-        PlayerData.Inventory.Add(obj);
+        playerData.AddItemToInventory(obj);
 
         if (obj.Type == ObjectType.NPC_COUNTER)
         {
@@ -901,6 +906,11 @@ public class GridController : MonoBehaviour
         return output;
     }
 
+    public bool IsTableStored(string nameID)
+    {
+        return playerData.IsItemStored(nameID);
+    }
+
     public int GetObjectCount()
     {
         return businessObjects.Count;
@@ -925,8 +935,12 @@ public class GridController : MonoBehaviour
         return counter;
     }
 
-    public void SetCounter(GameGridObject obj)
+    public PlayerData GetPlayerData()
     {
-        counter = obj;
+        return playerData;
+    }
+    public void SetPlayerData(PlayerData data)
+    {
+        playerData = data;
     }
 }

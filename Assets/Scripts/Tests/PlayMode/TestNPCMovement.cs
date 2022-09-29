@@ -27,7 +27,7 @@ public class TestNPCMovement
         npcObject.transform.SetParent(gridObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
         initialTestingPosition = new Vector3Int(0, 0);
-        npcController.GameGrid = gameGridController;
+        npcController.Grid = gameGridController;
     }
 
     [UnityTest]

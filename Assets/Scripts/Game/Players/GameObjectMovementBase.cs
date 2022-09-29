@@ -12,7 +12,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public float Speed { get; set; }
     public Vector3 Velocity { get; set; }
     public Vector3Int Position { get; set; } //PathFindingGrid Position
-    public GridController GameGrid { get; set; }
+    public GridController Grid { get; set; }
 
     // Movement 
     private MoveDirection moveDirection;
@@ -63,7 +63,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (!Util.IsNull(gameGridObject, "GameObjectMovementBase/gameGridObject null"))
         {
-            GameGrid = gameGridObject.GetComponent<GridController>();
+            Grid = gameGridObject.GetComponent<GridController>();
         }
 
         // Movement Queue
@@ -112,7 +112,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdatePosition()
     {
-        Position = GameGrid.GetPathFindingGridFromWorldPosition(transform.position);
+        Position = Grid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
         sortingLayer.sortingOrder =  Util.GetSorting(Position);
     }
@@ -206,7 +206,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
         Vector3 direction =
-            GameGrid.GetWorldFromPathFindingGridPositionWithOffSet(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
+            Grid.GetWorldFromPathFindingGridPositionWithOffSet(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
         currentTargetPosition = new Vector3(direction.x, direction.y);
     }
 
@@ -334,8 +334,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             if (Settings.CellDebug)
             {
-                Vector3 from = GameGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
-                Vector3 to = GameGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
+                Vector3 from = Grid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
+                Vector3 to = Grid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
                 Debug.DrawLine(from, to, Color.yellow, 15f);
             }
 
@@ -357,7 +357,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             UpdatePosition();
             Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector3Int mouseInGridPosition = GameGrid.GetPathFindingGridFromWorldPosition(mousePosition);
+            Vector3Int mouseInGridPosition = Grid.GetPathFindingGridFromWorldPosition(mousePosition);
             GoTo(mouseInGridPosition);
         }
     }
@@ -385,7 +385,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public bool GoTo(Vector3Int pos)
     {
-        List<Node> path = GameGrid.GetPath(new[] { Position.x, Position.y }, new[] { pos.x, pos.y });
+        List<Node> path = Grid.GetPath(new[] { Position.x, Position.y }, new[] { pos.x, pos.y });
 
         if (path.Count == 0)
         {

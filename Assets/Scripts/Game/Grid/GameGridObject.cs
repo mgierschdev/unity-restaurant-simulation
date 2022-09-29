@@ -13,7 +13,6 @@ public class GameGridObject : GameObjectBase
     private SpriteResolver spriteResolver;
     private Transform objectTransform;
     private int actionTile;
-
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
     private ObjectRotation facingPosition; // Facing position
@@ -74,7 +73,7 @@ public class GameGridObject : GameObjectBase
 
     public void Init()
     {
-        // SetID();
+        SetID();
         Hide();
     }
 
@@ -97,10 +96,10 @@ public class GameGridObject : GameObjectBase
     {
         //TODO: Show POPUP confirming action
         //GameLog.Log("TODO: Storing item in Inventory " + Name);
-        gridController.PlayerData.StoreItem(this);
+        gridController.playerData.StoreItem(this);
         gridController.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current seledted in the grid 
         gridController.FreeObject(this);
-        //gridController.FreeCoord();
+        gridController.ReCalculateNpcStates();
         Object.Destroy(objectTransform.gameObject);
     }
 
@@ -345,34 +344,14 @@ public class GameGridObject : GameObjectBase
         }
     }
 
-    public void SetStoreGameObject(StoreGameObject obj)
-    {
-        storeGameObject = obj;
-    }
-
     public StoreGameObject GetStoreGameObject()
     {
         return storeGameObject;
     }
 
-    public void SetSpriteRenderer(SpriteRenderer renderer)
-    {
-        spriteRenderer = renderer;
-    }
-
     public SpriteRenderer GetSpriteRenderer()
     {
         return spriteRenderer;
-    }
-
-    public void SetFacingPosition(ObjectRotation rotation)
-    {
-        facingPosition = rotation;
-    }
-
-    public ObjectRotation GetFacingPosition()
-    {
-        return facingPosition;
     }
 
     public bool GetBusy()
@@ -389,19 +368,9 @@ public class GameGridObject : GameObjectBase
     {
         usedBy = controller;
     }
-
+    
     public NPCController GetUsedBy()
     {
         return usedBy;
-    }
-
-    public GameObject GetEditMenu()
-    {
-        return editMenu;
-    }
-
-    public void SetEditMenu(GameObject obj)
-    {
-        editMenu = obj;
     }
 }
