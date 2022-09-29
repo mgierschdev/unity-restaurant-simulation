@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 namespace Game.Players
 {
@@ -8,7 +9,8 @@ namespace Game.Players
         private double money;
         private TextMeshProUGUI moneyText;
         private List<GameGridObject> storedIventory;
-        public List<GameGridObject> Inventory { get; set; }
+        private List<GameGridObject> Inventory;
+        private HashSet<string> setStoredInventory; // Saved stored inventory by ID
 
         public PlayerData(double money, TextMeshProUGUI moneyText)
         {
@@ -17,6 +19,7 @@ namespace Game.Players
             moneyText.text = GetMoney();
             Inventory = new List<GameGridObject>();
             storedIventory = new List<GameGridObject>();
+            setStoredInventory = new HashSet<string>();
         }
 
         public void AddMoney(double amount)
@@ -49,10 +52,28 @@ namespace Game.Players
         {
             return money;
         }
-        
-        public void StoreItem(GameGridObject obj){
+
+        public void StoreItem(GameGridObject obj)
+        {
             storedIventory.Add(obj);
-            GameLog.Log("Stored items: "+storedIventory.Count);
+            setStoredInventory.Add(obj.Name);
+            GameLog.Log("Stored items: " + storedIventory.Count);
+        }
+
+        public bool IsItemStored(string nameID)
+        {
+            // Debug.Log("does set contain  " + nameID + " " + setStoredInventory.Contains(nameID) + " " + setStoredInventory.Count);
+            // Debug.Log("Priting set ");
+            // foreach (string s in setStoredInventory)
+            // {
+            //     Debug.Log("s : " + s);
+            // }
+            return setStoredInventory.Contains(nameID);
+        }
+
+        public void AddItemToInventory(GameGridObject obj)
+        {
+            Inventory.Add(obj);
         }
     }
 }

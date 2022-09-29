@@ -303,7 +303,7 @@ public class MenuHandlerController : MonoBehaviour
             GameObject img = item.transform.Find(Settings.PrefabInventoryItemImage).gameObject;
             Image image = img.GetComponent<Image>();
             //Adding click listener
-            if (obj.Cost <= gridController.PlayerData.GetMoneyDouble())
+            if (obj.Cost <= gridController.playerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(obj));
             }
@@ -349,9 +349,9 @@ public class MenuHandlerController : MonoBehaviour
 
     private void OpenStoreEditPanel(StoreGameObject obj)
     {
-        if (!gridController.PlayerData.CanSubtract(obj.Cost))
+        if (!gridController.playerData.CanSubtract(obj.Cost))
         {
-            GameLog.Log("TODO: Insufficient funds " + gridController.PlayerData.GetMoney());
+            GameLog.Log("TODO: Insufficient funds " + gridController.playerData.GetMoney());
             return;
         }
 
@@ -366,7 +366,7 @@ public class MenuHandlerController : MonoBehaviour
 
         if (gridController.PlaceGameObject(obj))
         {
-            gridController.PlayerData.Subtract(obj.Cost);
+            gridController.playerData.Subtract(obj.Cost);
             // GameLog.Log("TODO: Object Placed discounting " + (-obj.Cost));
         }
         else

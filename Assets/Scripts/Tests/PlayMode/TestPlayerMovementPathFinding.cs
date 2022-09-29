@@ -24,7 +24,7 @@ public class TestPlayerMovementPathFinding
         playerObject = Transform.Instantiate(Resources.Load(Settings.PrefabPlayer, typeof(GameObject)), initialTestingPosition, Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(gridObject.transform);
         playerController = playerObject.GetComponent<PlayerController>();
-        playerController.GameGrid = gameGridController;
+        playerController.Grid = gameGridController;
     }
 
     [UnityTest]

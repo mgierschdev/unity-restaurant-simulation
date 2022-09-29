@@ -25,13 +25,13 @@ public class TestNPCMovementPathFinding
         firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
         firstNPCObject.transform.SetParent(gridObject.transform);
         firstNPCController = firstNPCObject.GetComponent<NPCController>();
-        firstNPCController.GameGrid = gameGridController;
+        firstNPCController.Grid = gameGridController;
         // Second NPC
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject))) as GameObject;
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
         secondNPCObject.transform.SetParent(gridObject.transform);
         secondNPCController = secondNPCObject.GetComponent<NPCController>();
-        secondNPCController.GameGrid = gameGridController;
+        secondNPCController.Grid = gameGridController;
 
         initialTestingPosition = new Vector3Int(1, 1);
     }

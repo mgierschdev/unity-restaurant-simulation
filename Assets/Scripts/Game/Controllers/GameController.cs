@@ -81,10 +81,30 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    //Recalculates the paths of moving NPCs, so they wont go over tables
-    public void ReCalculatePaths()
+    //Recalculates the paths of moving NPCs or they current state depending on whether the grid changed
+    public void ReCalculateNpcStates()
     {
+        foreach (NPCController npcController in NpcSet)
+        {
+            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE_1)
+            {
 
+                //Debug.Log("NPCs on walking state " + npcController.Name + " waking to " + npcController.GetTable().Name);
+                if (npcController.CheckIfTableIsStored())
+                {
+                    //Debug.Log("Stored: " + npcController.Name + " " + npcController.GetNpcState() + " " + (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE_1));
+                }
+                else
+                {
 
+                    //Debug.Log("Recalculating Goto ");
+                    npcController.RecalculateGoTo();
+                }
+            }
+            else
+            {
+                //Debug.Log("NPC " + npcController.Name + " " + npcController.GetNpcState() + " " + (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE_1));
+            }
+        }
     }
 }
