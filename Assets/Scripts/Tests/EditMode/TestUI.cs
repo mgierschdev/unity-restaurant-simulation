@@ -9,10 +9,8 @@ public class TestUI
         GameObject panel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
         Transform inventory = panel.transform.Find(Settings.ConstLeftDownMenuInventory);
         Transform store = panel.transform.Find(Settings.ConstLeftDownMenuStore);
-        Transform employees = panel.transform.Find(Settings.ConstLeftDownMenuEmployees);
         Assert.NotNull(panel);
         Assert.NotNull(store);
-        Assert.NotNull(employees);
         Assert.NotNull(inventory);
     }
 

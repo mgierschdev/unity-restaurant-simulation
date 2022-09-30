@@ -1,7 +1,7 @@
 public static class Settings
 {
     // DEBUG parameters
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
 
     // Player Config
@@ -78,7 +78,6 @@ public static class Settings
     // UI: Menu
     public const string ConstLeftDownMenuInventory = "Inventory";
     public const string ConstLeftDownMenuStore = "Store";
-    public const string ConstLeftDownMenuEmployees = "Employees";
 
     // UI: Camera
     public const bool CameraPerspectiveHand = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER

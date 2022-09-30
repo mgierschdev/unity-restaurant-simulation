@@ -4,6 +4,7 @@ using Game.Players;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 // This will be only element attached in the UI
 // All the bottom calls will be handled by this class.
@@ -30,6 +31,7 @@ public class MenuHandlerController : MonoBehaviour
     private PlayerData playerData;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
+    private Image backgroundMenuImage;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -46,6 +48,11 @@ public class MenuHandlerController : MonoBehaviour
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
         editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
+
+        //Background menu image
+        backgroundMenuImage = GetComponent<Image>();
+        Button backgroundMenuImageButton = GetComponent<Button>();
+        backgroundMenuImageButton.onClick.AddListener(CloseMenu);
 
         // Menu Body
         // TODO: repeated code 
@@ -82,18 +89,11 @@ public class MenuHandlerController : MonoBehaviour
         openedTime = 0;
     }
 
-    private void Update()
+    //Detect if a click occurs
+    public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (Input.GetMouseButton(0) && CanCloseOnClickOutside() && !clickController.IsLongClick && IsClickOutside())
-        {
-            CloseMenu();
-        }
-
-        //Min amount of time the the menu has to be open before activating -> closing on click outside
-        TimeControl();
-
-        // Checks for clicks to the objects in the UI
-        CheckCLickControl();
+        //Output to console the clicked GameObject's name and the following message. You can replace this with your own actions for when clicking the GameObject.
+        Debug.Log(name + " Game Object Clicked!");
     }
 
     private void TimeControl()
@@ -334,10 +334,6 @@ public class MenuHandlerController : MonoBehaviour
         GameObject inventory = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuInventory).gameObject;
         Button bInventory = inventory.GetComponent<Button>();
         bInventory.onClick.AddListener(OpenEditPanel);
-
-        GameObject employees = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuEmployees).gameObject;
-        Button bEmployees = employees.GetComponent<Button>();
-        bEmployees.onClick.AddListener(ItemClicked);
     }
 
     private void SetEditStorePanelClickListeners()
