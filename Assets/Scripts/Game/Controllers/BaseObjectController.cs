@@ -54,6 +54,7 @@ public class BaseObjectController : MonoBehaviour
         Grid.SetActiveGameGridObject(gameGridObject);
         initialActionTileOne = Grid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         initialPosition = transform.position;
+        Grid.SetDraggingObject(true);
     }
 
     private void OnMouseDrag()
@@ -87,7 +88,6 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
-        Grid.SetDraggingObject(true);
     }
 
     // Called when the mouse is released 
