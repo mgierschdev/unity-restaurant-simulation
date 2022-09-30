@@ -161,7 +161,6 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (localState == NpcState.WALKING_TO_TABLE_1)
         {
-            Debug.Log("Recalculating path");
             GoToTableToBeAttended();
         }
         else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER_9 || localState == NpcState.WALKING_TO_COUNTER_3)

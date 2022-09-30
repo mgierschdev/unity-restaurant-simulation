@@ -357,7 +357,7 @@ public class MenuHandlerController : MonoBehaviour
         // GameLog.Log("Object to find a Place for " + obj.Name);
         // we fix the camera in case the player is zoomed
         CloseAllMenus();
-        gridController.HighlightGridBussFloor();
+        //gridController.HighlightGridBussFloor();
 
         // Load test debug
         // StartCoroutine(TestPlacingObjects(obj));
@@ -401,7 +401,7 @@ public class MenuHandlerController : MonoBehaviour
     {
         // we fix the camera in case the player is zoomed
         CloseAllMenus();
-        gridController.HighlightGridBussFloor();
+        //gridController.HighlightGridBussFloor();
         PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);

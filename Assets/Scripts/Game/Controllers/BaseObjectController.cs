@@ -129,7 +129,7 @@ public class BaseObjectController : MonoBehaviour
                 gameGridObject.GetUsedBy().RecalculateGoTo();
 
             }else if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE){
-                
+                Debug.Log("GOing to final state IsDraggable "+transform.name);
                 gameGridObject.GetUsedBy().GoToFinalState();
                 gameGridObject.FreeObject();
                 Grid.AddFreeBusinessSpots(gameGridObject);
