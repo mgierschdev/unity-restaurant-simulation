@@ -55,7 +55,6 @@ namespace Game.Players
 
         public void StoreItem(GameGridObject obj)
         {
-            Debug.Log("Is table stored: " + obj.Name);
             storedIventory.Add(obj);
             setStoredInventory.Add(obj.Name);
         }
