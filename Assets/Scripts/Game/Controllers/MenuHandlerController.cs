@@ -30,6 +30,7 @@ public class MenuHandlerController : MonoBehaviour
     private PlayerData playerData;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
+    private MenuBackgroundController menuBackgroundController;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -46,6 +47,13 @@ public class MenuHandlerController : MonoBehaviour
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
         editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
         GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
+
+        //Menu Background Controller 
+        menuBackgroundController = GameObject.Find(Settings.MenuContainer).GetComponent<MenuBackgroundController>();
+        if (menuBackgroundController == null)
+        {
+            Debug.Log("MenuHandlerController.cs/menuBackgroundController is null");
+        }
 
         // Menu Body
         // TODO: repeated code 
@@ -186,6 +194,11 @@ public class MenuHandlerController : MonoBehaviour
 
     public void CloseMenu()
     {
+        //We disable the image menu backgrounds
+        if(menuBackgroundController.IsActive()){
+            menuBackgroundController.Disable();
+        }
+
         if (menuStack.Count > 0)
         {
             MenuItem menu = menuStack.Pop();
@@ -217,6 +230,9 @@ public class MenuHandlerController : MonoBehaviour
         {
             HandleTimeScale();
         }
+
+        // we enable menu background
+        menuBackgroundController.Enable();
     }
 
     private void HandleTimeScale()
@@ -344,7 +360,7 @@ public class MenuHandlerController : MonoBehaviour
         gridController.HighlightGridBussFloor();
 
         // Load test debug
-        //StartCoroutine(TestPlacingObjects(obj));
+        // StartCoroutine(TestPlacingObjects(obj));
         // Load test debug
 
         if (gridController.PlaceGameObject(obj))
@@ -361,6 +377,8 @@ public class MenuHandlerController : MonoBehaviour
         PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
+        //enabling background image
+        menuBackgroundController.Disable();
     }
     IEnumerator TestPlacingObjects(StoreGameObject obj)
     {
@@ -378,7 +396,7 @@ public class MenuHandlerController : MonoBehaviour
         // Debug.Log("Finished Coroutine at timestamp : " + Time.time);
         yield return new WaitForSeconds(0);
     }
-
+    
     private void OpenEditPanel()
     {
         // we fix the camera in case the player is zoomed
@@ -387,6 +405,8 @@ public class MenuHandlerController : MonoBehaviour
         PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
+        // We disable 
+        menuBackgroundController.Disable();
     }
 
     private void OpenEmployeePanel()
