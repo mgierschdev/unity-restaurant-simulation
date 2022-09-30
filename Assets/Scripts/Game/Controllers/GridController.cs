@@ -627,7 +627,11 @@ public class GridController : MonoBehaviour
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
         BusyBusinessSpotsMap.Remove(obj.Name);
-        FreeBusinessSpotsMap.Add(obj.Name, obj);
+
+        if (!FreeBusinessSpotsMap.ContainsKey(obj.Name))
+        {
+            FreeBusinessSpotsMap.Add(obj.Name, obj);
+        }
 
         if (!FreeBusinessSpots.Contains(obj))
         {

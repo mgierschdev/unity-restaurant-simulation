@@ -97,7 +97,6 @@ public class NPCController : GameObjectMovementBase
     {
         if ((localState == NpcState.WAITING_TO_BE_ATTENDED_7) && !table.GetBusy())
         {
-            Debug.Log("Waiting to be attended, go to final state " + transform.name);
             GoToFinalState();
         }
     }
@@ -170,7 +169,6 @@ public class NPCController : GameObjectMovementBase
 
     public void GoToFinalState()
     {
-        Debug.Log("GoToFinalState " + transform.name);
         table = null;
         localState = NpcState.WALKING_UNRESPAWN_8;
         unRespawnTile = Grid.GetRandomSpamPointWorldPosition();

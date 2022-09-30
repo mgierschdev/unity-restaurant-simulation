@@ -71,8 +71,7 @@ public class EmployeeController : GameObjectMovementBase
         if (localState == NpcState.WALKING_TO_TABLE_1 && stateTime >= 3f)
         {
             //GameLog.Log("NPC stuck restarting");
-            ResetMovement(); // we stop the player from moving
-            RestartState(); // we reset the state
+            ResetState();
         }
 
         animationController.SetState(localState);
@@ -155,9 +154,10 @@ public class EmployeeController : GameObjectMovementBase
 
     public void RecalculateState(GameGridObject obj)
     {
-        if (obj == tableToBeAttended || obj.Type == ObjectType.NPC_COUNTER)
+
+        if (obj == tableToBeAttended)
         {
-            ResetState();
+            RestartState();
         }
         else if (localState == NpcState.WALKING_TO_TABLE_1)
         {
@@ -242,9 +242,10 @@ public class EmployeeController : GameObjectMovementBase
         localState = NpcState.WALKING_TO_COUNTER_3;
         if (tableToBeAttended != null)
         {
+            Grid.AddFreeBusinessSpots(tableToBeAttended);
             tableToBeAttended.SetBusy(false);
+            tableToBeAttended = null;
         }
-        tableToBeAttended = null;
     }
 
     public NpcState GetNpcState()

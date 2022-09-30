@@ -92,7 +92,6 @@ public class GameController : MonoBehaviour
             {
                 if (Grid.IsTableStored(npcController.GetTable().Name))
                 {
-                    Debug.Log("Resetting NPC state: "+npcController.Name);
                     //The table is stored, NPC state reseted
                     npcController.GoToFinalState();
                 }
