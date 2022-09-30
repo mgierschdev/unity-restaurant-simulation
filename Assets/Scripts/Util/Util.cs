@@ -354,8 +354,8 @@ public static class Util
 
         GameLog.LogWarning(message);
         return true;
-
     }
+    
     public static bool IsNull(GridController gameObject, string message)
     {
         if (gameObject == null)
