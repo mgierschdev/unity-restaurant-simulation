@@ -43,6 +43,7 @@ public static class Settings
     public const string PrefabNpcClient = "Players/Client";
     public const string PrefabNpcEmployee = "Players/Employee";
     public const string PrefabInventoryItem = "Menu/InventoryItem";
+    public const string MenuBackground = "MenuBackground";
     public const string PrefabInventoryItemImage = "Image";
     public const string PrefabInventoryItemTextPrice = "Image/TextBackground/Price";
     public const string BaseObjectUnderTile = "Object/Tiles/UnderTile";
