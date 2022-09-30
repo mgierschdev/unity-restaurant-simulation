@@ -92,10 +92,12 @@ public class NPCController : GameObjectMovementBase
         }
     }
 
+    // Setted after the client has been attended 
     private void UpdateTableAttended()
     {
         if ((localState == NpcState.WAITING_TO_BE_ATTENDED_7) && !table.GetBusy())
         {
+            Debug.Log("Waiting to be attended, go to final state " + transform.name);
             GoToFinalState();
         }
     }
@@ -145,6 +147,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (table != null)
             {
+                Debug.Log("Resetting NPC state (GoToWalkingToTable " + transform.name);
                 table.SetUsed(null);
                 Grid.AddFreeBusinessSpots(table);
                 table = null;
@@ -167,6 +170,7 @@ public class NPCController : GameObjectMovementBase
 
     public void GoToFinalState()
     {
+        Debug.Log("GoToFinalState " + transform.name);
         table = null;
         localState = NpcState.WALKING_UNRESPAWN_8;
         unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
