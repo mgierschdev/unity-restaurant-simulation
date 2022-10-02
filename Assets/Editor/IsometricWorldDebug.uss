@@ -1,0 +1,19 @@
+.grid-cell-empty {
+    width: 30px;
+    height: 30px;
+    border-left-color: rgba(0, 0, 0, 255);
+    border-right-color: rgba(0, 0, 0, 255);
+    border-top-color: rgba(0, 0, 0, 255);
+    border-bottom-color: rgba(0, 0, 0, 255);
+    background-color: rgba(255, 255, 255, 255);
+}
+
+.grid-cell-busy {
+    width: 30px;
+    height: 30px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    background-color: rgb(44, 218, 238);
+}
