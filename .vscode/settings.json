@@ -50,7 +50,10 @@
         "Obj/":true,
         "ProjectSettings/":true,
         "temp/":true,
-        "Temp/":true
+        "Temp/":true,
+        ".idea":true,
+        "UIElementsSchema":true,
+        "Assets/RenderPipeline/process_symbols.sh":true
     },
     "cSpell.words": [
         "Behaviour",

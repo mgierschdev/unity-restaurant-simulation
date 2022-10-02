@@ -67,8 +67,7 @@ public class IsometricWorldDebug : EditorWindow
     private void Update()
     {
         if (gridDebugEnabled && gameGridController)
-        {
-            
+        {   
             gridDebugContent.text = gameGridController.BussGridToText();
             gridDebugContent.text += gameGridController.DebugBussData();
             gridDebugContent.text += gameGridController.EntireGridToText();
