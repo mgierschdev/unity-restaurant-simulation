@@ -1,6 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Editor/IsometricWorldDebug.uss?fileID=7433441132597879392&amp;guid=4254b8d6461fc4763ba4b32c539198f5&amp;type=3#IsometricWorldDebug" />
     <ui:Button text="Enable Grid Debug" display-tooltip-when-elided="true" name="GridDebugButton" />
     <ui:VisualElement>
         <ui:Label text="Grid Debug view" name="GridDebug" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Grid-display" style="flex-wrap: wrap; width: 300px; flex-direction: row;">
+        <ui:VisualElement name="Cell" style="width: 30px; height: 30px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" />
+        <ui:VisualElement name="Cell" class="grid-cell-busy" />
+        <ui:VisualElement name="Cell" style="width: 30px; height: 30px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" />
     </ui:VisualElement>
 </ui:UXML>
