@@ -201,6 +201,7 @@ public class EmployeeController : GameObjectMovementBase
         tableToBeAttended = null;
         if (!GoToCounter())
         {
+            GameLog.LogWarning("Retryng: could not go to counter UpdateOrderAttended_6()");
             while (!GoToCounter() && Grid.GetCounter() != null) { }
         }
     }
@@ -268,6 +269,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             tableToBeAttended = Grid.GetTableWithClient();
         }
+
         Vector3Int localTarget = Grid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
         CoordOfTableToBeAttended = Grid.GetClosestPathGridPoint(localTarget);
 
@@ -281,7 +283,8 @@ public class EmployeeController : GameObjectMovementBase
         target = CoordOfTableToBeAttended;
         if (!GoTo(target))
         {
-            GameLog.Log("We could not find a path - GoToTableToBeAttended()");
+            GameLog.LogWarning("Retrying: We could not find a path - GoToTableToBeAttended()");
+            while (!GoTo(target) && tableToBeAttended != null) { }
             return;
         }
     }
