@@ -118,7 +118,7 @@ public class TestPathFind
         path.Clear();
 
         expected.Add(new Node(new int[] { 0, 1 }));
-        expected.Add(new Node(new int[] { 1, 2 }));
+        expected.Add(new Node(new int[] { 1, 0 }));
         expected.Add(new Node(new int[] { 2, 1 }));
 
         grid[1, 1] = 1;

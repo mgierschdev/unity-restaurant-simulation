@@ -100,9 +100,8 @@ public static class Settings
     public const string MainCamera = "MainCamera";
 
     //Tiles
-    private const string GRID_TILES = "Grid/Tiles/";
-    public const string GridTilesSimple = GRID_TILES + "GridTile";
-    public const string GridTilesHighlightedFloor = GRID_TILES + "HighlightedFloor@3x";
+    public const string GridTilesSimple = "Grid/Tiles/GridTile";
+    public const string GridTilesHighlightedFloor = "Grid/Tiles/HighlightedFloor@3x";
 
     // Grid Config
     public const float GridCellSize = 0.25f; // 0.25f default

@@ -123,6 +123,10 @@ PrefabInstance:
       propertyPath: m_SpriteKey
       value: 2.2489447e+15
       objectReference: {fileID: 0}
+    - target: {fileID: 4895760049815476997, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Name
+      value: aButtonRotateLeft
+      objectReference: {fileID: 0}
     - target: {fileID: 5439260514915873288, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Color.a
       value: 0
