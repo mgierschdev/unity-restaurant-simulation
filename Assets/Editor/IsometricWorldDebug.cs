@@ -14,8 +14,10 @@ public class IsometricWorldDebug : EditorWindow
     private VisualElement gridDisplay;
     private TemplateContainer templateContainer;
     private VisualElement cell;
-    private const string EMPTY_CELL_STYLE ="grid-cell-empty";
-    private const string BUSY_CELL_STYLE ="grid-cell-busy";
+    private Button buttonStartDebug;
+    private VisualElement mainContainer;
+    private const string EMPTY_CELL_STYLE = "grid-cell-empty";
+    private const string BUSY_CELL_STYLE = "grid-cell-busy";
 
     [UnityEditor.MenuItem("Custom/IsometricWorldDebug")]
     public static void ShowExample()
@@ -43,15 +45,23 @@ public class IsometricWorldDebug : EditorWindow
 
 
         // Setting up Variables
+        buttonStartDebug = templateContainer.Q<Button>("GridDebugButton");
+        buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
+        buttonStartDebug.text = "In order to start, enter in Play mode";
         gridDebugContent = templateContainer.Q<Label>("GridDebug");
         gridDisplay = templateContainer.Q<VisualElement>("GridDisplay");
         cell = templateContainer.Q<VisualElement>("Cell");
+        mainContainer = templateContainer.Q<VisualElement>("MainContainer");
+        mainContainer.SetEnabled(false);
         //cell.AddToClassList("grid-cell-empty");
 
+        //button.text = "";
+
         //Set button hanflers
-        SetupButtonHandler();
+       // SetupButtonHandler();
     }
 
+    // This iterates all buttons 
     private void SetupButtonHandler()
     {
         var buttons = rootVisualElement.Query<Button>();
@@ -76,20 +86,26 @@ public class IsometricWorldDebug : EditorWindow
         {
             button.text = "Start Debug";
             gridDebugEnabled = false;
+            mainContainer.SetEnabled(false);
         }
         else
         {
             button.text = "Stop Debug";
             gridDebugEnabled = true;
+            mainContainer.SetEnabled(true);
         }
     }
     private void Update()
     {
-        if (gridDebugEnabled && Grid)
+        if (!EditorApplication.isPlaying)
         {
-            BussGridToText();
-            gridDebugContent.text += DebugBussData();
-            gridDebugContent.text += EntireGridToText();
+            if (gridDebugEnabled && Grid)
+            {
+                BussGridToText();
+                gridDebugContent.text += DebugBussData();
+                gridDebugContent.text += EntireGridToText();
+            }
+
         }
     }
 
@@ -114,6 +130,9 @@ public class IsometricWorldDebug : EditorWindow
 
             busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
         }
+
+        //We set the max size of the editor display
+        Debug.Log("Size: " + (maxX - minX));
 
         for (int i = minX; i <= maxX; i++)
         {
