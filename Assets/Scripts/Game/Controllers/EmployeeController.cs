@@ -202,7 +202,7 @@ public class EmployeeController : GameObjectMovementBase
         if (!GoToCounter())
         {
             GameLog.LogWarning("Retryng: could not go to counter UpdateOrderAttended_6()");
-            while (!GoToCounter() && Grid.GetCounter() != null) { }
+            //while (!GoToCounter() && Grid.GetCounter() != null) { }
         }
     }
 
@@ -284,7 +284,7 @@ public class EmployeeController : GameObjectMovementBase
         if (!GoTo(target))
         {
             GameLog.LogWarning("Retrying: We could not find a path - GoToTableToBeAttended()");
-            while (!GoTo(target) && tableToBeAttended != null) { }
+            //while (!GoTo(target) && tableToBeAttended != null) { }
             return;
         }
     }
