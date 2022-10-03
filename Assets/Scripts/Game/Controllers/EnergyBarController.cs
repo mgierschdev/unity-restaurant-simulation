@@ -6,11 +6,10 @@ public class EnergyBarController : MonoBehaviour
 {
     private Slider Slider { get; set; }
     private EnergyBarController energyBar;
-    private bool Visible { get; set; }
 
     public void Start()
     {
-        Visible = false;
+
         Slider = GetComponent<Slider>();
 
         if (Slider == null)
@@ -30,21 +29,20 @@ public class EnergyBarController : MonoBehaviour
         Slider.maxValue = maxEnergy;
         Slider.value = maxEnergy;
     }
-    
+
     public void SetInactive()
     {
-        Visible = false;
+
         gameObject.SetActive(false);
     }
 
     public void SetActive()
     {
-        Visible = true;
         gameObject.SetActive(true);
     }
 
     public bool IsActive()
     {
-        return Visible;
+        return gameObject.activeSelf;
     }
 }
