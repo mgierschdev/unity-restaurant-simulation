@@ -624,6 +624,7 @@ public class GridController : MonoBehaviour
         }
     }
 
+    //TODO: To implement in gameController
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
         busyBusinessSpotsMap.Remove(obj.Name);
@@ -664,6 +665,10 @@ public class GridController : MonoBehaviour
 
     public void AddClientToTable(GameGridObject obj)
     {
+        if(tablesWithClient.Contains(obj)){
+            return;
+        }
+        
         Util.EnqueueToList(tablesWithClient, obj);
     }
 
