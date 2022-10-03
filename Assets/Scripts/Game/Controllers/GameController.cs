@@ -102,4 +102,14 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    public HashSet<NPCController> GetNpcSet()
+    {
+        return NpcSet;
+    }
+
+    public EmployeeController GetEmployeeController()
+    {
+        return employeeController;
+    }
 }

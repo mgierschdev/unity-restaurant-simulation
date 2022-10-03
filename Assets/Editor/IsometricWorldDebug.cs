@@ -13,6 +13,7 @@ public class IsometricWorldDebug : EditorWindow
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
     private VisualElement mainContainer;
+    private GameController gameController;
     private const string EMPTY_CELL_STYLE = "grid-cell-empty";
     private const string BUSY_CELL_STYLE = "grid-cell-busy";
     private const string ACTION_CELL_STYLE = "grid-cell-action";
@@ -29,6 +30,11 @@ public class IsometricWorldDebug : EditorWindow
         //Loading grid controller
         GameObject grid = GameObject.Find(Settings.GameGrid);
         Grid = grid.GetComponent<GridController>();
+        gridDebugEnabled = false;
+
+        //Loading grid controller
+        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
+        gameController = gameObj.GetComponent<GameController>();
         gridDebugEnabled = false;
 
         // Each editor window contains a root VisualElement object
@@ -94,10 +100,11 @@ public class IsometricWorldDebug : EditorWindow
             if (gridDebugEnabled && Grid)
             {
                 SetBussGrid();
-                string deubgText = " ";
-                deubgText += DebugBussData();
+                string debugText = " ";
+                debugText += DebugBussData();
+                debugText += GetPlayerStates();
                 //deubgText += EntireGridToText();, This will print the entire grid
-                gridDebugContent.text = deubgText;
+                gridDebugContent.text = debugText;
             }
             else
             {
@@ -195,39 +202,39 @@ public class IsometricWorldDebug : EditorWindow
         maps += "Queue FreeBusinessSpots size: " + Grid.GetFreeBusinessSpots().Count + "\n";
         foreach (GameGridObject g in Grid.GetFreeBusinessSpots())
         {
-            maps += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+            maps += "<b>" + g.Name + "</b> \n";
         }
 
-        maps += "\n\n\n";
+        maps += "\n\n";
 
         maps += "Queue TablesWithClient size: " + Grid.GetTablesWithClient().Count + "\n";
         foreach (GameGridObject g in Grid.GetTablesWithClient())
         {
-            maps += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+            maps += "<b>" + g.Name + "</b> \n";
         }
 
-        maps += "\n\n\n";
+        maps += "\n\n";
 
         objects += "businessObjects size: " + Grid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in Grid.GetBusinessObjects().Values)
         {
-            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+            objects += "<b>" + g.Name + "</b> \n";
         }
 
-        objects += "\n\n\n";
+        objects += "\n\n";
 
         objects += "BusyBusinessSpotsMap size: " + Grid.GetBusyBusinessSpotsMap().Count + " \n";
         foreach (GameGridObject g in Grid.GetBusyBusinessSpotsMap().Values)
         {
-            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+            objects += "<b>" + g.Name + "</b>\n";
         }
 
-        objects += "\n\n\n";
+        objects += "\n\n";
 
         objects += "FreeBusinessSpotsMap size: " + Grid.GetFreeBusinessSpotsMap().Count + " \n";
         foreach (GameGridObject g in Grid.GetFreeBusinessSpotsMap().Values)
         {
-            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
+            objects += "<b>" + g.Name + "</b>\n";
         }
 
         return maps + " " + objects;
@@ -251,6 +258,15 @@ public class IsometricWorldDebug : EditorWindow
                 }
             }
             output += "\n";
+        }
+        return output;
+    }
+
+    private string GetPlayerStates(){
+        string output = "Employe and Client states: \n";
+        output += gameController.GetEmployeeController().Name+" State: "+gameController.GetEmployeeController().GetNpcState() +" \n";
+        foreach(NPCController current in gameController.GetNpcSet()){
+            output += current.Name+" State: "+current.GetNpcState() +" \n";
         }
         return output;
     }
