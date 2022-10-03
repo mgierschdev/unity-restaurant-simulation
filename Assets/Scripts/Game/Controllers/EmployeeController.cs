@@ -200,14 +200,16 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER || localState == NpcState.WALKING_TO_COUNTER)
         {
-            GoToCounter();
+            if(!GoToCounter()){
+                localState = NpcState.IDLE;
+            }
         }
     }
 
-    private void GoToCounter()
+    private bool GoToCounter()
     {
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
-        GoTo(target);
+        return GoTo(target);
     }
     private void GoToTableToBeAttended()
     {
@@ -238,7 +240,11 @@ public class EmployeeController : GameObjectMovementBase
 
     private void RestartStateAfterAttendingTable()
     {
-        GoToCounter();
+        if(!GoToCounter()){
+            localState = NpcState.IDLE;
+            return;
+        }
+
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         Grid.AddFreeBusinessSpots(tableToBeAttended);
         tableToBeAttended.SetBusy(false);
@@ -248,7 +254,12 @@ public class EmployeeController : GameObjectMovementBase
     private void RestartState()
     {
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
-        GoTo(target);
+
+        if(!GoTo(target)){
+            localState = NpcState.IDLE;
+            return;
+        }
+
         localState = NpcState.WALKING_TO_COUNTER;
         if (tableToBeAttended != null)
         {
