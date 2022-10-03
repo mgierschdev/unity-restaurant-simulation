@@ -64,7 +64,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateTakeOrder_5();
         }
-        else if (localState == NpcState.TAKING_ORDER && CurrentEnergy >= 100)
+        else if (localState == NpcState.TAKING_ORDER && CurrentEnergy >= 99)
         {
             UpdateOrderAttended_6();
         }
@@ -76,7 +76,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateRegisterCash_8();
         }
-        else if (localState == NpcState.REGISTERING_CASH && CurrentEnergy >= 100)
+        else if (localState == NpcState.REGISTERING_CASH && CurrentEnergy >= 99)
         {
             UpdateFinishRegistering_9();
         }
@@ -94,11 +94,11 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         //Defult time to restart
-        if (localState == NpcState.WALKING_TO_TABLE && stateTime >= 3f)
-        {
-            //GameLog.Log("NPC stuck restarting");
-            ResetState();
-        }
+        // if (localState == NpcState.WALKING_TO_TABLE && stateTime >= 3f)
+        // {
+        //     //GameLog.Log("NPC stuck restarting");
+        //     ResetState();
+        // }
 
         animationController.SetState(localState);
         idleTime += Time.deltaTime;
@@ -156,7 +156,15 @@ public class EmployeeController : GameObjectMovementBase
     // The client was attended we return the free table and Add money to the wallet
     private void UpdateOrderAttended_6()
     {
-        RestartStateAfterAttendingTable();
+        localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
+        Grid.AddFreeBusinessSpots(tableToBeAttended);
+        tableToBeAttended.SetBusy(false);
+        tableToBeAttended = null;
+        if (!GoToCounter())
+        {
+            localState = NpcState.IDLE;
+            return;
+        }
     }
 
     private void UpdateIsAtCounterAfterOrder_7()
@@ -181,18 +189,21 @@ public class EmployeeController : GameObjectMovementBase
         Grid.playerData.AddMoney(orderCost);
     }
 
-    private void ResetState()
-    {
-        ResetMovement(); // we stop the player from moving
-        RestartState(); // we reset the state
-    }
+    // private void ResetState()
+    // {
+    //     ResetMovement(); // we stop the player from moving
+    //     RestartState(); // we reset the state
+    // }
 
     public void RecalculateState(GameGridObject obj)
     {
 
         if (obj == tableToBeAttended)
         {
-            RestartState();
+            if (!RestartState())
+            {
+                localState = NpcState.IDLE;
+            }
         }
         else if (localState == NpcState.WALKING_TO_TABLE)
         {
@@ -200,7 +211,8 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER || localState == NpcState.WALKING_TO_COUNTER)
         {
-            if(!GoToCounter()){
+            if (!GoToCounter())
+            {
                 localState = NpcState.IDLE;
             }
         }
@@ -238,26 +250,13 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
 
-    private void RestartStateAfterAttendingTable()
-    {
-        if(!GoToCounter()){
-            localState = NpcState.IDLE;
-            return;
-        }
-
-        localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
-        Grid.AddFreeBusinessSpots(tableToBeAttended);
-        tableToBeAttended.SetBusy(false);
-        tableToBeAttended = null;
-    }
-
-    private void RestartState()
+    private bool RestartState()
     {
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
 
-        if(!GoTo(target)){
-            localState = NpcState.IDLE;
-            return;
+        if (!GoTo(target))
+        {
+            return false;
         }
 
         localState = NpcState.WALKING_TO_COUNTER;
@@ -267,6 +266,7 @@ public class EmployeeController : GameObjectMovementBase
             tableToBeAttended.SetBusy(false);
             tableToBeAttended = null;
         }
+        return true;
     }
 
     public NpcState GetNpcState()
