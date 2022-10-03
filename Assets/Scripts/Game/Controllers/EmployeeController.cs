@@ -192,7 +192,13 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
         target = CoordOfTableToBeAttended;
-        GoTo(target);
+        if (!GoTo(target))
+        {
+            GameLog.Log("We could not find a path");
+            Grid.AddClientToTable(tableToBeAttended);
+            return;
+
+        }
     }
 
     private void UpdateIsTakingOrder()
@@ -213,7 +219,10 @@ public class EmployeeController : GameObjectMovementBase
         }
         localState = NpcState.WALKING_TO_COUNTER_3;
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
-        GoTo(target);
+        if (!GoTo(target))
+        {
+            localState = NpcState.IDLE_0;
+        }
     }
 
     private void UpdateIsAtCounter()

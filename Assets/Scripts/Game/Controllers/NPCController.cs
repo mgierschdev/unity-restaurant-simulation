@@ -47,19 +47,33 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
+
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
-        //Handle NPC States
-        UpdateFindPlace();
-        UpdateIsAtTable();
-        UpdateWaitToBeAttended();
-        UpdateTableAttended();
-        UpdateIsAtRespawn();
 
-        if (!Grid.IsThereFreeTables() && localState != NpcState.AT_TABLE_2 &&
-            localState != NpcState.WALKING_TO_TABLE_1 && localState != NpcState.WAITING_TO_BE_ATTENDED_7 &&
-            localState != NpcState.WALKING_UNRESPAWN_8)
+        //Handle NPC States
+        if ((localState == NpcState.WALKING_WANDER_5 || localState == NpcState.IDLE_0) && Grid.IsThereFreeTables())
+        {
+            UpdateFindPlace_1();
+        }
+        else if (localState == NpcState.WALKING_TO_TABLE_1)
+        {
+            UpdateIsAtTable_2();
+        }
+        else if (localState == NpcState.AT_TABLE_2)
+        {
+            UpdateWaitToBeAttended_3();
+        }
+        else if (localState == NpcState.WAITING_TO_BE_ATTENDED_7 && !table.GetBusy())
+        {
+            GoToFinalState_4();
+        }
+        else if (localState == NpcState.WALKING_UNRESPAWN_8)
+        {
+            UpdateIsAtRespawn_5();
+        }
+        else if (!Grid.IsThereFreeTables() && localState == NpcState.WANDER)
         {
             Wander();
         }
@@ -77,67 +91,60 @@ public class NPCController : GameObjectMovementBase
         }
 
         // TODO: only change inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
+        //Animates depending on the current state
         animationController.SetState(localState);
     }
 
-    private void UpdateIsAtRespawn()
+
+    private void UpdateFindPlace_1()
     {
-        if (localState == NpcState.WALKING_UNRESPAWN_8)
-        {
-            if (Util.IsAtDistanceWithObject(transform.position, Grid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
-            {
-                gameController.RemoveNpc(this);
-                Destroy(gameObject);
-            }
-        }
+        table = Grid.GetFreeTable();
+        table.SetUsed(this);
+        table.SetUsedBy(this);
+        localState = NpcState.WALKING_TO_TABLE_1;
+        GoToWalkingToTable_6();
     }
 
-    // Setted after the client has been attended 
-    private void UpdateTableAttended()
-    {
-        if ((localState == NpcState.WAITING_TO_BE_ATTENDED_7) && !table.GetBusy())
-        {
-            GoToFinalState();
-        }
-    }
 
-    private void UpdateWaitToBeAttended()
+    private void UpdateIsAtTable_2()
     {
-        if (localState == NpcState.AT_TABLE_2)
-        {
-            Grid.AddClientToTable(table);
-            localState = NpcState.WAITING_TO_BE_ATTENDED_7;
-        }
-    }
-
-    private void UpdateIsAtTable()
-    {
-        if (localState != NpcState.WALKING_TO_TABLE_1)
-        {
-            return;
-        }
-
         if (Util.IsAtDistanceWithObjectTraslate(transform.position, targetInWorldPosition, transform))
         {
             localState = NpcState.AT_TABLE_2;
         }
     }
 
-    private void UpdateFindPlace()
+    private void UpdateWaitToBeAttended_3()
     {
-        if ((localState != NpcState.WALKING_WANDER_5 && localState != NpcState.IDLE_0) || !Grid.IsThereFreeTables())
-        {
-            return;
-        }
+        Grid.AddClientToTable(table);
+        localState = NpcState.WAITING_TO_BE_ATTENDED_7;
 
-        table = Grid.GetFreeTable();
-        table.SetUsed(this);
-        table.SetUsedBy(this);
-        localState = NpcState.WALKING_TO_TABLE_1;
-        GoToWalkingToTable();
     }
 
-    private void GoToWalkingToTable()
+    public void GoToFinalState_4()
+    {
+        table = null;
+        localState = NpcState.WALKING_UNRESPAWN_8;
+        unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
+        target = unRespawnTile.GridPosition;
+        if (!GoTo(target))
+        {
+            GameLog.Log("We could not find path to unrespawn");
+            localState = NpcState.WAITING_TO_BE_ATTENDED_7;
+        }
+    }
+
+    private void UpdateIsAtRespawn_5()
+    {
+        if (Util.IsAtDistanceWithObject(transform.position, Grid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
+        {
+            gameController.RemoveNpc(this);
+            Destroy(gameObject);
+        }
+    }
+
+    //Calculates the path to the current table
+    private void GoToWalkingToTable_6()
     {
         targetInWorldPosition = table.GetActionTile();
         target = Grid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
@@ -150,7 +157,7 @@ public class NPCController : GameObjectMovementBase
                 table.SetUsed(null);
                 Grid.AddFreeBusinessSpots(table);
                 table = null;
-                GoToFinalState();
+                GoToFinalState_4();
             }
         }
     }
@@ -159,21 +166,15 @@ public class NPCController : GameObjectMovementBase
     {
         if (localState == NpcState.WALKING_TO_TABLE_1)
         {
-            GoToWalkingToTable();
+            GoToWalkingToTable_6();
         }
         else
         {
-            GoTo(target);
+            if (!GoTo(target))
+            {
+                localState = NpcState.IDLE_0;
+            }
         }
-    }
-
-    public void GoToFinalState()
-    {
-        table = null;
-        localState = NpcState.WALKING_UNRESPAWN_8;
-        unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
-        target = unRespawnTile.GridPosition;
-        GoTo(target);
     }
 
     private void Wander()
@@ -196,7 +197,11 @@ public class NPCController : GameObjectMovementBase
         idleTime = 0;
         randMax = Random.Range(0, IDLE_MAX_TIME);
         target = GetRandomWalkablePosition();
-        GoTo(target);
+        if (!GoTo(target))
+        {
+            GameLog.Log("We could not find path to wander");
+            localState = NpcState.IDLE_0;
+        }
     }
 
     private Vector3Int GetRandomWalkablePosition()
