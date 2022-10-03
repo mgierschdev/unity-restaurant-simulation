@@ -220,6 +220,11 @@ public class NPCController : GameObjectMovementBase
         return localState;
     }
 
+    public float GetNpcStateTime()
+    {
+        return stateTime;
+    }
+
     public GameGridObject GetTable()
     {
         return table;
