@@ -29,11 +29,4 @@ public class TestGameTile
         TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesSimple);
         Assert.NotNull(gridTile);
     }
-
-    [Test]
-    public void TestLoadHighlightedTileMap()
-    {
-        TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesHighlightedFloor);
-        Assert.NotNull(gridTile);
-    }
 }
