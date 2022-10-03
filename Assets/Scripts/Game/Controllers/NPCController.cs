@@ -1,5 +1,4 @@
 using UnityEngine;
-
 // Controls NPCs players
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
@@ -47,13 +46,12 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
-
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
 
         //Handle NPC States
-        if (localState == NpcState.WANDER && !Grid.IsThereFreeTables())
+        if ((localState == NpcState.IDLE || localState == NpcState.WANDER) && !Grid.IsThereFreeTables())
         {
             Wander_0();
         }
@@ -91,10 +89,9 @@ public class NPCController : GameObjectMovementBase
         }
 
         // TODO: only change inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
-        //Animates depending on the current state
+        // Animates depending on the current state
         animationController.SetState(localState);
     }
-
 
     private void UpdateFindPlace_1()
     {
@@ -104,7 +101,6 @@ public class NPCController : GameObjectMovementBase
         localState = NpcState.WALKING_TO_TABLE;
         GoToWalkingToTable_6();
     }
-
 
     private void UpdateIsAtTable_2()
     {
