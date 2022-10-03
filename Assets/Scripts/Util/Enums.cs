@@ -70,6 +70,7 @@ public enum NpcState
     WALKING_TO_COUNTER_AFTER_ORDER_9 = 9,
     REGISTERING_CASH_10 = 10,
     WAITING_TO_BE_ATTENDED_ANIMATION_11 = 11,
+    WANDER = 12
 }
 
 // List of Menus

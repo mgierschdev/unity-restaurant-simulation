@@ -4,7 +4,7 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private const int NPC_MAX_NUMBER = 1;
+    private const int NPC_MAX_NUMBER = 4;
     private int npcId;
     private GridController Grid;
     private GameObject gameGridObject;
@@ -93,7 +93,7 @@ public class GameController : MonoBehaviour
                 if (Grid.IsTableStored(npcController.GetTable().Name))
                 {
                     //The table is stored, NPC state reseted
-                    npcController.GoToFinalState();
+                    npcController.GoToFinalState_4();
                 }
                 else
                 {

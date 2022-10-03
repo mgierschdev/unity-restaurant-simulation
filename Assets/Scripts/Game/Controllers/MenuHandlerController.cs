@@ -16,7 +16,7 @@ public class MenuHandlerController : MonoBehaviour
     private MenuItem centerTabMenu;
     private Stack<MenuItem> menuStack;
     private HashSet<string> openMenus;
-    private bool isGamePaused;
+    //private bool isGamePaused;
     // Click controller
     private ClickController clickController;
     //Min amount of time the the menu has to be open before activating -> closing on click outside
@@ -195,7 +195,8 @@ public class MenuHandlerController : MonoBehaviour
     public void CloseMenu()
     {
         //We disable the image menu backgrounds
-        if(menuBackgroundController.IsActive()){
+        if (menuBackgroundController.IsActive())
+        {
             menuBackgroundController.Disable();
         }
 
@@ -204,10 +205,10 @@ public class MenuHandlerController : MonoBehaviour
             MenuItem menu = menuStack.Pop();
             menu.Close();
             openMenus.Remove(menu.Name);
-            if (menu.PauseGameGame)
-            {
-                HandleTimeScale();
-            }
+            // if (menu.PauseGame)
+            // {
+            //     HandleTimeScale();
+            // }
         }
     }
 
@@ -226,38 +227,38 @@ public class MenuHandlerController : MonoBehaviour
         menu.UnityObject.SetActive(true);
         menuStack.Push(menu);
         openMenus.Add(menu.Name);
-        if (menu.PauseGameGame)
-        {
-            HandleTimeScale();
-        }
+        // if (menu.PauseGame)
+        // {
+        //     HandleTimeScale();
+        // }
 
         // we enable menu background
         menuBackgroundController.Enable();
     }
 
-    private void HandleTimeScale()
-    {
-        if (menuStack.Count > 0)
-        {
-            PauseGame();
-        }
-        else
-        {
-            ResumeGame();
-        }
-    }
+    // private void HandleTimeScale()
+    // {
+    //     if (menuStack.Count > 0)
+    //     {
+    //         PauseGame();
+    //     }
+    //     else
+    //     {
+    //         ResumeGame();
+    //     }
+    // }
 
-    private void PauseGame()
-    {
-        Time.timeScale = 0;
-        isGamePaused = true;
-    }
+    // private void PauseGame()
+    // {
+    //     Time.timeScale = 0;
+    //     isGamePaused = true;
+    // }
 
-    private void ResumeGame()
-    {
-        Time.timeScale = 1;
-        isGamePaused = false;
-    }
+    // private void ResumeGame()
+    // {
+    //     Time.timeScale = 1;
+    //     isGamePaused = false;
+    // }
 
     private bool IsClickOutside()
     {
@@ -374,7 +375,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         //Disable Left down panel
-        PauseGame();
+        //PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
         //enabling background image
@@ -396,13 +397,13 @@ public class MenuHandlerController : MonoBehaviour
         // Debug.Log("Finished Coroutine at timestamp : " + Time.time);
         yield return new WaitForSeconds(0);
     }
-    
+
     private void OpenEditPanel()
     {
         // we fix the camera in case the player is zoomed
         CloseAllMenus();
         //gridController.HighlightGridBussFloor();
-        PauseGame();
+        // PauseGame();
         leftDownPanel.SetActive(false);
         editStoreMenuPanel.SetActive(true);
         // We disable 
@@ -420,7 +421,7 @@ public class MenuHandlerController : MonoBehaviour
         editStoreMenuPanel.SetActive(false);
         leftDownPanel.SetActive(true);
         gridController.HideGridBussFloor();
-        ResumeGame();
+        // ResumeGame();
     }
 
     public bool IsEditPanelOpen()
@@ -443,8 +444,8 @@ public class MenuHandlerController : MonoBehaviour
         return menuStack.Count > 0;
     }
 
-    public bool IsGamePaused()
-    {
-        return isGamePaused;
-    }
+    // public bool IsGamePaused()
+    // {
+    //     return isGamePaused;
+    // }
 }
