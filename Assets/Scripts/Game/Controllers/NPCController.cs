@@ -27,7 +27,7 @@ public class NPCController : GameObjectMovementBase
     {
         Type = ObjectType.NPC;
         Name = transform.name;
-        localState = NpcState.IDLE;
+        localState = NpcState.WANDER;
         GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
         gameController = gameObj.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
@@ -53,7 +53,11 @@ public class NPCController : GameObjectMovementBase
         UpdateEnergyBar();
 
         //Handle NPC States
-        if ((localState == NpcState.WALKING_WANDER || localState == NpcState.IDLE) && Grid.IsThereFreeTables())
+        if (localState == NpcState.WANDER && !Grid.IsThereFreeTables())
+        {
+            Wander_0();
+        }
+        else if (localState == NpcState.WANDER && Grid.IsThereFreeTables())
         {
             UpdateFindPlace_1();
         }
@@ -65,17 +69,13 @@ public class NPCController : GameObjectMovementBase
         {
             UpdateWaitToBeAttended_3();
         }
-        else if (localState == NpcState.WAITING_TO_BE_ATTENDED && !table.GetBusy())
+        else if (localState == NpcState.WAITING_TO_BE_ATTENDED && table != null && !table.GetBusy())
         {
             GoToFinalState_4();
         }
         else if (localState == NpcState.WALKING_UNRESPAWN)
         {
             UpdateIsAtRespawn_5();
-        }
-        else if (!Grid.IsThereFreeTables() && localState == NpcState.WANDER)
-        {
-            Wander_0();
         }
 
         // keeps the time in the current state
@@ -224,7 +224,7 @@ public class NPCController : GameObjectMovementBase
     {
         return Mathf.Floor(stateTime);
     }
-    
+
     public GameGridObject GetTable()
     {
         return table;

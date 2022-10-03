@@ -140,6 +140,13 @@ public class EmployeeController : GameObjectMovementBase
     {
         localState = NpcState.WALKING_TO_COUNTER;
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
+
+        //Go to counter if it is already at the counter we change the state
+        if(Position == target){
+            localState = NpcState.AT_COUNTER;
+            return;   
+        }
+
         if (!GoTo(target))
         {
             localState = NpcState.IDLE;
