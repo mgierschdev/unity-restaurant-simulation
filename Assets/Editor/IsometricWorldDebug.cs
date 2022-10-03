@@ -262,12 +262,23 @@ public class IsometricWorldDebug : EditorWindow
         return output;
     }
 
-    private string GetPlayerStates(){
+    private string GetPlayerStates()
+    {
         string output = "Employe and Client states: \n";
-        output += gameController.GetEmployeeController().Name+" State: "+gameController.GetEmployeeController().GetNpcState() +" \n";
-        foreach(NPCController current in gameController.GetNpcSet()){
-            output += current.Name+" State: "+current.GetNpcState() +" \n";
+        if (gameController.GetEmployeeController() != null)
+        {
+            output += gameController.GetEmployeeController().Name + " State: " + gameController.GetEmployeeController().GetNpcState() + " \ns";
         }
+        else
+        {
+            output += "Employee: NONE \n";
+        }
+
+        foreach (NPCController current in gameController.GetNpcSet())
+        {
+            output += current.Name + " State: " + current.GetNpcState() + " \n";
+        }
+
         return output;
     }
 }
