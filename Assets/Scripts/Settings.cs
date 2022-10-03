@@ -95,6 +95,14 @@ public static class Settings
     public const string ConstUIExitButton = "ExitButton";
     public const string ConstUIInventoryButton = "Inventory";
 
+    //UI: Editor tools
+    public const string DebugStartButton = "GridDebugButton";
+    public const string GridDebugContent = "GridDebug";
+    public const string GridDisplay = "GridDisplay";
+    public const string MainContainer = "MainContainer";
+    public const string IsometricWorldDebugUI = "Assets/Editor/IsometricWorldDebug.uxml";
+    public const string IsometricWorldDebugUIStyles = "Assets/Editor/IsometricWorldDebug.uss";
+
     //SCENE
     public const string GameGrid = "GameGrid";
     public const string MainCamera = "MainCamera";

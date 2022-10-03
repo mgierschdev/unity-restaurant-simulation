@@ -33,8 +33,8 @@ public class IsometricWorldDebug : EditorWindow
 
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
-        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/IsometricWorldDebug.uxml");
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/IsometricWorldDebug.uss");
+        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(Settings.IsometricWorldDebugUI);
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(Settings.IsometricWorldDebugUIStyles);
 
         // Adding debug label
         templateContainer = visualTree.Instantiate();
@@ -42,12 +42,12 @@ public class IsometricWorldDebug : EditorWindow
         templateContainer.styleSheets.Add(styleSheet);
 
         // Setting up Variables
-        buttonStartDebug = templateContainer.Q<Button>("GridDebugButton");
+        buttonStartDebug = templateContainer.Q<Button>(Settings.DebugStartButton);
         buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
         buttonStartDebug.text = "In order to start, enter in Play mode";
-        gridDebugContent = templateContainer.Q<Label>("GridDebug");
-        gridDisplay = templateContainer.Q<VisualElement>("GridDisplay");
-        mainContainer = templateContainer.Q<VisualElement>("MainContainer");
+        gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
+        gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
+        mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
         mainContainer.SetEnabled(false);
     }
 
