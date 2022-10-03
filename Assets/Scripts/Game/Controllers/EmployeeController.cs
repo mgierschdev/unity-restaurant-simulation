@@ -123,7 +123,7 @@ public class EmployeeController : GameObjectMovementBase
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
-            GameLog.Log("We could not find path to unrespawn");
+            //GameLog.Log("We could not find path to unrespawn");
             localState = NpcState.IDLE;
         }
     }
@@ -142,9 +142,10 @@ public class EmployeeController : GameObjectMovementBase
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
 
         //Go to counter if it is already at the counter we change the state
-        if(Position == target){
+        if (Position == target)
+        {
             localState = NpcState.AT_COUNTER;
-            return;   
+            return;
         }
 
         if (!GoTo(target))
@@ -201,8 +202,7 @@ public class EmployeeController : GameObjectMovementBase
         tableToBeAttended = null;
         if (!GoToCounter())
         {
-            localState = NpcState.IDLE;
-            return;
+            while (!GoToCounter() && Grid.GetCounter() != null) { }
         }
     }
 
@@ -300,12 +300,6 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         localState = NpcState.WALKING_TO_COUNTER;
-        if (tableToBeAttended != null)
-        {
-            Grid.AddFreeBusinessSpots(tableToBeAttended);
-            tableToBeAttended.SetBusy(false);
-            tableToBeAttended = null;
-        }
         return true;
     }
 
