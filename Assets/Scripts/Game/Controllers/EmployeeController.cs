@@ -58,10 +58,10 @@ public class EmployeeController : GameObjectMovementBase
         if (Grid.GetCounter() == null) //If the player removes the counter the employee goes away
         {
             UpdateGoToUnrespawn_0();
-        }else if (localState == NpcState.WALKING_UNRESPAWN)
+        }
+        else if (localState == NpcState.WALKING_UNRESPAWN)
         {
             UpdaetIsAtUnrespawn_0();
-
         }
         else if (localState == NpcState.IDLE && Grid.GetCounter() != null)
         {
@@ -124,7 +124,7 @@ public class EmployeeController : GameObjectMovementBase
         if (!GoTo(target))
         {
             GameLog.Log("We could not find path to unrespawn");
-            localState = NpcState.WAITING_TO_BE_ATTENDED;
+            localState = NpcState.IDLE;
         }
     }
 

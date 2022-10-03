@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
         {
             SpamNpc();
         }
-        if(Grid.GetCounter() != null && employeeCount == EMPLOYEE_MAX_NUMBER){
+        if(Grid.GetCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER){
             SpamEmployee();
             employeeCount++;
         }
