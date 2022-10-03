@@ -22,7 +22,7 @@ public class GridController : MonoBehaviour
     private List<GameTile> spamPoints;
     // Path Finder object, contains the method to return the shortest path
     private PathFind pathFind;
-    private int[,] grid;
+    private int[,] gridArray;
     private TextMesh[,] debugGrid;
     //Floor
     private Tilemap tilemapFloor;
@@ -42,10 +42,10 @@ public class GridController : MonoBehaviour
     private Dictionary<Vector3Int, GameTile> mapObjects;
     //Prefabs in the TilemapObjects
     private Dictionary<string, GameGridObject> businessObjects;
-    private Dictionary<string, GameGridObject> BusyBusinessSpotsMap { get; set; }
-    private Dictionary<string, GameGridObject> FreeBusinessSpotsMap { get; set; }
-    private List<GameGridObject> FreeBusinessSpots { get; set; } // Tables to attend or chairs
-    private List<GameGridObject> TablesWithClient { get; set; } // Tables to attend or chairs
+    private Dictionary<string, GameGridObject> busyBusinessSpotsMap;
+    private Dictionary<string, GameGridObject> freeBusinessSpotsMap;
+    private List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
+    private List<GameGridObject> tablesWithClient;// Tables to attend or chairs
     private GameGridObject counter;
     //Business floors
     private Tilemap tilemapBusinessFloor;
@@ -83,10 +83,10 @@ public class GridController : MonoBehaviour
         tilemapObjects = GameObject.Find(Settings.TilemapObjects).GetComponent<Tilemap>();
         mapObjects = new Dictionary<Vector3Int, GameTile>();
         listObjectsTileMap = new List<GameTile>();
-        FreeBusinessSpots = new List<GameGridObject>();
-        TablesWithClient = new List<GameGridObject>();
-        FreeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
-        BusyBusinessSpotsMap = new Dictionary<string, GameGridObject>();
+        freeBusinessSpots = new List<GameGridObject>();
+        tablesWithClient = new List<GameGridObject>();
+        freeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
+        busyBusinessSpotsMap = new Dictionary<string, GameGridObject>();
         businessObjects = new Dictionary<string, GameGridObject>();
 
         tilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
@@ -132,7 +132,7 @@ public class GridController : MonoBehaviour
         }
 
         pathFind = new PathFind();
-        grid = new int[Settings.GridHeight, Settings.GridWidth];
+        gridArray = new int[Settings.GridHeight, Settings.GridWidth];
         debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
         currentClickedActiveGameObject = "";
         arroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
@@ -167,7 +167,7 @@ public class GridController : MonoBehaviour
     {
         foreach (GameTile tile in mapPathFindingGrid.Values)
         {
-            if (tile.GridPosition.x >= grid.GetLength(0) || tile.GridPosition.y >= grid.GetLength(1))
+            if (tile.GridPosition.x >= gridArray.GetLength(0) || tile.GridPosition.y >= gridArray.GetLength(1))
             {
                 continue;
             }
@@ -180,11 +180,11 @@ public class GridController : MonoBehaviour
 
     private void InitGrid()
     {
-        for (int i = 0; i < grid.GetLength(0); i++)
+        for (int i = 0; i < gridArray.GetLength(0); i++)
         {
-            for (int j = 0; j < grid.GetLength(1); j++)
+            for (int j = 0; j < gridArray.GetLength(1); j++)
             {
-                grid[i, j] = 1;
+                gridArray[i, j] = 1;
             }
         }
     }
@@ -251,12 +251,12 @@ public class GridController : MonoBehaviour
 
                 if (tileType == TileType.WALKABLE_PATH)
                 {
-                    grid[gridPosition.x, gridPosition.y] = 0;
+                    gridArray[gridPosition.x, gridPosition.y] = 0;
                 }
 
                 if (tileType == TileType.BUS_FLOOR)
                 {
-                    grid[gridPosition.x, gridPosition.y] = 0;
+                    gridArray[gridPosition.x, gridPosition.y] = 0;
                 }
 
                 if (tileType == TileType.SPAM_POINT)
@@ -277,17 +277,17 @@ public class GridController : MonoBehaviour
 
         if (ObjectType.OBSTACLE == type)
         {
-            grid[x, y] = (int)type;
+            gridArray[x, y] = (int)type;
         }
         else
         {
-            grid[x, y] = (int)type;
+            gridArray[x, y] = (int)type;
         }
     }
 
     private bool IsCoordValid(int x, int y)
     {
-        return x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1);
+        return x >= 0 && x < gridArray.GetLength(0) && y >= 0 && y < gridArray.GetLength(1);
     }
 
     private void SetObjectObstacle(GameGridObject obj)
@@ -296,18 +296,18 @@ public class GridController : MonoBehaviour
         businessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            Util.EnqueueToList(FreeBusinessSpots, obj);
-            FreeBusinessSpotsMap.Add(obj.Name, obj);
-            grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            grid[actionGridPosition.x, actionGridPosition.y] = -1;
+            Util.EnqueueToList(freeBusinessSpots, obj);
+            freeBusinessSpotsMap.Add(obj.Name, obj);
+            gridArray[obj.GridPosition.x, obj.GridPosition.y] = 1;
+            gridArray[actionGridPosition.x, actionGridPosition.y] = -1;
         }
         else
         {
-            grid[obj.GridPosition.x, obj.GridPosition.y] = 1;
+            gridArray[obj.GridPosition.x, obj.GridPosition.y] = 1;
 
             if (obj.Type == ObjectType.NPC_COUNTER)
             {
-                grid[actionGridPosition.x, actionGridPosition.y] = -1;
+                gridArray[actionGridPosition.x, actionGridPosition.y] = -1;
             }
         }
 
@@ -343,14 +343,14 @@ public class GridController : MonoBehaviour
         // If it doesnt have aciton point we just check that is doesnt close any island and that is valid buss pos and valid coord
         if (!gameGridObject.GetStoreGameObject().HasActionPoint)
         {
-            return IsValidBussCoord(currentGridPos) && grid[currentGridPos.x, currentGridPos.y] == 0;
+            return IsValidBussCoord(currentGridPos) && gridArray[currentGridPos.x, currentGridPos.y] == 0;
         }
 
         // If the coords are ousite the perimter we return false, or if the position is different than 0
         if (!IsCoordValid(currentGridPos.x, currentGridPos.y) ||
         !IsCoordValid(currentActionPointInGrid.x, currentActionPointInGrid.y) ||
-        grid[currentActionPointInGrid.x, currentActionPointInGrid.y] != 0 ||
-        grid[currentGridPos.x, currentGridPos.y] != 0
+        gridArray[currentActionPointInGrid.x, currentActionPointInGrid.y] != 0 ||
+        gridArray[currentGridPos.x, currentGridPos.y] != 0
         )
         {
             return false;
@@ -422,12 +422,12 @@ public class GridController : MonoBehaviour
 
     public List<Node> GetPath(int[] start, int[] end)
     {
-        if (grid[start[0], start[1]] == 1 || grid[end[0], end[1]] == 1)
+        if (gridArray[start[0], start[1]] == 1 || gridArray[end[0], end[1]] == 1)
         {
             return new List<Node>();
         }
 
-        return pathFind.Find(start, end, grid);
+        return pathFind.Find(start, end, gridArray);
     }
 
     // Returns the Grid position given a Vector3 world position
@@ -521,25 +521,25 @@ public class GridController : MonoBehaviour
             return;
         }
 
-        grid[x, y] = 0;
+        gridArray[x, y] = 0;
     }
 
     public void SwapCoords(int x1, int y1, int x2, int y2)
     {
-        (grid[x1, y1], grid[x2, y2]) = (grid[x2, y2], grid[x1, y1]);
+        (gridArray[x1, y1], gridArray[x2, y2]) = (gridArray[x2, y2], gridArray[x1, y1]);
     }
 
     // called when the object is destroyed
     public void FreeObject(GameGridObject gameGridObject)
     {
-        grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 0;
+        gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 0;
         Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
-        grid[gridActionTile.x, gridActionTile.y] = 0;
+        gridArray[gridActionTile.x, gridActionTile.y] = 0;
     }
 
     public void FreeCoord(Vector3Int pos)
     {
-        grid[pos.x, pos.y] = 0;
+        gridArray[pos.x, pos.y] = 0;
     }
 
     public void ReCalculateNpcStates(GameGridObject obj)
@@ -549,11 +549,11 @@ public class GridController : MonoBehaviour
 
     public void UpdateObjectPosition(GameGridObject gameGridObject)
     {
-        grid[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
+        gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
         if (gameGridObject.GetStoreGameObject().HasActionPoint)
         {
             Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
-            grid[gridActionTile.x, gridActionTile.y] = -1;
+            gridArray[gridActionTile.x, gridActionTile.y] = -1;
         }
     }
 
@@ -571,77 +571,77 @@ public class GridController : MonoBehaviour
 
     public GameGridObject GetFreeTable()
     {
-        if (FreeBusinessSpots.Count <= 0)
+        if (freeBusinessSpots.Count <= 0)
         {
             return null;
         }
 
-        BusyBusinessSpotsMap.Add(Util.PeekFromList(FreeBusinessSpots).Name, Util.PeekFromList(FreeBusinessSpots));
-        FreeBusinessSpotsMap.Remove(Util.PeekFromList(FreeBusinessSpots).Name);
-        return Util.DequeueFromList(FreeBusinessSpots);
+        busyBusinessSpotsMap.Add(Util.PeekFromList(freeBusinessSpots).Name, Util.PeekFromList(freeBusinessSpots));
+        freeBusinessSpotsMap.Remove(Util.PeekFromList(freeBusinessSpots).Name);
+        return Util.DequeueFromList(freeBusinessSpots);
     }
 
     public bool IsThereFreeTables()
     {
-        return FreeBusinessSpots.Count > 0;
+        return freeBusinessSpots.Count > 0;
     }
 
     public bool IsThereCustomer()
     {
-        return TablesWithClient.Count > 0;
+        return tablesWithClient.Count > 0;
     }
 
     public bool IsTableInFreeBussSpot(GameGridObject obj)
     {
-        return FreeBusinessSpotsMap.ContainsKey(obj.Name);
+        return freeBusinessSpotsMap.ContainsKey(obj.Name);
     }
 
     public bool IsTableBusy(GameGridObject obj)
     {
-        return BusyBusinessSpotsMap.ContainsKey(obj.Name);
+        return busyBusinessSpotsMap.ContainsKey(obj.Name);
     }
     // We remove an active item an store it
     public void RemoveBussTable(GameGridObject obj)
     {
-        if (FreeBusinessSpots.Contains(obj))
+        if (freeBusinessSpots.Contains(obj))
         {
-            FreeBusinessSpots.Remove(obj);
+            freeBusinessSpots.Remove(obj);
         }
 
-        if (TablesWithClient.Contains(obj))
+        if (tablesWithClient.Contains(obj))
         {
-            TablesWithClient.Remove(obj);
+            tablesWithClient.Remove(obj);
         }
 
-        if (BusyBusinessSpotsMap.ContainsKey(obj.Name))
+        if (busyBusinessSpotsMap.ContainsKey(obj.Name))
         {
-            BusyBusinessSpotsMap.Remove(obj.Name);
+            busyBusinessSpotsMap.Remove(obj.Name);
         }
 
-        if (FreeBusinessSpotsMap.ContainsKey(obj.Name))
+        if (freeBusinessSpotsMap.ContainsKey(obj.Name))
         {
-            FreeBusinessSpotsMap.Remove(obj.Name);
+            freeBusinessSpotsMap.Remove(obj.Name);
         }
     }
 
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
-        BusyBusinessSpotsMap.Remove(obj.Name);
+        busyBusinessSpotsMap.Remove(obj.Name);
 
-        if (!FreeBusinessSpotsMap.ContainsKey(obj.Name))
+        if (!freeBusinessSpotsMap.ContainsKey(obj.Name))
         {
-            FreeBusinessSpotsMap.Add(obj.Name, obj);
+            freeBusinessSpotsMap.Add(obj.Name, obj);
         }
 
-        if (!FreeBusinessSpots.Contains(obj))
+        if (!freeBusinessSpots.Contains(obj))
         {
-            Util.EnqueueToList(FreeBusinessSpots, obj);
+            Util.EnqueueToList(freeBusinessSpots, obj);
         }
     }
 
     public GameGridObject GetTableWithClient()
     {
-        return TablesWithClient.Count <= 0 ? null : Util.DequeueFromList(TablesWithClient);
+        return tablesWithClient.Count <= 0 ? null : Util.DequeueFromList(tablesWithClient);
     }
     // It gets the closest free coord next to the target
     public Vector3Int GetClosestPathGridPoint(Vector3Int target)
@@ -654,7 +654,7 @@ public class GridController : MonoBehaviour
             int y = arroundVectorPoints[i, 1] + target.y;
             Vector3Int tmp = new Vector3Int(x, y, 0);
 
-            if (IsCoordValid(x, y) && grid[x, y] == 0)
+            if (IsCoordValid(x, y) && gridArray[x, y] == 0)
             {
                 result = tmp;
             }
@@ -664,7 +664,7 @@ public class GridController : MonoBehaviour
 
     public void AddClientToTable(GameGridObject obj)
     {
-        Util.EnqueueToList(TablesWithClient, obj);
+        Util.EnqueueToList(tablesWithClient, obj);
     }
 
     // Used to highlight the current object being edited
@@ -691,8 +691,8 @@ public class GridController : MonoBehaviour
 
     public int[,] GetBussGrid(Vector3Int position)
     {
-        int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
-        int[,] gridClone = (int[,])grid.Clone();
+        int[,] busGrid = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
+        int[,] gridClone = (int[,])gridArray.Clone();
         gridClone[position.x, position.y] = 1;
 
         int minX = int.MaxValue;
@@ -727,7 +727,7 @@ public class GridController : MonoBehaviour
         {
             return false;
         }
-        return grid[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
+        return gridArray[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
     }
 
     public bool PlaceGameObject(StoreGameObject obj)
@@ -837,100 +837,6 @@ public class GridController : MonoBehaviour
         DFS(bGrid, x, y + 1);
         DFS(bGrid, x + 1, y);
     }
-    public string DebugBussData()
-    {
-        string objects = "";
-        string maps = "";
-
-        maps += "Queue FreeBusinessSpots size: " + FreeBusinessSpots.Count + "\n";
-        foreach (GameGridObject g in FreeBusinessSpots)
-        {
-            maps += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
-        }
-
-        maps += "\n\n\n";
-
-        maps += "Queue TablesWithClient size: " + TablesWithClient.Count + "\n";
-        foreach (GameGridObject g in TablesWithClient)
-        {
-            maps += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
-        }
-
-        maps += "\n\n\n";
-
-        objects += "businessObjects size: " + businessObjects.Count + " \n";
-        foreach (GameGridObject g in businessObjects.Values)
-        {
-            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
-        }
-
-        objects += "\n\n\n";
-
-        objects += "BusyBusinessSpotsMap size: " + BusyBusinessSpotsMap.Count + " \n";
-        foreach (GameGridObject g in BusyBusinessSpotsMap.Values)
-        {
-            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
-        }
-
-        objects += "\n\n\n";
-
-        objects += "FreeBusinessSpotsMap size: " + FreeBusinessSpotsMap.Count + " \n";
-        foreach (GameGridObject g in FreeBusinessSpotsMap.Values)
-        {
-            objects += "Name: " + g.Name + " gridPosition: " + g.GridPosition + " worldmapPosition " + g.WorldPosition + "\n";
-        }
-
-        return maps + " " + objects;
-    }
-    public string BussGridToText()
-    {
-        string output = " ";
-        int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
-        int minX = int.MaxValue;
-        int minY = int.MaxValue;
-        int maxX = int.MinValue;
-        int maxY = int.MinValue;
-
-        foreach (GameTile tile in listBusinessFloor)
-        {
-            minX = Mathf.Min(minX, tile.GridPosition.x);
-            minY = Mathf.Min(minY, tile.GridPosition.y);
-            maxX = Mathf.Max(maxX, tile.GridPosition.x);
-            maxY = Mathf.Max(maxY, tile.GridPosition.y);
-
-            busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
-        }
-
-        for (int i = minX; i <= maxX; i++)
-        {
-            for (int j = minY; j <= maxY; j++)
-            {
-                output += " " + busGrid[i, j];
-            }
-            output += "\n";
-        }
-        return output;
-    }
-    public string EntireGridToText()
-    {
-        string output = " ";
-        for (int i = 0; i < grid.GetLength(0); i++)
-        {
-            for (int j = 0; j < grid.GetLength(1); j++)
-            {
-                if (grid[i, j] == -1)
-                {
-                    output += " 0";
-                }
-                else
-                {
-                    output += " " + grid[i, j];
-                }
-            }
-            output += "\n";
-        }
-        return output;
-    }
 
     public bool IsTableStored(string nameID)
     {
@@ -968,5 +874,40 @@ public class GridController : MonoBehaviour
     public void SetPlayerData(PlayerData data)
     {
         playerData = data;
+    }
+
+    public int[,] GetGridArray()
+    {
+        return gridArray;
+    }
+
+    public List<GameTile> GetListBusinessFloor()
+    {
+        return listBusinessFloor;
+    }
+
+    public Dictionary<string, GameGridObject> GetBusyBusinessSpotsMap()
+    {
+        return busyBusinessSpotsMap;
+    }
+
+    public Dictionary<string, GameGridObject> GetFreeBusinessSpotsMap()
+    {
+        return freeBusinessSpotsMap;
+    }
+
+    public List<GameGridObject> GetFreeBusinessSpots()
+    {
+        return freeBusinessSpots;
+    }
+
+    public List<GameGridObject> GetTablesWithClient()
+    {
+        return tablesWithClient;
+    }
+
+    public Dictionary<string, GameGridObject> GetBusinessObjects()
+    {
+        return businessObjects;
     }
 }
