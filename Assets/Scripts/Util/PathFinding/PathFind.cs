@@ -77,6 +77,13 @@ public class PathFind
 
                 if (IsValid(x, y) && arrayGrid[x, y] != (int)ObjectType.OBSTACLE && arrayGrid[x, y] != (int)ObjectType.PLAYER)
                 {
+                    //Additional validation to no go diagonally through 2 obstacles
+                    if (!IsValidDiagonal(x, y))
+                    {
+                        continue;
+                    }
+                    //Additional validation to no go diagonally through 2 obstacles
+
                     PathNode neighbor = grid[x, y];
 
                     int tentativeGCost = current.GetGCost() + CalculateDistance(current, neighbor);
@@ -96,6 +103,40 @@ public class PathFind
             }
         }
         return new List<Node>();
+    }
+
+    private bool IsValidDiagonal(int x, int y)
+    {
+        int down = x - 1 >= 0 ? arrayGrid[x - 1, y] : 1;
+        int left = y - 1 >= 0 ? arrayGrid[x, y - 1] : 1;
+        int up = x + 1 < arrayGrid.GetLength(0) ? arrayGrid[x + 1, y] : 1;
+        int right = y + 1 < arrayGrid.GetLength(1) ? arrayGrid[x, y + 1] : 1;
+
+        //check right/down
+        if (right == 1 && down == 1)
+        {
+            return false;
+        }
+
+        //check up / left
+        if (up == 1 && left == 1)
+        {
+            return false;
+        }
+
+        //check down/left
+        if (down == 1 && left == 1)
+        {
+            return false;
+        }
+
+        //check up/right
+        if (up == 1 && right == 1)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private List<Node> BuildPath(PathNode endNode)

@@ -112,6 +112,9 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject.UpdateCoords();
         Grid.SetDraggingObject(false);
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
+
+        //We recalculate Paths once the object is placed
+        Grid.ReCalculateNpcStates(gameGridObject);
     }
 
     private bool IsDraggable()

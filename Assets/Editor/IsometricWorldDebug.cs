@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -97,7 +96,7 @@ public class IsometricWorldDebug : EditorWindow
                 SetBussGrid();
                 string deubgText = " ";
                 deubgText += DebugBussData();
-                deubgText += EntireGridToText();
+                //deubgText += EntireGridToText();, This will print the entire grid
                 gridDebugContent.text = deubgText;
             }
             else
