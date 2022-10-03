@@ -53,7 +53,8 @@
         "Temp/":true,
         ".idea":true,
         "UIElementsSchema":true,
-        "Assets/RenderPipeline/process_symbols.sh":true
+        "Assets/RenderPipeline/process_symbols.sh":true,
+        "Assets/Settings":true
     },
     "cSpell.words": [
         "Behaviour",

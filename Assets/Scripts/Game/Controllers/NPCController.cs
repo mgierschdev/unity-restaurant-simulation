@@ -129,8 +129,7 @@ public class NPCController : GameObjectMovementBase
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
-            GameLog.Log("We could not find path to unrespawn");
-            localState = NpcState.WAITING_TO_BE_ATTENDED;
+            return;
         }
     }
 
@@ -149,16 +148,15 @@ public class NPCController : GameObjectMovementBase
         targetInWorldPosition = table.GetActionTile();
         target = Grid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
 
+        //If we are already at the table
+        if(target == Position){
+            localState = NpcState.AT_TABLE;
+            return;
+        }
+
         if (!GoTo(target))
         {
-            if (table != null)
-            {
-                Debug.Log("Resetting NPC state (GoToWalkingToTable " + transform.name);
-                table.SetUsed(null);
-                Grid.AddFreeBusinessSpots(table);
-                table = null;
-                GoToFinalState_4();
-            }
+            return;
         }
     }
 
@@ -172,7 +170,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (!GoTo(target))
             {
-                localState = NpcState.IDLE;
+                return;
             }
         }
     }
@@ -199,8 +197,7 @@ public class NPCController : GameObjectMovementBase
         target = GetRandomWalkablePosition();
         if (!GoTo(target))
         {
-            GameLog.Log("We could not find path to wander");
-            localState = NpcState.IDLE;
+            return;
         }
     }
 

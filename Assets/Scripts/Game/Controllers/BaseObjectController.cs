@@ -134,7 +134,6 @@ public class BaseObjectController : MonoBehaviour
             }else if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE){
                 gameGridObject.GetUsedBy().GoToFinalState_4();
                 gameGridObject.FreeObject();
-                Grid.AddFreeBusinessSpots(gameGridObject);
             }
         }
         else
