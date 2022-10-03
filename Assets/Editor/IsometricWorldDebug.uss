@@ -1,11 +1,11 @@
 .grid-cell-empty {
     width: 30px;
     height: 30px;
-    border-left-color: rgba(0, 0, 0, 255);
-    border-right-color: rgba(0, 0, 0, 255);
-    border-top-color: rgba(0, 0, 0, 255);
-    border-bottom-color: rgba(0, 0, 0, 255);
-    background-color: rgba(255, 255, 255, 255);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
 }
 
 .grid-cell-busy {
@@ -22,4 +22,11 @@
     flex-wrap: wrap;
     width: 500px;
     flex-direction: row;
+}
+
+.H1 {
+    -unity-text-align: upper-center;
+    font-size: 20px;
+    -unity-font-style: bold;
+    background-color: rgb(7, 7, 7);
 }

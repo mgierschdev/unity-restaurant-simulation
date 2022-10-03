@@ -12,6 +12,10 @@ public class IsometricWorldDebug : EditorWindow
     private bool gridDebugEnabled;
     private Label gridDebugContent;
     private VisualElement gridDisplay;
+    private TemplateContainer templateContainer;
+    private VisualElement cell;
+    private const string EMPTY_CELL_STYLE ="grid-cell-empty";
+    private const string BUSY_CELL_STYLE ="grid-cell-busy";
 
     [UnityEditor.MenuItem("Custom/IsometricWorldDebug")]
     public static void ShowExample()
@@ -30,14 +34,19 @@ public class IsometricWorldDebug : EditorWindow
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
         VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/IsometricWorldDebug.uxml");
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/IsometricWorldDebug.uss");
 
         // Adding debug label
-        TemplateContainer tamplateContainer = visualTree.Instantiate();
-        root.Add(tamplateContainer);
+        templateContainer = visualTree.Instantiate();
+        root.Add(templateContainer);
+        templateContainer.styleSheets.Add(styleSheet);
+
 
         // Setting up Variables
-        gridDebugContent = tamplateContainer.Q<Label>("GridDebug");
-        gridDisplay = tamplateContainer.Q<VisualElement>("GridDisplay");
+        gridDebugContent = templateContainer.Q<Label>("GridDebug");
+        gridDisplay = templateContainer.Q<VisualElement>("GridDisplay");
+        cell = templateContainer.Q<VisualElement>("Cell");
+        //cell.AddToClassList("grid-cell-empty");
 
         //Set button hanflers
         SetupButtonHandler();
@@ -78,7 +87,7 @@ public class IsometricWorldDebug : EditorWindow
     {
         if (gridDebugEnabled && Grid)
         {
-            gridDebugContent.text = BussGridToText();
+            BussGridToText();
             gridDebugContent.text += DebugBussData();
             gridDebugContent.text += EntireGridToText();
         }
