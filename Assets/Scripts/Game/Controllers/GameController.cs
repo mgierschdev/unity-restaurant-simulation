@@ -88,7 +88,7 @@ public class GameController : MonoBehaviour
 
         foreach (NPCController npcController in NpcSet)
         {
-            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE_1)
+            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE)
             {
                 if (Grid.IsTableStored(npcController.GetTable().Name))
                 {

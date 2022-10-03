@@ -8,7 +8,7 @@ public class PlayerController : GameObjectMovementBase
     private void Start()
     {
         animationController = GetComponent<PlayerAnimationStateController>();
-        localState = NpcState.IDLE_0;
+        localState = NpcState.IDLE;
         // Click controller
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
         ClickController clickController = cController.GetComponent<ClickController>();
