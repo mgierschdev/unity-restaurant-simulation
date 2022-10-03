@@ -267,7 +267,8 @@ public class IsometricWorldDebug : EditorWindow
         string output = "Employe and Client states: \n";
         if (gameController.GetEmployeeController() != null)
         {
-            output += gameController.GetEmployeeController().Name + " State: " + gameController.GetEmployeeController().GetNpcState() + " \ns";
+            output += gameController.GetEmployeeController().Name + " State: " + gameController.GetEmployeeController().GetNpcState();
+            output += " Time:" + gameController.GetEmployeeController().GetNpcStateTime() + " \n";
         }
         else
         {
@@ -276,7 +277,7 @@ public class IsometricWorldDebug : EditorWindow
 
         foreach (NPCController current in gameController.GetNpcSet())
         {
-            output += current.Name + " State: " + current.GetNpcState() + " \n";
+            output += current.Name + " State: " + current.GetNpcState() + " " + current.GetNpcStateTime() + " \n";
         }
 
         return output;

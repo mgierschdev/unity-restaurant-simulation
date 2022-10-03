@@ -111,6 +111,7 @@ public class EmployeeController : GameObjectMovementBase
             prevState = localState;
         }
 
+        Debug.Log(Grid.IsThereCustomer() + " " + idleTime);
         animationController.SetState(localState);
         idleTime += Time.deltaTime;
     }
@@ -303,5 +304,10 @@ public class EmployeeController : GameObjectMovementBase
     public NpcState GetNpcState()
     {
         return localState;
+    }
+
+    public float GetNpcStateTime()
+    {
+        return stateTime;
     }
 }
