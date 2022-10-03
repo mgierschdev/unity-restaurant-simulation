@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
 
 public class TestPathFind
 {
@@ -132,7 +131,6 @@ public class TestPathFind
             Assert.True(expected[i].Compare(path[i]));
         }
     }
-
 
     private void FillGrid(int row, int i, int j, int[,] grid)
     {
