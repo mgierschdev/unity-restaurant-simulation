@@ -97,13 +97,15 @@ public class IsometricWorldDebug : EditorWindow
     }
     private void Update()
     {
-        if (!EditorApplication.isPlaying)
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
         {
             if (gridDebugEnabled && Grid)
             {
                 BussGridToText();
-                gridDebugContent.text += DebugBussData();
-                gridDebugContent.text += EntireGridToText();
+                string deubgText = " ";
+                deubgText += DebugBussData();
+                deubgText += EntireGridToText();
+                gridDebugContent.text = deubgText;
             }
 
         }
@@ -133,6 +135,7 @@ public class IsometricWorldDebug : EditorWindow
 
         //We set the max size of the editor display
         Debug.Log("Size: " + (maxX - minX));
+        gridDisplay.style.
 
         for (int i = minX; i <= maxX; i++)
         {

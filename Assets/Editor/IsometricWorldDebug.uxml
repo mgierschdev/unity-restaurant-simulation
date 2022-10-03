@@ -2,15 +2,15 @@
     <Style src="project://database/Assets/Editor/IsometricWorldDebug.uss?fileID=7433441132597879392&amp;guid=4254b8d6461fc4763ba4b32c539198f5&amp;type=3#IsometricWorldDebug" />
     <ui:Button text="Enable Grid Debug" display-tooltip-when-elided="true" name="GridDebugButton" />
     <ui:VisualElement name="MainContainer">
-        <ui:VisualElement>
-            <ui:Label text="Grid Debug view" name="GridDebugTitle" class="H1" />
-            <ui:Label name="GridDebug" />
-        </ui:VisualElement>
         <ui:VisualElement name="BussGridContainer">
             <ui:Label text="Buss Grid Display" display-tooltip-when-elided="true" name="BussGridDisplay" class="H1" />
-            <ui:VisualElement name="GriDisplay" class="grid-display">
+            <ui:VisualElement name="GridDisplay" class="grid-display">
                 <ui:VisualElement name="Cell" />
             </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="TextDebugContainer">
+            <ui:Label text="Grid Debug view" name="GridDebugTitle" class="H1" />
+            <ui:Label name="GridDebug" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
