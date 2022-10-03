@@ -71,7 +71,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateIsAtCounter_2();
         }
-        else if (localState == NpcState.AT_COUNTER && Grid.IsThereCustomer() && idleTime < TIME_IDLE_BEFORE_TAKING_ORDER)
+        else if (localState == NpcState.AT_COUNTER && Grid.IsThereCustomer() && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
         {
             UpdateAttendTable_3();
         }
@@ -79,11 +79,11 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateIsTakingOrder_4();
         }
-        else if (localState == NpcState.TAKING_ORDER && CurrentEnergy == 0)
+        else if (localState == NpcState.TAKING_ORDER)
         {
             UpdateTakeOrder_5();
         }
-        else if (localState == NpcState.TAKING_ORDER && CurrentEnergy >= 100)
+        else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER && CurrentEnergy >= 100)
         {
             UpdateOrderAttended_6();
         }
@@ -91,11 +91,11 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateIsAtCounterAfterOrder_7();
         }
-        else if (localState == NpcState.REGISTERING_CASH && CurrentEnergy == 0)
+        else if (localState == NpcState.REGISTERING_CASH)
         {
             UpdateRegisterCash_8();
         }
-        else if (localState == NpcState.REGISTERING_CASH && CurrentEnergy >= 100)
+        else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH && CurrentEnergy >= 100)
         {
             UpdateFinishRegistering_9();
         }
@@ -111,7 +111,6 @@ public class EmployeeController : GameObjectMovementBase
             prevState = localState;
         }
 
-        Debug.Log(Grid.IsThereCustomer() + " " + idleTime);
         animationController.SetState(localState);
         idleTime += Time.deltaTime;
     }
@@ -183,6 +182,7 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateTakeOrder_5()
     {
         ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
+        localState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
     }
 
     // The client was attended we return the free table and Add money to the wallet
@@ -211,6 +211,7 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateRegisterCash_8()
     {
         ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
+        localState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
     }
 
     private void UpdateFinishRegistering_9()
@@ -308,6 +309,6 @@ public class EmployeeController : GameObjectMovementBase
 
     public float GetNpcStateTime()
     {
-        return stateTime;
+        return Mathf.Floor(stateTime);
     }
 }

@@ -222,9 +222,9 @@ public class NPCController : GameObjectMovementBase
 
     public float GetNpcStateTime()
     {
-        return stateTime;
+        return Mathf.Floor(stateTime);
     }
-
+    
     public GameGridObject GetTable()
     {
         return table;
