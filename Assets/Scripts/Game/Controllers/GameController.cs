@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private const int NPC_MAX_NUMBER = 4;
+    private const int EMPLOYEE_MAX_NUMBER = 1;
+    private int employeeCount = 0;
     private int npcId;
     private GridController Grid;
     private GameObject gameGridObject;
@@ -20,7 +22,6 @@ public class GameController : MonoBehaviour
         gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         Grid = gameGridObject.GetComponent<GridController>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
-        SpamEmployee();
     }
 
     private void Update()
@@ -28,6 +29,10 @@ public class GameController : MonoBehaviour
         if (NpcSet.Count < NPC_MAX_NUMBER)
         {
             SpamNpc();
+        }
+        if(Grid.GetCounter() != null && employeeCount == EMPLOYEE_MAX_NUMBER){
+            SpamEmployee();
+            employeeCount++;
         }
     }
     private void SpamNpc()
@@ -60,6 +65,11 @@ public class GameController : MonoBehaviour
         {
             GameLog.LogWarning("GameController/RemoveNPC NPC Controller does not exist");
         }
+    }
+
+    public void RemoveEmployee(){
+        employeeCount--;
+        employeeController = null;
     }
 
     public bool PositionOverlapsNPC(Vector3Int position)

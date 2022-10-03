@@ -6,10 +6,12 @@ public class EmployeeController : GameObjectMovementBase
     [SerializeField]
     private NpcState localState;
     private PlayerAnimationStateController animationController;
-    private const float TIME_TO_TAKING_ORDER = 80f; //Decrease per second  100/15
+    private GameController gameController;
+    private GameTile unRespawnTile;
+    private const float SPEED_TIME_TO_TAKING_ORDER = 80f; //Decrease per second  100/15
+    private const float SPEED_TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
     private const float TIME_IDLE_BEFORE_TAKING_ORDER = 2f;
     private const int RANDOM_PROBABILITY_TO_WAIT = 0;
-    private const float TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
     public Vector3Int CoordOfTableToBeAttended { get; set; }
     private float idleTime;
     //Time in the current state
@@ -22,18 +24,27 @@ public class EmployeeController : GameObjectMovementBase
 
     private void Start()
     {
-        Type = ObjectType.EMPLOYEE;
-        localState = NpcState.IDLE;
-        Name = transform.name;
+        // Animation controller
         animationController = GetComponent<PlayerAnimationStateController>();
-        idleTime = 0;
+
+        // Game Controller
+        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
+        gameController = gameObj.GetComponent<GameController>();
+
         // keeps the time in the current state
+        idleTime = 0;
         stateTime = 0;
         prevState = localState;
 
-        if (animationController == null)
+        //Setting initial vars
+        Type = ObjectType.EMPLOYEE;
+        localState = NpcState.IDLE;
+        Name = transform.name;
+
+        //Checking for null
+        if (animationController == null || gameObj == null)
         {
-            GameLog.LogWarning("NPCController/animationController null");
+            GameLog.LogWarning("NPCController/animationController-gameObj null");
         }
     }
 
@@ -43,8 +54,16 @@ public class EmployeeController : GameObjectMovementBase
         UpdatePosition();
         UpdateEnergyBar();
 
-        // To Handle States
-        if (localState == NpcState.IDLE && Grid.GetCounter() != null)
+        // To Handle Statess
+        if (Grid.GetCounter() == null) //If the player removes the counter the employee goes away
+        {
+            UpdateGoToUnrespawn_0();
+        }else if (localState == NpcState.WALKING_UNRESPAWN)
+        {
+            UpdaetIsAtUnrespawn_0();
+
+        }
+        else if (localState == NpcState.IDLE && Grid.GetCounter() != null)
         {
             UpdateGoNextToCounter_1();
         }
@@ -60,11 +79,11 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateIsTakingOrder_4();
         }
-        else if (localState == NpcState.TAKING_ORDER)
+        else if (localState == NpcState.TAKING_ORDER && CurrentEnergy == 0)
         {
             UpdateTakeOrder_5();
         }
-        else if (localState == NpcState.TAKING_ORDER && CurrentEnergy >= 99)
+        else if (localState == NpcState.TAKING_ORDER && CurrentEnergy >= 100)
         {
             UpdateOrderAttended_6();
         }
@@ -72,11 +91,11 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateIsAtCounterAfterOrder_7();
         }
-        else if (localState == NpcState.REGISTERING_CASH)
+        else if (localState == NpcState.REGISTERING_CASH && CurrentEnergy == 0)
         {
             UpdateRegisterCash_8();
         }
-        else if (localState == NpcState.REGISTERING_CASH && CurrentEnergy >= 99)
+        else if (localState == NpcState.REGISTERING_CASH && CurrentEnergy >= 100)
         {
             UpdateFinishRegistering_9();
         }
@@ -84,7 +103,6 @@ public class EmployeeController : GameObjectMovementBase
         // keeps the time in the current state
         if (prevState == localState)
         {
-            // GameLog.Log("Current state time " + stateTime);
             stateTime += Time.deltaTime;
         }
         else
@@ -93,18 +111,31 @@ public class EmployeeController : GameObjectMovementBase
             prevState = localState;
         }
 
-        //Defult time to restart
-        // if (localState == NpcState.WALKING_TO_TABLE && stateTime >= 3f)
-        // {
-        //     //GameLog.Log("NPC stuck restarting");
-        //     ResetState();
-        // }
-
         animationController.SetState(localState);
         idleTime += Time.deltaTime;
     }
 
     //First State
+    private void UpdateGoToUnrespawn_0()
+    {
+        localState = NpcState.WALKING_UNRESPAWN;
+        unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
+        target = unRespawnTile.GridPosition;
+        if (!GoTo(target))
+        {
+            GameLog.Log("We could not find path to unrespawn");
+            localState = NpcState.WAITING_TO_BE_ATTENDED;
+        }
+    }
+
+    private void UpdaetIsAtUnrespawn_0()
+    {
+        if (Util.IsAtDistanceWithObject(transform.position, Grid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
+        {
+            gameController.RemoveEmployee();
+            Destroy(gameObject);
+        }
+    }
     private void UpdateGoNextToCounter_1()
     {
         localState = NpcState.WALKING_TO_COUNTER;
@@ -150,7 +181,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateTakeOrder_5()
     {
-        ActivateEnergyBar(TIME_TO_TAKING_ORDER);
+        ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
     }
 
     // The client was attended we return the free table and Add money to the wallet
@@ -178,7 +209,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateRegisterCash_8()
     {
-        ActivateEnergyBar(TIME_TO_REGISTER_IN_CASH);
+        ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
     }
 
     private void UpdateFinishRegistering_9()
