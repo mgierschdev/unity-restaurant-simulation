@@ -355,7 +355,7 @@ public static class Util
         GameLog.LogWarning(message);
         return true;
     }
-    
+
     public static bool IsNull(GridController gameObject, string message)
     {
         if (gameObject == null)
@@ -435,9 +435,11 @@ public static class Util
         return list.Last();
     }
 
-    public static Color GetRandomColor(){
+    public static Color GetRandomColor()
+    {
         int rand = Random.Range(0, 10);
-        switch (rand){
+        switch (rand)
+        {
             case 0: return Color.black;
             case 1: return Color.blue;
             case 2: return Color.clear;
@@ -451,5 +453,22 @@ public static class Util
             case 10: return Color.yellow;
         }
         return Color.black;
+    }
+
+    public static int[,] TransposeGridForDebugging(int[,] grid)
+    {
+        int w = grid.GetLength(0);
+        int h = grid.GetLength(1);
+
+        int[,] result = new int[h, w];
+
+        for (int i = 0; i < w; i++)
+        {
+            for (int j = 0; j < h; j++)
+            {
+                result[h - j - 1, i] = grid[i, j];
+            }
+        }
+        return result;
     }
 }
