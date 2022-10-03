@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
 public class IsometricWorldDebug : EditorWindow
@@ -13,11 +12,11 @@ public class IsometricWorldDebug : EditorWindow
     private Label gridDebugContent;
     private VisualElement gridDisplay;
     private TemplateContainer templateContainer;
-    private VisualElement cell;
     private Button buttonStartDebug;
     private VisualElement mainContainer;
     private const string EMPTY_CELL_STYLE = "grid-cell-empty";
     private const string BUSY_CELL_STYLE = "grid-cell-busy";
+    private const string ACTION_CELL_STYLE = "grid-cell-action";
 
     [UnityEditor.MenuItem("Custom/IsometricWorldDebug")]
     public static void ShowExample()
@@ -43,22 +42,14 @@ public class IsometricWorldDebug : EditorWindow
         root.Add(templateContainer);
         templateContainer.styleSheets.Add(styleSheet);
 
-
         // Setting up Variables
         buttonStartDebug = templateContainer.Q<Button>("GridDebugButton");
         buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
         buttonStartDebug.text = "In order to start, enter in Play mode";
         gridDebugContent = templateContainer.Q<Label>("GridDebug");
         gridDisplay = templateContainer.Q<VisualElement>("GridDisplay");
-        cell = templateContainer.Q<VisualElement>("Cell");
         mainContainer = templateContainer.Q<VisualElement>("MainContainer");
         mainContainer.SetEnabled(false);
-        //cell.AddToClassList("grid-cell-empty");
-
-        //button.text = "";
-
-        //Set button hanflers
-       // SetupButtonHandler();
     }
 
     // This iterates all buttons 
@@ -87,6 +78,8 @@ public class IsometricWorldDebug : EditorWindow
             button.text = "Start Debug";
             gridDebugEnabled = false;
             mainContainer.SetEnabled(false);
+            gridDisplay.Clear();
+            gridDebugContent.text = "";
         }
         else
         {
@@ -101,19 +94,22 @@ public class IsometricWorldDebug : EditorWindow
         {
             if (gridDebugEnabled && Grid)
             {
-                BussGridToText();
+                SetBussGrid();
                 string deubgText = " ";
                 deubgText += DebugBussData();
                 deubgText += EntireGridToText();
                 gridDebugContent.text = deubgText;
             }
-
+            else
+            {
+                gridDebugContent.text = "";
+                gridDisplay.Clear();
+            }
         }
     }
 
-    private string BussGridToText()
+    private void SetBussGrid()
     {
-        string output = " ";
         int[,] grid = Grid.GetGridArray();
         List<GameTile> listBusinessFloor = Grid.GetListBusinessFloor();
 
@@ -133,19 +129,63 @@ public class IsometricWorldDebug : EditorWindow
             busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
         }
 
-        //We set the max size of the editor display
-        Debug.Log("Size: " + (maxX - minX));
-        gridDisplay.style.
 
-        for (int i = minX; i <= maxX; i++)
+        // we rotate the grid for the UI
+        int[,] newGrid = new int[maxX - minX + 1, maxY - minY + 1];
+
+        int iStart = minX;
+        int iEnd = maxX + 1;
+        int jStart = minY;
+        int jEnd = maxY + 1;
+
+        int indexX = 0;
+
+        //traspose
+        for (int i = iStart; i < iEnd; i++)
         {
-            for (int j = minY; j <= maxY; j++)
+            int indexY = 0;
+
+            for (int j = jStart; j < jEnd; j++)
             {
-                output += " " + busGrid[i, j];
+                newGrid[indexX, indexY] = grid[i, j];
+
+                indexY++;
             }
-            output += "\n";
+
+            indexX++;
         }
-        return output;
+
+        newGrid = Util.TransposeGridForDebugging(newGrid);
+
+        // We set the Display
+        //We set the max size of the editor display
+        int width = maxX - maxY + 1;
+        gridDisplay.style.width = newGrid.GetLength(0) * 30;
+        //we clean prev childs
+        gridDisplay.Clear();
+
+        for (int i = 0; i < newGrid.GetLength(0); i++)
+        {
+            for (int j = 0; j < newGrid.GetLength(1); j++)
+            {
+                VisualElement cell = new VisualElement();
+                gridDisplay.Add(cell);
+
+                if (newGrid[i, j] == 0)
+                {
+                    cell.AddToClassList(EMPTY_CELL_STYLE);
+                }
+                else if (newGrid[i, j] == 1)
+                {
+                    cell.AddToClassList(BUSY_CELL_STYLE);
+                }
+                else
+                {
+                    //Action cell
+                    cell.AddToClassList(ACTION_CELL_STYLE);
+                }
+            }
+        }
     }
 
     private string DebugBussData()
@@ -215,5 +255,4 @@ public class IsometricWorldDebug : EditorWindow
         }
         return output;
     }
-
 }
