@@ -27,7 +27,7 @@ public class NPCController : GameObjectMovementBase
     {
         Type = ObjectType.NPC;
         Name = transform.name;
-        localState = NpcState.IDLE_0;
+        localState = NpcState.IDLE;
         GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
         gameController = gameObj.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
@@ -53,29 +53,29 @@ public class NPCController : GameObjectMovementBase
         UpdateEnergyBar();
 
         //Handle NPC States
-        if ((localState == NpcState.WALKING_WANDER_5 || localState == NpcState.IDLE_0) && Grid.IsThereFreeTables())
+        if ((localState == NpcState.WALKING_WANDER || localState == NpcState.IDLE) && Grid.IsThereFreeTables())
         {
             UpdateFindPlace_1();
         }
-        else if (localState == NpcState.WALKING_TO_TABLE_1)
+        else if (localState == NpcState.WALKING_TO_TABLE)
         {
             UpdateIsAtTable_2();
         }
-        else if (localState == NpcState.AT_TABLE_2)
+        else if (localState == NpcState.AT_TABLE)
         {
             UpdateWaitToBeAttended_3();
         }
-        else if (localState == NpcState.WAITING_TO_BE_ATTENDED_7 && !table.GetBusy())
+        else if (localState == NpcState.WAITING_TO_BE_ATTENDED && !table.GetBusy())
         {
             GoToFinalState_4();
         }
-        else if (localState == NpcState.WALKING_UNRESPAWN_8)
+        else if (localState == NpcState.WALKING_UNRESPAWN)
         {
             UpdateIsAtRespawn_5();
         }
         else if (!Grid.IsThereFreeTables() && localState == NpcState.WANDER)
         {
-            Wander();
+            Wander_0();
         }
 
         // keeps the time in the current state
@@ -101,7 +101,7 @@ public class NPCController : GameObjectMovementBase
         table = Grid.GetFreeTable();
         table.SetUsed(this);
         table.SetUsedBy(this);
-        localState = NpcState.WALKING_TO_TABLE_1;
+        localState = NpcState.WALKING_TO_TABLE;
         GoToWalkingToTable_6();
     }
 
@@ -110,27 +110,27 @@ public class NPCController : GameObjectMovementBase
     {
         if (Util.IsAtDistanceWithObjectTraslate(transform.position, targetInWorldPosition, transform))
         {
-            localState = NpcState.AT_TABLE_2;
+            localState = NpcState.AT_TABLE;
         }
     }
 
     private void UpdateWaitToBeAttended_3()
     {
         Grid.AddClientToTable(table);
-        localState = NpcState.WAITING_TO_BE_ATTENDED_7;
+        localState = NpcState.WAITING_TO_BE_ATTENDED;
 
     }
 
     public void GoToFinalState_4()
     {
         table = null;
-        localState = NpcState.WALKING_UNRESPAWN_8;
+        localState = NpcState.WALKING_UNRESPAWN;
         unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
             GameLog.Log("We could not find path to unrespawn");
-            localState = NpcState.WAITING_TO_BE_ATTENDED_7;
+            localState = NpcState.WAITING_TO_BE_ATTENDED;
         }
     }
 
@@ -164,7 +164,7 @@ public class NPCController : GameObjectMovementBase
 
     public void RecalculateGoTo()
     {
-        if (localState == NpcState.WALKING_TO_TABLE_1)
+        if (localState == NpcState.WALKING_TO_TABLE)
         {
             GoToWalkingToTable_6();
         }
@@ -172,12 +172,12 @@ public class NPCController : GameObjectMovementBase
         {
             if (!GoTo(target))
             {
-                localState = NpcState.IDLE_0;
+                localState = NpcState.IDLE;
             }
         }
     }
 
-    private void Wander()
+    private void Wander_0()
     {
         if (IsMoving())
         {
@@ -186,21 +186,21 @@ public class NPCController : GameObjectMovementBase
 
         // we could add more random by deciding to move or not 
         idleTime += Time.deltaTime;
-        localState = NpcState.IDLE_0;
+        localState = NpcState.IDLE;
 
         if (idleTime < randMax)
         {
             return;
         }
 
-        localState = NpcState.WALKING_WANDER_5;
+        localState = NpcState.WALKING_WANDER;
         idleTime = 0;
         randMax = Random.Range(0, IDLE_MAX_TIME);
         target = GetRandomWalkablePosition();
         if (!GoTo(target))
         {
             GameLog.Log("We could not find path to wander");
-            localState = NpcState.IDLE_0;
+            localState = NpcState.IDLE;
         }
     }
 
