@@ -166,16 +166,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    // private void ActivateEnergyBar()
-    // {
-    //     energyBar.SetActive();
-    // }
-
-    // private void AddEnergyBar()
-    // {
-    //     energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
-    // }
-
     private void ClickUpdateController()
     {
         Type = ObjectType.PLAYER;
@@ -277,12 +267,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         return merge;
     }
-
-
-    // private List<Node> GetPath(int[] from, int[] to)
-    // {
-    //     return GameGrid.GetPath(from, to);
-    // }
 
     //A to B direction
     private MoveDirection GetDirectionFromPositions(Vector3 a, Vector3 b)
