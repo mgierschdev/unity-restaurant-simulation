@@ -197,7 +197,6 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateOrderAttended_6()
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
-        Grid.AddFreeBusinessSpots(tableToBeAttended);
         tableToBeAttended.SetBusy(false);
         tableToBeAttended = null;
         if (!GoToCounter())
@@ -276,17 +275,14 @@ public class EmployeeController : GameObjectMovementBase
         // and enqueue de table to the list again 
         if (localTarget == CoordOfTableToBeAttended)
         {
-            GameLog.Log("We could not find a proper place to standup");
-            Grid.AddClientToTable(tableToBeAttended);
+            GameLog.Log("We could not find a proper place to standup - GoToTableToBeAttended()");
             return;
         }
         target = CoordOfTableToBeAttended;
         if (!GoTo(target))
         {
-            GameLog.Log("We could not find a path");
-            Grid.AddClientToTable(tableToBeAttended);
+            GameLog.Log("We could not find a path - GoToTableToBeAttended()");
             return;
-
         }
     }
 

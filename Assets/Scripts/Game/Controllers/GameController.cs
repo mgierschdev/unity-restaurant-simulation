@@ -34,7 +34,15 @@ public class GameController : MonoBehaviour
             SpamEmployee();
             employeeCount++;
         }
+
+        CheckBussSpots();
     }
+
+    //Will check if there any free buss spot, so the could be added to the queue
+    public void CheckBussSpots(){
+        //Check AddFreeBusinessSpots
+    }
+
     private void SpamNpc()
     {
         tileSpawn = Grid.GetRandomSpamPointWorldPosition();
