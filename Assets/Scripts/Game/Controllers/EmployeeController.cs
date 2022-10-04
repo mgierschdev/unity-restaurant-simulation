@@ -166,8 +166,6 @@ public class EmployeeController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
-            GameLog.LogWarning("Retrying: We could not find a path - UpdateGoNextToCounter_1() " + IsAtTargetPosition(target) + " " + Position + " " + target);
-
             //Go to counter if it is already at the counter we change the state
             if (IsAtTargetPosition(target))
             {
@@ -175,6 +173,7 @@ public class EmployeeController : GameObjectMovementBase
             }
             else
             {
+                GameLog.LogWarning("Retrying: We could not find a path - UpdateGoNextToCounter_1() ");
                 localState = NpcState.IDLE;
             }
 
@@ -319,7 +318,15 @@ public class EmployeeController : GameObjectMovementBase
     {
         if (tableToBeAttended == null)
         {
+            GameLog.Log("Getting table with client: GoToTableToBeAttended()");
             tableToBeAttended = Grid.GetTableWithClient();
+
+            if (tableToBeAttended == null)
+            {
+                GameLog.Log("There is no table to attend: GoToTableToBeAttended()");
+                localState = NpcState.IDLE;
+                return;
+            }
         }
 
         Vector3Int localTarget = Grid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
@@ -347,7 +354,15 @@ public class EmployeeController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
-            GameLog.LogWarning("Retrying: We could not find a path - RestartState()");
+            if (IsAtTargetPosition(target))
+            {
+                localState = NpcState.AT_COUNTER;
+                return true;
+            }
+            else
+            {
+                GameLog.LogWarning("Retrying: We could not find a path - RestartState()");
+            }
             return false;
         }
 
@@ -363,5 +378,10 @@ public class EmployeeController : GameObjectMovementBase
     public float GetNpcStateTime()
     {
         return Mathf.Floor(stateTime);
+    }
+
+    public void SetTableToBeAttended(GameGridObject table)
+    {
+        tableToBeAttended = table;
     }
 }
