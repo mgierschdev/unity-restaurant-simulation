@@ -51,7 +51,6 @@ public class NPCController : GameObjectMovementBase
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
-        UpdateTimeInState();
 
         //Handle NPC States
         if ((localState == NpcState.IDLE || localState == NpcState.WANDER) && !Grid.IsThereFreeTables())
@@ -79,7 +78,8 @@ public class NPCController : GameObjectMovementBase
             UpdateIsAtRespawn_5();
         }
 
-        // Goes at the end
+        // Intended to go at the end
+        UpdateTimeInState();
         UpdateAnimation();
     }
 
@@ -89,7 +89,7 @@ public class NPCController : GameObjectMovementBase
         if (prevState == localState)
         {
             //GameLog.Log("Current state time "+stateTime);
-            stateTime += Time.deltaTime;
+            stateTime += Time.fixedDeltaTime;
         }
         else
         {
@@ -210,7 +210,7 @@ public class NPCController : GameObjectMovementBase
         }
 
         // we could add more random by deciding to move or not 
-        idleTime += Time.deltaTime;
+        idleTime += Time.fixedDeltaTime;
         localState = NpcState.IDLE;
 
         if (idleTime < randMax)
