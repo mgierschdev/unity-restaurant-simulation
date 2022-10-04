@@ -51,6 +51,7 @@ public class NPCController : GameObjectMovementBase
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
+        UpdateTimeInState();
 
         //Handle NPC States
         if ((localState == NpcState.IDLE || localState == NpcState.WANDER) && !Grid.IsThereFreeTables())
@@ -78,6 +79,12 @@ public class NPCController : GameObjectMovementBase
             UpdateIsAtRespawn_5();
         }
 
+        // Goes at the end
+        UpdateAnimation();
+    }
+
+    private void UpdateTimeInState()
+    {
         // keeps the time in the current state
         if (prevState == localState)
         {
@@ -90,6 +97,13 @@ public class NPCController : GameObjectMovementBase
             prevState = localState;
         }
 
+        if(stateTime > MAX_TABLE_WAITING_TIME){
+            GoToFinalState_4();
+        }
+    }
+
+    private void UpdateAnimation()
+    {
         // TODO: only change inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
         // Animates depending on the current state
 
