@@ -277,7 +277,7 @@ public class IsometricWorldDebug : EditorWindow
 
         foreach (NPCController current in gameController.GetNpcSet())
         {
-            output += current.Name + " State: " + current.GetNpcState() + " " + current.GetNpcStateTime() + " walking speed: " + current.GetWalkingSpeed() + " \n";
+            output += current.Name + " State: " + current.GetNpcState() + " " + current.GetNpcStateTime() + " \n";
         }
 
         return output;

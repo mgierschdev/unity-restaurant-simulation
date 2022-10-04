@@ -21,17 +21,17 @@ public class PlayerAnimationStateController : MonoBehaviour
             return;
         }
 
-        if (walkingSpeed == 0)
+        if (walkingSpeed == 0f)
         {
             animator.ResetTrigger(AnimatorState.Walking);
             animator.ResetTrigger(AnimatorState.WaitingAtTable);
             animator.SetTrigger(AnimatorState.Idle);
         }
-        else if (walkingSpeed > 0)
+        else if (walkingSpeed > 0f)
         {
             animator.ResetTrigger(AnimatorState.WaitingAtTable);
-            animator.ResetTrigger(AnimatorState.Walking);
-            animator.SetTrigger(AnimatorState.Idle);
+            animator.SetTrigger(AnimatorState.Walking);
+            animator.ResetTrigger(AnimatorState.Idle);
         }
         else if (state == NpcState.WAITING_TO_BE_ATTENDED)
         {
