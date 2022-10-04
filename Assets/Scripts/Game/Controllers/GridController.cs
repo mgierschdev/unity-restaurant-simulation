@@ -600,7 +600,12 @@ public class GridController : MonoBehaviour
     {
         return busyBusinessSpotsMap.ContainsKey(obj.Name);
     }
-    // We remove an active item an store it
+
+    public void RemoveBusyBusinessSpots(GameGridObject obj){
+        busyBusinessSpotsMap.Remove(obj.Name);
+    }
+
+    // We remove an active item to store it
     public void RemoveBussTable(GameGridObject obj)
     {
         if (freeBusinessSpots.Contains(obj))
@@ -623,6 +628,7 @@ public class GridController : MonoBehaviour
             freeBusinessSpotsMap.Remove(obj.Name);
         }
     }
+    
 
     //TODO: To implement in gameController
     public void AddFreeBusinessSpots(GameGridObject obj)

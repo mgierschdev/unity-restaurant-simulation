@@ -110,11 +110,6 @@ public class EmployeeController : GameObjectMovementBase
             prevState = localState;
         }
 
-        // to measure speed
-        // WalkingSpeed = Vector3.Distance(prevPosition, transform.position) / Time.deltaTime;
-        // prevPosition = transform.position;
-        // Debug.Log("Walking speed " + WalkingSpeed);
-        // to measure speeds
         if (IsMoving())
         {
             animationController.SetState(NpcState.WALKING);

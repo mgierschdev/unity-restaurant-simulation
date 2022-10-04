@@ -143,6 +143,7 @@ public class GameGridObject : GameObjectBase
     {
         usedBy = null;
         busy = false;
+        Grid.RemoveBusyBusinessSpots(this);
     }
 
     public Vector3 GetActionTile()

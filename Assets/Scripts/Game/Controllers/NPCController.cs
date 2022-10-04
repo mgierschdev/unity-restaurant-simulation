@@ -124,11 +124,11 @@ public class NPCController : GameObjectMovementBase
     {
         Grid.AddClientToTable(table);
         localState = NpcState.WAITING_TO_BE_ATTENDED;
-
     }
 
     public void GoToFinalState_4()
     {
+        table.FreeObject();
         table = null;
         localState = NpcState.WALKING_UNRESPAWN;
         unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
