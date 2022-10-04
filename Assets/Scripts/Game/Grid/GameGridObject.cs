@@ -100,10 +100,10 @@ public class GameGridObject : GameObjectBase
     {
         //TODO: Show POPUP confirming action
         //GameLog.Log("TODO: Storing item in Inventory " + Name);
-        Grid.playerData.StoreItem(this);
+        Grid.PlayerData.StoreItem(this);
         Grid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current seledted in the grid 
         Grid.FreeObject(this);
-        if (Type == ObjectType.NPC_SINGLE_TABLE)
+        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
             Grid.RemoveBussTable(this);
         }

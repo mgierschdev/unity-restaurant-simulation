@@ -78,10 +78,10 @@ public class PathFind
                 if (IsValid(x, y) && arrayGrid[x, y] != (int)ObjectType.OBSTACLE && arrayGrid[x, y] != (int)ObjectType.PLAYER)
                 {
                     //Additional validation to no go diagonally through 2 obstacles
-                    if (!IsValidDiagonal(x, y))
-                    {
-                        continue;
-                    }
+                    // if (!IsValidDiagonal(x, y))
+                    // {
+                    //     continue;
+                    // }
                     //Additional validation to no go diagonally through 2 obstacles
 
                     PathNode neighbor = grid[x, y];

@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class GridController : MonoBehaviour
 {
     //Player Data
-    public PlayerData playerData;
+    public PlayerData PlayerData { get; set; }
     //Tilemap 
     private const int WIDTH = Settings.GridWidth; // Down -> Up
     private const int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
@@ -63,7 +63,7 @@ public class GridController : MonoBehaviour
         // Setting up Current money
         GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-        playerData = new PlayerData(20000, moneyText);
+        PlayerData = new PlayerData(20000, moneyText);
 
         // TILEMAP DATA 
         tilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
@@ -560,7 +560,7 @@ public class GridController : MonoBehaviour
     public void SetGridObject(GameGridObject obj)
     {
         // we add all the objects to the player inventory
-        playerData.AddItemToInventory(obj);
+        PlayerData.AddItemToInventory(obj);
 
         if (obj.Type == ObjectType.NPC_COUNTER)
         {
@@ -601,7 +601,8 @@ public class GridController : MonoBehaviour
         return busyBusinessSpotsMap.ContainsKey(obj.Name);
     }
 
-    public void RemoveBusyBusinessSpots(GameGridObject obj){
+    public void RemoveBusyBusinessSpots(GameGridObject obj)
+    {
         busyBusinessSpotsMap.Remove(obj.Name);
     }
 
@@ -627,8 +628,13 @@ public class GridController : MonoBehaviour
         {
             freeBusinessSpotsMap.Remove(obj.Name);
         }
+
+        if (obj.Type == ObjectType.NPC_COUNTER)
+        {
+            counter = null;
+        }
     }
-    
+
 
     //TODO: To implement in gameController
     public void AddFreeBusinessSpots(GameGridObject obj)
@@ -671,10 +677,11 @@ public class GridController : MonoBehaviour
 
     public void AddClientToTable(GameGridObject obj)
     {
-        if(tablesWithClient.Contains(obj)){
+        if (tablesWithClient.Contains(obj))
+        {
             return;
         }
-        
+
         Util.EnqueueToList(tablesWithClient, obj);
     }
 
@@ -851,7 +858,7 @@ public class GridController : MonoBehaviour
 
     public bool IsTableStored(string nameID)
     {
-        return playerData.IsItemStored(nameID);
+        return PlayerData.IsItemStored(nameID);
     }
 
     public int GetObjectCount()
@@ -880,11 +887,11 @@ public class GridController : MonoBehaviour
 
     public PlayerData GetPlayerData()
     {
-        return playerData;
+        return PlayerData;
     }
     public void SetPlayerData(PlayerData data)
     {
-        playerData = data;
+        PlayerData = data;
     }
 
     public int[,] GetGridArray()

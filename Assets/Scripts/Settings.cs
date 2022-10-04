@@ -3,7 +3,7 @@ using UnityEngine;
 public static class Settings
 {
     // DEBUG parameterss
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
 
     // Player Config

@@ -44,11 +44,12 @@ public class GameController : MonoBehaviour
     {
         Dictionary<string, GameGridObject> tables = Grid.GetBusinessObjects();
 
-        foreach(KeyValuePair<string, GameGridObject> obj in tables){
+        foreach (KeyValuePair<string, GameGridObject> obj in tables)
+        {
+            GameGridObject gameGridObject = obj.Value;
 
-            GameGridObject gameGridObject =obj.Value;
-
-            if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy() && !gameGridObject.GetIsObjectBeingDragged()){
+            if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy() && !gameGridObject.GetIsObjectBeingDragged() && !Grid.PlayerData.IsItemStored(gameGridObject.Name))
+            {
                 Grid.AddFreeBusinessSpots(gameGridObject);
             }
         }
