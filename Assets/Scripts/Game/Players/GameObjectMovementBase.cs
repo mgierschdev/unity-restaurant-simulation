@@ -9,8 +9,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public string Name { get; set; }
     // Getters and setters
     protected ObjectType Type { get; set; }
-    public float Speed { get; set; }
-    public Vector3 Velocity { get; set; }
+    public float SpeedMultiplayer { get; set; }
     public Vector3Int Position { get; set; } //PathFindingGrid Position
     public GridController Grid { get; set; }
 
@@ -22,7 +21,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private Queue pendingMovementQueue;
     private Vector3 currentTargetPosition;
     private Vector3Int FinalTarget { get; set; }
-
     private GameObject gameGridObject;
 
     // ClickController for the long click duration for the player
@@ -39,6 +37,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
 
+    //Movement Rigidbody
+    public Vector2 Velocity { get; set; }
+    protected Rigidbody2D rigidbody2D;
+
     private void Awake()
     {
         //Setting default init name
@@ -49,7 +51,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         // Debug parameters
         stateHistory = new Queue<string>();
-        Speed = Settings.NpcDefaultMovementSpeed;
+        SpeedMultiplayer = Settings.NpcDefaultMovementSpeed;
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
@@ -74,6 +76,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         FinalTarget = Util.GetVector3IntPositiveInfinity();
         side = false; // The side in which the character is facing by default = false meaning right.
         speedDecreaseEnergyBar = 20f;
+
+        //Velocity for the 2D rigidbody
+        Velocity = new Vector2(1.75f, 1.1f);
+        rigidbody2D = transform.GetComponent<Rigidbody2D>();
     }
 
     // Overlap sphere
@@ -162,14 +168,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
             UpdateObjectDirection();
-            transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, Speed * Time.deltaTime);
+
+            //transform.position = Rigidbody2D.MovePosition(Vector3.Lerp(transform.position, currentTargetPosition, Speed * Time.deltaTime));
+            Vector2 targetPosition = new Vector2(currentTargetPosition.x, currentTargetPosition.y);
+            rigidbody2D.MovePosition(targetPosition + Velocity * Time.deltaTime);
         }
     }
 
     private void ClickUpdateController()
     {
         Type = ObjectType.PLAYER;
-        Speed = Settings.PlayerMovementSpeed;
+        SpeedMultiplayer = Settings.PlayerMovementSpeed;
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
 
         if (!Util.IsNull(cController, "PlayerController/clickController null"))
