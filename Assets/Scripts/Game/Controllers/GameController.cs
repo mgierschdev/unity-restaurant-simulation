@@ -119,7 +119,7 @@ public class GameController : MonoBehaviour
 
         foreach (NPCController npcController in NpcSet)
         {
-            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE)
+            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE || npcController.GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
             {
                 // If the current table has been stored, we reset NPC state 
                 if (Grid.IsTableStored(npcController.GetTable().Name))
