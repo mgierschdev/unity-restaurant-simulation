@@ -19,6 +19,8 @@ public class GameGridObject : GameObjectBase
     private bool busy; //Being used by an NPC
     private NPCController usedBy;
     private GameObject editMenu;
+    private bool isObjectBeingDragged;
+
 
     public GameGridObject(Transform transform, GridController gridController, ObjectRotation position, StoreGameObject storeGameObject)
     {
@@ -378,5 +380,15 @@ public class GameGridObject : GameObjectBase
     public NPCController GetUsedBy()
     {
         return usedBy;
+    }
+
+    public void SetIsObjectBeingDragged(bool val)
+    {
+        isObjectBeingDragged = val;
+    }
+
+    public bool GetIsObjectBeingDragged()
+    {
+        return isObjectBeingDragged;
     }
 }
