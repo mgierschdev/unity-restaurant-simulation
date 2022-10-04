@@ -146,7 +146,7 @@ public class EmployeeController : GameObjectMovementBase
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
-            //GameLog.Log("We could not find path to unrespawn");
+            GameLog.LogWarning("Retrying: We could not find a path - UpdateGoToUnrespawn_0()");
             localState = NpcState.IDLE;
         }
     }
@@ -164,15 +164,20 @@ public class EmployeeController : GameObjectMovementBase
         localState = NpcState.WALKING_TO_COUNTER;
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
 
-        //Go to counter if it is already at the counter we change the state
-        if (IsAtTargetPosition(target))
-        {
-            localState = NpcState.AT_COUNTER;
-        }
-
         if (!GoTo(target))
         {
-            localState = NpcState.IDLE;
+            GameLog.LogWarning("Retrying: We could not find a path - UpdateGoNextToCounter_1() " + IsAtTargetPosition(target) + " " + Position + " " + target);
+
+            //Go to counter if it is already at the counter we change the state
+            if (IsAtTargetPosition(target))
+            {
+                localState = NpcState.AT_COUNTER;
+            }
+            else
+            {
+                localState = NpcState.IDLE;
+            }
+
         }
     }
 
@@ -291,7 +296,9 @@ public class EmployeeController : GameObjectMovementBase
                 if (IsAtTargetPosition(target))
                 {
                     localState = NpcState.AT_COUNTER;
-                }else{
+                }
+                else
+                {
                     GameLog.LogWarning("Could not go to the counter. RecalculateState()");
                 }
             }
@@ -340,6 +347,7 @@ public class EmployeeController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
+            GameLog.LogWarning("Retrying: We could not find a path - RestartState()");
             return false;
         }
 
