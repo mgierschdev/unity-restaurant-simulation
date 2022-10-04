@@ -165,7 +165,6 @@ public class IsometricWorldDebug : EditorWindow
 
         // We set the Display
         //We set the max size of the editor display
-        int width = maxX - maxY + 1;
         gridDisplay.style.width = newGrid.GetLength(0) * 30;
         //we clean prev childs
         gridDisplay.Clear();
