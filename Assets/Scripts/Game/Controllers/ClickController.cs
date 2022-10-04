@@ -59,7 +59,7 @@ public class ClickController : MonoBehaviour
             }
             else
             {
-                ClickingTime += Time.deltaTime;
+                ClickingTime += Time.fixedDeltaTime;
             }
         }
 

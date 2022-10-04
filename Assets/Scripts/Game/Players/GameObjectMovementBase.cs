@@ -105,7 +105,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             if (CurrentEnergy <= 100)
             {
-                CurrentEnergy += Time.deltaTime * speedDecreaseEnergyBar;
+                CurrentEnergy += Time.fixedDeltaTime * speedDecreaseEnergyBar;
                 energyBar.SetEnergy((int)CurrentEnergy);
             }
             else

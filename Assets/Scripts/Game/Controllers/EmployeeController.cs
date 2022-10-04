@@ -53,7 +53,6 @@ public class EmployeeController : GameObjectMovementBase
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
-        UpdateTimeInState();
 
         // To Handle Statess
         if (Grid.GetCounter() == null) //If the player removes the counter the employee goes away
@@ -103,6 +102,7 @@ public class EmployeeController : GameObjectMovementBase
 
         // Intended to be at the end
         UpdateAnimation();
+        UpdateTimeInState();
     }
 
     private void UpdateAnimation()
@@ -122,7 +122,7 @@ public class EmployeeController : GameObjectMovementBase
         // keeps the time in the current state
         if (prevState == localState)
         {
-            stateTime += Time.deltaTime;
+            stateTime += Time.fixedDeltaTime;
         }
         else
         {
@@ -130,10 +130,11 @@ public class EmployeeController : GameObjectMovementBase
             prevState = localState;
         }
 
+        idleTime += Time.fixedDeltaTime;
+
         if (stateTime > MAX_TIME_IN_STATE)
         {
             ResetMovement();
-            RecalculateState(null);
         }
     }
     //First State
