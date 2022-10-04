@@ -54,8 +54,8 @@ public class EmployeeController : GameObjectMovementBase
         UpdatePosition();
         UpdateEnergyBar();
 
-        // To Handle Statess
-        if (Grid.GetCounter() == null) //If the player removes the counter the employee goes away
+        // To Handle States
+        if (Grid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN) //If the player removes the counter the employee goes away
         {
             UpdateGoToUnrespawn_0();
         }
@@ -135,6 +135,7 @@ public class EmployeeController : GameObjectMovementBase
         if (stateTime > MAX_TIME_IN_STATE)
         {
             ResetMovement();
+            RecalculateState(tableToBeAttended);
         }
     }
     //First State
@@ -248,7 +249,7 @@ public class EmployeeController : GameObjectMovementBase
         localState = NpcState.AT_COUNTER;
         double orderCost = Random.Range(5, 10);
         //GameLog.Log("TODO: +" + orderCost);
-        Grid.playerData.AddMoney(orderCost);
+        Grid.PlayerData.AddMoney(orderCost);
     }
 
     // private void ResetState()
@@ -282,6 +283,10 @@ public class EmployeeController : GameObjectMovementBase
 
     private bool GoToCounter()
     {
+        if(Grid.GetCounter() == null){
+            return false;
+        }
+        
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
         return GoTo(target);
     }
