@@ -97,7 +97,8 @@ public class NPCController : GameObjectMovementBase
             prevState = localState;
         }
 
-        if(stateTime > MAX_TABLE_WAITING_TIME){
+        if (stateTime > MAX_TABLE_WAITING_TIME)
+        {
             GoToFinalState_4();
         }
     }
@@ -142,8 +143,13 @@ public class NPCController : GameObjectMovementBase
 
     public void GoToFinalState_4()
     {
-        table.FreeObject();
-        table = null;
+        if (table != null)
+        {
+            table.FreeObject();
+            table = null;
+        }
+
+        ResetMovement();
         localState = NpcState.WALKING_UNRESPAWN;
         unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
         target = unRespawnTile.GridPosition;

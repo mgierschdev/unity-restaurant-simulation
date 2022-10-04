@@ -12,6 +12,7 @@ public class EmployeeController : GameObjectMovementBase
     private const float SPEED_TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
     private const float TIME_IDLE_BEFORE_TAKING_ORDER = 2f;
     private const int RANDOM_PROBABILITY_TO_WAIT = 0;
+    private const float MAX_TIME_IN_STATE = 10F;
     public Vector3Int CoordOfTableToBeAttended { get; set; }
     private float idleTime;
     //Time in the current state
@@ -52,6 +53,7 @@ public class EmployeeController : GameObjectMovementBase
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
+        UpdateTimeInState();
 
         // To Handle Statess
         if (Grid.GetCounter() == null) //If the player removes the counter the employee goes away
@@ -99,6 +101,24 @@ public class EmployeeController : GameObjectMovementBase
             UpdateFinishRegistering_9();
         }
 
+        // Intended to be at the end
+        UpdateAnimation();
+    }
+
+    private void UpdateAnimation()
+    {
+        if (IsMoving())
+        {
+            animationController.SetState(NpcState.WALKING);
+        }
+        else
+        {
+            animationController.SetState(localState);
+        }
+    }
+
+    private void UpdateTimeInState()
+    {
         // keeps the time in the current state
         if (prevState == localState)
         {
@@ -110,17 +130,12 @@ public class EmployeeController : GameObjectMovementBase
             prevState = localState;
         }
 
-        if (IsMoving())
+        if (stateTime > MAX_TIME_IN_STATE)
         {
-            animationController.SetState(NpcState.WALKING);
+            ResetMovement();
+            RecalculateState(null);
         }
-        else
-        {
-            animationController.SetState(localState);
-        }
-        idleTime += Time.deltaTime;
     }
-
     //First State
     private void UpdateGoToUnrespawn_0()
     {
