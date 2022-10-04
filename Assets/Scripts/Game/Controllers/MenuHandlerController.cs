@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class MenuHandlerController : MonoBehaviour
 {
     private GameObject centerPanel;
-    private MenuItem npcProfileMenu;
     private NPCController npc; //saves the latest reference to the npc if the menu was opened
     private EmployeeController employee;
     private MenuItem centerTabMenu;
@@ -46,7 +45,6 @@ public class MenuHandlerController : MonoBehaviour
         //Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
         editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
-        GameObject npcProfileGameObject = transform.Find(Settings.ConstNpcProfileMenu).gameObject;
 
         //Menu Background Controller 
         menuBackgroundController = GameObject.Find(Settings.MenuContainer).GetComponent<MenuBackgroundController>();
@@ -76,9 +74,7 @@ public class MenuHandlerController : MonoBehaviour
 
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
-
         centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.ConstCenterTabMenu, centerPanel, true);
-        npcProfileMenu = new MenuItem(Menu.NPC_PROFILE, MenuType.DIALOG, Settings.ConstNpcProfileMenu, npcProfileGameObject, false);
 
         //Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
@@ -86,7 +82,6 @@ public class MenuHandlerController : MonoBehaviour
 
         editStoreMenuPanel.SetActive(false);
         centerTabMenu.Close();
-        npcProfileMenu.Close();
         openedTime = 0;
     }
 
@@ -108,7 +103,6 @@ public class MenuHandlerController : MonoBehaviour
 
             if (menu.Menu == Menu.NPC_PROFILE && openedTime > MENU_REFRESH_RATE)
             {
-                RefreshNpcProfile();
                 openedTime = 0;
             }
         }
@@ -136,52 +130,12 @@ public class MenuHandlerController : MonoBehaviour
         {
             return;
         }
-
-        if (type == ObjectType.NPC || type == ObjectType.EMPLOYEE)
-        {
-            Dictionary<string, string> map = new Dictionary<string, string>();
-
-            if (type == ObjectType.NPC)
-            {
-                npc = clickController.GetClickedObject().GetComponent<NPCController>();
-                map.Add("Name", npc.Name);
-                map.Add("Debug", npc.GetDebugInfo());
-            }
-
-            if (type == ObjectType.EMPLOYEE)
-            {
-                employee = clickController.GetClickedObject().GetComponent<EmployeeController>();
-                map.Add("Name", employee.Name);
-                map.Add("Debug", employee.GetDebugInfo());
-            }
-
-            OpenMenu(npcProfileMenu);
-            npcProfileMenu.SetFields(map);
-        }
-
         // We reset the clicked object after the action
         clickController.SetClickedObject(null);
         if (clickController.GetClickedGameTile() != null)
         {
             clickController.SetClickedGameTile(null);
         }
-    }
-
-    private void RefreshNpcProfile()
-    {
-        // The NPC may not longer exist
-        if (!npc)
-        {
-            return;
-        }
-
-        Dictionary<string, string> map = new Dictionary<string, string>
-        {
-            { "Name", npc.Name },
-            { "Debug", npc.GetDebugInfo() }
-        };
-        OpenMenu(npcProfileMenu);
-        npcProfileMenu.SetFields(map);
     }
 
     private void CloseAllMenus()

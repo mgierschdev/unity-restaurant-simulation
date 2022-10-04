@@ -35,7 +35,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private Queue<string> stateHistory;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
-    protected Rigidbody2D rigidbody2D;
+    protected Rigidbody2D rb2D;
     private float speed;
     private bool isMoving;
 
@@ -75,7 +75,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speedDecreaseEnergyBar = 20f;
 
         //Velocity for the 2D rigidbody
-        rigidbody2D = transform.GetComponent<Rigidbody2D>();
+        rb2D = transform.GetComponent<Rigidbody2D>();
         speed = Settings.NpcDefaultMovementSpeed;
 
         isMoving = false;
@@ -168,7 +168,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
             UpdateObjectDirection(); // It flips the side of the pbject depending on direction
-            rigidbody2D.MovePosition(Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime));
+            rb2D.MovePosition(Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime));
         }
     }
 
@@ -373,7 +373,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             GameLog.Log("No path found " + transform.name + " From " + Position + " to " + pos);
             return false;
         }
-        
+
         isMoving = true;
         AddStateHistory("Time: " + Time.fixedTime + " steps: " + path.Count + " t: " + pos.x + "," + pos.y);
         FinalTarget = pos;
@@ -416,5 +416,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public void SetSpeed(float speed)
     {
         this.speed = speed;
+    }
+
+    public float GetSpeed()
+    {
+        return speed;
     }
 }
