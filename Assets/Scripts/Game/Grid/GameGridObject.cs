@@ -107,6 +107,12 @@ public class GameGridObject : GameObjectBase
         {
             Grid.RemoveBussTable(this);
         }
+        
+        // we clean the table from the employer
+        if(attendedBy != null){
+            attendedBy.SetTableToBeAttended(null);
+        }
+
         Grid.ReCalculateNpcStates(this);
         Object.Destroy(objectTransform.gameObject);
     }
