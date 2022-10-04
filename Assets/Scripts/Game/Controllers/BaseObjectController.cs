@@ -56,6 +56,26 @@ public class BaseObjectController : MonoBehaviour
         initialPosition = transform.position;
         Grid.SetDraggingObject(true);
         gameGridObject.SetIsObjectBeingDragged(true);
+
+        // If you move a table while busy the NPC will self destroy
+        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
+        {
+            // Restart NPCs states
+            NPCController npc = gameGridObject.GetUsedBy();
+            EmployeeController employee = gameGridObject.GetAttendedBy();
+
+            if (npc != null)
+            {
+                npc.GoToFinalState_4();
+            }
+
+            if (employee != null)
+            {
+                employee.RecalculateState(gameGridObject);
+            }
+
+            gameGridObject.FreeObject(); // So it will be removed while dragging   
+        }
     }
 
     private void OnMouseDrag()
@@ -130,25 +150,6 @@ public class BaseObjectController : MonoBehaviour
         if (!Menu || !Menu.IsEditPanelOpen() || gameGridObject == null)
         {
             return false;
-        }
-
-        // If you move a table while busy the NPC will self destroy
-        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && Grid.IsTableBusy(gameGridObject))
-        {
-            if (gameGridObject.GetUsedBy().GetNpcState() == NpcState.WALKING_TO_TABLE)
-            {
-                gameGridObject.GetUsedBy().RecalculateGoTo();
-
-            }
-            else if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
-            {
-                gameGridObject.GetUsedBy().GoToFinalState_4();
-                gameGridObject.FreeObject(); // So it will be removed while dragging 
-            }
-        }
-        else
-        {
-            Grid.ReCalculateNpcStates(gameGridObject); // In case of changing the grid
         }
         // If overlaps with any UI button 
         return gameGridObject.Type != ObjectType.UNDEFINED && Menu.IsEditPanelOpen() && !IsClickingButton();

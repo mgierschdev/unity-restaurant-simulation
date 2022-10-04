@@ -18,6 +18,7 @@ public class GameGridObject : GameObjectBase
     private ObjectRotation facingPosition; // Facing position
     private bool busy; //Being used by an NPC
     private NPCController usedBy;
+    private EmployeeController attendedBy;
     private GameObject editMenu;
     private bool isObjectBeingDragged;
 
@@ -144,6 +145,7 @@ public class GameGridObject : GameObjectBase
     public void FreeObject()
     {
         usedBy = null;
+        attendedBy = null;
         busy = false;
         Grid.RemoveBusyBusinessSpots(this);
     }
@@ -380,6 +382,16 @@ public class GameGridObject : GameObjectBase
     public NPCController GetUsedBy()
     {
         return usedBy;
+    }
+
+    public void SetAttendedBy(EmployeeController controller)
+    {
+        attendedBy = controller;
+    }
+
+    public EmployeeController GetAttendedBy()
+    {
+        return attendedBy;
     }
 
     public void SetIsObjectBeingDragged(bool val)
