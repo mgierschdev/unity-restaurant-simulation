@@ -35,10 +35,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private Queue<string> stateHistory;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
-
-    //Movement Rigidbody
-    public Vector2 Velocity { get; set; }
     protected Rigidbody2D rigidbody2D;
+    private float speed;
 
     private void Awake()
     {
@@ -76,8 +74,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speedDecreaseEnergyBar = 20f;
 
         //Velocity for the 2D rigidbody
-        Velocity = new Vector2(Settings.NpcDefaultMovementVelocity_X, Settings.NpcDefaultMovementVelocity_Y);
         rigidbody2D = transform.GetComponent<Rigidbody2D>();
+        speed = Settings.NpcDefaultMovementSpeed;
     }
 
     // Overlap sphere
@@ -165,11 +163,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         else
         {
             moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
-            UpdateObjectDirection();
-
-            //transform.position = Rigidbody2D.MovePosition(Vector3.Lerp(transform.position, currentTargetPosition, Speed * Time.deltaTime));
-            Vector2 targetPosition = new Vector2(currentTargetPosition.x, currentTargetPosition.y);
-            rigidbody2D.MovePosition(targetPosition + Velocity * Time.deltaTime);
+            UpdateObjectDirection(); // It flips the side of the pbject depending on direction
+            rigidbody2D.MovePosition(Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime));
         }
     }
 
@@ -201,8 +196,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
 
         Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
-        Vector3 direction =
-            Grid.GetWorldFromPathFindingGridPositionWithOffSet(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
+        Vector3 direction = Grid.GetWorldFromPathFindingGridPositionWithOffSet(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
         currentTargetPosition = new Vector3(direction.x, direction.y);
     }
 
@@ -421,8 +415,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
                FinalTarget == Util.GetVector3IntPositiveInfinity();
     }
 
-    public void SetVelocity(Vector2 velocity)
+    public void SetSpeed(float speed)
     {
-        Velocity = velocity;
+        this.speed = speed;
     }
 }

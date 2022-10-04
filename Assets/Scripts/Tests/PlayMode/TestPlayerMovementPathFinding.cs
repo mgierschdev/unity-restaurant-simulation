@@ -31,7 +31,7 @@ public class TestPlayerMovementPathFinding
     public IEnumerator TestSimplePath()
     {
         int[] endPosition = new int[] { 25, 14 };
-        playerController.SetVelocity(new Vector2(5f, 5f));
+        playerController.SetSpeed(100);
         playerController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(1f);
         Assert.AreEqual(playerController.GetPositionAsArray()[0], endPosition[0]);
@@ -44,7 +44,7 @@ public class TestPlayerMovementPathFinding
         int[] endPosition = new int[] { 25, 14 };
         gameGridController.SetTestGridObstacles(21, 1, 15);
         //playerController.Position = gameGridController.GetWorldFromPathFindingGridPosition(new Vector3Int(startPosition[0], startPosition[1]));
-        playerController.SetVelocity(new Vector2(5f, 5f));
+        playerController.SetSpeed(100);
         playerController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(1f);
         GameLog.Log(playerController.Position);

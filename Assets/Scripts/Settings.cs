@@ -56,8 +56,7 @@ public static class Settings
 
     // NPC Default
     public const float MinDistanceToTarget = 0.13f;
-    public const float NpcDefaultMovementVelocity_X = 1.75f;
-    public const float NpcDefaultMovementVelocity_Y = 1.1f;
+    public const float NpcDefaultMovementSpeed = 7f;
     public const int NpcDefaultEnergy = 100;
     public const string NpcEnergyBar = "EnergyBar";
     public const string NpcCharacter = "Character";

@@ -21,6 +21,8 @@ public class NPCController : GameObjectMovementBase
     private float stateTime; //TODO: to be used in order for the NPC to leave after certain time
     private NpcState prevState;
     private const float MAX_TABLE_WAITING_TIME = 10f;
+    [SerializeField]
+    public Vector2 TmpVelocity;
 
     private void Start()
     {
@@ -88,11 +90,17 @@ public class NPCController : GameObjectMovementBase
             prevState = localState;
         }
 
-
-
         // TODO: only change inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
         // Animates depending on the current state
-        animationController.SetState(localState, 0f);
+
+        if (IsMoving())
+        {
+            animationController.SetState(NpcState.WALKING);
+        }
+        else
+        {
+            animationController.SetState(localState);
+        }
     }
 
     private void UpdateFindPlace_1()
