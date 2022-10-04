@@ -14,24 +14,24 @@ public class PlayerAnimationStateController : MonoBehaviour
         }
     }
 
-    public void SetState(NpcState state, float walkingSpeed)
+    public void SetState(NpcState state)
     {
         if (!animator)
         {
             return;
         }
 
-        if (walkingSpeed == 0f)
-        {
-            animator.ResetTrigger(AnimatorState.Walking);
-            animator.ResetTrigger(AnimatorState.WaitingAtTable);
-            animator.SetTrigger(AnimatorState.Idle);
-        }
-        else if (walkingSpeed > 0f)
+        if (state == NpcState.WALKING)
         {
             animator.ResetTrigger(AnimatorState.WaitingAtTable);
             animator.SetTrigger(AnimatorState.Walking);
             animator.ResetTrigger(AnimatorState.Idle);
+        }
+        else if (state != NpcState.WAITING_TO_BE_ATTENDED)
+        {
+            animator.ResetTrigger(AnimatorState.Walking);
+            animator.ResetTrigger(AnimatorState.WaitingAtTable);
+            animator.SetTrigger(AnimatorState.Idle);
         }
         else if (state == NpcState.WAITING_TO_BE_ATTENDED)
         {
@@ -39,6 +39,5 @@ public class PlayerAnimationStateController : MonoBehaviour
             animator.ResetTrigger(AnimatorState.Walking);
             animator.SetTrigger(AnimatorState.WaitingAtTable);
         }
-
     }
 }

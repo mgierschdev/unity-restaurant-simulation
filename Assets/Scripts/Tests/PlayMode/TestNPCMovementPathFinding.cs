@@ -42,7 +42,7 @@ public class TestNPCMovementPathFinding
     {
         int[] endPosition = new int[] { 4, 4 };
         firstNPCController.Position = initialTestingPosition;
-        firstNPCController.SetVelocity(new Vector2(5f, 5f));
+        firstNPCController.SetSpeed(100);
         firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(2f);
         GameLog.Log(firstNPCController.Position);
@@ -55,7 +55,7 @@ public class TestNPCMovementPathFinding
     {
         int[] endPosition = new int[] { 25, 14 };
         gameGridController.SetTestGridObstacles(21, 1, 15);
-        firstNPCController.SetVelocity(new Vector2(5f, 5f));
+        firstNPCController.SetSpeed(100);
         firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(2f);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
@@ -69,8 +69,8 @@ public class TestNPCMovementPathFinding
     {
         int[] endPosition = new int[] { 25, 14 };
         gameGridController.SetTestGridObstacles(21, 1, 15);
-        firstNPCController.SetVelocity(new Vector2(5f, 5f));
-        secondNPCController.SetVelocity(new Vector2(5f, 5f));
+        firstNPCController.SetSpeed(100);
+        secondNPCController.SetSpeed(100);
         firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         secondNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(2f);

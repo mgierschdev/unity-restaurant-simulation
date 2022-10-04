@@ -37,7 +37,7 @@ public class TestNPCMovement
         GameLog.Log("Testing Movement down");
         GameLog.Log("NPC Controller: is null ? "+(npcController == null));
 
-        npcController.SetVelocity(new Vector2(5f, 5f));
+        npcController.SetSpeed(100);
         npcController.Position = initialTestingPosition;
         Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWN);
         Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWN);
@@ -49,7 +49,7 @@ public class TestNPCMovement
     [UnityTest]
     public IEnumerator TestMovementUP()
     {
-        npcController.SetVelocity(new Vector2(5f, 5f));
+        npcController.SetSpeed(100);
         npcController.Position = initialTestingPosition;
         Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.UP);
         Vector3 target = Util.GetVectorFromDirection(MoveDirection.UP);
@@ -61,7 +61,7 @@ public class TestNPCMovement
     [UnityTest]
     public IEnumerator TestMovementRIGHT()
     {
-        npcController.SetVelocity(new Vector2(5f, 5f));
+        npcController.SetSpeed(100);
         npcController.Position = initialTestingPosition;
         Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.RIGHT);
         Vector3 target = Util.GetVectorFromDirection(MoveDirection.RIGHT);
@@ -73,7 +73,7 @@ public class TestNPCMovement
     [UnityTest]
     public IEnumerator TestMovementLEFT()
     {
-        npcController.SetVelocity(new Vector2(5f, 5f));
+        npcController.SetSpeed(100);
         npcController.Position = initialTestingPosition;
         Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.LEFT);
         Vector3 target = Util.GetVectorFromDirection(MoveDirection.LEFT);
@@ -85,7 +85,7 @@ public class TestNPCMovement
     [UnityTest]
     public IEnumerator TestMovementDOWNLEFT()
     {
-        npcController.SetVelocity(new Vector2(5f, 5f));
+        npcController.SetSpeed(100);
         npcController.Position = initialTestingPosition;
         Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
         Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
@@ -97,7 +97,7 @@ public class TestNPCMovement
     [UnityTest]
     public IEnumerator TestMovementDOWNRIGHT()
     {
-        npcController.SetVelocity(new Vector2(5f, 5f));
+        npcController.SetSpeed(100);
         npcController.Position = initialTestingPosition;
         Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWNRIGHT);
         Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWNRIGHT);
@@ -109,7 +109,7 @@ public class TestNPCMovement
     [UnityTest]
     public IEnumerator TestMovementUpLeft()
     {
-        npcController.SetVelocity(new Vector2(5f, 5f));
+        npcController.SetSpeed(100);
         npcController.Position = initialTestingPosition;
         Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.UPLEFT);
         Vector3 target = Util.GetVectorFromDirection(MoveDirection.UPLEFT);
@@ -121,7 +121,7 @@ public class TestNPCMovement
     [UnityTest]
     public IEnumerator TestMovementUpRight()
     {
-        npcController.SetVelocity(new Vector2(5f, 5f));
+        npcController.SetSpeed(100);
         npcController.Position = initialTestingPosition;
         Vector3 transformPosition = npcObject.transform.position;
         Vector3 expected =  transformPosition + Util.GetVectorFromDirection(MoveDirection.UPRIGHT);

@@ -24,9 +24,9 @@ public class PlayerController : GameObjectMovementBase
         }
         // Player Moving on long click/touch
         MovingOnLongTouch();
-        animationController.SetState(localState, 0f);
+        animationController.SetState(localState);
     }
-
+    
     // Called every physics step, Update called every frame
     private void FixedUpdate()
     {
