@@ -42,7 +42,13 @@ public class GameController : MonoBehaviour
     //Will check if there any free buss spot, so the could be added to the queue
     public void CheckBussSpots()
     {
-        //Check AddFreeBusinessSpots
+        Dictionary<string, GameGridObject> tables = Grid.GetBusinessObjects();
+        foreach(KeyValuePair<string, GameGridObject> obj in tables){
+            GameGridObject gameGridObject =obj.Value;
+            if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy()){
+                Grid.AddFreeBusinessSpots(gameGridObject);
+            }
+        }
     }
 
     private void SpamNpc()
