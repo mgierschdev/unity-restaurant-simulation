@@ -9,7 +9,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public string Name { get; set; }
     // Getters and setters
     protected ObjectType Type { get; set; }
-    public float SpeedMultiplayer { get; set; }
     public Vector3Int Position { get; set; } //PathFindingGrid Position
     public GridController Grid { get; set; }
 
@@ -51,7 +50,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         // Debug parameters
         stateHistory = new Queue<string>();
-        SpeedMultiplayer = Settings.NpcDefaultMovementSpeed;
 
         // Energy bar
         energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
@@ -78,7 +76,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speedDecreaseEnergyBar = 20f;
 
         //Velocity for the 2D rigidbody
-        Velocity = new Vector2(1.75f, 1.1f);
+        Velocity = new Vector2(Settings.NpcDefaultMovementVelocity_X, Settings.NpcDefaultMovementVelocity_Y);
         rigidbody2D = transform.GetComponent<Rigidbody2D>();
     }
 
@@ -178,7 +176,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private void ClickUpdateController()
     {
         Type = ObjectType.PLAYER;
-        SpeedMultiplayer = Settings.PlayerMovementSpeed;
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
 
         if (!Util.IsNull(cController, "PlayerController/clickController null"))
@@ -422,5 +419,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         return Util.IsAtDistanceWithObject(FinalTarget, Position) ||
                FinalTarget == Util.GetVector3IntPositiveInfinity();
+    }
+
+    public void SetVelocity(Vector2 velocity)
+    {
+        Velocity = velocity;
     }
 }
