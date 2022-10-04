@@ -63,7 +63,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdaetIsAtUnrespawn_0();
         }
-        else if (localState == NpcState.IDLE && Grid.GetCounter() != null)
+        else if (localState == NpcState.IDLE)
         {
             UpdateGoNextToCounter_1();
         }
@@ -165,16 +165,24 @@ public class EmployeeController : GameObjectMovementBase
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
 
         //Go to counter if it is already at the counter we change the state
-        if (Position == target)
+        if (IsAtTargetPosition(target))
         {
             localState = NpcState.AT_COUNTER;
-            return;
         }
 
         if (!GoTo(target))
         {
             localState = NpcState.IDLE;
         }
+    }
+
+    private bool IsAtTargetPosition(Vector3 target)
+    {
+        if (Vector3.Distance(Position, target) < Settings.MinDistanceToTarget)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void UpdateIsAtCounter_2()
@@ -225,6 +233,10 @@ public class EmployeeController : GameObjectMovementBase
         if (!GoToCounter())
         {
             GameLog.LogWarning("Retryng: could not go to counter UpdateOrderAttended_6()");
+            if (IsAtTargetPosition(target))
+            {
+                localState = NpcState.AT_COUNTER;
+            }
             //while (!GoToCounter() && Grid.GetCounter() != null) { }
         }
     }
@@ -276,17 +288,23 @@ public class EmployeeController : GameObjectMovementBase
         {
             if (!GoToCounter())
             {
-                localState = NpcState.IDLE;
+                if (IsAtTargetPosition(target))
+                {
+                    localState = NpcState.AT_COUNTER;
+                }else{
+                    GameLog.LogWarning("Could not go to the counter. RecalculateState()");
+                }
             }
         }
     }
 
     private bool GoToCounter()
     {
-        if(Grid.GetCounter() == null){
+        if (Grid.GetCounter() == null)
+        {
             return false;
         }
-        
+
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
         return GoTo(target);
     }
