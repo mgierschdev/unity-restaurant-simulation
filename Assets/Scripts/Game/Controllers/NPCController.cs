@@ -21,6 +21,9 @@ public class NPCController : GameObjectMovementBase
     private float stateTime; //TODO: to be used in order for the NPC to leave after certain time
     private NpcState prevState;
     private const float MAX_TABLE_WAITING_TIME = 10f;
+    //to measure speeds
+    private float WalkingSpeed;
+    private Vector3 prevPosition;
 
     private void Start()
     {
@@ -88,10 +91,16 @@ public class NPCController : GameObjectMovementBase
             prevState = localState;
         }
 
+        // to measure speed
+        WalkingSpeed = Vector3.Distance(prevPosition, transform.position) / Time.deltaTime;
+        prevPosition = transform.position;
+        Debug.Log("Walking speed " + WalkingSpeed);
+        // to measure speeds
+
         // TODO: only change inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
         // Animates depending on the current state
         animationController.SetState(localState, WalkingSpeed);
-        
+
 
     }
 

@@ -19,6 +19,9 @@ public class EmployeeController : GameObjectMovementBase
     private NpcState prevState;
     //Current Goto Target
     private Vector3Int target;
+    //to measure speeds
+    private float WalkingSpeed;
+    private Vector3 prevPosition;
 
     private const float MAX_TABLE_WAITING_TIME = 10f;
 
@@ -46,6 +49,10 @@ public class EmployeeController : GameObjectMovementBase
         {
             GameLog.LogWarning("NPCController/animationController-gameObj null");
         }
+
+        //Attributes for speed
+        WalkingSpeed = 0f;
+        prevPosition = transform.position;
     }
 
     private void FixedUpdate()
@@ -111,7 +118,17 @@ public class EmployeeController : GameObjectMovementBase
             prevState = localState;
         }
 
+        // to measure speed
+        WalkingSpeed = Vector3.Distance(prevPosition, transform.position) / Time.deltaTime;
+        prevPosition = transform.position;
+        Debug.Log("Walking speed " + WalkingSpeed);
+        // to measure speeds
+
         animationController.SetState(localState, WalkingSpeed);
+
+
+
+
         idleTime += Time.deltaTime;
     }
 

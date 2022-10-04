@@ -39,10 +39,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
 
-    //Measuering speed
-    private Vector3 prevPosition;
-    protected float WalkingSpeed;
-
     private void Awake()
     {
         //Setting default init name
@@ -78,9 +74,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         FinalTarget = Util.GetVector3IntPositiveInfinity();
         side = false; // The side in which the character is facing by default = false meaning right.
         speedDecreaseEnergyBar = 20f;
-
-        //To meassure speed
-        prevPosition = transform.position;
     }
 
     // Overlap sphere
@@ -88,13 +81,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         UpdatePosition();
         ClickUpdateController();
-    }
-
-    // To measure speed
-    public void FixedUpdate()
-    {
-        WalkingSpeed = Vector3.Distance(prevPosition, transform.position);
-        prevPosition = transform.position;
     }
 
     protected void ActivateEnergyBar(float val)
@@ -427,10 +413,5 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         return Util.IsAtDistanceWithObject(FinalTarget, Position) ||
                FinalTarget == Util.GetVector3IntPositiveInfinity();
-    }
-
-    public float GetWalkingSpeed()
-    {
-        return WalkingSpeed;
     }
 }
