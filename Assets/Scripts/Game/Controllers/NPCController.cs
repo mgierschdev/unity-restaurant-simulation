@@ -90,7 +90,9 @@ public class NPCController : GameObjectMovementBase
 
         // TODO: only change inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
         // Animates depending on the current state
-        animationController.SetState(localState);
+        animationController.SetState(localState, WalkingSpeed);
+        
+
     }
 
     private void UpdateFindPlace_1()
@@ -145,7 +147,8 @@ public class NPCController : GameObjectMovementBase
         target = Grid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
 
         //If we are already at the table
-        if(target == Position){
+        if (target == Position)
+        {
             localState = NpcState.AT_TABLE;
             return;
         }
@@ -187,13 +190,19 @@ public class NPCController : GameObjectMovementBase
             return;
         }
 
-        localState = NpcState.WALKING_WANDER;
+        localState = NpcState.WANDER;
         idleTime = 0;
         randMax = Random.Range(0, IDLE_MAX_TIME);
         target = GetRandomWalkablePosition();
+
         if (!GoTo(target))
         {
+            localState = NpcState.IDLE;
             return;
+        }
+        else
+        {
+            //localState = NpcState.WALKING_WANDER;
         }
     }
 

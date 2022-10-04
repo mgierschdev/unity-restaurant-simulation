@@ -111,7 +111,7 @@ public class EmployeeController : GameObjectMovementBase
             prevState = localState;
         }
 
-        animationController.SetState(localState);
+        animationController.SetState(localState, WalkingSpeed);
         idleTime += Time.deltaTime;
     }
 
