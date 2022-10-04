@@ -43,9 +43,12 @@ public class GameController : MonoBehaviour
     public void CheckBussSpots()
     {
         Dictionary<string, GameGridObject> tables = Grid.GetBusinessObjects();
+
         foreach(KeyValuePair<string, GameGridObject> obj in tables){
+
             GameGridObject gameGridObject =obj.Value;
-            if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy()){
+
+            if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy() && !gameGridObject.GetIsObjectBeingDragged()){
                 Grid.AddFreeBusinessSpots(gameGridObject);
             }
         }

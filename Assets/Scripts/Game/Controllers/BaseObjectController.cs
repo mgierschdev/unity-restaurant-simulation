@@ -55,6 +55,7 @@ public class BaseObjectController : MonoBehaviour
         initialActionTileOne = Grid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         initialPosition = transform.position;
         Grid.SetDraggingObject(true);
+        gameGridObject.SetIsObjectBeingDragged(true);
     }
 
     private void OnMouseDrag()
@@ -115,6 +116,13 @@ public class BaseObjectController : MonoBehaviour
 
         //We recalculate Paths once the object is placed
         Grid.ReCalculateNpcStates(gameGridObject);
+
+        //if it was a table we re-add it to the freeBussList
+        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
+        {
+            Grid.AddFreeBusinessSpots(gameGridObject);
+            gameGridObject.SetIsObjectBeingDragged(false);
+        }
     }
 
     private bool IsDraggable()
@@ -131,8 +139,11 @@ public class BaseObjectController : MonoBehaviour
             {
                 gameGridObject.GetUsedBy().RecalculateGoTo();
 
-            }else if(gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE){
+            }
+            else if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
+            {
                 gameGridObject.GetUsedBy().GoToFinalState_4();
+                gameGridObject.FreeObject(); // So it will be removed while dragging 
             }
         }
         else
