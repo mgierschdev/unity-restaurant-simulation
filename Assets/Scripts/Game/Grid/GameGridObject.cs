@@ -107,9 +107,10 @@ public class GameGridObject : GameObjectBase
         {
             Grid.RemoveBussTable(this);
         }
-        
+
         // we clean the table from the employer
-        if(attendedBy != null){
+        if (attendedBy != null)
+        {
             attendedBy.SetTableToBeAttended(null);
         }
 
@@ -176,6 +177,8 @@ public class GameGridObject : GameObjectBase
             return;
         }
 
+        ResetNPCStates();
+
         Vector3Int prev = Grid.GetPathFindingGridFromWorldPosition(GetActionTile());
         facingPosition++;
 
@@ -198,6 +201,8 @@ public class GameGridObject : GameObjectBase
             return;
         }
 
+        ResetNPCStates();
+
         Vector3Int prev = Grid.GetPathFindingGridFromWorldPosition(GetActionTile());
         facingPosition--;
 
@@ -210,6 +215,26 @@ public class GameGridObject : GameObjectBase
         Vector3Int post = Grid.GetPathFindingGridFromWorldPosition(GetActionTile());
         Grid.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
+    }
+
+    // If we rotate the table no one can attend the table or go to the table
+    private void ResetNPCStates()
+    {
+
+        GameLog.Log((attendedBy == null) + " " + (usedBy == null));
+        if (attendedBy != null)
+        {
+            attendedBy.SetTableToBeAttended(null);
+            attendedBy.RestartState();
+            attendedBy = null;
+        }
+
+        if (usedBy != null)
+        {
+            usedBy.SetTable(null);
+            usedBy.GoToFinalState();
+            usedBy = null;
+        }
     }
 
     private bool IsValidRotation(int side)
@@ -314,7 +339,6 @@ public class GameGridObject : GameObjectBase
             case ObjectRotation.BACK_INVERTED:
                 return new Vector3(-1, 1, 1);
         }
-
         return Vector3.positiveInfinity;
     }
 
@@ -331,7 +355,6 @@ public class GameGridObject : GameObjectBase
             case ObjectRotation.BACK_INVERTED:
                 return 1;
         }
-
         return int.MaxValue;
     }
 

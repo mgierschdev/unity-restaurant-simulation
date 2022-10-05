@@ -188,6 +188,11 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateIsAtRespawn_5()
     {
+        if (!IsMoving())
+        {
+            GoToFinalState_4();
+        }
+
         if (Util.IsAtDistanceWithObject(transform.position, Grid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
         {
             gameController.RemoveNpc(this);
@@ -288,5 +293,10 @@ public class NPCController : GameObjectMovementBase
     public GameGridObject GetTable()
     {
         return table;
+    }
+
+    public void SetTable(GameGridObject obj)
+    {
+        table = obj;
     }
 }

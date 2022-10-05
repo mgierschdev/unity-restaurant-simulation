@@ -320,6 +320,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             //GameLog.Log("Getting table with client: GoToTableToBeAttended()");
             tableToBeAttended = Grid.GetTableWithClient();
+            tableToBeAttended.SetAttendedBy(this);
 
             if (tableToBeAttended == null)
             {
@@ -348,8 +349,9 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
 
-    private bool RestartState()
+    public bool RestartState()
     {
+        ResetMovement();
         target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
 
         if (!GoTo(target))

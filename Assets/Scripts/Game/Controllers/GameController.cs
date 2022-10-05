@@ -4,7 +4,7 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private const int NPC_MAX_NUMBER = 100;
+    private const int NPC_MAX_NUMBER = 30;
     private const int EMPLOYEE_MAX_NUMBER = 1;
     private int employeeCount = 0;
     private int npcId;
@@ -124,7 +124,7 @@ public class GameController : MonoBehaviour
             {
                 // This will be cheking in case any race condition/concurrency issue
                 GameGridObject currentTable = npcController.GetTable();
-                
+
                 if (currentTable.GetAttendedBy() != npcController)
                 {
                     npcController.GoToFinalState();
