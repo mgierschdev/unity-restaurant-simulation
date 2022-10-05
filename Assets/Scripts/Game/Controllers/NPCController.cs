@@ -12,7 +12,8 @@ public class NPCController : GameObjectMovementBase
     private PlayerAnimationStateController animationController;
     // Wander properties
     private float idleTime;
-    private const float IDLE_MAX_TIME = 6f; //in seconds
+    private const float IDLE_MAX_TIME = 10f; //in seconds
+    private const float MAX_TABLE_WAITING_TIME = 10f;
     private float randMax = 3f;
     private Vector3Int target; // walking to target
     private Vector3 targetInWorldPosition;
@@ -20,7 +21,6 @@ public class NPCController : GameObjectMovementBase
     //Time in the current state
     private float stateTime; //TODO: to be used in order for the NPC to leave after certain time
     private NpcState prevState;
-    private const float MAX_TABLE_WAITING_TIME = 10f;
     [SerializeField]
     public Vector2 TmpVelocity;
 
@@ -53,11 +53,11 @@ public class NPCController : GameObjectMovementBase
         UpdateEnergyBar();
 
         //Handle NPC States
-        if ((localState == NpcState.IDLE || localState == NpcState.WANDER) && !Grid.IsThereFreeTables())
+        if (localState == NpcState.WANDER)
         {
             Wander_0();
         }
-        else if (localState == NpcState.WANDER && Grid.IsThereFreeTables())
+        else if (localState == NpcState.IDLE)
         {
             UpdateFindPlace_1();
         }
@@ -69,7 +69,7 @@ public class NPCController : GameObjectMovementBase
         {
             UpdateWaitToBeAttended_3();
         }
-        else if (localState == NpcState.WAITING_TO_BE_ATTENDED && table != null && !table.GetBusy())
+        else if (localState == NpcState.WAITING_TO_BE_ATTENDED)
         {
             GoToFinalState_4();
         }
@@ -120,6 +120,11 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateFindPlace_1()
     {
+        if(!Grid.IsThereFreeTables()){
+            localState = NpcState.WANDER;
+            return;
+        }
+
         table = Grid.GetFreeTable();
         table.SetUsed(this);
         table.SetUsedBy(this);
@@ -143,6 +148,11 @@ public class NPCController : GameObjectMovementBase
 
     public void GoToFinalState_4()
     {
+
+        if(table == null || table.GetBusy()){
+            return ;
+        }
+
         if (table != null)
         {
             table.FreeObject();
@@ -155,6 +165,7 @@ public class NPCController : GameObjectMovementBase
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
+            GameLog.Log("Could not find a path GoToFinalState_4() ");
             return;
         }
     }
@@ -183,6 +194,7 @@ public class NPCController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
+            GameLog.Log("Could not find a path GoToWalkingToTable_6() ");
             return;
         }
     }
@@ -197,6 +209,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (!GoTo(target))
             {
+                GameLog.Log("Could not find a path RecalculateGoTo() ");
                 return;
             }
         }
@@ -225,6 +238,7 @@ public class NPCController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
+            GameLog.Log("Could not find a path Wander_0 ");
             localState = NpcState.IDLE;
             return;
         }
