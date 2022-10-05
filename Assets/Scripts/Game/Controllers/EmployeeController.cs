@@ -318,7 +318,7 @@ public class EmployeeController : GameObjectMovementBase
     {
         if (tableToBeAttended == null)
         {
-            GameLog.Log("Getting table with client: GoToTableToBeAttended()");
+            //GameLog.Log("Getting table with client: GoToTableToBeAttended()");
             tableToBeAttended = Grid.GetTableWithClient();
 
             if (tableToBeAttended == null)

@@ -12,7 +12,7 @@ public class NPCController : GameObjectMovementBase
     private PlayerAnimationStateController animationController;
     // Wander properties
     private float idleTime;
-    private const float IDLE_MAX_TIME = 10f; //in seconds
+    private const float IDLE_MAX_TIME = 3f; //in seconds
     private const float MAX_TABLE_WAITING_TIME = 10f;
     private float randMax = 3f;
     private Vector3Int target; // walking to target
@@ -120,7 +120,8 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateFindPlace_1()
     {
-        if(!Grid.IsThereFreeTables()){
+        if (!Grid.IsThereFreeTables())
+        {
             localState = NpcState.WANDER;
             return;
         }
@@ -149,8 +150,9 @@ public class NPCController : GameObjectMovementBase
     public void GoToFinalState_4()
     {
 
-        if(table == null || table.GetBusy()){
-            return ;
+        if (table == null || table.GetBusy())
+        {
+            return;
         }
 
         if (table != null)
@@ -166,6 +168,20 @@ public class NPCController : GameObjectMovementBase
         if (!GoTo(target))
         {
             GameLog.Log("Could not find a path GoToFinalState_4() ");
+            return;
+        }
+    }
+
+    public void GoToFinalState()
+    {
+        table = null;
+        ResetMovement();
+        localState = NpcState.WALKING_UNRESPAWN;
+        unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
+        target = unRespawnTile.GridPosition;
+        if (!GoTo(target))
+        {
+            GameLog.Log("Could not find a path GoToFinalState ");
             return;
         }
     }
@@ -224,10 +240,10 @@ public class NPCController : GameObjectMovementBase
 
         // we could add more random by deciding to move or not 
         idleTime += Time.fixedDeltaTime;
-        localState = NpcState.IDLE;
 
         if (idleTime < randMax)
         {
+            localState = NpcState.IDLE;
             return;
         }
 
