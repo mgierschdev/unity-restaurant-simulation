@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "101747398758",
+    "project_id": "fir-unitygamebussbackend",
+    "storage_bucket": "fir-unitygamebussbackend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101747398758:android:e38b0ca0c806a5756275a7",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.CafeMadness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101747398758-urs94cm87o9bh7tkccjc7oaj6m8s9bb3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR_v_qYeToIIlbCjEwNeqAfnpqzutzxWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101747398758-urs94cm87o9bh7tkccjc7oaj6m8s9bb3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
