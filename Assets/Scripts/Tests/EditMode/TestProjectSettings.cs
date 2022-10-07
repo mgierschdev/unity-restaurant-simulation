@@ -10,14 +10,6 @@ public class TestProjectSettings
         Assert.NotNull(parentCanvas);
     }
 
-
-    [Test]
-    public void TestNPCProfile()
-    {
-        GameObject npcProfile = GameObject.Find(Settings.ConstNpcProfileMenu);
-        Assert.NotNull(npcProfile);
-    }
-
     [Test]
     public void TesttabMenu()
     {

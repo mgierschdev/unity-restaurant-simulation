@@ -54,7 +54,14 @@
         ".idea":true,
         "UIElementsSchema":true,
         "Assets/RenderPipeline/process_symbols.sh":true,
-        "Assets/Settings":true
+        "Assets/Settings":true,
+        "*/ExternalDependencyManager":true,
+        "*/Firebase":true,
+        "*/Parse":true,
+        "*/Plugins":true,
+        "*/StreamingAssets":true,
+        "*/Editor Default Resources":true,
+        "*/RenderPipeline":true
     },
     "cSpell.words": [
         "Behaviour",
