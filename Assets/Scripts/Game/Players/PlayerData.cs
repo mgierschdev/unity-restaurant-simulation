@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 
-namespace Game.Players
+namespace Game.Player
 {
     public class PlayerData
     {

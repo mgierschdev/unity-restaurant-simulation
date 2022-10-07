@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Game.Players;
+using Game.Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;

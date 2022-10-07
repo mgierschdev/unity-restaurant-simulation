@@ -491,3 +491,9 @@ FodyWeavers.xsd
 .AppleDouble
 .LSOverride
 InitTest*
+
+#firebase files 
+Assets/ExternalDependencyManager/
+Assets/Firebase/
+Assets/Parse/
+Assets/Plugins/
