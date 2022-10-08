@@ -61,7 +61,8 @@
         "*/Plugins":true,
         "*/StreamingAssets":true,
         "*/Editor Default Resources":true,
-        "*/RenderPipeline":true
+        "*/RenderPipeline":true,
+        "*/GooglePlayGames":true
     },
     "cSpell.words": [
         "Behaviour",
