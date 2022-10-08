@@ -11,6 +11,8 @@ public class Auth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.Activate();
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
     }
 
@@ -19,10 +21,12 @@ public class Auth : MonoBehaviour
         if (status == SignInStatus.Success)
         {
             // Continue with Play Games Services
-            Debug.Log("LoggedIn");
+            Debug.Log("Authenticated.");
+            PlayGamesPlatform.Instance.ShowAchievementsUI();
         }
         else
         {
+            Debug.Log("Failed to authenticate");   
             // Disable your integration with Play Games Services or show a login button
             // to ask users to sign-in. Clicking it should call
             // PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication).
