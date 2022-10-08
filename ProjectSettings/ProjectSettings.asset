@@ -136,8 +136,9 @@ PlayerSettings:
     Others: 1
   bundleVersion: 1.0
   preloadedAssets:
-  - {fileID: -3251906046809817177, guid: f3e2f9666282c4d4bbfea8c48d6e8cb5, type: 2}
-  - {fileID: 11400000, guid: cccb57a939c2a4893a7d36ab8078ff21, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 5d84f960845734cb1aa6f059ce643dc3, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -256,7 +257,7 @@ PlayerSettings:
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: /Users/macbookpro/Work/Repositories/cred/user.keystore
-  AndroidKeyaliasName: 
+  AndroidKeyaliasName: googleplay
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1

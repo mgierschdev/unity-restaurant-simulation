@@ -496,5 +496,14 @@ InitTest*
 Assets/ExternalDependencyManager/
 Assets/Firebase/
 Assets/Parse/
-Assets/Plugins/
 Assets/GooglePlayGames/
+Assets/Plugins/Android/android*
+Assets/Plugins/Android/com.google*
+Assets/Plugins/Android/io*
+Assets/Plugins/Android/org.codehaus*
+Assets/Plugins/Android/org.checkerframework*
+Assets/Plugins/Android/GooglePlayGamesManifest*
+Assets/Plugins/Android/FirebaseApp.*
+Assets/Plugins/Android/com.squareup*
+Assets/Plugins/Android.meta
+Assets/Plugins/iOS*
