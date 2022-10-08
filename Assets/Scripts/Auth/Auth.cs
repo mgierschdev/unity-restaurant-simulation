@@ -5,7 +5,6 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
-
 public class Auth : MonoBehaviour
 {
     // Start is called before the first frame update
