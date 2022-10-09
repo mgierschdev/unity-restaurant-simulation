@@ -9,7 +9,8 @@ class BuildScript
     {
 
         string[] defaultScene = {
-            "Assets/World.unity",
+            "Assets/LoadScene.unity",
+            "Assets/GameScene.unity"
             };
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
@@ -37,7 +38,8 @@ class BuildScript
     public static void PerformIOSBuild()
     {
         string[] defaultScene = {
-            "Assets/World.unity",
+            "Assets/LoadScene.unity",
+            "Assets/GameScene.unity"
             };
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
