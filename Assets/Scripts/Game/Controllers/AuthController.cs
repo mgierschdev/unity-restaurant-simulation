@@ -7,6 +7,12 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms;
 public class AuthController : MonoBehaviour
 {
+
+    public void Start()
+    {
+        LoadAuth();
+    }
+
     public void LoadAuth()
     {
         PlayGamesPlatform.DebugLogEnabled = true;
