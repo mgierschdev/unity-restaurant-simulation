@@ -19,12 +19,12 @@ public class AuthController : MonoBehaviour
         if (status == SignInStatus.Success)
         {
             // Continue with Play Games Services
-            Debug.Log("Authenticated.");
+            Debug.Log("UNITY: Authenticated.");
             PlayGamesPlatform.Instance.ShowAchievementsUI();
         }
         else
         {
-            Debug.Log("Failed to authenticate");
+            Debug.Log("UNITY: Failed to authenticate");
             // Disable your integration with Play Games Services or show a login button
             // to ask users to sign-in. Clicking it should call
             // PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication).
