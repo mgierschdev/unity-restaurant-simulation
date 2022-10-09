@@ -17,6 +17,7 @@ public class AuthController : MonoBehaviour
     {
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
+        Debug.Log("UNITY: LoadAuth.");
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
     }
 

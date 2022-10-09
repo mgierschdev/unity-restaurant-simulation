@@ -507,3 +507,4 @@ Assets/Plugins/Android/FirebaseApp.*
 Assets/Plugins/Android/com.squareup*
 Assets/Plugins/Android.meta
 Assets/Plugins/iOS*
+Assets/GeneratedLocalRepo*
