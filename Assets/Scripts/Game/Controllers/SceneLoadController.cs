@@ -43,7 +43,8 @@ public class SceneLoadController : MonoBehaviour
         while (!operation.isDone)
         {
             slider.value = operation.progress;
-            sliderProgress.text = (int) (operation.progress * 100) + " % ";
+            sliderProgress.text = (int)(operation.progress * 100) + " % ";
+            Debug.Log("UNITY: Loading scene " + operation.progress);
             yield return null;
         }
     }
