@@ -5,10 +5,9 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
-public class Auth : MonoBehaviour
+public class AuthController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void LoadAuth()
     {
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
@@ -25,7 +24,7 @@ public class Auth : MonoBehaviour
         }
         else
         {
-            Debug.Log("Failed to authenticate");   
+            Debug.Log("Failed to authenticate");
             // Disable your integration with Play Games Services or show a login button
             // to ask users to sign-in. Clicking it should call
             // PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication).
