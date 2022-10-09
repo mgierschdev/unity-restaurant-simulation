@@ -82,5 +82,3 @@ android {
 **IL_CPP_BUILD_SETUP**
 **SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**
-android.useAndroidX=true
-android.enableJetifier=true
