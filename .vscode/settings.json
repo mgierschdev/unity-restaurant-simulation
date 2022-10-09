@@ -47,22 +47,7 @@
         "Library/":true,
         "library/":true,
         "obj/":true,
-        "Obj/":true,
-        "ProjectSettings/":true,
-        "temp/":true,
-        "Temp/":true,
-        ".idea":true,
-        "UIElementsSchema":true,
-        "Assets/RenderPipeline/process_symbols.sh":true,
-        "Assets/Settings":true,
-        "*/ExternalDependencyManager":true,
-        "*/Firebase":true,
-        "*/Parse":true,
-        "*/Plugins":true,
-        "*/StreamingAssets":true,
-        "*/Editor Default Resources":true,
-        "*/RenderPipeline":true,
-        "*/GooglePlayGames":true
+        "Obj/":true
     },
     "cSpell.words": [
         "Behaviour",
