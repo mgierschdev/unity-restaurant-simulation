@@ -13,6 +13,12 @@ public static class Settings
     //GAME TAGS
     public const string NpcTag = "NPC";
     public const string NpcEmployeeTag = "Employee";
+    public const string SliderTag = "Slider";
+
+    //SCENES
+    public const string LoadScene = "LoadScene";
+    public const string GameScene = "GameScene";
+    public const string SliderProgress = "Background/SliderProgress";
 
     //STORE SPRITES
     public const string StoreSpritePath = "SpriteLibs/MenuItemSprites/";
