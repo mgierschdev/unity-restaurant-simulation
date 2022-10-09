@@ -43,7 +43,7 @@ public class SceneLoadController : MonoBehaviour
         while (!operation.isDone)
         {
             slider.value = operation.progress;
-            sliderProgress.text = (operation.progress * 100) + " % ";
+            sliderProgress.text = (int) (operation.progress * 100) + " % ";
             yield return null;
         }
     }
