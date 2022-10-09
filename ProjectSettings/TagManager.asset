@@ -26,6 +26,7 @@ TagManager:
   - Employee
   - Table
   - BaseObject
+  - Slider
   layers:
   - Default
   - TransparentFX
