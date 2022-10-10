@@ -1,3 +1,5 @@
+namespace Controllers;
+
 using System.Collections.Generic;
 using UnityEngine;
 // This class in charge of loading the game and prefabs

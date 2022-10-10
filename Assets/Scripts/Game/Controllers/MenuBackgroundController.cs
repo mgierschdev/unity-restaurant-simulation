@@ -1,3 +1,5 @@
+namespace Controllers;
+
 using UnityEngine;
 using UnityEngine.UI;
 

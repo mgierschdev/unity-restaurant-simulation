@@ -1,3 +1,5 @@
+namespace Util;
+
 using UnityEngine;
 
 public class Node

@@ -1,3 +1,5 @@
+namespace Grid;
+
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;

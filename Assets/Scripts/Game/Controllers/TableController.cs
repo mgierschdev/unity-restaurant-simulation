@@ -1,3 +1,5 @@
+namespace Controllers;
+
 public class TableController : BaseObjectController
 {
     private void Start()

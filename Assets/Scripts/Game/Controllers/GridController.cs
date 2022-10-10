@@ -1,3 +1,5 @@
+namespace Controllers;
+
 using System.Collections.Generic;
 using Game.Player;
 using TMPro;
