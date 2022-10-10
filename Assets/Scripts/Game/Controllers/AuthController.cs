@@ -47,7 +47,6 @@ public class AuthController : MonoBehaviour
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
         //PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication);
-
     }
 
     internal void ProcessAuthentication(SignInStatus status)
