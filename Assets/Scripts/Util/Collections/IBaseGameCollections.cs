@@ -1,5 +1,3 @@
-namespace Util.Collections;
-
 interface IBaseGameCollections
 {
     int GetSize();

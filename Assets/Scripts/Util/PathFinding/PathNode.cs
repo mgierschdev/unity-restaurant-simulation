@@ -1,5 +1,3 @@
-namespace Util;
-
 public class PathNode
 {
     public PathNode next; // use to order in the queue

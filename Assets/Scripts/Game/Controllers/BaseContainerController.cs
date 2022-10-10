@@ -1,5 +1,3 @@
-namespace Controllers;
-
 public class BaseContainerController : BaseObjectController
 {
     private void Start()

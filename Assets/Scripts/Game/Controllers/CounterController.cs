@@ -1,5 +1,3 @@
-namespace Controllers;
-
 public class CounterController : BaseObjectController
 {
     private void Start()
