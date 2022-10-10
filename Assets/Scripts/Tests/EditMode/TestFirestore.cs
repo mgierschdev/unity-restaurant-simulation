@@ -23,17 +23,16 @@ public class TestFirestore
     public void TestSavingData()
     {
         test = new Firestore(DEV_HOST, TEST_COLLECTION, DOCUMENT);
-
-        Init();
+        FirebaseQueue queue = new FirebaseQueue();
 
         Dictionary<string, object> field = new Dictionary<string, object>{
         { "Field1", "1" },
         { "Field2", "2" },
         { "Feild3", "3" }};
 
-        Debug.Log("Saving in dic ");
-        Save(field);
-        GameLog.Log("TestSavingData finished");
+        queue.EnqueueAction(Init);
+        queue.EnqueueAction(Save(field));
+        queue.ProcessQueue();
     }
 
     private async void Init()

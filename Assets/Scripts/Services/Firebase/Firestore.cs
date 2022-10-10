@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;  // Needed for the Unwrap extension method
 using Firebase;
@@ -9,7 +11,7 @@ using DependencyStatus = Firebase.DependencyStatus;
 public class Firestore
 {
     private bool isFirebaseEnabled;
-    private Firebase.LogLevel logLevel = Firebase.LogLevel.Info;
+    private LogLevel logLevel = LogLevel.Info;
     private FirebaseFirestore firestore;
     private DocumentReference docReference;
     private string collectionName;
@@ -32,6 +34,8 @@ public class Firestore
         this.collectionName = collectionName;
         this.document = document;
         docReference = firestore.Collection(collectionName).Document(document);
+
+        Action test;
     }
 
     public Task SaveDictionary(Dictionary<string, object> dictionary)
