@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-// using GooglePlayGames;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 public class AuthController : MonoBehaviour
 {
-    public void Start()
-    {
-        // LoadAuth();
-    }
+    // public void Start()
+    // {
+    //     // LoadAuth();
+    // }
 
     // void InitializePlayGamesLogin()
     // {
@@ -28,7 +25,7 @@ public class AuthController : MonoBehaviour
 
     // void LoginGoogle()
     // {
-    //     Social.localUser.Authenticate(OnGoogleLogin);
+    //     //Social.localUser.Authenticate(ProcessAuthentication);
     // }
 
     // void OnGooglePlayGamesLogin(bool success)
@@ -43,26 +40,27 @@ public class AuthController : MonoBehaviour
     //         Debug.Log("Unsuccessful login");
     //     }
     // }
-    // public void LoadAuth()
-    // {
-    //     PlayGamesPlatform.DebugLogEnabled = true;
-    //     PlayGamesPlatform.Activate();
-    //     //PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
-    //     PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication);
 
-    // }
+    public void LoadAuth()
+    {
+        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.Activate();
+        PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+        //PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication);
 
-    // internal void ProcessAuthentication(SignInStatus status)
-    // {
-    //     if (status == SignInStatus.Success)
-    //     {
-    //         // Continue with Play Games Services
-    //         Debug.Log("UNITY: Authenticated." + Social.localUser.userName + " (" + Social.localUser.id);
-    //         PlayGamesPlatform.Instance.ShowAchievementsUI();
-    //     }
-    //     else
-    //     {
-    //         Debug.Log("UNITY: Failed to authenticate " + status);
-    //     }
-    // }
+    }
+
+    internal void ProcessAuthentication(SignInStatus status)
+    {
+        if (status == SignInStatus.Success)
+        {
+            // Continue with Play Games Services
+            Debug.Log("UNITY: Authenticated." + Social.localUser.userName + " (" + Social.localUser.id);
+            PlayGamesPlatform.Instance.ShowAchievementsUI();
+        }
+        else
+        {
+            Debug.Log("UNITY: Failed to authenticate " + status);
+        }
+    }
 }
