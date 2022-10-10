@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GooglePlayGames;
+// using GooglePlayGames;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
@@ -12,19 +12,19 @@ public class AuthController : MonoBehaviour
         // LoadAuth();
     }
 
-    void InitializePlayGamesLogin()
-    {
-        var config = new PlayGamesClientConfiguration.Builder()
-            // Requests an ID token be generated.  
-            // This OAuth token can be used to
-            // identify the player to other services such as Firebase.
-            .RequestIdToken()
-            .Build();
+    // void InitializePlayGamesLogin()
+    // {
+    //     var config = new PlayGamesClientConfiguration.Builder()
+    //         // Requests an ID token be generated.  
+    //         // This OAuth token can be used to
+    //         // identify the player to other services such as Firebase.
+    //         .RequestIdToken()
+    //         .Build();
 
-        PlayGamesPlatform.InitializeInstance(config);
-        PlayGamesPlatform.DebugLogEnabled = true;
-        PlayGamesPlatform.Activate();
-    }
+    //     PlayGamesPlatform.InitializeInstance(config);
+    //     PlayGamesPlatform.DebugLogEnabled = true;
+    //     PlayGamesPlatform.Activate();
+    // }
 
     // void LoginGoogle()
     // {
