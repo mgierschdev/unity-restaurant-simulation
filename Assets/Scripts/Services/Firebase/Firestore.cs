@@ -34,8 +34,6 @@ public class Firestore
         this.collectionName = collectionName;
         this.document = document;
         docReference = firestore.Collection(collectionName).Document(document);
-
-        Action test;
     }
 
     public Task SaveDictionary(Dictionary<string, object> dictionary)

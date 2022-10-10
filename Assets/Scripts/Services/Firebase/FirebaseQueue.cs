@@ -5,12 +5,13 @@ using Firebase;
 using Firebase.Auth;
 using UnityEngine;
 using UnityEngine.Assertions;
+using System.Threading.Tasks;
 
 public class FirebaseQueue
 {
-    private Queue<Action> actionQueue = new Queue<Action>();
+    private Queue<Task> actionQueue = new Queue<Task>();
 
-    public void EnqueueAction(Action action)
+    public void EnqueueAction(Task action)
     {
         lock (actionQueue)
         {
@@ -22,13 +23,12 @@ public class FirebaseQueue
     {
         while (actionQueue.Any())
         {
-            Action action;
+            Task action;
             lock (actionQueue)
             {
                 action = actionQueue.Dequeue();
             }
-
-            action();
+            action.Start();
         }
     }
 }
