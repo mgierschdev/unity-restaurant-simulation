@@ -508,3 +508,6 @@ Assets/Plugins/Android/com.squareup*
 Assets/Plugins/Android.meta
 Assets/Plugins/iOS*
 Assets/GeneratedLocalRepo*
+Assets/Editor Default Resources*
+Assets/StreamingAssets*
+Assets/Parse*
