@@ -1,8 +1,5 @@
-namespace Controllers;
-
 using System.Collections;
 using System.Collections.Generic;
-using Game.Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

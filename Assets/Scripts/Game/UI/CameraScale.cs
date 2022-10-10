@@ -1,6 +1,4 @@
-﻿namespace UI;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraScale : MonoBehaviour
 {

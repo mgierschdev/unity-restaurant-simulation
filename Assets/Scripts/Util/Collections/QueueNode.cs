@@ -1,4 +1,3 @@
-namespace Util;
 public class QueueNode
 {
     private int[] data;

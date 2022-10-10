@@ -1,5 +1,3 @@
-namespace Controllers;
-
 using UnityEngine;
 // Controls NPCs players
 // Attached to: NPC Objects

@@ -1,6 +1,3 @@
-namespace Util.Collections;
-
-using UnityEngine;
 // Similar to priority Queue with Log(n) insertion
 // Only requirement is the FCost setted for prioritizing
 public class MaxBinaryHeap : IBaseGameCollections
