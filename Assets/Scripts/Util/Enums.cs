@@ -1,3 +1,4 @@
+namespace Util;
 //Item types
 // to reference the type of object, each with different properties
 public enum ObjectType

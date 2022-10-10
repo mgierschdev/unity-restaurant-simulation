@@ -1,3 +1,5 @@
+namespace Players;
+
 public static class AnimatorState
 {
     public const string Walking = "Walking";

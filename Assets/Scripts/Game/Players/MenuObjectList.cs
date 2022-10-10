@@ -1,4 +1,7 @@
+namespace Players;
+
 using System.Collections.Generic;
+
 public class MenuObjectList
 {
     public List<StoreGameObject> AllStoreItems;
