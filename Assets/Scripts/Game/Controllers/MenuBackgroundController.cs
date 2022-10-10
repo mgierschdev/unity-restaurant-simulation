@@ -1,5 +1,3 @@
-namespace Controllers;
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,7 +51,8 @@ public class MenuBackgroundController : MonoBehaviour
         isActive = true;
     }
 
-    public bool IsActive(){
+    public bool IsActive()
+    {
         return isActive;
     }
 }

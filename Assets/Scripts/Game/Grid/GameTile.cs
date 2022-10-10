@@ -1,5 +1,3 @@
-namespace Grid;
-
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

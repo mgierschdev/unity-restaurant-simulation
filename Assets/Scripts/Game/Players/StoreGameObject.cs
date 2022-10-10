@@ -1,4 +1,3 @@
-namespace Players;
 public class StoreGameObject
 {
     public string Name { get; set; }

@@ -1,5 +1,3 @@
-namespace Controllers;
-
 using UnityEngine;
 
 // Controlled attached to Game Object.

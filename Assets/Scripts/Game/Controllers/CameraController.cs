@@ -1,5 +1,3 @@
-namespace Controllers;
-
 using UnityEngine;
 
 // This class handles the change of camera with the touch
