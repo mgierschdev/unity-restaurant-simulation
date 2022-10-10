@@ -1,11 +1,13 @@
+namespace UI;
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class MenuItem
 {
-    public MenuType Type { get;}
-    public Menu Menu { get;}
+    public MenuType Type { get; }
+    public Menu Menu { get; }
     public string Name { get; }
     public GameObject UnityObject { get; }
     public bool PauseGame { get; }

@@ -1,8 +1,11 @@
+namespace Grid;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
+
 
 public class GameGridObject : GameObjectBase
 {

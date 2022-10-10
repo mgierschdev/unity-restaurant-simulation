@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿namespace UI;
+
+using UnityEngine;
 
 public class CameraScale : MonoBehaviour
 {
@@ -9,19 +11,19 @@ public class CameraScale : MonoBehaviour
     private void Start()
     {
         mainCamera = GetComponent<Camera>();
-        
+
         ScaleCamera();
     }
 
     // Update is called once per frame
     void Update()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         if (mainCamera)
         {
             ScaleCamera();
         }
-        #endif
+#endif
     }
 
     // Failing with Samsumg foldable devices and some devices by half unit at the end of the screen
@@ -34,7 +36,7 @@ public class CameraScale : MonoBehaviour
         float newScaleHeight = currentWindowAspectRatio / targetSpectRatio;
         if (newScaleHeight > 1)
         {
-            mainCamera.orthographicSize = Settings.ConstDefaultCameraOrthographicsize - (newScaleHeight - 1) * Settings.ConstDefaultCameraOrthographicsize ;
+            mainCamera.orthographicSize = Settings.ConstDefaultCameraOrthographicsize - (newScaleHeight - 1) * Settings.ConstDefaultCameraOrthographicsize;
         }
     }
 }

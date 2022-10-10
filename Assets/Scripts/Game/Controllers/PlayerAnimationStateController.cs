@@ -1,3 +1,5 @@
+namespace Controllers;
+
 using UnityEngine;
 
 public class PlayerAnimationStateController : MonoBehaviour

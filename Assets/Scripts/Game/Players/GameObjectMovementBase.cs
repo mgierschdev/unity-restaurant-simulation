@@ -1,3 +1,5 @@
+namespace Players;
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -168,7 +170,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
             UpdateObjectDirection(); // It flips the side of the pbject depending on direction
-            //rb2D.MovePosition(Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime));
+                                     //rb2D.MovePosition(Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime));
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime);
         }
     }

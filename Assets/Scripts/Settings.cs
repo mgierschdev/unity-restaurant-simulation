@@ -1,4 +1,7 @@
+namespace Settings;
+
 using UnityEngine;
+
 
 public static class Settings
 {
