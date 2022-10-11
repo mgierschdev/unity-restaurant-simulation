@@ -47,7 +47,7 @@
         "Library/":true,
         "library/":true,
         "obj/":true,
-        "Obj/":true//,
+        "Obj/":true,
         // "ProjectSettings/":true,
         // "temp/":true,
         // "Temp/":true,
@@ -62,7 +62,7 @@
         // "*/StreamingAssets":true,
         // "*/Editor Default Resources":true,
         // "*/RenderPipeline":true,
-        // "*/GooglePlayGames":true
+        "*/GooglePlayGames":true
     },
     "cSpell.words": [
         "Behaviour",
