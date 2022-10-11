@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Firebase;
-using Firebase.Auth;
 using UnityEngine;
 using UnityEngine.Assertions;
 using System.Threading.Tasks;
