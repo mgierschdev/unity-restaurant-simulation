@@ -492,27 +492,14 @@ FodyWeavers.xsd
 .LSOverride
 InitTest*
 
-#firebase files 
-Assets/ExternalDependencyManager/
-Assets/Firebase/
-Assets/Parse/
-Assets/GooglePlayGames/
-Assets/Plugins/Android/android*
-Assets/Plugins/Android/com.google*
-Assets/Plugins/Android/io*
-Assets/Plugins/Android/org.codehaus*
-Assets/Plugins/Android/org.checkerframework*
-Assets/Plugins/Android/GooglePlayGamesManifest*
-Assets/Plugins/Android/FirebaseApp.*
-Assets/Plugins/Android/com.squareup*
-Assets/Plugins/Android.meta
-Assets/Plugins/iOS*
-Assets/GeneratedLocalRepo*
-Assets/Editor Default Resources*
-Assets/StreamingAssets*
-Assets/Parse*
+#firebase files
 GooglePackages/com.google.external-dependency-manager-1.2.174.tgz
 .gitignore
 GooglePackages/com.google.firebase.firestore-9.6.0.tgz
 GooglePackages/com.google.firebase.app-9.6.0.tgz
 GooglePackages/com.google.firebase.auth-9.6.0.tgz
+GooglePackages/com.google.firebase.firestore-9.5.0.tgz
+.gitignore
+GooglePackages/com.google.firebase.app-9.5.0.tgz
+GooglePackages/com.google.external-dependency-manager-1.2.173.tgz
+GooglePackages/com.google.firebase.auth-9.5.0.tgz
