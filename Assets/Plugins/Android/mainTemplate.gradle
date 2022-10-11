@@ -6,10 +6,7 @@
             url "https://maven.google.com"
         }
         maven {
-            url (unityProjectPath + "/Assets/GeneratedLocalRepo/GooglePlayGames/com.google.play.games/Editor/m2repository") // Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml:11
-        }
-        maven {
-            url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Packages/com.google.firebase.firestore/Firebase/Editor/FirestoreDependencies.xml:20, Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:22
+            url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Packages/com.google.firebase.firestore/Firebase/Editor/FirestoreDependencies.xml:20, Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:22, Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:20
         }
         mavenLocal()
         mavenCentral()
@@ -24,12 +21,13 @@ dependencies {
     // implementation "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
 // Android Resolver Dependencies Start
     implementation 'com.google.android.gms:play-services-base:18.1.0' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:17
-    implementation 'com.google.firebase:firebase-analytics:21.1.1' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:15
+    implementation 'com.google.firebase:firebase-analytics:21.1.1' // Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:15
     implementation 'com.google.firebase:firebase-app-unity:9.6.0' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:22
+    implementation 'com.google.firebase:firebase-auth:21.0.8' // Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:13
+    implementation 'com.google.firebase:firebase-auth-unity:9.6.0' // Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:20
     implementation 'com.google.firebase:firebase-common:20.1.2' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:13
     implementation 'com.google.firebase:firebase-firestore:24.3.1' // Packages/com.google.firebase.firestore/Firebase/Editor/FirestoreDependencies.xml:13
     implementation 'com.google.firebase:firebase-firestore-unity:9.6.0' // Packages/com.google.firebase.firestore/Firebase/Editor/FirestoreDependencies.xml:20
-    implementation 'com.google.games:gpgs-plugin-support:0.11.01' // Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml:11
 // Android Resolver Dependencies End
 **DEPS**}
 
