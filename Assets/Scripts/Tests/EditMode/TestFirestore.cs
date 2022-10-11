@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Firebase.Firestore;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -6,30 +7,50 @@ public class TestFirestore
 {
     private const string DEV_HOST = "localhost:8080";
     private const string TEST_COLLECTION = "TestUsers";
-    private const string DOCUMENT = "i2RFKVtVdNRjnw6uvMLV";
     private Firestore test;
+    private MockUser user;
 
-
-    [Test]
-    public async void TestInitFirebase()
+    [SetUp]
+    public void SetUp()
     {
-        test = new Firestore(DEV_HOST, TEST_COLLECTION, DOCUMENT);
-        await test.InitFirebase();
-        Assert.IsTrue(test.GetIsFirebaseEnabled());
+        user = new MockUser();
     }
 
     [Test]
-    public void TestSavingData()
+    public async void TestSavingData()
     {
-        test = new Firestore(DEV_HOST, TEST_COLLECTION, DOCUMENT);
-        FirebaseQueue queue = new FirebaseQueue();
-
-        Dictionary<string, object> field = new Dictionary<string, object>{
-        { "Field1", "1" },
-        { "Field2", "2" },
-        { "Feild3", "3" }};
-
-        test.InitFirebase();
-        
+        Dictionary<string, object> docData = new Dictionary<string, object>
+        {
+        { "stringExample", "Hello World" },
+        { "booleanExample", false },
+        { "numberExample", 3.14159265 },
+        { "nullExample", null },
+        { "arrayExample", new List<object>() { 5, true, "Hello" } },
+        { "objectExample", new Dictionary<string, object>
+                {
+                        { "a", 5 },
+                        { "b", true },
+                }
+        },};
+        FirebaseFirestore firestore = FirebaseFirestore.DefaultInstance;
+        firestore.Settings.Host = DEV_HOST;
+        firestore.Settings.SslEnabled = false;
+        await firestore.Collection(TEST_COLLECTION).Document("User").SetAsync(docData);
     }
+
+    [Test]
+    public async void TestSavingMockUser()
+    {
+        FirebaseFirestore firestore = FirebaseFirestore.DefaultInstance;
+        Debug.Log(user.ID);
+        firestore.Settings.Host = DEV_HOST;
+        firestore.Settings.SslEnabled = false;
+        await firestore.Collection(TEST_COLLECTION).Document(user.ID).SetAsync(user.GetUserAsMap());
+    }
+
+    // [Test]
+    // public async void TestReadMockUser()
+    // {
+
+    // }
 }
