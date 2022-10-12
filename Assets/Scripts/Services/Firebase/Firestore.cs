@@ -61,38 +61,6 @@ public class Firestore
         }
     }
 
-    public Task InitFirebase()
-    {
-        return FirebaseApp.CheckDependenciesAsync().ContinueWith(checkTask =>
-        {
-            DependencyStatus status = checkTask.Result;
-            if (status != DependencyStatus.Available)
-            {
-                return FirebaseApp.FixDependenciesAsync().ContinueWith(t =>
-                {
-                    return FirebaseApp.CheckDependenciesAsync();
-                }).Unwrap();
-            }
-            else
-            {
-                return checkTask;
-            }
-        }).Unwrap().ContinueWith(task =>
-        {
-            DependencyStatus dependencyStatus = task.Result;
-            if (dependencyStatus == DependencyStatus.Available)
-            {
-                GameLog.Log("Firebase is loaded");
-                isFirebaseEnabled = true;
-            }
-            else
-            {
-                GameLog.LogError("Error: Could not resolve all Firebase dependencies: " + dependencyStatus);
-                isFirebaseEnabled = false;
-            }
-        });
-    }
-
     public bool GetIsFirebaseEnabled()
     {
         return isFirebaseEnabled;

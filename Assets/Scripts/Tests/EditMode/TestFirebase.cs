@@ -65,7 +65,7 @@ public class TestFirebase
             Assert.AreEqual(snapshot.Id, user.EmailID);
         }).GetAwaiter();
 
-        // To clean up, disabled during development 
+        // To clean up, Disabled during development 
         // usersReference.DeleteAsync().GetAwaiter();
         // Task.Run(async () =>
         // {
@@ -120,25 +120,3 @@ public class TestFirebase
     //     // Debug.Log(auth.CurrentUser);
     // }
 }
-
-// private Task InitAuthAnonymosly()
-// {
-//     auth = FirebaseAuth.DefaultInstance;
-
-//     return auth.SignInAnonymouslyAsync().ContinueWith(task =>
-//     {
-//         if (task.IsCanceled)
-//         {
-//             Debug.LogError("SignInAnonymouslyAsync was canceled.");
-//             return;
-//         }
-//         if (task.IsFaulted)
-//         {
-//             Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
-//             return;
-//         }
-//         isUserSignedIn = true;
-//         FirebaseUser newUser = task.Result;
-//         Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
-//     });
-// }
