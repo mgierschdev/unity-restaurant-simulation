@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Generic;
+using Firebase.Firestore;
 using TMPro;
 
+[FirestoreData]
 public class PlayerData
 {
     public string FirstName = "undefined"; // optional
-    public string SecondName = "undefined"; // optional
-    public string EmailID = "undefined@gmail.com"; // mandatory
+    public string LastName = "undefined"; // optional
+    public string EmailID; // mandatory
     public string InternalID; // internal app id
     public string FireappAuthID = "undefined";
     public string Auth = "undefined"; // TODO: Type of auth, we can serialized to an enum
     public string LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES 
-    public DateTime LastLogin;
-    public DateTime SignInDate;
+    [FirestoreProperty]
+    public object LastLogin { get; set; } // this is the default for the firestore server timestamp
+    [FirestoreProperty]
+    public object SignInDate { get; set; } // this is the default for the firestore server timestamp
 
     private double money;
     private TextMeshProUGUI moneyText;
@@ -30,7 +34,8 @@ public class PlayerData
         setStoredInventory = new HashSet<string>();
     }
 
-    public PlayerData(){
+    public PlayerData()
+    {
 
     }
 
@@ -86,21 +91,28 @@ public class PlayerData
         return Guid.NewGuid().ToString();
     }
 
-    public Dictionary<string, object> GetMockUserAsMap()
-    {
-        this.SignInDate = DateTime.Now;
-        this.LastLogin = DateTime.Now;
-        InternalID = GenerateID();
-        EmailID = InternalID +"@gmail.com";
 
+    public void SetMockUpUser()
+    {
+        InternalID = GenerateID();
+        EmailID = InternalID + "@gmail.com";
+        FirstName = "FirstName";
+        LastName = "LastName";
+        LanguageCode = "es_ES";
+        Auth = "google play";
+        FireappAuthID = "Test FireappAuthID";
+    }
+
+    public Dictionary<string, object> GetNewMockUserAsMap()
+    {
         return new Dictionary<string, object>{
-            {"Name", new List<object>(){FirstName, SecondName}},
+            {"Name", new List<object>(){FirstName, LastName}},
             {"LanguageCode", LanguageCode},
             {"ID", InternalID},
             {"FireappAuthID", FireappAuthID},
             {"Auth", Auth},
-            {"LastLogin", LastLogin},
-            {"CreatedAt", SignInDate}
+            {"LastLogin", FieldValue.ServerTimestamp},
+            {"CreatedAt", FieldValue.ServerTimestamp}
         };
     }
 }
