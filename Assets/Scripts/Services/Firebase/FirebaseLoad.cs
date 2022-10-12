@@ -7,6 +7,7 @@ using UnityEngine;
 public class FirebaseLoad
 {
     private bool isUserSignedIn;
+    private bool isFirebaseLoaded;
 
     private Task InitAuthAnonymosly()
     {
@@ -51,13 +52,23 @@ public class FirebaseLoad
             if (dependencyStatus == DependencyStatus.Available)
             {
                 GameLog.Log("Firebase is loaded");
-                isFirebaseEnabled = true;
+                isFirebaseLoaded = true;
             }
             else
             {
                 GameLog.LogError("Error: Could not resolve all Firebase dependencies: " + dependencyStatus);
-                isFirebaseEnabled = false;
+                isFirebaseLoaded = false;
             }
         });
+    }
+
+    public bool GetIsFirebaseLoaded()
+    {
+        return isFirebaseLoaded;
+    }
+
+    public bool GetIsUserSignedin()
+    {
+        return isUserSignedIn;
     }
 }
