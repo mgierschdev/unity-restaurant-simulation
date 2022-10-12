@@ -9,7 +9,7 @@ public class FirebaseLoad
     private bool isUserSignedIn;
     private bool isFirebaseLoaded;
 
-    private Task InitAuthAnonymosly()
+    public Task InitAuth()
     {
         FirebaseAuth auth = FirebaseAuth.DefaultInstance;
 
