@@ -34,6 +34,8 @@ public class SceneLoadController : MonoBehaviour
 
     private void LoadSceneAsync(string scene)
     {
+        firebase.InitFirebase();
+        //firebase auth
         StartCoroutine(LoadAsync(scene));
     }
 
