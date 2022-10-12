@@ -58,6 +58,7 @@
         "Assets/Settings":true,
         "Assets/Scenes":true,
         "Assets/TilePalettes":true,
+        "GooglePackages":true,
         // "*/ExternalDependencyManager":true,
         // "*/Firebase":true,
         // "*/Parse":true,

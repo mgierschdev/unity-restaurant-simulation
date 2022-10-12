@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO: sWill handle all GetComponent and Find Calls and cache the items for future reference
+//TODO: Will handle all GetComponent and Find Calls and cache the items for future reference
 public class GameObjectCache : MonoBehaviour
 {
     private Dictionary<string, GameObject> gameObjectsMap;

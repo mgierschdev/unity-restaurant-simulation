@@ -634,8 +634,6 @@ public class GridController : MonoBehaviour
         }
     }
 
-
-    //TODO: To implement in gameController
     public void AddFreeBusinessSpots(GameGridObject obj)
     {
         busyBusinessSpotsMap.Remove(obj.Name);
@@ -749,7 +747,7 @@ public class GridController : MonoBehaviour
 
     public bool PlaceGameObject(StoreGameObject obj)
     {
-        //TODO: Obj type to be used
+        //Obj type to be used
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
 
         foreach (KeyValuePair<string, GameGridObject> dic in businessObjects)

@@ -10,14 +10,13 @@ public class PlayerData
     public string LastName = "undefined"; // optional
     public string EmailID; // mandatory
     public string InternalID; // internal app id
-    public string FireappAuthID = "undefined";
-    public string Auth = "undefined"; // TODO: Type of auth, we can serialized to an enum
-    public string LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES 
+    public string FireappAuthID = "undefined"; // Given by firebase
+    public AuthSource Auth;
+    public string LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
     [FirestoreProperty]
     public object LastLogin { get; set; } // this is the default for the firestore server timestamp
     [FirestoreProperty]
     public object SignInDate { get; set; } // this is the default for the firestore server timestamp
-
     private double money;
     private TextMeshProUGUI moneyText;
     private List<GameGridObject> storedIventory;
@@ -36,7 +35,6 @@ public class PlayerData
 
     public PlayerData()
     {
-
     }
 
     public void AddMoney(double amount)
@@ -91,7 +89,6 @@ public class PlayerData
         return Guid.NewGuid().ToString();
     }
 
-
     public void SetMockUpUser()
     {
         InternalID = GenerateID();
@@ -99,7 +96,7 @@ public class PlayerData
         FirstName = "FirstName";
         LastName = "LastName";
         LanguageCode = "es_ES";
-        Auth = "google play";
+        Auth = AuthSource.GOOGLE_PLAY;
         FireappAuthID = "Test FireappAuthID";
     }
 
