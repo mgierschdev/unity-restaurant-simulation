@@ -52,7 +52,7 @@ public class TestFirebase
         DocumentReference dataTypesReference = firestore.Collection(TEST_COLLECTION)?.Document("Datatypes");
         DocumentReference usersReference = firestore.Collection(TEST_COLLECTION)?.Document(user.EmailID);
 
-        // SetOptions.MergeAll: allows Changes the behavior of SetAsync calls to only replace the values specified in its documentData argument.
+        // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
         Task.Run(() => dataTypesReference.SetAsync(docData, SetOptions.MergeAll)).GetAwaiter();
         Task.Run(() => usersReference.SetAsync(user.GetNewMockUserAsMap(), SetOptions.MergeAll)).GetAwaiter();
@@ -109,7 +109,7 @@ public class TestFirebase
        });
     }
 
-    // Waiting for future support
+    // Waiting for future SDK support
     // [Test]
     // public void TestFiresbaseAuth()
     // {

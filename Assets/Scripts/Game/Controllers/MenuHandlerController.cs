@@ -123,7 +123,7 @@ public class MenuHandlerController : MonoBehaviour
             return;
         }
 
-        ObjectType type = Util.GetObjectType(clickController.GetClickedObject());
+        Util.GetObjectType(clickController.GetClickedObject());
 
         if (clickController.GetClickedObject().name.Contains(Settings.PrefabNpcEmployee))
         {
