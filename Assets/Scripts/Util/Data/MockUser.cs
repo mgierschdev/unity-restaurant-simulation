@@ -9,6 +9,7 @@ public class MockUser
 
     public string EmailID = "email@gmail.com"; // mandatory
     public string InternalID; // internal app id
+    public string FireappAuthID = "0ipAHWcMFdTest";
     public string Auth = "google play";
     public DateTime LastLogin;
     public DateTime SignInDate;
@@ -29,6 +30,8 @@ public class MockUser
     public Dictionary<string, object> GetUserAsMap(){
         return new Dictionary<string, object>{
             {"Name", new List<object>(){FirstName, SecondName}},
+            {"ID", InternalID},
+            {"FireappAuthID", FireappAuthID},
             {"Auth", Auth},
             {"LastLogin", LastLogin},
             {"CreatedAt", SignInDate}
