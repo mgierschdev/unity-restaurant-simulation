@@ -16,7 +16,8 @@
         "nunit.framework.dll",
         "Firebase.Firestore.dll",
         "Unity.Tasks.dll",
-        "Firebase.App.dll"
+        "Firebase.App.dll",
+        "Firebase.Auth.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
