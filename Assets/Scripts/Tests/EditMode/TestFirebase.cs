@@ -13,12 +13,12 @@ public class TestFirebase
     private const string DEV_CLOUD_FUNCTION_HOST = "localhost:5001";
     private const string TEST_COLLECTION = "Test";
     private FirebaseFirestore firestore;
-    private MockUser user;
+    private PlayerData user;
 
     [SetUp]
     public void SetUp()
     {
-        user = new MockUser();
+        user = new PlayerData();
     }
 
     [Test]
@@ -51,7 +51,7 @@ public class TestFirebase
         DocumentReference usersReference = firestore.Collection(TEST_COLLECTION).Document(user.EmailID);
 
         Task.Run(() => dataTypesReference.SetAsync(docData)).GetAwaiter();
-        Task.Run(() => usersReference.SetAsync(user.GetUserAsMap())).GetAwaiter();
+        Task.Run(() => usersReference.SetAsync(user.GetMockUserAsMap())).GetAwaiter();
 
         DocumentSnapshot snapshot = null;
         Task.Run(async () =>

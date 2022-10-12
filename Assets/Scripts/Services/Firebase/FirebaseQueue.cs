@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using System.Threading.Tasks;
 
+// For keeping track and processing queue of async firebase messages
 public class FirebaseQueue
 {
     private Queue<Task> actionQueue = new Queue<Task>();

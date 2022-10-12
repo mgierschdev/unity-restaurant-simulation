@@ -19,7 +19,8 @@
         "Firebase.App.dll",
         "Firebase.Auth.dll",
         "Firebase.Functions.dll",
-        "Firebase.TaskExtension.dll"
+        "Firebase.TaskExtension.dll",
+        ""
     ],
     "autoReferenced": false,
     "defineConstraints": [
