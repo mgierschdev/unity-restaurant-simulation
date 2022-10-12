@@ -19,7 +19,7 @@ public class NPCController : GameObjectMovementBase
     private Vector3 targetInWorldPosition;
     private bool IsNPCVisible;
     //Time in the current state
-    private float stateTime; //TODO: to be used in order for the NPC to leave after certain time
+    private float stateTime;
     private NpcState prevState;
     [SerializeField]
     public Vector2 TmpVelocity;
@@ -105,9 +105,8 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateAnimation()
     {
-        // TODO: only change inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
+        // TODO: for performance reasons only animate inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
         // Animates depending on the current state
-
         if (IsMoving())
         {
             animationController.SetState(NpcState.WALKING);
