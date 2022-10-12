@@ -53,7 +53,6 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         // Menu Body
-        // TODO: repeated code 
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
         GameObject CenterPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
         GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
@@ -304,7 +303,7 @@ public class MenuHandlerController : MonoBehaviour
     {
         if (!gridController.PlayerData.CanSubtract(obj.Cost))
         {
-            GameLog.Log("TODO: Insufficient funds " + gridController.PlayerData.GetMoney());
+            GameLog.Log("TODO: UI message: Insufficient funds " + gridController.PlayerData.GetMoney());
             return;
         }
 
@@ -320,11 +319,10 @@ public class MenuHandlerController : MonoBehaviour
         if (gridController.PlaceGameObject(obj))
         {
             gridController.PlayerData.Subtract(obj.Cost);
-            // GameLog.Log("TODO: Object Placed discounting " + (-obj.Cost));
         }
         else
         {
-            // GameLog.Log("TODO: Place not found");
+            GameLog.Log("TODO: UI message: Place not found");
         }
 
         //Disable Left down panel
@@ -361,11 +359,6 @@ public class MenuHandlerController : MonoBehaviour
         editStoreMenuPanel.SetActive(true);
         // We disable 
         menuBackgroundController.Disable();
-    }
-
-    private void OpenEmployeePanel()
-    {
-        GameLog.Log("Opening Employee panel"); // TODO
     }
 
     // Closes the edit panel without changes 

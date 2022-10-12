@@ -107,3 +107,11 @@ public enum StoreItemType
     WOODEN_BASE_CONTAINER = 12,
     UNDEFINED = 999
 }
+
+
+// Auth source
+public enum AuthSource
+{
+    GOOGLE_PLAY = 1,
+    UNDEFINED = 999
+}

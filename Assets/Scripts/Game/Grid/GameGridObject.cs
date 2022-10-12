@@ -4,7 +4,6 @@ using UnityEngine.Rendering;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
-
 public class GameGridObject : GameObjectBase
 {
     private List<GameObject> actionTiles;
@@ -47,7 +46,7 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
 
-        spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();//TEST TODO
+        spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
         spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
 
         //Edit Panel Disable
@@ -99,10 +98,9 @@ public class GameGridObject : GameObjectBase
     //Store Item in inventory
     private void StoreInInventory()
     {
-        //TODO: Show POPUP confirming action
-        //GameLog.Log("TODO: Storing item in Inventory " + Name);
+        GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
         Grid.PlayerData.StoreItem(this);
-        Grid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current seledted in the grid 
+        Grid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current selected in the grid 
         Grid.FreeObject(this);
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
         {
@@ -173,8 +171,6 @@ public class GameGridObject : GameObjectBase
     {
         if (!IsValidRotation(1)) //right
         {
-            //TODO: Show popup message
-            GameLog.Log("Rotation is invalid");
             return;
         }
 
@@ -197,7 +193,6 @@ public class GameGridObject : GameObjectBase
     {
         if (!IsValidRotation(0)) //left
         {
-            //TODO: Show popup message
             GameLog.Log("Rotation is invalid");
             return;
         }
@@ -432,5 +427,20 @@ public class GameGridObject : GameObjectBase
     public bool GetIsObjectBeingDragged()
     {
         return isObjectBeingDragged;
+    }
+
+    public SpriteResolver GetSpriteResolver()
+    {
+        return spriteResolver;
+    }
+
+    public List<GameObject> GetActionTileList()
+    {
+        return actionTiles;
+    }
+
+    public List<SpriteRenderer> GetTileList()
+    {
+        return tiles;
     }
 }

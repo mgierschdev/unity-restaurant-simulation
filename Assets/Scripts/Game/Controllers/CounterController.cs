@@ -2,6 +2,7 @@ public class CounterController : BaseObjectController
 {
     private void Start()
     {
+        GameLog.Log("Debugginh counter");
         Init();
         gameGridObject = new GameGridObject(transform, Grid, InitialObjectRotation, Grid.GetObjectListConfiguration().GetStoreObject(StoreItemType.COUNTER));
         

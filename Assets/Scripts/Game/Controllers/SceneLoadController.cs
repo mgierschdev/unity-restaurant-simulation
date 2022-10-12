@@ -33,7 +33,7 @@ public class SceneLoadController : MonoBehaviour
 
         //Init firebase and auth
         firebase.InitFirebase();
-        //firebase.InitAuth(); TODO: Test
+        //firebase.InitAuth(); TODO: Testing with backend
     }
 
     private void LoadSceneAsync(string scene)

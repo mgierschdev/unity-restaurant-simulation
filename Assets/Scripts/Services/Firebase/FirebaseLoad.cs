@@ -3,7 +3,7 @@ using Firebase;
 using Firebase.Auth;
 using UnityEngine;
 
-// This load the init code for firebase and the init auth
+// This load the init code for firebase and auth
 public class FirebaseLoad
 {
     private bool isUserSignedIn;

@@ -264,15 +264,9 @@ public class EmployeeController : GameObjectMovementBase
     {
         localState = NpcState.AT_COUNTER;
         double orderCost = Random.Range(5, 10);
-        //GameLog.Log("TODO: +" + orderCost);
+        //TODO: cost depending on the NPC order
         Grid.PlayerData.AddMoney(orderCost);
     }
-
-    // private void ResetState()
-    // {
-    //     ResetMovement(); // we stop the player from moving
-    //     RestartState(); // we reset the state
-    // }
 
     public void RecalculateState(GameGridObject obj)
     {
