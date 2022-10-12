@@ -19,6 +19,7 @@ public class TestFirebase
     public void SetUp()
     {
         user = new PlayerData();
+        user.SetMockUpUser();
     }
 
     [Test]
@@ -47,11 +48,14 @@ public class TestFirebase
             firestore.Settings.SslEnabled = false;
         }
 
-        DocumentReference dataTypesReference = firestore.Collection(TEST_COLLECTION).Document("Datatypes");
-        DocumentReference usersReference = firestore.Collection(TEST_COLLECTION).Document(user.EmailID);
+        // The ?.Document , ? symbol ensures that you cannot create another reference to a collection that already exists
+        DocumentReference dataTypesReference = firestore.Collection(TEST_COLLECTION)?.Document("Datatypes");
+        DocumentReference usersReference = firestore.Collection(TEST_COLLECTION)?.Document(user.EmailID);
 
-        Task.Run(() => dataTypesReference.SetAsync(docData)).GetAwaiter();
-        Task.Run(() => usersReference.SetAsync(user.GetMockUserAsMap())).GetAwaiter();
+        // SetOptions.MergeAll: allows Changes the behavior of SetAsync calls to only replace the values specified in its documentData argument.
+        // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
+        Task.Run(() => dataTypesReference.SetAsync(docData, SetOptions.MergeAll)).GetAwaiter();
+        Task.Run(() => usersReference.SetAsync(user.GetNewMockUserAsMap(), SetOptions.MergeAll)).GetAwaiter();
 
         DocumentSnapshot snapshot = null;
         Task.Run(async () =>
@@ -61,14 +65,14 @@ public class TestFirebase
             Assert.AreEqual(snapshot.Id, user.EmailID);
         }).GetAwaiter();
 
-        usersReference.DeleteAsync().GetAwaiter();
-
-        Task.Run(async () =>
-        {
-            snapshot = await usersReference.GetSnapshotAsync();
-            Debug.Log("Assert false " + snapshot.Exists);
-            Assert.False(snapshot.Exists);
-        }).GetAwaiter();
+        // To clean up, disabled during development 
+        // usersReference.DeleteAsync().GetAwaiter();
+        // Task.Run(async () =>
+        // {
+        //     snapshot = await usersReference.GetSnapshotAsync();
+        //     Debug.Log("Assert false " + snapshot.Exists);
+        //     Assert.False(snapshot.Exists);
+        // }).GetAwaiter();
     }
 
     [Test]
