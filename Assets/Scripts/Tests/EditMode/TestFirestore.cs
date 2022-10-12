@@ -45,7 +45,7 @@ public class TestFirestore
         }
 
         DocumentReference dataTypesReference = firestore.Collection(TEST_COLLECTION).Document("Datatypes");
-        DocumentReference usersReference = firestore.Collection(TEST_COLLECTION).Document(user.ID);
+        DocumentReference usersReference = firestore.Collection(TEST_COLLECTION).Document(user.EmailID);
 
         Task.Run(() => dataTypesReference.SetAsync(docData)).GetAwaiter();
         Task.Run(() => usersReference.SetAsync(user.GetUserAsMap())).GetAwaiter();
@@ -55,7 +55,7 @@ public class TestFirestore
         {
             snapshot = await usersReference.GetSnapshotAsync();
             Debug.Log("snapshot1 ID: " + snapshot.Id);
-            Assert.AreEqual(snapshot.Id, user.ID);
+            Assert.AreEqual(snapshot.Id, user.EmailID);
         }).GetAwaiter();
 
         usersReference.DeleteAsync().GetAwaiter();
