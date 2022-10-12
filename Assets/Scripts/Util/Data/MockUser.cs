@@ -11,6 +11,7 @@ public class MockUser
     public string InternalID; // internal app id
     public string FireappAuthID = "0ipAHWcMFdTest";
     public string Auth = "google play";
+    public string LanguageCode = "en_US";
     public DateTime LastLogin;
     public DateTime SignInDate;
 
@@ -30,6 +31,7 @@ public class MockUser
     public Dictionary<string, object> GetUserAsMap(){
         return new Dictionary<string, object>{
             {"Name", new List<object>(){FirstName, SecondName}},
+            {"LanguageCode", LanguageCode},
             {"ID", InternalID},
             {"FireappAuthID", FireappAuthID},
             {"Auth", Auth},

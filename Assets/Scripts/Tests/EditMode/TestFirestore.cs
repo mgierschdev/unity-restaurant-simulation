@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Firebase.Firestore;
+using Firebase.Auth;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ public class TestFirestore
     }
 
     [Test]
-    public void TestSavingData()
+    public void TestFirestoreGetDeletePost()
     {
         Dictionary<string, object> docData = new Dictionary<string, object>
         {
@@ -63,10 +64,22 @@ public class TestFirestore
         Task.Run(async () =>
         {
             snapshot = await usersReference.GetSnapshotAsync();
-            Debug.Log("Assert false "+snapshot.Exists);
+            Debug.Log("Assert false " + snapshot.Exists);
             Assert.False(snapshot.Exists);
         }).GetAwaiter();
     }
+
+    // [Test]
+    // public void TestFiresbaseAuth()
+    // {
+   
+    //     // //app.Options.DatabaseUrl = new System.Uri("localhost:9099");
+    //     // FirebaseAuth auth = FirebaseAuth.GE
+
+    //     // // Debug.Log(" "+auth.SignInWithCredentialAsync());
+    //     // Task.Run(() => auth.SignInAnonymouslyAsync());
+    //     // Debug.Log(auth.CurrentUser);
+    // }
 }
 
 // private Task InitAuthAnonymosly()
