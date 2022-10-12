@@ -15,7 +15,8 @@
     "precompiledReferences": [
         "nunit.framework.dll",
         "Firebase.Firestore.dll",
-        "Unity.Tasks.dll"
+        "Unity.Tasks.dll",
+        "Firebase.App.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

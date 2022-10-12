@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;  // Needed for the Unwrap extension method
+using System.Threading.Tasks;
 using Firebase;
-using Firebase.Extensions;
 using Firebase.Firestore;
 using UnityEngine;
 using DependencyStatus = Firebase.DependencyStatus;
@@ -21,13 +18,14 @@ public class Firestore
 
     public Firestore()
     {
-        firestore = FirebaseFirestore.DefaultInstance;
-        firestore.Settings.SslEnabled = true;
-        InitFirebase();
+        // firestore = FirebaseFirestore.DefaultInstance;
+        // firestore.Settings.SslEnabled = true;
+        // InitFirebase();
     }
 
-    public Firestore(string devHost, string collectionName, string document)
+    public FirebaseFirestore GetFirestoreEmulatorInstance()
     {
+        
         AppOptions options = new AppOptions
         {
             ApiKey = "<API_KEY>",
@@ -44,10 +42,8 @@ public class Firestore
         firestore = FirebaseFirestore.GetInstance(app);
         Debug.Log(firestore.App+" "+firestore.ToString() +" "+ app.ToString());
         firestore.Settings.SslEnabled = false;
-        firestore.Settings.Host = "https://localhost:8080";
-        this.collectionName = collectionName;
-        this.document = document;
-        docReference = firestore.Collection(collectionName).Document(document);
+        firestore.Settings.Host = "localhost:8080";
+        return firestore;
     }
 
     public Task SaveDictionary(Dictionary<string, object> dictionary)
