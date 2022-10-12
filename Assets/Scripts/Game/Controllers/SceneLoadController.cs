@@ -10,8 +10,9 @@ public class SceneLoadController : MonoBehaviour
 {
     private TextMeshProUGUI sliderProgress;
     private Slider slider;
+    private FirebaseLoad firebase;
 
-    void Start()
+    public void Start()
     {
         //We get the slider 
         GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
@@ -38,7 +39,7 @@ public class SceneLoadController : MonoBehaviour
 
     private IEnumerator LoadAsync(string scene)
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(scene); // LoadSceneMode.Additive, default Single
+        AsyncOperation operation = SceneManager.LoadSceneAsync(scene); //Additional parameters: LoadSceneMode.Additive, default Single
 
         while (!operation.isDone)
         {
