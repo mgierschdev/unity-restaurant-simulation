@@ -30,11 +30,14 @@ public class SceneLoadController : MonoBehaviour
 
         //We load the Scene managment 
         LoadSceneAsync(Settings.GameScene);
+
+        //Init firebase and auth
+        firebase.InitFirebase();
+        //firebase.InitAuth(); TODO: Test
     }
 
     private void LoadSceneAsync(string scene)
     {
-        firebase.InitFirebase();
         //firebase auth
         StartCoroutine(LoadAsync(scene));
     }
