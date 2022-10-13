@@ -48,7 +48,9 @@ public class SceneLoadController : MonoBehaviour
         userData = firestore.GetUserData(Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.Email);
 
         //Loading next scene
-        operation = SceneManager.LoadSceneAsync(Settings.GameScene); //Additional parameters: LoadSceneMode.Additive, default Single
+        //Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
+        // after the new one finishes loading.
+        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
         operation.allowSceneActivation = false;
     }
 

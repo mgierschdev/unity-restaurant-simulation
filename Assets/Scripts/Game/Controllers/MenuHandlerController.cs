@@ -25,7 +25,6 @@ public class MenuHandlerController : MonoBehaviour
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
     private GridController gridController;
-    private PlayerData playerData;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
@@ -259,7 +258,7 @@ public class MenuHandlerController : MonoBehaviour
             GameObject img = item.transform.Find(Settings.PrefabInventoryItemImage).gameObject;
             Image image = img.GetComponent<Image>();
             //Adding click listener
-            if (obj.Cost <= gridController.PlayerData.GetMoneyDouble())
+            if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(obj));
             }
@@ -301,9 +300,9 @@ public class MenuHandlerController : MonoBehaviour
 
     private void OpenStoreEditPanel(StoreGameObject obj)
     {
-        if (!gridController.PlayerData.CanSubtract(obj.Cost))
+        if (!PlayerData.CanSubtract(obj.Cost))
         {
-            GameLog.Log("TODO: UI message: Insufficient funds " + gridController.PlayerData.GetMoney());
+            GameLog.Log("TODO: UI message: Insufficient funds " + PlayerData.GetMoney());
             return;
         }
 
@@ -318,7 +317,7 @@ public class MenuHandlerController : MonoBehaviour
 
         if (gridController.PlaceGameObject(obj))
         {
-            gridController.PlayerData.Subtract(obj.Cost);
+            PlayerData.Subtract(obj.Cost);
         }
         else
         {

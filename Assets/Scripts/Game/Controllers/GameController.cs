@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour
         {
             GameGridObject gameGridObject = obj.Value;
 
-            if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy() && !gameGridObject.GetIsObjectBeingDragged() && !Grid.PlayerData.IsItemStored(gameGridObject.Name))
+            if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy() && !gameGridObject.GetIsObjectBeingDragged() && !PlayerData.IsItemStored(gameGridObject.Name))
             {
                 Grid.AddFreeBusinessSpots(gameGridObject);
             }
