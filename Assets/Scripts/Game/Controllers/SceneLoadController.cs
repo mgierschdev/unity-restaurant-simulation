@@ -1,8 +1,8 @@
+using TMPro;
+using UnityEngine;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Firestore;
-using TMPro;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -49,7 +49,7 @@ public class SceneLoadController : MonoBehaviour
 
         //Loading next scene
         //Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
-        // after the new one finishes loading.
+        //after the new one finishes loading.
         operation = SceneManager.LoadSceneAsync(Settings.GameScene);
         operation.allowSceneActivation = false;
     }
@@ -67,6 +67,8 @@ public class SceneLoadController : MonoBehaviour
 
         if (Mathf.Approximately(currentProgress, 1) && userData.IsCompleted)
         {
+            // Loads the queried data to the player game object
+            PlayerData.LoadFirebaseDocument(userData.Result);
             operation.allowSceneActivation = true;
         }
     }
