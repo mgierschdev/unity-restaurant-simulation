@@ -14,7 +14,7 @@ public class TestFirebase
     [SetUp]
     public void SetUp()
     {
-        PlayerData.SetMockUpUser();
+        PlayerData.SetMockUser();
     }
 
     [Test]
@@ -51,8 +51,8 @@ public class TestFirebase
         // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
         await dataTypesReference.SetAsync(docData, SetOptions.MergeAll);
-        await usersReference.SetAsync(PlayerData.GetNewMockUserAsMap(), SetOptions.MergeAll);
-        await testUser.SetAsync(PlayerData.GetNewMockUserAsMap(), SetOptions.MergeAll);
+        await usersReference.SetAsync(PlayerData.GetUserAsMap(), SetOptions.MergeAll);
+        await testUser.SetAsync(PlayerData.GetUserAsMap(), SetOptions.MergeAll);
 
         DocumentSnapshot snapshot = await usersReference.GetSnapshotAsync();
         snapshot = await usersReference.GetSnapshotAsync();

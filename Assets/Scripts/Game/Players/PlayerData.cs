@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Firebase.Firestore;
 using TMPro;
+using UnityEngine;
 
 [FirestoreData]
 public static class PlayerData
@@ -83,7 +85,7 @@ public static class PlayerData
         return Guid.NewGuid().ToString();
     }
 
-    public static void SetMockUpUser()
+    public static void SetMockUser()
     {
         InternalID = GenerateID();
         EmailID = InternalID + "@gmail.com";
@@ -95,7 +97,7 @@ public static class PlayerData
         gameMoney = 20000;
     }
 
-    public static Dictionary<string, object> GetNewMockUserAsMap()
+    public static Dictionary<string, object> GetUserAsMap()
     {
         return new Dictionary<string, object>{
             {FirestorePlayerAttributes.NAME, Name},
@@ -129,11 +131,28 @@ public static class PlayerData
         FireappAuthID = (String)dic[FirestorePlayerAttributes.FIREBASE_AUTH_ID];
         Auth = (AuthSource)(Int64)dic[FirestorePlayerAttributes.AUTH_TYPE];
         LastLogin = dic[FirestorePlayerAttributes.AUTH_TYPE];
+        EmailID = data.Id;
         // In case of parsing serverside timestamp:
         // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
         // foreach (KeyValuePair<string, object> pair in dic)
         // {
         //     GameLog.Log(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
         // }
+    }
+
+    // Control times in which we save the game
+
+    //Saves when the user closes the app
+    //TODO: Saves every 10 minutes
+    private async static void Quit()
+    {
+        Task task = Firestore.SaveUserData(GetUserAsMap());
+        await task;
+    }
+
+    [RuntimeInitializeOnLoadMethod]
+    private static void RunOnStart()
+    {
+        Application.quitting += Quit;
     }
 }

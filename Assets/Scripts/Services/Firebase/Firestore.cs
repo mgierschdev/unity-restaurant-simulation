@@ -1,47 +1,55 @@
-using System.Threading.Tasks;
 using Firebase;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Firebase.Firestore;
 
-public class Firestore
+public static class Firestore
 {
-    private bool isFirebaseEnabled;
-    private LogLevel logLevel = LogLevel.Verbose;
-    private FirebaseFirestore firestore;
-    private DocumentReference docReference;
-    private string collectionName;
-    private string document;
-    private AppOptions appOptions;
-    private FirebaseApp app;
+    private static bool isFirebaseEnabled;
+    private static LogLevel logLevel = LogLevel.Verbose;
+    private static FirebaseFirestore firestore;
+    private static DocumentReference docReference;
+    private static string collectionName;
+    private static string document;
+    private static AppOptions appOptions;
+    private static FirebaseApp app;
 
-    public Firestore()
+    public static void Init()
     {
-        Init();
-    }
+        if(firestore != null){
+            return;
+        }
 
-    private void Init()
-    {
         firestore = FirebaseFirestore.DefaultInstance;
         if (Settings.IsFirebaseEmulatorEnabled)
         {
+            // In case the config has been cached between scene loads
             if (!firestore.Settings.Host.Contains(Settings.FIRESTORE_HOST))
             {
                 firestore.Settings.Host = Settings.FIRESTORE_HOST;
-                firestore.Settings.SslEnabled = false;
+                firestore.Settings.SslEnabled = true;
             }
-
         }
     }
 
     // Only during the first login
-    public Task<DocumentSnapshot> GetUserData(string UID)
+    public static Task<DocumentSnapshot> GetUserData(string UID)
     {
         //Debug.Log("UID " + UID);
         DocumentReference userData = firestore.Collection(Settings.USER_COLLECTION)?.Document(UID);
         return userData.GetSnapshotAsync();
     }
 
-    public bool GetIsFirebaseEnabled()
+    public static bool GetIsFirebaseEnabled()
     {
         return isFirebaseEnabled;
+    }
+
+    public static Task SaveUserData(Dictionary<string, object> docData)
+    {
+        GameLog.Log("Player ID "+PlayerData.EmailID);
+        DocumentReference testUser = firestore.Collection(Settings.USER_COLLECTION)?.Document(PlayerData.EmailID);
+        Task save = testUser.SetAsync(docData, SetOptions.MergeAll);
+        return save;
     }
 }

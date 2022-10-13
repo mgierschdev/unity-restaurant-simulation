@@ -13,7 +13,6 @@ public class SceneLoadController : MonoBehaviour
     private TextMeshProUGUI sliderProgress;
     private Slider slider;
     private FirebaseLoad firebase;
-    private Firestore firestore;
     private FirebaseAuth auth;
     //Scene load
     private AsyncOperation operation;
@@ -41,11 +40,11 @@ public class SceneLoadController : MonoBehaviour
             await firebase.InitAuth();
         }
 
-        firestore = new Firestore();
+        Firestore.Init();
         firebase = new FirebaseLoad();
         await firebase.InitFirebase();
         auth = firebase.GetFirebaseAuth();
-        userData = firestore.GetUserData(Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.Email);
+        userData = Firestore.GetUserData(Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.Email);
 
         //Loading next scene
         //Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
