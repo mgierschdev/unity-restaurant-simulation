@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
         gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
         Grid = gameGridObject.GetComponent<GridController>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
+
+        PlayerData.DebugPrint();
     }
 
     private void Update()

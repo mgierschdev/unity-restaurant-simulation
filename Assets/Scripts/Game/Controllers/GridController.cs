@@ -60,7 +60,7 @@ public class GridController : MonoBehaviour
         // Setting up Current money
         GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-        PlayerData.SetPlayerData(20000, moneyText);
+        PlayerData.SetPlayerData(moneyText);
 
         // TILEMAP DATA 
         tilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
