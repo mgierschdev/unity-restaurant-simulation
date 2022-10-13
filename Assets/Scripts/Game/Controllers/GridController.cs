@@ -6,8 +6,6 @@ using Random = UnityEngine.Random;
 
 public class GridController : MonoBehaviour
 {
-    //Player Data
-    public PlayerData PlayerData { get; set; }
     //Tilemap 
     private const int WIDTH = Settings.GridWidth; // Down -> Up
     private const int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
@@ -62,7 +60,7 @@ public class GridController : MonoBehaviour
         // Setting up Current money
         GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-        PlayerData = new PlayerData(20000, moneyText);
+        PlayerData.SetPlayerData(20000, moneyText);
 
         // TILEMAP DATA 
         tilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
@@ -880,15 +878,6 @@ public class GridController : MonoBehaviour
     public GameGridObject GetCounter()
     {
         return counter;
-    }
-
-    public PlayerData GetPlayerData()
-    {
-        return PlayerData;
-    }
-    public void SetPlayerData(PlayerData data)
-    {
-        PlayerData = data;
     }
 
     public int[,] GetGridArray()

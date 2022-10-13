@@ -265,7 +265,7 @@ public class EmployeeController : GameObjectMovementBase
         localState = NpcState.AT_COUNTER;
         double orderCost = Random.Range(5, 10);
         //TODO: cost depending on the NPC order
-        Grid.PlayerData.AddMoney(orderCost);
+        PlayerData.AddMoney(orderCost);
     }
 
     public void RecalculateState(GameGridObject obj)
