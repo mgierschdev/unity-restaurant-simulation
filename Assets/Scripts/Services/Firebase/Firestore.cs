@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Firebase;
 using Firebase.Firestore;
-using UnityEngine;
-using DependencyStatus = Firebase.DependencyStatus;
 
 public class Firestore
 {
@@ -18,47 +15,29 @@ public class Firestore
 
     public Firestore()
     {
-        // firestore = FirebaseFirestore.DefaultInstance;
-        // firestore.Settings.SslEnabled = true;
-        // InitFirebase();
+        Init();
     }
 
-    public FirebaseFirestore GetFirestoreEmulatorInstance()
+    private void Init()
     {
-        
-        AppOptions options = new AppOptions
+        firestore = FirebaseFirestore.DefaultInstance;
+        if (Settings.IsFirebaseEmulatorEnabled)
         {
-            ApiKey = "<API_KEY>",
-            AppId = "<GOOGLE_APP_ID>",
-            ProjectId = "fir-unitygamebussbackend"
-        };
-        // app.Options.ProjectId = "fir-unitygamebussbackend";
-        // app.Options.DatabaseUrl = new Uri("http://localhost:8080/");
-        FirebaseApp app = FirebaseApp.Create(options, "Secondary");
-        if(app == null){
-            Debug.Log("FirebaseApp null");
-        }
+            if (!firestore.Settings.Host.Contains(Settings.FIRESTORE_HOST))
+            {
+                firestore.Settings.Host = Settings.FIRESTORE_HOST;
+                firestore.Settings.SslEnabled = false;
+            }
 
-        firestore = FirebaseFirestore.GetInstance(app);
-        Debug.Log(firestore.App+" "+firestore.ToString() +" "+ app.ToString());
-        firestore.Settings.SslEnabled = false;
-        firestore.Settings.Host = "localhost:8080";
-        return firestore;
+        }
     }
 
-    public Task SaveDictionary(Dictionary<string, object> dictionary)
+    // Only during the first login
+    public Task<DocumentSnapshot> GetUserData(string UID)
     {
-        Debug.Log("Saving dic ");
-
-        try
-        {
-            return docReference.SetAsync(dictionary);
-        }
-        catch (FirebaseException e)
-        {
-            GameLog.LogError("Exception raised: Firestore/SaveDictionary " + e.ToString());
-            return null;
-        }
+        //Debug.Log("UID " + UID);
+        DocumentReference userData = firestore.Collection(Settings.USER_COLLECTION)?.Document(UID);
+        return userData.GetSnapshotAsync();
     }
 
     public bool GetIsFirebaseEnabled()

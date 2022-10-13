@@ -1,12 +1,19 @@
 public static class Settings
 {
-    // DEBUG parameterss
+    // DEBUG / DEV parameterss
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
+    public const bool IsFirebaseEmulatorEnabled = true;
 
     // Player Config
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
+
+    //FIREBASE TEST ENV 
+    public const string FIRESTORE_HOST = IsFirebaseEmulatorEnabled ? "localhost:8080" : "";
+    public const string CLOUD_FUNCTION_HOST = IsFirebaseEmulatorEnabled ? "localhost:5001" : "";
+    public const string USER_COLLECTION = IsFirebaseEmulatorEnabled ? "Test" : "Users";
+    public const string TEST_USER = IsFirebaseEmulatorEnabled ? "mgierschdev@gmail.com" : "";
 
     //GAME TAGS
     public const string NpcTag = "NPC";
@@ -60,7 +67,7 @@ public static class Settings
 
     // NPC Default
     public const float MinDistanceToTarget = 0.13f;
-    public const float NpcDefaultMovementSpeed = 7f;
+    public const float NpcDefaultMovementSpeed = 0.7f;
     public const int NpcDefaultEnergy = 100;
     public const string NpcEnergyBar = "EnergyBar";
     public const string NpcCharacter = "Character";

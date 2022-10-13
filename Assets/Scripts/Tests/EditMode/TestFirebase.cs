@@ -9,9 +9,6 @@ using UnityEngine;
 //This test only passes if the firestore emulator suite is running locally and firestore running at 8080
 public class TestFirebase
 {
-    private const string DEV_FIRESTORE_HOST = "localhost:8080";
-    private const string DEV_CLOUD_FUNCTION_HOST = "localhost:5001";
-    private const string TEST_COLLECTION = "Test";
     private FirebaseFirestore firestore;
     private PlayerData user;
 
@@ -42,20 +39,22 @@ public class TestFirebase
         firestore = FirebaseFirestore.DefaultInstance;
         // firestore.Settings.Host is cached beteween tests 
         Debug.Log("Current firestore host " + firestore.Settings.Host);
-        if (!firestore.Settings.Host.Contains(DEV_FIRESTORE_HOST))
+        if (!firestore.Settings.Host.Contains(Settings.FIRESTORE_HOST))
         {
-            firestore.Settings.Host = DEV_FIRESTORE_HOST;
+            firestore.Settings.Host = Settings.FIRESTORE_HOST;
             firestore.Settings.SslEnabled = false;
         }
 
         // The ?.Document , ? symbol ensures that you cannot create another reference to a collection that already exists
-        DocumentReference dataTypesReference = firestore.Collection(TEST_COLLECTION)?.Document("Datatypes");
-        DocumentReference usersReference = firestore.Collection(TEST_COLLECTION)?.Document(user.EmailID);
+        DocumentReference dataTypesReference = firestore.Collection(Settings.USER_COLLECTION)?.Document("Datatypes");
+        DocumentReference usersReference = firestore.Collection(Settings.USER_COLLECTION)?.Document(user.EmailID);
+        DocumentReference testUser = firestore.Collection(Settings.USER_COLLECTION)?.Document(Settings.TEST_USER);
 
         // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
         await dataTypesReference.SetAsync(docData, SetOptions.MergeAll);
         await usersReference.SetAsync(user.GetNewMockUserAsMap(), SetOptions.MergeAll);
+        await testUser.SetAsync(user.GetNewMockUserAsMap(), SetOptions.MergeAll);
 
         DocumentSnapshot snapshot = await usersReference.GetSnapshotAsync();
         snapshot = await usersReference.GetSnapshotAsync();
@@ -83,7 +82,7 @@ public class TestFirebase
     [Test]
     public void TestCloudFunction()
     {
-        FirebaseFunctions functions = FirebaseFunctions.GetInstance(DEV_CLOUD_FUNCTION_HOST);
+        FirebaseFunctions functions = FirebaseFunctions.GetInstance(Settings.CLOUD_FUNCTION_HOST);
         HttpsCallableReference function = functions.GetHttpsCallable("helloWorld");
         string functionInput = "functionInput";
 
