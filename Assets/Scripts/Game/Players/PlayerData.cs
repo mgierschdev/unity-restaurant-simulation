@@ -2,18 +2,16 @@ using System;
 using System.Collections.Generic;
 using Firebase.Firestore;
 using TMPro;
-using UnityEngine;
 
 [FirestoreData]
 public static class PlayerData
 {
-    public static string FirstName = "undefined"; // optional
-    public static string LastName = "undefined"; // optional
-    public static string EmailID; // mandatory
-    public static string InternalID; // internal app id
-    public static string FireappAuthID = "undefined"; // Given by firebase
-    public static string LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
-    private static double gameMoney;
+    public static List<string> Name;
+    public static String EmailID; // mandatory
+    public static String InternalID; // internal app id
+    public static String FireappAuthID = "undefined"; // Given by firebase
+    public static String LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
+    private static Double gameMoney;
     public static AuthSource Auth;
     [FirestoreProperty]
     public static object LastLogin { get; set; } // this is the default for the firestore server timestamp
@@ -89,8 +87,8 @@ public static class PlayerData
     {
         InternalID = GenerateID();
         EmailID = InternalID + "@gmail.com";
-        FirstName = "FirstName";
-        LastName = "LastName";
+        Name.Add("FirstName");
+        Name.Add("LastName");
         LanguageCode = "es_ES";
         Auth = AuthSource.GOOGLE_PLAY;
         FireappAuthID = "Test FireappAuthID";
@@ -100,7 +98,7 @@ public static class PlayerData
     public static Dictionary<string, object> GetNewMockUserAsMap()
     {
         return new Dictionary<string, object>{
-            {FirestorePlayerAttributes.NAME, new List<object>(){FirstName, LastName}},
+            {FirestorePlayerAttributes.NAME, Name},
             {FirestorePlayerAttributes.LANGUAGE_CODE, LanguageCode},
             {FirestorePlayerAttributes.INTERNAL_ID, InternalID},
             {FirestorePlayerAttributes.GAME_MONEY, gameMoney},
@@ -113,12 +111,29 @@ public static class PlayerData
 
     public static void DebugPrint()
     {
-        GameLog.Log(FirstName + "," + LastName + "," + EmailID + "," + InternalID + "," + FireappAuthID + "," + Auth + "," + LanguageCode + "," + LastLogin + "," + SignInDate + "," + gameMoney);
+        GameLog.Log(Name[0] + "," + Name[1] + "," + EmailID + "," + InternalID + "," + FireappAuthID + "," + Auth + "," + LanguageCode + "," + LastLogin + "," + SignInDate + "," + gameMoney);
     }
 
     public static void LoadFirebaseDocument(DocumentSnapshot data)
     {
-        // KeyValuePair<string, object> pair 
-        Dictionary<string, object> dic = data["data"];
+        Dictionary<string, object> dic = data.ToDictionary();
+        List<object> genericList = (List<object>)dic[FirestorePlayerAttributes.NAME];
+        Name = new List<String>(){
+            (String) genericList[0],
+            (String) genericList[1],
+        };
+
+        gameMoney = (Double)dic[FirestorePlayerAttributes.GAME_MONEY];
+        LanguageCode = (String)dic[FirestorePlayerAttributes.LANGUAGE_CODE];
+        InternalID = (String)dic[FirestorePlayerAttributes.INTERNAL_ID];
+        FireappAuthID = (String)dic[FirestorePlayerAttributes.FIREBASE_AUTH_ID];
+        Auth = (AuthSource)(Int64)dic[FirestorePlayerAttributes.AUTH_TYPE];
+        LastLogin = dic[FirestorePlayerAttributes.AUTH_TYPE];
+        // In case of parsing serverside timestamp:
+        // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
+        // foreach (KeyValuePair<string, object> pair in dic)
+        // {
+        //     GameLog.Log(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
+        // }
     }
 }
