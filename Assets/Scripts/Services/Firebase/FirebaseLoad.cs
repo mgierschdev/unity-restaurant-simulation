@@ -8,10 +8,11 @@ public class FirebaseLoad
 {
     private bool isUserSignedIn;
     private bool isFirebaseLoaded;
+    private FirebaseAuth auth;
 
     public Task InitAuth()
     {
-        FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+        auth = FirebaseAuth.DefaultInstance;
 
         return auth.SignInAnonymouslyAsync().ContinueWith(task =>
         {
@@ -70,5 +71,10 @@ public class FirebaseLoad
     public bool GetIsUserSignedin()
     {
         return isUserSignedIn;
+    }
+
+    public FirebaseAuth GetFirebaseAuth()
+    {
+        return auth;
     }
 }
