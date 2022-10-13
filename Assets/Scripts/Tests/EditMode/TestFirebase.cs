@@ -23,7 +23,7 @@ public class TestFirebase
     }
 
     [Test]
-    public void TestFirestoreGetDeletePost()
+    public async void TestFirestoreGetDeletePost()
     {
         Dictionary<string, object> docData = new Dictionary<string, object>
         {
@@ -54,16 +54,21 @@ public class TestFirebase
 
         // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
-        Task.Run(() => dataTypesReference.SetAsync(docData, SetOptions.MergeAll)).GetAwaiter();
-        Task.Run(() => usersReference.SetAsync(user.GetNewMockUserAsMap(), SetOptions.MergeAll)).GetAwaiter();
+        await dataTypesReference.SetAsync(docData, SetOptions.MergeAll);
+        await usersReference.SetAsync(user.GetNewMockUserAsMap(), SetOptions.MergeAll);
 
-        DocumentSnapshot snapshot = null;
-        Task.Run(async () =>
-        {
-            snapshot = await usersReference.GetSnapshotAsync();
-            Debug.Log("snapshot1 ID: " + snapshot.Id);
-            Assert.AreEqual(snapshot.Id, user.EmailID);
-        }).GetAwaiter();
+        DocumentSnapshot snapshot = await usersReference.GetSnapshotAsync();
+        snapshot = await usersReference.GetSnapshotAsync();
+        Debug.Log("snapshot1 ID: " + snapshot.Id);
+        Assert.AreEqual(snapshot.Id, user.EmailID);
+
+        // DocumentSnapshot snapshot = null;
+        // Task.Run(async () =>
+        // {
+        //     snapshot = await usersReference.GetSnapshotAsync();
+        //     Debug.Log("snapshot1 ID: " + snapshot.Id);
+        //     Assert.AreEqual(snapshot.Id, user.EmailID);
+        // }).GetAwaiter();
 
         // To clean up, Disabled during development 
         // usersReference.DeleteAsync().GetAwaiter();
