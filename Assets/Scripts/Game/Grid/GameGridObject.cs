@@ -99,7 +99,7 @@ public class GameGridObject : GameObjectBase
     private void StoreInInventory()
     {
         GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
-        Grid.PlayerData.StoreItem(this);
+        PlayerData.StoreItem(this);
         Grid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current selected in the grid 
         Grid.FreeObject(this);
         if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)

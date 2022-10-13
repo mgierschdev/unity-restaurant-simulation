@@ -4,46 +4,42 @@ using Firebase.Firestore;
 using TMPro;
 
 [FirestoreData]
-public class PlayerData
+public static class PlayerData
 {
-    public string FirstName = "undefined"; // optional
-    public string LastName = "undefined"; // optional
-    public string EmailID; // mandatory
-    public string InternalID; // internal app id
-    public string FireappAuthID = "undefined"; // Given by firebase
-    public AuthSource Auth;
-    public string LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
+    public static string FirstName = "undefined"; // optional
+    public static string LastName = "undefined"; // optional
+    public static string EmailID; // mandatory
+    public static string InternalID; // internal app id
+    public static string FireappAuthID = "undefined"; // Given by firebase
+    public static AuthSource Auth;
+    public static string LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
     [FirestoreProperty]
-    public object LastLogin { get; set; } // this is the default for the firestore server timestamp
+    public static object LastLogin { get; set; } // this is the default for the firestore server timestamp
     [FirestoreProperty]
-    public object SignInDate { get; set; } // this is the default for the firestore server timestamp
-    private double money;
-    private TextMeshProUGUI moneyText;
-    private List<GameGridObject> storedIventory;
-    private List<GameGridObject> Inventory;
-    private HashSet<string> setStoredInventory; // Saved stored inventory by ID
+    public static object SignInDate { get; set; } // this is the default for the firestore server timestamp
+    private static double money;
+    private static TextMeshProUGUI moneyText;
+    private static List<GameGridObject> storedIventory;
+    private static List<GameGridObject> Inventory;
+    private static HashSet<string> setStoredInventory; // Saved stored inventory by ID
 
-    public PlayerData(double money, TextMeshProUGUI moneyText) // Recieves the reference to the UI Text
+    public static void SetPlayerData(double mn, TextMeshProUGUI text) // Recieves the reference to the UI Text
     {
-        this.money = money;
-        this.moneyText = moneyText;
-        moneyText.text = GetMoney();
+        money = mn;
+        moneyText = text;
+        text.text = GetMoney();
         Inventory = new List<GameGridObject>();
         storedIventory = new List<GameGridObject>();
         setStoredInventory = new HashSet<string>();
     }
 
-    public PlayerData()
-    {
-    }
-
-    public void AddMoney(double amount)
+    public static void AddMoney(double amount)
     {
         money += amount;
         moneyText.text = GetMoney();
     }
 
-    public void Subtract(double amount)
+    public static void Subtract(double amount)
     {
         if (!CanSubtract(amount))
         {
@@ -53,43 +49,43 @@ public class PlayerData
         moneyText.text = GetMoney();
     }
 
-    public bool CanSubtract(double amount)
+    public static bool CanSubtract(double amount)
     {
         return money - amount >= 0;
     }
 
-    public string GetMoney()
+    public static string GetMoney()
     {
         return money + "$";
     }
 
-    public double GetMoneyDouble()
+    public static double GetMoneyDouble()
     {
         return money;
     }
 
-    public void StoreItem(GameGridObject obj)
+    public static void StoreItem(GameGridObject obj)
     {
         storedIventory.Add(obj);
         setStoredInventory.Add(obj.Name);
     }
 
-    public bool IsItemStored(string nameID)
+    public static bool IsItemStored(string nameID)
     {
         return setStoredInventory.Contains(nameID);
     }
 
-    public void AddItemToInventory(GameGridObject obj)
+    public static void AddItemToInventory(GameGridObject obj)
     {
         Inventory.Add(obj);
     }
 
-    private string GenerateID()
+    private static string GenerateID()
     {
         return Guid.NewGuid().ToString();
     }
 
-    public void SetMockUpUser()
+    public static void SetMockUpUser()
     {
         InternalID = GenerateID();
         EmailID = InternalID + "@gmail.com";
@@ -100,7 +96,7 @@ public class PlayerData
         FireappAuthID = "Test FireappAuthID";
     }
 
-    public Dictionary<string, object> GetNewMockUserAsMap()
+    public static Dictionary<string, object> GetNewMockUserAsMap()
     {
         return new Dictionary<string, object>{
             {"Name", new List<object>(){FirstName, LastName}},

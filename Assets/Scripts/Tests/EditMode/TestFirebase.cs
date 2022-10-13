@@ -10,13 +10,11 @@ using UnityEngine;
 public class TestFirebase
 {
     private FirebaseFirestore firestore;
-    private PlayerData user;
 
     [SetUp]
     public void SetUp()
     {
-        user = new PlayerData();
-        user.SetMockUpUser();
+        PlayerData.SetMockUpUser();
     }
 
     [Test]
@@ -47,19 +45,19 @@ public class TestFirebase
 
         // The ?.Document , ? symbol ensures that you cannot create another reference to a collection that already exists
         DocumentReference dataTypesReference = firestore.Collection(Settings.USER_COLLECTION)?.Document("Datatypes");
-        DocumentReference usersReference = firestore.Collection(Settings.USER_COLLECTION)?.Document(user.EmailID);
+        DocumentReference usersReference = firestore.Collection(Settings.USER_COLLECTION)?.Document(PlayerData.EmailID);
         DocumentReference testUser = firestore.Collection(Settings.USER_COLLECTION)?.Document(Settings.TEST_USER);
 
         // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
         await dataTypesReference.SetAsync(docData, SetOptions.MergeAll);
-        await usersReference.SetAsync(user.GetNewMockUserAsMap(), SetOptions.MergeAll);
-        await testUser.SetAsync(user.GetNewMockUserAsMap(), SetOptions.MergeAll);
+        await usersReference.SetAsync(PlayerData.GetNewMockUserAsMap(), SetOptions.MergeAll);
+        await testUser.SetAsync(PlayerData.GetNewMockUserAsMap(), SetOptions.MergeAll);
 
         DocumentSnapshot snapshot = await usersReference.GetSnapshotAsync();
         snapshot = await usersReference.GetSnapshotAsync();
         Debug.Log("snapshot1 ID: " + snapshot.Id);
-        Assert.AreEqual(snapshot.Id, user.EmailID);
+        Assert.AreEqual(snapshot.Id, PlayerData.EmailID);
 
         // DocumentSnapshot snapshot = null;
         // Task.Run(async () =>
