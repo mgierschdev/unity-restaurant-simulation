@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Firebase.Firestore;
 using TMPro;
+using UnityEngine;
 
 [FirestoreData]
 public static class PlayerData
@@ -11,21 +12,20 @@ public static class PlayerData
     public static string EmailID; // mandatory
     public static string InternalID; // internal app id
     public static string FireappAuthID = "undefined"; // Given by firebase
-    public static AuthSource Auth;
     public static string LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
+    private static double gameMoney;
+    public static AuthSource Auth;
     [FirestoreProperty]
     public static object LastLogin { get; set; } // this is the default for the firestore server timestamp
     [FirestoreProperty]
     public static object SignInDate { get; set; } // this is the default for the firestore server timestamp
-    private static double money;
     private static TextMeshProUGUI moneyText;
     private static List<GameGridObject> storedIventory;
     private static List<GameGridObject> Inventory;
     private static HashSet<string> setStoredInventory; // Saved stored inventory by ID
 
-    public static void SetPlayerData(double mn, TextMeshProUGUI text) // Recieves the reference to the UI Text
+    public static void SetPlayerData(TextMeshProUGUI text) // Recieves the reference to the UI Text
     {
-        money = mn;
         moneyText = text;
         text.text = GetMoney();
         Inventory = new List<GameGridObject>();
@@ -35,7 +35,7 @@ public static class PlayerData
 
     public static void AddMoney(double amount)
     {
-        money += amount;
+        gameMoney += amount;
         moneyText.text = GetMoney();
     }
 
@@ -45,23 +45,23 @@ public static class PlayerData
         {
             return;
         }
-        money -= amount;
+        gameMoney -= amount;
         moneyText.text = GetMoney();
     }
 
     public static bool CanSubtract(double amount)
     {
-        return money - amount >= 0;
+        return gameMoney - amount >= 0;
     }
 
     public static string GetMoney()
     {
-        return money + "$";
+        return gameMoney + "$";
     }
 
     public static double GetMoneyDouble()
     {
-        return money;
+        return gameMoney;
     }
 
     public static void StoreItem(GameGridObject obj)
@@ -94,18 +94,31 @@ public static class PlayerData
         LanguageCode = "es_ES";
         Auth = AuthSource.GOOGLE_PLAY;
         FireappAuthID = "Test FireappAuthID";
+        gameMoney = 20000;
     }
 
     public static Dictionary<string, object> GetNewMockUserAsMap()
     {
         return new Dictionary<string, object>{
-            {"Name", new List<object>(){FirstName, LastName}},
-            {"LanguageCode", LanguageCode},
-            {"ID", InternalID},
-            {"FireappAuthID", FireappAuthID},
-            {"Auth", Auth},
-            {"LastLogin", FieldValue.ServerTimestamp},
-            {"CreatedAt", FieldValue.ServerTimestamp}
+            {FirestorePlayerAttributes.NAME, new List<object>(){FirstName, LastName}},
+            {FirestorePlayerAttributes.LANGUAGE_CODE, LanguageCode},
+            {FirestorePlayerAttributes.INTERNAL_ID, InternalID},
+            {FirestorePlayerAttributes.GAME_MONEY, gameMoney},
+            {FirestorePlayerAttributes.FIREBASE_AUTH_ID, FireappAuthID},
+            {FirestorePlayerAttributes.AUTH_TYPE, Auth},
+            {FirestorePlayerAttributes.LAST_LOGIN, FieldValue.ServerTimestamp},
+            {FirestorePlayerAttributes.CREATED_AT, FieldValue.ServerTimestamp}
         };
+    }
+
+    public static void DebugPrint()
+    {
+        GameLog.Log(FirstName + "," + LastName + "," + EmailID + "," + InternalID + "," + FireappAuthID + "," + Auth + "," + LanguageCode + "," + LastLogin + "," + SignInDate + "," + gameMoney);
+    }
+
+    public static void LoadFirebaseDocument(DocumentSnapshot data)
+    {
+        // KeyValuePair<string, object> pair 
+        Dictionary<string, object> dic = data["data"];
     }
 }
