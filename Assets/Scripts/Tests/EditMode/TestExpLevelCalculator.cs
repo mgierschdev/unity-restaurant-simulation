@@ -46,5 +46,14 @@ public class TestExpLevelCalculator
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(343150), 10);
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(342160), 1000);
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(333160), 10000); 
+
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(-23123), 0);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(0), 0);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(857580), 94);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(32), 2);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(31), 1);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(22), 0);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(247), 5);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(255), 6);
     }
 }
