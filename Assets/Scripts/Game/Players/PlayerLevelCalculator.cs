@@ -17,7 +17,7 @@ public static class PlayerLevelCalculator
             for (int i = 0; i <= 100; i++)
             {
                 ExpLevelMap.Add(GetExpToLevel(i));//();
-                GameLog.Log(ExpLevelMap[i].ToString() + " " + i);//prints current level
+               //GameLog.Log(ExpLevelMap[i].ToString() + " " + i);//prints current level
             }
         }
         else
@@ -44,9 +44,8 @@ public static class PlayerLevelCalculator
         }
 
         Init();
-        int index = ExpLevelMap.BinarySearch(experience);
-        index = Math.Abs(index);
-        return index == 0 ? ExpLevelMap[0] - experience : ExpLevelMap[index - 1] - experience;// to be checked
+        int index = Util.BinarySearch(ExpLevelMap, experience);
+        return index < 0 ? ExpLevelMap[0] - experience : ExpLevelMap[index + 1] - experience;// to be checked
     }
 
     public static int GetLevel(Double experience)
