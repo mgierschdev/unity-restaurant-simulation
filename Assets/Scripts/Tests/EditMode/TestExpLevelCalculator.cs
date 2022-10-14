@@ -66,40 +66,50 @@ public class TestExpLevelCalculator
 
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(Double.MaxValue), 0); // since not feseable we return 0
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(103936), 1); // level 48 =103937, 1 exp to 48
-        
-        // Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(343150), 10);
-        // Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(342160), 1000);
-        // Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(333160), 10000);
 
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(-23123), 0);
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(0), 0);
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(343150), 10);
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(342160), 1000);
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(333160), 10000);
 
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(22), 1);
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(31), 2);
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(32), 3);
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(247), 7);
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(255), 7);
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(857584), 95);
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(857585), 96);
-        // Assert.AreEqual(PlayerLevelCalculator.GetLevel(857586), 97);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(-23123), 0);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(0), 0);
+
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(22), 1);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(31), 2);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(32), 3);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(247), 6);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(255), 7);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(857584), 95);
+        Assert.AreEqual(PlayerLevelCalculator.GetLevel(857585), 96);
     }
 
     [Test]
     public void TestGetExperiencePercentage()
     {
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(4), 0.2f); // 20%
-        Assert.IsTrue(Mathf.Approximately(((float)Math.Round(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19), 2, MidpointRounding.AwayFromZero)), 0.95f));
-        Assert.IsTrue(Mathf.Approximately(((float)Math.Round(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21), 2, MidpointRounding.AwayFromZero)), 0.91f));
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MinValue), 0, 1f); // 100%
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(-100), 0, 1f); // 100%
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MaxValue), 0.1f);
+        //Base cases 0-22
+        Debug.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19));
+        Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19) == 82);
+        Debug.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21));
+        Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21) == 91);
+
+        //Edge cases
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MinValue), 100); // 100%
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(-100), 100); // 100%
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MaxValue), 100);
+
+        //General cases
+        Debug.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851));
+        Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851) == 99); // 0.99f
+
+        Debug.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168));
+        Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168) == 57); // 0.99f
     }
 }
 
-// temp level list 
-// 20 1
-// 23 2
-// 32 3
+// temporal level list, formula likely to be adjusted
+// 0-22 1
+// 23-31 2
+// 32-52 3
 // 53 4
 // 92 5
 // 155 6

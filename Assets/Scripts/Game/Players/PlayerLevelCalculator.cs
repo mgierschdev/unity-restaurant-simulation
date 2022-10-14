@@ -52,44 +52,42 @@ public static class PlayerLevelCalculator
         {
             throw new Exception("Experience cannot be negative " + experience);
         }
-        
+
         Init();
         int index = CurrentLevel(experience); // Returns indexed + 1
         return ExpLevelMap[index] - experience;
     }
 
-    public static float GetExperienceToNextLevelPercentage(Double experience)
+    // Accurate up to 2 decimal points
+    public static int GetExperienceToNextLevelPercentage(Double experience)
     {
+        // Edge cases
         if (experience >= Double.MaxValue)
         {
-            return 0.1f;
+            return 100;
         }
 
         if (experience < 0)
         {
-            return 0.1f;
+            return 100;
         }
 
         Init();
-        //Should return the current level 
         int index = CurrentLevel(experience);
-
-        Debug.Log("Level " + index + " experience " + experience);
-
-        // total (100 next level - previous) ----- 100
-        // current level - current exp
-        //base case 
-        if (index == -1)
+        //base case
+        if (index == 1)
         {
-            return ((float)(experience / 20));
+            return (int)(experience * 100 / ExpLevelMap[1]);
         }
 
+        // General cases
+        // total (100 next level - previous) ----- 100
+        // current level - current exp
+        double total = ExpLevelMap[index] - ExpLevelMap[index - 1]; //total required
+        double current = experience - ExpLevelMap[index - 1]; //current so far, inside level
 
-        double total = ExpLevelMap[index + 2] - ExpLevelMap[index + 1];
-        double current = ExpLevelMap[index + 1] - experience;
-
-        Debug.Log("Index " + index + " total " + total + " target " + current);
-        return (float)(current / total);
+        Debug.Log("Index " + index + " total required " + total + " current " + current +" total exp "+experience);
+        return (int)(current * 100 / total);
     }
 
     public static int GetLevel(Double experience)
@@ -99,8 +97,7 @@ public static class PlayerLevelCalculator
             return 0;
         }
         Init();
-        int index = CurrentLevel(experience);
-        return index - 1;
+        return CurrentLevel(experience);
     }
 
     // Recieves a 0 indexed level
