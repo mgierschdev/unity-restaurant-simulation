@@ -17,7 +17,7 @@ public static class PlayerLevelCalculator
             for (int i = 0; i <= 100; i++)
             {
                 ExpLevelMap.Add(GetExpToLevel(i));//();
-                GameLog.Log(ExpLevelMap[i].ToString() + " " + i);//prints current level
+                //GameLog.Log(ExpLevelMap[i].ToString() + " " + i);//prints current level
             }
         }
         else
