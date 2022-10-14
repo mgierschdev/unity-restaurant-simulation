@@ -472,31 +472,4 @@ public static class Util
         }
         return result;
     }
-
-    // Should return the closest index to the target or the target if found
-    public static int BinarySearch(List<Double> list, double target)
-    {
-        int left = 0;
-        int right = list.Count;
-
-        while (left < right)
-        {
-            int mid = (right + left) >> 1;
-
-            if (list[mid] == target)
-            {
-                return mid;
-            }
-            else if (list[mid] < target)
-            {
-                left = mid + 1;
-            }
-            else
-            {
-                right = mid - 1;
-            }
-        }
-        
-        return list[left] > target ? left - 1 : left;
-    }
 }
