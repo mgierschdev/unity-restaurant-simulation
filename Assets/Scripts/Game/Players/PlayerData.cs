@@ -166,12 +166,15 @@ public static class PlayerData
         };
 
         GameMoney = (Double)dic[FirestorePlayerAttributes.GAME_MONEY];
+        Gems = (Double)dic[FirestorePlayerAttributes.GEMS];
         LanguageCode = (String)dic[FirestorePlayerAttributes.LANGUAGE_CODE];
         InternalID = (String)dic[FirestorePlayerAttributes.INTERNAL_ID];
         FireappAuthID = (String)dic[FirestorePlayerAttributes.FIREBASE_AUTH_ID];
         Auth = (AuthSource)(Int64)dic[FirestorePlayerAttributes.AUTH_TYPE];
         LastLogin = dic[FirestorePlayerAttributes.AUTH_TYPE];
         EmailID = data.Id;
+        Experience = (Double)dic[FirestorePlayerAttributes.EXPERIENCE];
+        Level = (int)dic[FirestorePlayerAttributes.LEVEL];
         // In case of parsing serverside timestamp:
         // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
         // foreach (KeyValuePair<string, object> pair in dic)
