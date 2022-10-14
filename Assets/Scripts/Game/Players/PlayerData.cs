@@ -88,7 +88,9 @@ public static class PlayerData
     {
         Level = PlayerLevelCalculator.GetLevel(Experience);
         levelText.text = GetLevel();
-        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience) / 100;
+        //Adjusting slider
+        Debug.Log("Slider value " + PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience));
+        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience) / 100f;
     }
 
     public static string GetMoney()
@@ -190,10 +192,10 @@ public static class PlayerData
 
         // In case of parsing serverside timestamp:
         // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
-        foreach (KeyValuePair<string, object> pair in dic)
-        {
-            GameLog.Log(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
-        }
+        // foreach (KeyValuePair<string, object> pair in dic)
+        // {
+        //     GameLog.Log(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
+        // }
     }
 
     // Control times in which we save the game
