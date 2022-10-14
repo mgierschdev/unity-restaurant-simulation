@@ -86,7 +86,7 @@ public static class PlayerLevelCalculator
         double total = ExpLevelMap[index] - ExpLevelMap[index - 1]; //total required
         double current = experience - ExpLevelMap[index - 1]; //current so far, inside level
 
-        Debug.Log("Index " + index + " total required " + total + " current " + current +" total exp "+experience);
+        //GameLog.Log("Index " + index + " total required " + total + " current " + current +" total exp "+experience);
         return (int)(current * 100 / total);
     }
 
