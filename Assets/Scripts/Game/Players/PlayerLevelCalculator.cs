@@ -22,7 +22,7 @@ public static class PlayerLevelCalculator
         {
             ExpLevelMap.Add(GetExpToLevel(i));//();
 
-            GameLog.Log(ExpLevelMap[i].ToString() + " " + (i + 1));//prints current level
+            //Debug.Log(ExpLevelMap[i].ToString() + " " + (i + 1));//prints current level
             // if (i > 0)
             // {
             //     GameLog.Log("Level " + i + " " + (ExpLevelMap[i] - ExpLevelMap[i - 1]).ToString());
@@ -52,11 +52,10 @@ public static class PlayerLevelCalculator
         {
             throw new Exception("Experience cannot be negative " + experience);
         }
-
+        
         Init();
         int index = CurrentLevel(experience); // Returns indexed + 1
-        Debug.Log("Current level " + index);
-        return ExpLevelMap[index - 1] - experience;
+        return ExpLevelMap[index] - experience;
     }
 
     public static float GetExperienceToNextLevelPercentage(Double experience)
@@ -104,6 +103,7 @@ public static class PlayerLevelCalculator
         return index - 1;
     }
 
+    // Recieves a 0 indexed level
     public static Double GetExpToLevel(int level)
     {
         if (level < 0)
