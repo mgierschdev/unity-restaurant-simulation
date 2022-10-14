@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Firebase.Firestore;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 [FirestoreData]
 public static class PlayerData
@@ -25,19 +27,23 @@ public static class PlayerData
     private static TextMeshProUGUI moneyText;
     private static TextMeshProUGUI levelText;
     private static TextMeshProUGUI gemsText;
+    private static Slider expirienceSlider;
     private static List<GameGridObject> storedIventory;
     private static List<GameGridObject> Inventory;
     private static HashSet<string> setStoredInventory; // Saved stored inventory by ID
 
-    public static void SetPlayerData(TextMeshProUGUI moneyText, TextMeshProUGUI levelText, TextMeshProUGUI gemsText) // Recieves the reference to the UI Text
+    // Recieves the reference to the UI Text
+    public static void SetPlayerData(TextMeshProUGUI moneyText, TextMeshProUGUI levelText, TextMeshProUGUI gemsText, Slider expirienceSlider)
     {
         PlayerData.moneyText = moneyText;
         PlayerData.gemsText = gemsText;
         PlayerData.levelText = levelText;
+        PlayerData.expirienceSlider = expirienceSlider;
 
         moneyText.text = GetMoney();
         levelText.text = Experience.ToString();
         gemsText.text = Gems.ToString();
+        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience);
 
         Inventory = new List<GameGridObject>();
         storedIventory = new List<GameGridObject>();
@@ -124,7 +130,7 @@ public static class PlayerData
         FireappAuthID = "Test FireappAuthID";
         GameMoney = 20000;
         Gems = 200;
-        Experience = 0;
+        Experience = 2000;
         Level = PlayerLevelCalculator.GetLevel(Experience);
     }
 
