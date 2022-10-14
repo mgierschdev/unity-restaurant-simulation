@@ -41,7 +41,7 @@ public static class PlayerData
         PlayerData.expirienceSlider = expirienceSlider;
 
         moneyText.text = GetMoney();
-        levelText.text = Experience.ToString();
+        levelText.text = Level.ToString();
         gemsText.text = Gems.ToString();
         expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience);
 
@@ -174,13 +174,14 @@ public static class PlayerData
         LastLogin = dic[FirestorePlayerAttributes.AUTH_TYPE];
         EmailID = data.Id;
         Experience = (Double)dic[FirestorePlayerAttributes.EXPERIENCE];
-        Level = (int)dic[FirestorePlayerAttributes.LEVEL];
+        Level = (int)(Int64)dic[FirestorePlayerAttributes.LEVEL];
+
         // In case of parsing serverside timestamp:
         // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
-        // foreach (KeyValuePair<string, object> pair in dic)
-        // {
-        //     GameLog.Log(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
-        // }
+        foreach (KeyValuePair<string, object> pair in dic)
+        {
+            GameLog.Log(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
+        }
     }
 
     // Control times in which we save the game
