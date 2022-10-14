@@ -14,23 +14,45 @@ public static class PlayerData
     public static String FireappAuthID = "undefined"; // Given by firebase
     public static String LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
     private static Double gameMoney;
+    private static Double gems;
+    private static Double experience;
     public static AuthSource Auth;
     [FirestoreProperty]
     public static object LastLogin { get; set; } // this is the default for the firestore server timestamp
     [FirestoreProperty]
     public static object SignInDate { get; set; } // this is the default for the firestore server timestamp
     private static TextMeshProUGUI moneyText;
+    private static TextMeshProUGUI levelText;
+    private static TextMeshProUGUI gemsText;
     private static List<GameGridObject> storedIventory;
     private static List<GameGridObject> Inventory;
     private static HashSet<string> setStoredInventory; // Saved stored inventory by ID
 
-    public static void SetPlayerData(TextMeshProUGUI text) // Recieves the reference to the UI Text
+    public static void SetPlayerData(TextMeshProUGUI moneyText, TextMeshProUGUI levelText, TextMeshProUGUI gemsText) // Recieves the reference to the UI Text
     {
-        moneyText = text;
-        text.text = GetMoney();
+        PlayerData.moneyText = moneyText;
+        PlayerData.gemsText = gemsText;
+        PlayerData.levelText = levelText;
+
+        moneyText.text = GetMoney();
+        levelText.text = experience.ToString();
+        gemsText.text = gems.ToString();
+
         Inventory = new List<GameGridObject>();
         storedIventory = new List<GameGridObject>();
         setStoredInventory = new HashSet<string>();
+    }
+
+    public static void AddExperienve(double amount)
+    {
+        experience += amount;
+        levelText.text = experience.ToString();
+    }
+
+    public static void AddGems(double amount)
+    {
+        gems += amount;
+        gemsText.text = gems.ToString();
     }
 
     public static void AddMoney(double amount)
@@ -87,6 +109,11 @@ public static class PlayerData
 
     public static void SetMockUser()
     {
+        if (Name == null)
+        {
+            Name = new List<string>();
+        }
+
         InternalID = GenerateID();
         EmailID = InternalID + "@gmail.com";
         Name.Add("FirstName");
@@ -95,15 +122,19 @@ public static class PlayerData
         Auth = AuthSource.GOOGLE_PLAY;
         FireappAuthID = "Test FireappAuthID";
         gameMoney = 20000;
+        gems = 200;
+        experience = 0;
     }
 
     public static Dictionary<string, object> GetUserAsMap()
     {
         return new Dictionary<string, object>{
-            {FirestorePlayerAttributes.NAME, Name},
+            {FirestorePlayerAttributes.NAME, Name}, // This will append (to the existing fields even if they are the same) to the list if firestore is collec with merge
             {FirestorePlayerAttributes.LANGUAGE_CODE, LanguageCode},
             {FirestorePlayerAttributes.INTERNAL_ID, InternalID},
             {FirestorePlayerAttributes.GAME_MONEY, gameMoney},
+            {FirestorePlayerAttributes.GEMS, gems},
+            {FirestorePlayerAttributes.EXPERIENCE, experience},
             {FirestorePlayerAttributes.FIREBASE_AUTH_ID, FireappAuthID},
             {FirestorePlayerAttributes.AUTH_TYPE, Auth},
             {FirestorePlayerAttributes.LAST_LOGIN, FieldValue.ServerTimestamp},
