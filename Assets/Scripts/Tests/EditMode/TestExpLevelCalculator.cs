@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using NUnit.Framework;
 
 public class TestExpLevelCalculator
@@ -45,8 +46,7 @@ public class TestExpLevelCalculator
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(103936), 1);
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(343150), 10);
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(342160), 1000);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(333160), 10000); 
-
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(333160), 10000);
         Assert.AreEqual(PlayerLevelCalculator.GetLevel(-23123), 0);
         Assert.AreEqual(PlayerLevelCalculator.GetLevel(0), 0);
         Assert.AreEqual(PlayerLevelCalculator.GetLevel(857580), 94);
@@ -55,5 +55,17 @@ public class TestExpLevelCalculator
         Assert.AreEqual(PlayerLevelCalculator.GetLevel(22), 0);
         Assert.AreEqual(PlayerLevelCalculator.GetLevel(247), 5);
         Assert.AreEqual(PlayerLevelCalculator.GetLevel(255), 6);
+    }
+
+    [Test]
+    public void TestGetExperiencePercentage()
+    {
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(4), 0.2f); // 20%
+        GameLog.Log(((float)Math.Round(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19), 2, MidpointRounding.AwayFromZero)).ToString());
+        Assert.IsTrue(Mathf.Approximately(((float)Math.Round(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19), 2, MidpointRounding.AwayFromZero)), 0.95f)); 
+        Assert.IsTrue(Mathf.Approximately(((float)Math.Round(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21), 2, MidpointRounding.AwayFromZero)), 0.91f));
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MinValue), 0,1f); // 100%
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(-100), 0,1f); // 100%
+        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MaxValue), 0);
     }
 }

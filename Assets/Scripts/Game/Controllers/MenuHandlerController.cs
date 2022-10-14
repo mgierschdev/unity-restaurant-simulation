@@ -40,6 +40,17 @@ public class MenuHandlerController : MonoBehaviour
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
         clickController = cController.GetComponent<ClickController>();
 
+        // Setting up Top level UI
+        GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
+        TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
+        GameObject topResourcePanelLevel = GameObject.Find(Settings.ConstTopMenuLevel);
+        TextMeshProUGUI levelText = topResourcePanelLevel.GetComponent<TextMeshProUGUI>();
+        GameObject topResourcePanelGems = GameObject.Find(Settings.ConstTopMenuDisplayGems);
+        TextMeshProUGUI gemsText = topResourcePanelGems.GetComponent<TextMeshProUGUI>();
+        GameObject topExpSlider = GameObject.Find(Settings.ConstTopMenuExpSlider);
+        Slider expSlider = topExpSlider.GetComponent<Slider>();
+        PlayerData.SetPlayerData(moneyText, levelText, gemsText, expSlider);
+
         //Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
         editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;

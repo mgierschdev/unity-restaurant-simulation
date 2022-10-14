@@ -59,22 +59,23 @@ public class TestFirebase
         Debug.Log("snapshot1 ID: " + snapshot.Id);
         Assert.AreEqual(snapshot.Id, PlayerData.EmailID);
 
-        // DocumentSnapshot snapshot = null;
-        // Task.Run(async () =>
-        // {
-        //     snapshot = await usersReference.GetSnapshotAsync();
-        //     Debug.Log("snapshot1 ID: " + snapshot.Id);
-        //     Assert.AreEqual(snapshot.Id, user.EmailID);
-        // }).GetAwaiter();
+        // CLEAN UP
+        snapshot = null;
+        Task.Run(async () =>
+        {
+            snapshot = await usersReference.GetSnapshotAsync();
+            Debug.Log("snapshot1 ID: " + snapshot.Id);
+            Assert.AreEqual(snapshot.Id, PlayerData.EmailID);
+        }).GetAwaiter();
 
         // To clean up, Disabled during development 
-        // usersReference.DeleteAsync().GetAwaiter();
-        // Task.Run(async () =>
-        // {
-        //     snapshot = await usersReference.GetSnapshotAsync();
-        //     Debug.Log("Assert false " + snapshot.Exists);
-        //     Assert.False(snapshot.Exists);
-        // }).GetAwaiter();
+        usersReference.DeleteAsync().GetAwaiter();
+        Task.Run(async () =>
+        {
+            snapshot = await usersReference.GetSnapshotAsync();
+            Debug.Log("Assert false " + snapshot.Exists);
+            Assert.False(snapshot.Exists);
+        }).GetAwaiter();
     }
 
     [Test]
@@ -98,15 +99,15 @@ public class TestFirebase
            }
            else
            {
-            //    string returnedName = response.Result.Data.ToString();
-            //    if (returnedName == functionInput)
-            //    {
-            //        //Name already exists in database
-            //    }
-            //    else if (string.IsNullOrEmpty(returnedName))
-            //    {
-            //        //Name doesn't exist in database
-            //    }
+               //    string returnedName = response.Result.Data.ToString();
+               //    if (returnedName == functionInput)
+               //    {
+               //        //Name already exists in database
+               //    }
+               //    else if (string.IsNullOrEmpty(returnedName))
+               //    {
+               //        //Name doesn't exist in database
+               //    }
            }
        });
     }

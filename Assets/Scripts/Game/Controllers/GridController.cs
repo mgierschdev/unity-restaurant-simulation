@@ -56,16 +56,6 @@ public class GridController : MonoBehaviour
 
     private void Awake()
     {
-        //PLAYER DATA
-        // Setting up Current money
-        GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
-        TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
-        GameObject topResourcePanelLevel = GameObject.Find(Settings.ConstTopMenuLevel);
-        TextMeshProUGUI levelText = topResourcePanelLevel.GetComponent<TextMeshProUGUI>();
-        GameObject topResourcePanelGems = GameObject.Find(Settings.ConstTopMenuDisplayGems);
-        TextMeshProUGUI gemsText = topResourcePanelGems.GetComponent<TextMeshProUGUI>();
-        PlayerData.SetPlayerData(moneyText, levelText, gemsText);
-
         // TILEMAP DATA 
         tilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
         mapWorldPositionToTile = new Dictionary<Vector3, GameTile>();
