@@ -40,11 +40,9 @@ public static class PlayerData
         PlayerData.levelText = levelText;
         PlayerData.expirienceSlider = expirienceSlider;
 
+        SetLevel();
         moneyText.text = GetMoney();
-        levelText.text = Level.ToString();
         gemsText.text = Gems.ToString();
-        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience);
-
         Inventory = new List<GameGridObject>();
         storedIventory = new List<GameGridObject>();
         setStoredInventory = new HashSet<string>();
@@ -52,8 +50,9 @@ public static class PlayerData
 
     public static void AddExperienve(double amount)
     {
+        //TODO: Pop up level UP
         Experience += amount;
-        levelText.text = Experience.ToString();
+        SetLevel();
     }
 
     public static void AddGems(double amount)
@@ -75,6 +74,8 @@ public static class PlayerData
             return;
         }
         GameMoney -= amount;
+        AddExperienve(PlayerLevelCalculator.GetExperienceFromMoneySpent(amount));
+        SetLevel();
         moneyText.text = GetMoney();
     }
 
@@ -83,11 +84,22 @@ public static class PlayerData
         return GameMoney - amount >= 0;
     }
 
+    public static void SetLevel()
+    {
+        Level = PlayerLevelCalculator.GetLevel(Experience);
+        levelText.text = GetLevel();
+        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience);
+    }
+
     public static string GetMoney()
     {
         return GameMoney + "$";
     }
 
+    public static string GetLevel()
+    {
+        return "Level " + Level;
+    }
     public static double GetMoneyDouble()
     {
         return GameMoney;
