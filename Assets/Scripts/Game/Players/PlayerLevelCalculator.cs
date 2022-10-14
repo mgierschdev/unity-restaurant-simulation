@@ -49,6 +49,17 @@ public static class PlayerLevelCalculator
         return index == 0 ? ExpLevelMap[0] - experience : ExpLevelMap[index - 1] - experience;// to be checked
     }
 
+    public static int GetLevel(Double experience)
+    {
+        if (experience < 0 || experience == 0)
+        {
+            return 0;
+        }
+        Init();
+        int index = Util.BinarySearch(ExpLevelMap, experience);
+        return index;
+    }
+
     public static Double GetExpToLevel(int level)
     {
         if (level < 0)

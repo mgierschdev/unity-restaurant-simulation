@@ -13,9 +13,10 @@ public static class PlayerData
     public static String InternalID; // internal app id
     public static String FireappAuthID = "undefined"; // Given by firebase
     public static String LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
-    private static Double gameMoney;
-    private static Double gems;
-    private static Double experience;
+    public static int Level;
+    public static Double GameMoney;
+    public static Double Gems;
+    public static Double Experience;
     public static AuthSource Auth;
     [FirestoreProperty]
     public static object LastLogin { get; set; } // this is the default for the firestore server timestamp
@@ -35,8 +36,8 @@ public static class PlayerData
         PlayerData.levelText = levelText;
 
         moneyText.text = GetMoney();
-        levelText.text = experience.ToString();
-        gemsText.text = gems.ToString();
+        levelText.text = Experience.ToString();
+        gemsText.text = Gems.ToString();
 
         Inventory = new List<GameGridObject>();
         storedIventory = new List<GameGridObject>();
@@ -45,19 +46,19 @@ public static class PlayerData
 
     public static void AddExperienve(double amount)
     {
-        experience += amount;
-        levelText.text = experience.ToString();
+        Experience += amount;
+        levelText.text = Experience.ToString();
     }
 
     public static void AddGems(double amount)
     {
-        gems += amount;
-        gemsText.text = gems.ToString();
+        Gems += amount;
+        gemsText.text = Gems.ToString();
     }
 
     public static void AddMoney(double amount)
     {
-        gameMoney += amount;
+        GameMoney += amount;
         moneyText.text = GetMoney();
     }
 
@@ -67,23 +68,23 @@ public static class PlayerData
         {
             return;
         }
-        gameMoney -= amount;
+        GameMoney -= amount;
         moneyText.text = GetMoney();
     }
 
     public static bool CanSubtract(double amount)
     {
-        return gameMoney - amount >= 0;
+        return GameMoney - amount >= 0;
     }
 
     public static string GetMoney()
     {
-        return gameMoney + "$";
+        return GameMoney + "$";
     }
 
     public static double GetMoneyDouble()
     {
-        return gameMoney;
+        return GameMoney;
     }
 
     public static void StoreItem(GameGridObject obj)
@@ -121,9 +122,10 @@ public static class PlayerData
         LanguageCode = "es_ES";
         Auth = AuthSource.GOOGLE_PLAY;
         FireappAuthID = "Test FireappAuthID";
-        gameMoney = 20000;
-        gems = 200;
-        experience = 0;
+        GameMoney = 20000;
+        Gems = 200;
+        Experience = 0;
+        Level = PlayerLevelCalculator.GetLevel(Experience);
     }
 
     public static Dictionary<string, object> GetUserAsMap()
@@ -132,9 +134,10 @@ public static class PlayerData
             {FirestorePlayerAttributes.NAME, Name}, // This will append (to the existing fields even if they are the same) to the list if firestore is collec with merge
             {FirestorePlayerAttributes.LANGUAGE_CODE, LanguageCode},
             {FirestorePlayerAttributes.INTERNAL_ID, InternalID},
-            {FirestorePlayerAttributes.GAME_MONEY, gameMoney},
-            {FirestorePlayerAttributes.GEMS, gems},
-            {FirestorePlayerAttributes.EXPERIENCE, experience},
+            {FirestorePlayerAttributes.GAME_MONEY, GameMoney},
+            {FirestorePlayerAttributes.GEMS, Gems},
+            {FirestorePlayerAttributes.EXPERIENCE, Experience},
+            {FirestorePlayerAttributes.LEVEL, Level},
             {FirestorePlayerAttributes.FIREBASE_AUTH_ID, FireappAuthID},
             {FirestorePlayerAttributes.AUTH_TYPE, Auth},
             {FirestorePlayerAttributes.LAST_LOGIN, FieldValue.ServerTimestamp},
@@ -144,7 +147,7 @@ public static class PlayerData
 
     public static void DebugPrint()
     {
-        GameLog.Log(Name[0] + "," + Name[1] + "," + EmailID + "," + InternalID + "," + FireappAuthID + "," + Auth + "," + LanguageCode + "," + LastLogin + "," + SignInDate + "," + gameMoney);
+        GameLog.Log(Name[0] + "," + Name[1] + "," + EmailID + "," + InternalID + "," + FireappAuthID + "," + Auth + "," + LanguageCode + "," + LastLogin + "," + SignInDate + "," + GameMoney);
     }
 
     public static void LoadFirebaseDocument(DocumentSnapshot data)
@@ -156,7 +159,7 @@ public static class PlayerData
             (String) genericList[1],
         };
 
-        gameMoney = (Double)dic[FirestorePlayerAttributes.GAME_MONEY];
+        GameMoney = (Double)dic[FirestorePlayerAttributes.GAME_MONEY];
         LanguageCode = (String)dic[FirestorePlayerAttributes.LANGUAGE_CODE];
         InternalID = (String)dic[FirestorePlayerAttributes.INTERNAL_ID];
         FireappAuthID = (String)dic[FirestorePlayerAttributes.FIREBASE_AUTH_ID];
