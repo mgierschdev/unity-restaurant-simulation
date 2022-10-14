@@ -78,7 +78,7 @@ public static class Settings
     public const string ConstTopMenuDisplayMoney = "MoneyLabel";
     public const string ConstTopMenuDisplayGems = "GemMoneyLabel";
     public const string ConstTopMenuLevel = "LevelLabel";
-    public const string ConstTopMenuExpSlider = "ExpSlider";
+    public const string ConstTopMenuExpSlider = "ExperienceSlider";
     public const string ConstCenterTabMenu = "CenterPanel";
     public const string ConstCenterScrollContent = "ViewPanel/MainContent/ScrollView/Viewport/Content";
     public const string ConstLeftDownPanel = "LeftDownPanel";
