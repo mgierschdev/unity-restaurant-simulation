@@ -50,7 +50,6 @@ public static class PlayerData
 
     public static void AddExperienve(double amount)
     {
-        //TODO: Pop up level UP
         Experience += amount;
         SetLevel();
     }
@@ -86,10 +85,14 @@ public static class PlayerData
 
     public static void SetLevel()
     {
+        int PrevLevel = Level;
         Level = PlayerLevelCalculator.GetLevel(Experience);
+        if(PrevLevel < Level){
+            //TODO: Pop Up Level up
+            //We save the data in case of app rewards
+             Firestore.SaveUserData(GetUserAsMap());
+        }
         levelText.text = GetLevel();
-        //Adjusting slider
-        Debug.Log("Slider value " + PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience));
         expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience) / 100f;
     }
 
