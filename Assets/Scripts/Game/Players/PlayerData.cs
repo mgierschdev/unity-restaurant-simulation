@@ -88,7 +88,7 @@ public static class PlayerData
     {
         Level = PlayerLevelCalculator.GetLevel(Experience);
         levelText.text = GetLevel();
-        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience);
+        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience) / 100;
     }
 
     public static string GetMoney()
@@ -98,7 +98,7 @@ public static class PlayerData
 
     public static string GetLevel()
     {
-        return "Level " + Level;
+        return Level.ToString();
     }
     public static double GetMoneyDouble()
     {

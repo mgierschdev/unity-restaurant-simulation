@@ -58,7 +58,7 @@ public static class PlayerLevelCalculator
         return ExpLevelMap[index] - experience;
     }
 
-    // Accurate up to 2 decimal points
+    // Returns an integer
     public static int GetExperienceToNextLevelPercentage(Double experience)
     {
         // Edge cases
