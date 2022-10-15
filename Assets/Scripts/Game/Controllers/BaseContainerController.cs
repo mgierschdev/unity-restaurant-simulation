@@ -4,11 +4,7 @@ public class BaseContainerController : BaseObjectController
     {
         Init();
         gameGridObject = new GameGridObject(transform, InitialObjectRotation, BussGrid.GetObjectListConfiguration().GetStoreObject(StoreItemType.WOODEN_BASE_CONTAINER));
-
-        // if (!Util.IsNull(Grid, "CounterController/IsometricGridController null"))
-        // {
-            gameGridObject.Init();
-            BussGrid.SetGridObject(gameGridObject);
-        // }
+        gameGridObject.Init();
+        BussGrid.SetGridObject(gameGridObject);
     }
 }
