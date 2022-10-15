@@ -8,13 +8,12 @@ public class BaseObjectController : MonoBehaviour
     //Initial object position
     private Vector3Int initialActionTileOne;
     protected GameGridObject gameGridObject;
-    protected GridController Grid { get; set; }
     protected ObjectRotation InitialObjectRotation;
     protected MenuHandlerController Menu { get; set; }
 
     private void Update()
     {
-        if (!Menu || !Grid || gameGridObject == null || Grid.GetDragginObject())
+        if (!Menu || gameGridObject == null || BussGrid.GetDragginObject())
         {
             return;
         }
@@ -34,8 +33,6 @@ public class BaseObjectController : MonoBehaviour
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
-        GameObject gameGrid = GameObject.Find(Settings.GameGrid).gameObject;
-        Grid = gameGrid.GetComponent<GridController>();
         InitialObjectRotation = ObjectRotation.FRONT;
         //Edit Panel Disable
         if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
@@ -46,15 +43,15 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!Menu || !Grid || !Menu.IsEditPanelOpen() || !IsDraggable())
+        if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
         {
             return;
         }
 
-        Grid.SetActiveGameGridObject(gameGridObject);
-        initialActionTileOne = Grid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+        BussGrid.SetActiveGameGridObject(gameGridObject);
+        initialActionTileOne = BussGrid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         initialPosition = transform.position;
-        Grid.SetDraggingObject(true);
+        BussGrid.SetDraggingObject(true);
         gameGridObject.SetIsObjectBeingDragged(true);
 
         // If you move a table while busy the NPC will self destroy
@@ -85,19 +82,19 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
         //If dragging clean previous position on the grid
-        Grid.FreeCoord(Grid.GetPathFindingGridFromWorldPosition(initialPosition));
-        Grid.FreeCoord(initialActionTileOne);
+        BussGrid.FreeCoord(BussGrid.GetPathFindingGridFromWorldPosition(initialPosition));
+        BussGrid.FreeCoord(initialActionTileOne);
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
-        currentPos = Grid.GetGridWorldPositionMapMouseDrag();
+        currentPos = BussGrid.GetGridWorldPositionMapMouseDrag();
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         //So it will overlay over the rest of the items while dragging
-        Vector3Int currentGridPosition = Grid.GetPathFindingGridFromWorldPosition(transform.position);
+        Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
 
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(currentGridPosition);
 
-        if (Grid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
+        if (BussGrid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
         {
             currentValidPos = true;
             gameGridObject.GetSpriteRenderer().color = Util.Available;
@@ -131,16 +128,16 @@ public class BaseObjectController : MonoBehaviour
         }
 
         gameGridObject.UpdateCoords();
-        Grid.SetDraggingObject(false);
+        BussGrid.SetDraggingObject(false);
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
 
         //We recalculate Paths once the object is placed
-        Grid.ReCalculateNpcStates(gameGridObject);
+        BussGrid.ReCalculateNpcStates(gameGridObject);
 
         //if it was a table we re-add it to the freeBussList
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            Grid.AddFreeBusinessSpots(gameGridObject);
+            BussGrid.AddFreeBusinessSpots(gameGridObject);
             gameGridObject.SetIsObjectBeingDragged(false);
         }
     }

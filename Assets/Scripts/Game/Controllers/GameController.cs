@@ -8,7 +8,6 @@ public class GameController : MonoBehaviour
     private const int EMPLOYEE_MAX_NUMBER = 1;
     private int employeeCount = 0;
     private int npcId;
-    private GridController Grid;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
     private GameObject NPCS;
@@ -19,8 +18,6 @@ public class GameController : MonoBehaviour
     {
         npcId = 0;
         NpcSet = new HashSet<NPCController>();
-        gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
-        Grid = gameGridObject.GetComponent<GridController>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
     }
 
@@ -30,7 +27,7 @@ public class GameController : MonoBehaviour
         {
             SpamNpc();
         }
-        if (Grid.GetCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER)
+        if (BussGrid.GetCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER)
         {
             SpamEmployee();
             employeeCount++;
@@ -42,7 +39,7 @@ public class GameController : MonoBehaviour
     //Will check if there any free buss spot, so the could be added to the queue
     public void CheckBussSpots()
     {
-        Dictionary<string, GameGridObject> tables = Grid.GetBusinessObjects();
+        Dictionary<string, GameGridObject> tables = BussGrid.GetBusinessObjects();
 
         foreach (KeyValuePair<string, GameGridObject> obj in tables)
         {
@@ -50,14 +47,14 @@ public class GameController : MonoBehaviour
 
             if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy() && !gameGridObject.GetIsObjectBeingDragged() && !PlayerData.IsItemStored(gameGridObject.Name))
             {
-                Grid.AddFreeBusinessSpots(gameGridObject);
+                BussGrid.AddFreeBusinessSpots(gameGridObject);
             }
         }
     }
 
     private void SpamNpc()
     {
-        tileSpawn = Grid.GetRandomSpamPointWorldPosition();
+        tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
         GameObject npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(NPCS.transform);
         npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
@@ -68,7 +65,7 @@ public class GameController : MonoBehaviour
     private void SpamEmployee()
     {
         //Adding Employees
-        tileSpawn = Grid.GetRandomSpamPointWorldPosition();
+        tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
         GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
         employeeObject.transform.SetParent(NPCS.transform);
         employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
@@ -96,14 +93,14 @@ public class GameController : MonoBehaviour
     public bool PositionOverlapsNPC(Vector3Int position)
     {
         // We cannot place on top of the employee
-        if (position == Grid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.CoordOfTableToBeAttended)
+        if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.CoordOfTableToBeAttended)
         {
             return true;
         }
 
         foreach (NPCController npcController in NpcSet)
         {
-            Vector3Int npcPosition = Grid.GetPathFindingGridFromWorldPosition(npcController.transform.position);
+            Vector3Int npcPosition = BussGrid.GetPathFindingGridFromWorldPosition(npcController.transform.position);
             if (npcPosition == position)
             {
                 return true;
@@ -137,7 +134,7 @@ public class GameController : MonoBehaviour
                 // This will be cheking in case any race condition
 
                 // If the current table has been stored, we reset NPC state 
-                if (Grid.IsTableStored(npcController.GetTable().Name))
+                if (BussGrid.IsTableStored(npcController.GetTable().Name))
                 {
                     npcController.GoToFinalState_4();
                 }

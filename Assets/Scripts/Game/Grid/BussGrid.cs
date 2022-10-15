@@ -1,60 +1,59 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
-public class GridController : MonoBehaviour
+public static class BussGrid
 {
     //Tilemap 
-    private const int WIDTH = Settings.GridWidth; // Down -> Up
-    private const int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
-    private Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
+    private static int WIDTH = Settings.GridWidth; // Down -> Up
+    private static int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
+    private static Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
     // Isometric Grid with pathfinding
-    private Tilemap tilemapPathFinding;
-    private Dictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
-    private Dictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
-    private Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
+    private static Tilemap tilemapPathFinding;
+    private static Dictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
+    private static Dictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
+    private static Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
     // Spam Points list
-    private List<GameTile> spamPoints;
+    private static List<GameTile> spamPoints;
     // Path Finder object, contains the method to return the shortest path
-    private PathFind pathFind;
-    private int[,] gridArray;
-    private TextMesh[,] debugGrid;
+    private static PathFind pathFind;
+    private static int[,] gridArray;
+    private static TextMesh[,] debugGrid;
     //Floor
-    private Tilemap tilemapFloor;
-    private List<GameTile> listFloorTileMap;
-    private Dictionary<Vector3Int, GameTile> mapFloor;
+    private static Tilemap tilemapFloor;
+    private static List<GameTile> listFloorTileMap;
+    private static Dictionary<Vector3Int, GameTile> mapFloor;
     //WalkingPath 
-    private Tilemap tilemapWalkingPath;
-    private List<GameTile> listWalkingPathTileMap;
-    private Dictionary<Vector3Int, GameTile> mapWalkingPath;
+    private static Tilemap tilemapWalkingPath;
+    private static List<GameTile> listWalkingPathTileMap;
+    private static Dictionary<Vector3Int, GameTile> mapWalkingPath;
     //Colliders
-    private Tilemap tilemapColliders;
-    private List<GameTile> listCollidersTileMap;
-    private Dictionary<Vector3Int, GameTile> mapColliders;
+    private static Tilemap tilemapColliders;
+    private static List<GameTile> listCollidersTileMap;
+    private static Dictionary<Vector3Int, GameTile> mapColliders;
     //Objects
-    private Tilemap tilemapObjects;
-    private List<GameTile> listObjectsTileMap;
-    private Dictionary<Vector3Int, GameTile> mapObjects;
+    private static Tilemap tilemapObjects;
+    private static List<GameTile> listObjectsTileMap;
+    private static Dictionary<Vector3Int, GameTile> mapObjects;
     //Prefabs in the TilemapObjects
-    private Dictionary<string, GameGridObject> businessObjects;
-    private Dictionary<string, GameGridObject> busyBusinessSpotsMap;
-    private Dictionary<string, GameGridObject> freeBusinessSpotsMap;
-    private List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
-    private List<GameGridObject> tablesWithClient;// Tables to attend or chairs
-    private GameGridObject counter;
+    private static Dictionary<string, GameGridObject> businessObjects;
+    private static Dictionary<string, GameGridObject> busyBusinessSpotsMap;
+    private static Dictionary<string, GameGridObject> freeBusinessSpotsMap;
+    private static List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
+    private static List<GameGridObject> tablesWithClient;// Tables to attend or chairs
+    private static GameGridObject counter;
     //Business floors
-    private Tilemap tilemapBusinessFloor;
-    private List<GameTile> listBusinessFloor;
-    private Dictionary<Vector3Int, GameTile> mapBusinessFloor;
-    private string currentClickedActiveGameObject;
-    private int[,] arroundVectorPoints;
-    private GameController gameController;
-    private MenuObjectList ObjectListConfiguration;
-    private bool DraggingObject;
+    private static Tilemap tilemapBusinessFloor;
+    private static List<GameTile> listBusinessFloor;
+    private static Dictionary<Vector3Int, GameTile> mapBusinessFloor;
+    private static string currentClickedActiveGameObject;
+    private static int[,] arroundVectorPoints;
+    private static GameController gameController;
+    private static MenuObjectList ObjectListConfiguration;
+    private static bool DraggingObject;
 
-    private void Awake()
+    private static void Init()
     {
         // TILEMAP DATA 
         tilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
@@ -154,7 +153,7 @@ public class GridController : MonoBehaviour
     //     // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
     // }
 
-    private void DrawCellCoords()
+    private static void DrawCellCoords()
     {
         foreach (GameTile tile in mapPathFindingGrid.Values)
         {
@@ -162,14 +161,14 @@ public class GridController : MonoBehaviour
             {
                 continue;
             }
-            debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
-                "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
-                tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
-                TextAnchor.MiddleCenter, TextAlignment.Center);
+            // debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
+            //     "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
+            //     tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
+            //     TextAnchor.MiddleCenter, TextAlignment.Center);
         }
     }
 
-    private void InitGrid()
+    private static void InitGrid()
     {
         for (int i = 0; i < gridArray.GetLength(0); i++)
         {
@@ -180,20 +179,12 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private void SetIsometricCellColor(int x, int y, Color color)
-    {
-        SetCellColor(x, y, color);
-        SetCellColor(x + 1, y, color);
-        SetCellColor(x + 1, y + 1, color);
-        SetCellColor(x, y + 1, color);
-    }
-
-    private void SetCellColor(int x, int y, Color color)
+    private static void SetCellColor(int x, int y, Color color)
     {
         debugGrid[x, y].color = (Color)color;
     }
 
-    private void BuildGrid()
+    private static void BuildGrid()
     {
         TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesSimple);
 
@@ -224,7 +215,7 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3Int, GameTile> map)
+    private static void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3Int, GameTile> map)
     {
         foreach (Vector3 pos in tilemap.cellBounds.allPositionsWithin)
         {
@@ -259,7 +250,7 @@ public class GridController : MonoBehaviour
     }
 
     // In GameMap/Grid coordinates This sets the obstacle points around the obstacle
-    private void SetGridObstacle(int x, int y, ObjectType type)
+    private static void SetGridObstacle(int x, int y, ObjectType type)
     {
         if (!IsCoordValid(x, y) || x < 0 || y < 0)
         {
@@ -276,12 +267,12 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private bool IsCoordValid(int x, int y)
+    private static bool IsCoordValid(int x, int y)
     {
         return x >= 0 && x < gridArray.GetLength(0) && y >= 0 && y < gridArray.GetLength(1);
     }
 
-    private void SetObjectObstacle(GameGridObject obj)
+    private static void SetObjectObstacle(GameGridObject obj)
     {
         Vector3Int actionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
         businessObjects.Add(obj.Name, obj);
@@ -313,7 +304,7 @@ public class GridController : MonoBehaviour
     // worldPos = Current position that you are moving the object
     // actionTileOne: the initial actiontile in grid coord
     // gameGridObject : the game gridObject
-    public bool IsValidBussPosition(GameGridObject gameGridObject, Vector3 worldPos)
+    public static bool IsValidBussPosition(GameGridObject gameGridObject, Vector3 worldPos)
     {
         Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
         Vector3 currentActionPointWorldPos = gameGridObject.GetActionTile();
@@ -362,12 +353,12 @@ public class GridController : MonoBehaviour
         return false;
     }
 
-    public bool IsValidBussCoord(Vector3Int pos)
+    public static bool IsValidBussCoord(Vector3Int pos)
     {
         return mapBusinessFloor.ContainsKey(pos);
     }
 
-    public void HideGridBussFloor()
+    public static void HideGridBussFloor()
     {
         if (currentClickedActiveGameObject != "")
         {
@@ -379,7 +370,7 @@ public class GridController : MonoBehaviour
     }
 
     //Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
-    public GameTile GetGameTileFromClickInPathFindingGrid(Vector3Int position)
+    public static GameTile GetGameTileFromClickInPathFindingGrid(Vector3Int position)
     {
         if (mapPathFindingGrid.ContainsKey(position))
         {
@@ -390,13 +381,13 @@ public class GridController : MonoBehaviour
         return null;
     }
 
-    public void HighlightGridBussFloor()
+    public static void HighlightGridBussFloor()
     {
         // If we Highlight we are in edit mode
         tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
     }
 
-    public Vector3 GetGridWorldPositionMapMouseDrag()
+    public static Vector3 GetGridWorldPositionMapMouseDrag()
     {
         Vector3 currentPos = GetWorldFromPathFindingGridPositionWithOffSet(GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition()));
         //test
@@ -406,12 +397,12 @@ public class GridController : MonoBehaviour
     }
 
     // Returns the nearest grid World position given any world map position
-    public Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos)
+    public static Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos)
     {
         return GetWorldFromGridPosition(GetLocalGridFromWorldPosition(pos));
     }
 
-    public List<Node> GetPath(int[] start, int[] end)
+    public static List<Node> GetPath(int[] start, int[] end)
     {
         if (gridArray[start[0], start[1]] == 1 || gridArray[end[0], end[1]] == 1)
         {
@@ -422,12 +413,12 @@ public class GridController : MonoBehaviour
     }
 
     // Returns the Grid position given a Vector3 world position
-    public Vector3Int GetLocalGridFromWorldPosition(Vector3 position)
+    public static Vector3Int GetLocalGridFromWorldPosition(Vector3 position)
     {
         return tilemapPathFinding.WorldToCell(position);
     }
 
-    public Vector3Int GetPathFindingGridFromWorldPosition(Vector3 position)
+    public static Vector3Int GetPathFindingGridFromWorldPosition(Vector3 position)
     {
         Vector3 newPosition = new Vector3(position.x, position.y, 0);
         position = newPosition;
@@ -444,26 +435,26 @@ public class GridController : MonoBehaviour
         return Vector3Int.zero;
     }
 
-    public Vector3 GetWorldFromPathFindingGridPositionWithOffSet(Vector3Int position)
+    public static Vector3 GetWorldFromPathFindingGridPositionWithOffSet(Vector3Int position)
     {
         GameTile tile = mapPathFindingGrid[position];
         return tile.GetWorldPositionWithOffset();
     }
 
-    public Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
+    public static Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
     {
         GameTile tile = mapPathFindingGrid[position];
         return tile.WorldPosition;
     }
 
     // This in local Grid position
-    private Vector3 GetWorldFromGridPosition(Vector3Int position)
+    private static Vector3 GetWorldFromGridPosition(Vector3Int position)
     {
         return tilemapPathFinding.CellToWorld(position);
     }
 
     // Only for unit test use
-    public void SetTestGridObstacles(int row, int x1, int x2)
+    public static void SetTestGridObstacles(int row, int x1, int x2)
     {
         //int x, int y, ObjectType type, Color? color = null
         for (int i = x1; i <= x2; i++)
@@ -473,7 +464,7 @@ public class GridController : MonoBehaviour
     }
 
     // Only for unit test use
-    public void FreeTestGridObstacles(int row, int x1, int x2)
+    public static void FreeTestGridObstacles(int row, int x1, int x2)
     {
         for (int i = x1; i <= x2; i++)
         {
@@ -481,7 +472,7 @@ public class GridController : MonoBehaviour
         }
     }
 
-    public Vector3Int GetRandomWalkableGridPosition()
+    public static Vector3Int GetRandomWalkableGridPosition()
     {
         if (listWalkingPathTileMap.Count == 0)
         {
@@ -493,7 +484,7 @@ public class GridController : MonoBehaviour
         return tile.GridPosition;
     }
 
-    public GameTile GetRandomSpamPointWorldPosition()
+    public static GameTile GetRandomSpamPointWorldPosition()
     {
         if (spamPoints.Count == 0)
         {
@@ -505,7 +496,7 @@ public class GridController : MonoBehaviour
     }
 
     // Unset position in Grid
-    private void FreeGridPosition(int x, int y)
+    private static void FreeGridPosition(int x, int y)
     {
         if (!IsCoordValid(x, y) && x > 1 && y > 1)
         {
@@ -515,30 +506,30 @@ public class GridController : MonoBehaviour
         gridArray[x, y] = 0;
     }
 
-    public void SwapCoords(int x1, int y1, int x2, int y2)
+    public static void SwapCoords(int x1, int y1, int x2, int y2)
     {
         (gridArray[x1, y1], gridArray[x2, y2]) = (gridArray[x2, y2], gridArray[x1, y1]);
     }
 
     // called when the object is destroyed
-    public void FreeObject(GameGridObject gameGridObject)
+    public static void FreeObject(GameGridObject gameGridObject)
     {
         gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 0;
         Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         gridArray[gridActionTile.x, gridActionTile.y] = 0;
     }
 
-    public void FreeCoord(Vector3Int pos)
+    public static void FreeCoord(Vector3Int pos)
     {
         gridArray[pos.x, pos.y] = 0;
     }
 
-    public void ReCalculateNpcStates(GameGridObject obj)
+    public static void ReCalculateNpcStates(GameGridObject obj)
     {
         gameController.ReCalculateNpcStates(obj);
     }
 
-    public void UpdateObjectPosition(GameGridObject gameGridObject)
+    public static void UpdateObjectPosition(GameGridObject gameGridObject)
     {
         gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
         if (gameGridObject.GetStoreGameObject().HasActionPoint)
@@ -548,7 +539,7 @@ public class GridController : MonoBehaviour
         }
     }
 
-    public void SetGridObject(GameGridObject obj)
+    public static void SetGridObject(GameGridObject obj)
     {
         // we add all the objects to the player inventory
         PlayerData.AddItemToInventory(obj);
@@ -560,7 +551,7 @@ public class GridController : MonoBehaviour
         SetObjectObstacle(obj);
     }
 
-    public GameGridObject GetFreeTable()
+    public static GameGridObject GetFreeTable()
     {
         if (freeBusinessSpots.Count <= 0)
         {
@@ -572,33 +563,33 @@ public class GridController : MonoBehaviour
         return Util.DequeueFromList(freeBusinessSpots);
     }
 
-    public bool IsThereFreeTables()
+    public static bool IsThereFreeTables()
     {
         return freeBusinessSpots.Count > 0;
     }
 
-    public bool IsThereCustomer()
+    public static bool IsThereCustomer()
     {
         return tablesWithClient.Count > 0;
     }
 
-    public bool IsTableInFreeBussSpot(GameGridObject obj)
+    public static bool IsTableInFreeBussSpot(GameGridObject obj)
     {
         return freeBusinessSpotsMap.ContainsKey(obj.Name);
     }
 
-    public bool IsTableBusy(GameGridObject obj)
+    public static bool IsTableBusy(GameGridObject obj)
     {
         return busyBusinessSpotsMap.ContainsKey(obj.Name);
     }
 
-    public void RemoveBusyBusinessSpots(GameGridObject obj)
+    public static void RemoveBusyBusinessSpots(GameGridObject obj)
     {
         busyBusinessSpotsMap.Remove(obj.Name);
     }
 
     // We remove an active item to store it
-    public void RemoveBussTable(GameGridObject obj)
+    public static void RemoveBussTable(GameGridObject obj)
     {
         if (freeBusinessSpots.Contains(obj))
         {
@@ -626,7 +617,7 @@ public class GridController : MonoBehaviour
         }
     }
 
-    public void AddFreeBusinessSpots(GameGridObject obj)
+    public static void AddFreeBusinessSpots(GameGridObject obj)
     {
         busyBusinessSpotsMap.Remove(obj.Name);
 
@@ -641,12 +632,12 @@ public class GridController : MonoBehaviour
         }
     }
 
-    public GameGridObject GetTableWithClient()
+    public static GameGridObject GetTableWithClient()
     {
         return tablesWithClient.Count <= 0 ? null : Util.DequeueFromList(tablesWithClient);
     }
     // It gets the closest free coord next to the target
-    public Vector3Int GetClosestPathGridPoint(Vector3Int target)
+    public static Vector3Int GetClosestPathGridPoint(Vector3Int target)
     {
         Vector3Int result = target;
 
@@ -664,7 +655,7 @@ public class GridController : MonoBehaviour
         return result;
     }
 
-    public void AddClientToTable(GameGridObject obj)
+    public static void AddClientToTable(GameGridObject obj)
     {
         if (tablesWithClient.Contains(obj))
         {
@@ -675,7 +666,7 @@ public class GridController : MonoBehaviour
     }
 
     // Used to highlight the current object being edited
-    public void SetActiveGameGridObject(GameGridObject obj)
+    public static void SetActiveGameGridObject(GameGridObject obj)
     {
         if (currentClickedActiveGameObject != "")
         {
@@ -686,17 +677,17 @@ public class GridController : MonoBehaviour
         obj.Show();
     }
 
-    public void ClearCurrentClickedActiveGameObject()
+    public static void ClearCurrentClickedActiveGameObject()
     {
         currentClickedActiveGameObject = "";
     }
 
-    public bool IsThisSelectedObject(string objName)
+    public static bool IsThisSelectedObject(string objName)
     {
         return currentClickedActiveGameObject == objName;
     }
 
-    public int[,] GetBussGrid(Vector3Int position)
+    public static int[,] GetBussGrid(Vector3Int position)
     {
         int[,] busGrid = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
         int[,] gridClone = (int[,])gridArray.Clone();
@@ -728,7 +719,7 @@ public class GridController : MonoBehaviour
         return reducedBusGrid;
     }
 
-    public bool IsFreeBussCoord(Vector3Int pos)
+    public static bool IsFreeBussCoord(Vector3Int pos)
     {
         if (!IsCoordValid(pos.x, pos.y))
         {
@@ -737,7 +728,7 @@ public class GridController : MonoBehaviour
         return gridArray[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
     }
 
-    public bool PlaceGameObject(StoreGameObject obj)
+    public static bool PlaceGameObject(StoreGameObject obj)
     {
         //Obj type to be used
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
@@ -754,11 +745,11 @@ public class GridController : MonoBehaviour
                 GameObject newObject;
                 if (nextTile[1] == Vector3Int.up)
                 {
-                    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                //    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 }
                 else
                 {
-                    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                  //  newObject = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 }
                 return true;
                 break;
@@ -768,7 +759,7 @@ public class GridController : MonoBehaviour
     }
 
     //Gets the closest next tile to the object
-    private Vector3Int[] GetNextTile(GameGridObject gameGridObject)
+    private static Vector3Int[] GetNextTile(GameGridObject gameGridObject)
     {
         int[,] positions = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 2, 2 }, { 0, -2 }, { -2, 0 }, { 0, 2 }, { 2, 0 } };
         int[,] side = new int[,] { { 0, 1 }, { 1, 0 } };
@@ -802,7 +793,7 @@ public class GridController : MonoBehaviour
         return new Vector3Int[] { };
     }
 
-    private bool IsClosingIsland(Vector3Int position)
+    private static bool IsClosingIsland(Vector3Int position)
     {
         int[,] bGrid = GetBussGrid(position);
         int count = 0;
@@ -831,7 +822,7 @@ public class GridController : MonoBehaviour
         return false;
     }
 
-    private void DFS(int[,] bGrid, int x, int y)
+    private static void DFS(int[,] bGrid, int x, int y)
     {
         if (x < 0 || y < 0 || x >= bGrid.GetLength(0) || y >= bGrid.GetLength(1) || bGrid[x, y] == 2 || bGrid[x, y] == 1)
         {
@@ -845,66 +836,66 @@ public class GridController : MonoBehaviour
         DFS(bGrid, x + 1, y);
     }
 
-    public bool IsTableStored(string nameID)
+    public static bool IsTableStored(string nameID)
     {
         return PlayerData.IsItemStored(nameID);
     }
 
-    public int GetObjectCount()
+    public static int GetObjectCount()
     {
         return businessObjects.Count;
     }
 
-    public MenuObjectList GetObjectListConfiguration()
+    public static MenuObjectList GetObjectListConfiguration()
     {
         return ObjectListConfiguration;
     }
-    public bool GetDragginObject()
+    public static bool GetDragginObject()
     {
         return DraggingObject;
     }
 
-    public void SetDraggingObject(bool value)
+    public static void SetDraggingObject(bool value)
     {
         DraggingObject = value;
     }
 
-    public GameGridObject GetCounter()
+    public static GameGridObject GetCounter()
     {
         return counter;
     }
 
-    public int[,] GetGridArray()
+    public static int[,] GetGridArray()
     {
         return gridArray;
     }
 
-    public List<GameTile> GetListBusinessFloor()
+    public static List<GameTile> GetListBusinessFloor()
     {
         return listBusinessFloor;
     }
 
-    public Dictionary<string, GameGridObject> GetBusyBusinessSpotsMap()
+    public static Dictionary<string, GameGridObject> GetBusyBusinessSpotsMap()
     {
         return busyBusinessSpotsMap;
     }
 
-    public Dictionary<string, GameGridObject> GetFreeBusinessSpotsMap()
+    public static Dictionary<string, GameGridObject> GetFreeBusinessSpotsMap()
     {
         return freeBusinessSpotsMap;
     }
 
-    public List<GameGridObject> GetFreeBusinessSpots()
+    public static List<GameGridObject> GetFreeBusinessSpots()
     {
         return freeBusinessSpots;
     }
 
-    public List<GameGridObject> GetTablesWithClient()
+    public static List<GameGridObject> GetTablesWithClient()
     {
         return tablesWithClient;
     }
 
-    public Dictionary<string, GameGridObject> GetBusinessObjects()
+    public static Dictionary<string, GameGridObject> GetBusinessObjects()
     {
         return businessObjects;
     }

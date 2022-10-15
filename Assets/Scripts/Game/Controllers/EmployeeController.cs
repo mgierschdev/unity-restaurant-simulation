@@ -55,7 +55,7 @@ public class EmployeeController : GameObjectMovementBase
         UpdateEnergyBar();
 
         // To Handle States
-        if (Grid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN) //If the player removes the counter the employee goes away
+        if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN) //If the player removes the counter the employee goes away
         {
             UpdateGoToUnrespawn_0();
         }
@@ -71,7 +71,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateIsAtCounter_2();
         }
-        else if (localState == NpcState.AT_COUNTER && Grid.IsThereCustomer() && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
+        else if (localState == NpcState.AT_COUNTER && BussGrid.IsThereCustomer() && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
         {
             UpdateAttendTable_3();
         }
@@ -142,7 +142,7 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateGoToUnrespawn_0()
     {
         localState = NpcState.WALKING_UNRESPAWN;
-        unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
+        unRespawnTile = BussGrid.GetRandomSpamPointWorldPosition();
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
@@ -153,7 +153,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdaetIsAtUnrespawn_0()
     {
-        if (Util.IsAtDistanceWithObject(transform.position, Grid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
+        if (Util.IsAtDistanceWithObject(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
         {
             gameController.RemoveEmployee();
             Destroy(gameObject);
@@ -162,7 +162,7 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateGoNextToCounter_1()
     {
         localState = NpcState.WALKING_TO_COUNTER;
-        target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
+        target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
 
         if (!GoTo(target))
         {
@@ -191,7 +191,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounter_2()
     {
-        if (!Util.IsAtDistanceWithObject(transform.position, Grid.GetCounter().GetActionTile()))
+        if (!Util.IsAtDistanceWithObject(transform.position, BussGrid.GetCounter().GetActionTile()))
         {
             return;
         }
@@ -215,7 +215,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsTakingOrder_4()
     {
-        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, Grid.GetWorldFromPathFindingGridPositionWithOffSet(CoordOfTableToBeAttended), transform))
+        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(CoordOfTableToBeAttended), transform))
         {
             return;
         }
@@ -247,7 +247,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounterAfterOrder_7()
     {
-        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, Grid.GetCounter().GetActionTile(), transform))
+        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetCounter().GetActionTile(), transform))
         {
             return;
         }
@@ -300,12 +300,12 @@ public class EmployeeController : GameObjectMovementBase
 
     private bool GoToCounter()
     {
-        if (Grid.GetCounter() == null)
+        if (BussGrid.GetCounter() == null)
         {
             return false;
         }
 
-        target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
+        target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
         return GoTo(target);
     }
     private void GoToTableToBeAttended()
@@ -313,7 +313,7 @@ public class EmployeeController : GameObjectMovementBase
         if (tableToBeAttended == null)
         {
             //GameLog.Log("Getting table with client: GoToTableToBeAttended()");
-            tableToBeAttended = Grid.GetTableWithClient();
+            tableToBeAttended = BussGrid.GetTableWithClient();
             tableToBeAttended.SetAttendedBy(this);
 
             if (tableToBeAttended == null)
@@ -324,8 +324,8 @@ public class EmployeeController : GameObjectMovementBase
             }
         }
 
-        Vector3Int localTarget = Grid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
-        CoordOfTableToBeAttended = Grid.GetClosestPathGridPoint(localTarget);
+        Vector3Int localTarget = BussGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
+        CoordOfTableToBeAttended = BussGrid.GetClosestPathGridPoint(localTarget);
 
         // Meaning we did not find a correct spot to standup, we return
         // and enqueue de table to the list again 
@@ -346,7 +346,7 @@ public class EmployeeController : GameObjectMovementBase
     public bool RestartState()
     {
         ResetMovement();
-        target = Grid.GetPathFindingGridFromWorldPosition(Grid.GetCounter().GetActionTile());
+        target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
 
         if (!GoTo(target))
         {

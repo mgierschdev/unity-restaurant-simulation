@@ -10,27 +10,21 @@ public class TestNPCMovementPathFinding
     private NPCController firstNPCController;
     private NPCController secondNPCController;
     private GameObject gridObject;
-    private GridController gameGridController;
     private Vector3Int initialTestingPosition;
 
     [SetUp]
     public void Setup()
     {
-        // Game Grid
-        gridObject = Transform.Instantiate(Resources.Load(Settings.GameGrid, typeof(GameObject))) as GameObject;
-        gameGridController = gridObject.GetComponent<GridController>();
         // First NPC
         firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject))) as GameObject;
         firstNPCObject = Transform.Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
         firstNPCObject.transform.SetParent(gridObject.transform);
         firstNPCController = firstNPCObject.GetComponent<NPCController>();
-        firstNPCController.Grid = gameGridController;
         // Second NPC
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject))) as GameObject;
         secondNPCObject = Transform.Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), new Vector3(1, 1), Quaternion.identity) as GameObject;
         secondNPCObject.transform.SetParent(gridObject.transform);
         secondNPCController = secondNPCObject.GetComponent<NPCController>();
-        secondNPCController.Grid = gameGridController;
 
         initialTestingPosition = new Vector3Int(1, 1);
     }
@@ -53,13 +47,13 @@ public class TestNPCMovementPathFinding
     public IEnumerator TestPathWithObstacles()
     {
         int[] endPosition = new int[] { 25, 14 };
-        gameGridController.SetTestGridObstacles(21, 1, 15);
+        BussGrid.SetTestGridObstacles(21, 1, 15);
         firstNPCController.SetSpeed(100);
         firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
         yield return new WaitForSeconds(2f);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
-        gameGridController.FreeTestGridObstacles(5, 1, 15);
+        BussGrid.FreeTestGridObstacles(5, 1, 15);
     }
 
     [UnityTest]
@@ -67,7 +61,7 @@ public class TestNPCMovementPathFinding
     public IEnumerator TestMultipleNPC()
     {
         int[] endPosition = new int[] { 25, 14 };
-        gameGridController.SetTestGridObstacles(21, 1, 15);
+        BussGrid.SetTestGridObstacles(21, 1, 15);
         firstNPCController.SetSpeed(100);
         secondNPCController.SetSpeed(100);
         firstNPCController.GoTo(new Vector3Int(endPosition[0], endPosition[1]));
@@ -77,6 +71,6 @@ public class TestNPCMovementPathFinding
         Assert.AreEqual(secondNPCController.GetPositionAsArray()[1], endPosition[1]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[0], endPosition[0]);
         Assert.AreEqual(firstNPCController.GetPositionAsArray()[1], endPosition[1]);
-        gameGridController.FreeTestGridObstacles(5, 1, 15);
+        BussGrid.FreeTestGridObstacles(5, 1, 15);
     }
 }

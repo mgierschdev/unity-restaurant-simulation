@@ -10,16 +10,11 @@ public class TestNPCMovement
     private NPCController npcController;
     private Vector3 target;
     private GameObject gridObject;
-    private GridController gameGridController;
     private Vector3Int initialTestingPosition;
 
     [SetUp]
     public void Setup()
     {
-        // Game Grid
-        gridObject = Transform.Instantiate(Resources.Load(Settings.GameGrid, typeof(GameObject))) as GameObject;
-        gameGridController = gridObject.GetComponent<GridController>();
-
         // Adding NPC object
         // First NPC
         npcObject = Transform.Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject))) as GameObject;
@@ -27,7 +22,6 @@ public class TestNPCMovement
         npcObject.transform.SetParent(gridObject.transform);
         npcController = npcObject.GetComponent<NPCController>();
         initialTestingPosition = new Vector3Int(0, 0);
-        npcController.Grid = gameGridController;
     }
 
     [UnityTest]
