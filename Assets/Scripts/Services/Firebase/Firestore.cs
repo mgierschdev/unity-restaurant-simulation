@@ -54,7 +54,7 @@ public static class Firestore
             return null;
         }
 
-        GameLog.Log("Player ID " + PlayerData.EmailID);
+        // GameLog.Log("Player ID " + PlayerData.EmailID);
         DocumentReference testUser = firestore.Collection(Settings.USER_COLLECTION)?.Document(PlayerData.EmailID);
         Task save = testUser.SetAsync(docData, SetOptions.MergeAll);
         return save;

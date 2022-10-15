@@ -358,15 +358,6 @@ public static class Util
         return true;
     }
 
-    public static bool IsNull(GridController gameObject, string message)
-    {
-        if (gameObject == null)
-        {
-            GameLog.LogWarning(message);
-            return true;
-        }
-        return false;
-    }
     public static bool IsNull(EnergyBarController gameObject, string message)
     {
         if (gameObject == null)

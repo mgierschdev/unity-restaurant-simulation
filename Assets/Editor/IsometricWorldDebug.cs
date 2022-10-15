@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 public class IsometricWorldDebug : EditorWindow
 {
     [SerializeField]
-    private GridController Grid;
     private bool gridDebugEnabled;
     private Label gridDebugContent;
     private VisualElement gridDisplay;
@@ -27,9 +26,6 @@ public class IsometricWorldDebug : EditorWindow
 
     public void CreateGUI()
     {
-        //Loading grid controller
-        GameObject grid = GameObject.Find(Settings.GameGrid);
-        Grid = grid.GetComponent<GridController>();
         gridDebugEnabled = false;
 
         //Loading grid controller
@@ -97,7 +93,7 @@ public class IsometricWorldDebug : EditorWindow
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode)
         {
-            if (gridDebugEnabled && Grid)
+            if (gridDebugEnabled)
             {
                 SetBussGrid();
                 string debugText = " ";
@@ -116,8 +112,8 @@ public class IsometricWorldDebug : EditorWindow
 
     private void SetBussGrid()
     {
-        int[,] grid = Grid.GetGridArray();
-        List<GameTile> listBusinessFloor = Grid.GetListBusinessFloor();
+        int[,] grid = BussGrid.GetGridArray();
+        List<GameTile> listBusinessFloor = BussGrid.GetListBusinessFloor();
 
         int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
         int minX = int.MaxValue;
@@ -198,40 +194,40 @@ public class IsometricWorldDebug : EditorWindow
         string objects = "";
         string maps = "";
 
-        maps += "Queue FreeBusinessSpots size: " + Grid.GetFreeBusinessSpots().Count + "\n";
-        foreach (GameGridObject g in Grid.GetFreeBusinessSpots())
+        maps += "Queue FreeBusinessSpots size: " + BussGrid.GetFreeBusinessSpots().Count + "\n";
+        foreach (GameGridObject g in BussGrid.GetFreeBusinessSpots())
         {
             maps += "<b>" + g.Name + "</b> \n";
         }
 
         maps += "\n\n";
 
-        maps += "Queue TablesWithClient size: " + Grid.GetTablesWithClient().Count + "\n";
-        foreach (GameGridObject g in Grid.GetTablesWithClient())
+        maps += "Queue TablesWithClient size: " + BussGrid.GetTablesWithClient().Count + "\n";
+        foreach (GameGridObject g in BussGrid.GetTablesWithClient())
         {
             maps += "<b>" + g.Name + "</b> \n";
         }
 
         maps += "\n\n";
 
-        objects += "businessObjects size: " + Grid.GetBusinessObjects().Count + " \n";
-        foreach (GameGridObject g in Grid.GetBusinessObjects().Values)
+        objects += "businessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
+        foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
         {
             objects += "<b>" + g.Name + "</b> \n";
         }
 
         objects += "\n\n";
 
-        objects += "BusyBusinessSpotsMap size: " + Grid.GetBusyBusinessSpotsMap().Count + " \n";
-        foreach (GameGridObject g in Grid.GetBusyBusinessSpotsMap().Values)
+        objects += "BusyBusinessSpotsMap size: " + BussGrid.GetBusyBusinessSpotsMap().Count + " \n";
+        foreach (GameGridObject g in BussGrid.GetBusyBusinessSpotsMap().Values)
         {
             objects += "<b>" + g.Name + "</b>\n";
         }
 
         objects += "\n\n";
 
-        objects += "FreeBusinessSpotsMap size: " + Grid.GetFreeBusinessSpotsMap().Count + " \n";
-        foreach (GameGridObject g in Grid.GetFreeBusinessSpotsMap().Values)
+        objects += "FreeBusinessSpotsMap size: " + BussGrid.GetFreeBusinessSpotsMap().Count + " \n";
+        foreach (GameGridObject g in BussGrid.GetFreeBusinessSpotsMap().Values)
         {
             objects += "<b>" + g.Name + "</b>\n";
         }
@@ -242,7 +238,7 @@ public class IsometricWorldDebug : EditorWindow
     private string EntireGridToText()
     {
         string output = " ";
-        int[,] grid = Grid.GetGridArray();
+        int[,] grid = BussGrid.GetGridArray();
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             for (int j = 0; j < grid.GetLength(1); j++)

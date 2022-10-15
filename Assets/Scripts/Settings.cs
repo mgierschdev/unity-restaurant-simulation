@@ -1,9 +1,10 @@
 public static class Settings
 {
     // DEBUG / DEV parameterss
-    public const bool CellDebug = true;
-    public const int DebugTextSize = 9;
     public const bool IsFirebaseEmulatorEnabled = true;
+    public const bool CellDebug = false;
+    public const int DebugTextSize = 9;
+    public const float NpcDefaultMovementSpeed = 7f;
 
     // Player Config
     public const bool PlayerWalkOnClick = true;
@@ -67,7 +68,6 @@ public static class Settings
 
     // NPC Default
     public const float MinDistanceToTarget = 0.13f;
-    public const float NpcDefaultMovementSpeed = 0.7f;
     public const int NpcDefaultEnergy = 100;
     public const string NpcEnergyBar = "EnergyBar";
     public const string NpcCharacter = "Character";
@@ -120,7 +120,6 @@ public static class Settings
     public const string IsometricWorldDebugUIStyles = "Assets/Editor/IsometricWorldDebug.uss";
 
     //SCENE
-    public const string GameGrid = "GameGrid";
     public const string MainCamera = "MainCamera";
 
     //Tiles
