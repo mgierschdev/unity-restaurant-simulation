@@ -4,7 +4,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class IsometricWorldDebug : EditorWindow
+public class GridDebugPanel : EditorWindow
 {
     [SerializeField]
     private bool gridDebugEnabled;
@@ -18,22 +18,29 @@ public class IsometricWorldDebug : EditorWindow
     private const string BUSY_CELL_STYLE = "grid-cell-busy";
     private const string ACTION_CELL_STYLE = "grid-cell-action";
 
-    [UnityEditor.MenuItem("CaffeMadness/Play First Scene")]
+    [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
     public static void RunMainScene()
     {
         EditorSceneManager.OpenScene("Assets/Scenes/LoadScene.unity");
         EditorApplication.isPlaying = true;
     }
 
-    [UnityEditor.MenuItem("CaffeMadness/Grid Debug Panel")]
+    [UnityEditor.MenuItem(Settings.gameName + "/Grid Debug Panel")]
     public static void ShowExample()
     {
-        IsometricWorldDebug wnd = GetWindow<IsometricWorldDebug>();
+        GridDebugPanel wnd = GetWindow<GridDebugPanel>();
         wnd.titleContent = new GUIContent("Grid Debug Panel");
     }
 
     public void CreateGUI()
     {
+
+        if (EditorSceneManager.GetActiveScene().name != Settings.GameScene)
+        {
+            EditorSceneManager.OpenScene(Settings.GameScene);
+            GameLog.Log("Openning GameScene: The Debug grid has to be openned on the gamegrid scene.");
+        }
+
         gridDebugEnabled = false;
 
         //Loading grid controller
