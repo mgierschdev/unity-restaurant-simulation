@@ -4,7 +4,6 @@ public class TableController : BaseObjectController
     {
         Init();
         gameGridObject = new GameGridObject(transform, InitialObjectRotation, BussGrid.GetObjectListConfiguration().GetStoreObject(StoreItemType.WOODEN_TABLE_SINGLE));
-        gameGridObject.Init();
         BussGrid.SetGridObject(gameGridObject);
     }
 }

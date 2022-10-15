@@ -4,7 +4,6 @@ public class CounterController : BaseObjectController
     {
         Init();
         gameGridObject = new GameGridObject(transform, InitialObjectRotation, BussGrid.GetObjectListConfiguration().GetStoreObject(StoreItemType.COUNTER));
-        gameGridObject.Init();
         BussGrid.SetGridObject(gameGridObject);
     }
 }
