@@ -63,6 +63,7 @@ public class GameGridObject : GameObjectBase
         };
         UpdateRotation(position);
         SetEditPanelClickListeners();
+        Init();
     }
 
     private void SetID()

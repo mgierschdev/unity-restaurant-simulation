@@ -125,7 +125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4895760049815476997, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Name
-      value: aButtonRotateLeft
+      value: ButtonRotateLeft
       objectReference: {fileID: 0}
     - target: {fileID: 5439260514915873288, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Color.a

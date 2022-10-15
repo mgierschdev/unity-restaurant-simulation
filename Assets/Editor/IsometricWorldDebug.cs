@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,11 +18,18 @@ public class IsometricWorldDebug : EditorWindow
     private const string BUSY_CELL_STYLE = "grid-cell-busy";
     private const string ACTION_CELL_STYLE = "grid-cell-action";
 
-    [UnityEditor.MenuItem("Custom/IsometricWorldDebug")]
+    [UnityEditor.MenuItem("CaffeMadness/Play First Scene")]
+    public static void RunMainScene()
+    {
+        EditorSceneManager.OpenScene("Assets/Scenes/LoadScene.unity");
+        EditorApplication.isPlaying = true;
+    }
+
+    [UnityEditor.MenuItem("CaffeMadness/Grid Debug Panel")]
     public static void ShowExample()
     {
         IsometricWorldDebug wnd = GetWindow<IsometricWorldDebug>();
-        wnd.titleContent = new GUIContent("IsometricWorldDebug");
+        wnd.titleContent = new GUIContent("Grid Debug Panel");
     }
 
     public void CreateGUI()
@@ -272,7 +280,7 @@ public class IsometricWorldDebug : EditorWindow
 
         foreach (NPCController current in gameController.GetNpcSet())
         {
-            output += current.Name + " State: " + current.GetNpcState() + " Time in State: " + current.GetNpcStateTime() +" - speed: "+current.GetSpeed()+ " \n";
+            output += current.Name + " State: " + current.GetNpcState() + " Time in State: " + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
         }
 
         return output;

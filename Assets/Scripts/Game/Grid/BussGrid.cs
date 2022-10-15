@@ -10,7 +10,7 @@ public static class BussGrid
     private static int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
     private static Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
     // Isometric Grid with pathfinding
-    private static Tilemap tilemapPathFinding;
+    public static Tilemap TilemapPathFinding { get; set; }
     private static Dictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
     private static Dictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
     private static Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
@@ -21,19 +21,19 @@ public static class BussGrid
     private static int[,] gridArray;
     private static TextMesh[,] debugGrid;
     //Floor
-    private static Tilemap tilemapFloor;
+    public static Tilemap TilemapFloor { get; set; }
     private static List<GameTile> listFloorTileMap;
     private static Dictionary<Vector3Int, GameTile> mapFloor;
     //WalkingPath 
-    private static Tilemap tilemapWalkingPath;
+    public static Tilemap TilemapWalkingPath { get; set; }
     private static List<GameTile> listWalkingPathTileMap;
     private static Dictionary<Vector3Int, GameTile> mapWalkingPath;
     //Colliders
-    private static Tilemap tilemapColliders;
+    public static Tilemap TilemapColliders { get; set; }
     private static List<GameTile> listCollidersTileMap;
     private static Dictionary<Vector3Int, GameTile> mapColliders;
     //Objects
-    private static Tilemap tilemapObjects;
+    public static Tilemap TilemapObjects { get; set; }
     private static List<GameTile> listObjectsTileMap;
     private static Dictionary<Vector3Int, GameTile> mapObjects;
     //Prefabs in the TilemapObjects
@@ -44,33 +44,29 @@ public static class BussGrid
     private static List<GameGridObject> tablesWithClient;// Tables to attend or chairs
     private static GameGridObject counter;
     //Business floors
-    private static Tilemap tilemapBusinessFloor;
+    public static Tilemap TilemapBusinessFloor { get; set; }
     private static List<GameTile> listBusinessFloor;
     private static Dictionary<Vector3Int, GameTile> mapBusinessFloor;
     private static string currentClickedActiveGameObject;
     private static int[,] arroundVectorPoints;
-    private static GameController gameController;
+    public static GameController GameController {get; set;}
     private static MenuObjectList ObjectListConfiguration;
     private static bool DraggingObject;
 
-    private static void Init()
+    public static void Init()
     {
         // TILEMAP DATA 
-        tilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
         mapWorldPositionToTile = new Dictionary<Vector3, GameTile>();
         mapGridPositionToTile = new Dictionary<Vector3Int, GameTile>();
         mapPathFindingGrid = new Dictionary<Vector3Int, GameTile>();
         spamPoints = new List<GameTile>();
 
-        tilemapFloor = GameObject.Find(Settings.TilemapFloor0).GetComponent<Tilemap>();
         mapFloor = new Dictionary<Vector3Int, GameTile>();
         listFloorTileMap = new List<GameTile>();
 
-        tilemapColliders = GameObject.Find(Settings.TilemapColliders).GetComponent<Tilemap>();
         mapColliders = new Dictionary<Vector3Int, GameTile>();
         listCollidersTileMap = new List<GameTile>();
 
-        tilemapObjects = GameObject.Find(Settings.TilemapObjects).GetComponent<Tilemap>();
         mapObjects = new Dictionary<Vector3Int, GameTile>();
         listObjectsTileMap = new List<GameTile>();
         freeBusinessSpots = new List<GameGridObject>();
@@ -79,46 +75,40 @@ public static class BussGrid
         busyBusinessSpotsMap = new Dictionary<string, GameGridObject>();
         businessObjects = new Dictionary<string, GameGridObject>();
 
-        tilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
         mapWalkingPath = new Dictionary<Vector3Int, GameTile>();
         listWalkingPathTileMap = new List<GameTile>();
 
-        tilemapBusinessFloor = GameObject.Find(Settings.TilemapBusinessFloor).GetComponent<Tilemap>();
         listBusinessFloor = new List<GameTile>();
         mapBusinessFloor = new Dictionary<Vector3Int, GameTile>();
 
         //ObjectListConfiguration
         ObjectListConfiguration = new MenuObjectList();
 
-        //GameController
-        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
-        gameController = gameObj.GetComponent<GameController>();
-
-        if (tilemapFloor == null || tilemapColliders == null || tilemapObjects == null || tilemapPathFinding == null ||
-            tilemapWalkingPath == null || tilemapBusinessFloor == null)
+        if (TilemapFloor == null || TilemapColliders == null || TilemapObjects == null || TilemapPathFinding == null ||
+            TilemapWalkingPath == null || TilemapBusinessFloor == null)
         {
             GameLog.LogWarning("GridController/tilemap");
-            GameLog.LogWarning("tilemapFloor " + tilemapFloor);
-            GameLog.LogWarning("tilemapColliders " + tilemapColliders);
-            GameLog.LogWarning("tilemapObjects " + tilemapObjects);
-            GameLog.LogWarning("tilemapPathFinding " + tilemapPathFinding);
-            GameLog.LogWarning("tilemapWalkingPath " + tilemapWalkingPath);
-            GameLog.LogWarning("tilemapBusinessFloor " + tilemapBusinessFloor);
+            GameLog.LogWarning("tilemapFloor " + TilemapFloor);
+            GameLog.LogWarning("tilemapColliders " + TilemapColliders);
+            GameLog.LogWarning("tilemapObjects " + TilemapObjects);
+            GameLog.LogWarning("tilemapPathFinding " + TilemapPathFinding);
+            GameLog.LogWarning("tilemapWalkingPath " + TilemapWalkingPath);
+            GameLog.LogWarning("tilemapBusinessFloor " + TilemapBusinessFloor);
         }
 
         if (Settings.CellDebug)
         {
-            tilemapPathFinding.color = new Color(1, 1, 1, 0.4f);
-            tilemapColliders.color = new Color(1, 1, 1, 0.4f);
-            tilemapWalkingPath.color = new Color(1, 1, 1, 0.4f);
-            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
+            TilemapPathFinding.color = new Color(1, 1, 1, 0.4f);
+            TilemapColliders.color = new Color(1, 1, 1, 0.4f);
+            TilemapWalkingPath.color = new Color(1, 1, 1, 0.4f);
+            TilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
         }
         else
         {
-            tilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
-            tilemapColliders.color = new Color(1, 1, 1, 0.0f);
-            tilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-            tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+            TilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
+            TilemapColliders.color = new Color(1, 1, 1, 0.0f);
+            TilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
+            TilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
         }
 
         pathFind = new PathFind();
@@ -129,11 +119,11 @@ public static class BussGrid
 
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
-        LoadTileMap(listCollidersTileMap, tilemapColliders, mapColliders);
-        LoadTileMap(listObjectsTileMap, tilemapObjects, mapObjects);
-        LoadTileMap(listWalkingPathTileMap, tilemapWalkingPath, mapWalkingPath);
-        LoadTileMap(listBusinessFloor, tilemapBusinessFloor, mapBusinessFloor);
-        LoadTileMap(listFloorTileMap, tilemapFloor, mapFloor);
+        LoadTileMap(listCollidersTileMap, TilemapColliders, mapColliders);
+        LoadTileMap(listObjectsTileMap, TilemapObjects, mapObjects);
+        LoadTileMap(listWalkingPathTileMap, TilemapWalkingPath, mapWalkingPath);
+        LoadTileMap(listBusinessFloor, TilemapBusinessFloor, mapBusinessFloor);
+        LoadTileMap(listFloorTileMap, TilemapFloor, mapFloor);
     }
 
     // private void MouseHover()
@@ -193,14 +183,14 @@ public static class BussGrid
             for (int y = 0; y <= WIDTH; y++)
             {
                 Vector3Int positionInGrid = new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0);
-                Vector3 positionInWorld = tilemapPathFinding.CellToWorld(positionInGrid);
-                Vector3Int positionLocalGrid = tilemapPathFinding.WorldToCell(positionInWorld);
+                Vector3 positionInWorld = TilemapPathFinding.CellToWorld(positionInGrid);
+                Vector3Int positionLocalGrid = TilemapPathFinding.WorldToCell(positionInWorld);
                 GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid,
                 Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
                 mapWorldPositionToTile.Add(gameTile.WorldPosition, gameTile);
                 mapPathFindingGrid.Add(gameTile.GridPosition, gameTile);
                 mapGridPositionToTile.Add(gameTile.LocalGridPosition, gameTile);
-                tilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
+                TilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
 
                 if (Settings.CellDebug)
                 {
@@ -339,7 +329,7 @@ public static class BussGrid
         }
 
         // It cannot overlap any NPC
-        if (gameController.PositionOverlapsNPC(currentGridPos))
+        if (GameController.PositionOverlapsNPC(currentGridPos))
         {
             return false;
         }
@@ -366,7 +356,7 @@ public static class BussGrid
             gameGridObject.Hide();
             currentClickedActiveGameObject = "";
         }
-        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+        TilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
     }
 
     //Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
@@ -384,7 +374,7 @@ public static class BussGrid
     public static void HighlightGridBussFloor()
     {
         // If we Highlight we are in edit mode
-        tilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
+        TilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
     }
 
     public static Vector3 GetGridWorldPositionMapMouseDrag()
@@ -415,20 +405,20 @@ public static class BussGrid
     // Returns the Grid position given a Vector3 world position
     public static Vector3Int GetLocalGridFromWorldPosition(Vector3 position)
     {
-        return tilemapPathFinding.WorldToCell(position);
+        return TilemapPathFinding.WorldToCell(position);
     }
 
     public static Vector3Int GetPathFindingGridFromWorldPosition(Vector3 position)
     {
         Vector3 newPosition = new Vector3(position.x, position.y, 0);
         position = newPosition;
-        if (!mapGridPositionToTile.ContainsKey(tilemapPathFinding.WorldToCell(position)))
+        if (!mapGridPositionToTile.ContainsKey(TilemapPathFinding.WorldToCell(position)))
         {
-            GameLog.LogError("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " + position + "/" + tilemapPathFinding.WorldToCell(position));
+            GameLog.LogError("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " + position + "/" + TilemapPathFinding.WorldToCell(position));
         }
         else
         {
-            GameTile tile = mapGridPositionToTile[tilemapPathFinding.WorldToCell(position)];
+            GameTile tile = mapGridPositionToTile[TilemapPathFinding.WorldToCell(position)];
             return tile.GridPosition;
         }
 
@@ -450,7 +440,7 @@ public static class BussGrid
     // This in local Grid position
     private static Vector3 GetWorldFromGridPosition(Vector3Int position)
     {
-        return tilemapPathFinding.CellToWorld(position);
+        return TilemapPathFinding.CellToWorld(position);
     }
 
     // Only for unit test use
@@ -526,7 +516,7 @@ public static class BussGrid
 
     public static void ReCalculateNpcStates(GameGridObject obj)
     {
-        gameController.ReCalculateNpcStates(obj);
+        GameController.ReCalculateNpcStates(obj);
     }
 
     public static void UpdateObjectPosition(GameGridObject gameGridObject)
@@ -731,7 +721,7 @@ public static class BussGrid
     public static bool PlaceGameObject(StoreGameObject obj)
     {
         //Obj type to be used
-        GameObject parent = GameObject.Find(Settings.TilemapObjects);
+        //GameObject parent = GameObject.Find(Settings.TilemapObjects);
 
         foreach (KeyValuePair<string, GameGridObject> dic in businessObjects)
         {
@@ -745,11 +735,11 @@ public static class BussGrid
                 GameObject newObject;
                 if (nextTile[1] == Vector3Int.up)
                 {
-                //    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                    //    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 }
                 else
                 {
-                  //  newObject = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                    //  newObject = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 }
                 return true;
                 break;
@@ -778,13 +768,13 @@ public static class BussGrid
 
             bool isClosingGrid = IsClosingIsland(position);
 
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid && !gameController.PositionOverlapsNPC(position))
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid && !GameController.PositionOverlapsNPC(position))
             {
                 // Debug.Log(position + " " + actionPoint + " front");
                 return new Vector3Int[] { position, Vector3Int.up }; //front
             }
 
-            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2) && !isClosingGrid && !gameController.PositionOverlapsNPC(position))
+            if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2) && !isClosingGrid && !GameController.PositionOverlapsNPC(position))
             {
                 // Debug.Log(position + " " + actionPoint2 + " inverted");
                 return new Vector3Int[] { position, Vector3Int.right }; // front inverted

@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
 using TMPro;
