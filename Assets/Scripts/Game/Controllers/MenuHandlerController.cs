@@ -320,7 +320,7 @@ public class MenuHandlerController : MonoBehaviour
         // StartCoroutine(TestPlacingObjects(obj));
         // Load test debug
 
-        if (BussGrid.PlaceGameObject(obj))
+        if (placeGameObject(obj))
         {
             PlayerData.Subtract(obj.Cost);
         }
@@ -346,7 +346,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             yield return new WaitForSeconds(0.15f); // 0.15f
             // Debug.Log("Placing object");
-            BussGrid.PlaceGameObject(obj);
+            placeGameObject(obj);
         }
         //After we have waited 5 seconds print the time again.
         // Debug.Log("Finished Coroutine at timestamp : " + Time.time);
@@ -394,8 +394,33 @@ public class MenuHandlerController : MonoBehaviour
         return menuStack.Count > 0;
     }
 
-    // public bool IsGamePaused()
-    // {
-    //     return isGamePaused;
-    // }
+    private static bool placeGameObject(StoreGameObject obj)
+    {
+        //Obj type to be used
+        GameObject parent = GameObject.Find(Settings.TilemapObjects);
+
+        foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)
+        {
+            GameGridObject current = dic.Value;
+            Vector3Int[] nextTile = BussGrid.GetNextTile(current);
+
+            if (nextTile.GetLength(0) != 0)
+            {
+                // We place the object 
+                Vector3 spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextTile[0]);
+                GameObject newObject;
+                if (nextTile[1] == Vector3Int.up)
+                {
+                    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                }
+                else
+                {
+                    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                }
+                return true;
+                break;
+            }
+        }
+        return false;
+    }
 }

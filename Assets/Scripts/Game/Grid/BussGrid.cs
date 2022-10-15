@@ -37,7 +37,7 @@ public static class BussGrid
     private static List<GameTile> listObjectsTileMap;
     private static Dictionary<Vector3Int, GameTile> mapObjects;
     //Prefabs in the TilemapObjects
-    private static Dictionary<string, GameGridObject> businessObjects;
+    public static Dictionary<string, GameGridObject> BusinessObjects { get; set; }
     private static Dictionary<string, GameGridObject> busyBusinessSpotsMap;
     private static Dictionary<string, GameGridObject> freeBusinessSpotsMap;
     private static List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
@@ -49,7 +49,7 @@ public static class BussGrid
     private static Dictionary<Vector3Int, GameTile> mapBusinessFloor;
     private static string currentClickedActiveGameObject;
     private static int[,] arroundVectorPoints;
-    public static GameController GameController {get; set;}
+    public static GameController GameController { get; set; }
     private static MenuObjectList ObjectListConfiguration;
     private static bool DraggingObject;
 
@@ -73,7 +73,7 @@ public static class BussGrid
         tablesWithClient = new List<GameGridObject>();
         freeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
         busyBusinessSpotsMap = new Dictionary<string, GameGridObject>();
-        businessObjects = new Dictionary<string, GameGridObject>();
+        BusinessObjects = new Dictionary<string, GameGridObject>();
 
         mapWalkingPath = new Dictionary<Vector3Int, GameTile>();
         listWalkingPathTileMap = new List<GameTile>();
@@ -265,7 +265,7 @@ public static class BussGrid
     private static void SetObjectObstacle(GameGridObject obj)
     {
         Vector3Int actionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
-        businessObjects.Add(obj.Name, obj);
+        BusinessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             Util.EnqueueToList(freeBusinessSpots, obj);
@@ -352,7 +352,7 @@ public static class BussGrid
     {
         if (currentClickedActiveGameObject != "")
         {
-            GameGridObject gameGridObject = businessObjects[currentClickedActiveGameObject];
+            GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
             gameGridObject.Hide();
             currentClickedActiveGameObject = "";
         }
@@ -660,7 +660,7 @@ public static class BussGrid
     {
         if (currentClickedActiveGameObject != "")
         {
-            GameGridObject gameGridObject = businessObjects[currentClickedActiveGameObject];
+            GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
             gameGridObject.Hide();
         }
         currentClickedActiveGameObject = obj.Name;
@@ -718,38 +718,8 @@ public static class BussGrid
         return gridArray[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
     }
 
-    public static bool PlaceGameObject(StoreGameObject obj)
-    {
-        //Obj type to be used
-        //GameObject parent = GameObject.Find(Settings.TilemapObjects);
-
-        foreach (KeyValuePair<string, GameGridObject> dic in businessObjects)
-        {
-            GameGridObject current = dic.Value;
-            Vector3Int[] nextTile = GetNextTile(current);
-
-            if (nextTile.GetLength(0) != 0)
-            {
-                // We place the object 
-                Vector3 spamPosition = GetWorldFromPathFindingGridPosition(nextTile[0]);
-                GameObject newObject;
-                if (nextTile[1] == Vector3Int.up)
-                {
-                    //    newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-                }
-                else
-                {
-                    //  newObject = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-                }
-                return true;
-                break;
-            }
-        }
-        return false;
-    }
-
     //Gets the closest next tile to the object
-    private static Vector3Int[] GetNextTile(GameGridObject gameGridObject)
+    public static Vector3Int[] GetNextTile(GameGridObject gameGridObject)
     {
         int[,] positions = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 2, 2 }, { 0, -2 }, { -2, 0 }, { 0, 2 }, { 2, 0 } };
         int[,] side = new int[,] { { 0, 1 }, { 1, 0 } };
@@ -833,7 +803,7 @@ public static class BussGrid
 
     public static int GetObjectCount()
     {
-        return businessObjects.Count;
+        return BusinessObjects.Count;
     }
 
     public static MenuObjectList GetObjectListConfiguration()
@@ -887,6 +857,6 @@ public static class BussGrid
 
     public static Dictionary<string, GameGridObject> GetBusinessObjects()
     {
-        return businessObjects;
+        return BusinessObjects;
     }
 }
