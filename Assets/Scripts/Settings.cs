@@ -17,6 +17,7 @@ public static class Settings
     public const string TEST_USER = IsFirebaseEmulatorEnabled ? "mgierschdev@gmail.com" : "";
 
     //GAME TAGS
+    public const string gameName = "CafeMadness";
     public const string NpcTag = "NPC";
     public const string NpcEmployeeTag = "Employee";
     public const string SliderTag = "Slider";
