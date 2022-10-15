@@ -1,7 +1,7 @@
 public static class Settings
 {
     // DEBUG / DEV parameterss
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
     public const bool IsFirebaseEmulatorEnabled = true;
 

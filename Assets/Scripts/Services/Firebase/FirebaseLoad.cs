@@ -31,6 +31,7 @@ public class FirebaseLoad
             Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
         });
     }
+    
     public Task InitFirebase()
     {
         return FirebaseApp.CheckDependenciesAsync().ContinueWith(checkTask =>

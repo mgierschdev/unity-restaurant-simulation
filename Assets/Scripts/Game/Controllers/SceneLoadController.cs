@@ -1,8 +1,9 @@
-using TMPro;
-using UnityEngine;
 using System.Threading.Tasks;
+using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -34,17 +35,13 @@ public class SceneLoadController : MonoBehaviour
         Util.IsNull(sliderProgressObject, "SceneLoadController/Start sliderProgressObject is null");
         sliderProgress = sliderProgressObject.GetComponent<TextMeshProUGUI>();
 
-        //Init firebase and auth
-        if (!Settings.IsFirebaseEmulatorEnabled)
-        {
-            await firebase.InitAuth();
-        }
-
+        //Init firebase
         Firestore.Init();
         firebase = new FirebaseLoad();
         await firebase.InitFirebase();
+        //await firebase.InitAuth(); ONLY after build
         auth = firebase.GetFirebaseAuth();
-        userData = Firestore.GetUserData(Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.Email);
+        userData = Firestore.GetUserData(Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.UserId);
 
         //Loading next scene
         //Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
@@ -64,7 +61,7 @@ public class SceneLoadController : MonoBehaviour
         slider.value = currentProgress;
         sliderProgress.text = (int)(currentProgress * 100) + " % ";
 
-        if (Mathf.Approximately(currentProgress, 1) && userData.IsCompleted)
+        if (Mathf.Approximately(currentProgress, 1) && userData != null && userData.IsCompleted)
         {
             // Loads the queried data to the player game object
             PlayerData.LoadFirebaseDocument(userData.Result);
