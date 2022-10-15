@@ -1,6 +1,6 @@
-using Firebase;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Firebase;
 using Firebase.Firestore;
 
 public static class Firestore
@@ -16,7 +16,8 @@ public static class Firestore
 
     public static void Init()
     {
-        if(firestore != null){
+        if (firestore != null)
+        {
             return;
         }
 
@@ -47,7 +48,13 @@ public static class Firestore
 
     public static Task SaveUserData(Dictionary<string, object> docData)
     {
-        GameLog.Log("Player ID "+PlayerData.EmailID);
+        if (PlayerData.EmailID == null)
+        {
+            throw new System.Exception("SaveUserData(). We cannot save an empty user.");
+            return null;
+        }
+
+        GameLog.Log("Player ID " + PlayerData.EmailID);
         DocumentReference testUser = firestore.Collection(Settings.USER_COLLECTION)?.Document(PlayerData.EmailID);
         Task save = testUser.SetAsync(docData, SetOptions.MergeAll);
         return save;

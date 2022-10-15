@@ -2,6 +2,8 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine;
 
+
+// Google play auth
 public class AuthController : MonoBehaviour
 {
     public void LoadAuth()
