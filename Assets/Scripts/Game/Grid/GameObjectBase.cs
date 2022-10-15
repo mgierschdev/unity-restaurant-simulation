@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 
+// Parent of the GameGridObject
 public abstract class GameObjectBase
 {
     public string Name { get; set; }
