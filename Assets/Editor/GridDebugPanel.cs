@@ -37,7 +37,7 @@ public class GridDebugPanel : EditorWindow
 
         if (EditorSceneManager.GetActiveScene().name != Settings.GameScene)
         {
-            EditorSceneManager.OpenScene(Settings.GameScene);
+            EditorSceneManager.OpenScene("Assets/Scenes/"+Settings.GameScene);
             GameLog.Log("Openning GameScene: The Debug grid has to be openned on the gamegrid scene.");
         }
 
