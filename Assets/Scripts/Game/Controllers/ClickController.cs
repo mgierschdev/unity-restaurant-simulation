@@ -7,7 +7,6 @@ public class ClickController : MonoBehaviour
     public bool IsLongClick { get; set; }
     private float ClickingTime { get; set; }
     private const float LONG_CLICK_DURATION = 0.2f;
-    private GridController gridController;
     private Camera mainCamera;
     private float lastClickTime;
 
@@ -25,9 +24,6 @@ public class ClickController : MonoBehaviour
         mainCamera = Camera.main;
         // Time passed between clicks 
         lastClickTime = 0;
-        // Grid Controller
-        GameObject gameGridObject = gameObject.transform.Find(Settings.GameGrid).gameObject;
-        gridController = gameGridObject.GetComponent<GridController>();
     }
 
     private void Update()
@@ -86,8 +82,8 @@ public class ClickController : MonoBehaviour
             return;
         }
 
-        Vector3Int clickPosition = gridController.GetPathFindingGridFromWorldPosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-        GameTile tile = gridController.GetGameTileFromClickInPathFindingGrid(clickPosition);
+        Vector3Int clickPosition = BussGrid.GetPathFindingGridFromWorldPosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+        GameTile tile = BussGrid.GetGameTileFromClickInPathFindingGrid(clickPosition);
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 

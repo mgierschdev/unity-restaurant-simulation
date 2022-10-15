@@ -24,7 +24,6 @@ public class MenuHandlerController : MonoBehaviour
     private const float MENU_REFRESH_RATE = 3f;
     private GameObject leftDownPanel;
     private GameObject editStoreMenuPanel;
-    private GridController gridController;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
@@ -32,10 +31,6 @@ public class MenuHandlerController : MonoBehaviour
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
     {
-        // Grid Controller
-        GameObject gridObj = GameObject.Find(Settings.GameGrid).gameObject;
-        gridController = gridObj.GetComponent<GridController>();
-
         // Click controller
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
         clickController = cController.GetComponent<ClickController>();
@@ -71,13 +66,12 @@ public class MenuHandlerController : MonoBehaviour
             CenterPanelViewPanel.GetComponent<RectTransform>()
         };
 
-        if (!centerPanel || !leftDownPanel || !cController || !gridController)
+        if (!centerPanel || !leftDownPanel || !cController)
         {
             GameLog.LogWarning("UIHandler Menu null ");
             GameLog.LogWarning("tabMenu " + centerPanel);
             GameLog.LogWarning("leftDownPanel " + leftDownPanel);
             GameLog.LogWarning("cController " + cController);
-            GameLog.LogWarning("gridController " + cController);
         }
 
         menuStack = new Stack<MenuItem>();
@@ -262,7 +256,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         //Add new Items
-        foreach (StoreGameObject obj in gridController.GetObjectListConfiguration().AllStoreItems)
+        foreach (StoreGameObject obj in BussGrid.GetObjectListConfiguration().AllStoreItems)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
@@ -326,7 +320,7 @@ public class MenuHandlerController : MonoBehaviour
         // StartCoroutine(TestPlacingObjects(obj));
         // Load test debug
 
-        if (gridController.PlaceGameObject(obj))
+        if (BussGrid.PlaceGameObject(obj))
         {
             PlayerData.Subtract(obj.Cost);
         }
@@ -352,7 +346,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             yield return new WaitForSeconds(0.15f); // 0.15f
             // Debug.Log("Placing object");
-            gridController.PlaceGameObject(obj);
+            BussGrid.PlaceGameObject(obj);
         }
         //After we have waited 5 seconds print the time again.
         // Debug.Log("Finished Coroutine at timestamp : " + Time.time);
@@ -376,7 +370,7 @@ public class MenuHandlerController : MonoBehaviour
     {
         editStoreMenuPanel.SetActive(false);
         leftDownPanel.SetActive(true);
-        gridController.HideGridBussFloor();
+        BussGrid.HideGridBussFloor();
         // ResumeGame();
     }
 

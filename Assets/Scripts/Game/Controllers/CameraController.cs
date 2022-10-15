@@ -15,7 +15,6 @@ public class CameraController : MonoBehaviour
     private const float MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = 0.1f;//Adding a small delay to perspective hand
     // Main Camera
     private Camera mainCamera;
-    private GridController gridController;
     private Vector3 targetVectorPosition;
     private float targetOrthographicSize;
     // Menu Controller
@@ -29,9 +28,6 @@ public class CameraController : MonoBehaviour
         targetPosition = mainCamera.orthographicSize;
         pointerDownStart = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         direction = pointerDownStart - mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        // Grid controller
-        GameObject gameGridObject = GameObject.Find(Settings.GameGrid).gameObject;
-        gridController = gameGridObject.GetComponent<GridController>();
         // Menu controller
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         menuHandlerController = menuHandler.GetComponent<MenuHandlerController>();
@@ -67,7 +63,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (!Settings.CameraPerspectiveHand || gridController.GetDragginObject() || menuHandlerController.IsMenuOpen())
+        if (!Settings.CameraPerspectiveHand || BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen())
         {
             return;
         }

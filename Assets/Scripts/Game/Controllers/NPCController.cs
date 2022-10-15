@@ -119,13 +119,13 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateFindPlace_1()
     {
-        if (!Grid.IsThereFreeTables())
+        if (!BussGrid.IsThereFreeTables())
         {
             localState = NpcState.WANDER;
             return;
         }
 
-        table = Grid.GetFreeTable();
+        table = BussGrid.GetFreeTable();
         table.SetUsed(this);
         table.SetUsedBy(this);
         localState = NpcState.WALKING_TO_TABLE;
@@ -142,7 +142,7 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateWaitToBeAttended_3()
     {
-        Grid.AddClientToTable(table);
+        BussGrid.AddClientToTable(table);
         localState = NpcState.WAITING_TO_BE_ATTENDED;
     }
 
@@ -162,7 +162,7 @@ public class NPCController : GameObjectMovementBase
 
         ResetMovement();
         localState = NpcState.WALKING_UNRESPAWN;
-        unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
+        unRespawnTile = BussGrid.GetRandomSpamPointWorldPosition();
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
@@ -176,7 +176,7 @@ public class NPCController : GameObjectMovementBase
         table = null;
         ResetMovement();
         localState = NpcState.WALKING_UNRESPAWN;
-        unRespawnTile = Grid.GetRandomSpamPointWorldPosition();
+        unRespawnTile = BussGrid.GetRandomSpamPointWorldPosition();
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
@@ -192,7 +192,7 @@ public class NPCController : GameObjectMovementBase
             GoToFinalState_4();
         }
 
-        if (Util.IsAtDistanceWithObject(transform.position, Grid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
+        if (Util.IsAtDistanceWithObject(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
         {
             gameController.RemoveNpc(this);
             Destroy(gameObject);
@@ -203,7 +203,7 @@ public class NPCController : GameObjectMovementBase
     private void GoToWalkingToTable_6()
     {
         targetInWorldPosition = table.GetActionTile();
-        target = Grid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
+        target = BussGrid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
 
         //If we are already at the table
         if (target == Position)
@@ -274,7 +274,7 @@ public class NPCController : GameObjectMovementBase
         // There is a small chance that the NPC will go to the same place 
         while (wanderPos == Position)
         {
-            wanderPos = Grid.GetRandomWalkableGridPosition();
+            wanderPos = BussGrid.GetRandomWalkableGridPosition();
         }
         return wanderPos;
     }
