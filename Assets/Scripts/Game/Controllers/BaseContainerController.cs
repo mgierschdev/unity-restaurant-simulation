@@ -4,7 +4,6 @@ public class BaseContainerController : BaseObjectController
     {
         Init();
         gameGridObject = new GameGridObject(transform, InitialObjectRotation, BussGrid.GetObjectListConfiguration().GetStoreObject(StoreItemType.WOODEN_BASE_CONTAINER));
-        gameGridObject.Init();
         BussGrid.SetGridObject(gameGridObject);
     }
 }

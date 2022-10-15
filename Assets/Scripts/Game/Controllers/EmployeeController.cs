@@ -134,6 +134,12 @@ public class EmployeeController : GameObjectMovementBase
 
         if (stateTime > MAX_TIME_IN_STATE)
         {
+            // if we are already at the counter and the time passed the max time 
+            // there is no customers we stay at the counter
+            if(localState == NpcState.AT_COUNTER){
+                return;
+            }
+
             ResetMovement();
             RecalculateState(tableToBeAttended);
         }
@@ -163,6 +169,8 @@ public class EmployeeController : GameObjectMovementBase
     {
         localState = NpcState.WALKING_TO_COUNTER;
         target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
+
+
 
         if (!GoTo(target))
         {
