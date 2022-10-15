@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class GridDebugPanel : EditorWindow
 {
     [SerializeField]
+    private bool isGameSceneLoaded;
     private bool gridDebugEnabled;
     private Label gridDebugContent;
     private VisualElement gridDisplay;
@@ -21,7 +22,7 @@ public class GridDebugPanel : EditorWindow
     [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
     public static void RunMainScene()
     {
-        EditorSceneManager.OpenScene("Assets/Scenes/LoadScene.unity");
+        EditorSceneManager.OpenScene("Assets/Scenes/" + Settings.LoadScene + ".unity");
         EditorApplication.isPlaying = true;
     }
 
@@ -34,34 +35,20 @@ public class GridDebugPanel : EditorWindow
 
     public void CreateGUI()
     {
-
-        if (EditorSceneManager.GetActiveScene().name != Settings.GameScene)
-        {
-            EditorSceneManager.OpenScene("Assets/Scenes/"+Settings.GameScene);
-            GameLog.Log("Openning GameScene: The Debug grid has to be openned on the gamegrid scene.");
-        }
-
         gridDebugEnabled = false;
+        isGameSceneLoaded = false;
 
-        //Loading grid controller
-        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
-        gameController = gameObj.GetComponent<GameController>();
-        gridDebugEnabled = false;
-
+        // Setting up: Editor window UI parameters
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
         VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(Settings.IsometricWorldDebugUI);
         StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(Settings.IsometricWorldDebugUIStyles);
-
-        // Adding debug label
         templateContainer = visualTree.Instantiate();
         root.Add(templateContainer);
         templateContainer.styleSheets.Add(styleSheet);
-
-        // Setting up Variables
         buttonStartDebug = templateContainer.Q<Button>(Settings.DebugStartButton);
         buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
-        buttonStartDebug.text = "In order to start, enter in Play mode";
+        buttonStartDebug.text = "In order to start, enter in Play mode . GameScene.";
         gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
         gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
@@ -106,21 +93,36 @@ public class GridDebugPanel : EditorWindow
     }
     private void Update()
     {
-        if (EditorApplication.isPlayingOrWillChangePlaymode)
+        if (EditorSceneManager.GetActiveScene().name != Settings.GameScene)
         {
-            if (gridDebugEnabled)
+            return;
+        }
+
+        if (!isGameSceneLoaded)
+        {
+            //Loading grid controller
+            GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
+            gameController = gameObj.GetComponent<GameController>();
+            gridDebugEnabled = false;
+        }
+        else
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
             {
-                SetBussGrid();
-                string debugText = " ";
-                debugText += DebugBussData();
-                debugText += GetPlayerStates();
-                //deubgText += EntireGridToText();, This will print the entire grid
-                gridDebugContent.text = debugText;
-            }
-            else
-            {
-                gridDebugContent.text = "";
-                gridDisplay.Clear();
+                if (gridDebugEnabled)
+                {
+                    SetBussGrid();
+                    string debugText = " ";
+                    debugText += DebugBussData();
+                    debugText += GetPlayerStates();
+                    //deubgText += EntireGridToText();, This will print the entire grid
+                    gridDebugContent.text = debugText;
+                }
+                else
+                {
+                    gridDebugContent.text = "";
+                    gridDisplay.Clear();
+                }
             }
         }
     }
