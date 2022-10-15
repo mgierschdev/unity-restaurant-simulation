@@ -104,6 +104,7 @@ public class GridDebugPanel : EditorWindow
             GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
             gameController = gameObj.GetComponent<GameController>();
             gridDebugEnabled = false;
+            isGameSceneLoaded = true;
         }
         else
         {
