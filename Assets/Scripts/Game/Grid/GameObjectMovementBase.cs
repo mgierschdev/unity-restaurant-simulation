@@ -13,7 +13,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     // Movement 
     private MoveDirection moveDirection;
-    private bool side; // false right, true left
+    private CharacterSide side; // false right, true left
 
     //Movement Queue
     private Queue pendingMovementQueue;
@@ -62,7 +62,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         //Update Object initial position
         currentTargetPosition = transform.position;
         FinalTarget = Util.GetVector3IntPositiveInfinity();
-        side = false; // The side in which the character is facing by default = false meaning right.
+        side = CharacterSide.RIGHT; // The side in which the character is facing by default = false meaning right.
         speedDecreaseEnergyBar = 20f;
 
         //Velocity for the 2D rigidbody
@@ -94,15 +94,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         MoveDirection m = GetDirectionFromPositions(Position, target);
         if (m == MoveDirection.LEFT || m == MoveDirection.DOWNLEFT || m == MoveDirection.UPLEFT)
         {
-            //flip left
+            //flip left 
+            FlipToSide(CharacterSide.LEFT);
         }
         else if (m == MoveDirection.RIGHT || m == MoveDirection.DOWNRIGHT || m == MoveDirection.UPRIGHT)
         {
             // flip right
-        }
-        else
-        {
-            //stay in your final position when up or down
+            FlipToSide(CharacterSide.RIGHT);
         }
     }
 
@@ -132,20 +130,20 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void UpdateObjectDirection()
     {
-        if (side && (moveDirection == MoveDirection.DOWN ||
+        if (side == CharacterSide.LEFT && (moveDirection == MoveDirection.DOWN ||
                      moveDirection == MoveDirection.UPRIGHT ||
                      moveDirection == MoveDirection.DOWNRIGHT ||
                      moveDirection == MoveDirection.RIGHT))
         {
-            side = false;
+            side = CharacterSide.RIGHT;
             FlipSide();
         }
-        else if (!side && (moveDirection == MoveDirection.UP ||
+        else if (side == CharacterSide.RIGHT && (moveDirection == MoveDirection.UP ||
                            moveDirection == MoveDirection.UPLEFT ||
                            moveDirection == MoveDirection.DOWNLEFT ||
                            moveDirection == MoveDirection.LEFT))
         {
-            side = true;
+            side = CharacterSide.LEFT;
             FlipSide();
         }
     }
@@ -158,9 +156,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     }
 
     // false right, true left    
-    private void FlipToSide(bool side)-
+    private void FlipToSide(CharacterSide flipSide)
     {
-
+        if(side == flipSide){
+            return;
+        }
+        else{
+            FlipSide();
+        }
     }
 
     protected void UpdateTargetMovement()
