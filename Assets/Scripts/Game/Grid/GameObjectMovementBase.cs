@@ -89,6 +89,23 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
+    protected void StandTowards(Vector3Int target)
+    {
+        MoveDirection m = GetDirectionFromPositions(Position, target);
+        if (m == MoveDirection.LEFT || m == MoveDirection.DOWNLEFT || m == MoveDirection.UPLEFT)
+        {
+            //flip left
+        }
+        else if (m == MoveDirection.RIGHT || m == MoveDirection.DOWNRIGHT || m == MoveDirection.UPRIGHT)
+        {
+            // flip right
+        }
+        else
+        {
+            //stay in your final position when up or down
+        }
+    }
+
     protected void UpdateEnergyBar()
     {
         // EnergyBar controller, only if it is active
@@ -138,6 +155,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Vector3 tmp = gameObject.transform.localScale;
         tmp.x = -tmp.x;
         transform.localScale = tmp;
+    }
+
+    // false right, true left    
+    private void FlipToSide(bool side)-
+    {
+
     }
 
     protected void UpdateTargetMovement()

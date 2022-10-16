@@ -52,6 +52,7 @@ public static class BussGrid
     public static GameController GameController { get; set; }
     private static MenuObjectList ObjectListConfiguration;
     private static bool DraggingObject;
+    public static GameObject ControllerGameObject {get; set;}
 
     public static void Init()
     {
@@ -151,10 +152,10 @@ public static class BussGrid
             {
                 continue;
             }
-            // debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, gameObject,
-            //     "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
-            //     tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
-            //     TextAnchor.MiddleCenter, TextAlignment.Center);
+            debugGrid[tile.GridPosition.x, tile.GridPosition.y] = Util.CreateTextObject(tile.GridPosition.x + "," + tile.GridPosition.y, ControllerGameObject,
+                "(" + tile.GridPosition.x + "," + tile.GridPosition.y + ") " + tile.WorldPosition.x + "," +
+                tile.WorldPosition.y, tile.WorldPosition, Settings.DebugTextSize, Color.black,
+                TextAnchor.MiddleCenter, TextAlignment.Center);
         }
     }
 
@@ -626,10 +627,13 @@ public static class BussGrid
     {
         return tablesWithClient.Count <= 0 ? null : Util.DequeueFromList(tablesWithClient);
     }
+    
     // It gets the closest free coord next to the target
-    public static Vector3Int GetClosestPathGridPoint(Vector3Int target)
+    //TODO: Improve so it will choose the closes path and the npc will stand towards the client
+    public static Vector3Int GetClosestPathGridPoint(Vector3Int currentPosition, Vector3Int target)
     {
         Vector3Int result = target;
+        int distance = int.MaxValue;
 
         for (int i = 0; i < arroundVectorPoints.GetLength(0); i++)
         {
@@ -639,7 +643,10 @@ public static class BussGrid
 
             if (IsCoordValid(x, y) && gridArray[x, y] == 0)
             {
-                result = tmp;
+                List<Node> path = BussGrid.GetPath(new[] { currentPosition.x, currentPosition.y }, new[] { target.x, target.y });
+                if(distance > path.Count && path.Count != 0){
+                     result = tmp;
+                }   
             }
         }
         return result;
