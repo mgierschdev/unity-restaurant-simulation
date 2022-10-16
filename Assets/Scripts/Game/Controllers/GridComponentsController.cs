@@ -15,6 +15,7 @@ public class GridComponentsController : MonoBehaviour
         BussGrid.TilemapBusinessFloor = GameObject.Find(Settings.TilemapBusinessFloor).GetComponent<Tilemap>();
         GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
         BussGrid.GameController = gameObj.GetComponent<GameController>();
+        BussGrid.ControllerGameObject = gameObject;
         BussGrid.Init();
     }
 }

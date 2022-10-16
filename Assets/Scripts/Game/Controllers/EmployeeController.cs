@@ -333,7 +333,7 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         Vector3Int localTarget = BussGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
-        CoordOfTableToBeAttended = BussGrid.GetClosestPathGridPoint(localTarget);
+        CoordOfTableToBeAttended = BussGrid.GetClosestPathGridPoint(Position, localTarget);
 
         // Meaning we did not find a correct spot to standup, we return
         // and enqueue de table to the list again 
