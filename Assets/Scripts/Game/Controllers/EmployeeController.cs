@@ -227,6 +227,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
+        StandTowards(CoordOfTableToBeAttended);
         localState = NpcState.TAKING_ORDER;
     }
 

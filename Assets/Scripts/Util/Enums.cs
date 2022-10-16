@@ -108,10 +108,15 @@ public enum StoreItemType
     UNDEFINED = 999
 }
 
-
 // Auth source
 public enum AuthSource
 {
     GOOGLE_PLAY = 1,
     UNDEFINED = 999
+}
+
+public enum CharacterSide
+{
+    LEFT = 0,
+    RIGHT = 1
 }
