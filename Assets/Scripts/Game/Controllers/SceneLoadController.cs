@@ -35,9 +35,9 @@ public class SceneLoadController : MonoBehaviour
         sliderProgress = sliderProgressObject.GetComponent<TextMeshProUGUI>();
 
         //Init firebase
-        Firestore.Init();
         firebase = new FirebaseLoad();
         await firebase.InitFirebase();
+        Firestore.Init();
         //await firebase.InitAuth(); ONLY after build
         auth = firebase.GetFirebaseAuth();
         userData = Firestore.GetUserData(Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.UserId);
