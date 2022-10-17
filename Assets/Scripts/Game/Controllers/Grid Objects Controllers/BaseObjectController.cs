@@ -115,7 +115,7 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
+        if (!Menu || !Menu.IsEditPanelOpen())
         {
             return;
         }
@@ -144,6 +144,9 @@ public class BaseObjectController : MonoBehaviour
             BussGrid.AddFreeBusinessSpots(gameGridObject);
             gameGridObject.SetIsObjectBeingDragged(false);
         }
+
+        //TODO: Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
+        //BussGrid.recalculateBussGrid();
     }
 
     private bool IsDraggable()

@@ -250,6 +250,7 @@ public class EmployeeController : GameObjectMovementBase
             {
                 localState = NpcState.IDLE;
             }
+            return;
         }
 
         StandTowards(tableToBeAttended.GetUsedBy().Position);//We flip the Employee -> CLient

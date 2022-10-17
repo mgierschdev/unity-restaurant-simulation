@@ -234,22 +234,6 @@ public class GridDebugPanel : EditorWindow
             objects += "<b>" + g.Name + " Stored: " + PlayerData.IsItemStored(g.Name) + " Has client: " + (g.GetUsedBy() != null) + "</b> \n";
         }
 
-        objects += "\n\n";
-
-        objects += "BusyBusinessSpotsMap size: " + BussGrid.GetBusyBusinessSpotsMap().Count + " \n";
-        foreach (GameGridObject g in BussGrid.GetBusyBusinessSpotsMap().Values)
-        {
-            objects += "<b>" + g.Name + "</b>\n";
-        }
-
-        objects += "\n\n";
-
-        objects += "FreeBusinessSpotsMap size: " + BussGrid.GetFreeBusinessSpotsMap().Count + " \n";
-        foreach (GameGridObject g in BussGrid.GetFreeBusinessSpotsMap().Values)
-        {
-            objects += "<b>" + g.Name + "</b>\n";
-        }
-
         return maps + " " + objects;
     }
 
