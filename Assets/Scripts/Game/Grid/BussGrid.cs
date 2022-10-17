@@ -36,13 +36,6 @@ public static class BussGrid
     public static Tilemap TilemapObjects { get; set; }
     private static List<GameTile> listObjectsTileMap;
     private static Dictionary<Vector3Int, GameTile> mapObjects;
-    //Prefabs in the TilemapObjects
-    public static Dictionary<string, GameGridObject> BusinessObjects { get; set; }
-    private static Dictionary<string, GameGridObject> busyBusinessSpotsMap;
-    private static Dictionary<string, GameGridObject> freeBusinessSpotsMap;
-    private static List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
-    private static List<GameGridObject> tablesWithClient;// Tables to attend or chairs
-    private static GameGridObject counter;
     //Business floors
     public static Tilemap TilemapBusinessFloor { get; set; }
     private static List<GameTile> listBusinessFloor;
@@ -52,6 +45,12 @@ public static class BussGrid
     private static MenuObjectList ObjectListConfiguration;
     private static bool DraggingObject;
     public static GameObject ControllerGameObject { get; set; }
+
+    //Buss Queues and map
+    public static Dictionary<string, GameGridObject> BusinessObjects { get; set; }
+    private static List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
+    private static List<GameGridObject> tablesWithClient;// Tables to attend or chairs
+    private static GameGridObject counter;
 
     public static void Init()
     {
@@ -71,8 +70,7 @@ public static class BussGrid
         listObjectsTileMap = new List<GameTile>();
         freeBusinessSpots = new List<GameGridObject>();
         tablesWithClient = new List<GameGridObject>();
-        freeBusinessSpotsMap = new Dictionary<string, GameGridObject>();
-        busyBusinessSpotsMap = new Dictionary<string, GameGridObject>();
+
         BusinessObjects = new Dictionary<string, GameGridObject>();
 
         mapWalkingPath = new Dictionary<Vector3Int, GameTile>();
@@ -268,7 +266,6 @@ public static class BussGrid
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             Util.EnqueueToList(freeBusinessSpots, obj);
-            freeBusinessSpotsMap.Add(obj.Name, obj);
             gridArray[obj.GridPosition.x, obj.GridPosition.y] = 1;
             gridArray[actionGridPosition.x, actionGridPosition.y] = -1;
         }
@@ -535,17 +532,51 @@ public static class BussGrid
         SetObjectObstacle(obj);
     }
 
+    // ******* ENQUEUES AND DEQUEUES
+    // Returns a free table to the NPC, if there is one 
     public static GameGridObject GetFreeTable()
     {
-        if (freeBusinessSpots.Count <= 0)
+        return freeBusinessSpots.Count <= 0 ? null : Util.DequeueFromList(freeBusinessSpots);
+    }
+
+    // Returns a table to the NPC Employee, if there is one 
+    public static GameGridObject GetTableWithClient()
+    {
+        return tablesWithClient.Count <= 0 ? null : Util.DequeueFromList(tablesWithClient);
+    }
+
+    public static void AddFreeBusinessSpots(GameGridObject obj)
+    {
+        if (freeBusinessSpots.Contains(obj))
         {
-            return null;
+            return;
         }
 
-        busyBusinessSpotsMap.Add(Util.PeekFromList(freeBusinessSpots).Name, Util.PeekFromList(freeBusinessSpots));
-        freeBusinessSpotsMap.Remove(Util.PeekFromList(freeBusinessSpots).Name);
-        return Util.DequeueFromList(freeBusinessSpots);
+        if (tablesWithClient.Contains(obj))
+        {
+            tablesWithClient.Remove(obj);
+        }
+
+        Util.EnqueueToList(freeBusinessSpots, obj);
+
     }
+
+    public static void AddClientToTable(GameGridObject obj)
+    {
+        if (tablesWithClient.Contains(obj))
+        {
+            return;
+        }
+
+        if (freeBusinessSpots.Contains(obj))
+        {
+            freeBusinessSpots.Remove(obj);
+        }
+
+        Util.EnqueueToList(tablesWithClient, obj);
+    }
+    // ******* ENQUEUES AND DEQUEUES
+
 
     public static bool IsThereFreeTables()
     {
@@ -555,21 +586,6 @@ public static class BussGrid
     public static bool IsThereCustomer()
     {
         return tablesWithClient.Count > 0;
-    }
-
-    public static bool IsTableInFreeBussSpot(GameGridObject obj)
-    {
-        return freeBusinessSpotsMap.ContainsKey(obj.Name);
-    }
-
-    public static bool IsTableBusy(GameGridObject obj)
-    {
-        return busyBusinessSpotsMap.ContainsKey(obj.Name);
-    }
-
-    public static void RemoveBusyBusinessSpots(GameGridObject obj)
-    {
-        busyBusinessSpotsMap.Remove(obj.Name);
     }
 
     public static void RemoveFromTablesWithClient(GameGridObject obj)
@@ -590,41 +606,13 @@ public static class BussGrid
 
         RemoveFromTablesWithClient(obj);
 
-        if (busyBusinessSpotsMap.ContainsKey(obj.Name))
-        {
-            busyBusinessSpotsMap.Remove(obj.Name);
-        }
-
-        if (freeBusinessSpotsMap.ContainsKey(obj.Name))
-        {
-            freeBusinessSpotsMap.Remove(obj.Name);
-        }
-
         if (obj.Type == ObjectType.NPC_COUNTER)
         {
             counter = null;
         }
     }
 
-    public static void AddFreeBusinessSpots(GameGridObject obj)
-    {
-        busyBusinessSpotsMap.Remove(obj.Name);
 
-        if (!freeBusinessSpotsMap.ContainsKey(obj.Name))
-        {
-            freeBusinessSpotsMap.Add(obj.Name, obj);
-        }
-
-        if (!freeBusinessSpots.Contains(obj))
-        {
-            Util.EnqueueToList(freeBusinessSpots, obj);
-        }
-    }
-
-    public static GameGridObject GetTableWithClient()
-    {
-        return tablesWithClient.Count <= 0 ? null : Util.DequeueFromList(tablesWithClient);
-    }
 
     // It gets the closest free coord next to the target
     //TODO: Improve so it will choose the closes path and the npc will stand towards the client
@@ -649,16 +637,6 @@ public static class BussGrid
             }
         }
         return result;
-    }
-
-    public static void AddClientToTable(GameGridObject obj)
-    {
-        if (tablesWithClient.Contains(obj))
-        {
-            return;
-        }
-
-        Util.EnqueueToList(tablesWithClient, obj);
     }
 
     // Used to highlight the current object being edited
@@ -833,16 +811,6 @@ public static class BussGrid
     public static List<GameTile> GetListBusinessFloor()
     {
         return listBusinessFloor;
-    }
-
-    public static Dictionary<string, GameGridObject> GetBusyBusinessSpotsMap()
-    {
-        return busyBusinessSpotsMap;
-    }
-
-    public static Dictionary<string, GameGridObject> GetFreeBusinessSpotsMap()
-    {
-        return freeBusinessSpotsMap;
     }
 
     public static List<GameGridObject> GetFreeBusinessSpots()

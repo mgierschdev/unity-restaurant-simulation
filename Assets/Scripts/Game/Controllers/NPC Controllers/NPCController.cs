@@ -135,6 +135,14 @@ public class NPCController : GameObjectMovementBase
         }
         localState = NpcState.WALKING_TO_TABLE;
         table = BussGrid.GetFreeTable();
+
+        if (table.GetUsedBy() != null)
+        {
+            GameLog.Log("The table is already being used by someone else");
+            GoToFinalState_4();
+            return;
+        }
+
         table.SetUsed(this);
         table.SetUsedBy(this);
         GoToWalkingToTable_6();
@@ -195,15 +203,15 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateIsAtRespawn_5()
     {
-        if (!IsMoving())
-        {
-            GoToFinalState_4();
-        }
-
         if (Util.IsAtDistanceWithObject(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
         {
             gameController.RemoveNpc(this);
             Destroy(gameObject);
+        }
+
+        if (!IsMoving())
+        {
+            GoToFinalState_4();
         }
     }
 
