@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EmployeeController : GameObjectMovementBase
 {
@@ -56,51 +58,57 @@ public class EmployeeController : GameObjectMovementBase
 
         // To Handle States
         // If the player removes the counter the employee goes away
-        if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
+        try
         {
-            UpdateGoToUnrespawn_1();
+            if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
+            {
+                UpdateGoToUnrespawn_1();
+            }
+            else if (localState == NpcState.WALKING_UNRESPAWN)
+            {
+                UpdaetIsAtUnrespawn_2();
+            }
+            else if (localState == NpcState.IDLE)
+            {
+                UpdateGoNextToCounter_3();
+            }
+            else if (localState == NpcState.WALKING_TO_COUNTER)
+            {
+                UpdateIsAtCounter_4();
+            }
+            else if (localState == NpcState.AT_COUNTER && BussGrid.IsThereCustomer() && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
+            {
+                UpdateAttendTable_5();
+            }
+            else if (localState == NpcState.WALKING_TO_TABLE)
+            {
+                UpdateIsTakingOrder_6();
+            }
+            else if (localState == NpcState.TAKING_ORDER)
+            {
+                UpdateTakeOrder_7();
+            }
+            else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER && CurrentEnergy >= 100)
+            {
+                UpdateOrderAttended_7();
+            }
+            else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
+            {
+                UpdateIsAtCounterAfterOrder_8();
+            }
+            else if (localState == NpcState.REGISTERING_CASH)
+            {
+                UpdateRegisterCash_9();
+            }
+            else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH && CurrentEnergy >= 100)
+            {
+                UpdateFinishRegistering_10();
+            }
         }
-        else if (localState == NpcState.WALKING_UNRESPAWN)
+        catch (Exception e)
         {
-            UpdaetIsAtUnrespawn_2();
+            GameLog.LogWarning("Exception thrown, likely missing reference: "+e);
         }
-        else if (localState == NpcState.IDLE)
-        {
-            UpdateGoNextToCounter_3();
-        }
-        else if (localState == NpcState.WALKING_TO_COUNTER)
-        {
-            UpdateIsAtCounter_4();
-        }
-        else if (localState == NpcState.AT_COUNTER && BussGrid.IsThereCustomer() && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
-        {
-            UpdateAttendTable_5();
-        }
-        else if (localState == NpcState.WALKING_TO_TABLE)
-        {
-            UpdateIsTakingOrder_6();
-        }
-        else if (localState == NpcState.TAKING_ORDER)
-        {
-            UpdateTakeOrder_7();
-        }
-        else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER && CurrentEnergy >= 100)
-        {
-            UpdateOrderAttended_7();
-        }
-        else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
-        {
-            UpdateIsAtCounterAfterOrder_8();
-        }
-        else if (localState == NpcState.REGISTERING_CASH)
-        {
-            UpdateRegisterCash_9();
-        }
-        else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH && CurrentEnergy >= 100)
-        {
-            UpdateFinishRegistering_10();
-        }
-
         // Intended to be at the end
         UpdateAnimation();
         UpdateTimeInState();
@@ -234,7 +242,6 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         localState = NpcState.TAKING_ORDER;
-
         StandTowards(tableToBeAttended.GetUsedBy().Position);//We flip the Employee -> CLient
         tableToBeAttended.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         tableToBeAttended.GetUsedBy().SetBeingAttended();
