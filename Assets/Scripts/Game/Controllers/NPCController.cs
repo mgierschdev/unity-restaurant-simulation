@@ -69,7 +69,7 @@ public class NPCController : GameObjectMovementBase
         {
             UpdateWaitToBeAttended_3();
         }
-        else if (localState == NpcState.WAITING_TO_BE_ATTENDED)
+        else if (localState == NpcState.ATTENDED)
         {
             GoToFinalState_4();
         }
@@ -297,5 +297,15 @@ public class NPCController : GameObjectMovementBase
     public void SetTable(GameGridObject obj)
     {
         table = obj;
+    }
+
+    public void FlipTowards(Vector3Int direction)
+    {
+        StandTowards(direction);
+    }
+
+    public void SetAttended()
+    {
+        localState = NpcState.ATTENDED;
     }
 }

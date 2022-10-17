@@ -135,8 +135,9 @@ public class EmployeeController : GameObjectMovementBase
         if (stateTime > MAX_TIME_IN_STATE)
         {
             // if we are already at the counter and the time passed the max time 
-            // there is no customers we stay at the counter
-            if(localState == NpcState.AT_COUNTER){
+            // there is no customers we stay at the counter, no need to RecalculateState()
+            if (localState == NpcState.AT_COUNTER)
+            {
                 return;
             }
 
@@ -170,8 +171,6 @@ public class EmployeeController : GameObjectMovementBase
         localState = NpcState.WALKING_TO_COUNTER;
         target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
 
-
-
         if (!GoTo(target))
         {
             //Go to counter if it is already at the counter we change the state
@@ -203,8 +202,14 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-        localState = NpcState.AT_COUNTER;
+        SetStateAtCounter(); //localState = NpcState.AT_COUNTER;
         idleTime = 0;
+    }
+
+    private void SetStateAtCounter()
+    {
+        StandTowards(BussGrid.GetCounter().GridPosition);
+        localState = NpcState.AT_COUNTER;
     }
 
     private void UpdateAttendTable_3()
@@ -227,7 +232,10 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-        StandTowards(CoordOfTableToBeAttended);
+
+        StandTowards(tableToBeAttended.GetUsedBy().Position);//We flip the Employee -> CLient
+        tableToBeAttended.GetUsedBy().FlipTowards(Position); // We flip client -> employee
+        tableToBeAttended.GetUsedBy().SetAttended();
         localState = NpcState.TAKING_ORDER;
     }
 
@@ -238,6 +246,7 @@ public class EmployeeController : GameObjectMovementBase
     }
 
     // The client was attended we return the free table and Add money to the wallet
+    // The client leaves the table onece the table is set as free
     private void UpdateOrderAttended_6()
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
@@ -248,9 +257,9 @@ public class EmployeeController : GameObjectMovementBase
             GameLog.LogWarning("Retryng: could not go to counter UpdateOrderAttended_6()");
             if (IsAtTargetPosition(target))
             {
-                localState = NpcState.AT_COUNTER;
+
+                SetStateAtCounter();
             }
-            //while (!GoToCounter() && Grid.GetCounter() != null) { }
         }
     }
 
@@ -260,6 +269,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
+        StandTowards(BussGrid.GetCounter().GridPosition);
         localState = NpcState.REGISTERING_CASH;
     }
 
@@ -271,7 +281,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateFinishRegistering_9()
     {
-        localState = NpcState.AT_COUNTER;
+        SetStateAtCounter();
         double orderCost = Random.Range(5, 10);
         //TODO: cost depending on the NPC order
         PlayerData.AddMoney(orderCost);
@@ -297,7 +307,7 @@ public class EmployeeController : GameObjectMovementBase
             {
                 if (IsAtTargetPosition(target))
                 {
-                    localState = NpcState.AT_COUNTER;
+                    SetStateAtCounter();
                 }
                 else
                 {
@@ -317,6 +327,7 @@ public class EmployeeController : GameObjectMovementBase
         target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
         return GoTo(target);
     }
+
     private void GoToTableToBeAttended()
     {
         if (tableToBeAttended == null)
