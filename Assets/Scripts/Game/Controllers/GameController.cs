@@ -110,11 +110,15 @@ public class GameController : MonoBehaviour
     }
 
     //Called when we click an object when we edit or when we store an object
-    
+
     //Recalculates the paths of moving NPCs or they current state depending on whether the grid changed
     public void ReCalculateNpcStates(GameGridObject obj)
     {
-        employeeController.RecalculateState(obj);
+        if (employeeController != null)
+        {
+            employeeController.RecalculateState(obj);
+        }
+        
         HashSet<GameGridObject> tablesWithClient = new HashSet<GameGridObject>();
 
         foreach (NPCController npcController in NpcSet)
