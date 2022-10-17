@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 // Controls NPCs players
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
@@ -52,32 +55,39 @@ public class NPCController : GameObjectMovementBase
         UpdatePosition();
         UpdateEnergyBar();
 
-        //Handle NPC States
-        if (localState == NpcState.WANDER)
+        try
         {
-            Wander_0();
-        }
-        else if (localState == NpcState.IDLE)
-        {
-            UpdateFindPlace_1();
-        }
-        else if (localState == NpcState.WALKING_TO_TABLE)
-        {
-            UpdateIsAtTable_2();
-        }
-        else if (localState == NpcState.AT_TABLE)
-        {
-            UpdateWaitToBeAttended_3();
-        }
-        else if (localState == NpcState.ATTENDED)
-        {
-            GoToFinalState_4();
-        }
-        else if (localState == NpcState.WALKING_UNRESPAWN)
-        {
-            UpdateIsAtRespawn_5();
-        }
 
+            //Handle NPC States
+            if (localState == NpcState.WANDER)
+            {
+                Wander_0();
+            }
+            else if (localState == NpcState.IDLE)
+            {
+                UpdateFindPlace_1();
+            }
+            else if (localState == NpcState.WALKING_TO_TABLE)
+            {
+                UpdateIsAtTable_2();
+            }
+            else if (localState == NpcState.AT_TABLE)
+            {
+                UpdateWaitToBeAttended_3();
+            }
+            else if (localState == NpcState.ATTENDED)
+            {
+                GoToFinalState_4();
+            }
+            else if (localState == NpcState.WALKING_UNRESPAWN)
+            {
+                UpdateIsAtRespawn_5();
+            }
+        }
+        catch (Exception e)
+        {
+            GameLog.LogWarning("Exception thrown, likely missing reference: " + e);
+        }
         // Intended to go at the end
         UpdateTimeInState();
         UpdateAnimation();

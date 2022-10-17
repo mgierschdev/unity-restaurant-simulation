@@ -118,7 +118,7 @@ public class GameController : MonoBehaviour
         {
             employeeController.RecalculateState(obj);
         }
-        
+
         HashSet<GameGridObject> tablesWithClient = new HashSet<GameGridObject>();
 
         foreach (NPCController npcController in NpcSet)
@@ -126,28 +126,26 @@ public class GameController : MonoBehaviour
             if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE || npcController.GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
             {
                 // This will be cheking in case any race condition/concurrency issue
+                // Or unusual final states 
                 GameGridObject currentTable = npcController.GetTable();
 
-                if (currentTable.GetAttendedBy() != npcController)
+                if (currentTable == null)
+                {
+                    continue;
+                }
+
+                // Meaning 2 NPC have the same table assigned at the same time
+                if (tablesWithClient.Contains(currentTable))
                 {
                     npcController.GoToFinalState();
                     continue;
                 }
-                else
-                {
-                    tablesWithClient.Add(currentTable);
-                }
+                tablesWithClient.Add(currentTable);
                 // This will be cheking in case any race condition
 
-                // If the current table has been stored, we reset NPC state 
-                if (PlayerData.IsItemStored(npcController.GetTable().Name))
-                {
-                    npcController.GoToFinalState_4();
-                }
-                else
-                {
-                    npcController.RecalculateGoTo();
-                }
+                // If not in any of the previous cases, we recalculate the path 
+                // since the grid might be changing
+                npcController.RecalculateGoTo();
             }
         }
     }

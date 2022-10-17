@@ -107,6 +107,9 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
+
+        // We free the object from being in any queue
+        gameGridObject.FreeWhileDragging();
     }
 
     // Called when the mouse is released 
