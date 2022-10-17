@@ -123,7 +123,7 @@ public class GameController : MonoBehaviour
 
         foreach (NPCController npcController in NpcSet)
         {
-            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE || npcController.GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
+            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE || npcController.GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED || npcController.GetNpcState() == NpcState.BEING_ATTENDED)
             {
                 // This will be cheking in case any race condition/concurrency issue
                 // Or unusual final states 
