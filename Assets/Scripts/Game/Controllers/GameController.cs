@@ -129,18 +129,16 @@ public class GameController : MonoBehaviour
                 // Or unusual final states 
                 GameGridObject currentTable = npcController.GetTable();
 
-                if (currentTable == null)
+                if (currentTable != null)
                 {
-                    continue;
+                    // Meaning 2 NPC have the same table assigned at the same time
+                    if (tablesWithClient.Contains(currentTable))
+                    {
+                        npcController.GoToFinalState();
+                        continue;
+                    }
+                    tablesWithClient.Add(currentTable);
                 }
-
-                // Meaning 2 NPC have the same table assigned at the same time
-                if (tablesWithClient.Contains(currentTable))
-                {
-                    npcController.GoToFinalState();
-                    continue;
-                }
-                tablesWithClient.Add(currentTable);
                 // This will be cheking in case any race condition
 
                 // If not in any of the previous cases, we recalculate the path 

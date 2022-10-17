@@ -164,7 +164,6 @@ public class GameGridObject : GameObjectBase
     {
         usedBy = null;
         attendedBy = null;
-        BussGrid.RemoveBusyBusinessSpots(this);
     }
 
     public void FreeWhileDragging()
