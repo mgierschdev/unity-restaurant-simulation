@@ -75,7 +75,7 @@ public enum NpcState
     WAITING_FOR_ENERGY_BAR_REGISTERING_CASH = 14,
     WALKING = 15,
     BEING_ATTENDED = 16,
-    ATTENDED = 16
+    ATTENDED = 17
 }
 
 // List of Menus
