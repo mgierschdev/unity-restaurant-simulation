@@ -572,6 +572,14 @@ public static class BussGrid
         busyBusinessSpotsMap.Remove(obj.Name);
     }
 
+    public static void RemoveFromTablesWithClient(GameGridObject obj)
+    {
+        if (tablesWithClient.Contains(obj))
+        {
+            tablesWithClient.Remove(obj);
+        }
+    }
+
     // We remove an active item to store it
     public static void RemoveBussTable(GameGridObject obj)
     {
@@ -580,10 +588,7 @@ public static class BussGrid
             freeBusinessSpots.Remove(obj);
         }
 
-        if (tablesWithClient.Contains(obj))
-        {
-            tablesWithClient.Remove(obj);
-        }
+        RemoveFromTablesWithClient(obj);
 
         if (busyBusinessSpotsMap.ContainsKey(obj.Name))
         {
