@@ -232,16 +232,17 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
+        localState = NpcState.TAKING_ORDER;
+
         StandTowards(tableToBeAttended.GetUsedBy().Position);//We flip the Employee -> CLient
         tableToBeAttended.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         tableToBeAttended.GetUsedBy().SetBeingAttended();
-        localState = NpcState.TAKING_ORDER;
     }
 
     private void UpdateTakeOrder_5()
     {
-        ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
         localState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
+        ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
     }
 
     // The client was attended we return the free table and Add money to the wallet
@@ -249,9 +250,10 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateOrderAttended_6()
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
+        Debug.Log("Setting attended to: " + tableToBeAttended.GetUsedBy().Name);
         tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended = null;
-        
+
         if (!GoToCounter())
         {
             GameLog.LogWarning("Retryng: could not go to counter UpdateOrderAttended_6()");
@@ -268,14 +270,14 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-        StandTowards(BussGrid.GetCounter().GridPosition);
         localState = NpcState.REGISTERING_CASH;
+        StandTowards(BussGrid.GetCounter().GridPosition);
     }
 
     private void UpdateRegisterCash_8()
     {
-        ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
         localState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
+        ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
     }
 
     private void UpdateFinishRegistering_9()

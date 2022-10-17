@@ -13,7 +13,7 @@ public class NPCController : GameObjectMovementBase
     // Wander properties
     private float idleTime;
     private const float IDLE_MAX_TIME = 3f; //in seconds
-    private const float MAX_TABLE_WAITING_TIME = 10f;
+    private const float MAX_TABLE_WAITING_TIME = 20f;
     private float randMax = 3f;
     private Vector3Int target; // walking to target
     private Vector3 targetInWorldPosition;
@@ -69,7 +69,7 @@ public class NPCController : GameObjectMovementBase
         {
             UpdateWaitToBeAttended_3();
         }
-        else if (localState == NpcState.BEING_ATTENDED)
+        else if (localState == NpcState.ATTENDED)
         {
             GoToFinalState_4();
         }
@@ -124,11 +124,10 @@ public class NPCController : GameObjectMovementBase
             localState = NpcState.WANDER;
             return;
         }
-
+        localState = NpcState.WALKING_TO_TABLE;
         table = BussGrid.GetFreeTable();
         table.SetUsed(this);
         table.SetUsedBy(this);
-        localState = NpcState.WALKING_TO_TABLE;
         GoToWalkingToTable_6();
     }
 
@@ -159,9 +158,8 @@ public class NPCController : GameObjectMovementBase
             table.FreeObject();
             table = null;
         }
-
-        ResetMovement();
         localState = NpcState.WALKING_UNRESPAWN;
+        ResetMovement();
         unRespawnTile = BussGrid.GetRandomSpamPointWorldPosition();
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
@@ -173,9 +171,9 @@ public class NPCController : GameObjectMovementBase
 
     public void GoToFinalState()
     {
+        localState = NpcState.WALKING_UNRESPAWN;
         table = null;
         ResetMovement();
-        localState = NpcState.WALKING_UNRESPAWN;
         unRespawnTile = BussGrid.GetRandomSpamPointWorldPosition();
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
