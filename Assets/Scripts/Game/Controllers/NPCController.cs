@@ -69,7 +69,7 @@ public class NPCController : GameObjectMovementBase
         {
             UpdateWaitToBeAttended_3();
         }
-        else if (localState == NpcState.ATTENDED)
+        else if (localState == NpcState.BEING_ATTENDED)
         {
             GoToFinalState_4();
         }
@@ -149,7 +149,7 @@ public class NPCController : GameObjectMovementBase
     public void GoToFinalState_4()
     {
 
-        if (table == null || table.GetBusy())
+        if (table == null || localState == NpcState.BEING_ATTENDED)
         {
             return;
         }
@@ -307,5 +307,10 @@ public class NPCController : GameObjectMovementBase
     public void SetAttended()
     {
         localState = NpcState.ATTENDED;
+    }
+
+    public void SetBeingAttended()
+    {
+        localState = NpcState.BEING_ATTENDED;
     }
 }

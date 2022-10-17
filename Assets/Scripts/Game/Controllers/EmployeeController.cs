@@ -234,7 +234,7 @@ public class EmployeeController : GameObjectMovementBase
 
         StandTowards(tableToBeAttended.GetUsedBy().Position);//We flip the Employee -> CLient
         tableToBeAttended.GetUsedBy().FlipTowards(Position); // We flip client -> employee
-        tableToBeAttended.GetUsedBy().SetAttended();
+        tableToBeAttended.GetUsedBy().SetBeingAttended();
         localState = NpcState.TAKING_ORDER;
     }
 
@@ -249,8 +249,9 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateOrderAttended_6()
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
-        tableToBeAttended.SetBusy(false);
+        tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended = null;
+        
         if (!GoToCounter())
         {
             GameLog.LogWarning("Retryng: could not go to counter UpdateOrderAttended_6()");
@@ -352,7 +353,7 @@ public class EmployeeController : GameObjectMovementBase
             GameLog.Log("We could not find a proper place to standup - GoToTableToBeAttended()");
             return;
         }
-        
+
         target = CoordOfTableToBeAttended;
 
         // we can attend the table from the position we are currently at the moment     

@@ -15,7 +15,6 @@ public class GameGridObject : GameObjectBase
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
     private ObjectRotation facingPosition; // Facing position
-    private bool busy; //Being used by an NPC
     private NPCController usedBy;
     private EmployeeController attendedBy;
     private GameObject editMenu;
@@ -144,14 +143,12 @@ public class GameGridObject : GameObjectBase
     public void SetUsed(NPCController npc)
     {
         usedBy = npc;
-        busy = true;
     }
 
     public void FreeObject()
     {
         usedBy = null;
         attendedBy = null;
-        busy = false;
         BussGrid.RemoveBusyBusinessSpots(this);
     }
 
@@ -390,12 +387,7 @@ public class GameGridObject : GameObjectBase
 
     public bool GetBusy()
     {
-        return busy;
-    }
-
-    public void SetBusy(bool val)
-    {
-        busy = val;
+        return usedBy != null;
     }
 
     public void SetUsedBy(NPCController controller)
