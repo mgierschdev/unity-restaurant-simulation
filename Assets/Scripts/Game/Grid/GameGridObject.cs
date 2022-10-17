@@ -112,7 +112,7 @@ public class GameGridObject : GameObjectBase
             attendedBy.SetTableToBeAttended(null);
         }
 
-        BussGrid.ReCalculateNpcStates(this);
+        BussGrid.GameController.ReCalculateNpcStates(this);
         Object.Destroy(objectTransform.gameObject);
     }
 

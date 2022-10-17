@@ -515,11 +515,6 @@ public static class BussGrid
         gridArray[pos.x, pos.y] = 0;
     }
 
-    public static void ReCalculateNpcStates(GameGridObject obj)
-    {
-        GameController.ReCalculateNpcStates(obj);
-    }
-
     public static void UpdateObjectPosition(GameGridObject gameGridObject)
     {
         gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
