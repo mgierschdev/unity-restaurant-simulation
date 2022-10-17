@@ -183,7 +183,6 @@ public class EmployeeController : GameObjectMovementBase
                 GameLog.LogWarning("Retrying: We could not find a path - UpdateGoNextToCounter_1() ");
                 localState = NpcState.IDLE;
             }
-
         }
     }
 
@@ -257,7 +256,6 @@ public class EmployeeController : GameObjectMovementBase
             GameLog.LogWarning("Retryng: could not go to counter UpdateOrderAttended_6()");
             if (IsAtTargetPosition(target))
             {
-
                 SetStateAtCounter();
             }
         }
