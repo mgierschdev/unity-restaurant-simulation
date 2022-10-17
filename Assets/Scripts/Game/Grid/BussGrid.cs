@@ -48,7 +48,6 @@ public static class BussGrid
     private static List<GameTile> listBusinessFloor;
     private static Dictionary<Vector3Int, GameTile> mapBusinessFloor;
     private static string currentClickedActiveGameObject;
-    private static int[,] arroundVectorPoints;
     public static GameController GameController { get; set; }
     private static MenuObjectList ObjectListConfiguration;
     private static bool DraggingObject;
@@ -116,8 +115,7 @@ public static class BussGrid
         gridArray = new int[Settings.GridHeight, Settings.GridWidth];
         debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
         currentClickedActiveGameObject = "";
-        arroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
-
+        
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listCollidersTileMap, TilemapColliders, mapColliders);
@@ -630,10 +628,10 @@ public static class BussGrid
         Vector3Int result = target;
         int distance = int.MaxValue;
 
-        for (int i = 0; i < arroundVectorPoints.GetLength(0); i++)
+        for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
         {
-            int x = arroundVectorPoints[i, 0] + target.x;
-            int y = arroundVectorPoints[i, 1] + target.y;
+            int x = Util.ArroundVectorPoints[i, 0] + target.x;
+            int y = Util.ArroundVectorPoints[i, 1] + target.y;
             Vector3Int tmp = new Vector3Int(x, y, 0);
 
             if (IsCoordValid(x, y) && gridArray[x, y] == 0)
@@ -724,20 +722,19 @@ public static class BussGrid
     //Gets the closest next tile to the object
     public static Vector3Int[] GetNextTile(GameGridObject gameGridObject)
     {
-        int[,] positions = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 2, 2 }, { 0, -2 }, { -2, 0 }, { 0, 2 }, { 2, 0 } };
-        int[,] side = new int[,] { { 0, 1 }, { 1, 0 } };
 
-        for (int i = 0; i < positions.GetLength(0); i++)
+
+        for (int i = 0; i < Util.AroundVectorPointsPlusTwo.GetLength(0); i++)
         {
-            Vector3Int offset = new Vector3Int(positions[i, 0], positions[i, 1], 0);
+            Vector3Int offset = new Vector3Int(Util.AroundVectorPointsPlusTwo[i, 0], Util.AroundVectorPointsPlusTwo[i, 1], 0);
             Vector3Int position = gameGridObject.GridPosition + offset;
 
 
             // Debug.Log(side[0, 0] + " " + side[0, 1] + " Actionpoint ");
-            Vector3Int actionPoint = position + new Vector3Int(side[0, 0], side[0, 1], 0);
+            Vector3Int actionPoint = position + new Vector3Int(Util.ObejectSide[0, 0], Util.ObejectSide[0, 1], 0);
 
             // Debug.Log(side[1, 0] + " " + side[1, 1] + " Actionpoint2 ");
-            Vector3Int actionPoint2 = position + new Vector3Int(side[1, 0], side[1, 1], 0);
+            Vector3Int actionPoint2 = position + new Vector3Int(Util.ObejectSide[1, 0], Util.ObejectSide[1, 1], 0);
 
             bool isClosingGrid = IsClosingIsland(position);
 
