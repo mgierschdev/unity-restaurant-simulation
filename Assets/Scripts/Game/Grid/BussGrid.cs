@@ -52,7 +52,7 @@ public static class BussGrid
     public static GameController GameController { get; set; }
     private static MenuObjectList ObjectListConfiguration;
     private static bool DraggingObject;
-    public static GameObject ControllerGameObject {get; set;}
+    public static GameObject ControllerGameObject { get; set; }
 
     public static void Init()
     {
@@ -377,10 +377,10 @@ public static class BussGrid
         // If we Highlight we are in edit mode
         TilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
     }
-
-    public static Vector3 GetGridWorldPositionMapMouseDrag()
+    // This snaps the object to the pathfinding grid position 
+    public static Vector3 GetGridWorldPositionMapMouseDrag(Vector3 worldPos)
     {
-        Vector3 currentPos = GetWorldFromPathFindingGridPositionWithOffSet(GetPathFindingGridFromWorldPosition(Util.GetMouseInWorldPosition()));
+        Vector3 currentPos = GetWorldFromPathFindingGridPositionWithOffSet(GetPathFindingGridFromWorldPosition(worldPos));
         //test
         Vector3 offset = new Vector3(0, 0.25f, 0);
         currentPos -= offset;
@@ -627,7 +627,7 @@ public static class BussGrid
     {
         return tablesWithClient.Count <= 0 ? null : Util.DequeueFromList(tablesWithClient);
     }
-    
+
     // It gets the closest free coord next to the target
     //TODO: Improve so it will choose the closes path and the npc will stand towards the client
     public static Vector3Int GetClosestPathGridPoint(Vector3Int currentPosition, Vector3Int target)
@@ -644,9 +644,10 @@ public static class BussGrid
             if (IsCoordValid(x, y) && gridArray[x, y] == 0)
             {
                 List<Node> path = BussGrid.GetPath(new[] { currentPosition.x, currentPosition.y }, new[] { target.x, target.y });
-                if(distance > path.Count && path.Count != 0){
-                     result = tmp;
-                }   
+                if (distance > path.Count && path.Count != 0)
+                {
+                    result = tmp;
+                }
             }
         }
         return result;
