@@ -1,8 +1,10 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 public class GameGridObject : GameObjectBase
 {
@@ -95,23 +97,37 @@ public class GameGridObject : GameObjectBase
     //Store Item in inventory
     private void StoreInInventory()
     {
-        GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
-        PlayerData.StoreItem(this);
-        BussGrid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current selected in the grid 
-        BussGrid.FreeObject(this);
-        if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
+        try
         {
-            BussGrid.RemoveBussTable(this);
-        }
+            GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
+            PlayerData.StoreItem(this);
+            BussGrid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current selected in the grid 
+            BussGrid.FreeObject(this);
+            if (Type == ObjectType.NPC_SINGLE_TABLE || Type == ObjectType.NPC_COUNTER)
+            {
+                BussGrid.RemoveBussTable(this);
+            }
 
-        // we clean the table from the employer
-        if (attendedBy != null)
+            // we clean the table from the employer
+            if (attendedBy != null)
+            {
+                attendedBy.SetTableToBeAttended(null);
+            }
+
+            // we clean the table from the client
+            if (usedBy != null)
+            {
+                usedBy.GoToFinalState_4();
+                usedBy = null;
+            }
+
+            BussGrid.GameController.ReCalculateNpcStates(this);
+            Object.Destroy(objectTransform.gameObject);
+        }
+        catch (Exception e)
         {
-            attendedBy.SetTableToBeAttended(null);
+            GameLog.LogWarning("Exception thrown, likely missing reference (StoreInInventory GameGridObject): " + e);
         }
-
-        BussGrid.GameController.ReCalculateNpcStates(this);
-        Object.Destroy(objectTransform.gameObject);
     }
 
     public bool IsLastPositionEqual(Vector3 actionGridPosition)
@@ -151,7 +167,8 @@ public class GameGridObject : GameObjectBase
         BussGrid.RemoveBusyBusinessSpots(this);
     }
 
-    public void FreeWhileDragging(){
+    public void FreeWhileDragging()
+    {
         ResetNPCStates();
         BussGrid.RemoveFromTablesWithClient(this);
     }
