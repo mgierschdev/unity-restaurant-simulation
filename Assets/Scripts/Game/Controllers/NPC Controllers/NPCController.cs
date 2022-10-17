@@ -85,7 +85,7 @@ public class NPCController : GameObjectMovementBase
         }
         catch (Exception e)
         {
-            GameLog.LogWarning("Exception thrown, likely missing reference: " + e);
+            GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate NPCController):  " + e);
         }
         // Intended to go at the end
         UpdateTimeInState();
@@ -167,6 +167,7 @@ public class NPCController : GameObjectMovementBase
             table.FreeObject();
             table = null;
         }
+
         localState = NpcState.WALKING_UNRESPAWN;
         ResetMovement();
         unRespawnTile = BussGrid.GetRandomSpamPointWorldPosition();

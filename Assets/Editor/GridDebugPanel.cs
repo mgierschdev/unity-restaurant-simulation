@@ -228,7 +228,7 @@ public class GridDebugPanel : EditorWindow
 
         maps += "\n\n";
 
-        objects += "businessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
+        objects += "BusinessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
         {
             objects += "<b>" + g.Name + " Stored: " + PlayerData.IsItemStored(g.Name) + " Has client: " + (g.GetUsedBy() != null) + "</b> \n";
@@ -290,7 +290,7 @@ public class GridDebugPanel : EditorWindow
 
         foreach (NPCController current in gameController.GetNpcSet())
         {
-            output += current.Name + " State: " + current.GetNpcState() + " Time in State: " + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
+            output += current.Name + " State: " + current.GetNpcState() + "(" + (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
         }
 
         return output;

@@ -107,7 +107,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         catch (Exception e)
         {
-            GameLog.LogWarning("Exception thrown, likely missing reference: "+e);
+            GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate EmployeeController): " + e);
         }
         // Intended to be at the end
         UpdateAnimation();
@@ -242,6 +242,16 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         localState = NpcState.TAKING_ORDER;
+
+        //the NPC left and the pointer to the table is null, we go to the counter
+        if (tableToBeAttended == null || tableToBeAttended.GetUsedBy() == null)
+        {
+            if (!RestartState())
+            {
+                localState = NpcState.IDLE;
+            }
+        }
+
         StandTowards(tableToBeAttended.GetUsedBy().Position);//We flip the Employee -> CLient
         tableToBeAttended.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         tableToBeAttended.GetUsedBy().SetBeingAttended();
