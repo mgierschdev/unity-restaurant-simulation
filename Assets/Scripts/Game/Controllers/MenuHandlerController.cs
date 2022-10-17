@@ -320,7 +320,7 @@ public class MenuHandlerController : MonoBehaviour
         // StartCoroutine(TestPlacingObjects(obj));
         // Load test debug
 
-        if (placeGameObject(obj))
+        if (placeGameObject(obj) != null)
         {
             PlayerData.Subtract(obj.Cost);
         }
@@ -394,7 +394,7 @@ public class MenuHandlerController : MonoBehaviour
         return menuStack.Count > 0;
     }
 
-    private static bool placeGameObject(StoreGameObject obj)
+    private static GameObject placeGameObject(StoreGameObject obj)
     {
         //Obj type to be used
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
@@ -417,10 +417,9 @@ public class MenuHandlerController : MonoBehaviour
                 {
                     newObject = Instantiate(Resources.Load(Settings.PrefabSingleTableFrontInverted, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 }
-                return true;
-                break;
+                return newObject;
             }
         }
-        return false;
+        return null;
     }
 }

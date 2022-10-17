@@ -352,10 +352,10 @@ public class EmployeeController : GameObjectMovementBase
             GameLog.Log("We could not find a proper place to standup - GoToTableToBeAttended()");
             return;
         }
+        
         target = CoordOfTableToBeAttended;
 
-
-        // we can attend the table from the position we are currently at the momment     
+        // we can attend the table from the position we are currently at the moment     
         // In case the table is placed next to the counter 
         if (isAlreadyAtTarget(localTarget))
         {
