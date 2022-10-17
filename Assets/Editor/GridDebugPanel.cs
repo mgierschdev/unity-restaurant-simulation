@@ -231,7 +231,7 @@ public class GridDebugPanel : EditorWindow
         objects += "businessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
         {
-            objects += "<b>" + g.Name + " has client: " + (g.GetUsedBy() != null) + "</b> \n";
+            objects += "<b>" + g.Name + " Stored: " + PlayerData.IsItemStored(g.Name) + " Has client: " + (g.GetUsedBy() != null) + "</b> \n";
         }
 
         objects += "\n\n";
