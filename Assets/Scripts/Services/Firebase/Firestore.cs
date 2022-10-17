@@ -6,7 +6,7 @@ using Firebase.Firestore;
 public static class Firestore
 {
     private static bool isFirebaseEnabled;
-    private static LogLevel logLevel = LogLevel.Verbose;
+    // private static LogLevel logLevel = LogLevel.Verbose;
     private static FirebaseFirestore firestore;
     private static DocumentReference docReference;
     private static string collectionName;
@@ -51,7 +51,6 @@ public static class Firestore
         if (PlayerData.EmailID == null)
         {
             throw new System.Exception("SaveUserData(). We cannot save an empty user.");
-            return null;
         }
 
         // GameLog.Log("Player ID " + PlayerData.EmailID);
