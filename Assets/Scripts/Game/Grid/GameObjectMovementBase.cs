@@ -123,12 +123,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         Position = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
-        sortingLayer.sortingOrder = Util.GetSorting(Position); //Sorting the layer depending on the player position
-        
-        if (transform.name.Contains("Employee"))
-        {
-            Debug.Log("Position+ " + Position + " Sorting order " + sortingLayer.sortingOrder);
-        }
+        sortingLayer.sortingOrder = Util.GetSorting(Position); //Sorting (sprite) the layer depending on the player position
     }
 
     private void UpdateObjectDirection()
@@ -172,11 +167,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         if (IsInTargetPosition())
         {
-            if (transform.name.Contains("Employee"))
-            {
-                Debug.Log("Target reached " + BussGrid.GetPathFindingGridFromWorldPosition(currentTargetPosition));
-            }
-
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
