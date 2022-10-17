@@ -20,7 +20,6 @@ public class GameGridObject : GameObjectBase
     private GameObject editMenu;
     private bool isObjectBeingDragged;
 
-
     public GameGridObject(Transform transform, ObjectRotation position, StoreGameObject storeGameObject)
     {
         objectTransform = transform;
@@ -154,8 +153,7 @@ public class GameGridObject : GameObjectBase
 
     public void FreeWhileDragging(){
         ResetNPCStates();
-
-       // BussGrid.RemoveBusyBusinessSpots(this);
+        BussGrid.RemoveFromTablesWithClient(this);
     }
 
     public Vector3 GetActionTile()

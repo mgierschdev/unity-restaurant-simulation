@@ -57,7 +57,6 @@ public class NPCController : GameObjectMovementBase
 
         try
         {
-
             //Handle NPC States
             if (localState == NpcState.WANDER)
             {
@@ -158,7 +157,7 @@ public class NPCController : GameObjectMovementBase
     public void GoToFinalState_4()
     {
 
-        if (table == null || localState == NpcState.BEING_ATTENDED)
+        if (table == null || (localState == NpcState.BEING_ATTENDED && stateTime < MAX_TABLE_WAITING_TIME))
         {
             return;
         }
