@@ -92,14 +92,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected void StandTowards(Vector3Int target)
     {
         MoveDirection m = GetDirectionFromPositions(Position, target);
-        if (m == MoveDirection.LEFT || m == MoveDirection.DOWNLEFT || m == MoveDirection.UPLEFT)
+        if (m == MoveDirection.LEFT || m == MoveDirection.DOWNLEFT || m == MoveDirection.UPLEFT || m == MoveDirection.UP)
         {
-            //flip left 
             FlipToSide(CharacterSide.LEFT);
         }
-        else if (m == MoveDirection.RIGHT || m == MoveDirection.DOWNRIGHT || m == MoveDirection.UPRIGHT)
+        else if (m == MoveDirection.RIGHT || m == MoveDirection.DOWNRIGHT || m == MoveDirection.UPRIGHT || m == MoveDirection.DOWN)
         {
-            // flip right
             FlipToSide(CharacterSide.RIGHT);
         }
     }
@@ -130,40 +128,39 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void UpdateObjectDirection()
     {
-        if (side == CharacterSide.LEFT && (moveDirection == MoveDirection.DOWN ||
+        if (side == CharacterSide.LEFT &&
+                    (moveDirection == MoveDirection.DOWN ||
                      moveDirection == MoveDirection.UPRIGHT ||
                      moveDirection == MoveDirection.DOWNRIGHT ||
                      moveDirection == MoveDirection.RIGHT))
         {
-            side = CharacterSide.RIGHT;
-            FlipSide();
+            FlipToSide(CharacterSide.RIGHT);
         }
-        else if (side == CharacterSide.RIGHT && (moveDirection == MoveDirection.UP ||
+        else if (side == CharacterSide.RIGHT &&
+                          (moveDirection == MoveDirection.UP ||
                            moveDirection == MoveDirection.UPLEFT ||
                            moveDirection == MoveDirection.DOWNLEFT ||
                            moveDirection == MoveDirection.LEFT))
         {
-            side = CharacterSide.LEFT;
-            FlipSide();
+            FlipToSide(CharacterSide.LEFT);
         }
     }
 
-    private void FlipSide()
-    {
-        Vector3 tmp = gameObject.transform.localScale;
-        tmp.x = -tmp.x;
-        transform.localScale = tmp;
-    }
-
-    // false right, true left    
     private void FlipToSide(CharacterSide flipSide)
     {
-        if(side == flipSide){
-            return;
+        Vector3 tmp = gameObject.transform.localScale;
+
+        if (flipSide == CharacterSide.LEFT)
+        {
+            tmp.x = tmp.x > 0 ? -tmp.x : tmp.x;
         }
-        else{
-            FlipSide();
+        else
+        {
+            tmp.x = tmp.x < 0 ? -tmp.x : tmp.x;
         }
+
+        transform.localScale = tmp;
+        side = flipSide;
     }
 
     protected void UpdateTargetMovement()

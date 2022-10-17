@@ -53,7 +53,7 @@ public class FirebaseLoad
             DependencyStatus dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
-                GameLog.Log("Firebase is loaded");
+                // GameLog.Log("Firebase is loaded");
                 isFirebaseLoaded = true;
             }
             else
