@@ -165,8 +165,8 @@ public static class PlayerData
             {FirestorePlayerAttributes.LEVEL, Level},
             {FirestorePlayerAttributes.FIREBASE_AUTH_ID, FireappAuthID},
             {FirestorePlayerAttributes.AUTH_TYPE, Auth},
-            {FirestorePlayerAttributes.LAST_LOGIN, FieldValue.ServerTimestamp},
-            {FirestorePlayerAttributes.CREATED_AT, FieldValue.ServerTimestamp}
+            {FirestorePlayerAttributes.LAST_LOGIN, FieldValue.ServerTimestamp}
+            // {FirestorePlayerAttributes.CREATED_AT, FieldValue.ServerTimestamp} //Setted only th first time
         };
     }
 
