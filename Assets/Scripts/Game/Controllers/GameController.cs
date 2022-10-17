@@ -136,7 +136,7 @@ public class GameController : MonoBehaviour
                 // This will be cheking in case any race condition
 
                 // If the current table has been stored, we reset NPC state 
-                if (BussGrid.IsTableStored(npcController.GetTable().Name))
+                if (PlayerData.IsItemStored(npcController.GetTable().Name))
                 {
                     npcController.GoToFinalState_4();
                 }
