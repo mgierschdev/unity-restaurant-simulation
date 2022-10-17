@@ -795,12 +795,7 @@ public static class BussGrid
         DFS(bGrid, x, y + 1);
         DFS(bGrid, x + 1, y);
     }
-
-    public static bool IsTableStored(string nameID)
-    {
-        return PlayerData.IsItemStored(nameID);
-    }
-
+    
     public static int GetObjectCount()
     {
         return BusinessObjects.Count;

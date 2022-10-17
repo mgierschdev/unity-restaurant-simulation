@@ -55,49 +55,50 @@ public class EmployeeController : GameObjectMovementBase
         UpdateEnergyBar();
 
         // To Handle States
-        if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN) //If the player removes the counter the employee goes away
+        // If the player removes the counter the employee goes away
+        if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
         {
-            UpdateGoToUnrespawn_0();
+            UpdateGoToUnrespawn_1();
         }
         else if (localState == NpcState.WALKING_UNRESPAWN)
         {
-            UpdaetIsAtUnrespawn_0();
+            UpdaetIsAtUnrespawn_2();
         }
         else if (localState == NpcState.IDLE)
         {
-            UpdateGoNextToCounter_1();
+            UpdateGoNextToCounter_3();
         }
         else if (localState == NpcState.WALKING_TO_COUNTER)
         {
-            UpdateIsAtCounter_2();
+            UpdateIsAtCounter_4();
         }
         else if (localState == NpcState.AT_COUNTER && BussGrid.IsThereCustomer() && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
         {
-            UpdateAttendTable_3();
+            UpdateAttendTable_5();
         }
         else if (localState == NpcState.WALKING_TO_TABLE)
         {
-            UpdateIsTakingOrder_4();
+            UpdateIsTakingOrder_6();
         }
         else if (localState == NpcState.TAKING_ORDER)
         {
-            UpdateTakeOrder_5();
+            UpdateTakeOrder_7();
         }
         else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER && CurrentEnergy >= 100)
         {
-            UpdateOrderAttended_6();
+            UpdateOrderAttended_7();
         }
         else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
-            UpdateIsAtCounterAfterOrder_7();
+            UpdateIsAtCounterAfterOrder_8();
         }
         else if (localState == NpcState.REGISTERING_CASH)
         {
-            UpdateRegisterCash_8();
+            UpdateRegisterCash_9();
         }
         else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH && CurrentEnergy >= 100)
         {
-            UpdateFinishRegistering_9();
+            UpdateFinishRegistering_10();
         }
 
         // Intended to be at the end
@@ -136,7 +137,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             // if we are already at the counter and the time passed the max time 
             // there is no customers we stay at the counter, no need to RecalculateState()
-            if (localState == NpcState.AT_COUNTER)
+            if (localState == NpcState.AT_COUNTER || BussGrid.GetCounter() == null)
             {
                 return;
             }
@@ -146,7 +147,7 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
     //First State
-    private void UpdateGoToUnrespawn_0()
+    private void UpdateGoToUnrespawn_1()
     {
         localState = NpcState.WALKING_UNRESPAWN;
         unRespawnTile = BussGrid.GetRandomSpamPointWorldPosition();
@@ -158,7 +159,7 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
 
-    private void UpdaetIsAtUnrespawn_0()
+    private void UpdaetIsAtUnrespawn_2()
     {
         if (Util.IsAtDistanceWithObject(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
         {
@@ -166,7 +167,7 @@ public class EmployeeController : GameObjectMovementBase
             Destroy(gameObject);
         }
     }
-    private void UpdateGoNextToCounter_1()
+    private void UpdateGoNextToCounter_3()
     {
         localState = NpcState.WALKING_TO_COUNTER;
         target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
@@ -195,7 +196,7 @@ public class EmployeeController : GameObjectMovementBase
         return false;
     }
 
-    private void UpdateIsAtCounter_2()
+    private void UpdateIsAtCounter_4()
     {
         if (!Util.IsAtDistanceWithObject(transform.position, BussGrid.GetCounter().GetActionTile()))
         {
@@ -211,7 +212,7 @@ public class EmployeeController : GameObjectMovementBase
         localState = NpcState.AT_COUNTER;
     }
 
-    private void UpdateAttendTable_3()
+    private void UpdateAttendTable_5()
     {
         // We can we idle and not attend the table
         float idleProbability = Random.Range(0, 100);
@@ -225,7 +226,7 @@ public class EmployeeController : GameObjectMovementBase
         GoToTableToBeAttended();
     }
 
-    private void UpdateIsTakingOrder_4()
+    private void UpdateIsTakingOrder_6()
     {
         if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(CoordOfTableToBeAttended), transform))
         {
@@ -239,7 +240,7 @@ public class EmployeeController : GameObjectMovementBase
         tableToBeAttended.GetUsedBy().SetBeingAttended();
     }
 
-    private void UpdateTakeOrder_5()
+    private void UpdateTakeOrder_7()
     {
         localState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
         ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
@@ -247,7 +248,7 @@ public class EmployeeController : GameObjectMovementBase
 
     // The client was attended we return the free table and Add money to the wallet
     // The client leaves the table onece the table is set as free
-    private void UpdateOrderAttended_6()
+    private void UpdateOrderAttended_7()
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         Debug.Log("Setting attended to: " + tableToBeAttended.GetUsedBy().Name);
@@ -264,7 +265,7 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
 
-    private void UpdateIsAtCounterAfterOrder_7()
+    private void UpdateIsAtCounterAfterOrder_8()
     {
         if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetCounter().GetActionTile(), transform))
         {
@@ -274,13 +275,13 @@ public class EmployeeController : GameObjectMovementBase
         StandTowards(BussGrid.GetCounter().GridPosition);
     }
 
-    private void UpdateRegisterCash_8()
+    private void UpdateRegisterCash_9()
     {
         localState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
         ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
     }
 
-    private void UpdateFinishRegistering_9()
+    private void UpdateFinishRegistering_10()
     {
         SetStateAtCounter();
         double orderCost = Random.Range(5, 10);
