@@ -353,10 +353,19 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
         target = CoordOfTableToBeAttended;
+
+
+        // we can attend the table from the position we are currently at the momment     
+        // In case the table is placed next to the counter 
+        if (isAlreadyAtTarget(localTarget))
+        {
+            target = Position;
+            CoordOfTableToBeAttended = Position;
+        }
+
         if (!GoTo(target))
         {
             GameLog.LogWarning("Retrying: We could not find a path - GoToTableToBeAttended()");
-            //while (!GoTo(target) && tableToBeAttended != null) { }
             return;
         }
     }
@@ -397,5 +406,20 @@ public class EmployeeController : GameObjectMovementBase
     public void SetTableToBeAttended(GameGridObject table)
     {
         tableToBeAttended = table;
+    }
+
+    //In case the table is placed next to the counter there is no need to calculate the path
+    public bool isAlreadyAtTarget(Vector3Int target)
+    {
+        for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
+        {
+            Vector3Int current = new Vector3Int(Position.x + Util.ArroundVectorPoints[i, 0], Position.y + Util.ArroundVectorPoints[i, 1]);
+
+            if (current == target)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
