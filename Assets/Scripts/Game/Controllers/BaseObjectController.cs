@@ -133,7 +133,7 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
 
         //We recalculate Paths once the object is placed
-        BussGrid.ReCalculateNpcStates(gameGridObject);
+        BussGrid.GameController.ReCalculateNpcStates(gameGridObject);
 
         //if it was a table we re-add it to the freeBussList
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
