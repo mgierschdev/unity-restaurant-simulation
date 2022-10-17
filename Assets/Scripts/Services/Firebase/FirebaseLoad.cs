@@ -41,6 +41,7 @@ public class FirebaseLoad
             {
                 return FirebaseApp.FixDependenciesAsync().ContinueWith(t =>
                 {
+                    GameLog.Log("Firebase: Loaded.");
                     return FirebaseApp.CheckDependenciesAsync();
                 }).Unwrap();
             }

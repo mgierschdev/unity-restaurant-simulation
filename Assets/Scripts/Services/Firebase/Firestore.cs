@@ -28,7 +28,7 @@ public static class Firestore
             if (!firestore.Settings.Host.Contains(Settings.FIRESTORE_HOST))
             {
                 firestore.Settings.Host = Settings.FIRESTORE_HOST;
-                firestore.Settings.SslEnabled = true;
+                firestore.Settings.SslEnabled = false;
             }
         }
     }
@@ -52,8 +52,11 @@ public static class Firestore
         {
             throw new System.Exception("SaveUserData(). We cannot save an empty user.");
         }
+        else
+        {
+            GameLog.Log("Firestore: Saving data in: " + PlayerData.EmailID);
+        }
 
-        // GameLog.Log("Player ID " + PlayerData.EmailID);
         DocumentReference testUser = firestore.Collection(Settings.USER_COLLECTION)?.Document(PlayerData.EmailID);
         Task save = testUser.SetAsync(docData, SetOptions.MergeAll);
         return save;

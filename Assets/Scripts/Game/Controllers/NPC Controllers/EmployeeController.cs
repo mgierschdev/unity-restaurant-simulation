@@ -269,7 +269,6 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateOrderAttended_7()
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
-        Debug.Log("Setting attended to: " + tableToBeAttended.GetUsedBy().Name);
         tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended = null;
 
