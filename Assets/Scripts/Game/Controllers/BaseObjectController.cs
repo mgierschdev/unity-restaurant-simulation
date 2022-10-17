@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Here we control the object drag and drop and the state of the NPCs during the drag
 public class BaseObjectController : MonoBehaviour
 {
     private Vector3 initialPosition;
@@ -87,7 +88,7 @@ public class BaseObjectController : MonoBehaviour
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
-        currentPos = BussGrid.GetGridWorldPositionMapMouseDrag();
+        currentPos = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
         //So it will overlay over the rest of the items while dragging
         Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
