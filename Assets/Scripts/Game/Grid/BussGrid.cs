@@ -115,7 +115,7 @@ public static class BussGrid
         gridArray = new int[Settings.GridHeight, Settings.GridWidth];
         debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
         currentClickedActiveGameObject = "";
-        
+
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listCollidersTileMap, TilemapColliders, mapColliders);
@@ -795,7 +795,7 @@ public static class BussGrid
         DFS(bGrid, x, y + 1);
         DFS(bGrid, x + 1, y);
     }
-    
+
     public static int GetObjectCount()
     {
         return BusinessObjects.Count;

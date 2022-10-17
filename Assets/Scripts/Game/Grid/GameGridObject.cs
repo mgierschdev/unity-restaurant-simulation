@@ -152,6 +152,12 @@ public class GameGridObject : GameObjectBase
         BussGrid.RemoveBusyBusinessSpots(this);
     }
 
+    public void FreeWhileDragging(){
+        ResetNPCStates();
+
+       // BussGrid.RemoveBusyBusinessSpots(this);
+    }
+
     public Vector3 GetActionTile()
     {
         // if doesnt have action point returns the object actual position
