@@ -142,8 +142,6 @@ public class NPCController : GameObjectMovementBase
             GoToFinalState_4();
             return;
         }
-
-        table.SetUsed(this);
         table.SetUsedBy(this);
         GoToWalkingToTable_6();
     }
@@ -209,7 +207,7 @@ public class NPCController : GameObjectMovementBase
             Destroy(gameObject);
         }
 
-        Debug.Log("UpdateIsAtRespawn_5(): NPC is moving? "+IsMoving());
+        //Debug.Log("UpdateIsAtRespawn_5(): NPC is moving? "+IsMoving());
 
         if (!IsMoving())
         {

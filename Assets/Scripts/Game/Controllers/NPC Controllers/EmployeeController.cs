@@ -270,6 +270,8 @@ public class EmployeeController : GameObjectMovementBase
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         tableToBeAttended.GetUsedBy().SetAttended();
+        tableToBeAttended.SetUsedBy(null);
+        BussGrid.AddFreeBusinessSpots(tableToBeAttended);//we re-add the table to the list so someone else can take it 
         tableToBeAttended = null;
 
         if (!GoToCounter())
@@ -351,15 +353,17 @@ public class EmployeeController : GameObjectMovementBase
     {
         if (tableToBeAttended == null)
         {
-            //GameLog.Log("Getting table with client: GoToTableToBeAttended()");
             tableToBeAttended = BussGrid.GetTableWithClient();
-            tableToBeAttended.SetAttendedBy(this);
 
             if (tableToBeAttended == null)
             {
                 GameLog.Log("There is no table to attend: GoToTableToBeAttended()");
                 localState = NpcState.IDLE;
                 return;
+            }
+            else
+            {
+                tableToBeAttended.SetAttendedBy(this);
             }
         }
 
