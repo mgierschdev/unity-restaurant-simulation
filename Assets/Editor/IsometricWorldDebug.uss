@@ -40,3 +40,9 @@
     border-bottom-color: rgb(0, 0, 0);
     background-color: rgb(44, 218, 238);
 }
+
+.grid-cell-npc {
+    background-color: rgba(255, 247, 69, 255);
+    width: 30px;
+    height: 30px;
+}
