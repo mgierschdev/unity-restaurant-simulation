@@ -514,8 +514,11 @@ public static class BussGrid
     public static void FreeObject(GameGridObject gameGridObject)
     {
         gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.EMPTY;
-        Vector3Int gridActionTile = gameGridObject.GetActionTileInGridPosition();//GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
-        gridArray[gridActionTile.x, gridActionTile.y] = 0;
+        if (gameGridObject.GetStoreGameObject().HasActionPoint)
+        {
+            Vector3Int gridActionTile = gameGridObject.GetActionTileInGridPosition();
+            gridArray[gridActionTile.x, gridActionTile.y] = 0;
+        }
     }
 
     public static void FreeCoord(Vector3Int pos)
