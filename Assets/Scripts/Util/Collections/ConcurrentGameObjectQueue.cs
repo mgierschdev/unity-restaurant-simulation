@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ConcurrentGameObjectQueue<T> : ConcurrentQueue<T>
 {
@@ -8,7 +9,6 @@ public class ConcurrentGameObjectQueue<T> : ConcurrentQueue<T>
     public ConcurrentGameObjectQueue()
     {
         set = new HashSet<T>();
-
     }
 
     public bool Contains(T obj)
@@ -29,7 +29,7 @@ public class ConcurrentGameObjectQueue<T> : ConcurrentQueue<T>
 
     public T TryDequeue()
     {
-        base.TryDequeue(out T tmp);
+        TryDequeue(out T tmp);
         set.Remove(tmp);
         return tmp;
     }
@@ -43,9 +43,9 @@ public class ConcurrentGameObjectQueue<T> : ConcurrentQueue<T>
 
         Queue<T> queue = new Queue<T>();
 
-        while (base.Count > 0)
+        while (Count > 0)
         {
-            base.TryDequeue(out T tmp);
+            TryDequeue(out T tmp);
 
             if (!tmp.Equals(element))
             {
@@ -55,7 +55,7 @@ public class ConcurrentGameObjectQueue<T> : ConcurrentQueue<T>
 
         while (queue.Count > 0)
         {
-            base.Enqueue(queue.Dequeue());
+            Enqueue(queue.Dequeue());
         }
     }
 }

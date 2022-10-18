@@ -225,7 +225,7 @@ public class GridDebugPanel : EditorWindow
         string objects = "";
         string maps = "";
 
-        maps += "Queue FreeBusinessSpots size: " + BussGrid.GetFreeBusinessSpots().Count + "\n";
+        maps += "Queue FreeBusinessSpots size: " + BussGrid.GetFreeBusinessSpots().Length + "\n";
         foreach (GameGridObject g in BussGrid.GetFreeBusinessSpots())
         {
             maps += "<b>" + g.Name + "</b> \n";
@@ -233,7 +233,7 @@ public class GridDebugPanel : EditorWindow
 
         maps += "\n\n";
 
-        maps += "Queue TablesWithClient size: " + BussGrid.GetTablesWithClient().Count + "\n";
+        maps += "Queue TablesWithClient size: " + BussGrid.GetTablesWithClient().Length + "\n";
         foreach (GameGridObject g in BussGrid.GetTablesWithClient())
         {
             maps += "<b>" + g.Name + "</b> \n";
