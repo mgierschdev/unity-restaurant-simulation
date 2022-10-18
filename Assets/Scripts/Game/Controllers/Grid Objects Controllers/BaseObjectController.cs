@@ -4,10 +4,14 @@ using UnityEngine;
 public class BaseObjectController : MonoBehaviour
 {
     private Vector3 initialPosition;
-    private Vector3 currentPos; //Current position of the object including while dragging
-    private bool currentValidPos; //Current valid position for the object including while dragging
-    //Initial object position
+    private Vector3Int initialGridPosition;
+    [SerializeField]
+    private Vector3 currentPos; // Current position of the object including while dragging
+    private bool iscurrentValidPos; // Is the current position valid for the object including while dragging
+    // Initial object position
+    [SerializeField]
     private Vector3Int initialActionTileOne;
+    [SerializeField]
     protected GameGridObject gameGridObject;
     protected ObjectRotation InitialObjectRotation;
     protected MenuHandlerController Menu { get; set; }
@@ -50,8 +54,11 @@ public class BaseObjectController : MonoBehaviour
         }
 
         BussGrid.SetActiveGameGridObject(gameGridObject);
-        initialActionTileOne = BussGrid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+        initialActionTileOne = gameGridObject.GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+        initialGridPosition = gameGridObject.GridPosition;
         initialPosition = transform.position;
+
+        Debug.Log("Get initial action tile: " + gameGridObject.GetActionTile() + " " + initialActionTileOne);
         BussGrid.SetDraggingObject(true);
         gameGridObject.SetIsObjectBeingDragged(true);
 
@@ -82,28 +89,30 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
-        //If dragging clean previous position on the grid
-        BussGrid.FreeCoord(BussGrid.GetPathFindingGridFromWorldPosition(initialPosition));
+        // If dragging clean previous position on the grid
+        BussGrid.FreeCoord(initialGridPosition);//BussGrid.GetPathFindingGridFromWorldPosition(initialPosition));
         BussGrid.FreeCoord(initialActionTileOne);
+
+        Debug.Log("Cleanning: Get initial action tile: " + gameGridObject.GetActionTile() + " " + initialActionTileOne);
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
         currentPos = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
-        //So it will overlay over the rest of the items while dragging
+        // So it will overlay over the rest of the items while dragging
         Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
 
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(currentGridPosition);
 
         if (BussGrid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
         {
-            currentValidPos = true;
+            iscurrentValidPos = true;
             gameGridObject.GetSpriteRenderer().color = Util.Available;
             gameGridObject.LightAvailableUnderTiles();
         }
         else
         {
-            currentValidPos = false;
+            iscurrentValidPos = false;
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
@@ -120,7 +129,7 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        if (currentValidPos)
+        if (iscurrentValidPos)
         {
             initialPosition = currentPos;
         }
@@ -145,8 +154,8 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.SetIsObjectBeingDragged(false);
         }
 
-        //TODO: Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
-        //BussGrid.recalculateBussGrid();
+        //Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
+       // BussGrid.RecalculateBussGrid();
     }
 
     private bool IsDraggable()

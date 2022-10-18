@@ -183,6 +183,29 @@ public class GameGridObject : GameObjectBase
         return actionTiles[actionTile].transform.position;
     }
 
+    public Vector3Int GetActionTileInGridPosition()
+    {
+        //Gets the orientation and then + 1 ...
+        if (facingPosition == ObjectRotation.FRONT)
+        {
+            return GridPosition + new Vector3Int(0, 1);
+        }
+        else if (facingPosition == ObjectRotation.FRONT_INVERTED)
+        {
+            return GridPosition + new Vector3Int(1, 0);
+        }
+        else if (facingPosition == ObjectRotation.BACK)
+        {
+            return GridPosition + new Vector3Int(0, -1);
+        }
+        else
+        {
+            return GridPosition + new Vector3Int(-1, 0);
+        }
+
+        return new Vector3Int();
+    }
+
     public void RotateObjectRight()
     {
         if (!IsValidRotation(1)) //right
