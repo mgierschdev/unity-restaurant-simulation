@@ -141,11 +141,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             npcPrevPositions.Enqueue(current);
             BussGrid.MarkNPCPosition(Position);
 
-            Debug.Log("time: " + npcPrevPositions.Peek().val1 + " " + Time.fixedTime + " " + (Time.fixedTime - npcPrevPositions.Peek().val1) + " " + npcPrevPositions.Count);
-
+            //GameLog.Log("time: " + npcPrevPositions.Peek().val1 + " " + Time.fixedTime + " " + (Time.fixedTime - npcPrevPositions.Peek().val1) + " " + npcPrevPositions.Count);
             if (Time.fixedTime - npcPrevPositions.Peek().val1 > timeBeforeRemoving)
             {
-                // Debug.Log("time: " + (Time.deltaTime - npcPrevPositions.Peek().val1));
                 while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().val1 > timeBeforeRemoving))
                 {
                     positionAdded.Remove(npcPrevPositions.Peek().val2);
