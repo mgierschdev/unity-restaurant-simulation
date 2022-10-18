@@ -61,6 +61,7 @@ public class GameGridObject : GameObjectBase
             actionTileSpriteRenderer,
             secondActionTileSprite
         };
+        
         UpdateRotation(position);
         SetEditPanelClickListeners();
         Init();
@@ -154,11 +155,6 @@ public class GameGridObject : GameObjectBase
     {
         spriteRenderer.color = Util.Available;
         editMenu.SetActive(true);
-    }
-
-    public void SetUsed(NPCController npc)
-    {
-        usedBy = npc;
     }
 
     public void FreeObject()
