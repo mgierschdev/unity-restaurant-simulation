@@ -125,9 +125,9 @@ public enum CharacterSide
 
 public enum CellValue
 {
+    NPC_POSITION = -2,
+    ACTION_POINT = -1,
     EMPTY = 0,
     BUSY = 1,
-    ACTION_POINT = -1,
-    VISITED = 2 //For DFS operations
-
+    VISITED = 2 //For DFS operations,
 }

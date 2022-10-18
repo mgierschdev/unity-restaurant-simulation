@@ -18,6 +18,7 @@ public class GridDebugPanel : EditorWindow
     private const string EMPTY_CELL_STYLE = "grid-cell-empty";
     private const string BUSY_CELL_STYLE = "grid-cell-busy";
     private const string ACTION_CELL_STYLE = "grid-cell-action";
+    private const string NPC_BUSY_CELL_STYLE = "grid-cell-npc";
 
     [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
     public static void RunMainScene()
@@ -167,7 +168,15 @@ public class GridDebugPanel : EditorWindow
 
             for (int j = jStart; j < jEnd; j++)
             {
-                newGrid[indexX, indexY] = grid[i, j];
+
+                if (BussGrid.IsThereNPCInPosition(new Vector3Int(i, j)))
+                {
+                    newGrid[indexX, indexY] = -2;
+                }
+                else
+                {
+                    newGrid[indexX, indexY] = grid[i, j];
+                }
 
                 indexY++;
             }
@@ -178,9 +187,9 @@ public class GridDebugPanel : EditorWindow
         newGrid = Util.TransposeGridForDebugging(newGrid);
 
         // We set the Display
-        //We set the max size of the editor display
+        // We set the max size of the editor display
         gridDisplay.style.width = newGrid.GetLength(0) * 30;
-        //we clean prev childs
+        // We clean prev childs
         gridDisplay.Clear();
 
         for (int i = 0; i < newGrid.GetLength(0); i++)
@@ -190,17 +199,21 @@ public class GridDebugPanel : EditorWindow
                 VisualElement cell = new VisualElement();
                 gridDisplay.Add(cell);
 
-                if (newGrid[i, j] == (int) CellValue.EMPTY)
+                if(newGrid[i, j] == (int)CellValue.NPC_POSITION){
+                    cell.AddToClassList(NPC_BUSY_CELL_STYLE);
+                    continue;
+                }
+
+                if (newGrid[i, j] == (int)CellValue.EMPTY)
                 {
                     cell.AddToClassList(EMPTY_CELL_STYLE);
                 }
-                else if (newGrid[i, j] == (int) CellValue.BUSY)
+                else if (newGrid[i, j] == (int)CellValue.BUSY)
                 {
                     cell.AddToClassList(BUSY_CELL_STYLE);
                 }
                 else
                 {
-                    //Action cell
                     cell.AddToClassList(ACTION_CELL_STYLE);
                 }
             }

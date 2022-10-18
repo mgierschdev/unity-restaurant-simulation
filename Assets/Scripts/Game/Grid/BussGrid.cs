@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -52,6 +53,9 @@ public static class BussGrid
     private static List<GameGridObject> tablesWithClient;// Tables to attend or chairs
     private static GameGridObject counter;
 
+    //Position list with NPCs
+    private static ConcurrentDictionary<Vector3Int, byte> positionsAdded;
+
     public static void Init()
     {
         // TILEMAP DATA 
@@ -78,6 +82,9 @@ public static class BussGrid
 
         listBusinessFloor = new List<GameTile>();
         mapBusinessFloor = new Dictionary<Vector3Int, GameTile>();
+
+        // Path marking attributes
+        positionsAdded = new ConcurrentDictionary<Vector3Int, byte>();
 
         //ObjectListConfiguration
         ObjectListConfiguration = new MenuObjectList();
@@ -778,6 +785,22 @@ public static class BussGrid
         DFS(bGrid, x - 1, y);
         DFS(bGrid, x, y + 1);
         DFS(bGrid, x + 1, y);
+    }
+
+    public static void RemoveMarkNPCPosition(Vector3Int pos)
+    {
+        positionsAdded.TryRemove(pos, out byte val);
+    }
+
+    public static void MarkNPCPosition(Vector3Int pos)
+    {
+        byte val = 0;
+        positionsAdded.TryAdd(pos, val);
+    }
+
+    public static bool IsThereNPCInPosition(Vector3Int pos)
+    {
+        return positionsAdded.ContainsKey(pos);
     }
 
     // This evaluates that the Grid is representing properly every object position
