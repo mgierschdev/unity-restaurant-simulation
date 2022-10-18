@@ -49,8 +49,9 @@ public static class BussGrid
 
     //Buss Queues and map
     public static Dictionary<string, GameGridObject> BusinessObjects { get; set; }
-    private static List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
-    private static List<GameGridObject> tablesWithClient;// Tables to attend or chairs
+    // private static List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
+    private static ConcurrentGameObjectQueue<GameGridObject> freeBusinessSpots;
+    private static ConcurrentGameObjectQueue<GameGridObject> tablesWithClient;// Tables to attend or chairs
     private static GameGridObject counter;
 
     //Position list with NPCs
@@ -72,8 +73,9 @@ public static class BussGrid
 
         mapObjects = new Dictionary<Vector3Int, GameTile>();
         listObjectsTileMap = new List<GameTile>();
-        freeBusinessSpots = new List<GameGridObject>();
-        tablesWithClient = new List<GameGridObject>();
+        //freeBusinessSpots = new List<GameGridObject>();
+        freeBusinessSpots = new ConcurrentGameObjectQueue<GameGridObject>();
+        tablesWithClient = new ConcurrentGameObjectQueue<GameGridObject>();
 
         BusinessObjects = new Dictionary<string, GameGridObject>();
 
@@ -272,7 +274,8 @@ public static class BussGrid
         BusinessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            Util.EnqueueToList(freeBusinessSpots, obj);
+            //Util.EnqueueToList(freeBusinessSpots, obj);
+            freeBusinessSpots.Enqueue(obj);
             gridArray[obj.GridPosition.x, obj.GridPosition.y] = (int)CellValue.BUSY;
             gridArray[actionGridPosition.x, actionGridPosition.y] = (int)CellValue.ACTION_POINT;
         }
@@ -552,13 +555,15 @@ public static class BussGrid
     // Returns a free table to the NPC, if there is one 
     public static GameGridObject GetFreeTable()
     {
-        return freeBusinessSpots.Count <= 0 ? null : Util.DequeueFromList(freeBusinessSpots);
+        freeBusinessSpots.TryDequeue(out GameGridObject result);
+        return freeBusinessSpots.Count <= 0 ? null : result;//Util.DequeueFromList(freeBusinessSpots);
     }
 
     // Returns a table to the NPC Employee, if there is one 
     public static GameGridObject GetTableWithClient()
     {
-        return tablesWithClient.Count <= 0 ? null : Util.DequeueFromList(tablesWithClient);
+        tablesWithClient.TryDequeue(out GameGridObject result);
+        return tablesWithClient.Count <= 0 ? null : result;
     }
 
     public static void AddFreeBusinessSpots(GameGridObject obj)
@@ -567,14 +572,7 @@ public static class BussGrid
         {
             return;
         }
-
-        if (tablesWithClient.Contains(obj))
-        {
-            tablesWithClient.Remove(obj);
-        }
-
-        Util.EnqueueToList(freeBusinessSpots, obj);
-
+        freeBusinessSpots.Enqueue(obj);
     }
 
     public static void AddClientToTable(GameGridObject obj)
@@ -584,12 +582,9 @@ public static class BussGrid
             return;
         }
 
-        if (freeBusinessSpots.Contains(obj))
-        {
-            freeBusinessSpots.Remove(obj);
-        }
-
-        Util.EnqueueToList(tablesWithClient, obj);
+        //if does not contain it it will not remove it 
+        freeBusinessSpots.Remove(obj);
+        tablesWithClient.Enqueue(obj);
     }
     // ******* ENQUEUES AND DEQUEUES
 
@@ -615,10 +610,12 @@ public static class BussGrid
     // We remove an active item to store it
     public static void RemoveBussTable(GameGridObject obj)
     {
-        if (freeBusinessSpots.Contains(obj))
-        {
-            freeBusinessSpots.Remove(obj);
-        }
+        // if (freeBusinessSpots.Contains(obj))
+        // {
+        //     freeBusinessSpots.Remove(obj);
+        // }
+        // IfConcurrentQueueContainsRemove(obj, freeBusinessSpots);
+        freeBusinessSpots.Remove(obj);
 
         RemoveFromTablesWithClient(obj);
 
@@ -628,7 +625,25 @@ public static class BussGrid
         }
     }
 
+    // public static void IfConcurrentQueueContainsRemove(GameGridObject obj, ConcurrentQueue<GameGridObject> queue)
+    // {
+    //     queue.
+    //     // GameGridObject[] arr = queue.ToArray();
+    //     // Queue<GameGridObject> tmpQueue = new Queue<GameGridObject>();
 
+    //     // foreach (GameGridObject currentObj in arr)
+    //     // {
+    //     //     if (currentObj != obj)
+    //     //     {
+    //     //         tmpQueue.Enqueue(currentObj);
+    //     //     }
+    //     // }
+    //     // queue.Clear();
+
+    //     // while(tmpQueue.Count > 0){
+    //     //     queue.Enqueue(tmpQueue.Dequeue());
+    //     // }
+    // }
 
     // It gets the closest free coord next to the target
     //TODO: Improve so it will choose the closes path and the npc will stand towards the client
@@ -890,12 +905,12 @@ public static class BussGrid
         return listBusinessFloor;
     }
 
-    public static List<GameGridObject> GetFreeBusinessSpots()
+    public static ConcurrentQueue<GameGridObject> GetFreeBusinessSpots()
     {
         return freeBusinessSpots;
     }
 
-    public static List<GameGridObject> GetTablesWithClient()
+    public static ConcurrentGameObjectQueue<GameGridObject> GetTablesWithClient()
     {
         return tablesWithClient;
     }
