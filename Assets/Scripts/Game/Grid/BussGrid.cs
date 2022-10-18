@@ -665,7 +665,7 @@ public static class BussGrid
     {
         int[,] busGrid = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
         int[,] gridClone = (int[,])gridArray.Clone();
-        gridClone[position.x, position.y] = (int) CellValue.BUSY;
+        gridClone[position.x, position.y] = (int)CellValue.BUSY;
 
         int minX = int.MaxValue;
         int minY = int.MaxValue;
@@ -768,12 +768,12 @@ public static class BussGrid
     private static void DFS(int[,] bGrid, int x, int y)
     {
         // grid =  2, means visited
-        if (x < 0 || y < 0 || x >= bGrid.GetLength(0) || y >= bGrid.GetLength(1) || bGrid[x, y] == (int) CellValue.VISITED || bGrid[x, y] == (int) CellValue.BUSY)
+        if (x < 0 || y < 0 || x >= bGrid.GetLength(0) || y >= bGrid.GetLength(1) || bGrid[x, y] == (int)CellValue.VISITED || bGrid[x, y] == (int)CellValue.BUSY)
         {
             return;
         }
 
-        bGrid[x, y] = (int) CellValue.VISITED;
+        bGrid[x, y] = (int)CellValue.VISITED;
         DFS(bGrid, x, y - 1);
         DFS(bGrid, x - 1, y);
         DFS(bGrid, x, y + 1);
@@ -796,14 +796,12 @@ public static class BussGrid
         {
             Vector3Int current = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y);
 
-            if (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.BUSY && !positions.Contains(current))
+            if ((gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.BUSY && !positions.Contains(current)) ||
+            (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.ACTION_POINT && !actionPositions.Contains(current))
+            )
             {
-                Debug.Log("Invalid position " + current);
-            }
-
-            if (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.ACTION_POINT && !actionPositions.Contains(current))
-            {
-                Debug.Log("Invalid action position " + current);
+                //we clean the invalid position   
+                gridArray[tile.GridPosition.x, tile.GridPosition.y] = (int) CellValue.EMPTY;
             }
         }
     }
