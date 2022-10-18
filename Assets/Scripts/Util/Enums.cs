@@ -122,3 +122,12 @@ public enum CharacterSide
     LEFT = 0,
     RIGHT = 1
 }
+
+public enum CellValue
+{
+    EMPTY = 0,
+    BUSY = 1,
+    ACTION_POINT = -1,
+    VISITED = 2 //For DFS operations
+
+}
