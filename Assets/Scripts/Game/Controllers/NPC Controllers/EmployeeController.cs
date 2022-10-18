@@ -178,7 +178,7 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateGoNextToCounter_3()
     {
         localState = NpcState.WALKING_TO_COUNTER;
-        target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
+        target = BussGrid.GetCounter().GetActionTileInGridPosition();
 
         if (!GoTo(target))
         {
@@ -394,7 +394,7 @@ public class EmployeeController : GameObjectMovementBase
     public bool RestartState()
     {
         ResetMovement();
-        target = BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
+        target = BussGrid.GetCounter().GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
 
         if (!GoTo(target))
         {

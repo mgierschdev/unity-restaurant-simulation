@@ -215,7 +215,7 @@ public class GameGridObject : GameObjectBase
 
         ResetNPCStates();
 
-        Vector3Int prev = BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
+        Vector3Int prev = GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
         facingPosition++;
 
         if ((int)facingPosition >= 5)
@@ -223,7 +223,7 @@ public class GameGridObject : GameObjectBase
             facingPosition = ObjectRotation.FRONT;
         }
         UpdateRotation(facingPosition);
-        Vector3Int post = BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
+        Vector3Int post = GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
         BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
     }
@@ -238,7 +238,7 @@ public class GameGridObject : GameObjectBase
 
         ResetNPCStates();
 
-        Vector3Int prev = BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
+        Vector3Int prev = GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
         facingPosition--;
 
         if ((int)facingPosition <= 0)
@@ -247,7 +247,7 @@ public class GameGridObject : GameObjectBase
         }
 
         UpdateRotation(facingPosition);
-        Vector3Int post = BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
+        Vector3Int post = GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
         BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
         UpdateCoords();
     }
