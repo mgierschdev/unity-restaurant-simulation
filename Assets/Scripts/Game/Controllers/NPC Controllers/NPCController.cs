@@ -209,6 +209,8 @@ public class NPCController : GameObjectMovementBase
             Destroy(gameObject);
         }
 
+        Debug.Log("UpdateIsAtRespawn_5(): NPC is moving? "+IsMoving());
+
         if (!IsMoving())
         {
             GoToFinalState_4();
@@ -219,7 +221,7 @@ public class NPCController : GameObjectMovementBase
     private void GoToWalkingToTable_6()
     {
         targetInWorldPosition = table.GetActionTile();
-        target = table.GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(targetInWorldPosition);
+        target = table.GetActionTileInGridPosition();
 
         //If we are already at the table
         if (target == Position)
