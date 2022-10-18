@@ -58,7 +58,6 @@ public class BaseObjectController : MonoBehaviour
         initialGridPosition = gameGridObject.GridPosition;
         initialPosition = transform.position;
 
-        Debug.Log("Get initial action tile: " + gameGridObject.GetActionTile() + " " + initialActionTileOne);
         BussGrid.SetDraggingObject(true);
         gameGridObject.SetIsObjectBeingDragged(true);
 
@@ -91,7 +90,12 @@ public class BaseObjectController : MonoBehaviour
         }
         // If dragging clean previous position on the grid
         BussGrid.FreeCoord(initialGridPosition);
-        BussGrid.FreeCoord(initialActionTileOne);
+        ObjectType gameObjType = gameGridObject.Type;
+        
+        if (gameObjType == ObjectType.NPC_COUNTER || gameObjType == ObjectType.NPC_SINGLE_TABLE)
+        {
+            BussGrid.FreeCoord(initialActionTileOne);
+        }
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
