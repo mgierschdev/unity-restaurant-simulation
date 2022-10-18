@@ -155,7 +155,8 @@ public class BaseObjectController : MonoBehaviour
         }
 
         //Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
-       // BussGrid.RecalculateBussGrid();
+        // or updating in an inconsistent way
+        BussGrid.RecalculateBussGrid();
     }
 
     private bool IsDraggable()

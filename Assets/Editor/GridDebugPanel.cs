@@ -190,11 +190,11 @@ public class GridDebugPanel : EditorWindow
                 VisualElement cell = new VisualElement();
                 gridDisplay.Add(cell);
 
-                if (newGrid[i, j] == 0)
+                if (newGrid[i, j] == (int) CellValue.EMPTY)
                 {
                     cell.AddToClassList(EMPTY_CELL_STYLE);
                 }
-                else if (newGrid[i, j] == 1)
+                else if (newGrid[i, j] == (int) CellValue.BUSY)
                 {
                     cell.AddToClassList(BUSY_CELL_STYLE);
                 }
