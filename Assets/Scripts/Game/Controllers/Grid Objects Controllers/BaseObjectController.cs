@@ -90,9 +90,8 @@ public class BaseObjectController : MonoBehaviour
         }
         // If dragging clean previous position on the grid
         BussGrid.FreeCoord(initialGridPosition);
-        ObjectType gameObjType = gameGridObject.Type;
         
-        if (gameObjType == ObjectType.NPC_COUNTER || gameObjType == ObjectType.NPC_SINGLE_TABLE)
+        if (gameGridObject.GetStoreGameObject().HasActionPoint)
         {
             BussGrid.FreeCoord(initialActionTileOne);
         }
