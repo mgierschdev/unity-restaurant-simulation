@@ -811,20 +811,32 @@ public static class BussGrid
 
         foreach (GameGridObject gObj in BusinessObjects.Values)
         {
-            positions.Add(gObj.GridPosition);
+            Vector3Int currentGrid = gObj.GridPosition;
+            positions.Add(currentGrid);
             actionPositions.Add(gObj.GetActionTileInGridPosition());
+
+            // The grid is empty and there is an object
+            if (gridArray[currentGrid.x, currentGrid.y] == (int)CellValue.EMPTY)
+            {
+                gridArray[currentGrid.x, currentGrid.y] = (int)CellValue.BUSY;
+            }
+
+            if (gridArray[currentGrid.x, currentGrid.y] == (int)CellValue.EMPTY && gObj.GetStoreGameObject().HasActionPoint)
+            {
+                gridArray[currentGrid.x, currentGrid.y] = (int)CellValue.ACTION_POINT;
+            }
         }
 
         foreach (GameTile tile in listBusinessFloor)
         {
             Vector3Int current = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y);
 
+            // The grid is busy and there is no object
             if ((gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.BUSY && !positions.Contains(current)) ||
-            (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.ACTION_POINT && !actionPositions.Contains(current))
-            )
+            (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.ACTION_POINT && !actionPositions.Contains(current)))
             {
                 //we clean the invalid position   
-                GameLog.Log("Cleanning infalid position in RecalculateBussGrid()");
+                //GameLog.Log("Cleanning infalid position in RecalculateBussGrid()");
                 gridArray[tile.GridPosition.x, tile.GridPosition.y] = (int)CellValue.EMPTY;
             }
         }
