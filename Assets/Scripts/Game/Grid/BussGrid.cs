@@ -161,7 +161,7 @@ public static class BussGrid
         {
             for (int j = 0; j < gridArray.GetLength(1); j++)
             {
-                gridArray[i, j] = 1;
+                gridArray[i, j] = (int)CellValue.BUSY;
             }
         }
     }
@@ -220,12 +220,12 @@ public static class BussGrid
 
                 if (tileType == TileType.WALKABLE_PATH)
                 {
-                    gridArray[gridPosition.x, gridPosition.y] = 0;
+                    gridArray[gridPosition.x, gridPosition.y] = (int)CellValue.EMPTY;
                 }
 
                 if (tileType == TileType.BUS_FLOOR)
                 {
-                    gridArray[gridPosition.x, gridPosition.y] = 0;
+                    gridArray[gridPosition.x, gridPosition.y] = (int)CellValue.EMPTY;
                 }
 
                 if (tileType == TileType.SPAM_POINT)
@@ -266,16 +266,16 @@ public static class BussGrid
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             Util.EnqueueToList(freeBusinessSpots, obj);
-            gridArray[obj.GridPosition.x, obj.GridPosition.y] = 1;
-            gridArray[actionGridPosition.x, actionGridPosition.y] = -1;
+            gridArray[obj.GridPosition.x, obj.GridPosition.y] = (int)CellValue.BUSY;
+            gridArray[actionGridPosition.x, actionGridPosition.y] = (int)CellValue.ACTION_POINT;
         }
         else
         {
-            gridArray[obj.GridPosition.x, obj.GridPosition.y] = 1;
+            gridArray[obj.GridPosition.x, obj.GridPosition.y] = (int)CellValue.BUSY;
 
             if (obj.Type == ObjectType.NPC_COUNTER)
             {
-                gridArray[actionGridPosition.x, actionGridPosition.y] = -1;
+                gridArray[actionGridPosition.x, actionGridPosition.y] = (int)CellValue.ACTION_POINT;
             }
         }
 
@@ -311,14 +311,14 @@ public static class BussGrid
         // If it doesnt have aciton point we just check that is doesnt close any island and that is valid buss pos and valid coord
         if (!gameGridObject.GetStoreGameObject().HasActionPoint)
         {
-            return IsValidBussCoord(currentGridPos) && gridArray[currentGridPos.x, currentGridPos.y] == 0;
+            return IsValidBussCoord(currentGridPos) && gridArray[currentGridPos.x, currentGridPos.y] == (int)CellValue.EMPTY;
         }
 
         // If the coords are ousite the perimter we return false, or if the position is different than 0
         if (!IsCoordValid(currentGridPos.x, currentGridPos.y) ||
         !IsCoordValid(currentActionPointInGrid.x, currentActionPointInGrid.y) ||
-        gridArray[currentActionPointInGrid.x, currentActionPointInGrid.y] != 0 ||
-        gridArray[currentGridPos.x, currentGridPos.y] != 0
+        gridArray[currentActionPointInGrid.x, currentActionPointInGrid.y] != (int)CellValue.EMPTY ||
+        gridArray[currentGridPos.x, currentGridPos.y] != (int)CellValue.EMPTY
         )
         {
             return false;
@@ -390,7 +390,7 @@ public static class BussGrid
 
     public static List<Node> GetPath(int[] start, int[] end)
     {
-        if (gridArray[start[0], start[1]] == 1 || gridArray[end[0], end[1]] == 1)
+        if (gridArray[start[0], start[1]] == (int)CellValue.BUSY || gridArray[end[0], end[1]] == (int)CellValue.BUSY)
         {
             return new List<Node>();
         }
@@ -489,7 +489,7 @@ public static class BussGrid
             return;
         }
 
-        gridArray[x, y] = 0;
+        gridArray[x, y] = (int)CellValue.EMPTY;
     }
 
     public static void SwapCoords(int x1, int y1, int x2, int y2)
@@ -500,23 +500,23 @@ public static class BussGrid
     // called when the object is destroyed
     public static void FreeObject(GameGridObject gameGridObject)
     {
-        gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 0;
+        gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.EMPTY;
         Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         gridArray[gridActionTile.x, gridActionTile.y] = 0;
     }
 
     public static void FreeCoord(Vector3Int pos)
     {
-        gridArray[pos.x, pos.y] = 0;
+        gridArray[pos.x, pos.y] = (int)CellValue.EMPTY;
     }
 
     public static void UpdateObjectPosition(GameGridObject gameGridObject)
     {
-        gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = 1;
+        gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.BUSY;
         if (gameGridObject.GetStoreGameObject().HasActionPoint)
         {
             Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
-            gridArray[gridActionTile.x, gridActionTile.y] = -1;
+            gridArray[gridActionTile.x, gridActionTile.y] = (int)CellValue.ACTION_POINT;
         }
     }
 
@@ -627,7 +627,7 @@ public static class BussGrid
             int y = Util.ArroundVectorPoints[i, 1] + target.y;
             Vector3Int tmp = new Vector3Int(x, y, 0);
 
-            if (IsCoordValid(x, y) && gridArray[x, y] == 0)
+            if (IsCoordValid(x, y) && gridArray[x, y] == (int)CellValue.EMPTY)
             {
                 List<Node> path = BussGrid.GetPath(new[] { currentPosition.x, currentPosition.y }, new[] { target.x, target.y });
                 if (distance > path.Count && path.Count != 0)
@@ -665,7 +665,7 @@ public static class BussGrid
     {
         int[,] busGrid = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
         int[,] gridClone = (int[,])gridArray.Clone();
-        gridClone[position.x, position.y] = 1;
+        gridClone[position.x, position.y] = (int) CellValue.BUSY;
 
         int minX = int.MaxValue;
         int minY = int.MaxValue;
@@ -767,12 +767,13 @@ public static class BussGrid
 
     private static void DFS(int[,] bGrid, int x, int y)
     {
-        if (x < 0 || y < 0 || x >= bGrid.GetLength(0) || y >= bGrid.GetLength(1) || bGrid[x, y] == 2 || bGrid[x, y] == 1)
+        // grid =  2, means visited
+        if (x < 0 || y < 0 || x >= bGrid.GetLength(0) || y >= bGrid.GetLength(1) || bGrid[x, y] == (int) CellValue.VISITED || bGrid[x, y] == (int) CellValue.BUSY)
         {
             return;
         }
 
-        bGrid[x, y] = 2;
+        bGrid[x, y] = (int) CellValue.VISITED;
         DFS(bGrid, x, y - 1);
         DFS(bGrid, x - 1, y);
         DFS(bGrid, x, y + 1);
@@ -780,14 +781,32 @@ public static class BussGrid
     }
 
     // This evaluates that the Grid is representing properly every object position
-    // public static void RecalculateBussGrid()
-    // {
-    //     foreach (GameGridObject gObj in BusinessObjects.Values)
-    //     {
-    //         Debug.Log(gObj.Name + " Grid Position: " + gObj.GridPosition +" "+gObj.GetActionTile());
-    //     }
-    //     Debug.Log("***********************");
-    // }
+    public static void RecalculateBussGrid()
+    {
+        HashSet<Vector3Int> positions = new HashSet<Vector3Int>();
+        HashSet<Vector3Int> actionPositions = new HashSet<Vector3Int>();
+
+        foreach (GameGridObject gObj in BusinessObjects.Values)
+        {
+            positions.Add(gObj.GridPosition);
+            actionPositions.Add(gObj.GetActionTileInGridPosition());
+        }
+
+        foreach (GameTile tile in listBusinessFloor)
+        {
+            Vector3Int current = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y);
+
+            if (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.BUSY && !positions.Contains(current))
+            {
+                Debug.Log("Invalid position " + current);
+            }
+
+            if (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.ACTION_POINT && !actionPositions.Contains(current))
+            {
+                Debug.Log("Invalid action position " + current);
+            }
+        }
+    }
 
     public static int GetObjectCount()
     {
