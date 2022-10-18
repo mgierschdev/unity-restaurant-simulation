@@ -37,6 +37,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected Rigidbody2D rb2D;
     private float speed;
 
+    // Attributes for temporaly marking the path of the NPC on the grid
+    // This will help to void placing objects on top of the NPC
+    private HashSet<Vector3Int> positionAdded;
+    private Queue<ObjectPair<float, Vector3Int>> npcPrevPositions;
+    private float timeBeforeRemoving = 0.1f;
+
     private void Awake()
     {
         //Setting default init name
@@ -67,6 +73,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         //Velocity for the 2D rigidbody
         rb2D = transform.GetComponent<Rigidbody2D>();
         speed = Settings.NpcDefaultMovementSpeed;
+
+        // Path marking attributes
+        positionAdded = new HashSet<Vector3Int>();
+        npcPrevPositions = new Queue<ObjectPair<float, Vector3Int>>();
     }
 
     // Overlap sphere
@@ -120,7 +130,30 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         Position = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
-        sortingLayer.sortingOrder = Util.GetSorting(Position); //Sorting (sprite) the layer depending on the player position
+        //Sorting (sprite) the layer depending on the player position
+        sortingLayer.sortingOrder = Util.GetSorting(Position);
+        // We mark the grid with the current NPC position
+
+        if (!positionAdded.Contains(Position))
+        {
+            positionAdded.Add(Position);// we add once and we remove inside the co-routine
+            ObjectPair<float, Vector3Int> current = new ObjectPair<float, Vector3Int>(Time.fixedTime, Position);
+            npcPrevPositions.Enqueue(current);
+            BussGrid.MarkNPCPosition(Position);
+
+            Debug.Log("time: " + npcPrevPositions.Peek().val1 + " " + Time.fixedTime + " " + (Time.fixedTime - npcPrevPositions.Peek().val1) + " " + npcPrevPositions.Count);
+
+            if (Time.fixedTime - npcPrevPositions.Peek().val1 > timeBeforeRemoving)
+            {
+                // Debug.Log("time: " + (Time.deltaTime - npcPrevPositions.Peek().val1));
+                while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().val1 > timeBeforeRemoving))
+                {
+                    positionAdded.Remove(npcPrevPositions.Peek().val2);
+                    BussGrid.RemoveMarkNPCPosition(npcPrevPositions.Peek().val2);
+                    npcPrevPositions.Dequeue();
+                }
+            }
+        }
     }
 
     private void UpdateObjectDirection()
@@ -238,7 +271,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void ResetMovement()
     {
-        currentTargetPosition = transform.position; // we are already at target and not moving
+        // we are already at target and not moving
+        currentTargetPosition = transform.position;
         pendingMovementQueue = new Queue();
         if (energyBar.IsActive())
         {
