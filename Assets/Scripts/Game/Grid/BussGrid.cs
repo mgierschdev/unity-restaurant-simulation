@@ -817,6 +817,11 @@ public static class BussGrid
 
         foreach (GameGridObject gObj in BusinessObjects.Values)
         {
+            if (PlayerData.IsItemStored(gObj.Name))
+            {
+                continue;
+            }
+
             Vector3Int currentGrid = gObj.GridPosition;
             positions.Add(currentGrid);
             actionPositions.Add(gObj.GetActionTileInGridPosition());
