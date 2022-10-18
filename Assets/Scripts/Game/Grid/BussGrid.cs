@@ -309,6 +309,12 @@ public static class BussGrid
             return false;
         }
 
+        // You cannot place a table on top if there is a NPC on that coord
+        if (IsThereNPCInPosition(currentGridPos))
+        {
+            return false;
+        }
+
         // If we are at the initial grid position we return true
         if (worldPos == gameGridObject.WorldPosition)
         {
