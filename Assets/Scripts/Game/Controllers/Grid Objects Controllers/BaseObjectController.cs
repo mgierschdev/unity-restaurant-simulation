@@ -90,10 +90,8 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
         // If dragging clean previous position on the grid
-        BussGrid.FreeCoord(initialGridPosition);//BussGrid.GetPathFindingGridFromWorldPosition(initialPosition));
+        BussGrid.FreeCoord(initialGridPosition);
         BussGrid.FreeCoord(initialActionTileOne);
-
-        Debug.Log("Cleanning: Get initial action tile: " + gameGridObject.GetActionTile() + " " + initialActionTileOne);
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
