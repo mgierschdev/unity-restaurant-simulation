@@ -394,7 +394,7 @@ public class EmployeeController : GameObjectMovementBase
     public bool RestartState()
     {
         ResetMovement();
-        target = BussGrid.GetCounter().GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(BussGrid.GetCounter().GetActionTile());
+        target = BussGrid.GetCounter().GetActionTileInGridPosition();
 
         if (!GoTo(target))
         {

@@ -36,7 +36,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private SortingGroup sortingLayer;
     protected Rigidbody2D rb2D;
     private float speed;
-    private bool isMoving;
 
     private void Awake()
     {
@@ -68,8 +67,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         //Velocity for the 2D rigidbody
         rb2D = transform.GetComponent<Rigidbody2D>();
         speed = Settings.NpcDefaultMovementSpeed;
-
-        isMoving = false;
     }
 
     // Overlap sphere
@@ -175,7 +172,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             {
                 //target reached 
                 moveDirection = MoveDirection.IDLE;
-                isMoving = false;
             }
         }
         else
@@ -230,7 +226,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected bool IsMoving()
     {
-        return isMoving;
+        return pendingMovementQueue.Count != 0;
     }
 
     // Resets the planned Path
@@ -389,7 +385,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return false;
         }
 
-        isMoving = true;
         AddStateHistory("Time: " + Time.fixedTime + " steps: " + path.Count + " t: " + pos.x + "," + pos.y);
         FinalTarget = pos;
         AddPath(path);
