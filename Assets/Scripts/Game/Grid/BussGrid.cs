@@ -779,6 +779,16 @@ public static class BussGrid
         DFS(bGrid, x + 1, y);
     }
 
+    // This evaluates that the Grid is representing properly every object position
+    // public static void RecalculateBussGrid()
+    // {
+    //     foreach (GameGridObject gObj in BusinessObjects.Values)
+    //     {
+    //         Debug.Log(gObj.Name + " Grid Position: " + gObj.GridPosition +" "+gObj.GetActionTile());
+    //     }
+    //     Debug.Log("***********************");
+    // }
+
     public static int GetObjectCount()
     {
         return BusinessObjects.Count;
