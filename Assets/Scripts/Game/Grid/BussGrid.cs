@@ -261,7 +261,7 @@ public static class BussGrid
 
     private static void SetObjectObstacle(GameGridObject obj)
     {
-        Vector3Int actionGridPosition = GetPathFindingGridFromWorldPosition(obj.GetActionTile());
+        Vector3Int actionGridPosition = obj.GetActionTileInGridPosition();//GetPathFindingGridFromWorldPosition(obj.GetActionTile());
         BusinessObjects.Add(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
@@ -501,7 +501,7 @@ public static class BussGrid
     public static void FreeObject(GameGridObject gameGridObject)
     {
         gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.EMPTY;
-        Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+        Vector3Int gridActionTile = gameGridObject.GetActionTileInGridPosition();//GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
         gridArray[gridActionTile.x, gridActionTile.y] = 0;
     }
 
@@ -515,7 +515,7 @@ public static class BussGrid
         gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.BUSY;
         if (gameGridObject.GetStoreGameObject().HasActionPoint)
         {
-            Vector3Int gridActionTile = GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+            Vector3Int gridActionTile = gameGridObject.GetActionTileInGridPosition();// GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
             gridArray[gridActionTile.x, gridActionTile.y] = (int)CellValue.ACTION_POINT;
         }
     }
@@ -801,7 +801,8 @@ public static class BussGrid
             )
             {
                 //we clean the invalid position   
-                gridArray[tile.GridPosition.x, tile.GridPosition.y] = (int) CellValue.EMPTY;
+                GameLog.Log("Cleanning infalid position in RecalculateBussGrid()");
+                gridArray[tile.GridPosition.x, tile.GridPosition.y] = (int)CellValue.EMPTY;
             }
         }
     }
