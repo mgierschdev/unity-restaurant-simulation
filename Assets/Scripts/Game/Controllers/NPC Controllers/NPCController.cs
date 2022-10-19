@@ -133,7 +133,7 @@ public class NPCController : GameObjectMovementBase
             localState = NpcState.WANDER;
             return;
         }
-        
+
         localState = NpcState.WALKING_TO_TABLE;
 
         if (BussGrid.GetFreeTable(out table))
@@ -159,8 +159,14 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateWaitToBeAttended_3()
     {
-        BussGrid.AddClientToTable(table);
-        localState = NpcState.WAITING_TO_BE_ATTENDED;
+        if (BussGrid.AddClientToTable(table, this))
+        {
+            localState = NpcState.WAITING_TO_BE_ATTENDED;
+        }
+        else
+        {
+            GoToFinalState_4();
+        }
     }
 
     public void GoToFinalState_4()
@@ -173,6 +179,8 @@ public class NPCController : GameObjectMovementBase
 
         if (table != null)
         {
+            BussGrid.RemoveFromTablesWithClient(table);
+            BussGrid.AddFreeBusinessSpots(table);
             table.FreeObject();
             table = null;
         }
