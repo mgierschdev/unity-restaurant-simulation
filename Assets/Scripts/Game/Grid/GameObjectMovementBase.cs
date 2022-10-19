@@ -415,7 +415,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (path.Count == 0)
         {
-            GameLog.Log("No path found " + transform.name + " From " + Position + " to " + pos);
+            //GameLog.Log("No path found " + transform.name + " From " + Position + " to " + pos);
             return false;
         }
 

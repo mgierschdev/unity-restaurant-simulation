@@ -108,7 +108,7 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
-        
+
         // If dragging clean previous position on the grid
         BussGrid.FreeCoordWhileDragging(initialGridPosition, initialActionTileOne, gameGridObject);
     }
@@ -185,5 +185,10 @@ public class BaseObjectController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public GameGridObject GetGameGridObject()
+    {
+        return gameGridObject;
     }
 }

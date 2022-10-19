@@ -83,12 +83,14 @@ public static class Settings
     public const string ConstCenterTabMenu = "CenterPanel";
     public const string ConstCenterScrollContent = "ViewPanel/MainContent/ScrollView/Viewport/Content";
     public const string ConstLeftDownPanel = "LeftDownPanel";
-    public const string ConstEditStoreMenuPanel = "EditStoreMenu";
+    //spublic const string ConstEditStoreMenuPanel = "EditStoreMenu";
     public const string ConstEditItemMenuPanel = "EditItem";
     public const string ConstEditStoreMenuCancel = "Cancel";
     public const string ConstEditStoreMenuAccept = "Accept";
     public const string ConstEditStoreMenuRotateLeft = "ButtonRotateLeft";
-    public const string ConstEditStoreMenuRotateRight = "ButtonRotateRight";
+    public const string ConstEditStoreMenuButtonAccept = "ButtonAccept";
+    public const string ConstEditStoreMenuButtonCancel = "ButtonCancel";
+
     public const string ConstEditStoreMenuSave = "ButtonSave";
     public const string ConstParentGameObject = "Game";
     public const int ConstDefaultCameraOrthographicsize = 7;
