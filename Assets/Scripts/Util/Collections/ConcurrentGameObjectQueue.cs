@@ -27,11 +27,17 @@ public class ConcurrentGameObjectQueue<T> : ConcurrentQueue<T>
         set.Add(obj);
     }
 
-    public T TryDequeue()
+    public bool TryDequeue(out T result)
     {
-        TryDequeue(out T tmp);
-        set.Remove(tmp);
-        return tmp;
+        if (TryDequeue(out result))
+        {
+            set.Remove(result);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void Remove(T element)

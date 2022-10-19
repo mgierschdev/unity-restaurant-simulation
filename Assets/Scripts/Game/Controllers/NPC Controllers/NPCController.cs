@@ -133,17 +133,20 @@ public class NPCController : GameObjectMovementBase
             localState = NpcState.WANDER;
             return;
         }
+        
         localState = NpcState.WALKING_TO_TABLE;
-        table = BussGrid.GetFreeTable();
 
-        if (table.GetUsedBy() != null)
+        if (BussGrid.GetFreeTable(out table))
+        {
+            table.SetUsedBy(this);
+            GoToWalkingToTable_6();
+        }
+        else
         {
             GameLog.Log("The table is already being used by someone else");
             GoToFinalState_4();
             return;
         }
-        table.SetUsedBy(this);
-        GoToWalkingToTable_6();
     }
 
     private void UpdateIsAtTable_2()

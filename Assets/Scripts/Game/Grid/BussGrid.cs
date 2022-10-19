@@ -49,9 +49,8 @@ public static class BussGrid
 
     //Buss Queues and map
     public static Dictionary<string, GameGridObject> BusinessObjects { get; set; }
-    // private static List<GameGridObject> freeBusinessSpots; // Tables to attend or chairs
     private static ConcurrentGameObjectQueue<GameGridObject> freeBusinessSpots;
-    private static ConcurrentGameObjectQueue<GameGridObject> tablesWithClient;// Tables to attend or chairs
+    private static ConcurrentGameObjectQueue<GameGridObject> tablesWithClient;
     private static GameGridObject counter;
 
     //Position list with NPCs
@@ -553,17 +552,15 @@ public static class BussGrid
 
     // ******* ENQUEUES AND DEQUEUES
     // Returns a free table to the NPC, if there is one 
-    public static GameGridObject GetFreeTable()
+    public static bool GetFreeTable(out GameGridObject result)
     {
-        GameGridObject result = freeBusinessSpots.TryDequeue();
-        return result;
+        return freeBusinessSpots.TryDequeue(out result);
     }
 
     // Returns a table to the NPC Employee, if there is one 
-    public static GameGridObject GetTableWithClient()
+    public static bool GetTableWithClient(out GameGridObject result)
     {
-        GameGridObject result = tablesWithClient.TryDequeue();
-        return result;
+        return tablesWithClient.TryDequeue(out result);
     }
 
     public static void AddFreeBusinessSpots(GameGridObject obj)
