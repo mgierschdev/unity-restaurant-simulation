@@ -123,9 +123,19 @@ public static class PlayerData
         return setStoredInventory.Contains(nameID);
     }
 
+    public static bool IsItemInInventory(GameGridObject obj)
+    {
+        return Inventory.Contains(obj);
+    }
+
     public static void AddItemToInventory(GameGridObject obj)
     {
         Inventory.Add(obj);
+    }
+
+    public static void RemoveFromInventory(GameGridObject obj)
+    {
+        Inventory.Remove(obj);
     }
 
     private static string GenerateID()

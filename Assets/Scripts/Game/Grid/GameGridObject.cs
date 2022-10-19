@@ -22,6 +22,10 @@ public class GameGridObject : GameObjectBase
     private GameObject editMenu;
     private bool isObjectBeingDragged;
     private bool hashNPCAssigned;
+    private GameObject saveObjButton;
+    private GameObject rotateObjLeftButton;
+    private GameObject cancelButton;
+    private GameObject acceptButton;
 
     public GameGridObject(Transform transform, ObjectRotation position, StoreGameObject storeGameObject)
     {
@@ -84,17 +88,18 @@ public class GameGridObject : GameObjectBase
 
     private void SetEditPanelClickListeners()
     {
-        GameObject saveObj = editMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
-        Button save = saveObj.GetComponent<Button>();
+        saveObjButton = editMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
+        Button save = saveObjButton.GetComponent<Button>();
         save.onClick.AddListener(StoreInInventory);
 
-        GameObject rotateObjLeft = editMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
-        Button rotateLeft = rotateObjLeft.GetComponent<Button>();
+        rotateObjLeftButton = editMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
+        Button rotateLeft = rotateObjLeftButton.GetComponent<Button>();
         rotateLeft.onClick.AddListener(RotateObjectLeft);
 
-        // GameObject rotateObjRight = editMenu.transform.Find(Settings.ConstEditStoreMenuRotateRight).gameObject;
-        // Button rotateRight = rotateObjRight.GetComponent<Button>();
-        // rotateRight.onClick.AddListener(RotateObjectRight);
+        acceptButton =  editMenu.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
+        cancelButton =  editMenu.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
+        acceptButton.SetActive(false);
+        cancelButton.SetActive(false);
     }
 
     //Store Item in inventory
@@ -492,9 +497,17 @@ public class GameGridObject : GameObjectBase
         return hashNPCAssigned;
 
     }
-
     public void SetHashNPCAssigned(bool val)
     {
         hashNPCAssigned = val;
+    }
+
+    public void SetTryingBeforeAccepting()
+    {
+        saveObjButton.SetActive(false);
+        rotateObjLeftButton.SetActive(false);
+        acceptButton.SetActive(true);
+        cancelButton.SetActive(true);
+        //Set click listeners to accept or remove
     }
 }
