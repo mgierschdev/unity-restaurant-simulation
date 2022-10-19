@@ -23,14 +23,14 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        if (Menu.IsEditPanelOpen())
-        {
-            gameGridObject.LightAvailableUnderTiles();
-        }
-        else
-        {
-            gameGridObject.HideUnderTiles();
-        }
+        // if (Menu.IsEditPanelOpen())
+        // {
+        //     gameGridObject.LightAvailableUnderTiles();
+        // }
+        // else
+        // {
+        //     gameGridObject.HideUnderTiles();
+        // }
     }
 
     protected void Init()
@@ -48,7 +48,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
+        if (!Menu || !IsDraggable())
         {
             return;
         }
@@ -82,7 +82,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (!Menu || !Menu.IsEditPanelOpen() || !IsDraggable())
+        if (!Menu || !IsDraggable())
         {
             return;
         }
@@ -116,7 +116,7 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (!Menu || !Menu.IsEditPanelOpen())
+        if (!Menu)
         {
             return;
         }
@@ -152,12 +152,12 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
-        if (!Menu || !Menu.IsEditPanelOpen() || gameGridObject == null)
+        if (!Menu || gameGridObject == null)
         {
             return false;
         }
         // If overlaps with any UI button 
-        return gameGridObject.Type != ObjectType.UNDEFINED && Menu.IsEditPanelOpen() && !IsClickingButton();
+        return gameGridObject.Type != ObjectType.UNDEFINED && !IsClickingButton();
     }
 
     // If overlaps with any UI button
