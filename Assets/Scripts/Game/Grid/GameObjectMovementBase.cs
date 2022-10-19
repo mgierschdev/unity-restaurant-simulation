@@ -30,8 +30,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private float speedDecreaseEnergyBar;
 
     // Debug attributes
-    private string npcDebug;
-    private Queue<string> stateHistory;
+    [SerializeField]
+    protected string npcDebug;
+    [SerializeField]
+    protected Queue<string> stateHistory;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     protected Rigidbody2D rb2D;
@@ -395,7 +397,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    private void AddStateHistory(string s)
+    protected void AddStateHistory(string s)
     {
         stateHistory.Enqueue(s);
 
