@@ -68,7 +68,7 @@ public class BaseObjectController : MonoBehaviour
 
             if (npc != null)
             {
-                npc.GoToFinalState_4();
+                npc.GoToFinalState();
             }
 
             if (employee != null)
@@ -143,7 +143,6 @@ public class BaseObjectController : MonoBehaviour
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             gameGridObject.SetIsObjectBeingDragged(false);
-            BussGrid.AddFreeBusinessSpots(gameGridObject);
         }
 
         //Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update

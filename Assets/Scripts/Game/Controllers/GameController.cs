@@ -4,7 +4,7 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private const int NPC_MAX_NUMBER = 15;
+    private const int NPC_MAX_NUMBER = 3;
     private const int EMPLOYEE_MAX_NUMBER = 1;
     private int employeeCount = 0;
     private int npcId;
@@ -32,25 +32,28 @@ public class GameController : MonoBehaviour
             SpamEmployee();
             employeeCount++;
         }
-
-        //        CheckBussSpots();
     }
 
-    // //Will check if there any free buss spot, so the could be added to the queue
-    // public void CheckBussSpots()
-    // {
-    //     Dictionary<string, GameGridObject> tables = BussGrid.GetBusinessObjects();
+    private void FixedUpdate()
+    {
+        // We check that 2 npc dont have the same table
+        HashSet<string> set = new HashSet<string>();
 
-    //     foreach (KeyValuePair<string, GameGridObject> obj in tables)
-    //     {
-    //         GameGridObject gameGridObject = obj.Value;
-
-    //         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE && !gameGridObject.GetBusy() && !gameGridObject.GetIsObjectBeingDragged() && !PlayerData.IsItemStored(gameGridObject.Name))
-    //         {
-    //             BussGrid.AddFreeBusinessSpots(gameGridObject);
-    //         }
-    //     }
-    // }
+        foreach (NPCController npc in NpcSet)
+        {
+            if (npc.HasTable())
+            {
+                if (set.Contains(npc.GetTable().Name))
+                {
+                    npc.GoToFinalState();
+                }
+                else
+                {
+                    set.Add(npc.GetTable().Name);
+                }
+            }
+        }
+    }
 
     private void SpamNpc()
     {
@@ -117,8 +120,6 @@ public class GameController : MonoBehaviour
         {
             employeeController.RecalculateState(obj);
         }
-
-        // HashSet<GameGridObject> tablesWithClient = new HashSet<GameGridObject>();
 
         foreach (NPCController npcController in NpcSet)
         {

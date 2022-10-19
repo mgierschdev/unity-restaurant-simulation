@@ -48,11 +48,8 @@ public static class BussGrid
     public static GameObject ControllerGameObject { get; set; }
 
     //Buss Queues and map
-    public static ConcurrentDictionary<GameGridObject, NPCController> tablesToUserMap { get; set; }
-    private static ConcurrentQueue<GameGridObject> tablesWithClientQueue;
     public static ConcurrentDictionary<string, GameGridObject> BusinessObjects { get; set; }
-    private static ConcurrentDictionary<GameGridObject, byte> freeBusinessSpotsMap;
-    private static ConcurrentQueue<GameGridObject> freeBusinessSpotsQueue;
+    private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
 
     private static GameGridObject counter;
 
@@ -76,11 +73,6 @@ public static class BussGrid
         mapObjects = new ConcurrentDictionary<Vector3Int, GameTile>();
         listObjectsTileMap = new List<GameTile>();
 
-        freeBusinessSpotsMap = new ConcurrentDictionary<GameGridObject, byte>();
-        freeBusinessSpotsQueue = new ConcurrentQueue<GameGridObject>();
-        tablesToUserMap = new ConcurrentDictionary<GameGridObject, NPCController>();
-        tablesWithClientQueue = new ConcurrentQueue<GameGridObject>();
-
         BusinessObjects = new ConcurrentDictionary<string, GameGridObject>();
 
         mapWalkingPath = new ConcurrentDictionary<Vector3Int, GameTile>();
@@ -94,6 +86,9 @@ public static class BussGrid
 
         //ObjectListConfiguration
         ObjectListConfiguration = new MenuObjectList();
+
+        // BussObjectsMap 
+        BussQueueMap = new ConcurrentDictionary<GameGridObject, byte>();
 
         if (TilemapFloor == null || TilemapColliders == null || TilemapObjects == null || TilemapPathFinding == null ||
             TilemapWalkingPath == null || TilemapBusinessFloor == null)
@@ -279,8 +274,7 @@ public static class BussGrid
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             //Util.EnqueueToList(freeBusinessSpots, obj);
-            freeBusinessSpotsMap.TryAdd(obj, 0);
-            freeBusinessSpotsQueue.Enqueue(obj);
+            BussQueueMap.TryAdd(obj, 0);
             gridArray[obj.GridPosition.x, obj.GridPosition.y] = (int)CellValue.BUSY;
             gridArray[actionGridPosition.x, actionGridPosition.y] = (int)CellValue.ACTION_POINT;
         }
@@ -551,16 +545,6 @@ public static class BussGrid
         SetObjectObstacle(obj);
     }
 
-    public static bool IsThereFreeTables()
-    {
-        return freeBusinessSpotsMap.Count > 0;
-    }
-
-    public static bool IsThereCustomer()
-    {
-        return tablesToUserMap.Count > 0;
-    }
-
 
     // It gets the closest free coord next to the target
     //TODO: Improve so it will choose the closes path and the npc will stand towards the client
@@ -825,12 +809,7 @@ public static class BussGrid
 
     public static KeyValuePair<GameGridObject, byte>[] GetFreeBusinessSpots()
     {
-        return freeBusinessSpotsMap.ToArray();
-    }
-
-    public static KeyValuePair<GameGridObject, NPCController>[] GetTablesWithClient()
-    {
-        return tablesToUserMap.ToArray();
+        return BussQueueMap.ToArray();
     }
 
     public static ConcurrentDictionary<string, GameGridObject> GetBusinessObjects()
@@ -842,79 +821,38 @@ public static class BussGrid
     // Returns a free table to the NPC, if there is one 
     public static bool GetFreeTable(out GameGridObject result)
     {
-        if (freeBusinessSpotsQueue.TryDequeue(out result))
+        result = null;
+        foreach (KeyValuePair<GameGridObject, byte> keyPair in BussQueueMap.ToArray())
         {
-            //you cannot return a table that already has a client, or it has been stored
-            if (tablesToUserMap.ContainsKey(result) || PlayerData.IsItemStored(result.Name) || result.GetIsObjectBeingDragged())
+            GameGridObject tmp = keyPair.Key;
+
+            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name))
             {
-                return false;
+                result = tmp;
+                return true;
             }
-
-            freeBusinessSpotsMap.Remove(result, out byte bt);
-            return true;
         }
-
         return false;
     }
 
     // Returns a table to the NPC Employee, if there is one 
     public static bool GetTableWithClient(out GameGridObject result)
     {
-        if (tablesWithClientQueue.TryDequeue(out result))
+        result = null;
+        foreach (KeyValuePair<GameGridObject, byte> keyPair in BussQueueMap.ToArray())
         {
-            return true;
+            GameGridObject tmp = keyPair.Key;
+
+            if (tmp.HasClient() && !tmp.GetIsObjectBeingDragged() && !PlayerData.IsItemStored(tmp.Name))
+            {
+                result = tmp;
+                return true;
+            }
         }
+
         return false;
     }
 
-    public static void AddFreeBusinessSpots(GameGridObject obj)
-    {
-        // we cannot add a table that has a user, or that it is already added
-        if (tablesToUserMap.ContainsKey(obj) || freeBusinessSpotsMap.ContainsKey(obj) || obj.GetIsObjectBeingDragged())
-        {
-            return;
-        }
-
-        freeBusinessSpotsQueue.Enqueue(obj);
-        freeBusinessSpotsMap.TryAdd(obj, 0);
-    }
-
-    public static bool AddClientToTable(GameGridObject obj, NPCController npc)
-    {
-        // we cannot ad a client to a table that is already assigned
-        if (tablesToUserMap.ContainsKey(obj) || obj.GetIsObjectBeingDragged())
-        {
-            return false;
-        }
-        if (tablesToUserMap.TryAdd(obj, npc))
-        {
-            freeBusinessSpotsMap.Remove(obj, out byte bt);
-            tablesWithClientQueue.Enqueue(obj);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    public static bool RemoveFromTablesWithClient(GameGridObject obj)
-    {
-        return tablesToUserMap.Remove(obj, out NPCController bt);
-    }
-
-    // We remove an active item to store it
-    public static void RemoveBussTable(GameGridObject obj)
-    {
-        freeBusinessSpotsMap.Remove(obj, out byte bt);
-        tablesToUserMap.Remove(obj, out NPCController bt2);
-
-        if (obj.Type == ObjectType.NPC_COUNTER)
-        {
-            counter = null;
-        }
-    }
 
     // we remove the object from all queues if it is being draggeds
     public static void FreeCoordWhileDragging(Vector3Int pos, Vector3Int initialActionTileOne, GameGridObject gameGridObject)
@@ -931,8 +869,6 @@ public static class BussGrid
             return;
         }
 
-        tablesToUserMap.Remove(gameGridObject, out NPCController bt);
-        freeBusinessSpotsMap.Remove(gameGridObject, out byte bt2);
         //If the employee is attending the table we remove him
         if (gameGridObject.GetAttendedBy() != null)
         {
@@ -942,7 +878,7 @@ public static class BussGrid
 
         if (gameGridObject.GetUsedBy() != null)
         {
-            gameGridObject.GetUsedBy().GoToFinalState_4();
+            gameGridObject.GetUsedBy().GoToFinalState();
             gameGridObject.SetUsedBy(null);
         }
     }
