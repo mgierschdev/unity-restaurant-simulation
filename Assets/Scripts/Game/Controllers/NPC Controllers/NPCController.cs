@@ -15,8 +15,11 @@ public class NPCController : GameObjectMovementBase
     private PlayerAnimationStateController animationController;
     // Wander properties
     private float idleTime;
+    [SerializeField]
+    private float timeWandering;
     private const float IDLE_MAX_TIME = 3f; //in seconds
     private const float MAX_TABLE_WAITING_TIME = 20f;
+    private float MIN_TIME_TO_FIND_TABLE;// Defined as random 
     private float randMax = 3f;
     private Vector3Int target; // walking to target
     private Vector3 targetInWorldPosition;
@@ -36,7 +39,9 @@ public class NPCController : GameObjectMovementBase
         gameController = gameObj.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
         stateTime = 0;
+        timeWandering = 0;
         prevState = localState;
+        MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
 
         if (gameController == null)
         {
@@ -128,25 +133,22 @@ public class NPCController : GameObjectMovementBase
 
     private void UpdateFindPlace_1()
     {
-        if (!BussGrid.IsThereFreeTables())
+        if (timeWandering < MIN_TIME_TO_FIND_TABLE)
         {
             localState = NpcState.WANDER;
             return;
         }
 
-        localState = NpcState.WALKING_TO_TABLE;
-
         if (BussGrid.GetFreeTable(out table))
         {
-            table.SetUsedBy(this);
+            timeWandering = 0;
+            localState = NpcState.WALKING_TO_TABLE;
+            table.SetHashNPCAssigned(true);
             GoToWalkingToTable_6();
-        }
-        else
-        {
-            GameLog.Log("The table is already being used by someone else");
-            GoToFinalState_4();
             return;
         }
+        // we go wandering and retry after certain amount of time
+        localState = NpcState.WANDER;
     }
 
     private void UpdateIsAtTable_2()
@@ -154,22 +156,16 @@ public class NPCController : GameObjectMovementBase
         if (Util.IsAtDistanceWithObjectTraslate(transform.position, targetInWorldPosition, transform))
         {
             localState = NpcState.AT_TABLE;
+            table.SetUsedBy(this);
         }
     }
 
     private void UpdateWaitToBeAttended_3()
     {
-        if (BussGrid.AddClientToTable(table, this))
-        {
-            localState = NpcState.WAITING_TO_BE_ATTENDED;
-        }
-        else
-        {
-            GoToFinalState_4();
-        }
+        localState = NpcState.WAITING_TO_BE_ATTENDED;
     }
 
-    public void GoToFinalState_4()
+    private void GoToFinalState_4()
     {
 
         if (table == null || (localState == NpcState.BEING_ATTENDED && stateTime < MAX_TABLE_WAITING_TIME))
@@ -179,8 +175,6 @@ public class NPCController : GameObjectMovementBase
 
         if (table != null)
         {
-            BussGrid.RemoveFromTablesWithClient(table);
-            BussGrid.AddFreeBusinessSpots(table);
             table.FreeObject();
             table = null;
         }
@@ -217,8 +211,6 @@ public class NPCController : GameObjectMovementBase
             gameController.RemoveNpc(this);
             Destroy(gameObject);
         }
-
-        //Debug.Log("UpdateIsAtRespawn_5(): NPC is moving? "+IsMoving());
 
         if (!IsMoving())
         {
@@ -264,6 +256,8 @@ public class NPCController : GameObjectMovementBase
 
     private void Wander_0()
     {
+        timeWandering += Time.fixedDeltaTime;
+
         if (IsMoving())
         {
             return;
@@ -271,6 +265,7 @@ public class NPCController : GameObjectMovementBase
 
         // we could add more random by deciding to move or not 
         idleTime += Time.fixedDeltaTime;
+
 
         if (idleTime < randMax)
         {
@@ -288,10 +283,6 @@ public class NPCController : GameObjectMovementBase
             GameLog.Log("Could not find a path Wander_0 ");
             localState = NpcState.IDLE;
             return;
-        }
-        else
-        {
-            //localState = NpcState.WALKING_WANDER;
         }
     }
 
@@ -339,5 +330,10 @@ public class NPCController : GameObjectMovementBase
     public void SetBeingAttended()
     {
         localState = NpcState.BEING_ATTENDED;
+    }
+
+    public bool HasTable()
+    {
+        return table != null;
     }
 }
