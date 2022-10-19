@@ -199,7 +199,8 @@ public class GridDebugPanel : EditorWindow
                 VisualElement cell = new VisualElement();
                 gridDisplay.Add(cell);
 
-                if(newGrid[i, j] == (int)CellValue.NPC_POSITION){
+                if (newGrid[i, j] == (int)CellValue.NPC_POSITION)
+                {
                     cell.AddToClassList(NPC_BUSY_CELL_STYLE);
                     continue;
                 }
@@ -244,7 +245,7 @@ public class GridDebugPanel : EditorWindow
         objects += "BusinessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
         {
-            objects += "<b>" + g.Name + " Stored: " + PlayerData.IsItemStored(g.Name) + " Has client: " + (g.GetUsedBy() != null) + "</b> \n";
+            objects += "<b>" + g.Name + " Stored: " + PlayerData.IsItemStored(g.Name) + " Has client: " + (g.GetUsedBy() != null) + " is dragging: " + g.GetIsObjectBeingDragged() + "</b> \n";
         }
 
         return maps + " " + objects;

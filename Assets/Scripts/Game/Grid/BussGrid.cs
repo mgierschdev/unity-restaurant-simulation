@@ -529,11 +529,6 @@ public static class BussGrid
         }
     }
 
-    public static void FreeCoord(Vector3Int pos)
-    {
-        gridArray[pos.x, pos.y] = (int)CellValue.EMPTY;
-    }
-
     public static void UpdateObjectPosition(GameGridObject gameGridObject)
     {
         gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.BUSY;
@@ -595,6 +590,7 @@ public static class BussGrid
     // Used to highlight the current object being edited
     public static void SetActiveGameGridObject(GameGridObject obj)
     {
+        SetDraggingObject(true);
         if (currentClickedActiveGameObject != "")
         {
             GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
@@ -849,7 +845,7 @@ public static class BussGrid
         if (freeBusinessSpotsQueue.TryDequeue(out result))
         {
             //you cannot return a table that already has a client, or it has been stored
-            if (tablesToUserMap.ContainsKey(result) || PlayerData.IsItemStored(result.Name))
+            if (tablesToUserMap.ContainsKey(result) || PlayerData.IsItemStored(result.Name) || result.GetIsObjectBeingDragged())
             {
                 return false;
             }
@@ -864,7 +860,6 @@ public static class BussGrid
     // Returns a table to the NPC Employee, if there is one 
     public static bool GetTableWithClient(out GameGridObject result)
     {
-        Debug.Log("tables with client queue size " + tablesWithClientQueue.Count);
         if (tablesWithClientQueue.TryDequeue(out result))
         {
             return true;
@@ -875,7 +870,7 @@ public static class BussGrid
     public static void AddFreeBusinessSpots(GameGridObject obj)
     {
         // we cannot add a table that has a user, or that it is already added
-        if (tablesToUserMap.ContainsKey(obj) || freeBusinessSpotsMap.ContainsKey(obj))
+        if (tablesToUserMap.ContainsKey(obj) || freeBusinessSpotsMap.ContainsKey(obj) || obj.GetIsObjectBeingDragged())
         {
             return;
         }
@@ -887,14 +882,12 @@ public static class BussGrid
     public static bool AddClientToTable(GameGridObject obj, NPCController npc)
     {
         // we cannot ad a client to a table that is already assigned
-        Debug.Log("Debug: adding npc " + npc.name + " to table " + obj.Name);
-        if (tablesToUserMap.ContainsKey(obj))
+        if (tablesToUserMap.ContainsKey(obj) || obj.GetIsObjectBeingDragged())
         {
             return false;
         }
         if (tablesToUserMap.TryAdd(obj, npc))
         {
-            Debug.Log("Debug: adding npc " + npc.name + " to table " + obj.Name);
             freeBusinessSpotsMap.Remove(obj, out byte bt);
             tablesWithClientQueue.Enqueue(obj);
             return true;
@@ -923,5 +916,35 @@ public static class BussGrid
         }
     }
 
+    // we remove the object from all queues if it is being draggeds
+    public static void FreeCoordWhileDragging(Vector3Int pos, Vector3Int initialActionTileOne, GameGridObject gameGridObject)
+    {
+        gridArray[pos.x, pos.y] = (int)CellValue.EMPTY;
+        if (gameGridObject.GetStoreGameObject().HasActionPoint)
+        {
+            gridArray[initialActionTileOne.x, initialActionTileOne.y] = (int)CellValue.EMPTY;
+        }
+
+        //We remove the object from all queues and dictionaries
+        if (gameGridObject.Type != ObjectType.NPC_SINGLE_TABLE)
+        {
+            return;
+        }
+
+        tablesToUserMap.Remove(gameGridObject, out NPCController bt);
+        freeBusinessSpotsMap.Remove(gameGridObject, out byte bt2);
+        //If the employee is attending the table we remove him
+        if (gameGridObject.GetAttendedBy() != null)
+        {
+            gameGridObject.GetAttendedBy().RestartState();
+            gameGridObject.SetAttendedBy(null);
+        }
+
+        if (gameGridObject.GetUsedBy() != null)
+        {
+            gameGridObject.GetUsedBy().GoToFinalState_4();
+            gameGridObject.SetUsedBy(null);
+        }
+    }
     // ******* ENQUEUES AND DEQUEUES
 }

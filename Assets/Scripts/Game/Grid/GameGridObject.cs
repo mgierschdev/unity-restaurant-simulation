@@ -163,12 +163,6 @@ public class GameGridObject : GameObjectBase
         attendedBy = null;
     }
 
-    public void FreeWhileDragging()
-    {
-        ResetNPCStates();
-        BussGrid.RemoveFromTablesWithClient(this);
-    }
-
     public Vector3 GetActionTile()
     {
         // if doesnt have action point returns the object actual position

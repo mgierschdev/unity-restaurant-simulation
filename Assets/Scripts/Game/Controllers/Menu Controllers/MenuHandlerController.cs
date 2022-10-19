@@ -54,7 +54,7 @@ public class MenuHandlerController : MonoBehaviour
         menuBackgroundController = GameObject.Find(Settings.MenuContainer).GetComponent<MenuBackgroundController>();
         if (menuBackgroundController == null)
         {
-            Debug.Log("MenuHandlerController.cs/menuBackgroundController is null");
+            GameLog.Log("MenuHandlerController.cs/menuBackgroundController is null");
         }
 
         // Menu Body

@@ -54,11 +54,9 @@ public class BaseObjectController : MonoBehaviour
         }
 
         BussGrid.SetActiveGameGridObject(gameGridObject);
-        initialActionTileOne = gameGridObject.GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(gameGridObject.GetActionTile());
+        initialActionTileOne = gameGridObject.GetActionTileInGridPosition();
         initialGridPosition = gameGridObject.GridPosition;
         initialPosition = transform.position;
-
-        BussGrid.SetDraggingObject(true);
         gameGridObject.SetIsObjectBeingDragged(true);
 
         // If you move a table while busy the NPC will self destroy
@@ -88,21 +86,14 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
-        // If dragging clean previous position on the grid
-        BussGrid.FreeCoord(initialGridPosition);
-        
-        if (gameGridObject.GetStoreGameObject().HasActionPoint)
-        {
-            BussGrid.FreeCoord(initialActionTileOne);
-        }
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
         currentPos = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
+
         // So it will overlay over the rest of the items while dragging
         Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
-
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(currentGridPosition);
 
         if (BussGrid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
@@ -117,9 +108,9 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
-
-        // We free the object from being in any queue
-        gameGridObject.FreeWhileDragging();
+        
+        // If dragging clean previous position on the grid
+        BussGrid.FreeCoordWhileDragging(initialGridPosition, initialActionTileOne, gameGridObject);
     }
 
     // Called when the mouse is released 
@@ -151,8 +142,8 @@ public class BaseObjectController : MonoBehaviour
         //if it was a table we re-add it to the freeBussList
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            BussGrid.AddFreeBusinessSpots(gameGridObject);
             gameGridObject.SetIsObjectBeingDragged(false);
+            BussGrid.AddFreeBusinessSpots(gameGridObject);
         }
 
         //Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
