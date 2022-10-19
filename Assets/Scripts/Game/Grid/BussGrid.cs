@@ -826,7 +826,7 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name))
+            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp))
             {
                 result = tmp;
                 return true;
@@ -883,4 +883,12 @@ public static class BussGrid
         }
     }
     // ******* ENQUEUES AND DEQUEUES
+
+    public static void SetNotOwned(GameGridObject obj){
+        PlayerData.RemoveFromInventory(obj);
+        BussQueueMap.Remove(obj, out byte bt);
+        obj.FreeObject();
+        obj.SetTryingBeforeAccepting();
+        //Disable buttons
+    }
 }

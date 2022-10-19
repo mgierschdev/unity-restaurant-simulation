@@ -64,10 +64,10 @@ public class CameraController : MonoBehaviour
     private void PerspectiveHand()
     {
         //Trying to reproduce prespective hand blocked
-        if (BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen())
-        {
-            Debug.Log("PerspectiveHand: " + BussGrid.GetDragginObject() + " " + menuHandlerController.IsMenuOpen());
-        }
+        // if (BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen())
+        // {
+        //     Debug.Log("PerspectiveHand: " + BussGrid.GetDragginObject() + " " + menuHandlerController.IsMenuOpen());
+        // }
         //Trying to reproduce prespective hand blocked
 
         if (!Settings.CameraPerspectiveHand || BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen())

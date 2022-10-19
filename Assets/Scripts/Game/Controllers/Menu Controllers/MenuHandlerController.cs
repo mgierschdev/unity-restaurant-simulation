@@ -23,7 +23,7 @@ public class MenuHandlerController : MonoBehaviour
     //Menu realtime refresh rate
     private const float MENU_REFRESH_RATE = 3f;
     private GameObject leftDownPanel;
-    private GameObject editStoreMenuPanel;
+    //private GameObject editStoreMenuPanel;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
@@ -48,7 +48,7 @@ public class MenuHandlerController : MonoBehaviour
 
         //Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
-        editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
+        //editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
 
         //Menu Background Controller 
         menuBackgroundController = GameObject.Find(Settings.MenuContainer).GetComponent<MenuBackgroundController>();
@@ -80,9 +80,9 @@ public class MenuHandlerController : MonoBehaviour
 
         //Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
-        SetEditStorePanelClickListeners();
+        //SetEditStorePanelClickListeners();
 
-        editStoreMenuPanel.SetActive(false);
+        //editStoreMenuPanel.SetActive(false);
         centerTabMenu.Close();
         openedTime = 0;
     }
@@ -291,17 +291,17 @@ public class MenuHandlerController : MonoBehaviour
         Button bStore = store.GetComponent<Button>();
         bStore.onClick.AddListener(() => OpenMenu(centerTabMenu));
 
-        GameObject inventory = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuInventory).gameObject;
-        Button bInventory = inventory.GetComponent<Button>();
-        bInventory.onClick.AddListener(OpenEditPanel);
+        // GameObject inventory = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuInventory).gameObject;
+        // Button bInventory = inventory.GetComponent<Button>();
+        // bInventory.onClick.AddListener(OpenEditPanel);
     }
 
-    private void SetEditStorePanelClickListeners()
-    {
-        GameObject cancel = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuCancel).gameObject;
-        Button bCancel = cancel.GetComponent<Button>();
-        bCancel.onClick.AddListener(CloseEditPanel);
-    }
+    // private void SetEditStorePanelClickListeners()
+    // {
+    //     GameObject cancel = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuCancel).gameObject;
+    //     Button bCancel = cancel.GetComponent<Button>();
+    //     bCancel.onClick.AddListener(CloseEditPanel);
+    // }
 
     private void OpenStoreEditPanel(StoreGameObject obj)
     {
@@ -320,9 +320,31 @@ public class MenuHandlerController : MonoBehaviour
         // StartCoroutine(TestPlacingObjects(obj));
         // Load test debug
 
-        if (placeGameObject(obj) != null)
+        GameObject newObject = placeGameObject(obj);
+
+        if (newObject != null)
         {
-            PlayerData.Subtract(obj.Cost);
+            GameGridObject gameGridObject;
+
+            if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
+            {
+                TableController tableController = newObject.GetComponent<TableController>();
+                gameGridObject = tableController.GetGameGridObject();
+            }
+            else if (obj.Type == ObjectType.NPC_COUNTER)
+            {
+                CounterController counterController = newObject.GetComponent<CounterController>();
+                gameGridObject = counterController.GetGameGridObject();
+
+            }
+            else
+            {
+                BaseContainerController baseContainerController = newObject.GetComponent<BaseContainerController>();
+                gameGridObject = baseContainerController.GetGameGridObject();
+
+            }
+
+            BussGrid.SetNotOwned(gameGridObject);
         }
         else
         {
@@ -331,10 +353,10 @@ public class MenuHandlerController : MonoBehaviour
 
         //Disable Left down panel
         //PauseGame();
-        leftDownPanel.SetActive(false);
-        editStoreMenuPanel.SetActive(true);
-        //enabling background image
-        menuBackgroundController.Disable();
+        // leftDownPanel.SetActive(false);
+        // editStoreMenuPanel.SetActive(true);
+        // enabling background image
+        //menuBackgroundController.Disable();
     }
     IEnumerator TestPlacingObjects(StoreGameObject obj)
     {
@@ -353,31 +375,31 @@ public class MenuHandlerController : MonoBehaviour
         yield return new WaitForSeconds(0);
     }
 
-    private void OpenEditPanel()
-    {
-        // we fix the camera in case the player is zoomed
-        CloseAllMenus();
-        //gridController.HighlightGridBussFloor();
-        // PauseGame();
-        leftDownPanel.SetActive(false);
-        editStoreMenuPanel.SetActive(true);
-        // We disable 
-        menuBackgroundController.Disable();
-    }
+    // private void OpenEditPanel()
+    // {
+    //     // we fix the camera in case the player is zoomed
+    //     CloseAllMenus();
+    //     //gridController.HighlightGridBussFloor();
+    //     // PauseGame();
+    //     leftDownPanel.SetActive(false);
+    //   //  editStoreMenuPanel.SetActive(true);
+    //     // We disable 
+    //     menuBackgroundController.Disable();
+    // }
 
     // Closes the edit panel without changes 
     private void CloseEditPanel()
     {
-        editStoreMenuPanel.SetActive(false);
+       // editStoreMenuPanel.SetActive(false);
         leftDownPanel.SetActive(true);
         BussGrid.HideGridBussFloor();
         // ResumeGame();
     }
 
-    public bool IsEditPanelOpen()
-    {
-        return editStoreMenuPanel.activeSelf;
-    }
+    // public bool IsEditPanelOpen()
+    // {
+    //     return editStoreMenuPanel.activeSelf;
+    // }
 
     private void ItemClicked()
     {
