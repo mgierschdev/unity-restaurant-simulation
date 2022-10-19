@@ -97,7 +97,7 @@ public static class Settings
     public const int ConstDefaultBackgroundOrderingLevel = 200;
 
     // UI: Menu
-    public const string ConstLeftDownMenuInventory = "Inventory";
+    // public const string ConstLeftDownMenuInventory = "Inventory";
     public const string ConstLeftDownMenuStore = "Store";
 
     // UI: Camera
@@ -111,8 +111,8 @@ public static class Settings
     public const int ConstDefaultCameraHeight = 1600;
 
     //UI: Buttons listeners
-    public const string ConstUIExitButton = "ExitButton";
-    public const string ConstUIInventoryButton = "Inventory";
+    // public const string ConstUIExitButton = "ExitButton";
+    // public const string ConstUIInventoryButton = "Inventory";
 
     //UI: Editor tools
     public const string DebugStartButton = "GridDebugButton";
