@@ -234,7 +234,7 @@ public class GridDebugPanel : EditorWindow
         maps += "\n\n";
 
         maps += "Queue TablesWithClient size: " + BussGrid.GetTablesWithClient().Length + "\n";
-        foreach (KeyValuePair<GameGridObject, byte> g in BussGrid.GetTablesWithClient())
+        foreach (KeyValuePair<GameGridObject, NPCController> g in BussGrid.GetTablesWithClient())
         {
             maps += "<b>" + g.Key.Name + "</b> \n";
         }

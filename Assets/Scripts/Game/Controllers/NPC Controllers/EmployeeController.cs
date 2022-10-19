@@ -62,47 +62,58 @@ public class EmployeeController : GameObjectMovementBase
         {
             if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
             {
+                AddStateHistory("State: 1 \n");
                 UpdateGoToUnrespawn_1();
             }
             else if (localState == NpcState.WALKING_UNRESPAWN)
             {
+                AddStateHistory("State: 2 \n");
                 UpdaetIsAtUnrespawn_2();
             }
             else if (localState == NpcState.IDLE)
             {
+                AddStateHistory("State: 3 \n");
                 UpdateGoNextToCounter_3();
             }
             else if (localState == NpcState.WALKING_TO_COUNTER)
             {
+                AddStateHistory("State: 4 \n");
                 UpdateIsAtCounter_4();
             }
             else if (localState == NpcState.AT_COUNTER && BussGrid.IsThereCustomer() && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
             {
+                AddStateHistory("State: 5 \n");
                 UpdateAttendTable_5();
             }
             else if (localState == NpcState.WALKING_TO_TABLE)
             {
+                AddStateHistory("State: 6 \n");
                 UpdateIsTakingOrder_6();
             }
             else if (localState == NpcState.TAKING_ORDER)
             {
+                AddStateHistory("State: 7 \n");
                 UpdateTakeOrder_7();
             }
             else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER && CurrentEnergy >= 100)
             {
-                UpdateOrderAttended_7();
+                AddStateHistory("State: 8 \n");
+                UpdateOrderAttended_8();
             }
             else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
             {
-                UpdateIsAtCounterAfterOrder_8();
+                AddStateHistory("State: 9 \n");
+                UpdateIsAtCounterAfterOrder_9();
             }
             else if (localState == NpcState.REGISTERING_CASH)
             {
-                UpdateRegisterCash_9();
+                AddStateHistory("State: 10 \n");
+                UpdateRegisterCash_10();
             }
             else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH && CurrentEnergy >= 100)
             {
-                UpdateFinishRegistering_10();
+                AddStateHistory("State: 11 \n");
+                UpdateFinishRegistering_11();
             }
         }
         catch (Exception e)
@@ -266,12 +277,14 @@ public class EmployeeController : GameObjectMovementBase
 
     // The client was attended we return the free table and Add money to the wallet
     // The client leaves the table onece the table is set as free
-    private void UpdateOrderAttended_7()
+    private void UpdateOrderAttended_8()
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended.SetUsedBy(null);
-        BussGrid.AddFreeBusinessSpots(tableToBeAttended);//we re-add the table to the list so someone else can take it 
+        //we re-add the table to the list so someone else can take it 
+        BussGrid.AddFreeBusinessSpots(tableToBeAttended);
+
         tableToBeAttended = null;
 
         if (!GoToCounter())
@@ -284,7 +297,7 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
 
-    private void UpdateIsAtCounterAfterOrder_8()
+    private void UpdateIsAtCounterAfterOrder_9()
     {
         if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetCounter().GetActionTile(), transform))
         {
@@ -294,13 +307,13 @@ public class EmployeeController : GameObjectMovementBase
         StandTowards(BussGrid.GetCounter().GridPosition);
     }
 
-    private void UpdateRegisterCash_9()
+    private void UpdateRegisterCash_10()
     {
         localState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
         ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
     }
 
-    private void UpdateFinishRegistering_10()
+    private void UpdateFinishRegistering_11()
     {
         SetStateAtCounter();
         double orderCost = Random.Range(5, 10);

@@ -4,7 +4,7 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private const int NPC_MAX_NUMBER = 4;
+    private const int NPC_MAX_NUMBER = 15;
     private const int EMPLOYEE_MAX_NUMBER = 1;
     private int employeeCount = 0;
     private int npcId;
@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
             employeeCount++;
         }
 
-//        CheckBussSpots();
+        //        CheckBussSpots();
     }
 
     // //Will check if there any free buss spot, so the could be added to the queue
