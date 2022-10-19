@@ -13,13 +13,4 @@ public class TestUI
         Assert.NotNull(store);
         Assert.NotNull(inventory);
     }
-
-    [Test]
-    public void TestEditStoreMenu()
-    {
-        GameObject panel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
-        Transform cancel = panel.transform.Find(Settings.ConstEditStoreMenuCancel);
-        Assert.NotNull(panel);
-        Assert.NotNull(cancel);
-    }
 }
