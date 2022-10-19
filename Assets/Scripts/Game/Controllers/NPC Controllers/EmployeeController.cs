@@ -233,6 +233,16 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateAttendTable_5()
     {
+        if (tableToBeAttended != null && tableToBeAttended.GetIsObjectBeingDragged())
+        {
+            // we reset NPC state
+            target = Position;
+            CoordOfTableToBeAttended = Position;
+            localState = NpcState.IDLE;
+            ResetMovement();
+            RestartState();
+        }
+
         // We can we idle and not attend the table
         float idleProbability = Random.Range(0, 100);
         if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
@@ -331,10 +341,6 @@ public class EmployeeController : GameObjectMovementBase
                 localState = NpcState.IDLE;
             }
         }
-        else if (localState == NpcState.WALKING_TO_TABLE)
-        {
-            GoToTableToBeAttended();
-        }
         else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER || localState == NpcState.WALKING_TO_COUNTER)
         {
             if (!GoToCounter())
@@ -364,7 +370,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void GoToTableToBeAttended()
     {
-        if (tableToBeAttended == null)
+        if (tableToBeAttended == null || tableToBeAttended.GetIsObjectBeingDragged())
         {
             if (BussGrid.GetTableWithClient(out tableToBeAttended))
             {
@@ -372,7 +378,6 @@ public class EmployeeController : GameObjectMovementBase
             }
             else
             {
-                GameLog.Log("There is no table to attend: GoToTableToBeAttended()");
                 localState = NpcState.IDLE;
                 return;
             }

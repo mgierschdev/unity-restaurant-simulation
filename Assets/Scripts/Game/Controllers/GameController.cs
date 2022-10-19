@@ -113,33 +113,17 @@ public class GameController : MonoBehaviour
     //Recalculates the paths of moving NPCs or they current state depending on whether the grid changed
     public void ReCalculateNpcStates(GameGridObject obj)
     {
-        if (employeeController != null)
+        if (employeeController != null && obj.GetAttendedBy() != null)
         {
             employeeController.RecalculateState(obj);
         }
 
-        HashSet<GameGridObject> tablesWithClient = new HashSet<GameGridObject>();
+        // HashSet<GameGridObject> tablesWithClient = new HashSet<GameGridObject>();
 
         foreach (NPCController npcController in NpcSet)
         {
-            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE || npcController.GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED || npcController.GetNpcState() == NpcState.BEING_ATTENDED)
+            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE)
             {
-                // This will be cheking in case any race condition/concurrency issue
-                // Or unusual final states 
-                GameGridObject currentTable = npcController.GetTable();
-
-                if (currentTable != null)
-                {
-                    // Meaning 2 NPC have the same table assigned at the same time
-                    if (tablesWithClient.Contains(currentTable))
-                    {
-                        npcController.GoToFinalState();
-                        continue;
-                    }
-                    tablesWithClient.Add(currentTable);
-                }
-                // This will be cheking in case any race condition
-
                 // If not in any of the previous cases, we recalculate the path 
                 // since the grid might be changing
                 npcController.RecalculateGoTo();
