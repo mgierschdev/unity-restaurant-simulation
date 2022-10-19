@@ -21,6 +21,7 @@ public class GameGridObject : GameObjectBase
     private EmployeeController attendedBy;
     private GameObject editMenu;
     private bool isObjectBeingDragged;
+    private bool hashNPCAssigned;
 
     public GameGridObject(Transform transform, ObjectRotation position, StoreGameObject storeGameObject)
     {
@@ -36,6 +37,7 @@ public class GameGridObject : GameObjectBase
         SortingLayer = transform.GetComponent<SortingGroup>();
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
         facingPosition = position;
+        hashNPCAssigned = false;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -61,7 +63,7 @@ public class GameGridObject : GameObjectBase
             actionTileSpriteRenderer,
             secondActionTileSprite
         };
-        
+
         UpdateRotation(position);
         SetEditPanelClickListeners();
         Init();
@@ -105,11 +107,6 @@ public class GameGridObject : GameObjectBase
             BussGrid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current selected in the grid 
             BussGrid.FreeObject(this);
 
-            if (GetStoreGameObject().HasActionPoint)
-            {
-                BussGrid.RemoveBussTable(this);
-            }
-
             // we clean the table from the employer
             if (attendedBy != null)
             {
@@ -119,7 +116,7 @@ public class GameGridObject : GameObjectBase
             // we clean the table from the client
             if (usedBy != null)
             {
-                usedBy.GoToFinalState_4();
+                usedBy.GoToFinalState();
                 usedBy = null;
             }
 
@@ -161,6 +158,7 @@ public class GameGridObject : GameObjectBase
     {
         usedBy = null;
         attendedBy = null;
+        hashNPCAssigned = false;
     }
 
     public Vector3 GetActionTile()
@@ -478,5 +476,25 @@ public class GameGridObject : GameObjectBase
     public List<SpriteRenderer> GetTileList()
     {
         return tiles;
+    }
+
+    public bool IsFree()
+    {
+        return usedBy == null && attendedBy == null;
+    }
+    public bool HasClient()
+    {
+        return usedBy != null;
+    }
+
+    public bool HasNPCAssigned()
+    {
+        return hashNPCAssigned;
+
+    }
+
+    public void SetHashNPCAssigned(bool val)
+    {
+        hashNPCAssigned = val;
     }
 }

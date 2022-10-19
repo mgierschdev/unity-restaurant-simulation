@@ -229,14 +229,22 @@ public class GridDebugPanel : EditorWindow
         maps += "Queue FreeBusinessSpots size: " + BussGrid.GetFreeBusinessSpots().Length + "\n";
         foreach (KeyValuePair<GameGridObject, byte> g in BussGrid.GetFreeBusinessSpots())
         {
+            if (!g.Key.IsFree())
+            {
+                continue;
+            }
             maps += "<b>" + g.Key.Name + "</b> \n";
         }
 
         maps += "\n\n";
 
-        maps += "Queue TablesWithClient size: " + BussGrid.GetTablesWithClient().Length + "\n";
-        foreach (KeyValuePair<GameGridObject, NPCController> g in BussGrid.GetTablesWithClient())
+        maps += "Queue TablesWithClient size: " + BussGrid.GetFreeBusinessSpots().Length + "\n";
+        foreach (KeyValuePair<GameGridObject, byte> g in BussGrid.GetFreeBusinessSpots())
         {
+            if (!g.Key.HasClient())
+            {
+                continue;
+            }
             maps += "<b>" + g.Key.Name + "</b> \n";
         }
 

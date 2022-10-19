@@ -80,7 +80,7 @@ public class EmployeeController : GameObjectMovementBase
                 AddStateHistory("State: 4 \n");
                 UpdateIsAtCounter_4();
             }
-            else if (localState == NpcState.AT_COUNTER && BussGrid.IsThereCustomer() && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
+            else if (localState == NpcState.AT_COUNTER && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
             {
                 AddStateHistory("State: 5 \n");
                 UpdateAttendTable_5();
@@ -233,16 +233,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateAttendTable_5()
     {
-        if (tableToBeAttended != null && tableToBeAttended.GetIsObjectBeingDragged())
-        {
-            // we reset NPC state
-            target = Position;
-            CoordOfTableToBeAttended = Position;
-            localState = NpcState.IDLE;
-            ResetMovement();
-            RestartState();
-        }
-
         // We can we idle and not attend the table
         float idleProbability = Random.Range(0, 100);
         if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
@@ -292,9 +282,6 @@ public class EmployeeController : GameObjectMovementBase
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended.SetUsedBy(null);
-        //we re-add the table to the list so someone else can take it 
-        BussGrid.AddFreeBusinessSpots(tableToBeAttended);
-
         tableToBeAttended = null;
 
         if (!GoToCounter())
@@ -378,6 +365,7 @@ public class EmployeeController : GameObjectMovementBase
             }
             else
             {
+                // If there is not tables with client
                 localState = NpcState.IDLE;
                 return;
             }
