@@ -353,17 +353,15 @@ public class EmployeeController : GameObjectMovementBase
     {
         if (tableToBeAttended == null)
         {
-            tableToBeAttended = BussGrid.GetTableWithClient();
-
-            if (tableToBeAttended == null)
+            if (BussGrid.GetTableWithClient(out tableToBeAttended))
+            {
+                tableToBeAttended.SetAttendedBy(this);
+            }
+            else
             {
                 GameLog.Log("There is no table to attend: GoToTableToBeAttended()");
                 localState = NpcState.IDLE;
                 return;
-            }
-            else
-            {
-                tableToBeAttended.SetAttendedBy(this);
             }
         }
 
