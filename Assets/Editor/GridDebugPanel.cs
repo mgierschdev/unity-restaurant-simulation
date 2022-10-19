@@ -226,17 +226,17 @@ public class GridDebugPanel : EditorWindow
         string maps = "";
 
         maps += "Queue FreeBusinessSpots size: " + BussGrid.GetFreeBusinessSpots().Length + "\n";
-        foreach (GameGridObject g in BussGrid.GetFreeBusinessSpots())
+        foreach (KeyValuePair<GameGridObject, byte> g in BussGrid.GetFreeBusinessSpots())
         {
-            maps += "<b>" + g.Name + "</b> \n";
+            maps += "<b>" + g.Key.Name + "</b> \n";
         }
 
         maps += "\n\n";
 
         maps += "Queue TablesWithClient size: " + BussGrid.GetTablesWithClient().Length + "\n";
-        foreach (GameGridObject g in BussGrid.GetTablesWithClient())
+        foreach (KeyValuePair<GameGridObject, byte> g in BussGrid.GetTablesWithClient())
         {
-            maps += "<b>" + g.Name + "</b> \n";
+            maps += "<b>" + g.Key.Name + "</b> \n";
         }
 
         maps += "\n\n";

@@ -12,9 +12,9 @@ public static class BussGrid
     private static Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
     // Isometric Grid with pathfinding
     public static Tilemap TilemapPathFinding { get; set; }
-    private static Dictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
-    private static Dictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
-    private static Dictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
+    private static ConcurrentDictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
+    private static ConcurrentDictionary<Vector3Int, GameTile> mapGridPositionToTile; // Local Grid Position to tile
+    private static ConcurrentDictionary<Vector3Int, GameTile> mapPathFindingGrid; // PathFinding Grid to tile
     // Spam Points list
     private static List<GameTile> spamPoints;
     // Path Finder object, contains the method to return the shortest path
@@ -24,23 +24,23 @@ public static class BussGrid
     //Floor
     public static Tilemap TilemapFloor { get; set; }
     private static List<GameTile> listFloorTileMap;
-    private static Dictionary<Vector3Int, GameTile> mapFloor;
+    private static ConcurrentDictionary<Vector3Int, GameTile> mapFloor;
     //WalkingPath 
     public static Tilemap TilemapWalkingPath { get; set; }
     private static List<GameTile> listWalkingPathTileMap;
-    private static Dictionary<Vector3Int, GameTile> mapWalkingPath;
+    private static ConcurrentDictionary<Vector3Int, GameTile> mapWalkingPath;
     //Colliders
     public static Tilemap TilemapColliders { get; set; }
     private static List<GameTile> listCollidersTileMap;
-    private static Dictionary<Vector3Int, GameTile> mapColliders;
+    private static ConcurrentDictionary<Vector3Int, GameTile> mapColliders;
     //Objects
     public static Tilemap TilemapObjects { get; set; }
     private static List<GameTile> listObjectsTileMap;
-    private static Dictionary<Vector3Int, GameTile> mapObjects;
+    private static ConcurrentDictionary<Vector3Int, GameTile> mapObjects;
     //Business floors
     public static Tilemap TilemapBusinessFloor { get; set; }
     private static List<GameTile> listBusinessFloor;
-    private static Dictionary<Vector3Int, GameTile> mapBusinessFloor;
+    private static ConcurrentDictionary<Vector3Int, GameTile> mapBusinessFloor;
     private static string currentClickedActiveGameObject;
     public static GameController GameController { get; set; }
     private static MenuObjectList ObjectListConfiguration;
@@ -48,9 +48,9 @@ public static class BussGrid
     public static GameObject ControllerGameObject { get; set; }
 
     //Buss Queues and map
-    public static Dictionary<string, GameGridObject> BusinessObjects { get; set; }
-    private static ConcurrentGameObjectQueue<GameGridObject> freeBusinessSpots;
-    private static ConcurrentGameObjectQueue<GameGridObject> tablesWithClient;
+    public static ConcurrentDictionary<string, GameGridObject> BusinessObjects { get; set; }
+    private static ConcurrentDictionary<GameGridObject, byte> freeBusinessSpots;
+    private static ConcurrentDictionary<GameGridObject, byte> tablesWithClient;
     private static GameGridObject counter;
 
     //Position list with NPCs
@@ -59,30 +59,30 @@ public static class BussGrid
     public static void Init()
     {
         // TILEMAP DATA 
-        mapWorldPositionToTile = new Dictionary<Vector3, GameTile>();
-        mapGridPositionToTile = new Dictionary<Vector3Int, GameTile>();
-        mapPathFindingGrid = new Dictionary<Vector3Int, GameTile>();
+        mapWorldPositionToTile = new ConcurrentDictionary<Vector3, GameTile>();
+        mapGridPositionToTile = new ConcurrentDictionary<Vector3Int, GameTile>();
+        mapPathFindingGrid = new ConcurrentDictionary<Vector3Int, GameTile>();
         spamPoints = new List<GameTile>();
 
-        mapFloor = new Dictionary<Vector3Int, GameTile>();
+        mapFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
         listFloorTileMap = new List<GameTile>();
 
-        mapColliders = new Dictionary<Vector3Int, GameTile>();
+        mapColliders = new ConcurrentDictionary<Vector3Int, GameTile>();
         listCollidersTileMap = new List<GameTile>();
 
-        mapObjects = new Dictionary<Vector3Int, GameTile>();
+        mapObjects = new ConcurrentDictionary<Vector3Int, GameTile>();
         listObjectsTileMap = new List<GameTile>();
-        //freeBusinessSpots = new List<GameGridObject>();
-        freeBusinessSpots = new ConcurrentGameObjectQueue<GameGridObject>();
-        tablesWithClient = new ConcurrentGameObjectQueue<GameGridObject>();
 
-        BusinessObjects = new Dictionary<string, GameGridObject>();
+        freeBusinessSpots = new ConcurrentDictionary<GameGridObject, byte>();
+        tablesWithClient = new ConcurrentDictionary<GameGridObject, byte>();
 
-        mapWalkingPath = new Dictionary<Vector3Int, GameTile>();
+        BusinessObjects = new ConcurrentDictionary<string, GameGridObject>();
+
+        mapWalkingPath = new ConcurrentDictionary<Vector3Int, GameTile>();
         listWalkingPathTileMap = new List<GameTile>();
 
         listBusinessFloor = new List<GameTile>();
-        mapBusinessFloor = new Dictionary<Vector3Int, GameTile>();
+        mapBusinessFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
 
         // Path marking attributes
         positionsAdded = new ConcurrentDictionary<Vector3Int, byte>();
@@ -192,9 +192,9 @@ public static class BussGrid
                 Vector3Int positionLocalGrid = TilemapPathFinding.WorldToCell(positionInWorld);
                 GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid,
                 Util.GetTileType(gridTile.name), Util.GetTileObjectType(Util.GetTileType(gridTile.name)), gridTile);
-                mapWorldPositionToTile.Add(gameTile.WorldPosition, gameTile);
-                mapPathFindingGrid.Add(gameTile.GridPosition, gameTile);
-                mapGridPositionToTile.Add(gameTile.LocalGridPosition, gameTile);
+                mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
+                mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
+                mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
                 TilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
 
                 if (Settings.CellDebug)
@@ -210,7 +210,7 @@ public static class BussGrid
         }
     }
 
-    private static void LoadTileMap(List<GameTile> list, Tilemap tilemap, Dictionary<Vector3Int, GameTile> map)
+    private static void LoadTileMap(List<GameTile> list, Tilemap tilemap, ConcurrentDictionary<Vector3Int, GameTile> map)
     {
         foreach (Vector3 pos in tilemap.cellBounds.allPositionsWithin)
         {
@@ -270,11 +270,11 @@ public static class BussGrid
     private static void SetObjectObstacle(GameGridObject obj)
     {
         Vector3Int actionGridPosition = obj.GetActionTileInGridPosition();//GetPathFindingGridFromWorldPosition(obj.GetActionTile());
-        BusinessObjects.Add(obj.Name, obj);
+        BusinessObjects.TryAdd(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             //Util.EnqueueToList(freeBusinessSpots, obj);
-            freeBusinessSpots.Enqueue(obj);
+            freeBusinessSpots.TryAdd(obj, 0);
             gridArray[obj.GridPosition.x, obj.GridPosition.y] = (int)CellValue.BUSY;
             gridArray[actionGridPosition.x, actionGridPosition.y] = (int)CellValue.ACTION_POINT;
         }
@@ -554,30 +554,51 @@ public static class BussGrid
     // Returns a free table to the NPC, if there is one 
     public static bool GetFreeTable(out GameGridObject result)
     {
-        return freeBusinessSpots.TryDequeue(out result);
+        KeyValuePair<GameGridObject, byte>[] keys = freeBusinessSpots.ToArray();
+        GameGridObject tmp = keys[keys.Length - 1].Key;
+        result = null;
+
+        if (freeBusinessSpots.Remove(tmp, out byte bt))
+        {
+            result = tmp;
+            return true;
+        }
+
+        return false;
     }
 
     // Returns a table to the NPC Employee, if there is one 
     public static bool GetTableWithClient(out GameGridObject result)
     {
-        return tablesWithClient.TryDequeue(out result);
-    }
+        KeyValuePair<GameGridObject, byte>[] keys = tablesWithClient.ToArray();
+        GameGridObject tmp = keys[keys.Length - 1].Key;
+        result = null;
 
-    public static void AddFreeBusinessSpots(GameGridObject obj)
-    {
-        freeBusinessSpots.Enqueue(obj);
-    }
-
-    public static void AddClientToTable(GameGridObject obj)
-    {
-        if (tablesWithClient.Contains(obj))
+        if (tablesWithClient.Remove(tmp, out byte bt))
         {
-            return;
+            result = tmp;
+            return true;
         }
 
-        //if does not contain it it will not remove it 
-        freeBusinessSpots.Remove(obj);
-        tablesWithClient.Enqueue(obj);
+        return false;
+    }
+
+    public static bool AddFreeBusinessSpots(GameGridObject obj)
+    {
+        return freeBusinessSpots.TryAdd(obj, 0);
+    }
+
+    public static bool AddClientToTable(GameGridObject obj)
+    {
+        if (tablesWithClient.ContainsKey(obj))
+        {
+            return false;
+        }
+
+        freeBusinessSpots.Remove(obj, out byte bt);
+
+        return tablesWithClient.TryAdd(obj, 0);
+        return true;
     }
     // ******* ENQUEUES AND DEQUEUES
 
@@ -594,14 +615,14 @@ public static class BussGrid
 
     public static void RemoveFromTablesWithClient(GameGridObject obj)
     {
-        tablesWithClient.Remove(obj);
+        tablesWithClient.Remove(obj, out byte bt);
     }
 
     // We remove an active item to store it
     public static void RemoveBussTable(GameGridObject obj)
     {
-        freeBusinessSpots.Remove(obj);
-        tablesWithClient.Remove(obj);
+        freeBusinessSpots.Remove(obj, out byte bt);
+        tablesWithClient.Remove(obj, out byte bt2);
 
         if (obj.Type == ObjectType.NPC_COUNTER)
         {
@@ -869,17 +890,17 @@ public static class BussGrid
         return listBusinessFloor;
     }
 
-    public static GameGridObject[] GetFreeBusinessSpots()
+    public static KeyValuePair<GameGridObject, byte>[] GetFreeBusinessSpots()
     {
         return freeBusinessSpots.ToArray();
     }
 
-    public static GameGridObject[] GetTablesWithClient()
+    public static KeyValuePair<GameGridObject, byte>[] GetTablesWithClient()
     {
         return tablesWithClient.ToArray();
     }
 
-    public static Dictionary<string, GameGridObject> GetBusinessObjects()
+    public static ConcurrentDictionary<string, GameGridObject> GetBusinessObjects()
     {
         return BusinessObjects;
     }
