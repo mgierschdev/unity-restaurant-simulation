@@ -64,7 +64,7 @@ public class SceneLoadController : MonoBehaviour
         currentTimeAtScene += Time.fixedDeltaTime;
         currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.10f, Time.fixedDeltaTime);
         slider.value = currentProgress;
-        sliderProgress.text = "LOADINGD" + Mathf.Ceil(currentProgress * 100).ToString() + "%";
+        sliderProgress.text = "LOADING " + Mathf.Ceil(currentProgress * 100).ToString() + "%";
 
         if (Mathf.Approximately(operation.progress, 0.9f) && userData != null && userData.IsCompleted && currentTimeAtScene > MIN_TIME_LOADING)
         {
