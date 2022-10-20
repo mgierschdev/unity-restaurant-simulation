@@ -18,7 +18,7 @@ public class SceneLoadController : MonoBehaviour
     private AsyncOperation operation;
     private float currentProgress;
     private Task<DocumentSnapshot> userData;
-    private float MIN_TIME_LOADING = 5f; // Min time while laoding the screen
+    private float MIN_TIME_LOADING = 4f; // Min time while laoding the screen
     private float currentTimeAtScene; // Current time at the screen
 
     //Loads Auth and user data
@@ -35,7 +35,7 @@ public class SceneLoadController : MonoBehaviour
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
 
         //We get the text inside the slider
-        GameObject sliderProgressObject = sliderGameObject.transform.Find(Settings.SliderProgress).gameObject;
+        GameObject sliderProgressObject = GameObject.Find(Settings.SliderProgress).gameObject;
         Util.IsNull(sliderProgressObject, "SceneLoadController/Start sliderProgressObject is null");
         sliderProgress = sliderProgressObject.GetComponent<TextMeshProUGUI>();
 
@@ -62,9 +62,9 @@ public class SceneLoadController : MonoBehaviour
         }
 
         currentTimeAtScene += Time.fixedDeltaTime;
-        currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.20f, Time.fixedDeltaTime);
+        currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.10f, Time.fixedDeltaTime);
         slider.value = currentProgress;
-        sliderProgress.text = Mathf.Ceil(currentProgress * 100) + " % "+operation.progress;
+        sliderProgress.text = "LOADINGD" + Mathf.Ceil(currentProgress * 100).ToString() + "%";
 
         if (Mathf.Approximately(operation.progress, 0.9f) && userData != null && userData.IsCompleted && currentTimeAtScene > MIN_TIME_LOADING)
         {
