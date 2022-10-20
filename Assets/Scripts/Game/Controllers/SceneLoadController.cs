@@ -18,10 +18,15 @@ public class SceneLoadController : MonoBehaviour
     private AsyncOperation operation;
     private float currentProgress;
     private Task<DocumentSnapshot> userData;
+    private float MIN_TIME_LOADING = 5f; // Min time while laoding the screen
+    private float currentTimeAtScene; // Current time at the screen
 
     //Loads Auth and user data
     public async void Start()
     {
+        //Init 
+        currentTimeAtScene = 0;
+
         //We get the slider 
         GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
         slider = sliderGameObject.GetComponent<Slider>();
@@ -56,11 +61,12 @@ public class SceneLoadController : MonoBehaviour
             return;
         }
 
-        currentProgress = Mathf.MoveTowards(operation.progress / 0.9f, 1, 0.20f * Time.deltaTime);
+        currentTimeAtScene += Time.fixedDeltaTime;
+        currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.20f, Time.fixedDeltaTime);
         slider.value = currentProgress;
-        sliderProgress.text = (int)(currentProgress * 100) + " % ";
+        sliderProgress.text = Mathf.Ceil(currentProgress * 100) + " % "+operation.progress;
 
-        if (Mathf.Approximately(currentProgress, 1) && userData != null && userData.IsCompleted)
+        if (Mathf.Approximately(operation.progress, 0.9f) && userData != null && userData.IsCompleted && currentTimeAtScene > MIN_TIME_LOADING)
         {
             // Loads the queried data to the player game object
             PlayerData.LoadFirebaseDocument(userData.Result);
