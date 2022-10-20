@@ -16,8 +16,16 @@ public class BaseObjectController : MonoBehaviour
     protected ObjectRotation InitialObjectRotation;
     protected MenuHandlerController Menu { get; set; }
 
+    //Long click controller
+    private float timeClicking;
+    private const float TIME_BEFORE_ACTIVATING_SLIDER = 4f;
+
     private void Update()
     {
+        if (gameGridObject != null && timeClicking > TIME_BEFORE_ACTIVATING_SLIDER)
+        {
+            gameGridObject.UpdateSlider();
+        }
         // if (!Menu || gameGridObject == null || BussGrid.GetDragginObject())
         // {
         //     return;
@@ -39,6 +47,8 @@ public class BaseObjectController : MonoBehaviour
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
         InitialObjectRotation = ObjectRotation.FRONT;
+        timeClicking = 0;
+
         //Edit Panel Disable
         if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
         {
@@ -48,6 +58,8 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
+
+
         if (!Menu || !IsDraggable())
         {
             return;
@@ -82,6 +94,10 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDrag()
     {
+        timeClicking += Time.unscaledDeltaTime;
+
+        Debug.Log("Time clicking " + timeClicking + " object " + gameGridObject.Name);
+
         if (!Menu || !IsDraggable())
         {
             return;
@@ -116,7 +132,9 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (!Menu || !BussGrid.IsDraggingEnabled())
+        timeClicking = 0;
+
+        if (!Menu || !BussGrid.IsDraggingEnabled(gameGridObject))
         {
             return;
         }
@@ -152,7 +170,7 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
-        if (!Menu || gameGridObject == null || !BussGrid.IsDraggingEnabled())
+        if (!Menu || gameGridObject == null || !BussGrid.IsDraggingEnabled(gameGridObject))
         {
             return false;
         }

@@ -897,10 +897,10 @@ public static class BussGrid
         obj.SetTryingBeforeAccepting();
         //Disable buttons
     }
-    
-    public static bool IsDraggingEnabled()
+
+    public static bool IsDraggingEnabled(GameGridObject obj)
     {
-        return isDraggingEnabled;
+        return isDraggingEnabled && IsThisSelectedObject(obj.Name);
     }
 
     public static void SetIsDraggingEnable(bool val)
