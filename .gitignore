@@ -502,4 +502,8 @@ GooglePackages/com.google.firebase.app-9.5.0.tgz
 GooglePackages/com.google.external-dependency-manager-1.2.173.tgz
 GooglePackages/com.google.firebase.auth-9.5.0.tgz
 GooglePackages/com.google.firebase.functions-9.6.0.tgz
+# Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-functions-unity/9.6.0/firebase-functions-unity-9.6.0.aar
+.gitignore
+Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-functions-unity/9.6.0/firebase-functions-unity-9.6.0.pom.meta
+Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-functions-unity/9.6.0/firebase-functions-unity-9.6.0.aar.meta
 Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-functions-unity/9.6.0/firebase-functions-unity-9.6.0.aar
