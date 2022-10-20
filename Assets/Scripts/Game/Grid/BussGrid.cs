@@ -50,11 +50,14 @@ public static class BussGrid
     //Buss Queues and map
     public static ConcurrentDictionary<string, GameGridObject> BusinessObjects { get; set; }
     private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
-
     private static GameGridObject counter;
 
     //Position list with NPCs
     private static ConcurrentDictionary<Vector3Int, byte> positionsAdded;
+
+
+    //Is dragging mode enabled and object selected?
+    private static bool isDraggingEnabled;
 
     public static void Init()
     {
@@ -86,6 +89,8 @@ public static class BussGrid
 
         //ObjectListConfiguration
         ObjectListConfiguration = new MenuObjectList();
+
+        isDraggingEnabled = false;
 
         // BussObjectsMap 
         BussQueueMap = new ConcurrentDictionary<GameGridObject, byte>();
@@ -884,11 +889,23 @@ public static class BussGrid
     }
     // ******* ENQUEUES AND DEQUEUES
 
-    public static void SetNotOwned(GameGridObject obj){
+    public static void SetNotOwned(GameGridObject obj)
+    {
         PlayerData.RemoveFromInventory(obj);
         BussQueueMap.Remove(obj, out byte bt);
         obj.FreeObject();
         obj.SetTryingBeforeAccepting();
         //Disable buttons
     }
+    
+    public static bool IsDraggingEnabled()
+    {
+        return isDraggingEnabled;
+    }
+
+    public static void SetIsDraggingEnable(bool val)
+    {
+        isDraggingEnabled = val;
+    }
+
 }

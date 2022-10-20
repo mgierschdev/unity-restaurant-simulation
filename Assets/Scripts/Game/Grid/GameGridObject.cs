@@ -26,6 +26,7 @@ public class GameGridObject : GameObjectBase
     private GameObject rotateObjLeftButton;
     private GameObject cancelButton;
     private GameObject acceptButton;
+    private GameObject objectSlider;
 
     public GameGridObject(Transform transform, ObjectRotation position, StoreGameObject storeGameObject)
     {
@@ -57,16 +58,20 @@ public class GameGridObject : GameObjectBase
         editMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
         editMenu.SetActive(false);
 
+        // On top slider
+        objectSlider = transform.Find("Slider/Slider").gameObject;
+        objectSlider.SetActive(false);
+
         actionTiles = new List<GameObject>(){
             objectActionTile.gameObject,
             objectSecondActionTile.gameObject
-        };
+            };
 
         tiles = new List<SpriteRenderer>(){
             tileUnder,
             actionTileSpriteRenderer,
             secondActionTileSprite
-        };
+            };
 
         UpdateRotation(position);
         SetEditPanelClickListeners();
@@ -96,8 +101,8 @@ public class GameGridObject : GameObjectBase
         Button rotateLeft = rotateObjLeftButton.GetComponent<Button>();
         rotateLeft.onClick.AddListener(RotateObjectLeft);
 
-        acceptButton =  editMenu.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
-        cancelButton =  editMenu.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
+        acceptButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
+        cancelButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
         acceptButton.SetActive(false);
         cancelButton.SetActive(false);
     }
