@@ -18,10 +18,10 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-        if (!Menu || gameGridObject == null || BussGrid.GetDragginObject())
-        {
-            return;
-        }
+        // if (!Menu || gameGridObject == null || BussGrid.GetDragginObject())
+        // {
+        //     return;
+        // }
 
         // if (Menu.IsEditPanelOpen())
         // {
@@ -116,7 +116,7 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (!Menu)
+        if (!Menu || !BussGrid.IsDraggingEnabled())
         {
             return;
         }
@@ -152,7 +152,7 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
-        if (!Menu || gameGridObject == null)
+        if (!Menu || gameGridObject == null || !BussGrid.IsDraggingEnabled())
         {
             return false;
         }

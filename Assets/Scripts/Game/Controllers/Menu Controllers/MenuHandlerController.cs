@@ -344,7 +344,7 @@ public class MenuHandlerController : MonoBehaviour
 
             }
 
-            BussGrid.SetNotOwned(gameGridObject);
+            //BussGrid.SetNotOwned(gameGridObject);
         }
         else
         {
