@@ -25,7 +25,7 @@ public static class Settings
     //SCENES
     public const string LoadScene = "LoadScene";
     public const string GameScene = "GameScene";
-    public const string SliderProgress = "Background/SliderProgress";
+    public const string SliderProgress = "SliderProgress";
 
     //STORE SPRITES
     public const string StoreSpritePath = "SpriteLibs/MenuItemSprites/";
