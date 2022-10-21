@@ -54,10 +54,12 @@ public static class BussGrid
     //Position list with NPCs
     private static ConcurrentDictionary<Vector3Int, byte> positionsAdded;
 
-
     //Is dragging mode enabled and object selected?
     private static bool isDraggingEnabled;
-    private static bool DraggingObject;
+    private static bool draggingObject;
+
+    //Perspective hand
+    public static CameraController CameraController{ get; set; }
 
     public static void Init()
     {
@@ -800,14 +802,15 @@ public static class BussGrid
     {
         return ObjectListConfiguration;
     }
+
     public static bool GetDragginObject()
     {
-        return DraggingObject;
+        return draggingObject;
     }
 
     public static void SetDraggingObject(bool value)
     {
-        DraggingObject = value;
+        draggingObject = value;
     }
 
     public static GameGridObject GetCounter()
@@ -945,5 +948,11 @@ public static class BussGrid
         {
             obj.SetInactive();
         }
+    }
+
+    public static void SetDisablePerspectiveHand()
+    {
+        //disables perspective ha d for 0.3 sec
+        CameraController.DisablePerspectiveHand();
     }
 }

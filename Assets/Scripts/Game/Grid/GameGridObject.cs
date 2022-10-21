@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -646,6 +647,7 @@ public class GameGridObject : GameObjectBase
     public void CancelPurchase()
     {
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
+        BussGrid.SetDisablePerspectiveHand(); // disables the perspective hand for 0.3 seconds
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
         BussGrid.RecalculateBussGrid();
