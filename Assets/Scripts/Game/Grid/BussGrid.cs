@@ -834,7 +834,7 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp))
+            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought())
             {
                 result = tmp;
                 return true;
@@ -897,7 +897,7 @@ public static class BussGrid
         PlayerData.RemoveFromInventory(obj);
         BussQueueMap.Remove(obj, out byte bt);
         obj.FreeObject();
-        obj.SetTryingBeforeAccepting();
+        obj.SetStoreObjectButtonsActive();
         //Disable buttons
     }
 
