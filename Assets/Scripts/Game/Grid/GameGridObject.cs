@@ -645,7 +645,9 @@ public class GameGridObject : GameObjectBase
 
     public void CancelPurchase()
     {
+        BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
+        BussGrid.RecalculateBussGrid();
     }
 }
