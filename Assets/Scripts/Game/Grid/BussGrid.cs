@@ -44,7 +44,6 @@ public static class BussGrid
     private static string currentClickedActiveGameObject;
     public static GameController GameController { get; set; }
     private static MenuObjectList ObjectListConfiguration;
-    private static bool DraggingObject;
     public static GameObject ControllerGameObject { get; set; }
 
     //Buss Queues and map
@@ -58,6 +57,7 @@ public static class BussGrid
 
     //Is dragging mode enabled and object selected?
     private static bool isDraggingEnabled;
+    private static bool DraggingObject;
 
     public static void Init()
     {
@@ -581,7 +581,7 @@ public static class BussGrid
     {
         SetDraggingObject(true);
         isDraggingEnabled = true;
-        
+
         if (currentClickedActiveGameObject != "")
         {
             GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
@@ -590,6 +590,16 @@ public static class BussGrid
 
         currentClickedActiveGameObject = obj.Name;
         obj.Show();
+    }
+
+    private static GameGridObject GetActiveGameGridObject()
+    {
+        GameGridObject gameGridObject = null;
+        if (currentClickedActiveGameObject != "")
+        {
+            gameGridObject = BusinessObjects[currentClickedActiveGameObject];
+        }
+        return gameGridObject;
     }
 
     public static void ClearCurrentClickedActiveGameObject()
@@ -911,4 +921,23 @@ public static class BussGrid
         isDraggingEnabled = val;
     }
 
+    public static bool GetIsDraggingEnabled()
+    {
+        return isDraggingEnabled;
+    }
+
+    public static void DisableDragging()
+    {
+        GameGridObject obj = GetActiveGameGridObject();
+
+        // Meaning on preview
+        if (obj.GetIsItemBought())
+        {
+            obj.CancelPurchase();
+        }
+        else
+        {
+            obj.SetInactive();
+        }
+    }
 }

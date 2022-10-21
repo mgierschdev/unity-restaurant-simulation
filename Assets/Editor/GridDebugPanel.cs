@@ -253,7 +253,7 @@ public class GridDebugPanel : EditorWindow
         objects += "BusinessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
         {
-            objects += "<b>" + g.Name + " Stored: " + PlayerData.IsItemStored(g.Name) + " Has client: " + (g.GetUsedBy() != null) + " is dragging: " + g.GetIsObjectBeingDragged() + "</b> \n";
+            objects += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Select:" + g.GetIsObjectBeingDragged() + " Bought:" + g.GetIsItemBought() + "</b> \n";
         }
 
         return maps + " " + objects;
