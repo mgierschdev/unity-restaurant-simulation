@@ -388,13 +388,13 @@ public class MenuHandlerController : MonoBehaviour
     // }
 
     // Closes the edit panel without changes 
-    private void CloseEditPanel()
-    {
-       // editStoreMenuPanel.SetActive(false);
-        leftDownPanel.SetActive(true);
-        BussGrid.HideGridBussFloor();
-        // ResumeGame();
-    }
+    // private void CloseEditPanel()
+    // {
+    //    // editStoreMenuPanel.SetActive(false);
+    //     leftDownPanel.SetActive(true);
+    //     BussGrid.HideSelectedGridBussFloor();
+    //     // ResumeGame();
+    // }
 
     // public bool IsEditPanelOpen()
     // {
