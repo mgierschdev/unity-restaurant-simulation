@@ -18,7 +18,7 @@ public class BaseObjectController : MonoBehaviour
 
     //Long click controller
     private float timeClicking;
-    private const float TIME_BEFORE_ACTIVATING_SLIDER = 2f;
+    private const float TIME_BEFORE_ACTIVATING_SLIDER = 1f;
 
     // New item (not yet bought)
     // isNewItem: New item added through the store

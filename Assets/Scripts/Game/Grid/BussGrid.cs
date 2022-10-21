@@ -368,7 +368,7 @@ public static class BussGrid
 
     public static void HideHighlightedGridBussFloor()
     {
-        if (currentClickedActiveGameObject != "")
+        if (currentClickedActiveGameObject != "" && BusinessObjects.ContainsKey(currentClickedActiveGameObject))
         {
             GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
             gameGridObject.Hide();
@@ -904,15 +904,6 @@ public static class BussGrid
         }
     }
     // ******* ENQUEUES AND DEQUEUES
-
-    public static void SetNotOwned(GameGridObject obj)
-    {
-        PlayerData.RemoveFromInventory(obj);
-        BussQueueMap.Remove(obj, out byte bt);
-        obj.FreeObject();
-        obj.SetStoreObjectButtonsActive();
-        //Disable buttons
-    }
 
     public static bool IsDraggingEnabled(GameGridObject obj)
     {

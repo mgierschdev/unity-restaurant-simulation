@@ -545,15 +545,6 @@ public class GameGridObject : GameObjectBase
         hasNPCAssigned = val;
     }
 
-    public void SetStoreObjectButtonsActive()
-    {
-        saveObjButton.SetActive(false);
-        rotateObjLeftButton.SetActive(false);
-        acceptButton.SetActive(true);
-        cancelButton.SetActive(true);
-        //Set click listeners to accept or remove
-    }
-
     private void SetActiveSlider(bool var)
     {
         objectSlider.SetActive(var);
@@ -606,17 +597,13 @@ public class GameGridObject : GameObjectBase
     {
         isObjectSelected = false;
         BussGrid.SetDraggingObject(false);
+        BussGrid.SetIsDraggingEnable(false);
         BussGrid.HideHighlightedGridBussFloor();
     }
 
     public float GetCurrentSliderValue()
     {
         return currentSliderValue;
-    }
-
-    public void SetIsObjectSelected(bool val)
-    {
-        isObjectSelected = val;
     }
 
     public bool GetIsObjectSelected()
@@ -628,6 +615,8 @@ public class GameGridObject : GameObjectBase
     {
         acceptButton.SetActive(true);
         cancelButton.SetActive(true);
+        rotateObjLeftButton.SetActive(true);
+        saveObjButton.SetActive(false);
     }
     public void SetStoreObject()
     {
@@ -654,9 +643,10 @@ public class GameGridObject : GameObjectBase
     public void CancelPurchase()
     {
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
-        BussGrid.SetDisablePerspectiveHand(); // disables the perspective hand for 0.3 seconds
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
+        BussGrid.SetDisablePerspectiveHand(); // disables the perspective hand for 0.3 seconds
+        SetInactive();
         BussGrid.RecalculateBussGrid();
     }
 }
