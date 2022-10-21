@@ -21,17 +21,22 @@ public class GameGridObject : GameObjectBase
     private EmployeeController attendedBy;
     private GameObject editMenu;
     private bool isObjectBeingDragged;
-    private bool hashNPCAssigned;
+    private bool hasNPCAssigned;
     private GameObject saveObjButton;
     private GameObject rotateObjLeftButton;
     private GameObject cancelButton;
     private GameObject acceptButton;
+
+    //Controllers
+    private BaseObjectController baseObjectController;
 
     //Slider on top of the object
     private GameObject objectSlider;
     private Slider slider;
     private float sliderMultiplayer = 0.2f;
     private float currentSliderValue;
+    private bool isObjectSelected;
+
 
     public GameGridObject(Transform transform, ObjectRotation position, StoreGameObject storeGameObject)
     {
@@ -47,7 +52,8 @@ public class GameGridObject : GameObjectBase
         SortingLayer = transform.GetComponent<SortingGroup>();
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
         facingPosition = position;
-        hashNPCAssigned = false;
+        hasNPCAssigned = false;
+        isObjectSelected = false;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -67,6 +73,21 @@ public class GameGridObject : GameObjectBase
         objectSlider = transform.Find("Slider/Slider").gameObject;
         slider = objectSlider.GetComponent<Slider>();
         objectSlider.SetActive(false);
+
+        // Set the table controller
+        if (Type == ObjectType.NPC_SINGLE_TABLE)
+        {
+            baseObjectController = transform.GetComponent<TableController>();
+        }
+        else if (Type == ObjectType.NPC_COUNTER)
+        {
+            baseObjectController = transform.GetComponent<CounterController>();
+
+        }
+        else if (Type == ObjectType.SINGLE_CONTAINER)
+        {
+            baseObjectController = transform.GetComponent<BaseContainerController>();
+        }
 
         actionTiles = new List<GameObject>(){
             objectActionTile.gameObject,
@@ -174,7 +195,7 @@ public class GameGridObject : GameObjectBase
     {
         usedBy = null;
         attendedBy = null;
-        hashNPCAssigned = false;
+        hasNPCAssigned = false;
     }
 
     public Vector3 GetActionTile()
@@ -505,12 +526,12 @@ public class GameGridObject : GameObjectBase
 
     public bool HasNPCAssigned()
     {
-        return hashNPCAssigned;
+        return hasNPCAssigned;
 
     }
     public void SetHashNPCAssigned(bool val)
     {
-        hashNPCAssigned = val;
+        hasNPCAssigned = val;
     }
 
     public void SetTryingBeforeAccepting()
@@ -530,6 +551,11 @@ public class GameGridObject : GameObjectBase
 
     public void UpdateSlider()
     {
+        if (isObjectSelected)
+        {
+            return;
+        }
+
         if (!objectSlider.activeSelf)
         {
             SetActiveSlider(true);
@@ -538,16 +564,46 @@ public class GameGridObject : GameObjectBase
         // EnergyBar controller, only if it is active
         if (objectSlider.activeSelf)
         {
-            if (currentSliderValue <= 100)
+            if (currentSliderValue <= 1)
             {
                 currentSliderValue += Time.fixedDeltaTime * sliderMultiplayer;
                 slider.value = currentSliderValue;
             }
             else
             {
-                // select object
-                Debug.Log("Select object " + Name);
+                SetActive();
             }
         }
     }
+
+    private void SetActive()
+    {
+        isObjectSelected = true;
+        SetActiveSlider(false);
+        BussGrid.SetActiveGameGridObject(this);
+        baseObjectController.RestartTableNPC();
+    }
+
+    public void SetInactive()
+    {
+        isObjectSelected = false;
+        BussGrid.SetDraggingObject(false);
+        BussGrid.HideHighlightedGridBussFloor();
+    }
+
+    public float GetCurrentSliderValue()
+    {
+        return currentSliderValue;
+    }
+
+    public void SetIsObjectSelected(bool val)
+    {
+        isObjectSelected = val;
+    }
+
+    public bool GetIsObjectSelected()
+    {
+        return isObjectSelected;
+    }
+
 }

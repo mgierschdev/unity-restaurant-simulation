@@ -9,7 +9,6 @@ public class ClickController : MonoBehaviour
     private const float LONG_CLICK_DURATION = 0.2f;
     private Camera mainCamera;
     private float lastClickTime;
-
     private bool isPressingButton;
     private bool mouseOverUI;
     private GameObject clickedObject;

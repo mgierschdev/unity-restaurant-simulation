@@ -20,25 +20,20 @@ public class BaseObjectController : MonoBehaviour
     private float timeClicking;
     private const float TIME_BEFORE_ACTIVATING_SLIDER = 4f;
 
+    // Checking if the click is over the item
+
     private void Update()
     {
-        if (gameGridObject != null && timeClicking > TIME_BEFORE_ACTIVATING_SLIDER)
+        if (gameGridObject != null && timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected())
         {
             gameGridObject.UpdateSlider();
         }
-        // if (!Menu || gameGridObject == null || BussGrid.GetDragginObject())
-        // {
-        //     return;
-        // }
 
-        // if (Menu.IsEditPanelOpen())
-        // {
-        //     gameGridObject.LightAvailableUnderTiles();
-        // }
-        // else
-        // {
-        //     gameGridObject.HideUnderTiles();
-        // }
+        // If the item is selected and the user is clicking outside we un-select the item
+        if (Input.GetMouseButtonDown(0) && gameGridObject.GetIsObjectSelected() && !IsClickingSelf() && !IsClickingButton())
+        {
+            gameGridObject.SetInactive();
+        }
     }
 
     protected void Init()
@@ -58,19 +53,14 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-
-
-        if (!Menu || !IsDraggable())
-        {
-            return;
-        }
-
-        BussGrid.SetActiveGameGridObject(gameGridObject);
         initialActionTileOne = gameGridObject.GetActionTileInGridPosition();
         initialGridPosition = gameGridObject.GridPosition;
         initialPosition = transform.position;
-        gameGridObject.SetIsObjectBeingDragged(true);
+    }
 
+    // Restart the state of the npcs in case that there is any
+    public void RestartTableNPC()
+    {
         // If you move a table while busy the NPC will self destroy
         if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
         {
@@ -95,8 +85,6 @@ public class BaseObjectController : MonoBehaviour
     private void OnMouseDrag()
     {
         timeClicking += Time.unscaledDeltaTime;
-
-        Debug.Log("Time clicking " + timeClicking + " object " + gameGridObject.Name);
 
         if (!Menu || !IsDraggable())
         {
@@ -151,7 +139,7 @@ public class BaseObjectController : MonoBehaviour
         }
 
         gameGridObject.UpdateCoords();
-        BussGrid.SetDraggingObject(false);
+        //BussGrid.SetDraggingObject(false);
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
 
         //We recalculate Paths once the object is placed
@@ -185,6 +173,19 @@ public class BaseObjectController : MonoBehaviour
         foreach (Collider2D r in hits)
         {
             if (r.name.Contains(Settings.Button))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool IsClickingSelf()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
+        foreach (Collider2D r in hits)
+        {
+            if (r.name.Contains(name))
             {
                 return true;
             }
