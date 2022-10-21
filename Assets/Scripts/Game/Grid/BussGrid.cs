@@ -930,6 +930,12 @@ public static class BussGrid
     {
         GameGridObject obj = GetActiveGameGridObject();
 
+        // it has been erased before reaching this stage
+        if (obj == null)
+        {
+            return;
+        }
+
         // Meaning on preview
         if (obj.GetIsItemBought())
         {
