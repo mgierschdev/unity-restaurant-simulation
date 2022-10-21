@@ -20,7 +20,18 @@ public class BaseObjectController : MonoBehaviour
     private float timeClicking;
     private const float TIME_BEFORE_ACTIVATING_SLIDER = 4f;
 
-    // Checking if the click is over the item
+    // New item (not yet bought)
+    // isNewItem: New item added through the store
+    private bool isNewItem;
+    // isNewItemSetted: New item config setted
+    private bool isNewItemSetted;
+
+    private void Awake()
+    {
+        isNewItem = false;
+        isNewItemSetted = false;
+        timeClicking = 0;
+    }
 
     private void Update()
     {
@@ -33,6 +44,17 @@ public class BaseObjectController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && gameGridObject.GetIsObjectSelected() && !IsClickingSelf() && !IsClickingButton())
         {
             gameGridObject.SetInactive();
+
+            //if it is a store item not bought we erase it 
+            if(!gameGridObject.GetIsItemBought()){
+                gameGridObject.CancelPurchase();
+            }
+        }
+        
+        //First time settup for a store item
+        if (!isNewItemSetted && isNewItem && gameGridObject != null)
+        {
+            SetGameGridObject();
         }
     }
 
@@ -42,7 +64,6 @@ public class BaseObjectController : MonoBehaviour
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
         InitialObjectRotation = ObjectRotation.FRONT;
-        timeClicking = 0;
 
         //Edit Panel Disable
         if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
@@ -206,8 +227,14 @@ public class BaseObjectController : MonoBehaviour
         return false;
     }
 
-    public GameGridObject GetGameGridObject()
+    public void SetGameGridObject()
     {
-        return gameGridObject;
+        isNewItemSetted = true;
+        gameGridObject.SetStoreObject();
+    }
+
+    public void SetNewItem()
+    {
+        isNewItem = true;
     }
 }

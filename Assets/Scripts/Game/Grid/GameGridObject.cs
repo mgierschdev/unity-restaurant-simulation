@@ -37,6 +37,9 @@ public class GameGridObject : GameObjectBase
     private float currentSliderValue;
     private bool isObjectSelected;
 
+    //Store - To be bought Item
+    private bool isItemBought;
+
 
     public GameGridObject(Transform transform, ObjectRotation position, StoreGameObject storeGameObject)
     {
@@ -54,6 +57,7 @@ public class GameGridObject : GameObjectBase
         facingPosition = position;
         hasNPCAssigned = false;
         isObjectSelected = false;
+        isItemBought = true;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -101,7 +105,7 @@ public class GameGridObject : GameObjectBase
             };
 
         UpdateRotation(position);
-        SetEditPanelClickListeners();
+        SetEditPanelButtonClickListeners();
         Init();
     }
 
@@ -118,7 +122,7 @@ public class GameGridObject : GameObjectBase
         Hide();
     }
 
-    private void SetEditPanelClickListeners()
+    private void SetEditPanelButtonClickListeners()
     {
         saveObjButton = editMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObjButton.GetComponent<Button>();
@@ -129,7 +133,13 @@ public class GameGridObject : GameObjectBase
         rotateLeft.onClick.AddListener(RotateObjectLeft);
 
         acceptButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
+        Button accept = acceptButton.GetComponent<Button>();
+        accept.onClick.AddListener(AcceptPurchase);
+
         cancelButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
+        Button cancel = cancelButton.GetComponent<Button>();
+        cancel.onClick.AddListener(CancelPurchase);
+
         acceptButton.SetActive(false);
         cancelButton.SetActive(false);
     }
@@ -534,7 +544,7 @@ public class GameGridObject : GameObjectBase
         hasNPCAssigned = val;
     }
 
-    public void SetTryingBeforeAccepting()
+    public void SetStoreObjectButtonsActive()
     {
         saveObjButton.SetActive(false);
         rotateObjLeftButton.SetActive(false);
@@ -606,4 +616,35 @@ public class GameGridObject : GameObjectBase
         return isObjectSelected;
     }
 
+    public void SetNewObjectActive()
+    {
+        acceptButton.SetActive(true);
+        cancelButton.SetActive(true);
+    }
+    public void SetStoreObject()
+    {
+        //We show accept, cancel buttons and select the object
+        isObjectSelected = true;
+        isItemBought = false;
+        BussGrid.SetActiveGameGridObject(this);
+        SetNewObjectActive();
+    }
+
+    // Used in the case the player cancels or clicks outside the object
+    public bool GetIsItemBought()
+    {
+        return isItemBought;
+    }
+
+    private void AcceptPurchase()
+    {
+        isItemBought = true;
+        PlayerData.Subtract(storeGameObject.Cost);
+    }
+
+    public void CancelPurchase()
+    {
+        PlayerData.RemoveFromInventory(this);
+        Object.Destroy(objectTransform.gameObject);
+    }
 }
