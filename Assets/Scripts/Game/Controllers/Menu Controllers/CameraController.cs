@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // This class handles the change of camera with the touch
@@ -22,6 +23,8 @@ public class CameraController : MonoBehaviour
     // private ClickController clickController;
     // private float interpolation = Settings.CameraFollowInterpolation;
 
+    private bool IsPerspectiveHandTempDisabled;
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -36,6 +39,7 @@ public class CameraController : MonoBehaviour
         // clickController = cController.GetComponent<ClickController>();
         targetVectorPosition = Vector3.zero;
         targetOrthographicSize = 2.5f;
+        IsPerspectiveHandTempDisabled = false;
     }
 
     // Update is called once per frame
@@ -63,14 +67,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        //Trying to reproduce prespective hand blocked
-        // if (BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen())
-        // {
-        //     Debug.Log("PerspectiveHand: " + BussGrid.GetDragginObject() + " " + menuHandlerController.IsMenuOpen());
-        // }
-        //Trying to reproduce prespective hand blocked
-
-        if (!Settings.CameraPerspectiveHand || BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen())
+        if (!Settings.CameraPerspectiveHand || BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
         {
             return;
         }
@@ -129,5 +126,18 @@ public class CameraController : MonoBehaviour
             // fixedDeltaTime works with the time scale = 0
             mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetPosition, ZOOM_SPEED * Time.fixedDeltaTime);
         }
+    }
+
+    private IEnumerator DisablePerspectiveHandEnum()
+    {
+        yield return new WaitForSeconds(0.1f);
+        IsPerspectiveHandTempDisabled = false;
+    }
+
+    public void DisablePerspectiveHand()
+    {
+        IsPerspectiveHandTempDisabled = true;
+        IEnumerator coroutine = DisablePerspectiveHandEnum();
+        StartCoroutine(coroutine);
     }
 }
