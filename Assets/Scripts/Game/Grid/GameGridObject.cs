@@ -34,7 +34,7 @@ public class GameGridObject : GameObjectBase
     //Slider on top of the object
     private GameObject objectSlider;
     private Slider slider;
-    private float sliderMultiplayer = 0.2f;
+    private float sliderMultiplayer = 0.5f;
     private float currentSliderValue;
     private bool isObjectSelected;
 
