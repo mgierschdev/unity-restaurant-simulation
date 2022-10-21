@@ -584,7 +584,7 @@ public static class BussGrid
         SetDraggingObject(true);
         isDraggingEnabled = true;
 
-        if (currentClickedActiveGameObject != "")
+        if (currentClickedActiveGameObject != "" && BusinessObjects.ContainsKey(currentClickedActiveGameObject))
         {
             GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
             gameGridObject.Hide();
