@@ -364,7 +364,7 @@ public static class BussGrid
         return mapBusinessFloor.ContainsKey(pos);
     }
 
-    public static void HideGridBussFloor()
+    public static void HideHighlightedGridBussFloor()
     {
         if (currentClickedActiveGameObject != "")
         {
@@ -580,11 +580,14 @@ public static class BussGrid
     public static void SetActiveGameGridObject(GameGridObject obj)
     {
         SetDraggingObject(true);
+        isDraggingEnabled = true;
+        
         if (currentClickedActiveGameObject != "")
         {
             GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
             gameGridObject.Hide();
         }
+
         currentClickedActiveGameObject = obj.Name;
         obj.Show();
     }
