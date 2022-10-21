@@ -18,7 +18,7 @@ public class BaseObjectController : MonoBehaviour
 
     //Long click controller
     private float timeClicking;
-    private const float TIME_BEFORE_ACTIVATING_SLIDER = 4f;
+    private const float TIME_BEFORE_ACTIVATING_SLIDER = 2f;
 
     // New item (not yet bought)
     // isNewItem: New item added through the store
@@ -142,6 +142,10 @@ public class BaseObjectController : MonoBehaviour
     private void OnMouseUp()
     {
         timeClicking = 0;
+        if(gameGridObject.GetCurrentSliderValue() > 0){
+            //we disable the slider
+            gameGridObject.DisableSlider();
+        }
 
         if (!Menu || !BussGrid.IsDraggingEnabled(gameGridObject))
         {
