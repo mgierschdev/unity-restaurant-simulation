@@ -640,6 +640,7 @@ public class GameGridObject : GameObjectBase
     {
         isItemBought = true;
         PlayerData.Subtract(storeGameObject.Cost);
+        SetInactive();
     }
 
     public void CancelPurchase()
