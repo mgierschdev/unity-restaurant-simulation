@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
         npcId = 0;
         NpcSet = new HashSet<NPCController>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
+        SetItemsActive();//This will start the game
     }
 
     private void Update()
@@ -75,6 +76,15 @@ public class GameController : MonoBehaviour
         employeeController = employeeObject.GetComponent<EmployeeController>();
         npcId++;
     }
+
+    private void SetItemsActive()
+    {
+        foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
+        {
+            g.SetActive(true);
+        }
+    }
+
     public void RemoveNpc(NPCController controller)
     {
         if (NpcSet.Contains(controller))

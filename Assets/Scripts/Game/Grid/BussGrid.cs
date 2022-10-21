@@ -847,7 +847,7 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought())
+            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought() && tmp.GetActive())
             {
                 result = tmp;
                 return true;
