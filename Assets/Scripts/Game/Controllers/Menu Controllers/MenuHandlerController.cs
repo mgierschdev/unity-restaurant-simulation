@@ -183,10 +183,11 @@ public class MenuHandlerController : MonoBehaviour
         menu.UnityObject.SetActive(true);
         menuStack.Push(menu);
         openMenus.Add(menu.Name);
-        // if (menu.PauseGame)
-        // {
-        //     HandleTimeScale();
-        // }
+
+        //If there is a selected object on the UI we un-unselect the object
+        if(BussGrid.GetIsDraggingEnabled()){
+            BussGrid.DisableDragging();
+        }
 
         // we enable menu background
         menuBackgroundController.Enable();
