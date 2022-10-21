@@ -41,6 +41,9 @@ public class GameGridObject : GameObjectBase
     //Store - To be bought Item
     private bool isItemBought;
 
+    //Is Item active
+    private bool active;
+
 
     public GameGridObject(Transform transform, ObjectRotation position, StoreGameObject storeGameObject)
     {
@@ -59,6 +62,7 @@ public class GameGridObject : GameObjectBase
         hasNPCAssigned = false;
         isObjectSelected = false;
         isItemBought = true;
+        active = false;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -637,6 +641,7 @@ public class GameGridObject : GameObjectBase
     {
         isItemBought = true;
         PlayerData.Subtract(storeGameObject.Cost);
+        active = true; // now it can be used by NPCs
         SetInactive();
     }
 
@@ -648,5 +653,15 @@ public class GameGridObject : GameObjectBase
         BussGrid.SetDisablePerspectiveHand(); // disables the perspective hand for 0.3 seconds
         SetInactive();
         BussGrid.RecalculateBussGrid();
+    }
+
+    public void SetActive(bool val)
+    {
+        active = val;
+    }
+
+    public bool GetActive()
+    {
+        return active;
     }
 }
