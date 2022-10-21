@@ -311,10 +311,7 @@ public class MenuHandlerController : MonoBehaviour
             return;
         }
 
-        // GameLog.Log("Object to find a Place for " + obj.Name);
-        // we fix the camera in case the player is zoomed
         CloseAllMenus();
-        //gridController.HighlightGridBussFloor();
 
         // Load test debug
         // StartCoroutine(TestPlacingObjects(obj));
@@ -324,39 +321,20 @@ public class MenuHandlerController : MonoBehaviour
 
         if (newObject != null)
         {
-            GameGridObject gameGridObject;
+            BaseObjectController controller = null;
+            //GameGridObject gameGridObject;
 
             if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
             {
-                TableController tableController = newObject.GetComponent<TableController>();
-                gameGridObject = tableController.GetGameGridObject();
-            }
-            else if (obj.Type == ObjectType.NPC_COUNTER)
-            {
-                CounterController counterController = newObject.GetComponent<CounterController>();
-                gameGridObject = counterController.GetGameGridObject();
-
-            }
-            else
-            {
-                BaseContainerController baseContainerController = newObject.GetComponent<BaseContainerController>();
-                gameGridObject = baseContainerController.GetGameGridObject();
-
+                controller = newObject.GetComponent<TableController>();
             }
 
-            //BussGrid.SetNotOwned(gameGridObject);
+            controller.SetNewItem();
         }
         else
         {
             GameLog.Log("TODO: UI message: Place not found");
         }
-
-        //Disable Left down panel
-        //PauseGame();
-        // leftDownPanel.SetActive(false);
-        // editStoreMenuPanel.SetActive(true);
-        // enabling background image
-        //menuBackgroundController.Disable();
     }
     IEnumerator TestPlacingObjects(StoreGameObject obj)
     {
@@ -401,15 +379,15 @@ public class MenuHandlerController : MonoBehaviour
     //     return editStoreMenuPanel.activeSelf;
     // }
 
-    private void ItemClicked()
-    {
-        //GameLog.Log("Clicking inventory/bEmployees");
-    }
+    // private void ItemClicked()
+    // {
+    //     //GameLog.Log("Clicking inventory/bEmployees");
+    // }
 
-    public void InventoryItemClicked(GameGridObject obj)
-    {
-        GameLog.Log("Button Clicked " + obj.Name);
-    }
+    // public void InventoryItemClicked(GameGridObject obj)
+    // {
+    //     GameLog.Log("Button Clicked " + obj.Name);
+    // }
 
     public bool IsMenuOpen()
     {
@@ -418,7 +396,8 @@ public class MenuHandlerController : MonoBehaviour
 
     private static GameObject placeGameObject(StoreGameObject obj)
     {
-        //Obj type to be used
+        //StoreGameObject Obj, type to be used
+
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
 
         foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)
