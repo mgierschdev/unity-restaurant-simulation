@@ -587,6 +587,13 @@ public class GameGridObject : GameObjectBase
         }
     }
 
+    public void DisableSlider()
+    {
+        currentSliderValue = 0;
+        slider.value = 0;
+        objectSlider.SetActive(false);
+    }
+
     private void SetActive()
     {
         isObjectSelected = true;
