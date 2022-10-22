@@ -187,30 +187,39 @@ public static class PlayerData
 
     public static void LoadFirebaseDocument(DocumentSnapshot data)
     {
-        Dictionary<string, object> dic = data.ToDictionary();
-        List<object> genericList = (List<object>)dic[FirestorePlayerAttributes.NAME];
-        Name = new List<String>(){
+        Debug.Log("LoadFirebaseDocument");
+        try
+        {
+            Dictionary<string, object> dic = data.ToDictionary();
+            List<object> genericList = (List<object>)dic[FirestorePlayerAttributes.NAME];
+            Name = new List<String>(){
             (String) genericList[0],
             (String) genericList[1],
         };
 
-        GameMoney = (Double)dic[FirestorePlayerAttributes.GAME_MONEY];
-        Gems = (Double)dic[FirestorePlayerAttributes.GEMS];
-        LanguageCode = (String)dic[FirestorePlayerAttributes.LANGUAGE_CODE];
-        InternalID = (String)dic[FirestorePlayerAttributes.INTERNAL_ID];
-        FireappAuthID = (String)dic[FirestorePlayerAttributes.FIREBASE_AUTH_ID];
-        Auth = (AuthSource)(Int64)dic[FirestorePlayerAttributes.AUTH_TYPE];
-        LastLogin = dic[FirestorePlayerAttributes.AUTH_TYPE];
-        EmailID = data.Id;
-        Experience = (Double)dic[FirestorePlayerAttributes.EXPERIENCE];
-        Level = (int)(Int64)dic[FirestorePlayerAttributes.LEVEL];
+            GameMoney = (Double)dic[FirestorePlayerAttributes.GAME_MONEY];
+            Gems = (Double)dic[FirestorePlayerAttributes.GEMS];
+            LanguageCode = (String)dic[FirestorePlayerAttributes.LANGUAGE_CODE];
+            InternalID = (String)dic[FirestorePlayerAttributes.INTERNAL_ID];
+            FireappAuthID = (String)dic[FirestorePlayerAttributes.FIREBASE_AUTH_ID];
+            Auth = (AuthSource)(Int64)dic[FirestorePlayerAttributes.AUTH_TYPE];
+            LastLogin = dic[FirestorePlayerAttributes.AUTH_TYPE];
+            EmailID = data.Id;
+            Experience = (Double)dic[FirestorePlayerAttributes.EXPERIENCE];
+            Level = (int)(Int64)dic[FirestorePlayerAttributes.LEVEL];
 
-        // In case of parsing serverside timestamp:
-        // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
-        // foreach (KeyValuePair<string, object> pair in dic)
-        // {
-        //     GameLog.Log(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
-        // }
+            // In case of parsing serverside timestamp:
+            // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
+            foreach (KeyValuePair<string, object> pair in dic)
+            {
+                GameLog.LogAll(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
+            }
+        }
+        catch (SystemException e)
+        {
+            Debug.Log("Exception " + e);
+
+        }
     }
 
     // Control times in which we save the game
@@ -220,7 +229,7 @@ public static class PlayerData
     private async static void Quit()
     {
         //Task task = Firestore.SaveUserData(GetUserAsMap());
-       // await task;
+        // await task;
     }
 
     [RuntimeInitializeOnLoadMethod]

@@ -47,16 +47,15 @@ public class SceneLoadController : MonoBehaviour
         Firestore.Init();
         // await firebase.InitAuth(); //ONLY in build physical
         //auth = firebase.GetFirebaseAuth();
-        DocumentSnapshot userData = await Firestore.GetUserData(Settings.TEST_USER);//Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.UserId);
-        GameLog.LogAll("Loading enabled " + userData.Metadata);
+        userData = Firestore.GetUserData(Settings.TEST_USER);//Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.UserId);
+        GameLog.LogAll("Loading enabled " + userData.Status);
 
         // Loading next scene
         // Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
         // after the new one finishes loading.
-        //operation = SceneManager.LoadSceneAsync(Settings.GameScene).aw;
-       // Task task = new Task(LoadAsyncScene());
-        
-        //operation.allowSceneActivation = false;
+        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+        //Task task = new Task(LoadAsyncScene());
+        operation.allowSceneActivation = false;
     }
 
     private void Update()
@@ -66,14 +65,12 @@ public class SceneLoadController : MonoBehaviour
             return;
         }
 
-        // GameLog.Log("UNITY DEBUG: Loading " + currentTimeAtScene + " " + (operation != null ? operation.progress : "Null"));
+        GameLog.Log("UNITY DEBUG: Loading " + userData + " " );
 
         currentTimeAtScene += Time.fixedDeltaTime;
         currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.10f, Time.fixedDeltaTime);
         slider.value = currentProgress;
         // sliderProgress.text = "LOADING " + Mathf.Ceil(currentProgress * 100).ToString() + "%";
-        
-        //Debug.Log(operation.progress + " " + userData.IsCompleted);
 
         if (Mathf.Approximately(operation.progress, 0.9f) && userData != null && userData.IsCompleted && currentTimeAtScene > MIN_TIME_LOADING)
         {
@@ -81,6 +78,8 @@ public class SceneLoadController : MonoBehaviour
             PlayerData.LoadFirebaseDocument(userData.Result);
             operation.allowSceneActivation = true;
         }
+
+        //Debug.Log(operation.progress + " " + userData.IsCompleted);
     }
 
     private IEnumerator LoadAsyncScene()
@@ -90,7 +89,7 @@ public class SceneLoadController : MonoBehaviour
         Debug.Log("starting scene coroutine " + Settings.GameScene);
         while (!operation.isDone)
         {
-           // Debug.Log("Progress "+operation.progress);
+            // Debug.Log("Progress "+operation.progress);
             yield return null;
         }
     }
