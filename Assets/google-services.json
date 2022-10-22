@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "101747398758-2j7p4n8kj7od6sknopdu7j224m29j0vm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.currentlynotdefined.cafemadness",
+            "certificate_hash": "06a23e82e49830fe5940041b0a3976abced9002a"
+          }
+        },
+        {
           "client_id": "101747398758-urs94cm87o9bh7tkccjc7oaj6m8s9bb3.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,13 +37,6 @@
             {
               "client_id": "101747398758-urs94cm87o9bh7tkccjc7oaj6m8s9bb3.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "101747398758-8gv5p4shm3pijelp0h4bcih1lro1qso1.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.currentlyundefined.cafemadness"
-              }
             }
           ]
         }
