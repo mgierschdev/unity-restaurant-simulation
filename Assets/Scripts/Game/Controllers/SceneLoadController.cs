@@ -48,8 +48,8 @@ public class SceneLoadController : MonoBehaviour
             if (userData == null)
             {
                 PlayerData.SetNewUser(newUser);
+                userData = await Firestore.GetUserData(PlayerData.EmailID);
             }
-            userData = await Firestore.GetUserData(PlayerData.EmailID);
         }
         else
         {
