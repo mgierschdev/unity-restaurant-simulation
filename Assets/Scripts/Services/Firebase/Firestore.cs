@@ -15,11 +15,11 @@ public static class Firestore
     private static AppOptions appOptions;
     private static FirebaseApp app;
 
-    public static void Init()
+    public static void Init(bool editor)
     {
         firestore = FirebaseFirestore.DefaultInstance;
 
-        if (Settings.IsFirebaseEmulatorEnabled)
+        if (editor)
         {
             // In case the config has been cached between scene loads
             if (!firestore.Settings.Host.Contains(Settings.FIRESTORE_HOST))
@@ -55,7 +55,6 @@ public static class Firestore
         }
 
         DocumentReference testUser = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(PlayerData.EmailID);
-        Task save = testUser.SetAsync(docData, SetOptions.MergeAll);
-        return save;
+        return testUser.SetAsync(docData, SetOptions.MergeAll);
     }
 }
