@@ -5,7 +5,7 @@ using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
 public class TestNPCMovement
-// {
+{
 //     private GameObject npcObject;
 //     private NPCController npcController;
 //     private Vector3 target;
