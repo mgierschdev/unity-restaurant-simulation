@@ -18,12 +18,12 @@ public class FirebaseLoad
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                GameLog.LogAll("SignInAnonymouslyAsync was canceled.");
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                GameLog.LogAll("SignInAnonymouslyAsync encountered an error: " + task.Exception);
                 return;
             }
             isUserSignedIn = true;
@@ -41,7 +41,7 @@ public class FirebaseLoad
             {
                 return FirebaseApp.FixDependenciesAsync().ContinueWith(t =>
                 {
-                    GameLog.Log("Firebase: Loaded.");
+                    GameLog.LogAll("Firebase: Loaded.");
                     return FirebaseApp.CheckDependenciesAsync();
                 }).Unwrap();
             }
@@ -59,7 +59,8 @@ public class FirebaseLoad
             }
             else
             {
-                GameLog.LogError("Error: Could not resolve all Firebase dependencies: " + dependencyStatus);
+                GameLog.LogAll("Error: Could not resolve all Firebase dependencies: " + dependencyStatus);
+                Debug.LogError("Error: Could not resolve all Firebase dependencies: " + dependencyStatus);
                 isFirebaseLoaded = false;
             }
         });

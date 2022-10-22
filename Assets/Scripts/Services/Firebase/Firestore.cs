@@ -16,11 +16,12 @@ public static class Firestore
 
     public static void Init()
     {
-        if (firestore != null)
-        {
-            return;
-        }
-
+        GameLog.LogAll("Firebase " + firestore);
+        // if (firestore != null)
+        // {
+        //     return;
+        // }
+        GameLog.LogAll("Firebase default instance " + firestore);
         firestore = FirebaseFirestore.DefaultInstance;
         if (Settings.IsFirebaseEmulatorEnabled)
         {
