@@ -227,6 +227,7 @@ public static class PlayerData
     {
         SetMockUser();
         FireappAuthID = user.UserId;
+        EmailID = user.UserId;//TMP TODO
         Auth = user.IsAnonymous == true ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED;
         await Firestore.SaveUserData(GetUserAsMap());
     }
