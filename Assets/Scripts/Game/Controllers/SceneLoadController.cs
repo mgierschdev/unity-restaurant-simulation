@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Firestore;
-using TMPro;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,7 +22,7 @@ public class SceneLoadController : MonoBehaviour
     private float currentTimeAtScene; // Current time at the screen
 
     // Loads Auth and user data
-    public async void Start()
+    public async void Awake()
     {
         // Init 
         currentTimeAtScene = 0;
@@ -50,27 +50,35 @@ public class SceneLoadController : MonoBehaviour
         // Loading next scene
         // Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
         // after the new one finishes loading.
-        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+        // operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+        StartCoroutine(LoadAsyncScene());
         operation.allowSceneActivation = false;
     }
 
     private void Update()
     {
-        if (operation == null)
-        {
-            return;
-        }
+        Debug.Log("UNITY: Loading " + currentTimeAtScene + " " + (operation != null ? operation.progress : "Null"));
 
         currentTimeAtScene += Time.fixedDeltaTime;
         currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.10f, Time.fixedDeltaTime);
         slider.value = currentProgress;
         // sliderProgress.text = "LOADING " + Mathf.Ceil(currentProgress * 100).ToString() + "%";
 
-        if (Mathf.Approximately(operation.progress, 0.9f) && userData != null && userData.IsCompleted && currentTimeAtScene > MIN_TIME_LOADING)
+        if (operation != null && Mathf.Approximately(operation.progress, 0.9f) && userData != null && userData.IsCompleted && currentTimeAtScene > MIN_TIME_LOADING)
         {
             // Loads the queried data to the player game object
             PlayerData.LoadFirebaseDocument(userData.Result);
             operation.allowSceneActivation = true;
+        }
+    }
+
+    private IEnumerator LoadAsyncScene()
+    {
+        operation = SceneManager.LoadSceneAsync((Settings.GameScene);
+
+        while (!operation.isDone)
+        {
+            yield return null;
         }
     }
 }
