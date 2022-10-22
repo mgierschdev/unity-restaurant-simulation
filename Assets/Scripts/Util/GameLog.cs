@@ -7,21 +7,26 @@ public static class GameLog
     public static void Log(string message)
     {
 #if UNITY_EDITOR
-        Debug.Log(message);
+        Debug.Log("GAMELOG UNITY: " + message);
 #endif
+    }
+
+    public static void LogAll(string message)
+    {
+        Debug.Log("GAMELOG UNITY: " + message);
     }
 
     public static void Log(Vector3Int message)
     {
 #if UNITY_EDITOR
-        Debug.Log(message);
+        Debug.Log("GAMELOG UNITY: " + message);
 #endif
     }
 
     public static void LogWarning(string message)
     {
 #if UNITY_EDITOR
-        Debug.LogWarning(message);
+        Debug.LogWarning("GAMELOG UNITY: " + message);
 #endif
     }
     public static void LogError(string message)

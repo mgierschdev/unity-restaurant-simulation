@@ -1,7 +1,7 @@
+using System.Collections;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Firestore;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,7 +33,7 @@ public class SceneLoadController : MonoBehaviour
         slider.maxValue = 1;
         slider.value = 0;
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
-
+        GameLog.LogAll("UNITY DEBUG: Loading INIT");
         // We get the text inside the slider
         // GameObject sliderProgressObject = GameObject.Find(Settings.SliderProgress).gameObject;
         // Util.IsNull(sliderProgressObject, "SceneLoadController/Start sliderProgressObject is null");
@@ -41,23 +41,26 @@ public class SceneLoadController : MonoBehaviour
 
         // Init firebase
         firebase = new FirebaseLoad();
+        GameLog.LogAll("Loading firebase");
         await firebase.InitFirebase();
+        GameLog.LogAll("Loading Init firebase");
         Firestore.Init();
         // await firebase.InitAuth(); ONLY after build
-        auth = firebase.GetFirebaseAuth();
+        //auth = firebase.GetFirebaseAuth();
         userData = Firestore.GetUserData(Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.UserId);
+        GameLog.LogAll("Loading enabled");
 
         // Loading next scene
         // Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
         // after the new one finishes loading.
-        // operation = SceneManager.LoadSceneAsync(Settings.GameScene);
-        StartCoroutine(LoadAsyncScene());
+        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+        //StartCoroutine(LoadAsyncScene());
         operation.allowSceneActivation = false;
     }
 
     private void Update()
     {
-        Debug.Log("UNITY: Loading " + currentTimeAtScene + " " + (operation != null ? operation.progress : "Null"));
+        // GameLog.Log("UNITY DEBUG: Loading " + currentTimeAtScene + " " + (operation != null ? operation.progress : "Null"));
 
         currentTimeAtScene += Time.fixedDeltaTime;
         currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.10f, Time.fixedDeltaTime);
@@ -75,7 +78,8 @@ public class SceneLoadController : MonoBehaviour
     private IEnumerator LoadAsyncScene()
     {
         operation = SceneManager.LoadSceneAsync((Settings.GameScene));
-
+        operation.allowSceneActivation = false;
+        Debug.Log("starting scene " + Settings.GameScene);
         while (!operation.isDone)
         {
             yield return null;
