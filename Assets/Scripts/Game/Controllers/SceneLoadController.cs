@@ -44,7 +44,11 @@ public class SceneLoadController : MonoBehaviour
             Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
             FirebaseAuth auth = FirebaseAuth.DefaultInstance;
             newUser = await auth.SignInAnonymouslyAsync();
-            PlayerData.SetNewUser(newUser);
+            userData = await Firestore.GetUserData(newUser.UserId);
+            if (userData == null)
+            {
+                PlayerData.SetNewUser(newUser);
+            }
             userData = await Firestore.GetUserData(PlayerData.EmailID);
         }
         else
