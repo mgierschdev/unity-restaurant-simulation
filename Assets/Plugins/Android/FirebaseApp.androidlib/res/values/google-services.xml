@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id">
   <string name="gcm_defaultSenderId" translatable="false">101747398758</string>
   <string name="google_storage_bucket" translatable="false">fir-unitygamebussbackend.appspot.com</string>
   <string name="project_id" translatable="false">fir-unitygamebussbackend</string>
   <string name="google_api_key" translatable="false">AIzaSyAKfoadycbafONyJ77icbtz1DJzyC6ST54</string>
   <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAKfoadycbafONyJ77icbtz1DJzyC6ST54</string>
   <string name="google_app_id" translatable="false">1:101747398758:android:5cad0590cb61d3d76275a7</string>
+  <string name="default_android_client_id" translatable="false">101747398758-2j7p4n8kj7od6sknopdu7j224m29j0vm.apps.googleusercontent.com</string>
   <string name="default_web_client_id" translatable="false">101747398758-urs94cm87o9bh7tkccjc7oaj6m8s9bb3.apps.googleusercontent.com</string>
 </resources>
