@@ -44,18 +44,38 @@ public class SceneLoadController : MonoBehaviour
         GameLog.LogAll("Loading firebase");
         await firebase.InitFirebase();
         GameLog.LogAll("Loading Init firebase");
-        Firestore.Init();
-        // await firebase.InitAuth(); //ONLY in build physical
-        //auth = firebase.GetFirebaseAuth();
-        userData = Firestore.GetUserData(Settings.TEST_USER);//Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.UserId);
-        GameLog.LogAll("Loading enabled " + userData.Status);
+
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        await auth.SignInAnonymouslyAsync().ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                newUser.DisplayName, newUser.UserId);
+        });
+
+        // Firestore.Init();
+        // // await firebase.InitAuth(); //ONLY in build physical
+        // //auth = firebase.GetFirebaseAuth();
+        // userData = Firestore.GetUserData(Settings.TEST_USER);//Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.UserId);
+        // GameLog.LogAll("Loading enabled " + userData.Status);
 
         // Loading next scene
         // Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
         // after the new one finishes loading.
-        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
-        //Task task = new Task(LoadAsyncScene());
-        operation.allowSceneActivation = false;
+        // operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+        // //Task task = new Task(LoadAsyncScene());
+        // operation.allowSceneActivation = false;
     }
 
     private void Update()
@@ -65,7 +85,7 @@ public class SceneLoadController : MonoBehaviour
             return;
         }
 
-        GameLog.Log("UNITY DEBUG: Loading " + userData + " " );
+        GameLog.Log("UNITY DEBUG: Loading " + userData + " ");
 
         currentTimeAtScene += Time.fixedDeltaTime;
         currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.10f, Time.fixedDeltaTime);
