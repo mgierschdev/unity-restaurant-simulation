@@ -114,6 +114,7 @@ public enum StoreItemType
 public enum AuthSource
 {
     GOOGLE_PLAY = 1,
+    ANONYMOUS = 2,
     UNDEFINED = 999
 }
 

@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Firebase.Auth;
 using Firebase.Firestore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 
 [FirestoreData]
 public static class PlayerData
 {
     public static List<string> Name;
     public static String EmailID; // mandatory
-    public static String InternalID; // internal app id
+    public static String InternalID = "undefined"; // internal app id
     public static String FireappAuthID = "undefined"; // Given by firebase
     public static String LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
     public static int Level;
@@ -222,8 +222,15 @@ public static class PlayerData
         }
     }
 
+    // Check if the user exists
+    public async static void SetNewUser(FirebaseUser user)
+    {
+        SetMockUser();
+        FireappAuthID = user.UserId;
+        Auth = user.IsAnonymous == true ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED;
+        await Firestore.SaveUserData(GetUserAsMap());
+    }
     // Control times in which we save the game
-
     //Saves when the user closes the app
     //TODO: Saves every 10 minutes
     private async static void Quit()

@@ -17,9 +17,10 @@ public class SceneLoadController : MonoBehaviour
     // Scene load
     private AsyncOperation operation;
     private float currentProgress;
-    private Task<DocumentSnapshot> userData;
+    private DocumentSnapshot userData;
     private float MIN_TIME_LOADING = 4f; // Min time while laoding the screen
     private float currentTimeAtScene; // Current time at the screen
+    private FirebaseUser newUser;
 
     // Loads Auth and user data
     public async void Awake()
@@ -33,49 +34,44 @@ public class SceneLoadController : MonoBehaviour
         slider.maxValue = 1;
         slider.value = 0;
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
-        GameLog.LogAll("UNITY DEBUG: Loading INIT");
-        // We get the text inside the slider
-        // GameObject sliderProgressObject = GameObject.Find(Settings.SliderProgress).gameObject;
-        // Util.IsNull(sliderProgressObject, "SceneLoadController/Start sliderProgressObject is null");
-        // sliderProgress = sliderProgressObject.GetComponent<TextMeshProUGUI>();
+
+        firebase = new FirebaseLoad();
+        await firebase.InitFirebase();
 
         // Init firebase
-        firebase = new FirebaseLoad();
-        GameLog.LogAll("Loading firebase");
-        await firebase.InitFirebase();
-        GameLog.LogAll("Loading Init firebase");
-
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        await auth.SignInAnonymouslyAsync().ContinueWith(task =>
+        if (!Settings.IsFirebaseEmulatorEnabled)
         {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("SignInAnonymouslyAsync was canceled.");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
-                return;
-            }
+            Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
+            FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+            newUser = await auth.SignInAnonymouslyAsync();
+            PlayerData.SetNewUser(newUser);
+            userData = await Firestore.GetUserData(PlayerData.EmailID);
+        }
+        else
+        {
+            Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
+            PlayerData.EmailID = Settings.TEST_USER;
+            userData = await Firestore.GetUserData(PlayerData.EmailID);
+        }
 
-            Firebase.Auth.FirebaseUser newUser = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})",
-                newUser.DisplayName, newUser.UserId);
-        });
+        //.ContinueWith(task =>
+        // {
+        //     if (task.IsCanceled)
+        //     {
+        //         Debug.LogError("SignInAnonymouslyAsync was canceled.");
+        //         return;
+        //     }
+        //     if (task.IsFaulted)
+        //     {
+        //         Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+        //         return;
+        //     }
+        //     newUser = task.Result;
+        //     Debug.LogFormat("User signed in successfully: {0} ({1})",
+        //         newUser.DisplayName, newUser.UserId);
+        // });
 
-        // Firestore.Init();
-        // // await firebase.InitAuth(); //ONLY in build physical
-        // //auth = firebase.GetFirebaseAuth();
-        // userData = Firestore.GetUserData(Settings.TEST_USER);//Settings.IsFirebaseEmulatorEnabled ? Settings.TEST_USER : auth.CurrentUser.UserId);
-        // GameLog.LogAll("Loading enabled " + userData.Status);
-
-        // Loading next scene
-        // Additional parameters: LoadSceneMode.Additive will not close current scene, default ==LoadSceneMode.Single will close current scene 
-        // after the new one finishes loading.
-        // operation = SceneManager.LoadSceneAsync(Settings.GameScene);
-        // //Task task = new Task(LoadAsyncScene());
-        // operation.allowSceneActivation = false;
+        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
     }
 
     private void Update()
@@ -85,21 +81,18 @@ public class SceneLoadController : MonoBehaviour
             return;
         }
 
-        GameLog.Log("UNITY DEBUG: Loading " + userData + " ");
-
         currentTimeAtScene += Time.fixedDeltaTime;
         currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.10f, Time.fixedDeltaTime);
         slider.value = currentProgress;
-        // sliderProgress.text = "LOADING " + Mathf.Ceil(currentProgress * 100).ToString() + "%";
 
-        if (Mathf.Approximately(operation.progress, 0.9f) && userData != null && userData.IsCompleted && currentTimeAtScene > MIN_TIME_LOADING)
+        if (Mathf.Approximately(operation.progress, 0.9f)
+        && currentTimeAtScene > MIN_TIME_LOADING
+        && userData != null)
         {
             // Loads the queried data to the player game object
-            PlayerData.LoadFirebaseDocument(userData.Result);
+            PlayerData.LoadFirebaseDocument(userData);
             operation.allowSceneActivation = true;
         }
-
-        //Debug.Log(operation.progress + " " + userData.IsCompleted);
     }
 
     private IEnumerator LoadAsyncScene()
