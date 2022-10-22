@@ -74,7 +74,7 @@ public class SceneLoadController : MonoBehaviour
 
     private IEnumerator LoadAsyncScene()
     {
-        operation = SceneManager.LoadSceneAsync((Settings.GameScene);
+        operation = SceneManager.LoadSceneAsync((Settings.GameScene));
 
         while (!operation.isDone)
         {
