@@ -28,7 +28,7 @@ public class FirebaseLoad
             }
             isUserSignedIn = true;
             FirebaseUser newUser = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+            Debug.LogFormat("GAMELOG UNITY: User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
         });
     }
     

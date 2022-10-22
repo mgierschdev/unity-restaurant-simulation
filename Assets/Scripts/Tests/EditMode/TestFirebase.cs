@@ -44,9 +44,9 @@ public class TestFirebase
         }
 
         // The ?.Document , ? symbol ensures that you cannot create another reference to a collection that already exists
-        DocumentReference dataTypesReference = firestore.Collection(Settings.USER_COLLECTION)?.Document("Datatypes");
-        DocumentReference usersReference = firestore.Collection(Settings.USER_COLLECTION)?.Document(PlayerData.EmailID);
-        DocumentReference testUser = firestore.Collection(Settings.USER_COLLECTION)?.Document(Settings.TEST_USER);
+        DocumentReference dataTypesReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document("Datatypes");
+        DocumentReference usersReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(PlayerData.EmailID);
+        DocumentReference testUser = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(Settings.TEST_USER);
 
         // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
