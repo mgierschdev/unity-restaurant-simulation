@@ -1,0 +1,1 @@
+This is the first version of the UnityProject, tentative name: CafeMadness, an isometric game which will allow you to manage and customize a restaurant/cafe.
