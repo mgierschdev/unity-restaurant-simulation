@@ -91,8 +91,8 @@ public static class PlayerData
         {
             //TODO: Pop Up Level up
             //We save the data in case of app rewards
-            //GameLog.Log("Setting player data " + GetUserAsMap().ToString());
-            //Firestore.SaveUserData(GetUserAsMap());
+            GameLog.Log("Setting player data " + GetUserAsMap().ToString());
+            Firestore.SaveUserData(GetUserAsMap());
         }
         levelText.text = GetLevel();
         expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience) / 100f;
