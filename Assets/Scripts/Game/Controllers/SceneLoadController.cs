@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using Firebase.Auth;
 using Firebase.Firestore;
 using UnityEngine;
@@ -34,51 +33,28 @@ public class SceneLoadController : MonoBehaviour
         currentTimeAtScene = 0;
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
 
-
         // Firebase Auth
-        firebase = new FirebaseLoad();
-        await firebase.InitFirebase();
-
         try
         {
+            firebase = new FirebaseLoad();
+            await firebase.InitFirebase();
             Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
             FirebaseAuth auth = FirebaseAuth.DefaultInstance;
 
-            // Init firebase
-            if (!Settings.IsFirebaseEmulatorEnabled)
+            // If emulator is not enabled we init the anon auth, only if there is network connection
+            if (!Settings.IsFirebaseEmulatorEnabled && Util.IsInternetReachable())
             {
-                // Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
-                // FirebaseAuth auth = FirebaseAuth.DefaultInstance;
-                // GameLog.LogAll("Current user " + auth.CurrentUser);
-                // if (auth.CurrentUser != null)
-                // {
-                //     GameLog.LogAll("User loggedin");
-                // }
-                // else
-                // {
-                //     GameLog.LogAll("User is not logged in");
-                // }
-
-                // newUser = await auth.SignInAnonymouslyAsync(); // Critical exception here
-                // PlayerData.CreateNewUser(newUser);
-                // userData = await Firestore.GetUserData(newUser.UserId);
-
-                // if (userData == null)
-                // {
-                //     PlayerData.CreateNewUser(newUser);
-                // }
+                // Critical exception in SignInAnonymouslyAsync if offline
+                await auth.SignInAnonymouslyAsync(); 
             }
-            else
-            {
-                PlayerData.InitUser(auth.CurrentUser);
-            }
+
+            PlayerData.InitUser(auth);
+            operation = SceneManager.LoadSceneAsync(Settings.GameScene);
         }
         catch (SystemException e)
         {
             GameLog.LogAll(e.ToString());
         }
-
-        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
     }
 
     private void Update()
@@ -94,7 +70,7 @@ public class SceneLoadController : MonoBehaviour
 
         if (Mathf.Approximately(operation.progress, 0.9f)
         && currentTimeAtScene > MIN_TIME_LOADING
-        && userData != null)
+        && PlayerData.IsPlayerEnabled)
         {
             operation.allowSceneActivation = true;
         }
