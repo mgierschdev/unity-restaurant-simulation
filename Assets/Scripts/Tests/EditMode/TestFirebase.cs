@@ -14,7 +14,7 @@ public class TestFirebase
     [SetUp]
     public void SetUp()
     {
-        PlayerData.SetMockUser();
+        PlayerData.SetEmptyUser();
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class TestFirebase
             firestore.Settings.SslEnabled = false;
         }
         Debug.Log("Current firestore host " + firestore.Settings.Host);
-        PlayerData.SetMockUser();
+        PlayerData.SetEmptyUser();
         string ID = PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID;
         // The ?.Document , ? symbol ensures that you cannot create another reference to a collection that already exists
         DocumentReference dataTypesReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document("Datatypes");

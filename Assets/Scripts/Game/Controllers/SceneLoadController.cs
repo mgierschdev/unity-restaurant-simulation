@@ -65,12 +65,12 @@ public class SceneLoadController : MonoBehaviour
         }
 
         currentTimeAtScene += Time.fixedDeltaTime;
-        currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.10f, Time.fixedDeltaTime);
+        currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.20f, Time.fixedDeltaTime);
         slider.value = currentProgress;
 
         if (Mathf.Approximately(operation.progress, 0.9f)
         && currentTimeAtScene > MIN_TIME_LOADING
-        && PlayerData.IsPlayerEnabled)
+        && PlayerData.GetFirebaseGameUser() != null)
         {
             operation.allowSceneActivation = true;
         }
