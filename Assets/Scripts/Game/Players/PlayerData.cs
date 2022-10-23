@@ -10,8 +10,6 @@ using UnityEngine.UI;
 // [FirestoreData]
 public static class PlayerData
 {
-    public static bool IsPlayerEnabled { get; set; }// we did the auth with the player data
-    //
     private static TextMeshProUGUI moneyText;
     private static TextMeshProUGUI levelText;
     private static TextMeshProUGUI gemsText;
@@ -36,6 +34,13 @@ public static class PlayerData
         Inventory = new List<GameGridObject>();
         storedIventory = new List<GameGridObject>();
         setStoredInventory = new HashSet<string>();
+    }
+
+    private static void SetTopBarValues()
+    {
+        SetLevel();
+        moneyText.text = GetMoney();
+        gemsText.text = user.GEMS.ToString();
     }
 
     public static void AddExperienve(double amount)
@@ -137,6 +142,7 @@ public static class PlayerData
     {
         string userId;
         FirebaseUser firebaseUser = auth.CurrentUser;
+        SetEmptyUser();//Init user
 
         //TODO: validation cloud functions
         if (Settings.IsFirebaseEmulatorEnabled)
@@ -178,26 +184,28 @@ public static class PlayerData
         else
         {
             user = snapshot.ConvertTo<FirebaseGameUser>();
+            // We set the values form the top bar
+            if (expirienceSlider != null)
+            {
+                SetTopBarValues();
+            }
         }
-
-        Debug.Log("User " + user);
-        IsPlayerEnabled = true;
     }
 
-    public static void SetMockUser()
+    public static void SetEmptyUser()
     {
         user = new FirebaseGameUser
         {
-            NAME =  "undefined",
+            NAME = "undefined",
             LANGUAGE_CODE = "es_ES",
             INTERNAL_ID = GenerateID(),
             GAME_MONEY = 0,
             GEMS = 40,
             EXPERIENCE = 0,
             LEVEL = 0,
-            FIREBASE_AUTH_ID =  GenerateID(),
+            FIREBASE_AUTH_ID = GenerateID(),
             EMAIL = "undefined@undefined.com",
-            AUTH_TYPE = (int) AuthSource.ANONYMOUS,
+            AUTH_TYPE = (int)AuthSource.ANONYMOUS,
             LAST_LOGIN = FieldValue.ServerTimestamp,
             CREATED_AT = FieldValue.ServerTimestamp
         };
