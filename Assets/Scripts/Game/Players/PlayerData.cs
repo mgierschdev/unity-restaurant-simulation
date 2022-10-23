@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[FirestoreData]
+// [FirestoreData]
 public static class PlayerData
 {
     public static List<string> Name;
@@ -15,15 +15,10 @@ public static class PlayerData
     public static String InternalID = "undefined"; // internal app id
     public static String FireappAuthID = "undefined"; // Given by firebase
     public static String LanguageCode = "undefined"; // In the standard format (Locale) en_US, es_ES ...
-    public static int Level;
-    public static Double GameMoney;
-    public static Double Gems;
-    public static Double Experience;
-    public static AuthSource Auth;
-    [FirestoreProperty]
-    public static object LastLogin { get; set; } // this is the default for the firestore server timestamp
-    [FirestoreProperty]
-    public static object SignInDate { get; set; } // this is the default for the firestore server timestamp
+    // [FirestoreProperty]
+    // public static object LastLogin { get; set; } // this is the default for the firestore server timestamp
+    // [FirestoreProperty]
+    // public static object SignInDate { get; set; } // this is the default for the firestore server timestamp
     private static TextMeshProUGUI moneyText;
     private static TextMeshProUGUI levelText;
     private static TextMeshProUGUI gemsText;
@@ -31,6 +26,7 @@ public static class PlayerData
     private static List<GameGridObject> storedIventory;
     private static List<GameGridObject> Inventory;
     private static HashSet<string> setStoredInventory; // Saved stored inventory by ID
+    private static FirebaseGameUser user;
 
     // Recieves the reference to the UI Text
     public static void SetPlayerData(TextMeshProUGUI moneyText, TextMeshProUGUI levelText, TextMeshProUGUI gemsText, Slider expirienceSlider)
@@ -42,7 +38,7 @@ public static class PlayerData
 
         SetLevel();
         moneyText.text = GetMoney();
-        gemsText.text = Gems.ToString();
+        gemsText.text = user.GEMS.ToString();
         Inventory = new List<GameGridObject>();
         storedIventory = new List<GameGridObject>();
         setStoredInventory = new HashSet<string>();
@@ -50,19 +46,19 @@ public static class PlayerData
 
     public static void AddExperienve(double amount)
     {
-        Experience += amount;
+        user.EXPERIENCE += amount;
         SetLevel();
     }
 
     public static void AddGems(double amount)
     {
-        Gems += amount;
-        gemsText.text = Gems.ToString();
+        user.GEMS += amount;
+        gemsText.text = user.GEMS.ToString();
     }
 
     public static void AddMoney(double amount)
     {
-        GameMoney += amount;
+        user.GAME_MONEY += amount;
         moneyText.text = GetMoney();
     }
 
@@ -72,7 +68,7 @@ public static class PlayerData
         {
             return;
         }
-        GameMoney -= amount;
+        user.GAME_MONEY -= amount;
         AddExperienve(PlayerLevelCalculator.GetExperienceFromMoneySpent(amount));
         SetLevel();
         moneyText.text = GetMoney();
@@ -80,36 +76,37 @@ public static class PlayerData
 
     public static bool CanSubtract(double amount)
     {
-        return GameMoney - amount >= 0;
+        return user.GAME_MONEY - amount >= 0;
     }
 
     public static void SetLevel()
     {
-        int PrevLevel = Level;
-        Level = PlayerLevelCalculator.GetLevel(Experience);
-        if (PrevLevel < Level)
+        int PrevLevel = user.LEVEL;
+        user.LEVEL = PlayerLevelCalculator.GetLevel(user.EXPERIENCE);
+        if (PrevLevel < user.LEVEL)
         {
             //TODO: Pop Up Level up
             //We save the data in case of app rewards
-            GameLog.Log("Setting player data " + GetUserAsMap().ToString());
-            Firestore.SaveUserData(GetUserAsMap());
+            // GameLog.Log("Setting player data " + GetUserAsMap().ToString());
+            //Firestore.SaveUserData(GetUserAsMap());
+            Firestore.SaveObject(user);
         }
         levelText.text = GetLevel();
-        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(Experience) / 100f;
+        expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(user.EXPERIENCE) / 100f;
     }
 
     public static string GetMoney()
     {
-        return GameMoney + "$";
+        return user.GAME_MONEY + "$";
     }
 
     public static string GetLevel()
     {
-        return Level.ToString();
+        return user.LEVEL.ToString();
     }
     public static double GetMoneyDouble()
     {
-        return GameMoney;
+        return user.GAME_MONEY;
     }
 
     public static void StoreItem(GameGridObject obj)
@@ -143,100 +140,117 @@ public static class PlayerData
         return Guid.NewGuid().ToString();
     }
 
-    public static void SetMockUser()
+    public static async void InitUser(FirebaseUser firebaseUser)
     {
-        if (Name == null)
+        bool isNewUser = false;
+        string userId;
+
+        if (Settings.IsFirebaseEmulatorEnabled)
         {
-            Name = new List<string>();
+            userId = Settings.TEST_USER;
+        }
+        else
+        {
+
         }
 
-        InternalID = GenerateID();
-        EmailID = InternalID + "@gmail.com";
-        Name.Add("FirstName");
-        Name.Add("LastName");
-        LanguageCode = "es_ES";
-        Auth = AuthSource.GOOGLE_PLAY;
-        FireappAuthID = "Test FireappAuthID";
-        GameMoney = 20000;
-        Gems = 200;
-        Experience = 2000;
-        Level = PlayerLevelCalculator.GetLevel(Experience);
+        Debug.Log("firebase " + firebaseUser.UserId);
+
+        if (isNewUser)
+        {
+            user = new FirebaseGameUser
+            {
+                NAME = "Name", // This will append (to the existing fields even if they are the same) to the list if firestore is collec with merge
+                LANGUAGE_CODE = "LanguageCode",
+                INTERNAL_ID = GenerateID(),
+                GAME_MONEY = 0,
+                GEMS = 40,
+                EXPERIENCE = 0,
+                LEVEL = 0,
+                FIREBASE_AUTH_ID = firebaseUser == null ? GenerateID() : firebaseUser.UserId,
+                EMAIL = firebaseUser == null ? "test@gmail.com" : firebaseUser.Email,
+                AUTH_TYPE = (int)(firebaseUser.IsAnonymous ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED),
+                LAST_LOGIN = FieldValue.ServerTimestamp,
+                CREATED_AT = FieldValue.ServerTimestamp
+            };
+            await Firestore.SaveObject(user);
+        }
+        else
+        {
+
+
+
+        }
+
     }
 
-    public static Dictionary<string, object> GetUserAsMap()
+    public static void SetMockUser()
     {
-        return new Dictionary<string, object>{
-            {FirestorePlayerAttributes.NAME, Name}, // This will append (to the existing fields even if they are the same) to the list if firestore is collec with merge
-            {FirestorePlayerAttributes.LANGUAGE_CODE, LanguageCode},
-            {FirestorePlayerAttributes.INTERNAL_ID, InternalID},
-            {FirestorePlayerAttributes.GAME_MONEY, GameMoney},
-            {FirestorePlayerAttributes.GEMS, Gems},
-            {FirestorePlayerAttributes.EXPERIENCE, Experience},
-            {FirestorePlayerAttributes.LEVEL, Level},
-            {FirestorePlayerAttributes.FIREBASE_AUTH_ID, FireappAuthID},
-            {FirestorePlayerAttributes.AUTH_TYPE, Auth},
-            {FirestorePlayerAttributes.LAST_LOGIN, FieldValue.ServerTimestamp}
-            // {FirestorePlayerAttributes.CREATED_AT, FieldValue.ServerTimestamp} //Setted only th first time
-        };
+        InitUser(null);
     }
 
-    public static void DebugPrint()
-    {
-        GameLog.Log(Name[0] + "," + Name[1] + "," + EmailID + "," + InternalID + "," + FireappAuthID + "," + Auth + "," + LanguageCode + "," + LastLogin + "," + SignInDate + "," + GameMoney);
-    }
+    // public static Dictionary<string, object> GetUserAsMap()
+    // {
+    //     return new Dictionary<string, object>{
+    //         {FirestorePlayerAttributes.NAME, Name}, // This will append (to the existing fields even if they are the same) to the list if firestore is collec with merge
+    //         {FirestorePlayerAttributes.LANGUAGE_CODE, LanguageCode},
+    //         {FirestorePlayerAttributes.INTERNAL_ID, InternalID},
+    //         {FirestorePlayerAttributes.GAME_MONEY, user.GAME_MONEY},
+    //         {FirestorePlayerAttributes.GEMS, user.GEMS},
+    //         {FirestorePlayerAttributes.EXPERIENCE, user.EXPERIENCE},
+    //         {FirestorePlayerAttributes.LEVEL, user.LEVEL},
+    //         {FirestorePlayerAttributes.FIREBASE_AUTH_ID, FireappAuthID},
+    //         {FirestorePlayerAttributes.AUTH_TYPE, user.AUTH_TYPE},
+    //         {FirestorePlayerAttributes.LAST_LOGIN, FieldValue.ServerTimestamp}
+    //         // {FirestorePlayerAttributes.CREATED_AT, FieldValue.ServerTimestamp} //Setted only th first time
+    //     };
+    // }
 
     public static void LoadFirebaseDocument(DocumentSnapshot data)
     {
-        Debug.Log("LoadFirebaseDocument");
-        try
-        {
-            Dictionary<string, object> dic = data.ToDictionary();
-            List<object> genericList = (List<object>)dic[FirestorePlayerAttributes.NAME];
-            Name = new List<String>(){
-            (String) genericList[0],
-            (String) genericList[1],
-        };
+        // Debug.Log("LoadFirebaseDocument");
+        // try
+        // {
+        //     Dictionary<string, object> dic = data.ToDictionary();
+        //     List<object> genericList = (List<object>)dic[FirestorePlayerAttributes.NAME];
+        //     Name = new List<String>(){
+        //     (String) genericList[0],
+        //     (String) genericList[1],
+        // };
 
-            GameMoney = (Double)dic[FirestorePlayerAttributes.GAME_MONEY];
-            Gems = (Double)dic[FirestorePlayerAttributes.GEMS];
-            LanguageCode = (String)dic[FirestorePlayerAttributes.LANGUAGE_CODE];
-            InternalID = (String)dic[FirestorePlayerAttributes.INTERNAL_ID];
-            FireappAuthID = (String)dic[FirestorePlayerAttributes.FIREBASE_AUTH_ID];
-            Auth = (AuthSource)(Int64)dic[FirestorePlayerAttributes.AUTH_TYPE];
-            LastLogin = dic[FirestorePlayerAttributes.AUTH_TYPE];
-            EmailID = data.Id;
-            Experience = (Double)dic[FirestorePlayerAttributes.EXPERIENCE];
-            Level = (int)(Int64)dic[FirestorePlayerAttributes.LEVEL];
 
-            // In case of parsing serverside timestamp:
-            // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
-            foreach (KeyValuePair<string, object> pair in dic)
-            {
-                GameLog.LogAll(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
-            }
-        }
-        catch (SystemException e)
-        {
-            Debug.Log("Exception " + e);
+        //     GameMoney = (Double)dic[FirestorePlayerAttributes.GAME_MONEY];
+        //     Gems = (Double)dic[FirestorePlayerAttributes.GEMS];
+        //     LanguageCode = (String)dic[FirestorePlayerAttributes.LANGUAGE_CODE];
+        //     InternalID = (String)dic[FirestorePlayerAttributes.INTERNAL_ID];
+        //     FireappAuthID = (String)dic[FirestorePlayerAttributes.FIREBASE_AUTH_ID];
+        //     Auth = (AuthSource)(Int64)dic[FirestorePlayerAttributes.AUTH_TYPE];
+        //     // LastLogin = dic[FirestorePlayerAttributes.AUTH_TYPE];
+        //     EmailID = data.Id;
+        //     Experience = (Double)dic[FirestorePlayerAttributes.EXPERIENCE];
+        //     Level = (int)(Int64)dic[FirestorePlayerAttributes.LEVEL];
 
-        }
+        //     // In case of parsing serverside timestamp:
+        //     // (Timestamp) myTimestamp).ToDateTime().ToUniversalTime();
+        //     foreach (KeyValuePair<string, object> pair in dic)
+        //     {
+        //         GameLog.LogAll(pair.Key + " " + pair.Value + " " + pair.Value.GetType());
+        //     }
+        // }
+        // catch (SystemException e)
+        // {
+        //     Debug.Log("Exception " + e);
+
+        // }
     }
 
-    // Check if the user exists
-    public async static void SetNewUser(FirebaseUser user)
-    {
-        SetMockUser();
-        FireappAuthID = user.UserId;
-        EmailID = user.UserId;//TMP TODO
-        Auth = user.IsAnonymous == true ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED;
-        await Firestore.SaveUserData(GetUserAsMap());
-    }
     // Control times in which we save the game
     //Saves when the user closes the app
     //TODO: Saves every 10 minutes
     private async static void Quit()
     {
-        Task task = Firestore.SaveUserData(GetUserAsMap());
+        //Task task = Firestore.SaveUserData(GetUserAsMap());
+        Task task = Firestore.SaveObject(user);
         await task;
     }
 

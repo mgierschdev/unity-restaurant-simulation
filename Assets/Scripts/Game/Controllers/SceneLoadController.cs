@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Firestore;
 using UnityEngine;
@@ -25,55 +25,58 @@ public class SceneLoadController : MonoBehaviour
     // Loads Auth and user data
     public async void Awake()
     {
-        // Init 
-        currentTimeAtScene = 0;
 
         // We get the slider 
         GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
         slider = sliderGameObject.GetComponent<Slider>();
         slider.maxValue = 1;
         slider.value = 0;
+        currentTimeAtScene = 0;
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
 
+
+        // Firebase Auth
         firebase = new FirebaseLoad();
         await firebase.InitFirebase();
 
-        // Init firebase
-        if (!Settings.IsFirebaseEmulatorEnabled)
+        try
         {
             Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
             FirebaseAuth auth = FirebaseAuth.DefaultInstance;
-            newUser = await auth.SignInAnonymouslyAsync();
-            userData = await Firestore.GetUserData(newUser.UserId);
-            if (userData == null)
+
+            // Init firebase
+            if (!Settings.IsFirebaseEmulatorEnabled)
             {
-                PlayerData.SetNewUser(newUser);
-                userData = await Firestore.GetUserData(PlayerData.EmailID);
+                // Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
+                // FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+                // GameLog.LogAll("Current user " + auth.CurrentUser);
+                // if (auth.CurrentUser != null)
+                // {
+                //     GameLog.LogAll("User loggedin");
+                // }
+                // else
+                // {
+                //     GameLog.LogAll("User is not logged in");
+                // }
+
+                // newUser = await auth.SignInAnonymouslyAsync(); // Critical exception here
+                // PlayerData.CreateNewUser(newUser);
+                // userData = await Firestore.GetUserData(newUser.UserId);
+
+                // if (userData == null)
+                // {
+                //     PlayerData.CreateNewUser(newUser);
+                // }
+            }
+            else
+            {
+                PlayerData.InitUser(auth.CurrentUser);
             }
         }
-        else
+        catch (SystemException e)
         {
-            Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
-            PlayerData.EmailID = Settings.TEST_USER;
-            userData = await Firestore.GetUserData(PlayerData.EmailID);
+            GameLog.LogAll(e.ToString());
         }
-
-        //.ContinueWith(task =>
-        // {
-        //     if (task.IsCanceled)
-        //     {
-        //         Debug.LogError("SignInAnonymouslyAsync was canceled.");
-        //         return;
-        //     }
-        //     if (task.IsFaulted)
-        //     {
-        //         Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
-        //         return;
-        //     }
-        //     newUser = task.Result;
-        //     Debug.LogFormat("User signed in successfully: {0} ({1})",
-        //         newUser.DisplayName, newUser.UserId);
-        // });
 
         operation = SceneManager.LoadSceneAsync(Settings.GameScene);
     }
@@ -93,21 +96,7 @@ public class SceneLoadController : MonoBehaviour
         && currentTimeAtScene > MIN_TIME_LOADING
         && userData != null)
         {
-            // Loads the queried data to the player game object
-            PlayerData.LoadFirebaseDocument(userData);
             operation.allowSceneActivation = true;
-        }
-    }
-
-    private IEnumerator LoadAsyncScene()
-    {
-        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
-        operation.allowSceneActivation = false;
-        Debug.Log("starting scene coroutine " + Settings.GameScene);
-        while (!operation.isDone)
-        {
-            // Debug.Log("Progress "+operation.progress);
-            yield return null;
         }
     }
 }
