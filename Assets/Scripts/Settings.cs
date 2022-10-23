@@ -11,7 +11,7 @@ public static class Settings
     public const float PlayerMovementSpeed = 3f;
 
     //FIREBASE TEST ENV 
-    public const string FIRESTORE_HOST = IsFirebaseEmulatorEnabled ? "localhost:8080" : "";
+    public const string FIRESTORE_HOST = "localhost:8080";
     public const string CLOUD_FUNCTION_HOST = IsFirebaseEmulatorEnabled ? "localhost:5001" : "";
     public const string USER_TEST_COLLECTION = "Test";
     public const string USER_PRED_PROD_COLLECTION = "PreProd";

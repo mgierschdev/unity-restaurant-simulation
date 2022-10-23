@@ -42,22 +42,28 @@ public class TestFirebase
             firestore.Settings.Host = Settings.FIRESTORE_HOST;
             firestore.Settings.SslEnabled = false;
         }
-
+        Debug.Log("Current firestore host " + firestore.Settings.Host);
+        PlayerData.SetMockUser();
+        string ID = PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID;
         // The ?.Document , ? symbol ensures that you cannot create another reference to a collection that already exists
         DocumentReference dataTypesReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document("Datatypes");
-        DocumentReference usersReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(PlayerData.EmailID);
-        DocumentReference testUser = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(Settings.TEST_USER);
+        DocumentReference usersReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(ID);
+        PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID = Settings.TEST_USER;
+        DocumentReference testUserReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
+        await testUserReference.SetAsync(PlayerData.GetFirebaseGameUser(), SetOptions.MergeAll);
+        PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID = ID;
 
         // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
+
+        Debug.Log("Player data: " + PlayerData.GetFirebaseGameUser().ToString() + " " + PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
         await dataTypesReference.SetAsync(docData, SetOptions.MergeAll);
-        // await usersReference.SetAsync(PlayerData.GetUserAsMap(), SetOptions.MergeAll);
-        // await testUser.SetAsync(PlayerData.GetUserAsMap(), SetOptions.MergeAll);
+        await usersReference.SetAsync(PlayerData.GetFirebaseGameUser(), SetOptions.MergeAll);
 
         DocumentSnapshot snapshot = await usersReference.GetSnapshotAsync();
         snapshot = await usersReference.GetSnapshotAsync();
         Debug.Log("snapshot1 ID: " + snapshot.Id);
-        Assert.AreEqual(snapshot.Id, PlayerData.EmailID);
+        Assert.AreEqual(snapshot.Id, PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
 
         // CLEAN UP
         snapshot = null;
@@ -65,7 +71,7 @@ public class TestFirebase
         {
             snapshot = await usersReference.GetSnapshotAsync();
             Debug.Log("snapshot1 ID: " + snapshot.Id);
-            Assert.AreEqual(snapshot.Id, PlayerData.EmailID);
+            Assert.AreEqual(snapshot.Id, PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
         }).GetAwaiter();
 
         // To clean up, Disabled during development 

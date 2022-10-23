@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using UnityEngine;
 using System.Threading.Tasks;
 using Firebase;
 using Firebase.Firestore;
@@ -44,21 +44,6 @@ public static class Firestore
         }
 
         return userData.GetSnapshotAsync() ?? null;
-    }
-
-    public static Task SaveUserData(Dictionary<string, object> docData)
-    {
-        if (PlayerData.EmailID == null)
-        {
-            throw new System.Exception("SaveUserData(). We cannot save an empty user.");
-        }
-        else
-        {
-            GameLog.Log("Firestore: Saving data in: " + PlayerData.EmailID);
-        }
-
-        DocumentReference testUser = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(PlayerData.EmailID);
-        return testUser.SetAsync(docData, SetOptions.MergeAll);
     }
 
     public static Task SaveObject(FirebaseGameUser user)
