@@ -1,7 +1,7 @@
 public static class Settings
 {
     // DEBUG / DEV parameterss
-    public const bool IsFirebaseEmulatorEnabled = false;
+    public const bool IsFirebaseEmulatorEnabled = true;
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f;
@@ -13,8 +13,9 @@ public static class Settings
     //FIREBASE TEST ENV 
     public const string FIRESTORE_HOST = IsFirebaseEmulatorEnabled ? "localhost:8080" : "";
     public const string CLOUD_FUNCTION_HOST = IsFirebaseEmulatorEnabled ? "localhost:5001" : "";
-    public const string USER_TEST_COLLECTION = "Test";//IsFirebaseEmulatorEnabled ? "Test" : "Users";
-    public const string TEST_USER = "mgierschdev@gmail.com"; //IsFirebaseEmulatorEnabled ? "mgierschdev@gmail.com" : "";
+    public const string USER_TEST_COLLECTION = "Test";
+    public const string USER_PRED_PROD_COLLECTION = "PreProd";
+    public const string TEST_USER = "TESTUSERID";
 
     //GAME TAGS
     public const string gameName = "CafeMadness";

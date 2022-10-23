@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Firebase;
 using Firebase.Firestore;
-using UnityEngine;
 
 public static class Firestore
 {
@@ -33,14 +32,18 @@ public static class Firestore
     // Only during the first login
     public static Task<DocumentSnapshot> GetUserData(string UID)
     {
-        GameLog.Log("Getting user data: UID " + UID);
-        DocumentReference userData = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(UID);
-        return userData.GetSnapshotAsync();
-     }
+        DocumentReference userData = null;
 
-    public static bool GetIsFirebaseEnabled()
-    {
-        return isFirebaseEnabled;
+        if (Settings.IsFirebaseEmulatorEnabled)
+        {
+            userData = firestore.Collection(Settings.USER_TEST_COLLECTION).Document(UID);
+        }
+        else
+        {
+            userData = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION).Document(UID);
+        }
+
+        return userData.GetSnapshotAsync() ?? null;
     }
 
     public static Task SaveUserData(Dictionary<string, object> docData)
@@ -56,5 +59,11 @@ public static class Firestore
 
         DocumentReference testUser = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(PlayerData.EmailID);
         return testUser.SetAsync(docData, SetOptions.MergeAll);
+    }
+
+    public static Task SaveObject(FirebaseGameUser user)
+    {
+        DocumentReference testUser = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(user.FIREBASE_AUTH_ID);
+        return testUser.SetAsync(user, SetOptions.MergeAll);
     }
 }

@@ -466,4 +466,30 @@ public static class Util
         }
         return result;
     }
+
+    public static bool IsInternetReachable()
+    {
+        int count = 0;
+        //Check if the device cannot reach the internet
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            //Change the Text
+            // m_ReachabilityText = "Not Reachable.";
+            count++;
+        }
+        //Check if the device can reach the internet via a carrier data network
+        else if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
+        {
+            // m_ReachabilityText = "Reachable via carrier data network.";
+            count++;
+        }
+        //Check if the device can reach the internet via a LAN
+        else if (Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+        {
+            // m_ReachabilityText = "Reachable via Local Area Network.";
+            count++;
+        }
+
+        return count > 0;
+    }
 }
