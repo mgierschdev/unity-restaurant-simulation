@@ -142,7 +142,8 @@ public static class PlayerData
     {
         string userId;
         FirebaseUser firebaseUser = auth.CurrentUser;
-        SetEmptyUser();//Init user
+        //Init user, worst case it will be replaced by a new user, to avoid any async exception
+        SetEmptyUser();
 
         //TODO: validation cloud functions
         if (Settings.IsFirebaseEmulatorEnabled)
@@ -184,11 +185,6 @@ public static class PlayerData
         else
         {
             user = snapshot.ConvertTo<FirebaseGameUser>();
-            // We set the values form the top bar
-            if (expirienceSlider != null)
-            {
-                SetTopBarValues();
-            }
         }
     }
 

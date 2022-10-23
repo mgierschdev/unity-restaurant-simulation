@@ -17,7 +17,7 @@ public class SceneLoadController : MonoBehaviour
     private AsyncOperation operation;
     private float currentProgress;
     private DocumentSnapshot userData;
-    private float MIN_TIME_LOADING = 4f; // Min time while laoding the screen
+    private float MIN_TIME_LOADING = 5f; // Min time while laoding the screen
     private float currentTimeAtScene; // Current time at the screen
     private FirebaseUser newUser;
 
@@ -45,11 +45,12 @@ public class SceneLoadController : MonoBehaviour
             if (!Settings.IsFirebaseEmulatorEnabled && Util.IsInternetReachable())
             {
                 // Critical exception in SignInAnonymouslyAsync if offline
-                await auth.SignInAnonymouslyAsync(); 
+                await auth.SignInAnonymouslyAsync();
             }
 
             PlayerData.InitUser(auth);
             operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+            operation.allowSceneActivation = false; // if not will load scene before filling the load animation
         }
         catch (SystemException e)
         {
@@ -57,19 +58,14 @@ public class SceneLoadController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (operation == null)
-        {
-            return;
-        }
-
         currentTimeAtScene += Time.fixedDeltaTime;
-        currentProgress = Mathf.Lerp(currentTimeAtScene / MIN_TIME_LOADING, 0.20f, Time.fixedDeltaTime);
-        slider.value = currentProgress;
+        slider.value = currentTimeAtScene / MIN_TIME_LOADING;
 
-        if (Mathf.Approximately(operation.progress, 0.9f)
-        && currentTimeAtScene > MIN_TIME_LOADING
+        if (operation != null
+        && Mathf.Approximately(operation.progress, 0.9f)
+        && currentTimeAtScene >= MIN_TIME_LOADING
         && PlayerData.GetFirebaseGameUser() != null)
         {
             operation.allowSceneActivation = true;
