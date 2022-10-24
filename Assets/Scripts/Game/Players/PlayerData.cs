@@ -283,10 +283,10 @@ public static class PlayerData
     {
         FirebaseGameObject newObj = new FirebaseGameObject()
         {
-            ID = (int)StoreItemType.WOODEN_BASE_CONTAINER,
-            POSITION = new int[] { 10, 10 },
+            ID = (int)obj.Type,
+            POSITION = new int[] { obj.GridPosition.x, obj.GridPosition.y },
             IS_STORED = false,
-            ROTATION = (int)ObjectRotation.FRONT
+            ROTATION = (int)obj.GetFacingPosition()
         };
         obj.SetFirebaseGameObject(newObj);
         user.OBJECTS.Add(newObj);
