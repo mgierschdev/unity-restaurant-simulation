@@ -146,53 +146,34 @@ public class GridDebugPanel : EditorWindow
             minY = Mathf.Min(minY, tile.GridPosition.y);
             maxX = Mathf.Max(maxX, tile.GridPosition.x);
             maxY = Mathf.Max(maxY, tile.GridPosition.y);
-
             busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
         }
 
-
-        // we rotate the grid for the UI
-        int[,] newGrid = new int[maxX - minX + 1, maxY - minY + 1];
-
-        int iStart = minX;
-        int iEnd = maxX + 1;
-        int jStart = minY;
-        int jEnd = maxY + 1;
-
-        int indexX = 0;
-
-        //traspose
-        for (int i = iStart; i < iEnd; i++)
+        // //traspose
+        for (int i = 0; i < busGrid.GetLength(0); i++)
         {
-            int indexY = 0;
-
-            for (int j = jStart; j < jEnd; j++)
+            for (int j = 0; j < busGrid.GetLength(1); j++)
             {
-
                 if (BussGrid.IsThereNPCInPosition(new Vector3Int(i, j)))
                 {
-                    newGrid[indexX, indexY] = -2;
+                    busGrid[i, j] = -2;
                 }
                 else
                 {
-                    newGrid[indexX, indexY] = grid[i, j];
+                    busGrid[i, j] = grid[i, j];
                 }
-
-                indexY++;
             }
-
-            indexX++;
         }
 
-        newGrid = Util.TransposeGridForDebugging(newGrid);
+        int[,] newGrid = Util.TransposeGridForDebugging(busGrid);
 
         // We set the Display
         // We set the max size of the editor display
-        gridDisplay.style.width = newGrid.GetLength(0) * 30;
+        gridDisplay.style.width = grid.GetLength(0) * 30;
         // We clean prev childs
         gridDisplay.Clear();
 
-        for (int i = 0; i < newGrid.GetLength(0); i++)
+        for (int i = 10; i < newGrid.GetLength(0) - 5; i++)
         {
             for (int j = 0; j < newGrid.GetLength(1); j++)
             {

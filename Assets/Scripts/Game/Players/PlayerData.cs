@@ -182,13 +182,13 @@ public static class PlayerData
                 OBJECTS = new List<FirebaseGameObject>{
                     new FirebaseGameObject{
                         ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
-                        POSITION = new int[]{10, 10},
+                        POSITION = new int[]{7, 11},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT
                     },
                     new FirebaseGameObject{
                         ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
-                        POSITION = new int[]{10, 8},
+                        POSITION = new int[]{7, 9},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT
                     },
@@ -227,13 +227,13 @@ public static class PlayerData
             OBJECTS = new List<FirebaseGameObject>{
                     new FirebaseGameObject{
                         ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
-                        POSITION = new int[]{10, 10},
+                        POSITION = new int[]{7, 11},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT
                     },
                     new FirebaseGameObject{
                         ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
-                        POSITION = new int[]{10, 8},
+                        POSITION = new int[]{7, 9},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT
                     },
