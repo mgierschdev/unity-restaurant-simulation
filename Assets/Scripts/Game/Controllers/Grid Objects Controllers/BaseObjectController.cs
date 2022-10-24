@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 // Here we control the object drag and drop and the state of the NPCs during the drag
@@ -37,6 +35,7 @@ public class BaseObjectController : MonoBehaviour
         isNewItem = false;
         isNewItemSetted = false;
         timeClicking = 0;
+        initialRotation = ObjectRotation.UNDEFINED;
     }
 
     private void Update()
