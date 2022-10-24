@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -198,7 +197,12 @@ public class GameGridObject : GameObjectBase
         LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(objectTransform.position);
         WorldPosition = objectTransform.position;
         BussGrid.UpdateObjectPosition(this);
-        firebaseGameObject.POSITION = new int[] { GridPosition.x, GridPosition.y };
+        
+        // it could be a preview object
+        if (firebaseGameObject != null)
+        {
+            firebaseGameObject.POSITION = new int[] { GridPosition.x, GridPosition.y };
+        }
     }
 
     public void Hide()
@@ -388,7 +392,11 @@ public class GameGridObject : GameObjectBase
 
     public void UpdateRotation(ObjectRotation newPosition)
     {
-        firebaseGameObject.ROTATION = (int)newPosition;
+        // it could be a preview object
+        if (firebaseGameObject != null)
+        {
+            firebaseGameObject.ROTATION = (int)newPosition;
+        }
 
         switch (newPosition)
         {
