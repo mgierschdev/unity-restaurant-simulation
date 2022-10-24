@@ -57,6 +57,10 @@ public class BaseObjectController : MonoBehaviour
             {
                 gameGridObject.CancelPurchase();
             }
+            else
+            {
+                BussGrid.SetDisablePerspectiveHand(); //We disable perspective hand for a second
+            }
         }
 
         //First time settup for a store item
