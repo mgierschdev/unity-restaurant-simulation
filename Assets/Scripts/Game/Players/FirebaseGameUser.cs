@@ -1,10 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Firebase.Firestore;
 
 [FirestoreData]
 public class FirebaseGameUser
 {
-
     [FirestoreProperty]
     public string NAME { get; set; }
     [FirestoreProperty]
@@ -15,6 +15,8 @@ public class FirebaseGameUser
     public Double EXPERIENCE { get; set; }
     [FirestoreProperty]
     public int LEVEL { get; set; }
+    [FirestoreProperty]
+    public int GRID_SIZE { get; set; }
     [FirestoreProperty]
     public string LANGUAGE_CODE { get; set; }
     [FirestoreProperty]
@@ -29,6 +31,6 @@ public class FirebaseGameUser
     public object LAST_LOGIN { get; set; }
     [FirestoreProperty]
     public object CREATED_AT { get; set; }
-    // [FirestoreProperty]
-    // public List<FirebaseGameObject> list;s
+    [FirestoreProperty]
+    public List<FirebaseGameObject> OBJECTS { get; set; }
 }
