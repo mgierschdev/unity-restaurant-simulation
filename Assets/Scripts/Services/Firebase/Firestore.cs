@@ -1,4 +1,3 @@
-using UnityEngine;
 using System.Threading.Tasks;
 using Firebase;
 using Firebase.Firestore;

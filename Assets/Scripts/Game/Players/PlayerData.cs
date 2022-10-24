@@ -7,7 +7,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// [FirestoreData]
 public static class PlayerData
 {
     private static TextMeshProUGUI moneyText;
@@ -84,8 +83,8 @@ public static class PlayerData
         user.LEVEL = PlayerLevelCalculator.GetLevel(user.EXPERIENCE);
         if (PrevLevel < user.LEVEL)
         {
-            //TODO: Pop Up Level up
-            //We save the data in case of app rewards
+            // TODO: Pop Up Level up
+            // We save the data in case of app rewards
             // GameLog.Log("Setting player data " + GetUserAsMap().ToString());
             Firestore.SaveObject(user);
         }
@@ -142,10 +141,10 @@ public static class PlayerData
     {
         string userId;
         FirebaseUser firebaseUser = auth.CurrentUser;
-        //Init user, worst case it will be replaced by a new user, to avoid any async exception
+        // Init user, worst case it will be replaced by a new user, to avoid any async exception
         SetEmptyUser();
 
-        //TODO: validation cloud functions
+        // TODO: validation cloud functions
         if (Settings.IsFirebaseEmulatorEnabled)
         {
             userId = Settings.TEST_USER;
@@ -178,8 +177,24 @@ public static class PlayerData
                 EMAIL = firebaseUser == null ? "undefined@undefined.com" : firebaseUser.Email,
                 AUTH_TYPE = (int)(firebaseUser.IsAnonymous ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED),
                 LAST_LOGIN = FieldValue.ServerTimestamp,
-                CREATED_AT = FieldValue.ServerTimestamp
+                CREATED_AT = FieldValue.ServerTimestamp,
+                GRID_SIZE = 1,
+                OBJECTS = new List<FirebaseGameObject>{
+                    new FirebaseGameObject{
+                        ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
+                        POSITION = new int[]{10, 10},
+                        IS_STORED = false,
+                        ROTATION = (int) ObjectRotation.FRONT_INVERTED
+                    },
+                    new FirebaseGameObject{
+                        ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
+                        POSITION = new int[]{10, 8},
+                        IS_STORED = false,
+                        ROTATION = (int) ObjectRotation.FRONT_INVERTED
+                    },
+                }
             };
+
             await Firestore.SaveObject(user);
         }
         else
@@ -203,16 +218,30 @@ public static class PlayerData
             EMAIL = "undefined@undefined.com",
             AUTH_TYPE = (int)AuthSource.ANONYMOUS,
             LAST_LOGIN = FieldValue.ServerTimestamp,
-            CREATED_AT = FieldValue.ServerTimestamp
+            CREATED_AT = FieldValue.ServerTimestamp,
+            GRID_SIZE = 1,
+            OBJECTS = new List<FirebaseGameObject>{
+                    new FirebaseGameObject{
+                        ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
+                        POSITION = new int[]{10, 10},
+                        IS_STORED = false,
+                        ROTATION = (int) ObjectRotation.FRONT_INVERTED
+                    },
+                    new FirebaseGameObject{
+                        ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
+                        POSITION = new int[]{10, 8},
+                        IS_STORED = false,
+                        ROTATION = (int) ObjectRotation.FRONT_INVERTED
+                    },
+                }
         };
     }
 
     // Control times in which we save the game
-    //Saves when the user closes the app
-    //TODO: Saves every 10 minutes
+    // Saves when the user closes the app
+    // TODO: Saves every 10 minutes
     private async static void Quit()
     {
-        //Task task = Firestore.SaveUserData(GetUserAsMap());
         Task task = Firestore.SaveObject(user);
         await task;
     }

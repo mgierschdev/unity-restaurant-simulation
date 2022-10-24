@@ -4,7 +4,11 @@ using Firebase.Firestore;
 public class FirebaseGameObject
 {
     [FirestoreProperty]
-    public string Name {get; set;}
+    public int ID { get; set; }
     [FirestoreProperty]
-    public int[] Position {get; set;}
+    public int[] POSITION { get; set; }
+    [FirestoreProperty]
+    public bool IS_STORED { get; set; }
+    [FirestoreProperty]
+    public int ROTATION { get; set; }
 }
