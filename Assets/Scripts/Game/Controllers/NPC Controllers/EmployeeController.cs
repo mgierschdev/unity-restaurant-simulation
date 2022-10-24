@@ -233,11 +233,10 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateAttendTable_5()
     {
-        // We can we idle and not attend the table
+        // We can we idle and not attend the table. "Waiting..."
         float idleProbability = Random.Range(0, 100);
         if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
         {
-            GameLog.Log("Waiting...");
             idleTime = 0;
             return;
         }
@@ -378,7 +377,7 @@ public class EmployeeController : GameObjectMovementBase
         // and enqueue de table to the list again 
         if (localTarget == CoordOfTableToBeAttended)
         {
-            GameLog.Log("We could not find a proper place to standup - GoToTableToBeAttended()");
+            //("We could not find a proper place to standup - GoToTableToBeAttended()");
             return;
         }
 
@@ -394,7 +393,7 @@ public class EmployeeController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
-            GameLog.LogWarning("Retrying: We could not find a path - GoToTableToBeAttended()");
+            //("Retrying: We could not find a path - GoToTableToBeAttended()");
             return;
         }
     }
@@ -413,7 +412,7 @@ public class EmployeeController : GameObjectMovementBase
             }
             else
             {
-                GameLog.LogWarning("Retrying: We could not find a path - RestartState()");
+                // ("Retrying: We could not find a path - RestartState()");
             }
             return false;
         }

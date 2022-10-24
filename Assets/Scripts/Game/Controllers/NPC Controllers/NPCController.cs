@@ -102,7 +102,7 @@ public class NPCController : GameObjectMovementBase
         // keeps the time in the current state
         if (prevState == localState)
         {
-            //GameLog.Log("Current state time "+stateTime);
+            //Log("Current state time "+stateTime);
             stateTime += Time.fixedDeltaTime;
         }
         else
@@ -185,7 +185,7 @@ public class NPCController : GameObjectMovementBase
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
-            GameLog.Log("Could not find a path GoToFinalState_4() ");
+            //Log("Could not find a path GoToFinalState_4() ");
             return;
         }
     }
@@ -199,7 +199,7 @@ public class NPCController : GameObjectMovementBase
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
-            GameLog.Log("Could not find a path GoToFinalState ");
+            //Log("Could not find a path GoToFinalState ");
             return;
         }
     }
@@ -233,7 +233,7 @@ public class NPCController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
-            GameLog.Log("Could not find a path GoToWalkingToTable_6() ");
+            //Log("Could not find a path GoToWalkingToTable_6() ");
             return;
         }
     }
@@ -248,7 +248,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (!GoTo(target))
             {
-                GameLog.Log("Could not find a path RecalculateGoTo() ");
+                //Log("Could not find a path RecalculateGoTo() ");
                 return;
             }
         }
@@ -280,7 +280,7 @@ public class NPCController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
-            GameLog.Log("Could not find a path Wander_0 ");
+            ///sLog("Could not find a path Wander_0 ");
             localState = NpcState.IDLE;
             return;
         }

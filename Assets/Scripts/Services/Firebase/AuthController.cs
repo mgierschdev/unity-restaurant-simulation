@@ -18,12 +18,12 @@
 //         if (status == SignInStatus.Success)
 //         {
 //             // Continue with Play Games Services
-//             Debug.Log("UNITY: Authenticated." + Social.localUser.userName + " (" + Social.localUser.id);
+//             Log("UNITY: Authenticated." + Social.localUser.userName + " (" + Social.localUser.id);
 //             PlayGamesPlatform.Instance.ShowAchievementsUI();
 //         }
 //         else
 //         {
-//             Debug.Log("UNITY: Failed to authenticate " + status);
+//             Log("UNITY: Failed to authenticate " + status);
 //         }
 //     }
 // }
