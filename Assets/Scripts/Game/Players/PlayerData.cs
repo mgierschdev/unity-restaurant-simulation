@@ -278,7 +278,7 @@ public static class PlayerData
 
         return "";
     }
-
+    // For new items, cannot be stored if it was recently added
     public static void AddFirebaseGameObject(GameGridObject obj)
     {
         FirebaseGameObject newObj = new FirebaseGameObject()
