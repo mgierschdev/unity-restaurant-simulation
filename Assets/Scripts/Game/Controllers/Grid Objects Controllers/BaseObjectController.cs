@@ -31,6 +31,7 @@ public class BaseObjectController : MonoBehaviour
     // isNewItemSetted: New item config setted
     private bool isNewItemSetted;
 
+
     private void Awake()
     {
         isNewItem = false;
@@ -259,5 +260,11 @@ public class BaseObjectController : MonoBehaviour
     public FirebaseGameObject GetFirebaseGameObject()
     {
         return firebaseGameObject;
+    }
+
+    // If it is not from the store it is an active item
+    public bool GetInitIsActive()
+    {
+        return !isNewItem;
     }
 }

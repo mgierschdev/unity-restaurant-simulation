@@ -172,8 +172,6 @@ public class GameController : MonoBehaviour
         Vector3 worldPosition = BussGrid.GetWorldFromPathFindingGridPosition(position);
         string prefab = MenuObjectList.GetPrefab(type);
 
-        Debug.Log("Placing object " + type + " " + prefab);
-
         if (prefab == "")
         {
             return;
