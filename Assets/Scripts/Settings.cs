@@ -38,6 +38,13 @@ public static class Settings
     public const string TilemapBusinessFloor = "TilemapBusinessFloor";
     public const string TilemapBusinessFloor_2 = "TilemapBusinessFloor_2";
     public const string TilemapBusinessFloor_3 = "TilemapBusinessFloor_3";
+    public const string TilemapBusinessFloor_4 = "TilemapBusinessFloor_4";
+    public const string TilemapBusinessFloor_5 = "TilemapBusinessFloor_5";
+    public const string TilemapBusinessFloor_6 = "TilemapBusinessFloor_6";
+    public const string TilemapBusinessFloor_7 = "TilemapBusinessFloor_7";
+    public const string TilemapBusinessFloor_8 = "TilemapBusinessFloor_8";
+    public const string TilemapBusinessFloor_9 = "TilemapBusinessFloor_9";
+    public const string TilemapBusinessFloor_10 = "TilemapBusinessFloor_10";
     public const string PathFindingGrid = "PathFindingGrid";
 
     //SPRITE LIBS CATEGORIES

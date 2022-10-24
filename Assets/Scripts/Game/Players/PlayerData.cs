@@ -266,6 +266,13 @@ public static class PlayerData
             case 1: return Settings.TilemapBusinessFloor;
             case 2: return Settings.TilemapBusinessFloor_2;
             case 3: return Settings.TilemapBusinessFloor_3;
+            case 4: return Settings.TilemapBusinessFloor_4;
+            case 5: return Settings.TilemapBusinessFloor_5;
+            case 6: return Settings.TilemapBusinessFloor_6;
+            case 7: return Settings.TilemapBusinessFloor_7;
+            case 8: return Settings.TilemapBusinessFloor_8;
+            case 9: return Settings.TilemapBusinessFloor_9;
+            case 10: return Settings.TilemapBusinessFloor_10;
         }
 
         return "";
