@@ -25,8 +25,6 @@ public class BaseObjectController : MonoBehaviour
     private FirebaseGameObject firebaseGameObject;
     private ObjectRotation initialRotation;
 
-
-
     // New item (not yet bought)
     // isNewItem: New item added through the store
     private bool isNewItem;

@@ -12,11 +12,13 @@ public class GridComponentsController : MonoBehaviour
         BussGrid.TilemapColliders = GameObject.Find(Settings.TilemapColliders).GetComponent<Tilemap>();
         BussGrid.TilemapObjects = GameObject.Find(Settings.TilemapObjects).GetComponent<Tilemap>();
         BussGrid.TilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
-        BussGrid.TilemapBusinessFloor = GameObject.Find(Settings.TilemapBusinessFloor).GetComponent<Tilemap>();
         BussGrid.CameraController = GameObject.FindGameObjectWithTag(Settings.MainCamera).GetComponent<CameraController>();
         GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
         BussGrid.GameController = gameObj.GetComponent<GameController>();
         BussGrid.ControllerGameObject = gameObject;
+        //Buss TileFloor, returns it depending on the PLayer GridSize
+        BussGrid.TilemapBusinessFloor = GameObject.Find(PlayerData.GetTileBussFloor()).GetComponent<Tilemap>();
+
         BussGrid.Init();
     }
 }
