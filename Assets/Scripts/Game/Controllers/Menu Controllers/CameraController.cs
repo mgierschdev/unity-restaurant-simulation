@@ -13,7 +13,8 @@ public class CameraController : MonoBehaviour
     private const float ZOOM_SPEED_PINCH = 8f;
     private const float MIN_ZOOM_SIZE = 1;
     private const float MAX_ZOOM_SIZE = 5;
-    private const float MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = 0.1f;//Adding a small delay to perspective hand
+    //Disabling perspective hand after moving an object
+    private const float MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = 0.5f;
     // Main Camera
     private Camera mainCamera;
     private Vector3 targetVectorPosition;
