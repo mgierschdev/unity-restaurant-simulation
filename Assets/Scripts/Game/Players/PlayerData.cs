@@ -200,6 +200,10 @@ public static class PlayerData
         else
         {
             user = snapshot.ConvertTo<FirebaseGameUser>();
+            if (user.OBJECTS == null)
+            {
+                user.OBJECTS = new List<FirebaseGameObject>();
+            }
         }
     }
 
