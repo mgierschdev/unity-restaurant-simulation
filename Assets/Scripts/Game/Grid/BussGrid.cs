@@ -378,7 +378,7 @@ public static class BussGrid
             gameGridObject.Hide();
             currentClickedActiveGameObject = "";
         }
-        TilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+        //TilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
     }
 
     // Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
