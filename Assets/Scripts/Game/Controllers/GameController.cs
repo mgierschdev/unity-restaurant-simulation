@@ -117,10 +117,13 @@ public class GameController : MonoBehaviour
 
     public bool PositionOverlapsNPC(Vector3Int position)
     {
-        // We cannot place on top of the employee
-        if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.CoordOfTableToBeAttended)
+        if (employeeController != null) // Employee could not exist
         {
-            return true;
+            // We cannot place on top of the employee
+            if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.CoordOfTableToBeAttended)
+            {
+                return true;
+            }
         }
 
         foreach (NPCController npcController in NpcSet)
