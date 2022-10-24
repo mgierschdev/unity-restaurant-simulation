@@ -43,7 +43,7 @@ public static class BussGrid
     private static ConcurrentDictionary<Vector3Int, GameTile> mapBusinessFloor;
     private static string currentClickedActiveGameObject;
     public static GameController GameController { get; set; }
-    private static MenuObjectList ObjectListConfiguration;
+    //private static MenuObjectList ObjectListConfiguration;
     public static GameObject ControllerGameObject { get; set; }
 
     //Buss Queues and map
@@ -59,7 +59,7 @@ public static class BussGrid
     private static bool draggingObject;
 
     //Perspective hand
-    public static CameraController CameraController{ get; set; }
+    public static CameraController CameraController { get; set; }
 
     public static void Init()
     {
@@ -90,7 +90,7 @@ public static class BussGrid
         positionsAdded = new ConcurrentDictionary<Vector3Int, byte>();
 
         //ObjectListConfiguration
-        ObjectListConfiguration = new MenuObjectList();
+        MenuObjectList.Init();
 
         isDraggingEnabled = false;
 
@@ -798,10 +798,10 @@ public static class BussGrid
         return BusinessObjects.Count;
     }
 
-    public static MenuObjectList GetObjectListConfiguration()
-    {
-        return ObjectListConfiguration;
-    }
+    // public static MenuObjectList GetObjectListConfiguration()
+    // {
+    //     return ObjectListConfiguration;
+    // }
 
     public static bool GetDragginObject()
     {

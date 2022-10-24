@@ -143,7 +143,7 @@ public static class PlayerData
         FirebaseUser firebaseUser = auth.CurrentUser;
         // Init user, worst case it will be replaced by a new user, to avoid any async exception
         SetEmptyUser();
-
+        
         // TODO: validation cloud functions
         if (Settings.IsFirebaseEmulatorEnabled)
         {

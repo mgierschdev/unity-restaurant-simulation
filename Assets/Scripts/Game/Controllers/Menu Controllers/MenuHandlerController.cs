@@ -257,7 +257,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         //Add new Items
-        foreach (StoreGameObject obj in BussGrid.GetObjectListConfiguration().AllStoreItems)
+        foreach (StoreGameObject obj in MenuObjectList.AllStoreItems)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
