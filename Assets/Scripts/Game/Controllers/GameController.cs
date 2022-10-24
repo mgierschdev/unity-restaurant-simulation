@@ -59,10 +59,11 @@ public class GameController : MonoBehaviour
 
     private void LoadUserObjects()
     {
+        // The user can store all the inventory 
         if(PlayerData.GetFirebaseGameUser().OBJECTS == null){
             return;
         }
-        
+
         foreach (FirebaseGameObject obj in PlayerData.GetFirebaseGameUser().OBJECTS)
         {
             if (!obj.IS_STORED)

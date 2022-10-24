@@ -687,6 +687,23 @@ public static class BussGrid
         return new Vector3Int[] { };
     }
 
+    public static Vector3Int GetNextTileFromEmptyMap(StoreGameObject obj)
+    {
+        Vector3Int spamPoint, actionPoint;
+
+        foreach (GameTile tile in GetListBusinessFloor())
+        {
+            spamPoint = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y);
+            actionPoint = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y + 1);
+
+            if (IsFreeBussCoord(spamPoint) && (IsFreeBussCoord(actionPoint) || (obj.Type != ObjectType.NPC_COUNTER && obj.Type != ObjectType.NPC_SINGLE_TABLE)))
+            {
+                return spamPoint;
+            }
+        }
+        return Vector3Int.down;
+    }
+
     private static bool IsClosingIsland(Vector3Int position)
     {
         int[,] bGrid = GetBussGrid(position);
