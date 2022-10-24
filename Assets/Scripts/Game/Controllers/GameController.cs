@@ -89,14 +89,6 @@ public class GameController : MonoBehaviour
         npcId++;
     }
 
-    // private void SetItemsActive()
-    // {
-    //     foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
-    //     {
-    //         g.SetActive(true);
-    //     }
-    // }
-
     public void RemoveNpc(NPCController controller)
     {
         if (NpcSet.Contains(controller))
