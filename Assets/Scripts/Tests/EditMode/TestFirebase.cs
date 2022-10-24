@@ -46,10 +46,10 @@ public class TestFirebase
         PlayerData.SetEmptyUser();
         string ID = PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID;
         // The ?.Document , ? symbol ensures that you cannot create another reference to a collection that already exists
-        DocumentReference dataTypesReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document("Datatypes");
-        DocumentReference usersReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(ID);
+        DocumentReference dataTypesReference = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document("Datatypes");
+        DocumentReference usersReference = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document(ID);
         PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID = Settings.TEST_USER;
-        DocumentReference testUserReference = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
+        DocumentReference testUserReference = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document(PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
         await testUserReference.SetAsync(PlayerData.GetFirebaseGameUser(), SetOptions.MergeAll);
         PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID = ID;
 

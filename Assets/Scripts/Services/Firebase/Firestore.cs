@@ -36,7 +36,7 @@ public static class Firestore
 
         if (Settings.IsFirebaseEmulatorEnabled)
         {
-            userData = firestore.Collection(Settings.USER_TEST_COLLECTION).Document(UID);
+            userData = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION).Document(UID);
         }
         else
         {
@@ -48,7 +48,7 @@ public static class Firestore
 
     public static Task SaveObject(FirebaseGameUser user)
     {
-        DocumentReference testUser = firestore.Collection(Settings.USER_TEST_COLLECTION)?.Document(user.FIREBASE_AUTH_ID);
+        DocumentReference testUser = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document(user.FIREBASE_AUTH_ID);
         return testUser.SetAsync(user, SetOptions.MergeAll);
     }
 }
