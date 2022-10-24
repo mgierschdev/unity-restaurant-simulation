@@ -86,7 +86,7 @@ public static class PlayerData
             // TODO: Pop Up Level up
             // We save the data in case of app rewards
             // GameLog.Log("Setting player data " + GetUserAsMap().ToString());
-            Firestore.SaveObject(user);
+            Firestore.SaveUser();
         }
         levelText.text = GetLevel();
         expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(user.EXPERIENCE) / 100f;
@@ -143,7 +143,7 @@ public static class PlayerData
         FirebaseUser firebaseUser = auth.CurrentUser;
         // Init user, worst case it will be replaced by a new user, to avoid any async exception
         SetEmptyUser();
-        
+
         // TODO: validation cloud functions
         if (Settings.IsFirebaseEmulatorEnabled)
         {
@@ -184,18 +184,18 @@ public static class PlayerData
                         ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
                         POSITION = new int[]{10, 10},
                         IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT_INVERTED
+                        ROTATION = (int) ObjectRotation.FRONT
                     },
                     new FirebaseGameObject{
                         ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
                         POSITION = new int[]{10, 8},
                         IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT_INVERTED
+                        ROTATION = (int) ObjectRotation.FRONT
                     },
                 }
             };
 
-            await Firestore.SaveObject(user);
+            await Firestore.SaveUser();
         }
         else
         {
@@ -225,13 +225,13 @@ public static class PlayerData
                         ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
                         POSITION = new int[]{10, 10},
                         IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT_INVERTED
+                        ROTATION = (int) ObjectRotation.FRONT
                     },
                     new FirebaseGameObject{
                         ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
                         POSITION = new int[]{10, 8},
                         IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT_INVERTED
+                        ROTATION = (int) ObjectRotation.FRONT
                     },
                 }
         };
@@ -242,7 +242,7 @@ public static class PlayerData
     // TODO: Saves every 10 minutes
     private async static void Quit()
     {
-        Task task = Firestore.SaveObject(user);
+        Task task = Firestore.SaveUser();
         await task;
     }
 

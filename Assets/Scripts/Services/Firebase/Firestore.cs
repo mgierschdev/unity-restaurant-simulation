@@ -45,9 +45,14 @@ public static class Firestore
         return userData.GetSnapshotAsync() ?? null;
     }
 
-    public static Task SaveObject(FirebaseGameUser user)
+    public static Task SaveUser()
     {
-        DocumentReference testUser = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document(user.FIREBASE_AUTH_ID);
-        return testUser.SetAsync(user, SetOptions.MergeAll);
+        if (PlayerData.GetFirebaseGameUser() == null)
+        {
+            return null;
+        }
+
+        DocumentReference testUser = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document(PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
+        return testUser.SetAsync(PlayerData.GetFirebaseGameUser(), SetOptions.MergeAll);
     }
 }
