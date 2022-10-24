@@ -39,7 +39,7 @@ public class GameGridObject : GameObjectBase
     private bool isObjectSelected;
 
     //Firebase obj
-    FirebaseGameObject firebaseGameObject;
+    private FirebaseGameObject firebaseGameObject;
 
     //Store - To be bought Item
     private bool isItemBought;
@@ -159,6 +159,7 @@ public class GameGridObject : GameObjectBase
         try
         {
             GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
+            firebaseGameObject.IS_STORED = true;
             PlayerData.StoreItem(this);
             BussGrid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current selected in the grid 
             BussGrid.FreeObject(this);
