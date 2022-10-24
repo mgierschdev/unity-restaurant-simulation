@@ -124,6 +124,9 @@ public static class BussGrid
             TilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
         }
 
+        // TEMP, until we have floors
+        TilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
+
         pathFind = new PathFind();
         gridArray = new int[Settings.GridHeight, Settings.GridWidth];
         debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];

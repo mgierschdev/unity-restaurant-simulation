@@ -1,12 +1,12 @@
 public static class Settings
 {
-    // DEBUG / DEV parameterss
+    //DEBUG/DEV parameterss
     public const bool IsFirebaseEmulatorEnabled = true;
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f;
 
-    // Player Config
+    //Player Config
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
 
@@ -54,7 +54,7 @@ public static class Settings
     public const string SpriteLibCategoryContainersInverted = "BaseContainers-Inverted";
     public const string SpriteLibCategoryStoreObjects = "StoreObjects";
 
-    // PREFABS AND OBJECTS
+    //PREFABS AND OBJECTS
     public const string Button = "Button";
     public const string PrefabGridTile = "Grid/GridTile";
     public const string PrefabSingleTable = "Objects/SingleTable";
@@ -76,13 +76,13 @@ public static class Settings
     public const string BaseObjectActionTile2 = "Object/Tiles/ActionTile2";
     public const string BaseObjectSpriteRenderer = "Object";
 
-    // NPC Default
+    //NPC Default
     public const float MinDistanceToTarget = 0.13f;
     public const int NpcDefaultEnergy = 100;
     public const string NpcEnergyBar = "EnergyBar";
     public const string NpcCharacter = "Character";
 
-    // UI Constants
+    //UI Constants
     public const string ConstNpcProfileMenu = "NPCProfile";
     public const string ConstCanvasParentMenu = "CanvasMenu";
     public const string ConstTopMenuDisplayMoney = "MoneyLabel";
@@ -104,24 +104,21 @@ public static class Settings
     public const int ConstDefaultCameraOrthographicsize = 7;
     public const int ConstDefaultBackgroundOrderingLevel = 200;
 
-    // UI: Menu
+    //UI: Menu
     // public const string ConstLeftDownMenuInventory = "Inventory";
     public const string ConstLeftDownMenuStore = "Store";
 
-    // UI: Camera
+    //UI: Camera
     public const bool CameraPerspectiveHand = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
     public static float[] CameraPerspectiveHandClampX = { -20f, 20 };
     public static float[] CameraPerspectiveHandClampY = { -20, 20f }; // X = -8, 1 || Y = Initial default -8, 1
     public const float CameraFollowInterpolation = 0.034f;
 
-    // UI : Camera
+    //UI : Camera
     public const int ConstDefaultCameraWidth = 1500;
     public const int ConstDefaultCameraHeight = 1600;
 
     //UI: Buttons listeners
-    // public const string ConstUIExitButton = "ExitButton";
-    // public const string ConstUIInventoryButton = "Inventory";
-
     //UI: Editor tools
     public const string DebugStartButton = "GridDebugButton";
     public const string GridDebugContent = "GridDebug";
