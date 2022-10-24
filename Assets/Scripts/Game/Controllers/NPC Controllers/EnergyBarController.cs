@@ -13,7 +13,7 @@ public class EnergyBarController : MonoBehaviour
 
         if (Slider == null)
         {
-            GameLog.LogWarning("EnergyBarController/Slider null");
+            //("EnergyBarController/Slider null");
         }
         SetMaxEnergy(Settings.NpcDefaultEnergy);
     }
