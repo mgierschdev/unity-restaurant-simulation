@@ -337,7 +337,7 @@ public class MenuHandlerController : MonoBehaviour
             {
                 controller = newObject.GetComponent<BaseContainerController>();
             }
-            
+
             controller.SetNewItem();
         }
         else
@@ -401,9 +401,17 @@ public class MenuHandlerController : MonoBehaviour
 
     private static GameObject placeGameObject(StoreGameObject obj)
     {
+        GameObject parent = GameObject.Find(Settings.TilemapObjects);
+        GameObject newObject;
+        Vector3 spamPosition;
+
         //StoreGameObject Obj, type to be used
 
-        GameObject parent = GameObject.Find(Settings.TilemapObjects);
+        if (BussGrid.BusinessObjects.Count == 0)
+        {
+            spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextTileFromEmptyMap(obj));
+            return spamPosition == null ? null : Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+        }
 
         foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)
         {
@@ -413,8 +421,7 @@ public class MenuHandlerController : MonoBehaviour
             if (nextTile.GetLength(0) != 0)
             {
                 // We place the object 
-                Vector3 spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextTile[0]);
-                GameObject newObject;
+                spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextTile[0]);
                 if (nextTile[1] == Vector3Int.up)
                 {
                     newObject = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
@@ -426,6 +433,7 @@ public class MenuHandlerController : MonoBehaviour
                 return newObject;
             }
         }
+
         return null;
     }
 }
