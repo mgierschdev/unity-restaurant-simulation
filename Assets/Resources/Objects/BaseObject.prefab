@@ -1162,7 +1162,6 @@ GameObject:
   - component: {fileID: 1284510378439025032}
   - component: {fileID: 4371176762895389721}
   - component: {fileID: 1737829387842801693}
-  - component: {fileID: 4233627459007147922}
   m_Layer: 14
   m_Name: BaseObject
   m_TagString: NonBlockingObstacle
@@ -1270,18 +1269,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!156049354 &4233627459007147922
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6313366968590005356}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 0.5, z: 1}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 2
-  m_CellSwizzle: 0
 --- !u!1 &7422798448141849205
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public enum ObjectType
     UNDEFINED = 999
 }
 
+// it should preserve the number order since it is used on the Firestore database
 public enum ObjectRotation
 {
     FRONT = 1,
@@ -93,6 +94,7 @@ public enum MenuType
 }
 
 // Object deifnition in in MenuObjectList.cs
+// it should preserve the number order since it is used on the Firestore database
 public enum StoreItemType
 {
     WOODEN_TABLE_SINGLE = 1,
@@ -111,6 +113,7 @@ public enum StoreItemType
 }
 
 // Auth source
+// it should preserve the number order since it is used on the Firestore database
 public enum AuthSource
 {
     GOOGLE_PLAY = 1,
