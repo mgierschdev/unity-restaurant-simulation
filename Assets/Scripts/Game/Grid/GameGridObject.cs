@@ -673,7 +673,7 @@ public class GameGridObject : GameObjectBase
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
-        BussGrid.SetDisablePerspectiveHand(); // disables the perspective hand for 0.3 seconds
+        BussGrid.SetDisablePerspectiveHand(); // disables the perspective hand for a second
         SetInactive();
         BussGrid.RecalculateBussGrid();
     }
