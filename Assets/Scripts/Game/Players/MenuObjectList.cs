@@ -59,4 +59,15 @@ public static class MenuObjectList
         }
         return StoreItemTypeDic[storeItem];
     }
+
+    public static string GetPrefab(StoreGameObject obj)
+    {
+        switch (obj.StoreItemType)
+        {
+            case StoreItemType.WOODEN_TABLE_SINGLE: return Settings.PrefabSingleTable;
+            case StoreItemType.COUNTER: return Settings.PrefabCounter;
+            case StoreItemType.WOODEN_BASE_CONTAINER: return Settings.PrefabBaseContainer;
+        }
+        return "";
+    }
 }
