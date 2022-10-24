@@ -59,6 +59,10 @@ public class GameController : MonoBehaviour
 
     private void LoadUserObjects()
     {
+        if(PlayerData.GetFirebaseGameUser().OBJECTS == null){
+            return;
+        }
+        
         foreach (FirebaseGameObject obj in PlayerData.GetFirebaseGameUser().OBJECTS)
         {
             if (!obj.IS_STORED)
