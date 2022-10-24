@@ -2,7 +2,7 @@ public static class Settings
 {
     // DEBUG / DEV parameterss
     public const bool IsFirebaseEmulatorEnabled = true;
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f;
 
@@ -36,6 +36,8 @@ public static class Settings
     public const string TilemapObjects = "TilemapObjects";
     public const string TilemapWalkingPath = "TilemapWalkingPath";
     public const string TilemapBusinessFloor = "TilemapBusinessFloor";
+    public const string TilemapBusinessFloor_2 = "TilemapBusinessFloor_2";
+    public const string TilemapBusinessFloor_3 = "TilemapBusinessFloor_3";
     public const string PathFindingGrid = "PathFindingGrid";
 
     //SPRITE LIBS CATEGORIES

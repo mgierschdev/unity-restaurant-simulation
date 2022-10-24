@@ -256,4 +256,18 @@ public static class PlayerData
     {
         return user;
     }
+
+    // Return the buss floor depending on the grid size
+    public static string GetTileBussFloor()
+    {
+        int gridSize = user.GRID_SIZE;
+
+        switch(gridSize){
+            case 1: return Settings.TilemapBusinessFloor;
+            case 2: return Settings.TilemapBusinessFloor_2;
+            case 3: return Settings.TilemapBusinessFloor_3;
+        }
+
+        return "";
+    }
 }

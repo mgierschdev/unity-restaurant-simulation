@@ -138,6 +138,7 @@ public static class BussGrid
         LoadTileMap(listFloorTileMap, TilemapFloor, mapFloor);
     }
 
+    // For HeatMap
     // private void MouseHover()
     // {
     //     Vector3 mousePosition = Util.GetMouseInWorldPosition();
@@ -305,7 +306,7 @@ public static class BussGrid
     // Used while dragging
     // worldPos = Current position that you are moving the object
     // actionTileOne: the initial actiontile in grid coord
-    // gameGridObject : the game gridObject
+    // gameGridObject: the game gridObject
     public static bool IsValidBussPosition(GameGridObject gameGridObject, Vector3 worldPos)
     {
         Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
@@ -352,7 +353,7 @@ public static class BussGrid
             return false;
         }
 
-        // if the current grid position is in the buss map we return true
+        // If the current grid position is in the buss map we return true
         if (IsValidBussCoord(currentGridPos) && IsValidBussCoord(currentActionPointInGrid))
         {
             return true;
@@ -377,7 +378,7 @@ public static class BussGrid
         TilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
     }
 
-    //Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
+    // Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
     public static GameTile GetGameTileFromClickInPathFindingGrid(Vector3Int position)
     {
         if (mapPathFindingGrid.ContainsKey(position))
@@ -554,7 +555,7 @@ public static class BussGrid
 
 
     // It gets the closest free coord next to the target
-    //TODO: Improve so it will choose the closes path and the npc will stand towards the client
+    //TODO: Improve so it will choose the closest path and the npc will stand towards the client
     public static Vector3Int GetClosestPathGridPoint(Vector3Int currentPosition, Vector3Int target)
     {
         Vector3Int result = target;
@@ -791,11 +792,6 @@ public static class BussGrid
     {
         return BusinessObjects.Count;
     }
-
-    // public static MenuObjectList GetObjectListConfiguration()
-    // {
-    //     return ObjectListConfiguration;
-    // }
 
     public static bool GetDragginObject()
     {
