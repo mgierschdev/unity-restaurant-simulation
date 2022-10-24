@@ -164,9 +164,10 @@ public class GameController : MonoBehaviour
         StoreItemType type = (StoreItemType)obj.ID;
         ObjectRotation rotation = (ObjectRotation)obj.ROTATION;
         Vector3Int position = new Vector3Int(obj.POSITION[0], obj.POSITION[1]);
-
         Vector3 worldPosition = BussGrid.GetWorldFromPathFindingGridPosition(position);
         string prefab = MenuObjectList.GetPrefab(type);
+
+        Debug.Log("Placing object " + type + " " + prefab);
 
         if (prefab == "")
         {

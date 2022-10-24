@@ -66,6 +66,14 @@ public static class MenuObjectList
         switch (obj.StoreItemType)
         {
             case StoreItemType.WOODEN_TABLE_SINGLE: return Settings.PrefabSingleTable;
+            case StoreItemType.SQUARED_WOODEN_TABLE_SINGLE: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_3: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_4: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_5: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_6: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_7: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_8: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_9: return Settings.PrefabSingleTable;
             case StoreItemType.COUNTER: return Settings.PrefabCounter;
             case StoreItemType.WOODEN_BASE_CONTAINER: return Settings.PrefabBaseContainer;
         }
