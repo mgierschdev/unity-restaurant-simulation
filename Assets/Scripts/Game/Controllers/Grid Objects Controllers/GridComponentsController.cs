@@ -18,7 +18,6 @@ public class GridComponentsController : MonoBehaviour
         BussGrid.ControllerGameObject = gameObject;
         //Buss TileFloor, returns it depending on the PLayer GridSize
         BussGrid.TilemapBusinessFloor = GameObject.Find(PlayerData.GetTileBussFloor()).GetComponent<Tilemap>();
-
         BussGrid.Init();
     }
 }
