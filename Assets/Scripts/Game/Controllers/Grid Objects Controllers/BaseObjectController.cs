@@ -73,12 +73,6 @@ public class BaseObjectController : MonoBehaviour
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
-        //InitialObjectRotation = ObjectRotation.FRONT;
-        //Edit Panel Disable
-        // if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
-        // {
-        //     InitialObjectRotation = ObjectRotation.FRONT_INVERTED;
-        // }
     }
 
     private void OnMouseDown()
