@@ -60,8 +60,9 @@ public static class MenuObjectList
         return StoreItemTypeDic[storeItem];
     }
 
-    public static string GetPrefab(StoreGameObject obj)
+    public static string GetPrefab(StoreItemType type)
     {
+        StoreGameObject obj = MenuObjectList.GetStoreObject(type);
         switch (obj.StoreItemType)
         {
             case StoreItemType.WOODEN_TABLE_SINGLE: return Settings.PrefabSingleTable;
