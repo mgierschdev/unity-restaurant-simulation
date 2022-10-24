@@ -19,7 +19,8 @@ public enum ObjectRotation
     FRONT = 1,
     FRONT_INVERTED = 2,
     BACK = 3,
-    BACK_INVERTED = 4
+    BACK_INVERTED = 4,
+    UNDEFINED = 999
 }
 
 // To reference from fileNames to object names

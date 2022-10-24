@@ -60,7 +60,6 @@ public class GameGridObject : GameObjectBase
         spriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
-        facingPosition = ObjectRotation.FRONT;
         hasNPCAssigned = false;
         isObjectSelected = false;
         isItemBought = true;
@@ -112,7 +111,17 @@ public class GameGridObject : GameObjectBase
 
         firebaseGameObject = baseObjectController.GetFirebaseGameObject();
         active = baseObjectController.GetInitIsActive();
-        UpdateInitRotation(baseObjectController.GetInitialRotation());
+
+        if (firebaseGameObject != null)
+        {
+            facingPosition = (ObjectRotation)firebaseGameObject.ROTATION;
+        }
+
+        if (baseObjectController.GetInitialRotation() != ObjectRotation.UNDEFINED)
+        {
+            UpdateInitRotation(baseObjectController.GetInitialRotation());
+        }
+
         SetEditPanelButtonClickListeners();
         Init();
     }
@@ -688,7 +697,7 @@ public class GameGridObject : GameObjectBase
         SetInactive();
         BussGrid.RecalculateBussGrid();
     }
-    
+
     public bool GetActive()
     {
         return active;
