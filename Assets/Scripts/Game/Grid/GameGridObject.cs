@@ -197,7 +197,7 @@ public class GameGridObject : GameObjectBase
         LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(objectTransform.position);
         WorldPosition = objectTransform.position;
         BussGrid.UpdateObjectPosition(this);
-        
+
         // it could be a preview object
         if (firebaseGameObject != null)
         {
@@ -674,6 +674,8 @@ public class GameGridObject : GameObjectBase
         isItemBought = true;
         PlayerData.Subtract(storeGameObject.Cost);
         active = true; // now it can be used by NPCs
+        //we set a new firebase object
+        PlayerData.AddFirebaseGameObject(this);
         SetInactive();
     }
 

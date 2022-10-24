@@ -185,7 +185,8 @@ public class MenuHandlerController : MonoBehaviour
         openMenus.Add(menu.Name);
 
         //If there is a selected object on the UI we un-unselect the object
-        if(BussGrid.GetIsDraggingEnabled()){
+        if (BussGrid.GetIsDraggingEnabled())
+        {
             BussGrid.DisableDragging();
         }
 
@@ -314,22 +315,29 @@ public class MenuHandlerController : MonoBehaviour
 
         CloseAllMenus();
 
-        // Load test debug
+        // Load testing debug
         // StartCoroutine(TestPlacingObjects(obj));
-        // Load test debug
+        // Load testing debug
 
         GameObject newObject = placeGameObject(obj);
 
         if (newObject != null)
         {
             BaseObjectController controller = null;
-            //GameGridObject gameGridObject;
 
             if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
             {
                 controller = newObject.GetComponent<TableController>();
             }
-
+            else if (obj.Type == ObjectType.NPC_COUNTER)
+            {
+                controller = newObject.GetComponent<CounterController>();
+            }
+            else if (obj.Type == ObjectType.SINGLE_CONTAINER)
+            {
+                controller = newObject.GetComponent<BaseContainerController>();
+            }
+            
             controller.SetNewItem();
         }
         else

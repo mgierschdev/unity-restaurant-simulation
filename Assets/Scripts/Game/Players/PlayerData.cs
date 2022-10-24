@@ -262,7 +262,8 @@ public static class PlayerData
     {
         int gridSize = user.GRID_SIZE;
 
-        switch(gridSize){
+        switch (gridSize)
+        {
             case 1: return Settings.TilemapBusinessFloor;
             case 2: return Settings.TilemapBusinessFloor_2;
             case 3: return Settings.TilemapBusinessFloor_3;
@@ -276,5 +277,18 @@ public static class PlayerData
         }
 
         return "";
+    }
+
+    public static void AddFirebaseGameObject(GameGridObject obj)
+    {
+        FirebaseGameObject newObj = new FirebaseGameObject()
+        {
+            ID = (int)StoreItemType.WOODEN_BASE_CONTAINER,
+            POSITION = new int[] { 10, 10 },
+            IS_STORED = false,
+            ROTATION = (int)ObjectRotation.FRONT
+        };
+        obj.SetFirebaseGameObject(newObj);
+        user.OBJECTS.Add(newObj);
     }
 }
