@@ -2,7 +2,7 @@ public static class Settings
 {
     // DEBUG / DEV parameterss
     public const bool IsFirebaseEmulatorEnabled = true;
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f;
 
@@ -83,7 +83,6 @@ public static class Settings
     public const string ConstCenterTabMenu = "CenterPanel";
     public const string ConstCenterScrollContent = "ViewPanel/MainContent/ScrollView/Viewport/Content";
     public const string ConstLeftDownPanel = "LeftDownPanel";
-    //spublic const string ConstEditStoreMenuPanel = "EditStoreMenu";
     public const string ConstEditItemMenuPanel = "EditItem";
     public const string ConstEditStoreMenuCancel = "Cancel";
     public const string ConstEditStoreMenuAccept = "Accept";

@@ -19,7 +19,8 @@ public class GameController : MonoBehaviour
         npcId = 0;
         NpcSet = new HashSet<NPCController>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
-        SetItemsActive();//This will start the game
+        LoadUserObjects();
+        //SetItemsActive();//This will start the game
     }
 
     private void Update()
@@ -56,6 +57,21 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void LoadUserObjects()
+    {
+        foreach (FirebaseGameObject obj in PlayerData.GetFirebaseGameUser().OBJECTS)
+        {
+            Debug.Log(obj.ID);
+            if (!obj.IS_STORED)
+            {
+                StoreItemType type = (StoreItemType)obj.ID;
+                ObjectRotation rotation = (ObjectRotation)obj.ROTATION;
+                Vector3Int position = new Vector3Int(obj.POSITION[0], obj.POSITION[1]);
+                PlaceGameObjectAt(MenuObjectList.GetStoreObject(type), position, rotation);
+            }
+        }
+    }
+
     private void SpamNpc()
     {
         tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
@@ -77,13 +93,13 @@ public class GameController : MonoBehaviour
         npcId++;
     }
 
-    private void SetItemsActive()
-    {
-        foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
-        {
-            g.SetActive(true);
-        }
-    }
+    // private void SetItemsActive()
+    // {
+    //     foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
+    //     {
+    //         g.SetActive(true);
+    //     }
+    // }
 
     public void RemoveNpc(NPCController controller)
     {
@@ -150,5 +166,12 @@ public class GameController : MonoBehaviour
     public EmployeeController GetEmployeeController()
     {
         return employeeController;
+    }
+
+    public static void PlaceGameObjectAt(StoreGameObject obj, Vector3Int pos, ObjectRotation rotation)
+    {
+        Vector3 worldPosition = BussGrid.GetWorldFromPathFindingGridPosition(pos);
+        GameObject newObj = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, 1), Quaternion.identity, BussGrid.TilemapObjects.transform) as GameObject;
+        //Update rotation TODO:
     }
 }

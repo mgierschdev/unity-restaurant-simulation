@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 
-public class MenuObjectList
+public static class MenuObjectList
 {
-    public List<StoreGameObject> AllStoreItems;
-    public Dictionary<string, StoreGameObject> StoreItemDictionary; //Object Sprite Library Identifier / StoreObject
-    public Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic; //Object Sprite Library Identifier / StoreObject
+    public static List<StoreGameObject> AllStoreItems;
+    public static Dictionary<string, StoreGameObject> StoreItemDictionary; //Object Sprite Library Identifier / StoreObject
+    public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic; //Object Sprite Library Identifier / StoreObject
 
-    public MenuObjectList()
+    public static void Init()
     {
         SetAllItems();
     }
-    public void SetAllItems()
+    public static void SetAllItems()
     {
         AllStoreItems = new List<StoreGameObject>();
         StoreItemDictionary = new Dictionary<string, StoreGameObject>();
@@ -40,7 +40,7 @@ public class MenuObjectList
         }
     }
 
-    public StoreGameObject GetStoreObject(string id)
+    public static StoreGameObject GetStoreObject(string id)
     {
         if (!StoreItemDictionary.ContainsKey(id))
         {
@@ -50,7 +50,7 @@ public class MenuObjectList
         return StoreItemDictionary[id];
     }
 
-    public StoreGameObject GetStoreObject(StoreItemType storeItem)
+    public static StoreGameObject GetStoreObject(StoreItemType storeItem)
     {
         if (!StoreItemTypeDic.ContainsKey(storeItem))
         {
