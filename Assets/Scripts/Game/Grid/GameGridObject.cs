@@ -703,4 +703,9 @@ public class GameGridObject : GameObjectBase
     {
         firebaseGameObject = obj;
     }
+
+    public ObjectRotation GetFacingPosition()
+    {
+        return facingPosition;
+    }
 }
