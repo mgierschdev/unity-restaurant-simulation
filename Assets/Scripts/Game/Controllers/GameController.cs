@@ -61,7 +61,6 @@ public class GameController : MonoBehaviour
     {
         foreach (FirebaseGameObject obj in PlayerData.GetFirebaseGameUser().OBJECTS)
         {
-            Debug.Log(obj.ID);
             if (!obj.IS_STORED)
             {
                 StoreItemType type = (StoreItemType)obj.ID;
@@ -171,7 +170,14 @@ public class GameController : MonoBehaviour
     public static void PlaceGameObjectAt(StoreGameObject obj, Vector3Int pos, ObjectRotation rotation)
     {
         Vector3 worldPosition = BussGrid.GetWorldFromPathFindingGridPosition(pos);
-        GameObject newObj = Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, 1), Quaternion.identity, BussGrid.TilemapObjects.transform) as GameObject;
+        string prefab = MenuObjectList.GetPrefab(obj);
+        
+        if (prefab == "")
+        {
+            return;
+        }
+
+        GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, 1), Quaternion.identity, BussGrid.TilemapObjects.transform) as GameObject;
         //Update rotation TODO:
     }
 }
