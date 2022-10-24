@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 // Here we control the object drag and drop and the state of the NPCs during the drag
@@ -13,12 +15,17 @@ public class BaseObjectController : MonoBehaviour
     private Vector3Int initialActionTileOne;
     [SerializeField]
     protected GameGridObject gameGridObject;
-    protected ObjectRotation InitialObjectRotation;
+    // protected ObjectRotation InitialObjectRotation;
     protected MenuHandlerController Menu { get; set; }
-
     //Long click controller
     private float timeClicking;
     private const float TIME_BEFORE_ACTIVATING_SLIDER = 1f;
+
+    //Firebase obj reference and initial rotation
+    private FirebaseGameObject firebaseGameObject;
+    private ObjectRotation initialRotation;
+
+
 
     // New item (not yet bought)
     // isNewItem: New item added through the store
@@ -46,11 +53,12 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.SetInactive();
 
             //if it is a store item not bought we erase it 
-            if(!gameGridObject.GetIsItemBought()){
+            if (!gameGridObject.GetIsItemBought())
+            {
                 gameGridObject.CancelPurchase();
             }
         }
-        
+
         //First time settup for a store item
         if (!isNewItemSetted && isNewItem && gameGridObject != null)
         {
@@ -63,13 +71,12 @@ public class BaseObjectController : MonoBehaviour
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
-        InitialObjectRotation = ObjectRotation.FRONT;
-
+        //InitialObjectRotation = ObjectRotation.FRONT;
         //Edit Panel Disable
-        if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
-        {
-            InitialObjectRotation = ObjectRotation.FRONT_INVERTED;
-        }
+        // if (transform.name.Contains(Settings.ObjectRotationFrontInverted))
+        // {
+        //     InitialObjectRotation = ObjectRotation.FRONT_INVERTED;
+        // }
     }
 
     private void OnMouseDown()
@@ -142,7 +149,8 @@ public class BaseObjectController : MonoBehaviour
     private void OnMouseUp()
     {
         timeClicking = 0;
-        if(gameGridObject.GetCurrentSliderValue() > 0){
+        if (gameGridObject.GetCurrentSliderValue() > 0)
+        {
             //we disable the slider
             gameGridObject.DisableSlider();
         }
@@ -164,7 +172,6 @@ public class BaseObjectController : MonoBehaviour
         }
 
         gameGridObject.UpdateCoords();
-        //BussGrid.SetDraggingObject(false);
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
 
         //We recalculate Paths once the object is placed
@@ -176,7 +183,7 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.SetIsObjectBeingDragged(false);
         }
 
-        //Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
+        // Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
         // or updating in an inconsistent way
         BussGrid.RecalculateBussGrid();
     }
@@ -240,5 +247,21 @@ public class BaseObjectController : MonoBehaviour
     public void SetNewItem()
     {
         isNewItem = true;
+    }
+
+    public void SetGameGridObjectRotationAndFirebaseGameObject(FirebaseGameObject obj, ObjectRotation rotation)
+    {
+        firebaseGameObject = obj;
+        initialRotation = rotation;
+    }
+
+    public ObjectRotation GetInitialRotation()
+    {
+        return initialRotation;
+    }
+
+    public FirebaseGameObject GetFirebaseGameObject()
+    {
+        return firebaseGameObject;
     }
 }

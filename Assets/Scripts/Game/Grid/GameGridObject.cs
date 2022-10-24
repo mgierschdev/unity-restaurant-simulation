@@ -38,14 +38,17 @@ public class GameGridObject : GameObjectBase
     private float currentSliderValue;
     private bool isObjectSelected;
 
+    //Firebase obj
+    FirebaseGameObject firebaseGameObject;
+
     //Store - To be bought Item
     private bool isItemBought;
 
-    //Is Item active
+    //Is Item active, before purchase
     private bool active;
 
 
-    public GameGridObject(Transform transform, ObjectRotation position, StoreGameObject storeGameObject)
+    public GameGridObject(Transform transform, StoreGameObject storeGameObject)
     {
         objectTransform = transform;
         Name = transform.name;
@@ -58,7 +61,7 @@ public class GameGridObject : GameObjectBase
         spriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
-        facingPosition = position;
+        facingPosition = ObjectRotation.FRONT;
         hasNPCAssigned = false;
         isObjectSelected = false;
         isItemBought = true;
@@ -109,7 +112,8 @@ public class GameGridObject : GameObjectBase
             secondActionTileSprite
             };
 
-        UpdateRotation(position);
+        firebaseGameObject = baseObjectController.GetFirebaseGameObject();
+        UpdateInitRotation(baseObjectController.GetInitialRotation());
         SetEditPanelButtonClickListeners();
         Init();
     }
@@ -186,12 +190,14 @@ public class GameGridObject : GameObjectBase
         return Util.IsAtDistanceWithObject(GetActionTile(), actionGridPosition);
     }
 
+    //This is call everytime the object changes position
     public void UpdateCoords()
     {
         GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(objectTransform.position);
         LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(objectTransform.position);
         WorldPosition = objectTransform.position;
         BussGrid.UpdateObjectPosition(this);
+        firebaseGameObject.POSITION = new int[] { GridPosition.x, GridPosition.y };
     }
 
     public void Hide()
@@ -364,8 +370,27 @@ public class GameGridObject : GameObjectBase
         return false;
     }
 
+    // Update the initial object roation at the time of object creation
+    public void UpdateInitRotation(ObjectRotation rotation)
+    {
+        // We dont check if the rotation is valid since we assume that the data is valid already
+        ResetNPCStates();
+
+        Vector3Int prev = GetActionTileInGridPosition();
+        UpdateRotation(rotation);
+
+        if (storeGameObject.HasActionPoint)
+        {
+            Vector3Int post = GetActionTileInGridPosition();
+            BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
+        }
+        UpdateCoords();
+    }
+
     public void UpdateRotation(ObjectRotation newPosition)
     {
+        firebaseGameObject.ROTATION = (int)newPosition;
+
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
@@ -663,5 +688,10 @@ public class GameGridObject : GameObjectBase
     public bool GetActive()
     {
         return active;
+    }
+
+    public void SetFirebaseGameObject(FirebaseGameObject obj)
+    {
+        firebaseGameObject = obj;
     }
 }
