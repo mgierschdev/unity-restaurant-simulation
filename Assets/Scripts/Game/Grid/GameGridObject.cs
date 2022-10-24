@@ -64,7 +64,6 @@ public class GameGridObject : GameObjectBase
         hasNPCAssigned = false;
         isObjectSelected = false;
         isItemBought = true;
-        active = false;
 
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
@@ -112,6 +111,7 @@ public class GameGridObject : GameObjectBase
             };
 
         firebaseGameObject = baseObjectController.GetFirebaseGameObject();
+        active = baseObjectController.GetInitIsActive();
         UpdateInitRotation(baseObjectController.GetInitialRotation());
         SetEditPanelButtonClickListeners();
         Init();
@@ -688,12 +688,7 @@ public class GameGridObject : GameObjectBase
         SetInactive();
         BussGrid.RecalculateBussGrid();
     }
-
-    public void SetActive(bool val)
-    {
-        active = val;
-    }
-
+    
     public bool GetActive()
     {
         return active;
