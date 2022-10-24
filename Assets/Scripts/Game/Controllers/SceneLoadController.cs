@@ -24,7 +24,6 @@ public class SceneLoadController : MonoBehaviour
     // Loads Auth and user data
     public async void Awake()
     {
-
         // We get the slider 
         GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
         slider = sliderGameObject.GetComponent<Slider>();
@@ -54,7 +53,7 @@ public class SceneLoadController : MonoBehaviour
         }
         catch (SystemException e)
         {
-            GameLog.LogAll(e.ToString());
+            GameLog.LogWarning(e.ToString());
         }
     }
 

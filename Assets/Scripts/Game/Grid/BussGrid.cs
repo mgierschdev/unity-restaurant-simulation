@@ -145,7 +145,7 @@ public static class BussGrid
     //
     //     if (!mapPathFindingGrid.ContainsKey(mouseInGridPosition))
     //     {
-    //         GameLog.Log("Does not contain the position " + mouseInGridPosition);
+    //         ("Does not contain the position " + mouseInGridPosition);
     //         return;
     //     }
     //
@@ -665,24 +665,18 @@ public static class BussGrid
             Vector3Int offset = new Vector3Int(Util.AroundVectorPointsPlusTwo[i, 0], Util.AroundVectorPointsPlusTwo[i, 1], 0);
             Vector3Int position = gameGridObject.GridPosition + offset;
 
-
-            // Debug.Log(side[0, 0] + " " + side[0, 1] + " Actionpoint ");
             Vector3Int actionPoint = position + new Vector3Int(Util.ObejectSide[0, 0], Util.ObejectSide[0, 1], 0);
-
-            // Debug.Log(side[1, 0] + " " + side[1, 1] + " Actionpoint2 ");
             Vector3Int actionPoint2 = position + new Vector3Int(Util.ObejectSide[1, 0], Util.ObejectSide[1, 1], 0);
 
             bool isClosingGrid = IsClosingIsland(position);
 
             if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint) && !isClosingGrid && !GameController.PositionOverlapsNPC(position))
             {
-                // Debug.Log(position + " " + actionPoint + " front");
                 return new Vector3Int[] { position, Vector3Int.up }; //front
             }
 
             if (IsFreeBussCoord(position) && IsFreeBussCoord(actionPoint2) && !isClosingGrid && !GameController.PositionOverlapsNPC(position))
             {
-                // Debug.Log(position + " " + actionPoint2 + " inverted");
                 return new Vector3Int[] { position, Vector3Int.right }; // front inverted
             }
         }
@@ -787,7 +781,7 @@ public static class BussGrid
             (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.ACTION_POINT && !actionPositions.Contains(current)))
             {
                 //we clean the invalid position   
-                //GameLog.Log("Cleanning infalid position in RecalculateBussGrid()");
+                //Log("Cleanning infalid position in RecalculateBussGrid()");
                 gridArray[tile.GridPosition.x, tile.GridPosition.y] = (int)CellValue.EMPTY;
             }
         }

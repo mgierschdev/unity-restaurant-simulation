@@ -313,8 +313,6 @@ public class GameGridObject : GameObjectBase
     // If we rotate the table no one can attend the table or go to the table
     private void ResetNPCStates()
     {
-
-        GameLog.Log((attendedBy == null) + " " + (usedBy == null));
         if (attendedBy != null)
         {
             attendedBy.SetTableToBeAttended(null);

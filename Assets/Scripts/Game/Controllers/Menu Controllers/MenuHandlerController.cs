@@ -54,7 +54,7 @@ public class MenuHandlerController : MonoBehaviour
         menuBackgroundController = GameObject.Find(Settings.MenuContainer).GetComponent<MenuBackgroundController>();
         if (menuBackgroundController == null)
         {
-            GameLog.Log("MenuHandlerController.cs/menuBackgroundController is null");
+            GameLog.LogWarning("MenuHandlerController.cs/menuBackgroundController is null");
         }
 
         // Menu Body
@@ -340,17 +340,13 @@ public class MenuHandlerController : MonoBehaviour
     IEnumerator TestPlacingObjects(StoreGameObject obj)
     {
         //Print the time of when the function is first called.
-        // Debug.Log("Started Coroutine at timestamp : " + Time.time);
-
         //yield on a new YieldInstruction that waits for 5 seconds.
         for (int i = 0; i < 100; i++)
         {
             yield return new WaitForSeconds(0.15f); // 0.15f
-            // Debug.Log("Placing object");
             placeGameObject(obj);
         }
         //After we have waited 5 seconds print the time again.
-        // Debug.Log("Finished Coroutine at timestamp : " + Time.time);
         yield return new WaitForSeconds(0);
     }
 
@@ -382,12 +378,12 @@ public class MenuHandlerController : MonoBehaviour
 
     // private void ItemClicked()
     // {
-    //     //GameLog.Log("Clicking inventory/bEmployees");
+    //     //.Log("Clicking inventory/bEmployees");
     // }
 
     // public void InventoryItemClicked(GameGridObject obj)
     // {
-    //     GameLog.Log("Button Clicked " + obj.Name);
+    //     .Log("Button Clicked " + obj.Name);
     // }
 
     public bool IsMenuOpen()
