@@ -93,7 +93,7 @@ public class GameGridObject : GameObjectBase
             baseObjectController = transform.GetComponent<CounterController>();
 
         }
-        else if (Type == ObjectType.SINGLE_CONTAINER)
+        else if (Type == ObjectType.BASE_CONTAINER)
         {
             baseObjectController = transform.GetComponent<BaseContainerController>();
         }

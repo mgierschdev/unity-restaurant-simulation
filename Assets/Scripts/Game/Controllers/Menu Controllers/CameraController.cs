@@ -68,7 +68,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        Debug.Log(BussGrid.GetDragginObject() + " " + menuHandlerController.IsMenuOpen() + " " + IsPerspectiveHandTempDisabled);
+        //Debug.Log(BussGrid.GetDragginObject() + " " + menuHandlerController.IsMenuOpen() + " " + IsPerspectiveHandTempDisabled);
         if (!Settings.CameraPerspectiveHand || BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
         {
             return;

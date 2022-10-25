@@ -8,12 +8,10 @@ public class MenuItem
     public Menu Menu { get; }
     public string Name { get; }
     public GameObject UnityObject { get; }
-    public bool PauseGame { get; }
 
-    public MenuItem(Menu menu, MenuType type, string name, GameObject gameObj, bool pauseGame)
+    public MenuItem(Menu menu, MenuType type, string name, GameObject gameObj)
     {
         Menu = menu;
-        PauseGame = pauseGame;
         UnityObject = gameObj;
         Name = name;
         Type = type;
