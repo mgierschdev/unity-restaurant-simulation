@@ -17,7 +17,7 @@ public class BaseObjectController : MonoBehaviour
     protected MenuHandlerController Menu { get; set; }
     //Long click controller
     private float timeClicking;
-    private const float TIME_BEFORE_ACTIVATING_SLIDER = 1f;
+    private const float TIME_BEFORE_ACTIVATING_SLIDER = Settings.TimeBeforeTheSliderIsEnabled;
 
     //Firebase obj reference and initial rotation
     private FirebaseGameObject firebaseGameObject;
@@ -86,7 +86,7 @@ public class BaseObjectController : MonoBehaviour
     public void RestartTableNPC()
     {
         // If you move a table while busy the NPC will self destroy
-        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
+        if (gameGridObject.GetStoreGameObject().HasActionPoint)
         {
             // Restart NPCs states
             NPCController npc = gameGridObject.GetUsedBy();

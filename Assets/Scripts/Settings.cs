@@ -13,6 +13,11 @@ public static class Settings
     //Sliders 
     public const float ObjectSliderMultiplayer = 0.8f;
     public const float ScreenLoadTime = 2f;
+    public const float TimeBeforeTheSliderIsEnabled = 1f;
+
+    //Witing times
+    public const float NPCMaxWaitingTime = 10f;
+    public const float NPCMaxTimeInState = 10f;
 
     //FIREBASE TEST ENV 
     public const string FIRESTORE_HOST = "localhost:8080";
@@ -81,7 +86,7 @@ public static class Settings
     public const string BaseObjectSpriteRenderer = "Object";
 
     //NPC Default
-    public const float MinDistanceToTarget = 0.13f;
+    public const float MinDistanceToTarget = 0.1f;//0.13f;
     public const int NpcDefaultEnergy = 100;
     public const string NpcEnergyBar = "EnergyBar";
     public const string NpcCharacter = "Character";
