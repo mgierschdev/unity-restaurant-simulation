@@ -10,7 +10,7 @@ public static class MenuObjectList
     public static List<StoreGameObject> InGameStoreItems;
     public static List<StoreGameObject> EmployeeItems;
     public static List<StoreGameObject> SettingsItems;
-
+    public static List<StoreGameObject> Storage;
     public static Dictionary<string, StoreGameObject> StoreItemDictionary; //Object Sprite Library Identifier / StoreObject
     public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic; //Object Sprite Library Identifier / StoreObject
 
@@ -26,6 +26,8 @@ public static class MenuObjectList
         TopCounterItems = new List<StoreGameObject>();
         InGameStoreItems = new List<StoreGameObject>();
         SettingsItems = new List<StoreGameObject>();
+        EmployeeItems = new List<StoreGameObject>();
+        Storage = new List<StoreGameObject>();
 
         StoreItemDictionary = new Dictionary<string, StoreGameObject>();
         StoreItemTypeDic = new Dictionary<StoreItemType, StoreGameObject>();
@@ -132,7 +134,8 @@ public static class MenuObjectList
             case MenuTab.ITEMS_TAB: return "Items";
             case MenuTab.IN_GAME_STORE_TAB: return "Store";
             case MenuTab.EMPLOYEE_TAB: return "Employees";
-            case MenuTab.SETTINGS_TAB: return "Settings";
+            case MenuTab.STORAGE_TAB: return "Storage";
+            case MenuTab.SETTINGS_TAB: return "Settings"; 
         }
         return "";
     }
