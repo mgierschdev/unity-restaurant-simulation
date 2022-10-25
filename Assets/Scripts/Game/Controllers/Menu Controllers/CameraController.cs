@@ -68,6 +68,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
+        Debug.Log(BussGrid.GetDragginObject() + " " + menuHandlerController.IsMenuOpen() + " " + IsPerspectiveHandTempDisabled);
         if (!Settings.CameraPerspectiveHand || BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
         {
             return;
@@ -140,5 +141,10 @@ public class CameraController : MonoBehaviour
         IsPerspectiveHandTempDisabled = true;
         IEnumerator coroutine = DisablePerspectiveHandEnum();
         StartCoroutine(coroutine);
+    }
+
+    public void SetIsPerspectiveHandTempDisabled(bool val)
+    {
+        IsPerspectiveHandTempDisabled = val;
     }
 }

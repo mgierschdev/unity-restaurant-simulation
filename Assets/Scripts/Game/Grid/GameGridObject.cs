@@ -179,6 +179,8 @@ public class GameGridObject : GameObjectBase
             }
 
             BussGrid.GameController.ReCalculateNpcStates(this);
+            BussGrid.CameraController.SetIsPerspectiveHandTempDisabled(false);
+            BussGrid.SetDraggingObject(false);
             Object.Destroy(objectTransform.gameObject);
         }
         catch (Exception e)
