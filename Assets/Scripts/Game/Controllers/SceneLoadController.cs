@@ -17,7 +17,7 @@ public class SceneLoadController : MonoBehaviour
     private AsyncOperation operation;
     private float currentProgress;
     private DocumentSnapshot userData;
-    private float MIN_TIME_LOADING = 3f; // Min time while laoding the screen
+    private float MIN_TIME_LOADING = Settings.ScreenLoadTime; // Min time while laoding the screen
     private float currentTimeAtScene; // Current time at the screen
     private FirebaseUser newUser;
 
