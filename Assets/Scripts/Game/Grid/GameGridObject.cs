@@ -33,7 +33,7 @@ public class GameGridObject : GameObjectBase
     //Slider on top of the object
     private GameObject objectSlider;
     private Slider slider;
-    private float sliderMultiplayer = 0.5f;
+    private float sliderMultiplayer = Settings.ObjectSliderMultiplayer;
     private float currentSliderValue;
     private bool isObjectSelected;
 
@@ -303,7 +303,8 @@ public class GameGridObject : GameObjectBase
             return;
         }
 
-        ResetNPCStates();
+        ResetNPCStates(); // If there is any NPC we send it to the final state
+        FreeObject();
 
         Vector3Int prev = GetActionTileInGridPosition();
         facingPosition--;
