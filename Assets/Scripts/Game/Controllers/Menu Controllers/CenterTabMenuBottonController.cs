@@ -11,7 +11,7 @@ public class CenterTabMenuBottonController : MonoBehaviour
     {
         GameObject obj = transform.Find("Text").gameObject;
         buttonText = obj.GetComponent<TextMeshProUGUI>();
-        button = obj.GetComponent<Button>();
+        button = transform.GetComponent<Button>();
     }
 
     public void SetText(string text)
