@@ -4,7 +4,7 @@ using UnityEngine;
 public class CenterTabMenuBottonController : MonoBehaviour
 {
     private TextMeshProUGUI buttonText;
-    void Start()
+    private void Awake()
     {
         GameObject obj = transform.Find("Text").gameObject;
         buttonText = obj.GetComponent<TextMeshProUGUI>();
