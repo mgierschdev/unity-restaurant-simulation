@@ -97,7 +97,8 @@ public class MenuHandlerController : MonoBehaviour
             CenterTabMenuBottonController controller = button.GetComponent<CenterTabMenuBottonController>();
             controller.SetText(MenuObjectList.GetButtonLabel(tab));
             button.transform.SetParent(centerPanelSideMenu.transform);
-            //TODO set clickListeners
+            Button bStore = controller.GetButton();
+            bStore.onClick.AddListener(() => AddMenuItemsToScrollView(centerTabMenu));
         }
     }
 
@@ -222,6 +223,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
+        Debug.Log("Adding list " + menu.GetMenuTab());
         GameObject scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
 
         if (!scrollView)
