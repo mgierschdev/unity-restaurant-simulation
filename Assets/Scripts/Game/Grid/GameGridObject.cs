@@ -241,7 +241,7 @@ public class GameGridObject : GameObjectBase
             return tiles[0].transform.position;
         }
 
-        return actionTiles[actionTile].transform.position;
+        return actionTiles != null ?  actionTiles[actionTile].transform.position : Vector3.negativeInfinity;
     }
 
     public Vector3Int GetActionTileInGridPosition()

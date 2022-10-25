@@ -10,11 +10,12 @@ public class EmployeeController : GameObjectMovementBase
     private PlayerAnimationStateController animationController;
     private GameController gameController;
     private GameTile unRespawnTile;
+    // This attributes stay here, since there will be different employees with different attributes
     private const float SPEED_TIME_TO_TAKING_ORDER = 80f; //Decrease per second  100/15
     private const float SPEED_TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
     private const float TIME_IDLE_BEFORE_TAKING_ORDER = 2f;
     private const int RANDOM_PROBABILITY_TO_WAIT = 0;
-    private const float MAX_TIME_IN_STATE = 10F;
+    private const float MAX_TIME_IN_STATE = Settings.NPCMaxTimeInState;
     public Vector3Int CoordOfTableToBeAttended { get; set; }
     private float idleTime;
     //Time in the current state
@@ -22,7 +23,7 @@ public class EmployeeController : GameObjectMovementBase
     private NpcState prevState;
     //Current Goto Target
     private Vector3Int target;
-    private const float MAX_TABLE_WAITING_TIME = 10f;
+    private const float MAX_TABLE_WAITING_TIME = Settings.NPCMaxWaitingTime;
 
     private void Start()
     {
@@ -233,7 +234,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateAttendTable_5()
     {
-        // We can we idle and not attend the table. "Waiting..."
+        // we idle and not attend the table. "Waiting..."
         float idleProbability = Random.Range(0, 100);
         if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
         {
@@ -275,7 +276,7 @@ public class EmployeeController : GameObjectMovementBase
     }
 
     // The client was attended we return the free table and Add money to the wallet
-    // The client leaves the table onece the table is set as free
+    // The client leaves the table once the table is set as free
     private void UpdateOrderAttended_8()
     {
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
