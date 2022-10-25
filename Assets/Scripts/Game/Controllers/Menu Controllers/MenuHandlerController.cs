@@ -71,8 +71,7 @@ public class MenuHandlerController : MonoBehaviour
             GameLog.LogWarning("cController " + cController);
         }
 
-        centerTabMenu = new MenuItem(MenuTab.TABLES_TAB, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
-
+        LoadCenterPanelSideMenu();
         // Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
         LoadCenterPanelSideMenu();
@@ -83,8 +82,15 @@ public class MenuHandlerController : MonoBehaviour
 
     private void LoadCenterPanelSideMenu()
     {
-        //centerPanelSideMenu
+        GameObject obj = transform.Find("ButtonMenuPanel").gameObject;
+        centerTabMenu = new MenuItem(MenuTab.TABLES_TAB, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
+        // Clear the dev button view
+        foreach (Transform child in obj.transform)
+        {
+            Destroy(child.gameObject);
+        }
 
+        
     }
 
 
