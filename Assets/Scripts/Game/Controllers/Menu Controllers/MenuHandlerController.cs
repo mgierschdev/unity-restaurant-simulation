@@ -405,7 +405,7 @@ public class MenuHandlerController : MonoBehaviour
         GameObject newObject;
         Vector3 spamPosition = BussGrid.GetCenterBussGrid();
         // BaseObjectController baseObjectController;
-        newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+        //newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
 
         // // There can be only one counter at the tinme
         // if (obj.Type == ObjectType.NPC_COUNTER && BussGrid.GetCounter() == null)
@@ -419,50 +419,50 @@ public class MenuHandlerController : MonoBehaviour
 
         // Debug.Log("Inverted: " + inverted);
         // baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.BACK_INVERTED);
-        return newObject;
+        //return newObject;
 
         //StoreGameObject Obj, type to be used
 
-        // if (BussGrid.BusinessObjects.Count == 0)
-        // {
-        //     spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextTileFromEmptyMap(obj));
-        //     return spamPosition == null ? null : Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-        // }
+        if (BussGrid.BusinessObjects.Count == 0)
+        {
+            spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextTileFromEmptyMap(obj));
+            return spamPosition == null ? null : Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+        }
 
-        // foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)
-        // {
-        //     GameGridObject current = dic.Value;
-        //     Vector3Int[] nextTile = BussGrid.GetNextTileWithActionPoint(current);
+        foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)
+        {
+            GameGridObject current = dic.Value;
+            Vector3Int[] nextTile = BussGrid.GetNextTileWithActionPoint(current);
 
-        //     if (nextTile.GetLength(0) != 0)
-        //     {
-        //         // We place the object 
-        //         spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextTile[0]);
-        //         bool inverted = true;
+            if (nextTile.GetLength(0) != 0)
+            {
+                // We place the object 
+                spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextTile[0]);
+                bool inverted = true;
 
-        //         if (nextTile[1] == Vector3Int.up)
-        //         {
-        //             inverted = false;
-        //         }
+                if (nextTile[1] == Vector3Int.up)// Vector3Int.up //front
+                {
+                    inverted = false;
+                }
 
-        //         newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-        //         BaseObjectController baseObjectController;
+                newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                BaseObjectController baseObjectController;
 
-        //         // There can be only one counter at the tinme
-        //         if (obj.Type == ObjectType.NPC_COUNTER && BussGrid.GetCounter() == null)
-        //         {
-        //             baseObjectController = newObject.GetComponent<CounterController>();
-        //         }
-        //         else
-        //         {
-        //             baseObjectController = newObject.GetComponent<TableController>();
-        //         }
+                // There can be only one counter at the tinme
+                if (obj.Type == ObjectType.NPC_COUNTER && BussGrid.GetCounter() == null)
+                {
+                    baseObjectController = newObject.GetComponent<CounterController>();
+                }
+                else
+                {
+                    baseObjectController = newObject.GetComponent<TableController>();
+                }
 
-        //         Debug.Log("Inverted: " + inverted);
-        //         baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.BACK_INVERTED);
-        //         return newObject;
-        //     }
-        // }
+                Debug.Log("Inverted: " + inverted);
+                baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.FRONT);
+                return newObject;
+            }
+        }
 
         return null;
     }
