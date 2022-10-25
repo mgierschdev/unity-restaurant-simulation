@@ -221,20 +221,28 @@ public class NPCController : GameObjectMovementBase
     //Calculates the path to the current table
     private void GoToWalkingToTable_6()
     {
-        targetInWorldPosition = table.GetActionTile();
-        target = table.GetActionTileInGridPosition();
-
-        //If we are already at the table
-        if (target == Position)
+        try
         {
-            localState = NpcState.AT_TABLE;
-            return;
+            targetInWorldPosition = table.GetActionTile();
+
+            target = table.GetActionTileInGridPosition();
+
+            //If we are already at the table
+            if (target == Position)
+            {
+                localState = NpcState.AT_TABLE;
+                return;
+            }
+
+            if (!GoTo(target))
+            {
+                //Log("Could not find a path GoToWalkingToTable_6() ");
+                return;
+            }
         }
-
-        if (!GoTo(target))
+        catch (SystemException e)
         {
-            //Log("Could not find a path GoToWalkingToTable_6() ");
-            return;
+            GameLog.Log(e.ToString());
         }
     }
 

@@ -432,6 +432,11 @@ public static class BussGrid
 
     public static Vector3Int GetPathFindingGridFromWorldPosition(Vector3 position)
     {
+        if (position == Vector3.negativeInfinity)
+        {
+            return Util.GetVector3IntPositiveInfinity();
+        }
+
         Vector3 newPosition = new Vector3(position.x, position.y, 0);
         position = newPosition;
         if (!mapGridPositionToTile.ContainsKey(TilemapPathFinding.WorldToCell(position)))
