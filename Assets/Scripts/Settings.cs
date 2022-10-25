@@ -10,6 +10,10 @@ public static class Settings
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
 
+    //Sliders 
+    public const float ObjectSliderMultiplayer = 0.8f;
+    public const float ScreenLoadTime = 2f;
+
     //FIREBASE TEST ENV 
     public const string FIRESTORE_HOST = "localhost:8080";
     public const string CLOUD_FUNCTION_HOST = IsFirebaseEmulatorEnabled ? "localhost:5001" : "";
