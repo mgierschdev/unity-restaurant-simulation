@@ -111,16 +111,9 @@ public class GameGridObject : GameObjectBase
 
         firebaseGameObject = baseObjectController.GetFirebaseGameObject();
         active = baseObjectController.GetInitIsActive();
-
-        if (firebaseGameObject != null)
-        {
-            facingPosition = (ObjectRotation)firebaseGameObject.ROTATION;
-        }
-
-        if (baseObjectController.GetInitialRotation() != ObjectRotation.UNDEFINED)
-        {
-            UpdateInitRotation(baseObjectController.GetInitialRotation());
-        }
+        // Object rotation
+        facingPosition = baseObjectController.GetInitialRotation();
+        UpdateInitRotation(baseObjectController.GetInitialRotation());
 
         SetEditPanelButtonClickListeners();
         Init();
@@ -241,7 +234,7 @@ public class GameGridObject : GameObjectBase
             return tiles[0].transform.position;
         }
 
-        return actionTiles != null ?  actionTiles[actionTile].transform.position : Vector3.negativeInfinity;
+        return actionTiles != null ? actionTiles[actionTile].transform.position : Vector3.negativeInfinity;
     }
 
     public Vector3Int GetActionTileInGridPosition()
@@ -394,8 +387,8 @@ public class GameGridObject : GameObjectBase
 
         if (storeGameObject.HasActionPoint)
         {
-            Vector3Int post = GetActionTileInGridPosition();
-            BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
+            //Vector3Int post = GetActionTileInGridPosition();
+            // BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
         }
         UpdateCoords();
     }
@@ -682,6 +675,15 @@ public class GameGridObject : GameObjectBase
     private void AcceptPurchase()
     {
         isItemBought = true;
+        baseObjectController.SetNewItem(false);
+        baseObjectController.SetIsNewItemSetted(true);
+        
+        // We set the new state for the edit panel buttons
+        acceptButton.SetActive(false);
+        cancelButton.SetActive(false);
+        rotateObjLeftButton.SetActive(true);
+        saveObjButton.SetActive(true);
+
         PlayerData.Subtract(storeGameObject.Cost);
         active = true; // now it can be used by NPCs
         //we set a new firebase object

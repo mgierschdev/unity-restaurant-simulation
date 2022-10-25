@@ -167,7 +167,6 @@ public class GameController : MonoBehaviour
     public static void PlaceGameObjectAt(FirebaseGameObject obj)
     {
         StoreItemType type = (StoreItemType)obj.ID;
-        ObjectRotation rotation = (ObjectRotation)obj.ROTATION;
         Vector3Int position = new Vector3Int(obj.POSITION[0], obj.POSITION[1]);
         Vector3 worldPosition = BussGrid.GetWorldFromPathFindingGridPosition(position);
         string prefab = MenuObjectList.GetPrefab(type);
@@ -179,6 +178,6 @@ public class GameController : MonoBehaviour
 
         GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, 1), Quaternion.identity, BussGrid.TilemapObjects.transform) as GameObject;
         BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
-        controller.SetGameGridObjectRotationAndFirebaseGameObject(obj, rotation);
+        controller.SetFirebaseGameObject(obj);
     }
 }
