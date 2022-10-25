@@ -71,6 +71,9 @@ public class MenuHandlerController : MonoBehaviour
             GameLog.LogWarning("cController " + cController);
         }
 
+        //Center tab menus tabs
+        centerTabMenu = new MenuItem(MenuTab.TABLES_TAB, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
+
         LoadCenterPanelSideMenu();
         // Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
@@ -82,15 +85,20 @@ public class MenuHandlerController : MonoBehaviour
 
     private void LoadCenterPanelSideMenu()
     {
-        GameObject obj = transform.Find("ButtonMenuPanel").gameObject;
-        centerTabMenu = new MenuItem(MenuTab.TABLES_TAB, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
         // Clear the dev button view
-        foreach (Transform child in obj.transform)
+        foreach (Transform child in centerPanelSideMenu.transform)
         {
             Destroy(child.gameObject);
         }
 
-        
+        foreach (MenuTab tab in MenuTab.GetValues(typeof(MenuTab)))
+        {
+            GameObject button = Instantiate(Resources.Load(Settings.SideMenuButton, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+            CenterTabMenuBottonController controller = button.GetComponent<CenterTabMenuBottonController>();
+            controller.SetText(MenuObjectList.GetButtonLabel(tab));
+            button.transform.SetParent(centerPanelSideMenu.transform);
+            //TODO set clickListeners
+        }
     }
 
 
@@ -235,6 +243,7 @@ public class MenuHandlerController : MonoBehaviour
             Button button = item.GetComponent<Button>();
             GameObject img = item.transform.Find(Settings.PrefabInventoryItemImage).gameObject;
             Image image = img.GetComponent<Image>();
+
             // Adding click listener
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {

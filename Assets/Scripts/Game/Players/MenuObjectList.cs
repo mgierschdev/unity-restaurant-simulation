@@ -122,4 +122,18 @@ public static class MenuObjectList
 
         return new List<StoreGameObject>();
     }
+
+    public static string GetButtonLabel(MenuTab tab)
+    {
+        switch (tab)
+        {
+            case MenuTab.TABLES_TAB: return "Tables";
+            case MenuTab.BASE_CONTAINER_TAB: return "Containers";
+            case MenuTab.ITEMS_TAB: return "Items";
+            case MenuTab.IN_GAME_STORE_TAB: return "Store";
+            case MenuTab.EMPLOYEE_TAB: return "Employees";
+            case MenuTab.SETTINGS_TAB: return "Settings";
+        }
+        return "";
+    }
 }
