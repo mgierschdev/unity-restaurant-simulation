@@ -81,7 +81,7 @@ public enum NpcState
 }
 
 // List of Menus
-public enum Menu
+public enum MenuTab
 {
     TABLES_TAB = 1,//COUNTER HERE
     BASE_CONTAINER_TAB = 2,

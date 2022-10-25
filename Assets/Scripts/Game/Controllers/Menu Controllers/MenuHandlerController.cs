@@ -9,11 +9,10 @@ using UnityEngine.UI;
 public class MenuHandlerController : MonoBehaviour
 {
     private GameObject centerPanel;
+    private GameObject centerPanelSideMenu;
     private NPCController npc; //saves the latest reference to the npc if the menu was opened
     private EmployeeController employee;
     private MenuItem centerTabMenu;
-    private Stack<MenuItem> menuStack;
-    private HashSet<string> openMenus;
     // private bool isGamePaused;
     // Click controller
     private ClickController clickController;
@@ -23,7 +22,6 @@ public class MenuHandlerController : MonoBehaviour
     // Menu realtime refresh rate
     private const float MENU_REFRESH_RATE = 3f;
     private GameObject leftDownPanel;
-    //  private GameObject editStoreMenuPanel;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
@@ -58,10 +56,10 @@ public class MenuHandlerController : MonoBehaviour
 
         // Menu Body
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
-        GameObject CenterPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
+        centerPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
         GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
         visibleRects = new List<RectTransform>{
-            CenterPanelSideMenu.GetComponent<RectTransform>(),
+            centerPanelSideMenu.GetComponent<RectTransform>(),
             CenterPanelViewPanel.GetComponent<RectTransform>()
         };
 
@@ -73,15 +71,20 @@ public class MenuHandlerController : MonoBehaviour
             GameLog.LogWarning("cController " + cController);
         }
 
-        menuStack = new Stack<MenuItem>();
-        openMenus = new HashSet<string>();
-        centerTabMenu = new MenuItem(Menu.TABLES_TAB, MenuType.TAB_MENU, Settings.ConstCenterTabMenu, centerPanel);
+        centerTabMenu = new MenuItem(MenuTab.TABLES_TAB, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
 
         // Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
+        LoadCenterPanelSideMenu();
 
-        centerTabMenu.Close();
+        CloseCenterPanel();
         openedTime = 0;
+    }
+
+    private void LoadCenterPanelSideMenu()
+    {
+        //centerPanelSideMenu
+
     }
 
 
@@ -137,14 +140,6 @@ public class MenuHandlerController : MonoBehaviour
         }
     }
 
-    private void CloseAllMenus()
-    {
-        while (menuStack.Count > 0)
-        {
-            CloseMenu();
-        }
-    }
-
     public void CloseMenu()
     {
         // We disable the image menu backgrounds
@@ -153,33 +148,17 @@ public class MenuHandlerController : MonoBehaviour
             menuBackgroundController.Disable();
         }
 
-        if (menuStack.Count > 0)
+        if (centerPanel.activeSelf)
         {
-            MenuItem menu = menuStack.Pop();
-            menu.Close();
-            openMenus.Remove(menu.Name);
-            // if (menu.PauseGame)
-            // {
-            //     HandleTimeScale();
-            // }
+            CloseCenterPanel();
         }
     }
 
     private void OpenMenu(MenuItem menu)
     {
-        if (openMenus.Contains(menu.Name))
-        {
-            return;
-        }
-
-        if (menu.Type == MenuType.TAB_MENU)
-        {
-            AddMenuItemsToScrollView(centerTabMenu);
-        }
-
-        menu.UnityObject.SetActive(true);
-        menuStack.Push(menu);
-        openMenus.Add(menu.Name);
+        // Open all menus except settings and InGameStore
+        AddMenuItemsToScrollView(menu);
+        OpenCenterPanel();
 
         // If there is a selected object on the UI we un-unselect the object
         if (BussGrid.GetIsDraggingEnabled())
@@ -217,31 +196,19 @@ public class MenuHandlerController : MonoBehaviour
 
     private bool IsClickOutside()
     {
-        if (menuStack.Count <= 0)
+        foreach (RectTransform rect in visibleRects)
         {
-            return false;
-        }
-
-        MenuItem menu = menuStack.Peek();
-
-        if (menu.Type == MenuType.TAB_MENU)
-        {
-            foreach (RectTransform rect in visibleRects)
+            if (RectTransformUtility.RectangleContainsScreenPoint(rect, Input.mousePosition))
             {
-                if (RectTransformUtility.RectangleContainsScreenPoint(rect, Input.mousePosition))
-                {
-                    return false;
-                }
+                return false;
             }
-            return true;
         }
-
-        return !RectTransformUtility.RectangleContainsScreenPoint(menu.UnityObject.GetComponent<RectTransform>(), Input.mousePosition);
+        return true;
     }
 
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
-        GameObject scrollView = menu.UnityObject.transform.Find(Settings.ConstCenterScrollContent).gameObject;
+        GameObject scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
 
         if (!scrollView)
         {
@@ -254,6 +221,7 @@ public class MenuHandlerController : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
         // Add new Items
         foreach (StoreGameObject obj in MenuObjectList.AllStoreItems)
         {
@@ -299,7 +267,7 @@ public class MenuHandlerController : MonoBehaviour
             return;
         }
 
-        CloseAllMenus();
+        CloseMenu();
 
         // Load testing debug
         // StartCoroutine(TestPlacingObjects(obj));
@@ -346,7 +314,7 @@ public class MenuHandlerController : MonoBehaviour
 
     public bool IsMenuOpen()
     {
-        return menuStack.Count > 0;
+        return centerPanel.activeSelf;
     }
 
     private static GameObject placeGameObject(StoreGameObject obj)
@@ -372,7 +340,7 @@ public class MenuHandlerController : MonoBehaviour
                 spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextTile[0]);
                 bool inverted = true;
 
-                if (nextTile[1] == Vector3Int.up)// Vector3Int.up //front
+                if (nextTile[1] == Vector3Int.up)// Vector3Int.up == front
                 {
                     inverted = false;
                 }
@@ -396,5 +364,15 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void CloseCenterPanel()
+    {
+        centerPanel.SetActive(false);
+    }
+
+    private void OpenCenterPanel()
+    {
+        centerPanel.SetActive(true);
     }
 }
