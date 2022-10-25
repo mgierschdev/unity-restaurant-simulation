@@ -88,6 +88,7 @@ public enum MenuTab
     ITEMS_TAB = 3,
     EMPLOYEE_TAB = 4,//YOU MOST HAVE A COUNTER
     IN_GAME_STORE_TAB = 5,
+    STORAGE_TAB = 6,
     SETTINGS_TAB = 999
 }
 

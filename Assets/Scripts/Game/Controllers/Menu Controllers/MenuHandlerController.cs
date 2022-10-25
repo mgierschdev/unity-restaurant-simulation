@@ -98,7 +98,8 @@ public class MenuHandlerController : MonoBehaviour
             controller.SetText(MenuObjectList.GetButtonLabel(tab));
             button.transform.SetParent(centerPanelSideMenu.transform);
             Button bStore = controller.GetButton();
-            bStore.onClick.AddListener(() => AddMenuItemsToScrollView(centerTabMenu));
+            MenuItem current = new MenuItem(tab, MenuType.TAB_MENU, tab.ToString());
+            bStore.onClick.AddListener(() => AddMenuItemsToScrollView(current));
         }
     }
 
@@ -238,8 +239,10 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
+
+        //Debug.Log("Tabmenu: " + menu.GetMenuTab() + " "+);
         // Add new Items
-        foreach (StoreGameObject obj in MenuObjectList.AllStoreItems)
+        foreach (StoreGameObject obj in objects)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
