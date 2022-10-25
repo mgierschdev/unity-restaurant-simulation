@@ -4,8 +4,13 @@ public static class MenuObjectList
 {
     public static List<StoreGameObject> TableItems;
     public static List<StoreGameObject> CounterItems;
+    public static List<StoreGameObject> TopCounterItems;
     public static List<StoreGameObject> BaseContainerItems;
     public static List<StoreGameObject> AllStoreItems;
+    public static List<StoreGameObject> InGameStoreItems;
+    public static List<StoreGameObject> EmployeeItems;
+    public static List<StoreGameObject> SettingsItems;
+
     public static Dictionary<string, StoreGameObject> StoreItemDictionary; //Object Sprite Library Identifier / StoreObject
     public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic; //Object Sprite Library Identifier / StoreObject
 
@@ -18,6 +23,9 @@ public static class MenuObjectList
         TableItems = new List<StoreGameObject>();
         CounterItems = new List<StoreGameObject>();
         BaseContainerItems = new List<StoreGameObject>();
+        TopCounterItems = new List<StoreGameObject>();
+        InGameStoreItems = new List<StoreGameObject>();
+        SettingsItems = new List<StoreGameObject>();
 
         StoreItemDictionary = new Dictionary<string, StoreGameObject>();
         StoreItemTypeDic = new Dictionary<StoreItemType, StoreGameObject>();
@@ -98,5 +106,20 @@ public static class MenuObjectList
             case StoreItemType.WOODEN_BASE_CONTAINER: return Settings.PrefabBaseContainer;
         }
         return "";
+    }
+
+    public static List<StoreGameObject> GetItemList(MenuTab tab)
+    {
+        switch (tab)
+        {
+            case MenuTab.TABLES_TAB: return TableItems;
+            case MenuTab.BASE_CONTAINER_TAB: return BaseContainerItems;
+            case MenuTab.ITEMS_TAB: return TopCounterItems;
+            case MenuTab.IN_GAME_STORE_TAB: return InGameStoreItems;
+            case MenuTab.EMPLOYEE_TAB: return EmployeeItems;
+            case MenuTab.SETTINGS_TAB: return SettingsItems;
+        }
+
+        return new List<StoreGameObject>();
     }
 }

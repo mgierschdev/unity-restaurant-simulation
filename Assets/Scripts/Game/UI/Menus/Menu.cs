@@ -4,52 +4,62 @@ using UnityEngine;
 
 public class MenuItem
 {
-    public MenuType Type { get; }
-    public Menu Menu { get; }
-    public string Name { get; }
-    public GameObject UnityObject { get; }
+    private MenuType type;
+    private MenuTab menuTab;
+    public string name;
+    // public GameObject UnityObject { get; }
 
-    public MenuItem(Menu menu, MenuType type, string name, GameObject gameObj)
+    public MenuItem(MenuTab menu, MenuType type, string name)
     {
-        Menu = menu;
-        UnityObject = gameObj;
-        Name = name;
-        Type = type;
+        this.menuTab = menu;
+        // UnityObject = gameObj;
+        this.name = name;
+        this.type = type;
     }
 
-    public void SetFields(Dictionary<string, string> fields)
+    public MenuType GetType()
     {
-        foreach (KeyValuePair<string, string> kvp in fields)
-        {
-            GameObject go = GameObject.Find(kvp.Key);
-
-            if (go)
-            {
-                TextMeshProUGUI textMesh = go.GetComponent<TextMeshProUGUI>();
-
-                if (textMesh)
-                {
-                    textMesh.text = kvp.Value;
-                }
-                else
-                {
-                    GameLog.LogWarning("MenuItem/SetFields TextMesh Null");
-                }
-            }
-            else
-            {
-                GameLog.LogWarning("MenuItem/SetFields Object " + kvp.Key + " null");
-            }
-        }
+        return type;
     }
 
-    public void Close()
+    public MenuTab GetMenuTab()
     {
-        UnityObject.SetActive(false);
+        return menuTab;
     }
 
-    public void Open()
-    {
-        UnityObject.SetActive(true);
-    }
+    // public void SetFields(Dictionary<string, string> fields)
+    // {
+    //     foreach (KeyValuePair<string, string> kvp in fields)
+    //     {
+    //         GameObject go = GameObject.Find(kvp.Key);
+
+    //         if (go)
+    //         {
+    //             TextMeshProUGUI textMesh = go.GetComponent<TextMeshProUGUI>();
+
+    //             if (textMesh)
+    //             {
+    //                 textMesh.text = kvp.Value;
+    //             }
+    //             else
+    //             {
+    //                 GameLog.LogWarning("MenuItem/SetFields TextMesh Null");
+    //             }
+    //         }
+    //         else
+    //         {
+    //             GameLog.LogWarning("MenuItem/SetFields Object " + kvp.Key + " null");
+    //         }
+    //     }
+    // }
+
+    // public void Close()
+    // {
+    //     UnityObject.SetActive(false);
+    // }
+
+    // public void Open()
+    // {
+    //     UnityObject.SetActive(true);
+    // }
 }
