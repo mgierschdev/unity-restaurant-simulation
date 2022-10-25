@@ -69,7 +69,6 @@ public static class Settings
     public const string PrefabSingleTable = "Objects/SingleTable";
     public const string PrefabCounter = "Objects/Counter";
     public const string PrefabBaseContainer = "Objects/BaseContainer";
-    public const string PrefabSingleTableFrontInverted = "Objects/SingleTableFrontInverted";
     public const string ObjectRotationFrontInverted = "Inverted";
     public const string ObjectRotationFront = "Front";
     public const string PrefabPlayer = "Players/Player";

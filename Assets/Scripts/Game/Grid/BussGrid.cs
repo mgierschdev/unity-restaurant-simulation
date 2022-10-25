@@ -665,10 +665,8 @@ public static class BussGrid
     }
 
     //Gets the closest next tile to the object
-    public static Vector3Int[] GetNextTile(GameGridObject gameGridObject)
+    public static Vector3Int[] GetNextTileWithActionPoint(GameGridObject gameGridObject)
     {
-
-
         for (int i = 0; i < Util.AroundVectorPointsPlusTwo.GetLength(0); i++)
         {
             Vector3Int offset = new Vector3Int(Util.AroundVectorPointsPlusTwo[i, 0], Util.AroundVectorPointsPlusTwo[i, 1], 0);
@@ -862,7 +860,7 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            GameLog.Log(tmp.IsFree() + " " + !tmp.GetIsObjectBeingDragged() + " " + !tmp.HasNPCAssigned() + " " + !PlayerData.IsItemStored(tmp.Name) + " " + tmp.Name + " " + PlayerData.IsItemInInventory(tmp) + " " + tmp.GetIsItemBought() + " " + tmp.GetActive());
+           //GameLog.Log(tmp.IsFree() + " " + !tmp.GetIsObjectBeingDragged() + " " + !tmp.HasNPCAssigned() + " " + !PlayerData.IsItemStored(tmp.Name) + " " + tmp.Name + " " + PlayerData.IsItemInInventory(tmp) + " " + tmp.GetIsItemBought() + " " + tmp.GetActive());
 
             if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought() && tmp.GetActive())
             {
@@ -962,5 +960,10 @@ public static class BussGrid
     {
         //disables perspective ha d for 0.3 sec
         CameraController.DisablePerspectiveHand();
+    }
+
+    public static Vector3 GetCenterBussGrid()
+    {
+        return GetWorldFromGridPosition(new Vector3Int(8, 10));
     }
 }

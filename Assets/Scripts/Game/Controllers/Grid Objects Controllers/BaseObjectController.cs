@@ -35,7 +35,7 @@ public class BaseObjectController : MonoBehaviour
         isNewItem = false;
         isNewItemSetted = false;
         timeClicking = 0;
-        initialRotation = ObjectRotation.UNDEFINED;
+        initialRotation = ObjectRotation.FRONT;
     }
 
     private void Update()
@@ -64,7 +64,8 @@ public class BaseObjectController : MonoBehaviour
         //First time settup for a store item
         if (!isNewItemSetted && isNewItem && gameGridObject != null)
         {
-            SetGameGridObject();
+            Debug.Log("Transform " + name + " " + isNewItem + " " + !isNewItemSetted);
+            SetNewGameGridObject();
         }
     }
 
@@ -234,20 +235,30 @@ public class BaseObjectController : MonoBehaviour
         return false;
     }
 
-    public void SetGameGridObject()
+    public void SetNewGameGridObject()
     {
         isNewItemSetted = true;
         gameGridObject.SetStoreObject();
     }
 
-    public void SetNewItem()
+    public void SetNewItem(bool val)
     {
-        isNewItem = true;
+        isNewItem = val;
     }
 
-    public void SetGameGridObjectRotationAndFirebaseGameObject(FirebaseGameObject obj, ObjectRotation rotation)
+    public void SetIsNewItemSetted(bool val)
+    {
+        isNewItemSetted = val;
+    }
+
+    public void SetFirebaseGameObject(FirebaseGameObject obj)
     {
         firebaseGameObject = obj;
+        initialRotation = (ObjectRotation)obj.ROTATION; ;
+    }
+
+    public void SetInitialObjectRotation(ObjectRotation rotation)
+    {
         initialRotation = rotation;
     }
 
