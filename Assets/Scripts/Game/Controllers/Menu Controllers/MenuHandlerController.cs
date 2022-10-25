@@ -14,16 +14,16 @@ public class MenuHandlerController : MonoBehaviour
     private MenuItem centerTabMenu;
     private Stack<MenuItem> menuStack;
     private HashSet<string> openMenus;
-    //private bool isGamePaused;
+    // private bool isGamePaused;
     // Click controller
     private ClickController clickController;
-    //Min amount of time the the menu has to be open before activating -> closing on click outside
+    // Min amount of time the the menu has to be open before activating -> closing on click outside
     private const float MIN_OPENED_TIME = 0.5f;
     private float openedTime;
-    //Menu realtime refresh rate
+    // Menu realtime refresh rate
     private const float MENU_REFRESH_RATE = 3f;
     private GameObject leftDownPanel;
-    //private GameObject editStoreMenuPanel;
+    //  private GameObject editStoreMenuPanel;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
@@ -46,11 +46,10 @@ public class MenuHandlerController : MonoBehaviour
         Slider expSlider = topExpSlider.GetComponent<Slider>();
         PlayerData.SetPlayerData(moneyText, levelText, gemsText, expSlider);
 
-        //Left down panel and Edit store panel
+        // Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
-        //editStoreMenuPanel = GameObject.Find(Settings.ConstEditStoreMenuPanel).gameObject;
 
-        //Menu Background Controller 
+        // Menu Background Controller 
         menuBackgroundController = GameObject.Find(Settings.MenuContainer).GetComponent<MenuBackgroundController>();
         if (menuBackgroundController == null)
         {
@@ -76,43 +75,41 @@ public class MenuHandlerController : MonoBehaviour
 
         menuStack = new Stack<MenuItem>();
         openMenus = new HashSet<string>();
-        centerTabMenu = new MenuItem(Menu.CENTER_TAB_MENU, MenuType.TAB_MENU, Settings.ConstCenterTabMenu, centerPanel, true);
+        centerTabMenu = new MenuItem(Menu.TABLES_TAB, MenuType.TAB_MENU, Settings.ConstCenterTabMenu, centerPanel);
 
-        //Setting Click Listeners to Left Down Panel
+        // Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
-        //SetEditStorePanelClickListeners();
 
-        //editStoreMenuPanel.SetActive(false);
         centerTabMenu.Close();
         openedTime = 0;
     }
 
 
-    private void TimeControl()
-    {
-        if (menuStack == null)
-        {
-            return;
-        }
+    // private void TimeControl()
+    // {
+    //     if (menuStack == null)
+    //     {
+    //         return;
+    //     }
 
-        //Handles for how long before activating CloseOnCLickOutside
-        if (menuStack.Count > 0)
-        {
-            openedTime += Time.unscaledDeltaTime;
+    //     // Handles for how long before activating CloseOnCLickOutside
+    //     if (menuStack.Count > 0)
+    //     {
+    //         openedTime += Time.unscaledDeltaTime;
 
-            //Handles UI refresh rate 
-            MenuItem menu = menuStack.Peek();
+    //         // Handles UI refresh rate 
+    //         MenuItem menu = menuStack.Peek();
 
-            if (menu.Menu == Menu.NPC_PROFILE && openedTime > MENU_REFRESH_RATE)
-            {
-                openedTime = 0;
-            }
-        }
-        else
-        {
-            openedTime = 0.0f;
-        }
-    }
+    //         if (menu.Menu == Menu.NPC_PROFILE && openedTime > MENU_REFRESH_RATE)
+    //         {
+    //             openedTime = 0;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         openedTime = 0.0f;
+    //     }
+    // }
 
     private bool CanCloseOnClickOutside()
     {
@@ -150,7 +147,7 @@ public class MenuHandlerController : MonoBehaviour
 
     public void CloseMenu()
     {
-        //We disable the image menu backgrounds
+        // We disable the image menu backgrounds
         if (menuBackgroundController.IsActive())
         {
             menuBackgroundController.Disable();
@@ -184,7 +181,7 @@ public class MenuHandlerController : MonoBehaviour
         menuStack.Push(menu);
         openMenus.Add(menu.Name);
 
-        //If there is a selected object on the UI we un-unselect the object
+        // If there is a selected object on the UI we un-unselect the object
         if (BussGrid.GetIsDraggingEnabled())
         {
             BussGrid.DisableDragging();
@@ -251,20 +248,20 @@ public class MenuHandlerController : MonoBehaviour
             return;
         }
 
-        //Clear ScrollView
+        // Clear ScrollView
         foreach (Transform child in scrollView.transform)
         {
             Destroy(child.gameObject);
         }
 
-        //Add new Items
+        // Add new Items
         foreach (StoreGameObject obj in MenuObjectList.AllStoreItems)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             Button button = item.GetComponent<Button>();
             GameObject img = item.transform.Find(Settings.PrefabInventoryItemImage).gameObject;
             Image image = img.GetComponent<Image>();
-            //Adding click listener
+            // Adding click listener
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(obj));
@@ -292,18 +289,7 @@ public class MenuHandlerController : MonoBehaviour
         GameObject store = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuStore).gameObject;
         Button bStore = store.GetComponent<Button>();
         bStore.onClick.AddListener(() => OpenMenu(centerTabMenu));
-
-        // GameObject inventory = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuInventory).gameObject;
-        // Button bInventory = inventory.GetComponent<Button>();
-        // bInventory.onClick.AddListener(OpenEditPanel);
     }
-
-    // private void SetEditStorePanelClickListeners()
-    // {
-    //     GameObject cancel = editStoreMenuPanel.transform.Find(Settings.ConstEditStoreMenuCancel).gameObject;
-    //     Button bCancel = cancel.GetComponent<Button>();
-    //     bCancel.onClick.AddListener(CloseEditPanel);
-    // }
 
     private void OpenStoreEditPanel(StoreGameObject obj)
     {
@@ -333,7 +319,7 @@ public class MenuHandlerController : MonoBehaviour
             {
                 controller = newObject.GetComponent<CounterController>();
             }
-            else if (obj.Type == ObjectType.SINGLE_CONTAINER)
+            else if (obj.Type == ObjectType.BASE_CONTAINER)
             {
                 controller = newObject.GetComponent<BaseContainerController>();
             }
@@ -347,52 +333,16 @@ public class MenuHandlerController : MonoBehaviour
     }
     IEnumerator TestPlacingObjects(StoreGameObject obj)
     {
-        //Print the time of when the function is first called.
-        //yield on a new YieldInstruction that waits for 5 seconds.
+        // Print the time of when the function is first called.
+        // yield on a new YieldInstruction that waits for 5 seconds.
         for (int i = 0; i < 100; i++)
         {
             yield return new WaitForSeconds(0.15f); // 0.15f
             placeGameObject(obj);
         }
-        //After we have waited 5 seconds print the time again.
+        // After we have waited 5 seconds print the time again.
         yield return new WaitForSeconds(0);
     }
-
-    // private void OpenEditPanel()
-    // {
-    //     // we fix the camera in case the player is zoomed
-    //     CloseAllMenus();
-    //     //gridController.HighlightGridBussFloor();
-    //     // PauseGame();
-    //     leftDownPanel.SetActive(false);
-    //   //  editStoreMenuPanel.SetActive(true);
-    //     // We disable 
-    //     menuBackgroundController.Disable();
-    // }
-
-    // Closes the edit panel without changes 
-    // private void CloseEditPanel()
-    // {
-    //    // editStoreMenuPanel.SetActive(false);
-    //     leftDownPanel.SetActive(true);
-    //     BussGrid.HideSelectedGridBussFloor();
-    //     // ResumeGame();
-    // }
-
-    // public bool IsEditPanelOpen()
-    // {
-    //     return editStoreMenuPanel.activeSelf;
-    // }
-
-    // private void ItemClicked()
-    // {
-    //     //.Log("Clicking inventory/bEmployees");
-    // }
-
-    // public void InventoryItemClicked(GameGridObject obj)
-    // {
-    //     .Log("Button Clicked " + obj.Name);
-    // }
 
     public bool IsMenuOpen()
     {
@@ -403,25 +353,7 @@ public class MenuHandlerController : MonoBehaviour
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
         GameObject newObject;
-        Vector3 spamPosition = BussGrid.GetCenterBussGrid();
-        // BaseObjectController baseObjectController;
-        //newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-
-        // // There can be only one counter at the tinme
-        // if (obj.Type == ObjectType.NPC_COUNTER && BussGrid.GetCounter() == null)
-        // {
-        //     baseObjectController = newObject.GetComponent<CounterController>();
-        // }
-        // else
-        // {
-        //     baseObjectController = newObject.GetComponent<TableController>();
-        // }
-
-        // Debug.Log("Inverted: " + inverted);
-        // baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.BACK_INVERTED);
-        //return newObject;
-
-        //StoreGameObject Obj, type to be used
+        Vector3 spamPosition;
 
         if (BussGrid.BusinessObjects.Count == 0)
         {
@@ -458,7 +390,6 @@ public class MenuHandlerController : MonoBehaviour
                     baseObjectController = newObject.GetComponent<TableController>();
                 }
 
-                Debug.Log("Inverted: " + inverted);
                 baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.FRONT);
                 return newObject;
             }

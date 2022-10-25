@@ -9,7 +9,7 @@ public enum ObjectType
     NPC_COUNTER = 5,
     FLOOR = 6,
     NPC_SINGLE_TABLE = 7,
-    SINGLE_CONTAINER = 8,
+    BASE_CONTAINER = 8,
     UNDEFINED = 999
 }
 
@@ -83,8 +83,12 @@ public enum NpcState
 // List of Menus
 public enum Menu
 {
-    CENTER_TAB_MENU,
-    NPC_PROFILE
+    TABLES_TAB = 1,//COUNTER HERE
+    BASE_CONTAINER_TAB = 2,
+    ITEMS_TAB = 3,
+    EMPLOYEE_TAB = 4,//YOU MOST HAVE A COUNTER
+    IN_GAME_STORE_TAB = 5,
+    SETTINGS_TAB = 999
 }
 
 //Menu Types
