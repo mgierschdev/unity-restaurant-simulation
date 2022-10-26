@@ -10,7 +10,8 @@ public class MenuHandlerController : MonoBehaviour
 {
     private GameObject centerPanel;
     private GameObject centerPanelSideMenu;
-    private NPCController npc; //saves the latest reference to the npc if the menu was opened
+    //saves the latest reference to the npc if the menu was opened
+    private NPCController npc; 
     private EmployeeController employee;
     private MenuItem centerTabMenu;
     // Click controller
@@ -172,7 +173,6 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
-        Debug.Log("Adding list " + menu.GetMenuTab());
         GameObject scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
 
         if (!scrollView)

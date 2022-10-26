@@ -82,9 +82,9 @@ public class TestExpLevelCalculator
     public void TestGetExperiencePercentage()
     {
         //Base cases 0-22
-        Debug.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19));
+        GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19));
         Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19) == 82);
-        Debug.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21));
+        GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21));
         Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21) == 91);
 
         //Edge cases
@@ -93,10 +93,10 @@ public class TestExpLevelCalculator
         Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MaxValue), 100);
 
         //General cases
-        Debug.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851));
+        GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851));
         Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851) == 99); // 0.99f
 
-        Debug.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168));
+        GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168));
         Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168) == 57); // 0.99f
     }
 }

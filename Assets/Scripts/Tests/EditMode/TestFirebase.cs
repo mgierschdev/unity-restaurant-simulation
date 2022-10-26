@@ -36,13 +36,13 @@ public class TestFirebase
 
         firestore = FirebaseFirestore.DefaultInstance;
         // firestore.Settings.Host is cached beteween tests 
-        Debug.Log("Current firestore host " + firestore.Settings.Host);
+        GameLog.Log("Current firestore host " + firestore.Settings.Host);
         if (!firestore.Settings.Host.Contains(Settings.FIRESTORE_HOST))
         {
             firestore.Settings.Host = Settings.FIRESTORE_HOST;
             firestore.Settings.SslEnabled = false;
         }
-        Debug.Log("Current firestore host " + firestore.Settings.Host);
+        GameLog.Log("Current firestore host " + firestore.Settings.Host);
         PlayerData.SetEmptyUser();
         string ID = PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID;
         
@@ -56,13 +56,13 @@ public class TestFirebase
 
         // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
-        Debug.Log("Player data: " + PlayerData.GetFirebaseGameUser().ToString() + " " + PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
+        GameLog.Log("Player data: " + PlayerData.GetFirebaseGameUser().ToString() + " " + PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
         await dataTypesReference.SetAsync(docData, SetOptions.MergeAll);
         await usersReference.SetAsync(PlayerData.GetFirebaseGameUser(), SetOptions.MergeAll);
 
         DocumentSnapshot snapshot = await usersReference.GetSnapshotAsync();
         snapshot = await usersReference.GetSnapshotAsync();
-        Debug.Log("snapshot1 ID: " + snapshot.Id);
+        GameLog.Log("snapshot1 ID: " + snapshot.Id);
         Assert.AreEqual(snapshot.Id, PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
 
         // CLEAN UP
@@ -70,7 +70,7 @@ public class TestFirebase
         Task.Run(async () =>
         {
             snapshot = await usersReference.GetSnapshotAsync();
-            Debug.Log("snapshot1 ID: " + snapshot.Id);
+            GameLog.Log("snapshot1 ID: " + snapshot.Id);
             Assert.AreEqual(snapshot.Id, PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
         }).GetAwaiter();
 
@@ -79,7 +79,7 @@ public class TestFirebase
         Task.Run(async () =>
         {
             snapshot = await usersReference.GetSnapshotAsync();
-            Debug.Log("Assert false " + snapshot.Exists);
+            GameLog.Log("Assert false " + snapshot.Exists);
             Assert.False(snapshot.Exists);
         }).GetAwaiter();
     }
@@ -93,15 +93,15 @@ public class TestFirebase
 
         function.CallAsync(functionInput).ContinueWithOnMainThread((response) =>
        {
-           Debug.Log("response = " + response.Result.Data.ToString());
+           GameLog.Log("response = " + response.Result.Data.ToString());
 
            if (response.IsFaulted || response.IsCanceled)
            {
                Firebase.FirebaseException e = response.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
                FunctionsErrorCode error = (FunctionsErrorCode)e.ErrorCode;
 
-               Debug.LogError("Fault!");
-               Debug.Log("FunctionsErrorCode! = " + error);
+               GameLog.LogError("Fault!");
+               GameLog.Log("FunctionsErrorCode! = " + error);
            }
            else
            {
@@ -124,8 +124,6 @@ public class TestFirebase
     // {
     //     // //app.Options.DatabaseUrl = new System.Uri("localhost:9099");
     //     // FirebaseAuth auth = FirebaseAuth.GE
-    //     // // Debug.Log(" "+auth.SignInWithCredentialAsync());
     //     // Task.Run(() => auth.SignInAnonymouslyAsync());
-    //     // Debug.Log(auth.CurrentUser);
     // }
 }

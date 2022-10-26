@@ -162,7 +162,8 @@ public class GameGridObject : GameObjectBase
             GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
             firebaseGameObject.IS_STORED = true;
             PlayerData.StoreItem(this);
-            BussGrid.ClearCurrentClickedActiveGameObject(); // Clear the Item from the current selected in the grid 
+            // Clear the Item from the current selected in the grid 
+            BussGrid.ClearCurrentClickedActiveGameObject(); 
             BussGrid.FreeObject(this);
 
             // we clean the table from the employer
@@ -269,8 +270,8 @@ public class GameGridObject : GameObjectBase
             GameLog.Log("Rotation is invalid");
             return;
         }
-
-        ResetNPCStates(); // If there is any NPC we send it to the final state
+        // If there is any NPC we send it to the final state
+        ResetNPCStates(); 
         FreeObject();
 
         Vector3Int prev = GetActionTileInGridPosition();
@@ -664,7 +665,8 @@ public class GameGridObject : GameObjectBase
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
-        BussGrid.SetDisablePerspectiveHand(); // disables the perspective hand for a second
+        // disables the perspective hand for a second
+        BussGrid.SetDisablePerspectiveHand();
         SetInactive();
         BussGrid.RecalculateBussGrid();
     }

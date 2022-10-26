@@ -64,7 +64,6 @@ public class BaseObjectController : MonoBehaviour
         //First time settup for a store item
         if (!isNewItemSetted && isNewItem && gameGridObject != null)
         {
-            Debug.Log("Transform " + name + " " + isNewItem + " " + !isNewItemSetted);
             SetNewGameGridObject();
         }
     }

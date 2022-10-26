@@ -262,7 +262,7 @@ public static class BussGrid
 
     private static void SetObjectObstacle(GameGridObject obj)
     {
-        Vector3Int actionGridPosition = obj.GetActionTileInGridPosition();//GetPathFindingGridFromWorldPosition(obj.GetActionTile());
+        Vector3Int actionGridPosition = obj.GetActionTileInGridPosition();
         BusinessObjects.TryAdd(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {

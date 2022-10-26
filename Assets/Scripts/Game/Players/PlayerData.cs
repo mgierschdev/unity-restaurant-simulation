@@ -85,7 +85,6 @@ public static class PlayerData
         {
             // TODO: Pop Up Level up
             // We save the data in case of app rewards
-            // GameLog.Log("Setting player data " + GetUserAsMap().ToString());
             Firestore.SaveUser();
         }
         levelText.text = GetLevel();
