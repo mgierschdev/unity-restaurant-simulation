@@ -238,7 +238,7 @@ public static class Util
     public static MoveDirection GetDirectionFromAngles(float angle)
     {
         // ofset for diagonal movements 
-        float offset = 20; 
+        float offset = 20;
 
         if (angle >= 45 - offset && angle <= 45 + offset)
         {
@@ -381,7 +381,7 @@ public static class Util
     {
         return Vector3.Distance(new Vector3(a.x, a.y, 0), new Vector3(b.x, b.y, 0)) < Settings.MinDistanceToTarget;
     }
-    
+
     // Meassures the distance between a and b, and translate the transform position of the object to fix small precision problem, 0.01f
     public static bool IsAtDistanceWithObjectTraslate(Vector3 a, Vector3 b, Transform transform)
     {

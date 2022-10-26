@@ -37,7 +37,7 @@ public static class Settings
     public const string SliderProgress = "SliderProgress";
 
     //STORE SPRITES
-    public const string StoreSpritePath = "SpriteLibs/MenuItemSprites/";
+    public const string StoreSpritePath = "Objects/Sprites/";
 
     // TILEMAPS
     public const string TilemapFloor0 = "TilemapFloor0";
