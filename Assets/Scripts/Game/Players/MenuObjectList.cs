@@ -15,6 +15,7 @@ public static class MenuObjectList
     public static Dictionary<string, StoreGameObject> StoreItemDictionary; 
     //Object Sprite Library Identifier / StoreObject
     public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic; 
+ 
 
     public static void Init()
     {
@@ -55,15 +56,15 @@ public static class MenuObjectList
             StoreItemDictionary.Add(storeItem.Identifier, storeItem);
             StoreItemTypeDic.Add(storeItem.StoreItemType, storeItem);
 
-            if (storeItem.Type == ObjectType.NPC_SINGLE_TABLE)
+            if (storeItem.Type == ObjectType.NPC_SINGLE_TABLE ||  storeItem.Type == ObjectType.NPC_COUNTER)
             {
                 TableItems.Add(storeItem);
             }
 
-            if (storeItem.Type == ObjectType.NPC_COUNTER)
-            {
-                CounterItems.Add(storeItem);
-            }
+            // if (storeItem.Type == ObjectType.NPC_COUNTER)
+            // {
+            //     CounterItems.Add(storeItem);
+            // }
 
             if (storeItem.Type == ObjectType.BASE_CONTAINER)
             {
