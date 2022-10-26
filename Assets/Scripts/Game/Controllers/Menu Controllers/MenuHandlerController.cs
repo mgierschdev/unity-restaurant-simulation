@@ -11,7 +11,7 @@ public class MenuHandlerController : MonoBehaviour
     private GameObject centerPanel;
     private GameObject centerPanelSideMenu;
     //saves the latest reference to the npc if the menu was opened
-    private NPCController npc; 
+    private NPCController npc;
     private EmployeeController employee;
     private MenuItem centerTabMenu;
     // Click controller
@@ -192,9 +192,9 @@ public class MenuHandlerController : MonoBehaviour
         foreach (StoreGameObject obj in objects)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
-            InventoryItemController inventoryItemController = item.GetComponent<InventoryItemController>(); 
+            InventoryItemController inventoryItemController = item.GetComponent<InventoryItemController>();
             Button button = inventoryItemController.GetButton();
-           
+
             // Adding click listener
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
@@ -205,7 +205,7 @@ public class MenuHandlerController : MonoBehaviour
                 inventoryItemController.SetBackground(Util.Unavailable);
             }
 
-            inventoryItemController.SetInventoryItem(obj.MenuItemSprite,  obj.Cost.ToString());
+            inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString());
             item.transform.SetParent(scrollView.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
