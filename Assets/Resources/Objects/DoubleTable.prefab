@@ -179,6 +179,10 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7776752969258957885, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00002759695
+      objectReference: {fileID: 0}
     - target: {fileID: 8672831008513955186, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
       value: 0
@@ -223,3 +227,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945471a21aa34409f80b3a3584a52c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPos: {x: 0, y: 0, z: 0}
+  initialActionTileOne: {x: 0, y: 0, z: 0}

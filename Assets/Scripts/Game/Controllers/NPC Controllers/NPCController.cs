@@ -156,6 +156,13 @@ public class NPCController : GameObjectMovementBase
         if (Util.IsAtDistanceWithObjectTraslate(transform.position, targetInWorldPosition, transform))
         {
             localState = NpcState.AT_TABLE;
+            // The table was stored at the same time the NPC was moving towards the table
+            if (table == null || PlayerData.IsItemStored(table.Name))
+            {
+                GoToFinalState_4();
+                return;
+            }
+
             table.SetUsedBy(this);
         }
     }
