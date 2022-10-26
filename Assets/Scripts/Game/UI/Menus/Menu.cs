@@ -11,7 +11,7 @@ public class MenuItem
         this.type = type;
     }
 
-    public MenuType GetType()
+    public MenuType GetMenuType()
     {
         return type;
     }
