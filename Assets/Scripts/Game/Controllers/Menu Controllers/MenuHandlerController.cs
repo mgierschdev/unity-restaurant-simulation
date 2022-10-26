@@ -192,10 +192,9 @@ public class MenuHandlerController : MonoBehaviour
         foreach (StoreGameObject obj in objects)
         {
             GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
-            Button button = item.GetComponent<Button>();
-            GameObject img = item.transform.Find(Settings.PrefabInventoryItemImage).gameObject;
-            Image image = img.GetComponent<Image>();
-
+            InventoryItemController inventoryItemController = item.GetComponent<InventoryItemController>(); 
+            Button button = inventoryItemController.GetButton();
+           
             // Adding click listener
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
@@ -203,17 +202,10 @@ public class MenuHandlerController : MonoBehaviour
             }
             else
             {
-                image.color = Util.Unavailable;
+                inventoryItemController.SetBackground(Util.Unavailable);
             }
 
-            GameObject text = item.transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
-            TextMeshProUGUI textMesh = text.GetComponent<TextMeshProUGUI>();
-            textMesh.text = obj.Cost.ToString();
-
-            Image imgComponent = img.GetComponent<Image>();
-            Sprite sp = Resources.Load<Sprite>(obj.MenuItemSprite);
-
-            imgComponent.sprite = sp;
+            inventoryItemController.SetInventoryItem(obj.MenuItemSprite,  obj.Cost.ToString());
             item.transform.SetParent(scrollView.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
