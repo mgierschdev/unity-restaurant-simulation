@@ -333,11 +333,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         ResetMovementIfMoving();
         Vector3 mousePosition = Util.GetMouseInWorldPosition();
         AddMovement(Util.GetVectorFromDirection(GetDirectionFromPositions(transform.position, mousePosition)));
-
-        // if (Settings.DEBUG_ENABLE)
-        // {
-        //     GameLog.DrawLine(transform.position, mousePosition, Color.blue);
-        // }
     }
 
     private void AddPath(List<Node> path)

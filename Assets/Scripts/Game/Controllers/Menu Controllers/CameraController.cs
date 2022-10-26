@@ -21,8 +21,6 @@ public class CameraController : MonoBehaviour
     private float targetOrthographicSize;
     // Menu Controller
     private MenuHandlerController menuHandlerController;
-    // private ClickController clickController;
-    // private float interpolation = Settings.CameraFollowInterpolation;
 
     private bool IsPerspectiveHandTempDisabled;
 
@@ -35,9 +33,6 @@ public class CameraController : MonoBehaviour
         // Menu controller
         GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
         menuHandlerController = menuHandler.GetComponent<MenuHandlerController>();
-        // Click controller
-        // GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
-        // clickController = cController.GetComponent<ClickController>();
         targetVectorPosition = Vector3.zero;
         targetOrthographicSize = 2.5f;
         IsPerspectiveHandTempDisabled = false;
@@ -68,7 +63,6 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        //Debug.Log(BussGrid.GetDragginObject() + " " + menuHandlerController.IsMenuOpen() + " " + IsPerspectiveHandTempDisabled);
         if (!Settings.CameraPerspectiveHand || BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
         {
             return;

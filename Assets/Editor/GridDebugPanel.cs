@@ -117,7 +117,6 @@ public class GridDebugPanel : EditorWindow
                     string debugText = " ";
                     debugText += DebugBussData();
                     debugText += GetPlayerStates();
-                    //deubgText += EntireGridToText();, This will print the entire grid
                     gridDebugContent.text = debugText;
                 }
                 else
@@ -149,7 +148,7 @@ public class GridDebugPanel : EditorWindow
             busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
         }
 
-        // //traspose
+        // Traspose
         for (int i = 0; i < busGrid.GetLength(0); i++)
         {
             for (int j = 0; j < busGrid.GetLength(1); j++)

@@ -77,7 +77,7 @@ public static class Util
             }
             output += "\n";
         }
-        Debug.Log(output);
+        GameLog.Log(output);
     }
     public static double EuclidianDistance(int[] a, int[] b)
     {
@@ -237,7 +237,8 @@ public static class Util
 
     public static MoveDirection GetDirectionFromAngles(float angle)
     {
-        float offset = 20; // ofset for diagonal movements 
+        // ofset for diagonal movements 
+        float offset = 20; 
 
         if (angle >= 45 - offset && angle <= 45 + offset)
         {

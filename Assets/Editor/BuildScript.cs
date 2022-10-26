@@ -26,12 +26,12 @@ class BuildScript
         BuildSummary summary = report.summary;
         if (summary.result == BuildResult.Succeeded)
         {
-            Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
+            GameLog.Log("Build succeeded: " + summary.totalSize + " bytes");
         }
 
         if (summary.result == BuildResult.Failed)
         {
-            Debug.Log("Build failed");
+            GameLog.Log("Build failed");
         }
     }
 
@@ -54,12 +54,12 @@ class BuildScript
         BuildSummary summary = report.summary;
         if (summary.result == BuildResult.Succeeded)
         {
-            Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
+            GameLog.Log("Build succeeded: " + summary.totalSize + " bytes");
         }
 
         if (summary.result == BuildResult.Failed)
         {
-            Debug.Log("Build failed");
+            GameLog.Log("Build failed");
         }
     }
 }
