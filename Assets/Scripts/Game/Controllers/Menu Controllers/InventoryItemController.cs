@@ -19,7 +19,7 @@ public class InventoryItemController : MonoBehaviour
         background = img.GetComponent<Image>();
         text = transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
         textMesh = text.GetComponent<TextMeshProUGUI>();
-        imgComponent = img.GetComponent<Image>();
+        imgComponent = gameObject.GetComponent<Image>();
     }
 
     public void SetInventoryItem(string spReference, string cost)
