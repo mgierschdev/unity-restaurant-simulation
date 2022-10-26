@@ -644,7 +644,7 @@ public static class BussGrid
     }
 
     //Gets the closest next tile to the object
-    public static Vector3Int[] GetNextTileWithActionPoint(GameGridObject gameGridObject)
+    public static Vector3Int[] GetNextFreeTileWithActionPoint(GameGridObject gameGridObject)
     {
         for (int i = 0; i < Util.AroundVectorPointsPlusTwo.GetLength(0); i++)
         {
@@ -669,6 +669,24 @@ public static class BussGrid
         return new Vector3Int[] { };
     }
 
+    public static Vector3Int GetNextFreeTile()
+    {
+        Vector3Int spamPoint;
+
+        foreach (GameTile tile in GetListBusinessFloor())
+        {
+            spamPoint = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y);
+            bool isClosingGrid = IsClosingIsland(spamPoint);
+
+            if (IsFreeBussCoord(spamPoint) && !isClosingGrid)
+            {
+                return spamPoint;
+            }
+        }
+        return Util.GetVector3IntPositiveInfinity();
+
+    }
+
     public static Vector3Int GetNextTileFromEmptyMap(StoreGameObject obj)
     {
         Vector3Int spamPoint, actionPoint;
@@ -678,12 +696,12 @@ public static class BussGrid
             spamPoint = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y);
             actionPoint = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y + 1);
 
-            if (IsFreeBussCoord(spamPoint) && (IsFreeBussCoord(actionPoint) || (obj.Type != ObjectType.NPC_COUNTER && obj.Type != ObjectType.NPC_SINGLE_TABLE)))
+            if (IsFreeBussCoord(spamPoint) && (IsFreeBussCoord(actionPoint) || !obj.HasActionPoint))
             {
                 return spamPoint;
             }
         }
-        return Vector3Int.down;
+        return Util.GetVector3IntPositiveInfinity();
     }
 
     private static bool IsClosingIsland(Vector3Int position)
@@ -839,7 +857,7 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-           //GameLog.Log(tmp.IsFree() + " " + !tmp.GetIsObjectBeingDragged() + " " + !tmp.HasNPCAssigned() + " " + !PlayerData.IsItemStored(tmp.Name) + " " + tmp.Name + " " + PlayerData.IsItemInInventory(tmp) + " " + tmp.GetIsItemBought() + " " + tmp.GetActive());
+            //GameLog.Log(tmp.IsFree() + " " + !tmp.GetIsObjectBeingDragged() + " " + !tmp.HasNPCAssigned() + " " + !PlayerData.IsItemStored(tmp.Name) + " " + tmp.Name + " " + PlayerData.IsItemInInventory(tmp) + " " + tmp.GetIsItemBought() + " " + tmp.GetActive());
             if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought() && tmp.GetActive())
             {
                 result = tmp;

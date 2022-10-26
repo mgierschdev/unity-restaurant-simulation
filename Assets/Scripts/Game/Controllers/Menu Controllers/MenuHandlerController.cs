@@ -227,8 +227,18 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         CloseMenu();
+        GameObject newObject;
 
-        GameObject newObject = placeGameObject(obj);
+        if (obj.HasActionPoint)
+        {
+            newObject = placeGameObject(obj);
+        }
+        else
+        {
+            newObject = PlaceSingleTileObject(obj);
+        }
+
+
 
         if (newObject != null)
         {
@@ -272,6 +282,14 @@ public class MenuHandlerController : MonoBehaviour
         return centerPanel.activeSelf;
     }
 
+    private static GameObject PlaceSingleTileObject(StoreGameObject obj)
+    {
+        GameObject parent = GameObject.Find(Settings.TilemapObjects);
+        Vector3 spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextFreeTile());
+        return spamPosition == Util.GetVector3IntPositiveInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+
+    }
+
     private static GameObject placeGameObject(StoreGameObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
@@ -281,13 +299,13 @@ public class MenuHandlerController : MonoBehaviour
         if (BussGrid.BusinessObjects.Count == 0)
         {
             spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextTileFromEmptyMap(obj));
-            return spamPosition == null ? null : Instantiate(Resources.Load(Settings.PrefabSingleTable, typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+            return spamPosition == Util.GetVector3IntPositiveInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
         }
 
         foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)
         {
             GameGridObject current = dic.Value;
-            Vector3Int[] nextTile = BussGrid.GetNextTileWithActionPoint(current);
+            Vector3Int[] nextTile = BussGrid.GetNextFreeTileWithActionPoint(current);
 
             if (nextTile.GetLength(0) != 0)
             {
