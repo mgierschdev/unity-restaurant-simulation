@@ -22,4 +22,6 @@ public class StoreGameObject
         PrefabLocation = prefabLocation;
         HasActionPoint = hasActionPoint;
     }
+
+
 }
