@@ -262,34 +262,6 @@ public class GameGridObject : GameObjectBase
         return new Vector3Int();
     }
 
-    // public void RotateObjectRight()
-    // {
-    //     if (!IsValidRotation(1) && !GetStoreGameObject().HasActionPoint) //right
-    //     {
-    //         return;
-    //     }
-
-    //     ResetNPCStates();
-
-    //     Vector3Int prev = GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
-    //     facingPosition++;
-
-    //     if ((int)facingPosition >= 5)
-    //     {
-    //         facingPosition = ObjectRotation.FRONT;
-    //     }
-
-    //     UpdateRotation(facingPosition);
-
-    //     if (GetStoreGameObject().HasActionPoint)
-    //     {
-    //         Vector3Int post = GetActionTileInGridPosition();//BussGrid.GetPathFindingGridFromWorldPosition(GetActionTile());
-    //         BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
-    //     }
-
-    //     UpdateCoords();
-    // }
-
     public void RotateObjectLeft()
     {
         if (!IsValidRotation(0) && storeGameObject.HasActionPoint) //left
@@ -386,12 +358,6 @@ public class GameGridObject : GameObjectBase
 
         Vector3Int prev = GetActionTileInGridPosition();
         UpdateRotation(rotation);
-
-        if (storeGameObject.HasActionPoint)
-        {
-            //Vector3Int post = GetActionTileInGridPosition();
-            // BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
-        }
         UpdateCoords();
     }
 

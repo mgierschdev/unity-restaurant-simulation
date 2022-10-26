@@ -13,7 +13,6 @@ public class MenuHandlerController : MonoBehaviour
     private NPCController npc; //saves the latest reference to the npc if the menu was opened
     private EmployeeController employee;
     private MenuItem centerTabMenu;
-    // private bool isGamePaused;
     // Click controller
     private ClickController clickController;
     // Min amount of time the the menu has to be open before activating -> closing on click outside
@@ -103,33 +102,6 @@ public class MenuHandlerController : MonoBehaviour
         }
     }
 
-
-    // private void TimeControl()
-    // {
-    //     if (menuStack == null)
-    //     {
-    //         return;
-    //     }
-
-    //     // Handles for how long before activating CloseOnCLickOutside
-    //     if (menuStack.Count > 0)
-    //     {
-    //         openedTime += Time.unscaledDeltaTime;
-
-    //         // Handles UI refresh rate 
-    //         MenuItem menu = menuStack.Peek();
-
-    //         if (menu.Menu == Menu.NPC_PROFILE && openedTime > MENU_REFRESH_RATE)
-    //         {
-    //             openedTime = 0;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         openedTime = 0.0f;
-    //     }
-    // }
-
     private bool CanCloseOnClickOutside()
     {
         return openedTime > MIN_OPENED_TIME;
@@ -186,30 +158,6 @@ public class MenuHandlerController : MonoBehaviour
         menuBackgroundController.Enable();
     }
 
-    // private void HandleTimeScale()
-    // {
-    //     if (menuStack.Count > 0)
-    //     {
-    //         PauseGame();
-    //     }
-    //     else
-    //     {
-    //         ResumeGame();
-    //     }
-    // }
-
-    // private void PauseGame()
-    // {
-    //     Time.timeScale = 0;
-    //     isGamePaused = true;
-    // }
-
-    // private void ResumeGame()
-    // {
-    //     Time.timeScale = 1;
-    //     isGamePaused = false;
-    // }
-
     private bool IsClickOutside()
     {
         foreach (RectTransform rect in visibleRects)
@@ -240,7 +188,6 @@ public class MenuHandlerController : MonoBehaviour
 
         List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
 
-        //Debug.Log("Tabmenu: " + menu.GetMenuTab() + " "+);
         // Add new Items
         foreach (StoreGameObject obj in objects)
         {
@@ -288,10 +235,6 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         CloseMenu();
-
-        // Load testing debug
-        // StartCoroutine(TestPlacingObjects(obj));
-        // Load testing debug
 
         GameObject newObject = placeGameObject(obj);
 

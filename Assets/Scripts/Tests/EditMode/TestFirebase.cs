@@ -45,6 +45,7 @@ public class TestFirebase
         Debug.Log("Current firestore host " + firestore.Settings.Host);
         PlayerData.SetEmptyUser();
         string ID = PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID;
+        
         // The ?.Document , ? symbol ensures that you cannot create another reference to a collection that already exists
         DocumentReference dataTypesReference = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document("Datatypes");
         DocumentReference usersReference = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document(ID);
@@ -55,7 +56,6 @@ public class TestFirebase
 
         // SetOptions.MergeAll: allows Changes in the behavior of SetAsync calls to only replace the values specified in its documentData argument.
         // Docs: https://firebase.google.com/docs/reference/unity/class/firebase/firestore/set-options
-
         Debug.Log("Player data: " + PlayerData.GetFirebaseGameUser().ToString() + " " + PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
         await dataTypesReference.SetAsync(docData, SetOptions.MergeAll);
         await usersReference.SetAsync(PlayerData.GetFirebaseGameUser(), SetOptions.MergeAll);

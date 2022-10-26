@@ -7,12 +7,10 @@ public class MenuItem
     private MenuType type;
     private MenuTab menuTab;
     public string name;
-    // public GameObject UnityObject { get; }
 
     public MenuItem(MenuTab menu, MenuType type, string name)
     {
         this.menuTab = menu;
-        // UnityObject = gameObj;
         this.name = name;
         this.type = type;
     }
@@ -51,15 +49,5 @@ public class MenuItem
     //             GameLog.LogWarning("MenuItem/SetFields Object " + kvp.Key + " null");
     //         }
     //     }
-    // }
-
-    // public void Close()
-    // {
-    //     UnityObject.SetActive(false);
-    // }
-
-    // public void Open()
-    // {
-    //     UnityObject.SetActive(true);
     // }
 }

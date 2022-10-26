@@ -20,12 +20,7 @@ public static class PlayerLevelCalculator
 
         for (int i = 0; i <= 100; i++)
         {
-            ExpLevelMap.Add(GetExpToLevel(i));//();
-
-            // if (i > 0)
-            // {
-            //     GameLog.Log("Level " + i + " " + (ExpLevelMap[i] - ExpLevelMap[i - 1]).ToString());
-            // }
+            ExpLevelMap.Add(GetExpToLevel(i));
         }
     }
 
@@ -84,8 +79,6 @@ public static class PlayerLevelCalculator
         // current level - current exp
         double total = ExpLevelMap[index] - ExpLevelMap[index - 1]; //total required
         double current = experience - ExpLevelMap[index - 1]; //current so far, inside level
-
-        //GameLog.Log("Index " + index + " total required " + total + " current " + current +" total exp "+experience);
         return (int)(current * 100 / total);
     }
 

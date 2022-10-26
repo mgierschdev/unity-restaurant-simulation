@@ -141,24 +141,6 @@ public static class BussGrid
         LoadTileMap(listFloorTileMap, TilemapFloor, mapFloor);
     }
 
-    // For HeatMap
-    // private void MouseHover()
-    // {
-    //     Vector3 mousePosition = Util.GetMouseInWorldPosition();
-    //     Vector3Int mouseInGridPosition = GetPathFindingGridFromWorldPosition(mousePosition);
-    //
-    //     if (!mapPathFindingGrid.ContainsKey(mouseInGridPosition))
-    //     {
-    //         ("Does not contain the position " + mouseInGridPosition);
-    //         return;
-    //     }
-    //
-    //     GameTile tile = mapPathFindingGrid[mouseInGridPosition];
-    //     TileBase highLightedTile = Resources.Load<Tile>(Settings.GridTilesHighlightedFloor);
-    //     tilemapBusinessFloor.SetTile(tile.LocalGridPosition, highLightedTile);
-    //     // SetCellColor(mouseInGridPosition.x, mouseInGridPosition.y, transParentRed);
-    // }
-
     private static void DrawCellCoords()
     {
         foreach (GameTile tile in mapPathFindingGrid.Values)
@@ -284,7 +266,6 @@ public static class BussGrid
         BusinessObjects.TryAdd(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            //Util.EnqueueToList(freeBusinessSpots, obj);
             BussQueueMap.TryAdd(obj, 0);
             gridArray[obj.GridPosition.x, obj.GridPosition.y] = (int)CellValue.BUSY;
             gridArray[actionGridPosition.x, actionGridPosition.y] = (int)CellValue.ACTION_POINT;
@@ -378,7 +359,6 @@ public static class BussGrid
             gameGridObject.Hide();
             currentClickedActiveGameObject = "";
         }
-        //TilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
     }
 
     // Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
@@ -560,7 +540,6 @@ public static class BussGrid
         }
         SetObjectObstacle(obj);
     }
-
 
     // It gets the closest free coord next to the target
     //TODO: Improve so it will choose the closest path and the npc will stand towards the client
@@ -861,7 +840,6 @@ public static class BussGrid
             GameGridObject tmp = keyPair.Key;
 
            //GameLog.Log(tmp.IsFree() + " " + !tmp.GetIsObjectBeingDragged() + " " + !tmp.HasNPCAssigned() + " " + !PlayerData.IsItemStored(tmp.Name) + " " + tmp.Name + " " + PlayerData.IsItemInInventory(tmp) + " " + tmp.GetIsItemBought() + " " + tmp.GetActive());
-
             if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought() && tmp.GetActive())
             {
                 result = tmp;

@@ -20,7 +20,6 @@ public class GameController : MonoBehaviour
         NpcSet = new HashSet<NPCController>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         LoadUserObjects();
-        //SetItemsActive();//This will start the game
     }
 
     private void Update()

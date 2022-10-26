@@ -143,7 +143,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             npcPrevPositions.Enqueue(current);
             BussGrid.MarkNPCPosition(Position);
 
-            //GameLog.Log("time: " + npcPrevPositions.Peek().val1 + " " + Time.fixedTime + " " + (Time.fixedTime - npcPrevPositions.Peek().val1) + " " + npcPrevPositions.Count);
             if (Time.fixedTime - npcPrevPositions.Peek().val1 > timeBeforeRemoving)
             {
                 while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().val1 > timeBeforeRemoving))
@@ -211,7 +210,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
             UpdateObjectDirection(); // It flips the side of the pbject depending on direction
-                                     //rb2D.MovePosition(Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime));
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime);
         }
     }
@@ -415,7 +413,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (path.Count == 0)
         {
-            //GameLog.Log("No path found " + transform.name + " From " + Position + " to " + pos);
             return false;
         }
 

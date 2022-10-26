@@ -1,6 +1,5 @@
 using UnityEngine;
 // Conditional compilation docs: https://docs.unity3d.com/Manual/PlatformDependentCompilation.html
-
 public static class GameLog
 {
     public static void Log(string message)

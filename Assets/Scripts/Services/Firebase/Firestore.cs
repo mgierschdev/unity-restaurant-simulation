@@ -5,7 +5,6 @@ using Firebase.Firestore;
 public static class Firestore
 {
     private static bool isFirebaseEnabled;
-    // private static LogLevel logLevel = LogLevel.Verbose;
     private static FirebaseFirestore firestore;
     private static DocumentReference docReference;
     private static string collectionName;
