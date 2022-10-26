@@ -4,7 +4,7 @@ public static class FirestorePlayerAttributes
     public static string GAME_MONEY = "GameMoney";
     public static string GEMS = "Gems";
     public static string EXPERIENCE = "Experience";
-     public static string LEVEL = "Level";
+    public static string LEVEL = "Level";
     public static string LANGUAGE_CODE = "LanguageCode";
     public static string INTERNAL_ID = "ID";
     public static string FIREBASE_AUTH_ID = "FireappAuthID";

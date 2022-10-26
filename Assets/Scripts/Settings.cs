@@ -114,7 +114,6 @@ public static class Settings
     public const int ConstDefaultBackgroundOrderingLevel = 200;
 
     //UI: Menu
-    // public const string ConstLeftDownMenuInventory = "Inventory";
     public const string ConstLeftDownMenuStore = "Store";
 
     //UI: Camera

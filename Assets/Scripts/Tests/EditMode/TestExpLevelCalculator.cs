@@ -21,11 +21,6 @@ public class TestExpLevelCalculator
         Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(32), 3);
         Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(33), 3);
         Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(34), 3);
-
-        // for (int i = 0; i < 100000; i++)
-        // {
-        //     Debug.Log(i + " " + PlayerLevelCalculator.CurrentLevel(i));
-        // }
     }
 
     [Test]
