@@ -17,8 +17,10 @@ public class SceneLoadController : MonoBehaviour
     private AsyncOperation operation;
     private float currentProgress;
     private DocumentSnapshot userData;
-    private float MIN_TIME_LOADING = Settings.ScreenLoadTime; // Min time while laoding the screen
-    private float currentTimeAtScene; // Current time at the screen
+    // Min time while laoding the screen
+    private float MIN_TIME_LOADING = Settings.ScreenLoadTime; 
+    // Current time at the screen
+    private float currentTimeAtScene; 
     private FirebaseUser newUser;
 
     // Loads Auth and user data
@@ -49,7 +51,8 @@ public class SceneLoadController : MonoBehaviour
 
             PlayerData.InitUser(auth);
             operation = SceneManager.LoadSceneAsync(Settings.GameScene);
-            operation.allowSceneActivation = false; // if not will load scene before filling the load animation
+            // if not will load scene before filling the load animation
+            operation.allowSceneActivation = false;
         }
         catch (SystemException e)
         {

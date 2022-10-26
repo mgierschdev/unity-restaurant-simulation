@@ -11,8 +11,10 @@ public static class MenuObjectList
     public static List<StoreGameObject> EmployeeItems;
     public static List<StoreGameObject> SettingsItems;
     public static List<StoreGameObject> Storage;
-    public static Dictionary<string, StoreGameObject> StoreItemDictionary; //Object Sprite Library Identifier / StoreObject
-    public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic; //Object Sprite Library Identifier / StoreObject
+    //Object Sprite Library Identifier / StoreObject
+    public static Dictionary<string, StoreGameObject> StoreItemDictionary; 
+    //Object Sprite Library Identifier / StoreObject
+    public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic; 
 
     public static void Init()
     {

@@ -24,30 +24,4 @@ public class MenuItem
     {
         return menuTab;
     }
-
-    // public void SetFields(Dictionary<string, string> fields)
-    // {
-    //     foreach (KeyValuePair<string, string> kvp in fields)
-    //     {
-    //         GameObject go = GameObject.Find(kvp.Key);
-
-    //         if (go)
-    //         {
-    //             TextMeshProUGUI textMesh = go.GetComponent<TextMeshProUGUI>();
-
-    //             if (textMesh)
-    //             {
-    //                 textMesh.text = kvp.Value;
-    //             }
-    //             else
-    //             {
-    //                 GameLog.LogWarning("MenuItem/SetFields TextMesh Null");
-    //             }
-    //         }
-    //         else
-    //         {
-    //             GameLog.LogWarning("MenuItem/SetFields Object " + kvp.Key + " null");
-    //         }
-    //     }
-    // }
 }

@@ -5,8 +5,10 @@ public class GameTile : GameObjectBase
 {
     public GameTile(Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, TileType name, ObjectType type, TileBase unityTileBase)
     {
-        GridPosition = gridPosition; // Grid position, first position = 0, 0
-        WorldPosition = worldPosition;// World position on Unity coords
+        // Grid position, first position = 0, 0
+        GridPosition = gridPosition; 
+        // World position on Unity coords
+        WorldPosition = worldPosition;
         LocalGridPosition = localGridPosition;
         TileType = name;
         Type = type;
