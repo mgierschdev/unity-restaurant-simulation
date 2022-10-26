@@ -238,8 +238,6 @@ public class MenuHandlerController : MonoBehaviour
             newObject = PlaceSingleTileObject(obj);
         }
 
-
-
         if (newObject != null)
         {
             BaseObjectController controller = null;
@@ -287,7 +285,6 @@ public class MenuHandlerController : MonoBehaviour
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
         Vector3 spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextFreeTile());
         return spamPosition == Util.GetVector3IntPositiveInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-
     }
 
     private static GameObject placeGameObject(StoreGameObject obj)
