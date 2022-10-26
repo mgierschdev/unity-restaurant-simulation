@@ -9,6 +9,20 @@ public static class GameLog
 #endif
     }
 
+    public static void Log(int message)
+    {
+#if UNITY_EDITOR
+        Debug.Log("GAMELOG UNITY: " + message);
+#endif
+    }
+
+    public static void Log(float message)
+    {
+#if UNITY_EDITOR
+        Debug.Log("GAMELOG UNITY: " + message);
+#endif
+    }
+
     public static void LogAll(string message)
     {
         Debug.Log("GAMELOG UNITY: " + message);
