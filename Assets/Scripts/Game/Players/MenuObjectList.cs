@@ -68,7 +68,7 @@ public static class MenuObjectList
 
             if (storeItem.Type == ObjectType.BASE_CONTAINER)
             {
-                CounterItems.Add(storeItem);
+                BaseContainerItems.Add(storeItem);
             }
         }
     }
