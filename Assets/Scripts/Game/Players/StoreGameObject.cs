@@ -1,4 +1,7 @@
-public class StoreGameObject
+using System;
+using System.Collections.Generic;
+
+public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGameObject>
 {
     public string Name { get; set; }
     public string Identifier { get; set; }
@@ -23,5 +26,32 @@ public class StoreGameObject
         HasActionPoint = hasActionPoint;
     }
 
+    // Default comparer for StoreGameObject cost type.
+    public int CompareTo(StoreGameObject obj2)
+    {
+        // A null value means that this object is greater.
+        if (obj2 == null)
+        {
+            return 1;
+        }
+        else
+        {
+            return Cost - obj2.Cost;
+        }
+    }
 
+    public override int GetHashCode()
+    {
+        return Cost;
+    }
+
+    public bool Equals(StoreGameObject obj2)
+    {
+        if (obj2 == null) return false;
+        return this.Cost == obj2.Cost;
+    }
+    public override string ToString()
+    {
+        return Identifier + "-" + Name; ;
+    }
 }
