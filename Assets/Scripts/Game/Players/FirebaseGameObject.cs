@@ -4,7 +4,7 @@ using Firebase.Firestore;
 public class FirebaseGameObject
 {
     [FirestoreProperty]
-    public int ID { get; set; }
+    public int ID { get; set; } //StoreItemType
     [FirestoreProperty]
     public int[] POSITION { get; set; }
     [FirestoreProperty]

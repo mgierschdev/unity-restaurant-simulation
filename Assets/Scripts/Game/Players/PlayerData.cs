@@ -286,7 +286,7 @@ public static class PlayerData
     {
         FirebaseGameObject newObj = new FirebaseGameObject()
         {
-            ID = (int)obj.Type,
+            ID = (int)obj.GetStoreGameObject().StoreItemType,
             POSITION = new int[] { obj.GridPosition.x, obj.GridPosition.y },
             IS_STORED = false,
             ROTATION = (int)obj.GetFacingPosition()
