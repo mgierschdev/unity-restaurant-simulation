@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public static class MenuObjectList
 {
-    public static List<StoreGameObject> TableItems;
+    public static List<StoreGameObject> ActionPointItems;
     public static List<StoreGameObject> CounterItems;
     public static List<StoreGameObject> TopCounterItems;
     public static List<StoreGameObject> BaseContainerItems;
@@ -12,10 +12,10 @@ public static class MenuObjectList
     public static List<StoreGameObject> SettingsItems;
     public static List<StoreGameObject> Storage;
     //Object Sprite Library Identifier / StoreObject
-    public static Dictionary<string, StoreGameObject> StoreItemDictionary; 
+    public static Dictionary<string, StoreGameObject> StoreItemDictionary;
     //Object Sprite Library Identifier / StoreObject
-    public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic; 
- 
+    public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic;
+
 
     public static void Init()
     {
@@ -23,7 +23,7 @@ public static class MenuObjectList
     }
     public static void SetAllItems()
     {
-        TableItems = new List<StoreGameObject>();
+        ActionPointItems = new List<StoreGameObject>();
         CounterItems = new List<StoreGameObject>();
         BaseContainerItems = new List<StoreGameObject>();
         TopCounterItems = new List<StoreGameObject>();
@@ -46,7 +46,7 @@ public static class MenuObjectList
             new StoreGameObject("Dark wood table", "SingleTable-8", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_8, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 100, true),
             new StoreGameObject("Iron table", "SingleTable-9", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_9, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
-            new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 999, true),
+            new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
             new StoreGameObject("Wooden container", "BaseContainer-1", ObjectType.BASE_CONTAINER, StoreItemType.WOODEN_BASE_CONTAINER, Settings.SpriteLibCategoryContainers, Settings.PrefabBaseContainer, 40, false),
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
@@ -56,20 +56,23 @@ public static class MenuObjectList
             StoreItemDictionary.Add(storeItem.Identifier, storeItem);
             StoreItemTypeDic.Add(storeItem.StoreItemType, storeItem);
 
-            if (storeItem.Type == ObjectType.NPC_SINGLE_TABLE ||  storeItem.Type == ObjectType.NPC_COUNTER)
+            if (storeItem.HasActionPoint)
             {
-                TableItems.Add(storeItem);
+                ActionPointItems.Add(storeItem);
             }
-
-            // if (storeItem.Type == ObjectType.NPC_COUNTER)
-            // {
-            //     CounterItems.Add(storeItem);
-            // }
 
             if (storeItem.Type == ObjectType.BASE_CONTAINER)
             {
                 BaseContainerItems.Add(storeItem);
             }
+        }
+
+        ActionPointItems.Sort();
+        BaseContainerItems.Sort();
+
+        foreach (StoreGameObject storeItem in ActionPointItems)
+        {
+            GameLog.Log(" " + storeItem.Cost + " " + storeItem.Identifier);
         }
     }
 
@@ -117,7 +120,7 @@ public static class MenuObjectList
     {
         switch (tab)
         {
-            case MenuTab.TABLES_TAB: return TableItems;
+            case MenuTab.TABLES_TAB: return ActionPointItems;
             case MenuTab.BASE_CONTAINER_TAB: return BaseContainerItems;
             case MenuTab.ITEMS_TAB: return TopCounterItems;
             case MenuTab.IN_GAME_STORE_TAB: return InGameStoreItems;
@@ -138,7 +141,7 @@ public static class MenuObjectList
             case MenuTab.IN_GAME_STORE_TAB: return "Store";
             case MenuTab.EMPLOYEE_TAB: return "Employees";
             case MenuTab.STORAGE_TAB: return "Storage";
-            case MenuTab.SETTINGS_TAB: return "Settings"; 
+            case MenuTab.SETTINGS_TAB: return "Settings";
         }
         return "";
     }
