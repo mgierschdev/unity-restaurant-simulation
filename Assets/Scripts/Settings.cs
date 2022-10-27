@@ -99,6 +99,7 @@ public static class Settings
     public const string ConstTopMenuLevel = "LevelLabel";
     public const string ConstTopMenuExpSlider = "ExperienceSlider";
     public const string ConstCenterTabMenu = "CenterPanel";
+    public const string ConstCenterScrollView = "ViewPanel/MainContent/ScrollView";
     public const string ConstCenterScrollContent = "ViewPanel/MainContent/ScrollView/Viewport/Content";
     public const string ConstLeftDownPanel = "LeftDownPanel";
     public const string ConstEditItemMenuPanel = "EditItem";
