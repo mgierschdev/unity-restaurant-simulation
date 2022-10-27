@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 // calculates the player level based on the experience
 // Also gives the amount of experience per money or gems spent

@@ -42,7 +42,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // Attributes for temporaly marking the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
     private HashSet<Vector3Int> positionAdded;
-    private Queue<ObjectPair<float, Vector3Int>> npcPrevPositions;
+    private Queue<Pair<float, Vector3Int>> npcPrevPositions;
     private float timeBeforeRemoving = 0.1f;
 
     private void Awake()
@@ -78,7 +78,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         // Path marking attributes
         positionAdded = new HashSet<Vector3Int>();
-        npcPrevPositions = new Queue<ObjectPair<float, Vector3Int>>();
+        npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
     }
 
     // Overlap sphere
@@ -139,16 +139,16 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         if (!positionAdded.Contains(Position))
         {
             positionAdded.Add(Position);// we add once and we remove inside the co-routine
-            ObjectPair<float, Vector3Int> current = new ObjectPair<float, Vector3Int>(Time.fixedTime, Position);
+            Pair<float, Vector3Int> current = new Pair<float, Vector3Int>(Time.fixedTime, Position);
             npcPrevPositions.Enqueue(current);
             BussGrid.MarkNPCPosition(Position);
 
-            if (Time.fixedTime - npcPrevPositions.Peek().val1 > timeBeforeRemoving)
+            if (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemoving)
             {
-                while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().val1 > timeBeforeRemoving))
+                while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemoving))
                 {
-                    positionAdded.Remove(npcPrevPositions.Peek().val2);
-                    BussGrid.RemoveMarkNPCPosition(npcPrevPositions.Peek().val2);
+                    positionAdded.Remove(npcPrevPositions.Peek().Value);
+                    BussGrid.RemoveMarkNPCPosition(npcPrevPositions.Peek().Value);
                     npcPrevPositions.Dequeue();
                 }
             }

@@ -1,15 +1,15 @@
 public class Pair<T, S>
 {
-    public T key { get; set; }
-    public S value { get; set; }
+    public T Key { get; set; }
+    public S Value { get; set; }
 
     public Pair()
     {
     }
-    
-    public Pair(T key, S value)
+
+    public Pair(T Key, S Value)
     {
-        this.key = key;
-        this.value = value;
+        this.Key = Key;
+        this.Value = Value;
     }
 }

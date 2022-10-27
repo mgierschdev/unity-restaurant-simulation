@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 // This will be only element attached in the UI
 // All the bottom calls will be handled by this class.
@@ -11,6 +12,7 @@ public class MenuHandlerController : MonoBehaviour
     private GameObject centerPanel;
     //center panel scrollview
     private GameObject scrollView;
+    private GameObject scrollViewContent;
     private GameObject centerPanelSideMenu;
     //saves the latest reference to the npc if the menu was opened
     private MenuItem centerTabMenu;
@@ -54,7 +56,8 @@ public class MenuHandlerController : MonoBehaviour
 
         // Menu Body
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
-        scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
+        scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollView).gameObject; ;
+        scrollViewContent = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
         centerPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
         GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
         visibleRects = new List<RectTransform>{
@@ -172,13 +175,13 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
-        if (!scrollView)
+        if (!scrollViewContent)
         {
             return;
         }
 
         // Clear ScrollView
-        foreach (Transform child in scrollView.transform)
+        foreach (Transform child in scrollViewContent.transform)
         {
             Destroy(child.gameObject);
         }
@@ -186,14 +189,22 @@ public class MenuHandlerController : MonoBehaviour
         // Add items to scroll view depending on the tab
         switch (menu.GetMenuTab())
         {
-            case MenuTab.STORAGE_TAB: AddStorageItemsToScrollView(); return;
-            case MenuTab.BASE_CONTAINER_TAB: AddItemsToScrollView(menu); return;
-            case MenuTab.ITEMS_TAB: AddItemsToScrollView(menu); return;
-            case MenuTab.TABLES_TAB: AddItemsToScrollView(menu); return;
+            case MenuTab.TABLES_TAB: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
+            case MenuTab.BASE_CONTAINER_TAB: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
+            case MenuTab.ITEMS_TAB: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return; // To be changed
             case MenuTab.EMPLOYEE_TAB: /*TODO*/ return;
-            case MenuTab.SETTINGS_TAB: /*TODO*/ return;
             case MenuTab.IN_GAME_STORE_TAB: /*TODO*/ return;
+            case MenuTab.STORAGE_TAB: AddStorageItemsToScrollView(); StartCoroutine(ScrollToTop()); return;
+            case MenuTab.SETTINGS_TAB: /*TODO*/ return;
         }
+    }
+
+    private IEnumerator ScrollToTop()
+    {
+        yield return new WaitForSeconds(0.001f);
+        // We scroll to the top of the scroll view
+        ScrollRect scroll = scrollView.GetComponent<ScrollRect>();
+        scroll.verticalNormalizedPosition = 1f;
     }
 
     private void AddStorageItemsToScrollView()
@@ -223,7 +234,17 @@ public class MenuHandlerController : MonoBehaviour
             objectDic.Add(obj, count);
         }
 
+        // sorting the final list
+        List<Pair<StoreGameObject, int>> list = new List<Pair<StoreGameObject, int>>();
         foreach (KeyValuePair<StoreGameObject, int> entry in objectDic)
+        {
+            list.Add(new Pair<StoreGameObject, int>(entry.Key, entry.Value));
+        }
+
+        PairComparer comparer = new PairComparer();
+        list.Sort(comparer);
+
+        foreach (Pair<StoreGameObject, int> entry in list)
         {
             item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             inventoryItemController = item.GetComponent<InventoryItemController>();
@@ -232,7 +253,7 @@ public class MenuHandlerController : MonoBehaviour
             button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
 
             inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
-            item.transform.SetParent(scrollView.transform);
+            item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
     }
@@ -255,7 +276,7 @@ public class MenuHandlerController : MonoBehaviour
             {
                 Pair<StoreGameObject, FirebaseGameObject> pair = new Pair<StoreGameObject, FirebaseGameObject>
                 {
-                    key = obj
+                    Key = obj
                 };
 
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
@@ -266,7 +287,7 @@ public class MenuHandlerController : MonoBehaviour
             }
 
             inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString());
-            item.transform.SetParent(scrollView.transform);
+            item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
     }
@@ -280,7 +301,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void OpenStoreEditPanel(Pair<StoreGameObject, FirebaseGameObject> pair, bool storage)
     {
-        StoreGameObject obj = pair.key;
+        StoreGameObject obj = pair.Key;
 
         if (!PlayerData.CanSubtract(obj.Cost))
         {
@@ -308,8 +329,8 @@ public class MenuHandlerController : MonoBehaviour
             if (storage)
             {
                 // we set the new rotation setted by the placeGameObject
-                pair.value.ROTATION = (int) baseObjectController.GetInitialRotation();
-                baseObjectController.SetFirebaseGameObject(pair.value);
+                pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
+                baseObjectController.SetFirebaseGameObject(pair.Value);
             }
         }
         else
