@@ -54,8 +54,6 @@ public class GameGridObject : GameObjectBase
         WorldPosition = transform.position; // World position on Unity coords
         GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position); // Grid position, first position = 0, 0
         LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(transform.position);
-        Type = storeGameObject.Type;
-        this.storeGameObject = storeGameObject;
         objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
         spriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
@@ -71,8 +69,8 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
 
-        spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
-        spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+        //For setting the object sprite
+        this.storeGameObject = storeGameObject;
 
         //Edit Panel Disable
         editMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
@@ -82,21 +80,6 @@ public class GameGridObject : GameObjectBase
         objectSlider = transform.Find("Slider/Slider").gameObject;
         slider = objectSlider.GetComponent<Slider>();
         objectSlider.SetActive(false);
-
-        // Set the table controller
-        if (Type == ObjectType.NPC_SINGLE_TABLE)
-        {
-            baseObjectController = transform.GetComponent<TableController>();
-        }
-        else if (Type == ObjectType.NPC_COUNTER)
-        {
-            baseObjectController = transform.GetComponent<CounterController>();
-
-        }
-        else if (Type == ObjectType.BASE_CONTAINER)
-        {
-            baseObjectController = transform.GetComponent<BaseContainerController>();
-        }
 
         actionTiles = new List<GameObject>(){
             objectActionTile.gameObject,
@@ -114,9 +97,31 @@ public class GameGridObject : GameObjectBase
         // Object rotation
         facingPosition = baseObjectController.GetInitialRotation();
         UpdateInitRotation(baseObjectController.GetInitialRotation());
-
+        SetObjectSprite();
         SetEditPanelButtonClickListeners();
-        Init();
+        Init(); // storeGameObject.Type required
+    }
+
+    private void SetObjectSprite()
+    {
+        Type = storeGameObject.Type;
+        spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
+        spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+
+        // Set the table controller
+        if (Type == ObjectType.NPC_SINGLE_TABLE)
+        {
+            baseObjectController = objectTransform.GetComponent<TableController>();
+        }
+        else if (Type == ObjectType.NPC_COUNTER)
+        {
+            baseObjectController = objectTransform.GetComponent<CounterController>();
+
+        }
+        else if (Type == ObjectType.BASE_CONTAINER)
+        {
+            baseObjectController = objectTransform.GetComponent<BaseContainerController>();
+        }
     }
 
     private void SetID()
@@ -163,7 +168,7 @@ public class GameGridObject : GameObjectBase
             firebaseGameObject.IS_STORED = true;
             PlayerData.StoreItem(this);
             // Clear the Item from the current selected in the grid 
-            BussGrid.ClearCurrentClickedActiveGameObject(); 
+            BussGrid.ClearCurrentClickedActiveGameObject();
             BussGrid.FreeObject(this);
 
             // we clean the table from the employer
@@ -271,7 +276,7 @@ public class GameGridObject : GameObjectBase
             return;
         }
         // If there is any NPC we send it to the final state
-        ResetNPCStates(); 
+        ResetNPCStates();
         FreeObject();
 
         Vector3Int prev = GetActionTileInGridPosition();
@@ -646,7 +651,7 @@ public class GameGridObject : GameObjectBase
         isItemBought = true;
         baseObjectController.SetNewItem(false);
         baseObjectController.SetIsNewItemSetted(true);
-        
+
         // We set the new state for the edit panel buttons
         acceptButton.SetActive(false);
         cancelButton.SetActive(false);
