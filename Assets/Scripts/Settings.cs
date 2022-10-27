@@ -58,9 +58,8 @@ public static class Settings
 
     //SPRITE LIBS CATEGORIES
     public const string SpriteLibCategoryTables = "Tables";
-    public const string SpriteLibCategoryTablesInverted = "Tables-Inverted";
     public const string SpriteLibCategoryContainers = "BaseContainers";
-    public const string SpriteLibCategoryContainersInverted = "BaseContainers-Inverted";
+    public const string SpriteLibCategoryCoffeMachines = "CoffeMachines";
     public const string SpriteLibCategoryStoreObjects = "StoreObjects";
 
     //PREFABS AND OBJECTS
@@ -84,7 +83,8 @@ public static class Settings
     public const string BaseObjectActionTile = "Object/Tiles/ActionTile";
     public const string BaseObjectActionTile2 = "Object/Tiles/ActionTile2";
     public const string BaseObjectSpriteRenderer = "Object";
-
+    public const string undefined = "undefined";
+    
     //NPC Default
     public const float MinDistanceToTarget = 0.1f;//0.13f;
     public const int NpcDefaultEnergy = 100;

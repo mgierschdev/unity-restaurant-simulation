@@ -10,6 +10,7 @@ public enum ObjectType
     FLOOR = 6,
     NPC_SINGLE_TABLE = 7,
     BASE_CONTAINER = 8,
+    CONTAINER_ITEM = 9,
     UNDEFINED = 999
 }
 
@@ -115,6 +116,7 @@ public enum StoreItemType
     TABLE_SINGLE_10 = 10,
     COUNTER = 11,
     WOODEN_BASE_CONTAINER = 12,
+    ITEM_COFFE_MACHINE_1 = 13,
     UNDEFINED = 999
 }
 
