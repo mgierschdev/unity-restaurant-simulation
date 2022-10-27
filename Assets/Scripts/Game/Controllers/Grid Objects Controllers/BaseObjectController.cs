@@ -260,18 +260,24 @@ public class BaseObjectController : MonoBehaviour
         isNewItem = val;
         this.storage = storage; // is the item comming from storage
     }
+
     // returns if the item is comming from the storage
     public bool GetStorage()
     {
         return storage;
     }
-    
+
+    public void SetStorage(bool val)
+    {
+        storage = val;
+    }
+
     public void SetIsNewItemSetted(bool val)
     {
         isNewItemSetted = val;
     }
 
-    public void SetFirebaseGameObject(FirebaseGameObject obj)
+    public void SetFirebaseGameObjectAndInitRotation(FirebaseGameObject obj)
     {
         firebaseGameObject = obj;
         initialRotation = (ObjectRotation)obj.ROTATION; ;
@@ -301,5 +307,10 @@ public class BaseObjectController : MonoBehaviour
     public void SetStoreGameObject(StoreGameObject storeGameObject)
     {
         this.storeGameObject = storeGameObject;
+    }
+
+    public void SetFirebaseGameObject(FirebaseGameObject firebaseGameObject)
+    {
+        this.firebaseGameObject = firebaseGameObject;
     }
 }

@@ -179,7 +179,7 @@ public class GameController : MonoBehaviour
 
         GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, 1), Quaternion.identity, BussGrid.TilemapObjects.transform) as GameObject;
         BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
-        controller.SetFirebaseGameObject(obj);
+        controller.SetFirebaseGameObjectAndInitRotation(obj);
         controller.SetStoreGameObject(MenuObjectList.GetStoreObject((StoreItemType)obj.ID));
     }
 }
