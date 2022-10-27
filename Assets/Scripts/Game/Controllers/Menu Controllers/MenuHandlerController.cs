@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class MenuHandlerController : MonoBehaviour
 {
     private GameObject centerPanel;
+    //center panel scrollview
+    private GameObject scrollView;
     private GameObject centerPanelSideMenu;
     //saves the latest reference to the npc if the menu was opened
     private MenuItem centerTabMenu;
@@ -52,6 +54,7 @@ public class MenuHandlerController : MonoBehaviour
 
         // Menu Body
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
+        scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
         centerPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
         GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
         visibleRects = new List<RectTransform>{
@@ -169,8 +172,6 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddMenuItemsToScrollView(MenuItem menu)
     {
-        GameObject scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
-
         if (!scrollView)
         {
             return;
@@ -187,8 +188,8 @@ public class MenuHandlerController : MonoBehaviour
         {
             case MenuTab.STORAGE_TAB: AddStorageItemsToScrollView(); return;
             case MenuTab.BASE_CONTAINER_TAB: AddItemsToScrollView(menu); return;
-            case MenuTab.ITEMS_TAB:  AddItemsToScrollView(menu); return;
-            case MenuTab.TABLES_TAB:  AddItemsToScrollView(menu); return;
+            case MenuTab.ITEMS_TAB: AddItemsToScrollView(menu); return;
+            case MenuTab.TABLES_TAB: AddItemsToScrollView(menu); return;
             case MenuTab.EMPLOYEE_TAB: /*TODO*/ return;
             case MenuTab.SETTINGS_TAB: /*TODO*/ return;
             case MenuTab.IN_GAME_STORE_TAB: /*TODO*/ return;
@@ -201,9 +202,9 @@ public class MenuHandlerController : MonoBehaviour
         GameObject item;
         InventoryItemController inventoryItemController;
         Button button;
-        List<FirebaseGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
         Dictionary<StoreGameObject, int> objectDic = new Dictionary<StoreGameObject, int>();
-        Dictionary<StoreGameObject, FirebaseGameObject> set = new Dictionary<StoreGameObject, FirebaseGameObject>();
+        Dictionary<StoreGameObject, Pair<StoreGameObject, FirebaseGameObject>> dicPair = new Dictionary<StoreGameObject, Pair<StoreGameObject, FirebaseGameObject>>();
+        List<FirebaseGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
 
         foreach (FirebaseGameObject fireObj in userStorage)
         {
@@ -216,7 +217,8 @@ public class MenuHandlerController : MonoBehaviour
             }
             else
             {
-                set.Add(obj, fireObj);
+                Pair<StoreGameObject, FirebaseGameObject> pair = new Pair<StoreGameObject, FirebaseGameObject>(obj, fireObj);
+                dicPair.Add(obj, pair);
             }
             objectDic.Add(obj, count);
         }
@@ -227,7 +229,7 @@ public class MenuHandlerController : MonoBehaviour
             inventoryItemController = item.GetComponent<InventoryItemController>();
             button = inventoryItemController.GetButton();
 
-            button.onClick.AddListener(() => OpenStoreEditPanel(entry.Key, true, ));
+            button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
 
             inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
             item.transform.SetParent(scrollView.transform);
@@ -300,10 +302,15 @@ public class MenuHandlerController : MonoBehaviour
 
         if (newObject != null)
         {
-            //TODO: set the correct object type
             BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
             baseObjectController.SetNewItem(true, storage);
             baseObjectController.SetStoreGameObject(obj);
+            if (storage)
+            {
+                // we set the new rotation setted by the placeGameObject
+                pair.value.ROTATION = (int) baseObjectController.GetInitialRotation();
+                baseObjectController.SetFirebaseGameObject(pair.value);
+            }
         }
         else
         {
