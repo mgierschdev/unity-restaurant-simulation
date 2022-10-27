@@ -47,11 +47,12 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
 
     public bool Equals(StoreGameObject obj2)
     {
-        if (obj2 == null) return false;
+        if (obj2 == null) { return false; }
         return this.Cost == obj2.Cost;
     }
+
     public override string ToString()
     {
-        return Identifier + "-" + Name; ;
+        return Identifier + "-" + Name + "-" + Cost + "-" + Type + "-" + StoreItemType + "-" + SpriteLibCategory + "-" + MenuItemSprite + "-" + PrefabLocation + "-" + HasActionPoint;
     }
 }

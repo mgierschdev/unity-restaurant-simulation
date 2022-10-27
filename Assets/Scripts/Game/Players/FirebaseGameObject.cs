@@ -11,4 +11,9 @@ public class FirebaseGameObject
     public bool IS_STORED { get; set; }
     [FirestoreProperty]
     public int ROTATION { get; set; }
+
+    public override string ToString()
+    {
+        return ID + "-" + POSITION + "-" + IS_STORED + "-" + ROTATION;
+    }
 }

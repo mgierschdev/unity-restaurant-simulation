@@ -16,7 +16,6 @@ public static class MenuObjectList
     //Object Sprite Library Identifier / StoreObject
     public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic;
 
-
     public static void Init()
     {
         SetAllItems();
@@ -69,11 +68,6 @@ public static class MenuObjectList
 
         ActionPointItems.Sort();
         BaseContainerItems.Sort();
-
-        foreach (StoreGameObject storeItem in ActionPointItems)
-        {
-            GameLog.Log(" " + storeItem.Cost + " " + storeItem.Identifier);
-        }
     }
 
     public static StoreGameObject GetStoreObject(string id)

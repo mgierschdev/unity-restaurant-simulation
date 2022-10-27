@@ -11,16 +11,12 @@ public class MenuHandlerController : MonoBehaviour
     private GameObject centerPanel;
     private GameObject centerPanelSideMenu;
     //saves the latest reference to the npc if the menu was opened
-    private NPCController npc;
-    private EmployeeController employee;
     private MenuItem centerTabMenu;
     // Click controller
     private ClickController clickController;
     // Min amount of time the the menu has to be open before activating -> closing on click outside
     private const float MIN_OPENED_TIME = 0.5f;
     private float openedTime;
-    // Menu realtime refresh rate
-    private const float MENU_REFRESH_RATE = 3f;
     private GameObject leftDownPanel;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
@@ -240,9 +236,10 @@ public class MenuHandlerController : MonoBehaviour
 
         if (newObject != null)
         {
-            BaseObjectController controller = newObject.GetComponent<BaseObjectController>();
             //TODO: set the correct object type
-            controller.SetNewItem(true);
+            BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
+            baseObjectController.SetNewItem(true);
+            baseObjectController.SetStoreGameObject(obj);
         }
         else
         {
@@ -283,8 +280,6 @@ public class MenuHandlerController : MonoBehaviour
             newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
         }
 
-        BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
-        baseObjectController.SetStoreGameObject(obj);
         return newObject;
     }
 
@@ -319,7 +314,6 @@ public class MenuHandlerController : MonoBehaviour
                 newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
                 // There can be only one counter at the tinme
                 BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
-                baseObjectController.SetStoreGameObject(obj);
                 baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.FRONT);
                 return newObject;
             }
