@@ -240,20 +240,7 @@ public class MenuHandlerController : MonoBehaviour
 
         if (newObject != null)
         {
-            BaseObjectController controller = null;
-
-            if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
-            {
-                controller = newObject.GetComponent<TableController>();
-            }
-            else if (obj.Type == ObjectType.NPC_COUNTER)
-            {
-                controller = newObject.GetComponent<CounterController>();
-            }
-            else if (obj.Type == ObjectType.BASE_CONTAINER)
-            {
-                controller = newObject.GetComponent<BaseContainerController>();
-            }
+            BaseObjectController controller = newObject.GetComponent<BaseObjectController>();
             //TODO: set the correct object type
             controller.SetNewItem(true);
         }
@@ -330,17 +317,8 @@ public class MenuHandlerController : MonoBehaviour
                 }
 
                 newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
-                BaseObjectController baseObjectController;
-
                 // There can be only one counter at the tinme
-                if (obj.Type == ObjectType.NPC_COUNTER && BussGrid.GetCounter() == null)
-                {
-                    baseObjectController = newObject.GetComponent<CounterController>();
-                }
-                else
-                {
-                    baseObjectController = newObject.GetComponent<TableController>();
-                }
+                BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
                 baseObjectController.SetStoreGameObject(obj);
                 baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.FRONT);
                 return newObject;
