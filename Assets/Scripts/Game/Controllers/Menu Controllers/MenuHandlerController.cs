@@ -262,7 +262,7 @@ public class MenuHandlerController : MonoBehaviour
             GameLog.Log("TODO: UI message: Place not found");
         }
     }
-    
+
     private IEnumerator TestPlacingObjects(StoreGameObject obj)
     {
         // Print the time of when the function is first called.
@@ -285,7 +285,20 @@ public class MenuHandlerController : MonoBehaviour
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
         Vector3 spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextFreeTile());
-        return spamPosition == Util.GetVector3IntPositiveInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+        GameObject newObject;
+
+        if (spamPosition == Util.GetVector3IntPositiveInfinity())
+        {
+            return null;
+        }
+        else
+        {
+            newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+        }
+
+        BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
+        baseObjectController.SetStoreGameObject(obj);
+        return newObject;
     }
 
     private static GameObject placeGameObject(StoreGameObject obj)
@@ -328,7 +341,7 @@ public class MenuHandlerController : MonoBehaviour
                 {
                     baseObjectController = newObject.GetComponent<TableController>();
                 }
-
+                baseObjectController.SetStoreGameObject(obj);
                 baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.FRONT);
                 return newObject;
             }

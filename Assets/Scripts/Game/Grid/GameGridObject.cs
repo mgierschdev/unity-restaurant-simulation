@@ -47,7 +47,7 @@ public class GameGridObject : GameObjectBase
     private bool active;
 
 
-    public GameGridObject(Transform transform, StoreGameObject storeGameObject)
+    public GameGridObject(Transform transform)
     {
         objectTransform = transform;
         Name = transform.name;
@@ -69,8 +69,21 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
 
-        //For setting the object sprite
-        this.storeGameObject = storeGameObject;
+        //Setting base controller
+        // Set the table controller
+        if (Type == ObjectType.NPC_SINGLE_TABLE)
+        {
+            baseObjectController = objectTransform.GetComponent<TableController>();
+        }
+        else if (Type == ObjectType.NPC_COUNTER)
+        {
+            baseObjectController = objectTransform.GetComponent<CounterController>();
+
+        }
+        else if (Type == ObjectType.BASE_CONTAINER)
+        {
+            baseObjectController = objectTransform.GetComponent<BaseContainerController>();
+        }
 
         //Edit Panel Disable
         editMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
@@ -92,36 +105,26 @@ public class GameGridObject : GameObjectBase
             secondActionTileSprite
             };
 
-        firebaseGameObject = baseObjectController.GetFirebaseGameObject();
         active = baseObjectController.GetInitIsActive();
         // Object rotation
         facingPosition = baseObjectController.GetInitialRotation();
         UpdateInitRotation(baseObjectController.GetInitialRotation());
-        SetObjectSprite();
         SetEditPanelButtonClickListeners();
-        Init(); // storeGameObject.Type required
     }
 
-    private void SetObjectSprite()
+    public void SetStoreGameObject(StoreGameObject storeGameObject)
     {
+        firebaseGameObject = baseObjectController.GetFirebaseGameObject();
+        //For setting the object sprite
+        this.storeGameObject = storeGameObject;
         Type = storeGameObject.Type;
+    }
+
+    public void SetObjectSprite()
+    {
         spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
         spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
-
-        // Set the table controller
-        if (Type == ObjectType.NPC_SINGLE_TABLE)
-        {
-            baseObjectController = objectTransform.GetComponent<TableController>();
-        }
-        else if (Type == ObjectType.NPC_COUNTER)
-        {
-            baseObjectController = objectTransform.GetComponent<CounterController>();
-
-        }
-        else if (Type == ObjectType.BASE_CONTAINER)
-        {
-            baseObjectController = objectTransform.GetComponent<BaseContainerController>();
-        }
+        Init(); // storeGameObject.Type required
     }
 
     private void SetID()

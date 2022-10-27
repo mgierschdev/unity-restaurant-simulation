@@ -22,25 +22,48 @@ public class BaseObjectController : MonoBehaviour
     //Firebase obj reference and initial rotation
     private FirebaseGameObject firebaseGameObject;
     private ObjectRotation initialRotation;
+    private StoreGameObject storeGameObject;
 
     // New item (not yet bought)
     // isNewItem: New item added through the store
     private bool isNewItem;
     // isNewItemSetted: New item config setted
     private bool isNewItemSetted;
-
+    // isSprite seted 
+    private bool isSpriteSetted;
 
     private void Awake()
     {
         isNewItem = false;
         isNewItemSetted = false;
+        isSpriteSetted = false;
         timeClicking = 0;
         initialRotation = ObjectRotation.FRONT;
     }
 
+    private void Start()
+    {
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
+        Menu = menuHandler.GetComponent<MenuHandlerController>();
+        gameGridObject = new GameGridObject(transform);
+    }
+
     private void Update()
     {
-        if (gameGridObject != null && timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected())
+        if(gameGridObject == null){
+            return;
+        }
+
+        if (!isSpriteSetted)
+        {
+            gameGridObject.SetStoreGameObject(storeGameObject);
+            gameGridObject.SetObjectSprite();
+            BussGrid.SetGridObject(gameGridObject);
+            isSpriteSetted = true;
+        }
+
+        if (timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected())
         {
             gameGridObject.UpdateSlider();
         }
@@ -62,17 +85,10 @@ public class BaseObjectController : MonoBehaviour
         }
 
         //First time settup for a store item
-        if (!isNewItemSetted && isNewItem && gameGridObject != null)
+        if (!isNewItemSetted && isNewItem)
         {
             SetNewGameGridObject();
         }
-    }
-
-    protected void Init()
-    {
-        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
-        Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
-        Menu = menuHandler.GetComponent<MenuHandlerController>();
     }
 
     private void OnMouseDown()
@@ -275,5 +291,10 @@ public class BaseObjectController : MonoBehaviour
     public bool GetInitIsActive()
     {
         return !isNewItem;
+    }
+
+    public void SetStoreGameObject(StoreGameObject storeGameObject)
+    {
+        this.storeGameObject = storeGameObject;
     }
 }
