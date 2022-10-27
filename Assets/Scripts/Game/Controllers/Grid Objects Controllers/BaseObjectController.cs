@@ -18,12 +18,10 @@ public class BaseObjectController : MonoBehaviour
     //Long click controller
     private float timeClicking;
     private const float TIME_BEFORE_ACTIVATING_SLIDER = Settings.TimeBeforeTheSliderIsEnabled;
-
     //Firebase obj reference and initial rotation
     private FirebaseGameObject firebaseGameObject;
     private ObjectRotation initialRotation;
     private StoreGameObject storeGameObject;
-
     // New item (not yet bought)
     // isNewItem: New item added through the store
     private bool isNewItem;
@@ -51,7 +49,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-        if(gameGridObject == null){
+        if(gameGridObject == null && storeGameObject != null){
             return;
         }
 
