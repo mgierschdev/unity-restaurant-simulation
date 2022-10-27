@@ -254,7 +254,7 @@ public class MenuHandlerController : MonoBehaviour
             {
                 controller = newObject.GetComponent<BaseContainerController>();
             }
-
+            //TODO: set the correct object type
             controller.SetNewItem(true);
         }
         else
@@ -262,7 +262,8 @@ public class MenuHandlerController : MonoBehaviour
             GameLog.Log("TODO: UI message: Place not found");
         }
     }
-    IEnumerator TestPlacingObjects(StoreGameObject obj)
+    
+    private IEnumerator TestPlacingObjects(StoreGameObject obj)
     {
         // Print the time of when the function is first called.
         // yield on a new YieldInstruction that waits for 5 seconds.
