@@ -22,11 +22,11 @@ public class InventoryItemController : MonoBehaviour
         imgComponent = gameObject.GetComponent<Image>();
     }
 
-    public void SetInventoryItem(string spReference, string cost)
+    public void SetInventoryItem(string spReference, string botLeftLabelValue)
     {
         Sprite sp = Resources.Load<Sprite>(spReference);
         imgComponent.sprite = sp;
-        textMesh.text = cost;
+        textMesh.text = botLeftLabelValue;
     }
 
     public Button GetButton()

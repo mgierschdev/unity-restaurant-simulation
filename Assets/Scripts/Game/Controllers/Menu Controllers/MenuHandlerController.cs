@@ -183,18 +183,46 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
+        GameObject item;
+        InventoryItemController inventoryItemController;
+        Button button;
+
+        if (menu.GetMenuTab() == MenuTab.STORAGE_TAB)
+        {
+            Dictionary<StoreGameObject, int> objectDic = new Dictionary<StoreGameObject, int>();
+            foreach (StoreGameObject obj in objects)
+            {
+                int count = objectDic.GetValueOrDefault(obj, 0) + 1;
+                if(objectDic.ContainsKey(obj)){
+                    objectDic.Remove(obj);
+                }
+                objectDic.Add(obj, count);
+            }
+
+            foreach (KeyValuePair<StoreGameObject, int> entry in objectDic)
+            {
+                item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+                inventoryItemController = item.GetComponent<InventoryItemController>();
+                button = inventoryItemController.GetButton();
+                button.onClick.AddListener(() => OpenStoreEditPanel(entry.Key, true);
+                inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
+                item.transform.SetParent(scrollView.transform);
+                item.transform.localScale = new Vector3(1, 1, 1);
+            }
+
+            return;
+        }
 
         // Add new Items
         foreach (StoreGameObject obj in objects)
         {
-            GameObject item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
-            InventoryItemController inventoryItemController = item.GetComponent<InventoryItemController>();
-            Button button = inventoryItemController.GetButton();
-
+            item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+            inventoryItemController = item.GetComponent<InventoryItemController>();
+            button = inventoryItemController.GetButton();
             // Adding click listener
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
-                button.onClick.AddListener(() => OpenStoreEditPanel(obj));
+                button.onClick.AddListener(() => OpenStoreEditPanel(obj, false));
             }
             else
             {
@@ -214,7 +242,7 @@ public class MenuHandlerController : MonoBehaviour
         bStore.onClick.AddListener(() => OpenMenu(centerTabMenu));
     }
 
-    private void OpenStoreEditPanel(StoreGameObject obj)
+    private void OpenStoreEditPanel(StoreGameObject obj, bool storage)
     {
         if (!PlayerData.CanSubtract(obj.Cost))
         {
@@ -238,7 +266,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             //TODO: set the correct object type
             BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
-            baseObjectController.SetNewItem(true);
+            baseObjectController.SetNewItem(true, storage);
             baseObjectController.SetStoreGameObject(obj);
         }
         else

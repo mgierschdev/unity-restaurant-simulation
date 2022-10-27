@@ -69,7 +69,7 @@ public static class MenuObjectList
         ActionPointItems.Sort();
         BaseContainerItems.Sort();
     }
-
+    // The id = StoreGameObject.Identifier
     public static StoreGameObject GetStoreObject(string id)
     {
         if (!StoreItemDictionary.ContainsKey(id))
@@ -118,6 +118,7 @@ public static class MenuObjectList
             case MenuTab.BASE_CONTAINER_TAB: return BaseContainerItems;
             case MenuTab.ITEMS_TAB: return TopCounterItems;
             case MenuTab.IN_GAME_STORE_TAB: return InGameStoreItems;
+            case MenuTab.STORAGE_TAB: return LoadCurrentUserStorage();
             case MenuTab.EMPLOYEE_TAB: return EmployeeItems;
             case MenuTab.SETTINGS_TAB: return SettingsItems;
         }
@@ -138,5 +139,19 @@ public static class MenuObjectList
             case MenuTab.SETTINGS_TAB: return "Settings";
         }
         return "";
+    }
+
+    public static List<StoreGameObject> LoadCurrentUserStorage()
+    {
+        List<StoreGameObject> storage = new List<StoreGameObject>();
+
+        foreach (FirebaseGameObject obj in PlayerData.GetFirebaseGameUser().OBJECTS)
+        {
+            if (obj.IS_STORED)
+            {
+                storage.Add(GetStoreObject((StoreItemType)obj.ID));
+            }
+        }
+        return storage;
     }
 }

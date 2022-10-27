@@ -625,7 +625,7 @@ public class GameGridObject : GameObjectBase
     private void AcceptPurchase()
     {
         isItemBought = true;
-        baseObjectController.SetNewItem(false);
+        baseObjectController.SetNewItem(false, baseObjectController.GetStorage());
         baseObjectController.SetIsNewItemSetted(true);
 
         // We set the new state for the edit panel buttons
@@ -633,8 +633,11 @@ public class GameGridObject : GameObjectBase
         cancelButton.SetActive(false);
         rotateObjLeftButton.SetActive(true);
         saveObjButton.SetActive(true);
-
-        PlayerData.Subtract(storeGameObject.Cost);
+        // we dont substract if the item is comming from the storage
+        if (baseObjectController.GetStorage())
+        {
+            PlayerData.Subtract(storeGameObject.Cost);
+        }
         active = true; // now it can be used by NPCs
         //we set a new firebase object
         PlayerData.AddFirebaseGameObject(this);
