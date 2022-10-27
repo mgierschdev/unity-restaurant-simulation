@@ -99,7 +99,7 @@ public class GameGridObject : GameObjectBase
         spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
         spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
         UpdateInitRotation(baseObjectController.GetInitialRotation());
-        Init(); // StoreGameObject.Type required
+        Init(); // StoreGameObject.Type requiredD
     }
 
     private void SetID()
