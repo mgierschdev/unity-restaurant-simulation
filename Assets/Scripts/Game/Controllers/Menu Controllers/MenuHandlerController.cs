@@ -204,7 +204,7 @@ public class MenuHandlerController : MonoBehaviour
                 item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
                 inventoryItemController = item.GetComponent<InventoryItemController>();
                 button = inventoryItemController.GetButton();
-                button.onClick.AddListener(() => OpenStoreEditPanel(entry.Key, true);
+                button.onClick.AddListener(() => OpenStoreEditPanel(entry.Key, true));
                 inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
                 item.transform.SetParent(scrollView.transform);
                 item.transform.localScale = new Vector3(1, 1, 1);
