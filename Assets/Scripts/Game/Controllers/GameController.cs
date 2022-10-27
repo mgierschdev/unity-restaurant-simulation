@@ -59,7 +59,8 @@ public class GameController : MonoBehaviour
     private void LoadUserObjects()
     {
         // The user can store all the inventory 
-        if(PlayerData.GetFirebaseGameUser().OBJECTS == null){
+        if (PlayerData.GetFirebaseGameUser().OBJECTS == null)
+        {
             return;
         }
 
@@ -113,7 +114,7 @@ public class GameController : MonoBehaviour
 
     public bool PositionOverlapsNPC(Vector3Int position)
     {
-         // Employee could not exist
+        // Employee could not exist
         if (employeeController != null)
         {
             // We cannot place on top of the employee
@@ -179,5 +180,6 @@ public class GameController : MonoBehaviour
         GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, 1), Quaternion.identity, BussGrid.TilemapObjects.transform) as GameObject;
         BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
         controller.SetFirebaseGameObject(obj);
+        controller.SetStoreGameObject(MenuObjectList.GetStoreObject((StoreItemType)obj.ID));
     }
 }
