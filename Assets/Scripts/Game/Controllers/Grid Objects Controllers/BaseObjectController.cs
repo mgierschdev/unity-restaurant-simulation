@@ -58,7 +58,6 @@ public class BaseObjectController : MonoBehaviour
         if (!isSpriteSetted)
         {
             gameGridObject.SetStoreGameObject(storeGameObject);
-            gameGridObject.SetObjectSprite();
             BussGrid.SetGridObject(gameGridObject);
             isSpriteSetted = true;
         }

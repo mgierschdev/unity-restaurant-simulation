@@ -27,10 +27,10 @@ public class GameGridObject : GameObjectBase
     private GameObject cancelButton;
     private GameObject acceptButton;
 
-    //Controllers
+    // Controllers
     private BaseObjectController baseObjectController;
 
-    //Slider on top of the object
+    // Slider on top of the object
     private GameObject objectSlider;
     private Slider slider;
     private float sliderMultiplayer = Settings.ObjectSliderMultiplayer;
@@ -40,10 +40,10 @@ public class GameGridObject : GameObjectBase
     //Firebase obj
     private FirebaseGameObject firebaseGameObject;
 
-    //Store - To be bought Item
+    // Store - To be bought Item
     private bool isItemBought;
 
-    //Is Item active, before purchase
+    // Is Item active, before purchase
     private bool active;
 
 
@@ -69,21 +69,8 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
 
-        //Setting base controller
-        // Set the table controller
-        if (Type == ObjectType.NPC_SINGLE_TABLE)
-        {
-            baseObjectController = objectTransform.GetComponent<TableController>();
-        }
-        else if (Type == ObjectType.NPC_COUNTER)
-        {
-            baseObjectController = objectTransform.GetComponent<CounterController>();
-
-        }
-        else if (Type == ObjectType.BASE_CONTAINER)
-        {
-            baseObjectController = objectTransform.GetComponent<BaseContainerController>();
-        }
+        // Setting base controller
+        baseObjectController = objectTransform.GetComponent<BaseObjectController>();
 
         //Edit Panel Disable
         editMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
@@ -94,37 +81,25 @@ public class GameGridObject : GameObjectBase
         slider = objectSlider.GetComponent<Slider>();
         objectSlider.SetActive(false);
 
-        actionTiles = new List<GameObject>(){
-            objectActionTile.gameObject,
-            objectSecondActionTile.gameObject
-            };
-
-        tiles = new List<SpriteRenderer>(){
-            tileUnder,
-            actionTileSpriteRenderer,
-            secondActionTileSprite
-            };
+        actionTiles = new List<GameObject>() { objectActionTile.gameObject, objectSecondActionTile.gameObject };
+        tiles = new List<SpriteRenderer>() { tileUnder, actionTileSpriteRenderer, secondActionTileSprite };
 
         active = baseObjectController.GetInitIsActive();
         // Object rotation
         facingPosition = baseObjectController.GetInitialRotation();
-        UpdateInitRotation(baseObjectController.GetInitialRotation());
         SetEditPanelButtonClickListeners();
     }
 
     public void SetStoreGameObject(StoreGameObject storeGameObject)
     {
         firebaseGameObject = baseObjectController.GetFirebaseGameObject();
-        //For setting the object sprite
+        // For setting the object sprite
         this.storeGameObject = storeGameObject;
         Type = storeGameObject.Type;
-    }
-
-    public void SetObjectSprite()
-    {
         spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
         spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
-        Init(); // storeGameObject.Type required
+        UpdateInitRotation(baseObjectController.GetInitialRotation());
+        Init(); // StoreGameObject.Type required
     }
 
     private void SetID()
@@ -162,7 +137,7 @@ public class GameGridObject : GameObjectBase
         cancelButton.SetActive(false);
     }
 
-    //Store Item in inventory
+    // Store Item in inventory
     private void StoreInInventory()
     {
         try
@@ -203,7 +178,7 @@ public class GameGridObject : GameObjectBase
         return Util.IsAtDistanceWithObject(GetActionTile(), actionGridPosition);
     }
 
-    //This is call everytime the object changes position
+    // This is call everytime the object changes position
     public void UpdateCoords()
     {
         GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(objectTransform.position);
@@ -250,7 +225,7 @@ public class GameGridObject : GameObjectBase
 
     public Vector3Int GetActionTileInGridPosition()
     {
-        //Gets the orientation and then + 1 ...
+        // Gets the orientation and then + 1 ...
         if (facingPosition == ObjectRotation.FRONT)
         {
             return GridPosition + new Vector3Int(0, 1);
@@ -364,8 +339,6 @@ public class GameGridObject : GameObjectBase
     {
         // We dont check if the rotation is valid since we assume that the data is valid already
         ResetNPCStates();
-
-        Vector3Int prev = GetActionTileInGridPosition();
         UpdateRotation(rotation);
         UpdateCoords();
     }
@@ -636,7 +609,7 @@ public class GameGridObject : GameObjectBase
     }
     public void SetStoreObject()
     {
-        //We show accept, cancel buttons and select the object
+        // We show accept, cancel buttons and select the object
         isObjectSelected = true;
         isItemBought = false;
         BussGrid.SetActiveGameGridObject(this);
