@@ -182,37 +182,66 @@ public class MenuHandlerController : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        // Add items to scroll view depending on the tab
+        switch (menu.GetMenuTab())
+        {
+            case MenuTab.STORAGE_TAB: AddStorageItemsToScrollView(); return;
+            case MenuTab.BASE_CONTAINER_TAB: AddItemsToScrollView(menu); return;
+            case MenuTab.ITEMS_TAB:  AddItemsToScrollView(menu); return;
+            case MenuTab.TABLES_TAB:  AddItemsToScrollView(menu); return;
+            case MenuTab.EMPLOYEE_TAB: /*TODO*/ return;
+            case MenuTab.SETTINGS_TAB: /*TODO*/ return;
+            case MenuTab.IN_GAME_STORE_TAB: /*TODO*/ return;
+        }
+    }
+
+    private void AddStorageItemsToScrollView()
+    {
+        List<StoreGameObject> objects = MenuObjectList.GetItemList(MenuTab.STORAGE_TAB);
+        GameObject item;
+        InventoryItemController inventoryItemController;
+        Button button;
+        List<FirebaseGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
+        Dictionary<StoreGameObject, int> objectDic = new Dictionary<StoreGameObject, int>();
+        Dictionary<StoreGameObject, FirebaseGameObject> set = new Dictionary<StoreGameObject, FirebaseGameObject>();
+
+        foreach (FirebaseGameObject fireObj in userStorage)
+        {
+            StoreGameObject obj = MenuObjectList.GetStoreObject((StoreItemType)fireObj.ID);
+
+            int count = objectDic.GetValueOrDefault(obj, 0) + 1;
+            if (objectDic.ContainsKey(obj))
+            {
+                objectDic.Remove(obj);
+            }
+            else
+            {
+                set.Add(obj, fireObj);
+            }
+            objectDic.Add(obj, count);
+        }
+
+        foreach (KeyValuePair<StoreGameObject, int> entry in objectDic)
+        {
+            item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+            inventoryItemController = item.GetComponent<InventoryItemController>();
+            button = inventoryItemController.GetButton();
+
+            button.onClick.AddListener(() => OpenStoreEditPanel(entry.Key, true, ));
+
+            inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
+            item.transform.SetParent(scrollView.transform);
+            item.transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+
+    private void AddItemsToScrollView(MenuItem menu)
+    {
         List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
         GameObject item;
         InventoryItemController inventoryItemController;
         Button button;
-
-        if (menu.GetMenuTab() == MenuTab.STORAGE_TAB)
-        {
-            Dictionary<StoreGameObject, int> objectDic = new Dictionary<StoreGameObject, int>();
-            foreach (StoreGameObject obj in objects)
-            {
-                int count = objectDic.GetValueOrDefault(obj, 0) + 1;
-                if(objectDic.ContainsKey(obj)){
-                    objectDic.Remove(obj);
-                }
-                objectDic.Add(obj, count);
-            }
-
-            foreach (KeyValuePair<StoreGameObject, int> entry in objectDic)
-            {
-                item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
-                inventoryItemController = item.GetComponent<InventoryItemController>();
-                button = inventoryItemController.GetButton();
-                button.onClick.AddListener(() => OpenStoreEditPanel(entry.Key, true));
-                inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
-                item.transform.SetParent(scrollView.transform);
-                item.transform.localScale = new Vector3(1, 1, 1);
-            }
-
-            return;
-        }
-
         // Add new Items
         foreach (StoreGameObject obj in objects)
         {
@@ -222,7 +251,12 @@ public class MenuHandlerController : MonoBehaviour
             // Adding click listener
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
-                button.onClick.AddListener(() => OpenStoreEditPanel(obj, false));
+                Pair<StoreGameObject, FirebaseGameObject> pair = new Pair<StoreGameObject, FirebaseGameObject>
+                {
+                    key = obj
+                };
+
+                button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
             }
             else
             {
@@ -242,8 +276,10 @@ public class MenuHandlerController : MonoBehaviour
         bStore.onClick.AddListener(() => OpenMenu(centerTabMenu));
     }
 
-    private void OpenStoreEditPanel(StoreGameObject obj, bool storage)
+    private void OpenStoreEditPanel(Pair<StoreGameObject, FirebaseGameObject> pair, bool storage)
     {
+        StoreGameObject obj = pair.key;
+
         if (!PlayerData.CanSubtract(obj.Cost))
         {
             GameLog.Log("TODO: UI message: Insufficient funds " + PlayerData.GetMoney());

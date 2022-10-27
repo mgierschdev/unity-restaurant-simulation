@@ -60,6 +60,11 @@ public static class PlayerData
         moneyText.text = GetMoney();
     }
 
+    public static void SubtractFromStorage(GameGridObject gameGridObject)
+    {
+        setStoredInventory.Remove(gameGridObject.Name);
+    }
+
     public static void Subtract(double amount)
     {
         if (!CanSubtract(amount))

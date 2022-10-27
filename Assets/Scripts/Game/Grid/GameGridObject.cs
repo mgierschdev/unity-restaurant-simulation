@@ -90,6 +90,7 @@ public class GameGridObject : GameObjectBase
         SetEditPanelButtonClickListeners();
     }
 
+    // For GamegridObject init
     public void SetStoreGameObject(StoreGameObject storeGameObject)
     {
         firebaseGameObject = baseObjectController.GetFirebaseGameObject();
@@ -627,21 +628,26 @@ public class GameGridObject : GameObjectBase
         isItemBought = true;
         baseObjectController.SetNewItem(false, baseObjectController.GetStorage());
         baseObjectController.SetIsNewItemSetted(true);
-
         // We set the new state for the edit panel buttons
         acceptButton.SetActive(false);
         cancelButton.SetActive(false);
         rotateObjLeftButton.SetActive(true);
         saveObjButton.SetActive(true);
         // we dont substract if the item is comming from the storage
-        if (baseObjectController.GetStorage())
+        if (!baseObjectController.GetStorage())
         {
             PlayerData.Subtract(storeGameObject.Cost);
+            PlayerData.AddFirebaseGameObject(this);//we set a new firebase object
         }
-        active = true; // now it can be used by NPCs
-        //we set a new firebase object
-        PlayerData.AddFirebaseGameObject(this);
+        else
+        {
+            PlayerData.SubtractFromStorage(this);
+            baseObjectController.SetStorage(false);
+            firebaseGameObject.IS_STORED = false;
+        }
+        
         SetInactive();
+        active = true; // now it can be used by NPCs
     }
 
     public void CancelPurchase()
@@ -663,6 +669,11 @@ public class GameGridObject : GameObjectBase
     public void SetFirebaseGameObject(FirebaseGameObject obj)
     {
         firebaseGameObject = obj;
+    }
+
+    public FirebaseGameObject GetFirebaseGameObject()
+    {
+        return firebaseGameObject;
     }
 
     public ObjectRotation GetFacingPosition()

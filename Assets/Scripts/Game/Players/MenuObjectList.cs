@@ -118,7 +118,6 @@ public static class MenuObjectList
             case MenuTab.BASE_CONTAINER_TAB: return BaseContainerItems;
             case MenuTab.ITEMS_TAB: return TopCounterItems;
             case MenuTab.IN_GAME_STORE_TAB: return InGameStoreItems;
-            case MenuTab.STORAGE_TAB: return LoadCurrentUserStorage();
             case MenuTab.EMPLOYEE_TAB: return EmployeeItems;
             case MenuTab.SETTINGS_TAB: return SettingsItems;
         }
@@ -141,15 +140,15 @@ public static class MenuObjectList
         return "";
     }
 
-    public static List<StoreGameObject> LoadCurrentUserStorage()
+    public static List<FirebaseGameObject> LoadCurrentUserStorage()
     {
-        List<StoreGameObject> storage = new List<StoreGameObject>();
+        List<FirebaseGameObject> storage = new List<FirebaseGameObject>();
 
         foreach (FirebaseGameObject obj in PlayerData.GetFirebaseGameUser().OBJECTS)
         {
             if (obj.IS_STORED)
             {
-                storage.Add(GetStoreObject((StoreItemType)obj.ID));
+                storage.Add(obj);
             }
         }
         return storage;
