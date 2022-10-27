@@ -25,6 +25,7 @@ public class BaseObjectController : MonoBehaviour
     // New item (not yet bought)
     // isNewItem: New item added through the store
     private bool isNewItem;
+    private bool storage;
     // isNewItemSetted: New item config setted
     private bool isNewItemSetted;
     // isSprite seted 
@@ -49,7 +50,8 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-        if(gameGridObject == null && storeGameObject != null){
+        if (gameGridObject == null && storeGameObject != null)
+        {
             return;
         }
 
@@ -253,11 +255,17 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject.SetStoreObject();
     }
 
-    public void SetNewItem(bool val)
+    public void SetNewItem(bool val, bool storage)
     {
         isNewItem = val;
+        this.storage = storage; // is the item comming from storage
     }
-
+    // returns if the item is comming from the storage
+    public bool GetStorage()
+    {
+        return storage;
+    }
+    
     public void SetIsNewItemSetted(bool val)
     {
         isNewItemSetted = val;

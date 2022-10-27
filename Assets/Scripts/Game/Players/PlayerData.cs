@@ -294,4 +294,9 @@ public static class PlayerData
         obj.SetFirebaseGameObject(newObj);
         user.OBJECTS.Add(newObj);
     }
+
+    public static List<GameGridObject> GetStoredIventory()
+    {
+        return storedIventory;
+    }
 }
