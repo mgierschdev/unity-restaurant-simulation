@@ -303,7 +303,7 @@ public class MenuHandlerController : MonoBehaviour
     {
         StoreGameObject obj = pair.Key;
 
-        if (!PlayerData.CanSubtract(obj.Cost))
+        if (!PlayerData.CanSubtract(obj.Cost) && !storage)
         {
             GameLog.Log("TODO: UI message: Insufficient funds " + PlayerData.GetMoney());
             return;

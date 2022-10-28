@@ -304,7 +304,7 @@ public static class BussGrid
         }
 
         // You cannot place a table on top if there is a NPC on that coord
-        if (IsThereNPCInPosition(currentGridPos))
+        if (IsThereNPCInPosition(currentGridPos) || (gameGridObject.GetStoreGameObject().HasActionPoint && IsThereNPCInPosition(currentActionPointInGrid)))
         {
             return false;
         }
@@ -858,7 +858,7 @@ public static class BussGrid
             GameGridObject tmp = keyPair.Key;
 
             //GameLog.Log(tmp.IsFree() + " " + !tmp.GetIsObjectBeingDragged() + " " + !tmp.HasNPCAssigned() + " " + !PlayerData.IsItemStored(tmp.Name) + " " + tmp.Name + " " + PlayerData.IsItemInInventory(tmp) + " " + tmp.GetIsItemBought() + " " + tmp.GetActive());
-            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought() && tmp.GetActive())
+            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.HasNPCAssigned() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought() && tmp.GetActive() && !tmp.GetIsObjectSelected())
             {
                 result = tmp;
                 return true;
