@@ -216,7 +216,7 @@ public class GridDebugPanel : EditorWindow
             maps += "<b>" + g.Key.Name + "</b> \n";
         }
 
-        maps += "\n\n";
+        maps += "\n \n";
 
         maps += "Queue TablesWithClient size: " + BussGrid.GetFreeBusinessSpots().Length + "\n";
         foreach (KeyValuePair<GameGridObject, byte> g in BussGrid.GetFreeBusinessSpots())
@@ -228,7 +228,7 @@ public class GridDebugPanel : EditorWindow
             maps += "<b>" + g.Key.Name + "</b> \n";
         }
 
-        maps += "\n\n";
+        maps += "\n \n";
 
         objects += "BusinessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
@@ -236,11 +236,12 @@ public class GridDebugPanel : EditorWindow
             objects += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + "</b> \n";
         }
 
-        maps += "\n\n";
+        maps += "\n \n";
+
         objects += "FirebaseObjects size: " + PlayerData.GetFirebaseGameUser().OBJECTS.Count + " \n";
         foreach (FirebaseGameObject g in PlayerData.GetFirebaseGameUser().OBJECTS)
         {
-            objects += "<b>ID:" + g.ID + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + g.ROTATION + "</b> \n";
+            objects += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
         }
 
 
