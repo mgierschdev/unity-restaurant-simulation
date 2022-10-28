@@ -244,8 +244,6 @@ public class GridDebugPanel : EditorWindow
             objects += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
         }
 
-
-
         return maps + " " + objects;
     }
 
