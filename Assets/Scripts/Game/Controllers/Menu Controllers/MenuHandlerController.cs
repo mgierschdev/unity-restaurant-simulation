@@ -320,22 +320,20 @@ public class MenuHandlerController : MonoBehaviour
             newObject = PlaceSingleTileObject(obj);
         }
 
-        if (newObject != null)
+        if (newObject == null)
         {
-            BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
-            baseObjectController.SetNewItem(true, storage);
-            baseObjectController.SetStoreGameObject(obj);
-
-            if (storage)
-            {
-                // we set the new rotation setted by the placeGameObject
-                pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
-                baseObjectController.SetFirebaseGameObject(pair.Value);
-            }
+            newObject = PlaceAtFirstSquare(obj);
         }
-        else
+
+        BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
+        baseObjectController.SetNewItem(true, storage);
+        baseObjectController.SetStoreGameObject(obj);
+
+        if (storage)
         {
-            GameLog.Log("TODO: UI message: Place not found");
+            // we set the new rotation setted by the placeGameObject
+            pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
+            baseObjectController.SetFirebaseGameObject(pair.Value);
         }
     }
 
@@ -355,6 +353,16 @@ public class MenuHandlerController : MonoBehaviour
     public bool IsMenuOpen()
     {
         return centerPanel.activeSelf;
+    }
+
+    private static GameObject PlaceAtFirstSquare(StoreGameObject obj)
+    {
+        GameObject parent = GameObject.Find(Settings.TilemapObjects);
+        Vector3 spamPosition = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetCameraPoisiton());
+        GameObject newObject;
+
+        newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+        return newObject;
     }
 
     private static GameObject PlaceSingleTileObject(StoreGameObject obj)
