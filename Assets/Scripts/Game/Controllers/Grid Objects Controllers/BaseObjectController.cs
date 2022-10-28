@@ -96,7 +96,7 @@ public class BaseObjectController : MonoBehaviour
             }
             else // If the item is bought and the current position is valid 
             {
-                gameGridObject.AcceptPosition();
+                gameGridObject.AcceptPurchase();
             }
 
             BussGrid.SetDisablePerspectiveHand(); // We disable perspective hand for a second

@@ -128,7 +128,7 @@ public class GameGridObject : GameObjectBase
 
         acceptButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
         Button accept = acceptButton.GetComponent<Button>();
-        accept.onClick.AddListener(AcceptPosition);
+        accept.onClick.AddListener(AcceptPurchase);
 
         cancelButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
         Button cancel = cancelButton.GetComponent<Button>();
@@ -165,6 +165,13 @@ public class GameGridObject : GameObjectBase
             BussGrid.GameController.ReCalculateNpcStates(this);
             BussGrid.CameraController.SetIsPerspectiveHandTempDisabled(false);
             BussGrid.SetDraggingObject(false);
+            BussGrid.GetBusinessObjects().TryRemove(Name, out GameGridObject tmp);
+
+            if (Type == ObjectType.NPC_SINGLE_TABLE)
+            {
+                BussGrid.GetBussQueueMap().TryRemove(this, out byte tmp2);
+            }
+
             Object.Destroy(objectTransform.gameObject);
         }
         catch (Exception e)
@@ -615,7 +622,7 @@ public class GameGridObject : GameObjectBase
         return isItemBought;
     }
 
-    public void AcceptPosition()
+    public void AcceptPurchase()
     {
         if (!baseObjectController.GetIscurrentValidPos())
         {
@@ -632,12 +639,12 @@ public class GameGridObject : GameObjectBase
         rotateObjLeftButton.SetActive(true);
         saveObjButton.SetActive(true);
         HideEditMenu();
-        // we dont substract if the item is comming from the storage
-
-        if (!baseObjectController.GetIsStorageItem())
+        // We dont substract if the item is comming from the storage
+        if (!baseObjectController.GetIsStorageItem() && firebaseGameObject == null)
         {
             PlayerData.Subtract(storeGameObject.Cost);
-            PlayerData.AddFirebaseGameObject(this);//we set a new firebase object
+            // We set a new firebase object
+            PlayerData.AddFirebaseGameObject(this);
         }
         else
         {
@@ -651,8 +658,8 @@ public class GameGridObject : GameObjectBase
         UpdateCoordsAndSetObstacle();
         SetInactive();
         HideUnderTiles();
-
-        active = true; // now it can be used by NPCs
+        // Now it can be used by NPCs
+        active = true;
     }
 
     public void CancelPurchase()
@@ -660,7 +667,7 @@ public class GameGridObject : GameObjectBase
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
-        // disables the perspective hand for a second
+        // Disables the perspective hand for a second
         BussGrid.SetDisablePerspectiveHand();
         SetInactive();
         BussGrid.RecalculateBussGrid();

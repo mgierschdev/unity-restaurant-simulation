@@ -311,11 +311,11 @@ public static class BussGrid
         // Objects with two squares or action tiles,
         Vector3Int gridActionPoint = gameGridObject.GetActionTileInGridPosition();
 
-        GameLog.Log(gameGridObject.Name + " IsValidBussPosition " + (IsCoordValid(gridPosition.x, gridPosition.y) && IsCoordValid(gridActionPoint.x, gridActionPoint.y))
-        + " " + (!isClosingGrid)
-        + " " + (!IsThereNPCInPosition(gridPosition) && !IsThereNPCInPosition(gridActionPoint))
-        + " " + (gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY && gridArray[gridActionPoint.x, gridActionPoint.y] == (int)CellValue.EMPTY)
-        + " " + (IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint)));
+        // GameLog.Log(gameGridObject.Name + " IsValidBussPosition " + (IsCoordValid(gridPosition.x, gridPosition.y) && IsCoordValid(gridActionPoint.x, gridActionPoint.y))
+        // + " " + (!isClosingGrid)
+        // + " " + (!IsThereNPCInPosition(gridPosition) && !IsThereNPCInPosition(gridActionPoint))
+        // + " " + (gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY && gridArray[gridActionPoint.x, gridActionPoint.y] == (int)CellValue.EMPTY)
+        // + " " + (IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint)));
 
         return IsCoordValid(gridPosition.x, gridPosition.y) && IsCoordValid(gridActionPoint.x, gridActionPoint.y) &&
                !isClosingGrid &&
@@ -778,8 +778,8 @@ public static class BussGrid
             if ((gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.BUSY && !positions.Contains(current)) ||
             (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.ACTION_POINT && !actionPositions.Contains(current)))
             {
-                //we clean the invalid position   
-                //Log("Cleanning infalid position in RecalculateBussGrid()");
+                // we clean the invalid position   
+                // Log("Cleanning invalid position in RecalculateBussGrid()");
                 gridArray[tile.GridPosition.x, tile.GridPosition.y] = (int)CellValue.EMPTY;
             }
         }
@@ -862,7 +862,6 @@ public static class BussGrid
         return false;
     }
 
-
     // we remove the object from all queues if it is being draggeds
     public static void FreeCoordWhileDragging(Vector3Int pos, Vector3Int initialActionTileOne, GameGridObject gameGridObject)
     {
@@ -928,15 +927,15 @@ public static class BussGrid
             obj.SetInactive();
         }
     }
-
+    // This disables the effect since we are clicking outside the object
     public static void SetDisablePerspectiveHand()
     {
         //disables perspective ha d for 0.3 sec
         CameraController.DisablePerspectiveHand();
     }
 
-    public static Vector3 GetCenterBussGrid()
+    public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
     {
-        return GetWorldFromGridPosition(new Vector3Int(8, 10));
+        return BussQueueMap;
     }
 }
