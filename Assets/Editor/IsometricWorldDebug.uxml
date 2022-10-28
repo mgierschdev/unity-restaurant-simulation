@@ -1,14 +1,16 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Editor/IsometricWorldDebug.uss?fileID=7433441132597879392&amp;guid=4254b8d6461fc4763ba4b32c539198f5&amp;type=3#IsometricWorldDebug" />
-    <ui:Button text="Enable Grid Debug" display-tooltip-when-elided="true" name="GridDebugButton" />
-    <ui:VisualElement name="MainContainer">
-        <ui:VisualElement name="BussGridContainer" style="align-items: center;">
-            <ui:Label text="Buss Grid Display" display-tooltip-when-elided="true" name="BussGridDisplay" class="H1" />
-            <ui:VisualElement name="GridDisplay" class="grid-display" />
+    <ui:ScrollView>
+        <ui:Button text="Enable Grid Debug" display-tooltip-when-elided="true" name="GridDebugButton" />
+        <ui:VisualElement name="MainContainer">
+            <ui:VisualElement name="BussGridContainer" style="align-items: center;">
+                <ui:Label text="Buss Grid Display" display-tooltip-when-elided="true" name="BussGridDisplay" class="H1" />
+                <ui:VisualElement name="GridDisplay" class="grid-display" />
+            </ui:VisualElement>
+            <ui:VisualElement name="TextDebugContainer">
+                <ui:Label text="Grid Debug view" name="GridDebugTitle" class="H1" />
+                <ui:Label name="GridDebug" />
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="TextDebugContainer">
-            <ui:Label text="Grid Debug view" name="GridDebugTitle" class="H1" />
-            <ui:Label name="GridDebug" />
-        </ui:VisualElement>
-    </ui:VisualElement>
+    </ui:ScrollView>
 </ui:UXML>
