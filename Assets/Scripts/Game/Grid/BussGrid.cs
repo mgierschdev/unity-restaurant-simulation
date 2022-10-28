@@ -291,59 +291,37 @@ public static class BussGrid
     // worldPos = Current position that you are moving the object
     // actionTileOne: the initial actiontile in grid coord
     // gameGridObject: the game gridObject
-    public static bool IsValidBussPosition(GameGridObject gameGridObject, Vector3 worldPos)
+    public static bool IsValidBussPosition(GameGridObject gameGridObject)
     {
-        Vector3Int currentGridPos = GetPathFindingGridFromWorldPosition(worldPos);
-        Vector3 currentActionPointWorldPos = gameGridObject.GetActionTile();
-        Vector3Int currentActionPointInGrid = GetPathFindingGridFromWorldPosition(currentActionPointWorldPos);
-        bool isClosingGrid = IsClosingIsland(currentGridPos);
+        Vector3Int gridPosition = gameGridObject.GridPosition;
+        // TODO: cannot close the buss entrance
+        bool isClosingGrid = IsClosingIsland(gridPosition);
 
-        if (isClosingGrid)
-        {
-            return false;
-        }
-
-        // You cannot place a table on top if there is a NPC on that coord
-        if (IsThereNPCInPosition(currentGridPos) || (gameGridObject.GetStoreGameObject().HasActionPoint && IsThereNPCInPosition(currentActionPointInGrid)))
-        {
-            return false;
-        }
-
-        // If we are at the initial grid position we return true
-        if (worldPos == gameGridObject.WorldPosition)
-        {
-            return true;
-        }
-
-        // If it doesnt have aciton point we just check that is doesnt close any island and that is valid buss pos and valid coord
+        // Single square objects
         if (!gameGridObject.GetStoreGameObject().HasActionPoint)
         {
-            return IsValidBussCoord(currentGridPos) && gridArray[currentGridPos.x, currentGridPos.y] == (int)CellValue.EMPTY;
+            return
+            IsCoordValid(gridPosition.x, gridPosition.y) &&
+            !isClosingGrid &&
+            !IsThereNPCInPosition(gridPosition) &&
+            gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY &&
+            IsValidBussCoord(gridPosition);
         }
 
-        // If the coords are ousite the perimter we return false, or if the position is different than 0
-        if (!IsCoordValid(currentGridPos.x, currentGridPos.y) ||
-        !IsCoordValid(currentActionPointInGrid.x, currentActionPointInGrid.y) ||
-        gridArray[currentActionPointInGrid.x, currentActionPointInGrid.y] != (int)CellValue.EMPTY ||
-        gridArray[currentGridPos.x, currentGridPos.y] != (int)CellValue.EMPTY
-        )
-        {
-            return false;
-        }
+        // Objects with two squares or action tiles,
+        Vector3Int gridActionPoint = gameGridObject.GetActionTileInGridPosition();
 
-        // It cannot overlap any NPC
-        if (GameController.PositionOverlapsNPC(currentGridPos))
-        {
-            return false;
-        }
+        GameLog.Log(gameGridObject.Name + " IsValidBussPosition " + (IsCoordValid(gridPosition.x, gridPosition.y) && IsCoordValid(gridActionPoint.x, gridActionPoint.y))
+        + " " + (!isClosingGrid)
+        + " " + (!IsThereNPCInPosition(gridPosition) && !IsThereNPCInPosition(gridActionPoint))
+        + " " + (gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY && gridArray[gridActionPoint.x, gridActionPoint.y] == (int)CellValue.EMPTY)
+        + " " + (IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint)));
 
-        // If the current grid position is in the buss map we return true
-        if (IsValidBussCoord(currentGridPos) && IsValidBussCoord(currentActionPointInGrid))
-        {
-            return true;
-        }
-
-        return false;
+        return IsCoordValid(gridPosition.x, gridPosition.y) && IsCoordValid(gridActionPoint.x, gridActionPoint.y) &&
+               !isClosingGrid &&
+               !IsThereNPCInPosition(gridPosition) && !IsThereNPCInPosition(gridActionPoint) &&
+               gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY && gridArray[gridActionPoint.x, gridActionPoint.y] == (int)CellValue.EMPTY &&
+               IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint);
     }
 
     public static bool IsValidBussCoord(Vector3Int pos)
