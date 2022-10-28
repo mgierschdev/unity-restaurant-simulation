@@ -268,13 +268,15 @@ public class GameGridObject : GameObjectBase
 
         UpdateRotation(facingPosition);
 
-        if (storeGameObject.HasActionPoint)
-        {
-            Vector3Int post = GetActionTileInGridPosition();
-            BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
-        }
+        // Replacing
+        // if (storeGameObject.HasActionPoint)
+        // {
+        //     
+        //     //Vector3Int post = GetActionTileInGridPosition();
+        //     //BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
+        // }
 
-        UpdateCoords();
+        //UpdateCoords(); Replacing
     }
 
     // If we rotate the table no one can attend the table or go to the table
@@ -579,6 +581,7 @@ public class GameGridObject : GameObjectBase
     {
         isObjectSelected = true;
         SetActiveSlider(false);
+        LightAvailableUnderTiles();
         BussGrid.SetActiveGameGridObject(this);
         baseObjectController.RestartTableNPC();
     }
