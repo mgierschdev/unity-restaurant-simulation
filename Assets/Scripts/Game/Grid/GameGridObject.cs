@@ -648,6 +648,11 @@ public class GameGridObject : GameObjectBase
 
     public void AcceptPosition()
     {
+        if (!baseObjectController.GetIscurrentValidPos())
+        {
+            return;
+        }
+
         isItemBought = true;
         baseObjectController.SetNewItem(false, baseObjectController.GetIsStorageItem());
         baseObjectController.SetIsNewItemSetted(true);
@@ -675,7 +680,7 @@ public class GameGridObject : GameObjectBase
         UpdateCoordsAndSetObstacle();
         SetInactive();
         HideUnderTiles();
-        
+
         active = true; // now it can be used by NPCs
     }
 
