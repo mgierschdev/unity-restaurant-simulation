@@ -334,7 +334,7 @@ public static class BussGrid
         if (currentClickedActiveGameObject != "" && BusinessObjects.ContainsKey(currentClickedActiveGameObject))
         {
             GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
-            gameGridObject.Hide();
+            gameGridObject.HideEditMenu();
             currentClickedActiveGameObject = "";
         }
     }
@@ -552,11 +552,11 @@ public static class BussGrid
         if (currentClickedActiveGameObject != "" && BusinessObjects.ContainsKey(currentClickedActiveGameObject))
         {
             GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
-            gameGridObject.Hide();
+            gameGridObject.HideEditMenu();
         }
 
         currentClickedActiveGameObject = obj.Name;
-        obj.Show();
+        obj.ShowEditMenu();
     }
 
     private static GameGridObject GetActiveGameGridObject()

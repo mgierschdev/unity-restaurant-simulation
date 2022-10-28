@@ -113,7 +113,7 @@ public class GameGridObject : GameObjectBase
     public void Init()
     {
         SetID();
-        Hide();
+        HideEditMenu();
     }
 
     private void SetEditPanelButtonClickListeners()
@@ -148,11 +148,6 @@ public class GameGridObject : GameObjectBase
             PlayerData.StoreItem(this);
             // Clear the Item from the current selected in the grid 
             BussGrid.ClearCurrentClickedActiveGameObject();
-
-            // if (baseObjectController.GetIscurrentValidPos())
-            // {
-            //    // BussGrid.FreeObject(this);
-            // }
 
             // we clean the table from the employer
             if (attendedBy != null)
@@ -205,20 +200,13 @@ public class GameGridObject : GameObjectBase
         }
     }
 
-    // public void ValidClickOutSideUpdateCoords()
-    // {
-    //     UpdateCoordsAndSetObstacle();
-    //     HideUnderTiles();
-    //     PlayerController
-    // }
-
-    public void Hide()
+    public void HideEditMenu()
     {
         HideUnderTiles();
         editMenu.SetActive(false);
     }
 
-    public void Show()
+    public void ShowEditMenu()
     {
         spriteRenderer.color = Util.Available;
         editMenu.SetActive(true);
@@ -267,14 +255,6 @@ public class GameGridObject : GameObjectBase
 
     public void RotateObjectLeft()
     {
-        // if (!IsValidRotation(0) && storeGameObject.HasActionPoint) //left
-        // {
-
-        // }
-        // else
-        // {
-        //     LightAvailableUnderTiles();
-        // }
         // If there is any NPC we send it to the final state
         ResetNPCStates();
         FreeObject();
@@ -288,16 +268,6 @@ public class GameGridObject : GameObjectBase
         }
 
         UpdateRotation(facingPosition);
-
-        // Replacing
-        // if (storeGameObject.HasActionPoint)
-        // {
-        //     
-        //     //Vector3Int post = GetActionTileInGridPosition();
-        //     //BussGrid.SwapCoords(prev.x, prev.y, post.x, post.y);
-        // }
-
-        //UpdateCoords(); Replacing
     }
 
     // If we rotate the table no one can attend the table or go to the table
@@ -601,7 +571,6 @@ public class GameGridObject : GameObjectBase
     {
         isObjectSelected = true;
         SetActiveSlider(false);
-        // LightAvailableUnderTiles();
         BussGrid.SetActiveGameGridObject(this);
         baseObjectController.RestartTableNPC();
     }
@@ -660,8 +629,9 @@ public class GameGridObject : GameObjectBase
         // We set the new state for the edit panel buttons
         acceptButton.SetActive(false);
         cancelButton.SetActive(false);
-        rotateObjLeftButton.SetActive(false);
-        saveObjButton.SetActive(false);
+        rotateObjLeftButton.SetActive(true);
+        saveObjButton.SetActive(true);
+        HideEditMenu();
         // we dont substract if the item is comming from the storage
 
         if (!baseObjectController.GetIsStorageItem())
@@ -677,6 +647,7 @@ public class GameGridObject : GameObjectBase
             firebaseGameObject.IS_STORED = false;
         }
 
+        BussGrid.SetObjectObstacle(this);
         UpdateCoordsAndSetObstacle();
         SetInactive();
         HideUnderTiles();

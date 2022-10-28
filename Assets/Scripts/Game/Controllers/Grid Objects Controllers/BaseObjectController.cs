@@ -70,10 +70,6 @@ public class BaseObjectController : MonoBehaviour
             {
                 BussGrid.SetObjectObstacle(gameGridObject);
             }
-            else
-            {
-
-            }
         }
     }
 
@@ -121,8 +117,6 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
-
-        Debug.Log("Isvalid " + isCurrentValidPos + " " + " pos: " + gameGridObject.GridPosition + " " + gameGridObject.GetActionTileInGridPosition());
 
         if (BussGrid.IsValidBussPosition(gameGridObject) && !IsOverNPC())
         {
@@ -181,6 +175,7 @@ public class BaseObjectController : MonoBehaviour
         // So it will overlay over the rest of the items while dragging
         Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(currentGridPosition);
+        gameGridObject.UpdateObjectCoords();
     }
 
     // Called when the mouse is released 
@@ -198,7 +193,7 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        //gameGridObject.UpdateCoords(); Replacing
+        gameGridObject.UpdateObjectCoords();
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
 
         //We recalculate Paths once the object is placed
