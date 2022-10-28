@@ -772,7 +772,7 @@ public static class BussGrid
 
         foreach (GameGridObject gObj in BusinessObjects.Values)
         {
-            if (PlayerData.IsItemStored(gObj.Name))
+            if (PlayerData.IsItemStored(gObj.Name) || gObj.GetIsObjectSelected())//Replacing
             {
                 continue;
             }

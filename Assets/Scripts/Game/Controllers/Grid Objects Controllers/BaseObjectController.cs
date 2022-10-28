@@ -182,7 +182,7 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.LightAvailableUnderTiles();
         }
 
-        gameGridObject.UpdateCoords();
+        //gameGridObject.UpdateCoords(); Replacing
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
 
         //We recalculate Paths once the object is placed
