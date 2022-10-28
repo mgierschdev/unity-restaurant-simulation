@@ -118,7 +118,7 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        if (BussGrid.IsValidBussPosition(gameGridObject) && !IsOverNPC())
+        if (BussGrid.IsValidBussPosition(gameGridObject))
         {
             isCurrentValidPos = true;
             gameGridObject.GetSpriteRenderer().color = Util.Available;
