@@ -260,7 +260,7 @@ public static class BussGrid
         return x >= 0 && x < gridArray.GetLength(0) && y >= 0 && y < gridArray.GetLength(1);
     }
 
-    private static void SetObjectObstacle(GameGridObject obj)
+    public static void SetObjectObstacle(GameGridObject obj)
     {
         Vector3Int actionGridPosition = obj.GetActionTileInGridPosition();
         BusinessObjects.TryAdd(obj.Name, obj);
@@ -538,7 +538,6 @@ public static class BussGrid
         {
             counter = obj;
         }
-        SetObjectObstacle(obj);
     }
 
     // It gets the closest free coord next to the target
