@@ -258,7 +258,6 @@ public class MenuHandlerController : MonoBehaviour
         }
     }
 
-
     private void AddItemsToScrollView(MenuItem menu)
     {
         List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
@@ -326,6 +325,7 @@ public class MenuHandlerController : MonoBehaviour
             BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
             baseObjectController.SetNewItem(true, storage);
             baseObjectController.SetStoreGameObject(obj);
+
             if (storage)
             {
                 // we set the new rotation setted by the placeGameObject

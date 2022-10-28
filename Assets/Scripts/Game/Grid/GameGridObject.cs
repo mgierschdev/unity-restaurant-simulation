@@ -148,7 +148,11 @@ public class GameGridObject : GameObjectBase
             PlayerData.StoreItem(this);
             // Clear the Item from the current selected in the grid 
             BussGrid.ClearCurrentClickedActiveGameObject();
-            BussGrid.FreeObject(this);
+
+            // if (baseObjectController.GetIscurrentValidPos())
+            // {
+            //    // BussGrid.FreeObject(this);
+            // }
 
             // we clean the table from the employer
             if (attendedBy != null)
@@ -179,8 +183,15 @@ public class GameGridObject : GameObjectBase
         return Util.IsAtDistanceWithObject(GetActionTile(), actionGridPosition);
     }
 
+    public void UpdateObjectCoords()
+    {
+        GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(objectTransform.position);
+        LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(objectTransform.position);
+        WorldPosition = objectTransform.position;
+    }
+
     // This is call everytime the object changes position
-    public void UpdateCoords()
+    public void UpdateCoordsAndSetObstacle()
     {
         GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(objectTransform.position);
         LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(objectTransform.position);
@@ -193,6 +204,13 @@ public class GameGridObject : GameObjectBase
             firebaseGameObject.POSITION = new int[] { GridPosition.x, GridPosition.y };
         }
     }
+
+    // public void ValidClickOutSideUpdateCoords()
+    // {
+    //     UpdateCoordsAndSetObstacle();
+    //     HideUnderTiles();
+    //     PlayerController
+    // }
 
     public void Hide()
     {
@@ -249,14 +267,14 @@ public class GameGridObject : GameObjectBase
 
     public void RotateObjectLeft()
     {
-        if (!IsValidRotation(0) && storeGameObject.HasActionPoint) //left
-        {
+        // if (!IsValidRotation(0) && storeGameObject.HasActionPoint) //left
+        // {
 
-        }
-        else
-        {
-            LightAvailableUnderTiles();
-        }
+        // }
+        // else
+        // {
+        //     LightAvailableUnderTiles();
+        // }
         // If there is any NPC we send it to the final state
         ResetNPCStates();
         FreeObject();
@@ -346,7 +364,6 @@ public class GameGridObject : GameObjectBase
         // We dont check if the rotation is valid since we assume that the data is valid already
         ResetNPCStates();
         UpdateRotation(rotation);
-        UpdateCoords();
     }
 
     public void UpdateRotation(ObjectRotation newPosition)
@@ -584,7 +601,7 @@ public class GameGridObject : GameObjectBase
     {
         isObjectSelected = true;
         SetActiveSlider(false);
-        LightAvailableUnderTiles();
+        // LightAvailableUnderTiles();
         BussGrid.SetActiveGameGridObject(this);
         baseObjectController.RestartTableNPC();
     }
@@ -607,7 +624,7 @@ public class GameGridObject : GameObjectBase
         return isObjectSelected;
     }
 
-    public void SetNewObjectActive()
+    public void SetNewObjectActiveButtons()
     {
         acceptButton.SetActive(true);
         cancelButton.SetActive(true);
@@ -620,7 +637,7 @@ public class GameGridObject : GameObjectBase
         isObjectSelected = true;
         isItemBought = false;
         BussGrid.SetActiveGameGridObject(this);
-        SetNewObjectActive();
+        SetNewObjectActiveButtons();
     }
 
     // Used in the case the player cancels or clicks outside the object
@@ -629,18 +646,20 @@ public class GameGridObject : GameObjectBase
         return isItemBought;
     }
 
-    private void AcceptPosition()
+    public void AcceptPosition()
     {
         isItemBought = true;
-        baseObjectController.SetNewItem(false, baseObjectController.GetStorage());
+        baseObjectController.SetNewItem(false, baseObjectController.GetIsStorageItem());
         baseObjectController.SetIsNewItemSetted(true);
+
         // We set the new state for the edit panel buttons
         acceptButton.SetActive(false);
         cancelButton.SetActive(false);
-        rotateObjLeftButton.SetActive(true);
-        saveObjButton.SetActive(true);
+        rotateObjLeftButton.SetActive(false);
+        saveObjButton.SetActive(false);
         // we dont substract if the item is comming from the storage
-        if (!baseObjectController.GetStorage())
+
+        if (!baseObjectController.GetIsStorageItem())
         {
             PlayerData.Subtract(storeGameObject.Cost);
             PlayerData.AddFirebaseGameObject(this);//we set a new firebase object
@@ -649,10 +668,14 @@ public class GameGridObject : GameObjectBase
         {
             PlayerData.SubtractFromStorage(this);
             baseObjectController.SetStorage(false);
+            isItemBought = true;
             firebaseGameObject.IS_STORED = false;
         }
-        UpdateCoords();
+
+        UpdateCoordsAndSetObstacle();
         SetInactive();
+        HideUnderTiles();
+        
         active = true; // now it can be used by NPCs
     }
 

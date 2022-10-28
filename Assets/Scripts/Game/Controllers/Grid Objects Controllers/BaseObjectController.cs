@@ -25,7 +25,7 @@ public class BaseObjectController : MonoBehaviour
     // New item (not yet bought)
     // isNewItem: New item added through the store
     private bool isNewItem;
-    private bool storage;
+    private bool isStorageItem;
     // isNewItemSetted: New item config setted
     private bool isNewItemSetted;
     // isSprite seted 
@@ -39,6 +39,7 @@ public class BaseObjectController : MonoBehaviour
         iscurrentValidPos = true;
         timeClicking = 0;
         initialRotation = ObjectRotation.FRONT;
+        currentPos = transform.position;
     }
 
     private void Start()
@@ -66,8 +67,19 @@ public class BaseObjectController : MonoBehaviour
         if (!isSpriteSetted)
         {
             gameGridObject.SetStoreGameObject(storeGameObject);
-            BussGrid.SetGridObject(gameGridObject);
             isSpriteSetted = true;
+            BussGrid.SetGridObject(gameGridObject);
+            gameGridObject.UpdateObjectCoords();
+
+            // We set the coords on the Buss grid only if it is not an item from the store/storage
+            if (!isNewItem && !isStorageItem)
+            {
+                BussGrid.SetObjectObstacle(gameGridObject);
+            }
+            else
+            {
+
+            }
         }
     }
 
@@ -83,25 +95,21 @@ public class BaseObjectController : MonoBehaviour
         {
             gameGridObject.SetInactive();
 
-            //if it is a store item not bought we erase it 
-            if (!gameGridObject.GetIsItemBought())
+            // If it is a store item not bought we erase it 
+            if (!gameGridObject.GetIsItemBought() && !PlayerData.IsItemStored(gameGridObject.Name))
             {
                 gameGridObject.CancelPurchase();
             }
-            else
-            {
-                BussGrid.SetDisablePerspectiveHand(); //We disable perspective hand for a second
-            }
-
-            if (iscurrentValidPos)
-            {
-                gameGridObject.UpdateCoords();
-            }
-            else
+            else if (!iscurrentValidPos) // If the item is bought and not valid position
             {
                 gameGridObject.StoreInInventory();
-
             }
+            else // If the item is bought and the current position is valid 
+            {
+                gameGridObject.AcceptPosition();
+            }
+
+            BussGrid.SetDisablePerspectiveHand(); // We disable perspective hand for a second
         }
     }
 
@@ -132,8 +140,6 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
-
-       // Debug.Log("iscurrentValidPos: " + iscurrentValidPos + " GridPositionActionTile " + gameGridObject.GetActionTile());
     }
     private void OnMouseDown()
     {
@@ -290,18 +296,18 @@ public class BaseObjectController : MonoBehaviour
     public void SetNewItem(bool val, bool storage)
     {
         isNewItem = val;
-        this.storage = storage; // is the item comming from storage
+        this.isStorageItem = storage; // is the item comming from storage
     }
 
     // returns if the item is comming from the storage
-    public bool GetStorage()
+    public bool GetIsStorageItem()
     {
-        return storage;
+        return isStorageItem;
     }
 
     public void SetStorage(bool val)
     {
-        storage = val;
+        isStorageItem = val;
     }
 
     public void SetIsNewItemSetted(bool val)
@@ -336,6 +342,11 @@ public class BaseObjectController : MonoBehaviour
         return !isNewItem;
     }
 
+    public bool GetIsNewItem()
+    {
+        return isNewItem;
+    }
+
     public void SetStoreGameObject(StoreGameObject storeGameObject)
     {
         this.storeGameObject = storeGameObject;
@@ -345,4 +356,9 @@ public class BaseObjectController : MonoBehaviour
     {
         this.firebaseGameObject = firebaseGameObject;
     }
+
+    // public bool GetIscurrentValidPos()
+    // {
+    //     return iscurrentValidPos;
+    // }
 }
