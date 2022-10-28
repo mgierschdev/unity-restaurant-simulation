@@ -62,6 +62,8 @@ public class NPCController : GameObjectMovementBase
 
         try
         {
+            UpdateTableAvailability();
+
             //Handle NPC States
             if (localState == NpcState.WANDER)
             {
@@ -95,6 +97,18 @@ public class NPCController : GameObjectMovementBase
         // Intended to go at the end
         UpdateTimeInState();
         UpdateAnimation();
+    }
+
+    public void UpdateTableAvailability()
+    {
+        if (localState != NpcState.WALKING_TO_TABLE || localState != NpcState.AT_TABLE)
+        {
+            return;
+        }
+
+        if (table == null || table.GetIsObjectSelected()){
+            GoToFinalState_4();
+        }
     }
 
     private void UpdateTimeInState()

@@ -128,7 +128,7 @@ public class GameGridObject : GameObjectBase
 
         acceptButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
         Button accept = acceptButton.GetComponent<Button>();
-        accept.onClick.AddListener(AcceptPurchase);
+        accept.onClick.AddListener(AcceptPosition);
 
         cancelButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
         Button cancel = cancelButton.GetComponent<Button>();
@@ -139,7 +139,7 @@ public class GameGridObject : GameObjectBase
     }
 
     // Store Item in inventory
-    private void StoreInInventory()
+    public void StoreInInventory()
     {
         try
         {
@@ -251,14 +251,17 @@ public class GameGridObject : GameObjectBase
     {
         if (!IsValidRotation(0) && storeGameObject.HasActionPoint) //left
         {
-            GameLog.Log("Rotation is invalid");
-            return;
+
+        }
+        else
+        {
+            LightAvailableUnderTiles();
         }
         // If there is any NPC we send it to the final state
         ResetNPCStates();
         FreeObject();
 
-        Vector3Int prev = GetActionTileInGridPosition();
+        //Vector3Int prev = GetActionTileInGridPosition();
         facingPosition--;
 
         if ((int)facingPosition <= 0)
@@ -626,7 +629,7 @@ public class GameGridObject : GameObjectBase
         return isItemBought;
     }
 
-    private void AcceptPurchase()
+    private void AcceptPosition()
     {
         isItemBought = true;
         baseObjectController.SetNewItem(false, baseObjectController.GetStorage());
@@ -648,7 +651,7 @@ public class GameGridObject : GameObjectBase
             baseObjectController.SetStorage(false);
             firebaseGameObject.IS_STORED = false;
         }
-        
+        UpdateCoords();
         SetInactive();
         active = true; // now it can be used by NPCs
     }

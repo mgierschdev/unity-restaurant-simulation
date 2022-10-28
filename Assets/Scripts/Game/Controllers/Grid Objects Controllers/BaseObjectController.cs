@@ -3,15 +3,15 @@ using UnityEngine;
 // Here we control the object drag and drop and the state of the NPCs during the drag
 public class BaseObjectController : MonoBehaviour
 {
-    private Vector3 initialPosition;
-    private Vector3Int initialGridPosition;
+    // private Vector3 initialPosition;
+    // private Vector3Int initialGridPosition;
     [SerializeField]
     private Vector3 currentPos; // Current position of the object including while dragging
     private bool iscurrentValidPos; // Is the current position valid for the object including while dragging
     // Initial object position
-    [SerializeField]
-    private Vector3Int initialActionTileOne;
-    [SerializeField]
+    // [SerializeField]
+    // private Vector3Int initialActionTileOne;
+    // [SerializeField]
     protected GameGridObject gameGridObject;
     // protected ObjectRotation InitialObjectRotation;
     protected MenuHandlerController Menu { get; set; }
@@ -36,6 +36,7 @@ public class BaseObjectController : MonoBehaviour
         isNewItem = false;
         isNewItemSetted = false;
         isSpriteSetted = false;
+        iscurrentValidPos = true;
         timeClicking = 0;
         initialRotation = ObjectRotation.FRONT;
     }
@@ -55,13 +56,23 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
+        UpdateInit(); // Init constructor
+        UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
+        UpdateSelectionSlider(); // Checks for long pressed over the object and updates the slider
+        UpdateIsValidPosition(); // Checks if the current position is a valid one 
+    }
+    private void UpdateInit()
+    {
         if (!isSpriteSetted)
         {
             gameGridObject.SetStoreGameObject(storeGameObject);
             BussGrid.SetGridObject(gameGridObject);
             isSpriteSetted = true;
         }
+    }
 
+    private void UpdateSelectionSlider()
+    {
         if (timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected())
         {
             gameGridObject.UpdateSlider();
@@ -81,20 +92,54 @@ public class BaseObjectController : MonoBehaviour
             {
                 BussGrid.SetDisablePerspectiveHand(); //We disable perspective hand for a second
             }
-        }
 
+            if (iscurrentValidPos)
+            {
+                gameGridObject.UpdateCoords();
+            }
+            else
+            {
+                gameGridObject.StoreInInventory();
+
+            }
+        }
+    }
+
+    private void UpdateFirstTimeSetupStoreItem()
+    {
         //First time settup for a store item
         if (!isNewItemSetted && isNewItem)
         {
             SetNewGameGridObject();
         }
     }
+    private void UpdateIsValidPosition()
+    {
+        if (!gameGridObject.GetIsObjectSelected())
+        {
+            return;
+        }
 
+        if (BussGrid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
+        {
+            iscurrentValidPos = true;
+            gameGridObject.GetSpriteRenderer().color = Util.Available;
+            gameGridObject.LightAvailableUnderTiles();
+        }
+        else
+        {
+            iscurrentValidPos = false;
+            gameGridObject.LightOccupiedUnderTiles();
+            gameGridObject.GetSpriteRenderer().color = Util.Occupied;
+        }
+
+       // Debug.Log("iscurrentValidPos: " + iscurrentValidPos + " GridPositionActionTile " + gameGridObject.GetActionTile());
+    }
     private void OnMouseDown()
     {
-        initialActionTileOne = gameGridObject.GetActionTileInGridPosition();
-        initialGridPosition = gameGridObject.GridPosition;
-        initialPosition = transform.position;
+        // initialActionTileOne = gameGridObject.GetActionTileInGridPosition();
+        // initialGridPosition = gameGridObject.GridPosition;
+        // initialPosition = transform.position;
     }
 
     // Restart the state of the npcs in case that there is any
@@ -129,7 +174,6 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
-
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
         currentPos = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());
@@ -138,22 +182,8 @@ public class BaseObjectController : MonoBehaviour
         // So it will overlay over the rest of the items while dragging
         Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(currentGridPosition);
-
-        if (BussGrid.IsValidBussPosition(gameGridObject, currentPos) && !IsOverNPC())
-        {
-            iscurrentValidPos = true;
-            gameGridObject.GetSpriteRenderer().color = Util.Available;
-            gameGridObject.LightAvailableUnderTiles();
-        }
-        else
-        {
-            iscurrentValidPos = false;
-            gameGridObject.LightOccupiedUnderTiles();
-            gameGridObject.GetSpriteRenderer().color = Util.Occupied;
-        }
-
-        // If dragging clean previous position on the grid
-        BussGrid.FreeCoordWhileDragging(initialGridPosition, initialActionTileOne, gameGridObject);
+        // If dragging clean previous position on the grid Replacing
+        //BussGrid.FreeCoordWhileDragging(initialGridPosition, initialActionTileOne, gameGridObject);
     }
 
     // Called when the mouse is released 
@@ -171,16 +201,17 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        if (iscurrentValidPos)
-        {
-            initialPosition = currentPos;
-        }
-        else
-        {
-            transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
-            gameGridObject.GetSpriteRenderer().color = Util.Available;
-            gameGridObject.LightAvailableUnderTiles();
-        }
+        // Replacing
+        // if (iscurrentValidPos)
+        // {
+        //     initialPosition = currentPos;
+        // }
+        // else
+        // {
+        //     transform.position = new Vector3(initialPosition.x, initialPosition.y, 0);
+        //     gameGridObject.GetSpriteRenderer().color = Util.Available;
+        //     gameGridObject.LightAvailableUnderTiles();
+        // }
 
         //gameGridObject.UpdateCoords(); Replacing
         gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
@@ -188,11 +219,12 @@ public class BaseObjectController : MonoBehaviour
         //We recalculate Paths once the object is placed
         BussGrid.GameController.ReCalculateNpcStates(gameGridObject);
 
+        // replacing
         //if it was a table we re-add it to the freeBussList
-        if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
-        {
-            gameGridObject.SetIsObjectBeingDragged(false);
-        }
+        // if (gameGridObject.Type == ObjectType.NPC_SINGLE_TABLE)
+        // {
+        //     gameGridObject.SetIsObjectBeingDragged(false);
+        // }
 
         // Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
         // or updating in an inconsistent way
