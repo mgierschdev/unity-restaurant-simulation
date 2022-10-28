@@ -494,4 +494,9 @@ public static class Util
 
         return count > 0;
     }
+
+    public static Vector3 GetCameraPoisiton()
+    {
+        return Camera.main.transform.position;
+    }
 }
