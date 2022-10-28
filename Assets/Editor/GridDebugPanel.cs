@@ -236,6 +236,15 @@ public class GridDebugPanel : EditorWindow
             objects += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + "</b> \n";
         }
 
+        maps += "\n\n";
+        objects += "FirebaseObjects size: " + PlayerData.GetFirebaseGameUser().OBJECTS.Count + " \n";
+        foreach (FirebaseGameObject g in PlayerData.GetFirebaseGameUser().OBJECTS)
+        {
+            objects += "<b>ID:" + g.ID + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + g.ROTATION + "</b> \n";
+        }
+
+
+
         return maps + " " + objects;
     }
 
