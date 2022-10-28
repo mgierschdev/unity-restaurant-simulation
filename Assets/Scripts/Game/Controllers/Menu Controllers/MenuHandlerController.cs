@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.UIElements;
 
 // This will be only element attached in the UI
 // All the bottom calls will be handled by this class.
@@ -25,6 +24,7 @@ public class MenuHandlerController : MonoBehaviour
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
+    private Button tableTabButton;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -102,6 +102,12 @@ public class MenuHandlerController : MonoBehaviour
             Button bStore = controller.GetButton();
             MenuItem current = new MenuItem(tab, MenuType.TAB_MENU, tab.ToString());
             bStore.onClick.AddListener(() => AddMenuItemsToScrollView(current));
+
+            // We save the tables tab button, to select it as soon as we open the menu
+            if (MenuTab.TABLES_TAB == tab)
+            {
+                tableTabButton = bStore;
+            }
         }
     }
 
@@ -430,5 +436,7 @@ public class MenuHandlerController : MonoBehaviour
     private void OpenCenterPanel()
     {
         centerPanel.SetActive(true);
+        // Selecting the button at the same time of opening the menu
+        tableTabButton.Select();
     }
 }
