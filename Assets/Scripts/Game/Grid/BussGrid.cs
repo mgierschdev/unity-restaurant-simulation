@@ -367,10 +367,10 @@ public static class BussGrid
     }
 
     // Returns the nearest grid World position given any world map position
-    public static Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos)
-    {
-        return GetWorldFromGridPosition(GetLocalGridFromWorldPosition(pos));
-    }
+    // public static Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos)
+    // {
+    //     return GetWorldFromGridPosition(GetLocalGridFromWorldPosition(pos));
+    // }
 
     public static List<Node> GetPath(int[] start, int[] end)
     {
@@ -422,30 +422,24 @@ public static class BussGrid
         return tile.WorldPosition;
     }
 
-    // This in local Grid position
-    private static Vector3 GetWorldFromGridPosition(Vector3Int position)
-    {
-        return TilemapPathFinding.CellToWorld(position);
-    }
+    // Only for unit test use
+    // public static void SetTestGridObstacles(int row, int x1, int x2)
+    // {
+    //     //int x, int y, ObjectType type, Color? color = null
+    //     for (int i = x1; i <= x2; i++)
+    //     {
+    //         SetGridObstacle(row, i, ObjectType.OBSTACLE);
+    //     }
+    // }
 
     // Only for unit test use
-    public static void SetTestGridObstacles(int row, int x1, int x2)
-    {
-        //int x, int y, ObjectType type, Color? color = null
-        for (int i = x1; i <= x2; i++)
-        {
-            SetGridObstacle(row, i, ObjectType.OBSTACLE);
-        }
-    }
-
-    // Only for unit test use
-    public static void FreeTestGridObstacles(int row, int x1, int x2)
-    {
-        for (int i = x1; i <= x2; i++)
-        {
-            FreeGridPosition(row, i);
-        }
-    }
+    // public static void FreeTestGridObstacles(int row, int x1, int x2)
+    // {
+    //     for (int i = x1; i <= x2; i++)
+    //     {
+    //         FreeGridPosition(row, i);
+    //     }
+    // }
 
     public static Vector3Int GetRandomWalkableGridPosition()
     {
@@ -481,21 +475,21 @@ public static class BussGrid
         gridArray[x, y] = (int)CellValue.EMPTY;
     }
 
-    public static void SwapCoords(int x1, int y1, int x2, int y2)
-    {
-        (gridArray[x1, y1], gridArray[x2, y2]) = (gridArray[x2, y2], gridArray[x1, y1]);
-    }
+    // public static void SwapCoords(int x1, int y1, int x2, int y2)
+    // {
+    //     (gridArray[x1, y1], gridArray[x2, y2]) = (gridArray[x2, y2], gridArray[x1, y1]);
+    // }
 
     // called when the object is destroyed
-    public static void FreeObject(GameGridObject gameGridObject)
-    {
-        gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.EMPTY;
-        if (gameGridObject.GetStoreGameObject().HasActionPoint)
-        {
-            Vector3Int gridActionTile = gameGridObject.GetActionTileInGridPosition();
-            gridArray[gridActionTile.x, gridActionTile.y] = 0;
-        }
-    }
+    // public static void FreeObject(GameGridObject gameGridObject)
+    // {
+    //     gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.EMPTY;
+    //     if (gameGridObject.GetStoreGameObject().HasActionPoint)
+    //     {
+    //         Vector3Int gridActionTile = gameGridObject.GetActionTileInGridPosition();
+    //         gridArray[gridActionTile.x, gridActionTile.y] = 0;
+    //     }
+    // }
 
     public static void UpdateObjectPosition(GameGridObject gameGridObject)
     {
@@ -863,34 +857,34 @@ public static class BussGrid
     }
 
     // we remove the object from all queues if it is being draggeds
-    public static void FreeCoordWhileDragging(Vector3Int pos, Vector3Int initialActionTileOne, GameGridObject gameGridObject)
-    {
-        gridArray[pos.x, pos.y] = (int)CellValue.EMPTY;
-        if (gameGridObject.GetStoreGameObject().HasActionPoint)
-        {
-            gridArray[initialActionTileOne.x, initialActionTileOne.y] = (int)CellValue.EMPTY;
-        }
+    // public static void FreeCoordWhileDragging(Vector3Int pos, Vector3Int initialActionTileOne, GameGridObject gameGridObject)
+    // {
+    //     gridArray[pos.x, pos.y] = (int)CellValue.EMPTY;
+    //     if (gameGridObject.GetStoreGameObject().HasActionPoint)
+    //     {
+    //         gridArray[initialActionTileOne.x, initialActionTileOne.y] = (int)CellValue.EMPTY;
+    //     }
 
-        //We remove the object from all queues and dictionaries
-        if (gameGridObject.Type != ObjectType.NPC_SINGLE_TABLE)
-        {
-            return;
-        }
+    //     //We remove the object from all queues and dictionaries
+    //     if (gameGridObject.Type != ObjectType.NPC_SINGLE_TABLE)
+    //     {
+    //         return;
+    //     }
 
-        //If the employee is attending the table we remove him
-        if (gameGridObject.GetAttendedBy() != null)
-        {
-            gameGridObject.GetAttendedBy().RestartState();
-            gameGridObject.SetAttendedBy(null);
-        }
+    //     //If the employee is attending the table we remove him
+    //     if (gameGridObject.GetAttendedBy() != null)
+    //     {
+    //         gameGridObject.GetAttendedBy().RestartState();
+    //         gameGridObject.SetAttendedBy(null);
+    //     }
 
-        if (gameGridObject.GetUsedBy() != null)
-        {
-            gameGridObject.GetUsedBy().GoToFinalState();
-            gameGridObject.SetUsedBy(null);
-        }
-    }
-    // ******* ENQUEUES AND DEQUEUES
+    //     if (gameGridObject.GetUsedBy() != null)
+    //     {
+    //         gameGridObject.GetUsedBy().GoToFinalState();
+    //         gameGridObject.SetUsedBy(null);
+    //     }
+    // }
+    // // ******* ENQUEUES AND DEQUEUES
 
     public static bool IsDraggingEnabled(GameGridObject obj)
     {
@@ -937,5 +931,14 @@ public static class BussGrid
     public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
     {
         return BussQueueMap;
+    }
+
+    // Gets the world position from the grid position
+    public static Vector3 GetMouseOnGameGridWorldPosition()
+    {
+        // As accurate as the Camera.main.ScreenToWorldPoint(Input.mousePosition) position
+        Vector3Int pos = GetLocalGridFromWorldPosition(Util.GetMouseInWorldPosition());
+        GameTile tile = mapGridPositionToTile[pos];
+        return tile.WorldPosition;
     }
 }

@@ -111,6 +111,7 @@ public class BaseObjectController : MonoBehaviour
             SetNewGameGridObject();
         }
     }
+
     private void UpdateIsValidPosition()
     {
         if (!gameGridObject.GetIsObjectSelected())
@@ -131,6 +132,7 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
     }
+    
     private void OnMouseDown()
     {
     }
@@ -163,13 +165,13 @@ public class BaseObjectController : MonoBehaviour
     {
         timeClicking += Time.unscaledDeltaTime;
 
-        if (!Menu || !IsDraggable())
+        if (!Menu || gameGridObject == null || !gameGridObject.GetIsObjectSelected())
         {
             return;
         }
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
-        currentPos = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());
+        currentPos = BussGrid.GetMouseOnGameGridWorldPosition();//BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
 
         // So it will overlay over the rest of the items while dragging
@@ -204,16 +206,6 @@ public class BaseObjectController : MonoBehaviour
         BussGrid.RecalculateBussGrid();
     }
 
-    private bool IsDraggable()
-    {
-        if (!Menu || gameGridObject == null || !BussGrid.IsDraggingEnabled(gameGridObject))
-        {
-            return false;
-        }
-        // If overlaps with any UI button 
-        return gameGridObject.Type != ObjectType.UNDEFINED && !IsClickingButton();
-    }
-
     // If overlaps with any UI button
     private bool IsClickingButton()
     {
@@ -241,18 +233,18 @@ public class BaseObjectController : MonoBehaviour
         return false;
     }
 
-    private bool IsOverNPC()
-    {
-        Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
-        foreach (Collider2D r in hits)
-        {
-            if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    // private bool IsOverNPC()
+    // {
+    //     Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
+    //     foreach (Collider2D r in hits)
+    //     {
+    //         if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee))
+    //         {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public void SetNewGameGridObject()
     {
@@ -307,11 +299,6 @@ public class BaseObjectController : MonoBehaviour
     public bool GetInitIsActive()
     {
         return !isNewItem;
-    }
-
-    public bool GetIsNewItem()
-    {
-        return isNewItem;
     }
 
     public void SetStoreGameObject(StoreGameObject storeGameObject)
