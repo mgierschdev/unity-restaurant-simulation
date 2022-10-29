@@ -132,7 +132,7 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
     }
-    
+
     private void OnMouseDown()
     {
     }
@@ -165,7 +165,7 @@ public class BaseObjectController : MonoBehaviour
     {
         timeClicking += Time.unscaledDeltaTime;
 
-        if (!Menu || gameGridObject == null || !gameGridObject.GetIsObjectSelected())
+        if (!Menu || gameGridObject == null || !gameGridObject.GetIsObjectSelected() || IsClickingButton())
         {
             return;
         }
@@ -231,6 +231,16 @@ public class BaseObjectController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private bool IsDraggable()
+    {
+        if (!Menu || gameGridObject == null || !BussGrid.IsDraggingEnabled(gameGridObject))
+        {
+            return false;
+        }
+        // If overlaps with any UI button 
+        return gameGridObject.Type != ObjectType.UNDEFINED && !IsClickingButton();
     }
 
     // private bool IsOverNPC()
