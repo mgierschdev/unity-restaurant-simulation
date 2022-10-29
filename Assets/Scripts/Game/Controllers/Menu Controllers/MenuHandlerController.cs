@@ -42,6 +42,7 @@ public class MenuHandlerController : MonoBehaviour
         TextMeshProUGUI gemsText = topResourcePanelGems.GetComponent<TextMeshProUGUI>();
         GameObject topExpSlider = GameObject.Find(Settings.ConstTopMenuExpSlider);
         Slider expSlider = topExpSlider.GetComponent<Slider>();
+
         PlayerData.SetPlayerData(moneyText, levelText, gemsText, expSlider);
 
         // Left down panel and Edit store panel
@@ -330,6 +331,8 @@ public class MenuHandlerController : MonoBehaviour
         {
             newObject = PlaceAtFirstSquare(obj);
         }
+        
+        BussGrid.CameraController.GoTo(newObject.transform.position);
 
         BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
         baseObjectController.SetNewItem(true, storage);
