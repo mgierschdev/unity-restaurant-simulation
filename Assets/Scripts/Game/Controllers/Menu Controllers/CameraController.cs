@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     private Vector3 direction;
     // MouseScroll zoom 
     private float targetPosition;
+    private const float CAMERA_MOVEMENT_SPEED = 25f;
     private const float ZOOM_SPEED = 35;
     private const float ZOOM_SPEED_PINCH = 8f;
     private const float MIN_ZOOM_SIZE = 1;
@@ -43,12 +44,31 @@ public class CameraController : MonoBehaviour
     {
         // Only if enabled in Settings or if no menu is open
         PerspectiveHand();
+        UpdateGoTo();
+
+    }
+
+    private void UpdateGoTo()
+    {
+        if (targetVectorPosition == Vector3.zero)
+        {
+            return;
+        }
+
+        if (Util.IsAtDistanceWithObject(transform.position, targetVectorPosition))
+        {
+            targetVectorPosition = Vector3.zero;
+            //mainCamera.transform.position = new Vector3(targetVectorPosition.x, targetVectorPosition.y, -1);
+            return;
+        }
+
+        mainCamera.transform.position = Vector3.MoveTowards(transform.position, targetVectorPosition, CAMERA_MOVEMENT_SPEED * Time.fixedDeltaTime);
     }
 
     // Move the camera to the target Position
     public void GoTo(Vector3 position)
     {
-        targetVectorPosition = position;
+        targetVectorPosition = new Vector3(position.x, position.y, -1);
     }
 
     private void FollowTarget()
