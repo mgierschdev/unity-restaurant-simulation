@@ -56,6 +56,7 @@ public class BaseObjectController : MonoBehaviour
         UpdateSelectionSlider(); // Checks for long pressed over the object and updates the slider
         UpdateIsValidPosition(); // Checks if the current position is a valid one 
     }
+
     private void UpdateInit()
     {
         if (!isSpriteSetted)
@@ -169,6 +170,8 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
+
+
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
         currentPos = BussGrid.GetMouseOnGameGridWorldPosition();//BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());

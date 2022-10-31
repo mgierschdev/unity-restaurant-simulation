@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEditor.Build.Reporting;
-using UnityEngine;
 
 // Script used for the Jenkins Build
 class BuildScript
