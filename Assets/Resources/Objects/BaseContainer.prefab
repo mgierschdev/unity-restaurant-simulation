@@ -139,14 +139,6 @@ PrefabInstance:
       propertyPath: m_SpriteKey
       value: 2.2489447e+15
       objectReference: {fileID: 0}
-    - target: {fileID: 4895760049815476997, guid: 097e89233788541f1978222bf4874128, type: 3}
-      propertyPath: m_Name
-      value: ButtonRotateLeft
-      objectReference: {fileID: 0}
-    - target: {fileID: 4960221620575757586, guid: 097e89233788541f1978222bf4874128, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4960221620575757586, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -172,10 +164,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5913249818818717205, guid: 097e89233788541f1978222bf4874128, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5913249818818717205, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -198,6 +186,22 @@ PrefabInstance:
     - target: {fileID: 6313366968590005356, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Name
       value: BaseContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776752969258957885, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0.6035
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776752969258957885, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -0.23285002
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776752969258957885, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00002759695
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776752969258957885, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.11642501
       objectReference: {fileID: 0}
     - target: {fileID: 7852570035947723837, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_AnchorMax.x
@@ -275,4 +279,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPos: {x: 0, y: 0, z: 0}
-  initialActionTileOne: {x: 0, y: 0, z: 0}
