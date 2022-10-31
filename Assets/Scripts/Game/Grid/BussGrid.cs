@@ -305,7 +305,8 @@ public static class BussGrid
             !isClosingGrid &&
             !IsThereNPCInPosition(gridPosition) &&
             gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY &&
-            IsValidBussCoord(gridPosition);
+            IsValidBussCoord(gridPosition) &&
+            !IsGridPositionBlockingEntrance(gridPosition);
         }
 
         // Objects with two squares or action tiles,
@@ -315,13 +316,15 @@ public static class BussGrid
         // + " " + (!isClosingGrid)
         // + " " + (!IsThereNPCInPosition(gridPosition) && !IsThereNPCInPosition(gridActionPoint))
         // + " " + (gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY && gridArray[gridActionPoint.x, gridActionPoint.y] == (int)CellValue.EMPTY)
-        // + " " + (IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint)));
+        // + " " + (IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint))
+        // + " " + (!IsGridPositionBlockingEntrance(gridPosition)));
 
         return IsCoordValid(gridPosition.x, gridPosition.y) && IsCoordValid(gridActionPoint.x, gridActionPoint.y) &&
                !isClosingGrid &&
                !IsThereNPCInPosition(gridPosition) && !IsThereNPCInPosition(gridActionPoint) &&
                gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY && gridArray[gridActionPoint.x, gridActionPoint.y] == (int)CellValue.EMPTY &&
-               IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint);
+               IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint) &&
+               !IsGridPositionBlockingEntrance(gridPosition);
     }
 
     public static bool IsValidBussCoord(Vector3Int pos)
@@ -940,5 +943,46 @@ public static class BussGrid
         Vector3Int pos = GetLocalGridFromWorldPosition(Util.GetMouseInWorldPosition());
         GameTile tile = mapGridPositionToTile[pos];
         return tile.WorldPosition;
+    }
+
+    private static List<Vector3Int> GetBussEntrance()
+    {
+        List<Vector3Int> entranceTile = new List<Vector3Int>();
+
+        foreach (GameTile tile in listBusinessFloor)
+        {
+
+            for (int i = 0; i < Util.ArroundPartialVectorPoints.GetLength(0); i++)
+            {
+                Vector3Int tmp = new Vector3Int(tile.GridPosition.x + Util.ArroundVectorPoints[i, 0], tile.GridPosition.x + Util.ArroundVectorPoints[i, 1]);
+                if (mapWalkingPath.ContainsKey(tmp))
+                {
+                    entranceTile.Add(tile.GridPosition);
+                    break;
+                }
+            }
+        }
+        return entranceTile;
+    }
+
+    public static bool IsGridPositionBlockingEntrance(Vector3Int pos)
+    {
+        List<Vector3Int> list = GetBussEntrance();
+
+        if (!list.Contains(pos))
+        {
+            return false;
+        }
+        // There most be at least 2 empty spots 
+        int count = 0;
+        foreach (Vector3Int vector3 in list)
+        {
+            if (gridArray[vector3.x, vector3.y] == 0)
+            {
+                count++;
+            }
+        }
+
+        return count < 2;
     }
 }
