@@ -171,7 +171,6 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
         currentPos = BussGrid.GetMouseOnGameGridWorldPosition();//BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());
