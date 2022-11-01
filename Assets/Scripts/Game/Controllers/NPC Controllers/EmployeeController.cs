@@ -59,6 +59,8 @@ public class EmployeeController : GameObjectMovementBase
 
         // To Handle States
         // If the player removes the counter the employee goes away
+        UpdateRestartStates();
+
         try
         {
             if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
@@ -124,6 +126,36 @@ public class EmployeeController : GameObjectMovementBase
         // Intended to be at the end
         UpdateAnimation();
         UpdateTimeInState();
+    }
+
+    // This updates checks in case the table is not longer available or any other state in which
+    // the npc has to restart
+    private void UpdateRestartStates()
+    {
+        if (Util.CompareNegativeInifinity(CoordOfTableToBeAttended))
+        {
+            tableToBeAttended = null;
+        }
+
+        if ((localState == NpcState.WALKING_TO_COUNTER ||
+            localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER ||
+            localState == NpcState.AT_COUNTER ||
+            localState == NpcState.REGISTERING_CASH ||
+            localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH) &&
+            BussGrid.GetCounter() == null)
+        {
+            AddStateHistory("State: UpdateRestartStates 1 \n");
+            UpdateGoToUnrespawn_1();
+        }
+        else if ((localState == NpcState.WALKING_TO_TABLE ||
+            localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER ||
+            localState == NpcState.TAKING_ORDER) &&
+            tableToBeAttended == null)
+        {
+            AddStateHistory("State: UpdateRestartStates 2 \n");
+            localState = NpcState.WALKING_TO_COUNTER;
+            GoToCounter();
+        }
     }
 
     private void UpdateAnimation()

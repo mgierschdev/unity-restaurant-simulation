@@ -171,6 +171,10 @@ public class GameGridObject : GameObjectBase
             {
                 BussGrid.GetBussQueueMap().TryRemove(this, out byte tmp2);
             }
+            else if (Type == ObjectType.NPC_COUNTER)
+            {
+                BussGrid.SetCounter(null);
+            }
 
             Object.Destroy(objectTransform.gameObject);
         }
@@ -228,6 +232,11 @@ public class GameGridObject : GameObjectBase
 
     public Vector3 GetActionTile()
     {
+        if (objectTransform == null)
+        {
+            return Vector3.negativeInfinity;
+        }
+
         // if doesnt have action point returns the object actual position
         if (!storeGameObject.HasActionPoint)
         {
@@ -239,6 +248,11 @@ public class GameGridObject : GameObjectBase
 
     public Vector3Int GetActionTileInGridPosition()
     {
+        if (objectTransform == null)
+        {
+            return Util.GetVector3IntNegativeInfinity();
+        }
+
         // Gets the orientation and then + 1 ...
         if (facingPosition == ObjectRotation.FRONT)
         {
@@ -411,7 +425,7 @@ public class GameGridObject : GameObjectBase
             case ObjectRotation.BACK_INVERTED:
                 return new Vector3(-1, 1, 1);
         }
-        return Vector3.positiveInfinity;
+        return Vector3.negativeInfinity;
     }
 
     private int GetRotationActionTile(ObjectRotation objectRotation)

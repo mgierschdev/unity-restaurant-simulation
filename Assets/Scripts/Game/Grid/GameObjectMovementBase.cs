@@ -68,7 +68,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         //Update Object initial position
         currentTargetPosition = transform.position;
-        FinalTarget = Util.GetVector3IntPositiveInfinity();
+        FinalTarget = Util.GetVector3IntNegativeInfinity();
         side = CharacterSide.RIGHT; // The side in which the character is facing by default = false meaning right.
         speedDecreaseEnergyBar = 20f;
 
@@ -446,7 +446,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public bool IsInFinalTargetPosition()
     {
         return Util.IsAtDistanceWithObject(FinalTarget, Position) ||
-               FinalTarget == Util.GetVector3IntPositiveInfinity();
+               FinalTarget == Util.GetVector3IntNegativeInfinity();
     }
 
     public void SetSpeed(float speed)

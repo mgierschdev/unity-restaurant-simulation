@@ -17,7 +17,7 @@ public static class Util
     public static Color Free = new Color(1, 1, 1, 1);
     public static Color Hidden = new Color(0, 0, 0, 0);
     public static int[,] ArroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
-    public static int[,] ArroundPartialVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }};
+    public static int[,] ArroundPartialVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
     public static int[,] AroundVectorPointsPlusTwo = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 2, 2 }, { 0, -2 }, { -2, 0 }, { 0, 2 }, { 2, 0 } };
     public static int[,] ObejectSide = new int[,] { { 0, 1 }, { 1, 0 } };
 
@@ -373,9 +373,9 @@ public static class Util
         return false;
     }
 
-    public static Vector3Int GetVector3IntPositiveInfinity()
+    public static Vector3Int GetVector3IntNegativeInfinity()
     {
-        return new Vector3Int(int.MaxValue, int.MaxValue, int.MaxValue);
+        return new Vector3Int(int.MinValue, int.MinValue, int.MinValue);
     }
 
     public static bool IsAtDistanceWithObject(Vector3 a, Vector3 b)
@@ -500,4 +500,15 @@ public static class Util
     {
         return Camera.main.transform.position;
     }
+
+    public static bool CompareNegativeInifinity(Vector3 coord)
+    {
+        return coord.Equals(Vector3.negativeInfinity) || coord.Equals(new Vector3(Vector3.negativeInfinity.x, Vector3.negativeInfinity.y, 0));
+    }
+
+    public static bool CompareNegativeInifinity(Vector3Int coord)
+    {
+        return coord.Equals(GetVector3IntNegativeInfinity()) || coord.Equals(new Vector3(GetVector3IntNegativeInfinity().x, GetVector3IntNegativeInfinity().y, 0));
+    }
+
 }
