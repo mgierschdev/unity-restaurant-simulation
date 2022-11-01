@@ -576,10 +576,14 @@ public class GameGridObject : GameObjectBase
 
     private void SetActive()
     {
+        // Disables dragging for a second 
+        baseObjectController.DisableDisableDraggingTemp();
         isObjectSelected = true;
         SetActiveSlider(false);
         BussGrid.SetActiveGameGridObject(this);
         baseObjectController.RestartTableNPC();
+        //We clean grid position
+        BussGrid.FreeObject(this);
     }
 
     public void SetInactive()
