@@ -369,12 +369,6 @@ public static class BussGrid
         return currentPos;
     }
 
-    // Returns the nearest grid World position given any world map position
-    // public static Vector3 GetNearestGridPositionFromWorldMap(Vector3 pos)
-    // {
-    //     return GetWorldFromGridPosition(GetLocalGridFromWorldPosition(pos));
-    // }
-
     public static List<Node> GetPath(int[] start, int[] end)
     {
         if (gridArray[start[0], start[1]] == (int)CellValue.BUSY || gridArray[end[0], end[1]] == (int)CellValue.BUSY)
@@ -477,22 +471,6 @@ public static class BussGrid
 
         gridArray[x, y] = (int)CellValue.EMPTY;
     }
-
-    // public static void SwapCoords(int x1, int y1, int x2, int y2)
-    // {
-    //     (gridArray[x1, y1], gridArray[x2, y2]) = (gridArray[x2, y2], gridArray[x1, y1]);
-    // }
-
-    // called when the object is destroyed
-    // public static void FreeObject(GameGridObject gameGridObject)
-    // {
-    //     gridArray[gameGridObject.GridPosition.x, gameGridObject.GridPosition.y] = (int)CellValue.EMPTY;
-    //     if (gameGridObject.GetStoreGameObject().HasActionPoint)
-    //     {
-    //         Vector3Int gridActionTile = gameGridObject.GetActionTileInGridPosition();
-    //         gridArray[gridActionTile.x, gridActionTile.y] = 0;
-    //     }
-    // }
 
     public static void UpdateObjectPosition(GameGridObject gameGridObject)
     {
@@ -859,34 +837,6 @@ public static class BussGrid
         return false;
     }
 
-    // we remove the object from all queues if it is being draggeds
-    // public static void FreeCoordWhileDragging(Vector3Int pos, Vector3Int initialActionTileOne, GameGridObject gameGridObject)
-    // {
-    //     gridArray[pos.x, pos.y] = (int)CellValue.EMPTY;
-    //     if (gameGridObject.GetStoreGameObject().HasActionPoint)
-    //     {
-    //         gridArray[initialActionTileOne.x, initialActionTileOne.y] = (int)CellValue.EMPTY;
-    //     }
-
-    //     //We remove the object from all queues and dictionaries
-    //     if (gameGridObject.Type != ObjectType.NPC_SINGLE_TABLE)
-    //     {
-    //         return;
-    //     }
-
-    //     //If the employee is attending the table we remove him
-    //     if (gameGridObject.GetAttendedBy() != null)
-    //     {
-    //         gameGridObject.GetAttendedBy().RestartState();
-    //         gameGridObject.SetAttendedBy(null);
-    //     }
-
-    //     if (gameGridObject.GetUsedBy() != null)
-    //     {
-    //         gameGridObject.GetUsedBy().GoToFinalState();
-    //         gameGridObject.SetUsedBy(null);
-    //     }
-    // }
     // // ******* ENQUEUES AND DEQUEUES
 
     public static bool IsDraggingEnabled(GameGridObject obj)
@@ -928,7 +878,7 @@ public static class BussGrid
     public static void SetDisablePerspectiveHand()
     {
         //disables perspective ha d for 0.3 sec
-        CameraController.DisablePerspectiveHand();
+        CameraController.DisableTempPerspectiveHand();
     }
 
     public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
@@ -984,5 +934,15 @@ public static class BussGrid
         }
 
         return count < 2;
+    }
+
+    public static void FreeObject(GameGridObject obj)
+    {
+        gridArray[obj.GridPosition.x, obj.GridPosition.y] = 0;
+
+        if (obj.GetStoreGameObject().HasActionPoint)
+        {
+            gridArray[obj.GetActionTileInGridPosition().x, obj.GetActionTileInGridPosition().y] = 0;
+        }
     }
 }
