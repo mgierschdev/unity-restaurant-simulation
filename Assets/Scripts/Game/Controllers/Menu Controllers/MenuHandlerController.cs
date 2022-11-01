@@ -257,7 +257,15 @@ public class MenuHandlerController : MonoBehaviour
             inventoryItemController = item.GetComponent<InventoryItemController>();
             button = inventoryItemController.GetButton();
 
-            button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
+
+            if (entry.Key.Type != ObjectType.NPC_COUNTER || (BussGrid.GetCounter() == null && entry.Key.Type == ObjectType.NPC_COUNTER))
+            {
+                button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
+            }
+            else
+            {
+                inventoryItemController.SetBackground(Util.Unavailable);
+            }
 
             inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
             item.transform.SetParent(scrollViewContent.transform);
@@ -277,14 +285,15 @@ public class MenuHandlerController : MonoBehaviour
             item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             inventoryItemController = item.GetComponent<InventoryItemController>();
             button = inventoryItemController.GetButton();
-            // Adding click listener
-            if (obj.Cost <= PlayerData.GetMoneyDouble())
+            Pair<StoreGameObject, FirebaseGameObject> pair = new Pair<StoreGameObject, FirebaseGameObject>
             {
-                Pair<StoreGameObject, FirebaseGameObject> pair = new Pair<StoreGameObject, FirebaseGameObject>
-                {
-                    Key = obj
-                };
+                Key = obj
+            };
 
+            // Adding click listener
+            if ((obj.Cost <= PlayerData.GetMoneyDouble() && obj.Type != ObjectType.NPC_COUNTER) ||
+            (BussGrid.GetCounter() == null && obj.Type == ObjectType.NPC_COUNTER))
+            {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
             }
             else
@@ -331,7 +340,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             newObject = PlaceAtFirstSquare(obj);
         }
-        
+
         BussGrid.CameraController.GoTo(newObject.transform.position);
 
         BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
@@ -380,7 +389,7 @@ public class MenuHandlerController : MonoBehaviour
         Vector3 spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextFreeTile());
         GameObject newObject;
 
-        if (spamPosition == Util.GetVector3IntPositiveInfinity())
+        if (Util.CompareNegativeInifinity(spamPosition))
         {
             return null;
         }
@@ -401,7 +410,7 @@ public class MenuHandlerController : MonoBehaviour
         if (BussGrid.BusinessObjects.Count == 0)
         {
             spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextTileFromEmptyMap(obj));
-            return spamPosition == Util.GetVector3IntPositiveInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+            return spamPosition == Util.GetVector3IntNegativeInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
         }
 
         foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)

@@ -387,34 +387,45 @@ public static class BussGrid
 
     public static Vector3Int GetPathFindingGridFromWorldPosition(Vector3 position)
     {
-        if (position == Vector3.negativeInfinity)
-        {
-            return Util.GetVector3IntPositiveInfinity();
-        }
-
         Vector3 newPosition = new Vector3(position.x, position.y, 0);
         position = newPosition;
-        if (!mapGridPositionToTile.ContainsKey(TilemapPathFinding.WorldToCell(position)))
+
+        if (Util.CompareNegativeInifinity(position))
         {
-            GameLog.LogError("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " + position + "/" + TilemapPathFinding.WorldToCell(position));
+            return Util.GetVector3IntNegativeInfinity();
         }
-        else
+
+        if (mapGridPositionToTile.ContainsKey(TilemapPathFinding.WorldToCell(position)))
         {
             GameTile tile = mapGridPositionToTile[TilemapPathFinding.WorldToCell(position)];
             return tile.GridPosition;
         }
 
-        return Vector3Int.zero;
+        GameLog.LogError("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " + position + "/" + TilemapPathFinding.WorldToCell(position));
+        return Util.GetVector3IntNegativeInfinity();
     }
 
     public static Vector3 GetWorldFromPathFindingGridPositionWithOffSet(Vector3Int position)
     {
+
+        if (Util.CompareNegativeInifinity(position))
+        {
+            return Util.GetVector3IntNegativeInfinity();
+        }
+
         GameTile tile = mapPathFindingGrid[position];
         return tile.GetWorldPositionWithOffset();
     }
 
     public static Vector3 GetWorldFromPathFindingGridPosition(Vector3Int position)
     {
+
+        if (position.Equals(Util.GetVector3IntNegativeInfinity()))
+        {
+            return Util.GetVector3IntNegativeInfinity();
+        }
+        
+
         GameTile tile = mapPathFindingGrid[position];
         return tile.WorldPosition;
     }
@@ -635,7 +646,7 @@ public static class BussGrid
                 return spamPoint;
             }
         }
-        return Util.GetVector3IntPositiveInfinity();
+        return Util.GetVector3IntNegativeInfinity();
 
     }
 
@@ -653,7 +664,7 @@ public static class BussGrid
                 return spamPoint;
             }
         }
-        return Util.GetVector3IntPositiveInfinity();
+        return Util.GetVector3IntNegativeInfinity();
     }
 
     private static bool IsClosingIsland(Vector3Int position)
@@ -944,5 +955,10 @@ public static class BussGrid
         {
             gridArray[obj.GetActionTileInGridPosition().x, obj.GetActionTileInGridPosition().y] = 0;
         }
+    }
+
+    public static void SetCounter(GameGridObject obj)
+    {
+        counter = obj;
     }
 }
