@@ -16,6 +16,8 @@ public class CameraController : MonoBehaviour
     private const float MAX_ZOOM_SIZE = 5;
     //Disabling perspective hand after moving an object
     private const float MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = 0.5f;
+    // To center camera with respect of the top/bot menu
+    private Vector3 GO_TO_OFFSET = new Vector3(0, 0.5f, 0);
     // Main Camera
     private Camera mainCamera;
     private Vector3 targetVectorPosition;
@@ -68,7 +70,7 @@ public class CameraController : MonoBehaviour
     // Move the camera to the target Position
     public void GoTo(Vector3 position)
     {
-        targetVectorPosition = new Vector3(position.x, position.y, -1);
+        targetVectorPosition = new Vector3(position.x, position.y, -1) + GO_TO_OFFSET;
     }
 
     private void FollowTarget()
@@ -150,7 +152,7 @@ public class CameraController : MonoBehaviour
         IsPerspectiveHandTempDisabled = false;
     }
 
-    public void DisablePerspectiveHand()
+    public void DisableTempPerspectiveHand()
     {
         IsPerspectiveHandTempDisabled = true;
         IEnumerator coroutine = DisablePerspectiveHandEnum();

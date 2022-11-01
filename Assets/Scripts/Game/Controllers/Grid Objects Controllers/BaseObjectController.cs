@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // Here we control the object drag and drop and the state of the NPCs during the drag
@@ -24,6 +25,8 @@ public class BaseObjectController : MonoBehaviour
     private bool isNewItemSetted;
     // isSprite seted 
     private bool isSpriteSetted;
+    // Keeps track of the Drag, if it is disables
+    private bool isDraggDisabled;
 
     private void Awake()
     {
@@ -31,6 +34,7 @@ public class BaseObjectController : MonoBehaviour
         isNewItemSetted = false;
         isSpriteSetted = false;
         isCurrentValidPos = true;
+        isDraggDisabled = false;
         timeClicking = 0;
         initialRotation = ObjectRotation.FRONT;
         currentPos = transform.position;
@@ -82,7 +86,10 @@ public class BaseObjectController : MonoBehaviour
         }
 
         // If the item is selected and the user is clicking outside we un-select the item
-        if (Input.GetMouseButtonDown(0) && gameGridObject.GetIsObjectSelected() && !IsClickingSelf() && !IsClickingButton())
+        if (Input.GetMouseButtonDown(0) &&
+        gameGridObject.GetIsObjectSelected() &&
+        !IsClickingSelf() &&
+        !IsClickingButton())
         {
             gameGridObject.SetInactive();
 
@@ -166,7 +173,10 @@ public class BaseObjectController : MonoBehaviour
     {
         timeClicking += Time.unscaledDeltaTime;
 
-        if (!Menu || gameGridObject == null || !gameGridObject.GetIsObjectSelected() || IsClickingButton())
+        if (!Menu || gameGridObject == null ||
+        !gameGridObject.GetIsObjectSelected() ||
+        IsClickingButton() ||
+        isDraggDisabled)
         {
             return;
         }
@@ -326,5 +336,19 @@ public class BaseObjectController : MonoBehaviour
     public bool GetIscurrentValidPos()
     {
         return isCurrentValidPos;
+    }
+
+    public void DisableDisableDraggingTemp()
+    {
+        isDraggDisabled = true;
+        IEnumerator coroutine = DisableDraggingTemp();
+        StartCoroutine(coroutine);
+    }
+
+    // It disables drag for a small period of time
+    private IEnumerator DisableDraggingTemp()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isDraggDisabled = false;
     }
 }
