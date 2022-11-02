@@ -173,7 +173,7 @@ public static class PlayerData
                 NAME = firebaseUser == null ? "undefined" : firebaseUser.DisplayName,
                 LANGUAGE_CODE = auth.LanguageCode,
                 INTERNAL_ID = GenerateID(),
-                GAME_MONEY = 0,
+                GAME_MONEY = 2000,
                 GEMS = 40,
                 EXPERIENCE = 0,
                 LEVEL = 0,
@@ -182,7 +182,7 @@ public static class PlayerData
                 AUTH_TYPE = (int)(firebaseUser.IsAnonymous ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED),
                 LAST_LOGIN = FieldValue.ServerTimestamp,
                 CREATED_AT = FieldValue.ServerTimestamp,
-                GRID_SIZE = 1,
+                GRID_SIZE = 2,
                 OBJECTS = new List<FirebaseGameObject>{
                     new FirebaseGameObject{
                         ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
@@ -218,7 +218,7 @@ public static class PlayerData
             NAME = "undefined",
             LANGUAGE_CODE = "es_ES",
             INTERNAL_ID = GenerateID(),
-            GAME_MONEY = 0,
+            GAME_MONEY = 2000,
             GEMS = 40,
             EXPERIENCE = 0,
             LEVEL = 0,
@@ -227,7 +227,7 @@ public static class PlayerData
             AUTH_TYPE = (int)AuthSource.ANONYMOUS,
             LAST_LOGIN = FieldValue.ServerTimestamp,
             CREATED_AT = FieldValue.ServerTimestamp,
-            GRID_SIZE = 1,
+            GRID_SIZE = 2,
             OBJECTS = new List<FirebaseGameObject>{
                     new FirebaseGameObject{
                         ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
