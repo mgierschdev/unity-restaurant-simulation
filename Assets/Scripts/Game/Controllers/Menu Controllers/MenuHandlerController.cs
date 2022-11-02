@@ -333,7 +333,6 @@ public class MenuHandlerController : MonoBehaviour
             if (container != null)
             {
                 container.SetTopItem(obj);
-                //SetTopItem.(container.GetStoreGameObject());
             }
             else
             {

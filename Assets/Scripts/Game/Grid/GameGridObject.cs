@@ -71,6 +71,8 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
 
+        // Hide topItem panel
+        topItemController.SetGamegridObject(this);
 
         // Setting base controller
         baseObjectController = objectTransform.GetComponent<BaseObjectController>();
