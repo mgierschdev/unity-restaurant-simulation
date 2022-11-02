@@ -410,7 +410,7 @@ public class EmployeeController : GameObjectMovementBase
         // and enqueue de table to the list again 
         if (localTarget == CoordOfTableToBeAttended)
         {
-            //("We could not find a proper place to standup - GoToTableToBeAttended()");
+            GameLog.Log("TODO: Popup We could not find a proper place to standup - GoToTableToBeAttended()");
             return;
         }
 
