@@ -408,11 +408,11 @@ public class EmployeeController : GameObjectMovementBase
 
         // Meaning we did not find a correct spot to standup, we return
         // and enqueue de table to the list again 
-        if (localTarget == CoordOfTableToBeAttended)
-        {
-            GameLog.Log("TODO: Popup We could not find a proper place to standup - GoToTableToBeAttended()");
-            return;
-        }
+        // if (localTarget == CoordOfTableToBeAttended)
+        // {
+        //     GameLog.Log("TODO: Popup We could not find a proper place to standup - GoToTableToBeAttended()");
+        //     return;
+        // }
 
         target = CoordOfTableToBeAttended;
 
