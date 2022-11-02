@@ -103,7 +103,7 @@ public static class Settings
     public const string ConstCenterScrollView = "ViewPanel/MainContent/ScrollView";
     public const string ConstCenterScrollContent = "ViewPanel/MainContent/ScrollView/Viewport/Content";
     public const string ConstLeftDownPanel = "LeftDownPanel";
-    public const string ConstEditItemMenuPanel = "EditItem";
+    public const string ConstEditItemMenuPanel = "EditPanelItem";
     public const string ConstEditStoreMenuCancel = "Cancel";
     public const string ConstEditStoreMenuAccept = "Accept";
     public const string ConstEditStoreMenuRotateLeft = "ButtonRotateLeft";

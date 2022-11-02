@@ -121,7 +121,7 @@ public class GameGridObject : GameObjectBase
 
     private void SetEditPanelButtonClickListeners()
     {
-        saveObjButton = editMenu.transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
+        saveObjButton = editMenu.transform.Find(""+Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObjButton.GetComponent<Button>();
         save.onClick.AddListener(StoreInInventory);
 
