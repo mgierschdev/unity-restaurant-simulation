@@ -1278,6 +1278,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5034364589027032803}
     m_Modifications:
+    - target: {fileID: 3216606636340028576, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3216606636340028576, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3216606636340028576, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3216606636340028576, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312887267447510508, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312887267447510508, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312887267447510508, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312887267447510508, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6880656887228126955, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6880656887228126955, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6880656887228126955, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6880656887228126955, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6925352036958431506, guid: b82234e93cd9c40d2b6be2595de244e1, type: 3}
       propertyPath: m_Name
       value: EditPanelTopItem
