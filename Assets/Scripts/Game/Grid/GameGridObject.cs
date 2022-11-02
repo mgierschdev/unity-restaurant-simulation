@@ -721,7 +721,6 @@ public class GameGridObject : GameObjectBase
     {
         if (Type == ObjectType.BASE_CONTAINER)
         {
-            // Debug.Log("Setting top item " + topObjectSpriteResolver + " " + topObjectSpriteRenderer + " " + obj.Identifier + " " + obj.SpriteLibCategory);
             topObjectSpriteResolver.SetCategoryAndLabel(obj.SpriteLibCategory, obj.Identifier);
             topObjectSpriteRenderer.color = Util.Available;
             TopItem = obj;
