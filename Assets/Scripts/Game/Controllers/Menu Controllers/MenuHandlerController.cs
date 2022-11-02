@@ -329,18 +329,16 @@ public class MenuHandlerController : MonoBehaviour
 
         if (obj.Type == ObjectType.CONTAINER_ITEM)
         {
-            Debug.Log("Setting store item");
             GameGridObject container = PlayerData.GetFreeBaseContainer();
             if (container != null)
             {
-                GameLog.Log("TODO: POPUP you should have a free container");
                 container.SetTopItem(obj);
                 //SetTopItem.(container.GetStoreGameObject());
             }
             else
             {
                 //we place the item
-                Debug.Log("Container name " + container.Name);
+                GameLog.Log("TODO: POPUP you should have a free container");
             }
         }
         else
