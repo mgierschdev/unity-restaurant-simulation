@@ -16,8 +16,7 @@ public class GameGridObject : GameObjectBase
     private int actionTile;
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
-    private SpriteRenderer topObjectSpriteRenderer;
-    private SpriteResolver topObjectSpriteResolver;
+    private TopItemController topItemController;
     private ObjectRotation facingPosition; // Facing position
     private NPCController usedBy;
     private EmployeeController attendedBy;
@@ -28,7 +27,6 @@ public class GameGridObject : GameObjectBase
     private GameObject rotateObjLeftButton;
     private GameObject cancelButton;
     private GameObject acceptButton;
-    private StoreGameObject TopItem;
 
     // Controllers
     private BaseObjectController baseObjectController;
@@ -63,17 +61,16 @@ public class GameGridObject : GameObjectBase
         hasNPCAssigned = false;
         isObjectSelected = false;
         isItemBought = true;
-        TopItem = null;
 
         GameObject topObject = objectWithSprite.transform.Find(Settings.BaseObjectTopObject).gameObject;
+        topItemController = topObject.GetComponent<TopItemController>();
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
         Transform objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2);
         SpriteRenderer tileUnder = objectTileUnder.GetComponent<SpriteRenderer>();
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
-        topObjectSpriteRenderer = topObject.GetComponent<SpriteRenderer>();
-        topObjectSpriteResolver = topObject.GetComponent<SpriteResolver>();
+
 
         // Setting base controller
         baseObjectController = objectTransform.GetComponent<BaseObjectController>();
@@ -717,39 +714,12 @@ public class GameGridObject : GameObjectBase
         return facingPosition;
     }
 
-    public void SetTopItem(StoreGameObject obj)
-    {
-        if (Type == ObjectType.BASE_CONTAINER)
-        {
-            topObjectSpriteResolver.SetCategoryAndLabel(obj.SpriteLibCategory, obj.Identifier);
-            ShowTopItem();
-            TopItem = obj;
-        }
-        else
-        {
-            GameLog.LogWarning("You can only set an item on top of a container");
-        }
-    }
-
-    public void HideTopItem()
-    {
-        if (Type == ObjectType.BASE_CONTAINER && TopItem != null)
-        {
-            topObjectSpriteRenderer.color = new Color(0, 0, 0, 0);
-        }
-    }
-
-    public void ShowTopItem()
-    {
-        if (Type == ObjectType.BASE_CONTAINER && TopItem != null)
-        {
-            topObjectSpriteRenderer.color = new Color(0, 0, 0, 1);
-            topObjectSpriteRenderer.color = Util.Available;
-        }
-    }
-
     public StoreGameObject GetTopItem()
     {
-        return TopItem;
+        return topItemController.GetTopItem();
+    }
+
+    public void SetTopItem(StoreGameObject obj){
+        topItemController.SetTopItem(obj);
     }
 }

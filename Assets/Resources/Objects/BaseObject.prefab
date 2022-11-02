@@ -1491,6 +1491,7 @@ GameObject:
   - component: {fileID: 909659226576293919}
   - component: {fileID: 8209237495590263088}
   - component: {fileID: 4766268933684341006}
+  - component: {fileID: 6278171527458782003}
   m_Layer: 14
   m_Name: TopObject
   m_TagString: Untagged
@@ -1571,7 +1572,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d9c7b159845714e77a9c40297e8d849a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.9137255}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1627,6 +1628,18 @@ PolygonCollider2D:
       - {x: 0, y: 0.5}
       - {x: -0.22, y: 0.4}
       - {x: -0.22, y: 0.11}
+--- !u!114 &6278171527458782003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8629405339650154697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81fb4e73359244190bf6ef86f3647e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8912893382458465003
 GameObject:
   m_ObjectHideFlags: 0
