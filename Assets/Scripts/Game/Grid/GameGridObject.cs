@@ -16,6 +16,8 @@ public class GameGridObject : GameObjectBase
     private int actionTile;
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
+    private SpriteRenderer topObjectSpriteRenderer;
+    private SpriteResolver topObjectSpriteResolver;
     private ObjectRotation facingPosition; // Facing position
     private NPCController usedBy;
     private EmployeeController attendedBy;
@@ -26,6 +28,7 @@ public class GameGridObject : GameObjectBase
     private GameObject rotateObjLeftButton;
     private GameObject cancelButton;
     private GameObject acceptButton;
+    private StoreGameObject TopItem;
 
     // Controllers
     private BaseObjectController baseObjectController;
@@ -46,7 +49,6 @@ public class GameGridObject : GameObjectBase
     // Is Item active, before purchase
     private bool active;
 
-
     public GameGridObject(Transform transform)
     {
         objectTransform = transform;
@@ -61,13 +63,17 @@ public class GameGridObject : GameObjectBase
         hasNPCAssigned = false;
         isObjectSelected = false;
         isItemBought = true;
+        TopItem = null;
 
+        GameObject topObject = objectWithSprite.transform.Find(Settings.BaseObjectTopObject).gameObject;
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
         Transform objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2);
         SpriteRenderer tileUnder = objectTileUnder.GetComponent<SpriteRenderer>();
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
+        topObjectSpriteRenderer = topObject.GetComponent<SpriteRenderer>();
+        topObjectSpriteResolver = topObject.GetComponent<SpriteResolver>();
 
         // Setting base controller
         baseObjectController = objectTransform.GetComponent<BaseObjectController>();
@@ -709,5 +715,25 @@ public class GameGridObject : GameObjectBase
     public ObjectRotation GetFacingPosition()
     {
         return facingPosition;
+    }
+
+    public void SetTopItem(StoreGameObject obj)
+    {
+        if (Type == ObjectType.BASE_CONTAINER)
+        {
+            // Debug.Log("Setting top item " + topObjectSpriteResolver + " " + topObjectSpriteRenderer + " " + obj.Identifier + " " + obj.SpriteLibCategory);
+            topObjectSpriteResolver.SetCategoryAndLabel(obj.SpriteLibCategory, obj.Identifier);
+            topObjectSpriteRenderer.color = Util.Available;
+            TopItem = obj;
+        }
+        else
+        {
+            GameLog.LogWarning("You can only set an item on top of a container");
+        }
+    }
+
+    public StoreGameObject GetTopItem()
+    {
+        return TopItem;
     }
 }
