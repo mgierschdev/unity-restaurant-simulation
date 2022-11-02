@@ -722,12 +722,29 @@ public class GameGridObject : GameObjectBase
         if (Type == ObjectType.BASE_CONTAINER)
         {
             topObjectSpriteResolver.SetCategoryAndLabel(obj.SpriteLibCategory, obj.Identifier);
-            topObjectSpriteRenderer.color = Util.Available;
+            ShowTopItem();
             TopItem = obj;
         }
         else
         {
             GameLog.LogWarning("You can only set an item on top of a container");
+        }
+    }
+
+    public void HideTopItem()
+    {
+        if (Type == ObjectType.BASE_CONTAINER && TopItem != null)
+        {
+            topObjectSpriteRenderer.color = new Color(0, 0, 0, 0);
+        }
+    }
+
+    public void ShowTopItem()
+    {
+        if (Type == ObjectType.BASE_CONTAINER && TopItem != null)
+        {
+            topObjectSpriteRenderer.color = new Color(0, 0, 0, 1);
+            topObjectSpriteRenderer.color = Util.Available;
         }
     }
 
