@@ -8,12 +8,13 @@ public class TopItemController : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private SpriteResolver spriteResolver;
-    private StoreGameObject obj;
+    private StoreGameObject storeGameobject;
+    private GameGridObject gameGridObject;
     private GameObject saveObjButton, acceptButton, cancelButton;
 
     public void Start()
     {
-        obj = null;
+        storeGameobject = null;
         spriteRenderer = transform.GetComponent<SpriteRenderer>();
         spriteResolver = transform.GetComponent<SpriteResolver>();
         SetEditPanelButtonClickListeners();
@@ -22,22 +23,26 @@ public class TopItemController : MonoBehaviour
 
     private void SetEditPanelButtonClickListeners()
     {
-        saveObjButton = transform.Find(Settings.ConstEditStoreMenuSave).gameObject;
+        saveObjButton = transform.Find(Settings.ConstEditTopItemMenuPanel + "/" + Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObjButton.GetComponent<Button>();
         save.onClick.AddListener(ButtonsClickListener);
 
-        acceptButton = transform.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
+        acceptButton = transform.transform.Find(Settings.ConstEditTopItemMenuPanel + "/" + Settings.ConstEditStoreMenuButtonAccept).gameObject;
         Button accept = acceptButton.GetComponent<Button>();
         accept.onClick.AddListener(ButtonsClickListener);
 
-        cancelButton = transform.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
+        cancelButton = transform.transform.Find(Settings.ConstEditTopItemMenuPanel + "/" + Settings.ConstEditStoreMenuButtonCancel).gameObject;
         Button cancel = cancelButton.GetComponent<Button>();
         cancel.onClick.AddListener(ButtonsClickListener);
+
+        Util.IsNull(saveObjButton, "saveObjButton is null in TopItemController/SetEditPanelButtonClickListeners");
+        Util.IsNull(acceptButton, "acceptButton is null in TopItemController/SetEditPanelButtonClickListeners");
+        Util.IsNull(cancelButton, "cancelButton is null in TopItemController/SetEditPanelButtonClickListeners");
     }
 
     public void HideTopItem()
     {
-        if (obj.Type == ObjectType.BASE_CONTAINER && obj != null)
+        if (gameGridObject.Type == ObjectType.BASE_CONTAINER && storeGameobject != null)
         {
             spriteRenderer.color = new Color(0, 0, 0, 0);
         }
@@ -45,7 +50,7 @@ public class TopItemController : MonoBehaviour
 
     public void ShowTopItem()
     {
-        if (obj.Type == ObjectType.BASE_CONTAINER && obj != null)
+        if (gameGridObject.Type == ObjectType.BASE_CONTAINER && storeGameobject != null)
         {
             spriteRenderer.color = new Color(0, 0, 0, 1);
             spriteRenderer.color = Util.Available;
@@ -54,12 +59,12 @@ public class TopItemController : MonoBehaviour
 
     public void SetTopItem(StoreGameObject obj)
     {
-        if (obj.Type == ObjectType.BASE_CONTAINER)
+        if (gameGridObject.Type == ObjectType.BASE_CONTAINER)
         {
             spriteResolver.SetCategoryAndLabel(obj.SpriteLibCategory, obj.Identifier);
             ShowTopItem();
-            ShowEditPanel();
-            this.obj = obj;
+            ShowBuyEditPanel();
+            storeGameobject = obj;
         }
         else
         {
@@ -69,7 +74,7 @@ public class TopItemController : MonoBehaviour
 
     public StoreGameObject GetTopItem()
     {
-        return obj;
+        return storeGameobject;
     }
 
     public void ButtonsClickListener()
@@ -77,17 +82,22 @@ public class TopItemController : MonoBehaviour
         Debug.Log("Click listener ");
     }
 
-    public void ShowEditPanel()
+    public void ShowBuyEditPanel()
+    {
+        saveObjButton.SetActive(false);
+        acceptButton.SetActive(true);
+        cancelButton.SetActive(true);
+    }
+
+    public void HideEditPanel()
     {
         saveObjButton.SetActive(false);
         acceptButton.SetActive(false);
         cancelButton.SetActive(false);
     }
 
-    public void HideEditPanel()
+    public void SetGamegridObject(GameGridObject obj)
     {
-        saveObjButton.SetActive(true);
-        acceptButton.SetActive(true);
-        cancelButton.SetActive(true);
+        gameGridObject = obj;
     }
 }
