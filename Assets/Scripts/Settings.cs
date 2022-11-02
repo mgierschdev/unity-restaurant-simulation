@@ -83,6 +83,7 @@ public static class Settings
     public const string BaseObjectActionTile = "Object/Tiles/ActionTile";
     public const string BaseObjectActionTile2 = "Object/Tiles/ActionTile2";
     public const string BaseObjectSpriteRenderer = "Object";
+    public const string BaseObjectTopObject = "TopObject";
     public const string undefined = "undefined";
     
     //NPC Default
