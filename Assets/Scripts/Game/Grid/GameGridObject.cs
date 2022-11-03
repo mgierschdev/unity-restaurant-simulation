@@ -16,7 +16,7 @@ public class GameGridObject : GameObjectBase
     private int actionTile;
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
-    private TopItemController topItemController;
+    // private TopItemController topItemController;
     private ObjectRotation facingPosition; // Facing position
     private NPCController usedBy;
     private EmployeeController attendedBy;
@@ -62,8 +62,8 @@ public class GameGridObject : GameObjectBase
         isObjectSelected = false;
         isItemBought = true;
 
-        GameObject topObject = objectWithSprite.transform.Find(Settings.BaseObjectTopObject).gameObject;
-        topItemController = topObject.GetComponent<TopItemController>();
+        // GameObject topObject = objectWithSprite.transform.Find(Settings.BaseObjectTopObject).gameObject;
+        // topItemController = topObject.GetComponent<TopItemController>();
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
         Transform objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2);
@@ -72,7 +72,7 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
 
         // Hide topItem panel
-        topItemController.SetGamegridObject(this);
+        // topItemController.SetGamegridObject(this);
 
         // Setting base controller
         baseObjectController = objectTransform.GetComponent<BaseObjectController>();
@@ -716,12 +716,12 @@ public class GameGridObject : GameObjectBase
         return facingPosition;
     }
 
-    public StoreGameObject GetTopItem()
-    {
-        return topItemController.GetTopItem();
-    }
+    // public StoreGameObject GetTopItem()
+    // {
+    //     return topItemController.GetTopItem();
+    // }
 
-    public void SetTopItem(StoreGameObject obj){
-        topItemController.SetTopItem(obj);
-    }
+    // public void SetTopItem(StoreGameObject obj){
+    //     topItemController.SetTopItem(obj);
+    // }
 }

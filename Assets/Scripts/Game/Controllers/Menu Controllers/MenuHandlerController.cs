@@ -329,16 +329,16 @@ public class MenuHandlerController : MonoBehaviour
 
         if (obj.Type == ObjectType.CONTAINER_ITEM)
         {
-            GameGridObject container = PlayerData.GetFreeBaseContainer();
-            if (container != null)
-            {
-                container.SetTopItem(obj);
-            }
-            else
-            {
-                //we place the item
-                GameLog.Log("TODO: POPUP you should have a free container");
-            }
+            //GameGridObject container = PlayerData.GetFreeBaseContainer();
+            // if (container != null)
+            // {
+            //     // container.SetTopItem(obj);
+            // }
+            // else
+            // {
+            //     //we place the item
+            //     GameLog.Log("TODO: POPUP you should have a free container");
+            // }
         }
         else
         {
@@ -353,7 +353,7 @@ public class MenuHandlerController : MonoBehaviour
 
             if (newObject == null)
             {
-                newObject = PlaceAtFirstSquare(obj);
+                newObject = PlaceAtCameraSquare(obj);
             }
 
             BussGrid.CameraController.GoTo(newObject.transform.position);
@@ -389,7 +389,7 @@ public class MenuHandlerController : MonoBehaviour
         return centerPanel.activeSelf;
     }
 
-    private static GameObject PlaceAtFirstSquare(StoreGameObject obj)
+    private static GameObject PlaceAtCameraSquare(StoreGameObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
         Vector3 spamPosition = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetCameraPoisiton());
