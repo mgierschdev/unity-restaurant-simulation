@@ -139,6 +139,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5563582535845879225, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -169,3 +173,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 097e89233788541f1978222bf4874128, type: 3}
+--- !u!1 &6518300881500625935 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6313366968590005356, guid: 097e89233788541f1978222bf4874128, type: 3}
+  m_PrefabInstance: {fileID: 1002118894334781539}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8668506228715368242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6518300881500625935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d95edf35762462694afccc238676be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPos: {x: 0, y: 0, z: 0}
