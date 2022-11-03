@@ -115,6 +115,7 @@ public static class MenuObjectList
             case StoreItemType.TABLE_SINGLE_7: return Settings.PrefabSingleTable;
             case StoreItemType.TABLE_SINGLE_8: return Settings.PrefabSingleTable;
             case StoreItemType.TABLE_SINGLE_9: return Settings.PrefabSingleTable;
+            case StoreItemType.ITEM_COFFE_MACHINE_1: return Settings.PrefabBaseContainerItem;
             case StoreItemType.COUNTER: return Settings.PrefabCounter;
             case StoreItemType.WOODEN_BASE_CONTAINER: return Settings.PrefabBaseContainer;
         }

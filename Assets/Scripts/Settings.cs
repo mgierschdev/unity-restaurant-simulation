@@ -66,6 +66,7 @@ public static class Settings
     public const string Button = "Button";
     public const string PrefabGridTile = "Grid/GridTile";
     public const string PrefabSingleTable = "Objects/SingleTable";
+    public const string PrefabBaseContainerItem = "Objects/ContainerItem";
     public const string PrefabCounter = "Objects/Counter";
     public const string PrefabBaseContainer = "Objects/BaseContainer";
     public const string ObjectRotationFrontInverted = "Inverted";
@@ -85,7 +86,7 @@ public static class Settings
     public const string BaseObjectSpriteRenderer = "Object";
     public const string BaseObjectTopObject = "TopObject";
     public const string undefined = "undefined";
-    
+
     //NPC Default
     public const float MinDistanceToTarget = 0.1f;//0.13f;
     public const int NpcDefaultEnergy = 100;
