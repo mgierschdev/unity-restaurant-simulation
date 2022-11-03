@@ -326,49 +326,34 @@ public class MenuHandlerController : MonoBehaviour
 
         CloseMenu();
         GameObject newObject;
+        
+        // if (obj.HasActionPoint)
+        // {
+        //     newObject = placeGameObject(obj);
+        // }
+        // else
+        // {
+        //     newObject = PlaceSingleTileObject(obj);
+        // }
 
-        if (obj.Type == ObjectType.CONTAINER_ITEM)
+        // if (newObject == null)
+        // {
+            newObject = PlaceAtCameraSquare(obj);
+        // }
+
+        BussGrid.CameraController.GoTo(newObject.transform.position);
+
+        BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
+        baseObjectController.SetNewItem(true, storage);
+        baseObjectController.SetStoreGameObject(obj);
+
+        if (storage)
         {
-            //GameGridObject container = PlayerData.GetFreeBaseContainer();
-            // if (container != null)
-            // {
-            //     // container.SetTopItem(obj);
-            // }
-            // else
-            // {
-            //     //we place the item
-            //     GameLog.Log("TODO: POPUP you should have a free container");
-            // }
+            // we set the new rotation setted by the placeGameObject
+            pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
+            baseObjectController.SetFirebaseGameObject(pair.Value);
         }
-        else
-        {
-            if (obj.HasActionPoint)
-            {
-                newObject = placeGameObject(obj);
-            }
-            else
-            {
-                newObject = PlaceSingleTileObject(obj);
-            }
 
-            if (newObject == null)
-            {
-                newObject = PlaceAtCameraSquare(obj);
-            }
-
-            BussGrid.CameraController.GoTo(newObject.transform.position);
-
-            BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
-            baseObjectController.SetNewItem(true, storage);
-            baseObjectController.SetStoreGameObject(obj);
-
-            if (storage)
-            {
-                // we set the new rotation setted by the placeGameObject
-                pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
-                baseObjectController.SetFirebaseGameObject(pair.Value);
-            }
-        }
     }
 
     private IEnumerator TestPlacingObjects(StoreGameObject obj)
