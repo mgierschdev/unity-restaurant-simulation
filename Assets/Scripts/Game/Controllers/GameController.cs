@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
         {
             SpamNpc();
         }
-        if (BussGrid.GetCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER)
+        if (BussGrid.GetFreeCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER)
         {
             SpamEmployee();
             employeeCount++;

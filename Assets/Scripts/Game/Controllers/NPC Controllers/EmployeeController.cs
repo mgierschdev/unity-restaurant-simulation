@@ -31,8 +31,8 @@ public class EmployeeController : GameObjectMovementBase
         animationController = GetComponent<PlayerAnimationStateController>();
 
         // Game Controller
-        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
-        gameController = gameObj.GetComponent<GameController>();
+        GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
+        gameController = gameObject.GetComponent<GameController>();
 
         // keeps the time in the current state
         idleTime = 0;
@@ -45,7 +45,7 @@ public class EmployeeController : GameObjectMovementBase
         Name = transform.name;
 
         //Checking for null
-        if (animationController == null || gameObj == null)
+        if (animationController == null || gameObject == null)
         {
             GameLog.LogWarning("NPCController/animationController-gameObj null");
         }
@@ -60,7 +60,6 @@ public class EmployeeController : GameObjectMovementBase
 
         try
         {
-            // If the player removes the counter the employee goes away
             UpdateRestartStates();
 
             switch (localState)
@@ -94,7 +93,11 @@ public class EmployeeController : GameObjectMovementBase
             tableToBeAttended = null;
         }
 
-        if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
+        if (BussGrid.GetCounter() != null && BussGrid.GetCounter().GetIsObjectSelected() && localState != NpcState.WALKING_UNRESPAWN)
+        {
+            UpdateGoToUnrespawn_1();
+        }
+        else if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
         {
             UpdateGoToUnrespawn_1();
         }
@@ -105,7 +108,6 @@ public class EmployeeController : GameObjectMovementBase
             localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH) &&
             BussGrid.GetCounter() == null)
         {
-            AddStateHistory("State: UpdateRestartStates 1 \n");
             UpdateGoToUnrespawn_1();
         }
         else if ((localState == NpcState.WALKING_TO_TABLE ||
@@ -183,6 +185,7 @@ public class EmployeeController : GameObjectMovementBase
     }
     private void UpdateGoNextToCounter_3()
     {
+        AddStateHistory("State: 3 \n");
         localState = NpcState.WALKING_TO_COUNTER;
         target = BussGrid.GetCounter().GetActionTileInGridPosition();
 
@@ -212,6 +215,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounter_4()
     {
+        AddStateHistory("State: 4 \n");
         if (!Util.IsAtDistanceWithObject(transform.position, BussGrid.GetCounter().GetActionTile()))
         {
             return;
@@ -228,6 +232,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateAttendTable_5()
     {
+        AddStateHistory("State: 5 \n");
         // we idle and not attend the table. "Waiting..."
         float idleProbability = Random.Range(0, 100);
         if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
@@ -241,6 +246,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsTakingOrder_6()
     {
+        AddStateHistory("State: 6 \n");
         if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(CoordOfTableToBeAttended), transform))
         {
             return;
@@ -265,6 +271,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateTakeOrder_7()
     {
+        AddStateHistory("State: 7 \n");
         localState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
         ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
     }
@@ -273,6 +280,7 @@ public class EmployeeController : GameObjectMovementBase
     // The client leaves the table once the table is set as free
     private void UpdateOrderAttended_8()
     {
+        AddStateHistory("State: 8 \n");
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended.SetUsedBy(null);
@@ -290,6 +298,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounterAfterOrder_9()
     {
+        AddStateHistory("State: 9 \n");
         if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetCounter().GetActionTile(), transform))
         {
             return;
@@ -300,12 +309,14 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateRegisterCash_10()
     {
+        AddStateHistory("State: 10 \n");
         localState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
         ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
     }
 
     private void UpdateFinishRegistering_11()
     {
+        AddStateHistory("State: 11 \n");
         SetStateAtCounter();
         double orderCost = Random.Range(5, 10);
         //TODO: cost depending on the NPC order
@@ -388,7 +399,6 @@ public class EmployeeController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
-            //("Retrying: We could not find a path - GoToTableToBeAttended()");
             return;
         }
     }
