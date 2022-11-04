@@ -195,11 +195,8 @@ public class GameGridObject : GameObjectBase
             {
                 BussGrid.GetBussQueueMap().TryRemove(this, out byte tmp2);
             }
-            else if (Type == ObjectType.NPC_COUNTER)
-            {
-                BussGrid.SetCounter(null);
-            }
-
+            
+            DisableIfCounter();
             Object.Destroy(objectTransform.gameObject);
         }
         catch (Exception e)
@@ -781,6 +778,15 @@ public class GameGridObject : GameObjectBase
         }
     }
 
+    private void DisableIfCounter()
+    {
+        if (Type == ObjectType.NPC_COUNTER)
+        {
+            BussGrid.SetCounter(null);
+        }
+    }
+
+
     public void CancelPurchase()
     {
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
@@ -788,6 +794,7 @@ public class GameGridObject : GameObjectBase
         Object.Destroy(objectTransform.gameObject);
         // Disables the perspective hand for a second
         BussGrid.SetDisablePerspectiveHand();
+        DisableIfCounter();
         SetInactive();
         BussGrid.RecalculateBussGrid();
     }
