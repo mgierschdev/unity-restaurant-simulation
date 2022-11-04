@@ -31,9 +31,16 @@ public class GameGridObject : GameObjectBase
     // Controllers
     private BaseObjectController baseObjectController;
 
-    // Slider on top of the object
-    private GameObject objectSlider;
-    private Slider slider;
+    // Sliders
+    // Move Slider on top of the object
+    private GameObject moveObjectSlider;
+    private Slider moveSlider;
+    // Load item slider
+    private GameObject loadObjectSlider;
+    private Slider loadSlider;
+    // On top info popup
+    private GameObject topInfoObject;
+
     private float sliderMultiplayer = Settings.ObjectSliderMultiplayer;
     private float currentSliderValue;
     private bool isObjectSelected;
@@ -81,10 +88,19 @@ public class GameGridObject : GameObjectBase
         editMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
         editMenu.SetActive(false);
 
-        // On top slider
-        objectSlider = transform.Find("Slider/Slider").gameObject;
-        slider = objectSlider.GetComponent<Slider>();
-        objectSlider.SetActive(false);
+        // On top Move slider
+        moveObjectSlider = transform.Find("Slider/Slider").gameObject;
+        moveSlider = moveObjectSlider.GetComponent<Slider>();
+        moveObjectSlider.SetActive(false);
+
+        //On top load slider
+        loadObjectSlider = transform.Find("Slider/LoadItemSlider").gameObject;
+        loadSlider = loadObjectSlider.GetComponent<Slider>();
+        loadObjectSlider.SetActive(false);
+
+        //On top Info popup
+        topInfoObject = transform.Find("Slider/InfoPopUp").gameObject;
+        topInfoObject.SetActive(false);
 
         actionTiles = new List<GameObject>() { objectActionTile.gameObject, objectSecondActionTile.gameObject };
         tiles = new List<SpriteRenderer>() { tileUnder, actionTileSpriteRenderer, secondActionTileSprite };
@@ -123,7 +139,7 @@ public class GameGridObject : GameObjectBase
 
     private void SetEditPanelButtonClickListeners()
     {
-        saveObjButton = editMenu.transform.Find(""+Settings.ConstEditStoreMenuSave).gameObject;
+        saveObjButton = editMenu.transform.Find("" + Settings.ConstEditStoreMenuSave).gameObject;
         Button save = saveObjButton.GetComponent<Button>();
         save.onClick.AddListener(StoreInInventory);
 
@@ -555,8 +571,8 @@ public class GameGridObject : GameObjectBase
 
     private void SetActiveSlider(bool var)
     {
-        objectSlider.SetActive(var);
-        slider.value = 0;
+        moveObjectSlider.SetActive(var);
+        moveSlider.value = 0;
     }
 
     public void UpdateSlider()
@@ -566,18 +582,18 @@ public class GameGridObject : GameObjectBase
             return;
         }
 
-        if (!objectSlider.activeSelf)
+        if (!moveObjectSlider.activeSelf)
         {
             SetActiveSlider(true);
         }
 
         // EnergyBar controller, only if it is active
-        if (objectSlider.activeSelf)
+        if (moveObjectSlider.activeSelf)
         {
             if (currentSliderValue <= 1)
             {
                 currentSliderValue += Time.fixedDeltaTime * sliderMultiplayer;
-                slider.value = currentSliderValue;
+                moveSlider.value = currentSliderValue;
             }
             else
             {
@@ -589,8 +605,8 @@ public class GameGridObject : GameObjectBase
     public void DisableSlider()
     {
         currentSliderValue = 0;
-        slider.value = 0;
-        objectSlider.SetActive(false);
+        moveSlider.value = 0;
+        moveObjectSlider.SetActive(false);
     }
 
     private void SetActive()
