@@ -47,7 +47,6 @@ public class CameraController : MonoBehaviour
         // Only if enabled in Settings or if no menu is open
         PerspectiveHand();
         UpdateGoTo();
-
     }
 
     private void UpdateGoTo()
