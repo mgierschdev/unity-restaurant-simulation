@@ -11,11 +11,9 @@ public class FirebaseGameObject
     public bool IS_STORED { get; set; }
     [FirestoreProperty]
     public int ROTATION { get; set; }
-    [FirestoreProperty]
-    public int ID_TOP_ITEM { get; set; } //StoreItemType, top container item type
 
     public override string ToString()
     {
-        return ID + "-" + POSITION + "-" + IS_STORED + "-" + ROTATION+"-"+ID_TOP_ITEM;
+        return ID + "-" + POSITION + "-" + IS_STORED + "-" + ROTATION;
     }
 }
