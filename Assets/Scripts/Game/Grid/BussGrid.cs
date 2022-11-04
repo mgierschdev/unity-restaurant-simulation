@@ -61,6 +61,9 @@ public static class BussGrid
     //Perspective hand
     public static CameraController CameraController { get; set; }
 
+    //Preview object
+    private static BaseObjectController previewGameGridObject;
+
     public static void Init()
     {
         // TILEMAP DATA 
@@ -550,9 +553,10 @@ public static class BussGrid
         GameGridObject gameGridObject = null;
         if (currentClickedActiveGameObject != "")
         {
-            if (!BusinessObjects.ContainsKey(currentClickedActiveGameObject))
+            if (!BusinessObjects.ContainsKey(currentClickedActiveGameObject) && previewGameGridObject != null)
             {
                 //Meanning the item is on previoud but not inventory
+                return previewGameGridObject.GetGameGridObject();
             }
             else
             {
@@ -877,20 +881,8 @@ public static class BussGrid
     {
         GameGridObject obj = GetActiveGameGridObject();
 
-        //If game Grid object is not bought we erase it 
-        if (obj.GetIsItemBought())
-        {
-            obj.CancelPurchase();
-        }
-
-        // it has been erased before reaching this stage
-        if (obj == null)
-        {
-            return;
-        }
-
         // Meaning on preview
-        if (obj.GetIsItemBought())
+        if (!obj.GetIsItemBought())
         {
             obj.CancelPurchase();
         }
@@ -898,7 +890,10 @@ public static class BussGrid
         {
             obj.SetInactive();
         }
+
+        previewGameGridObject = null;
     }
+    
     // This disables the effect since we are clicking outside the object
     public static void SetDisablePerspectiveHand()
     {
@@ -974,5 +969,10 @@ public static class BussGrid
     public static void SetCounter(GameGridObject obj)
     {
         counter = obj;
+    }
+
+    public static void SetPreviewItem(BaseObjectController obj)
+    {
+        previewGameGridObject = obj;
     }
 }

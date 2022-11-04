@@ -326,7 +326,7 @@ public class MenuHandlerController : MonoBehaviour
 
         CloseMenu();
         GameObject newObject;
-        
+
         // To automaticly choose the next available spot
         // if (obj.HasActionPoint)
         // {
@@ -339,7 +339,7 @@ public class MenuHandlerController : MonoBehaviour
 
         // if (newObject == null)
         // {
-            newObject = PlaceAtCameraSquare(obj);
+        newObject = PlaceAtCameraSquare(obj);
         // }
 
         BussGrid.CameraController.GoTo(newObject.transform.position);
@@ -354,6 +354,8 @@ public class MenuHandlerController : MonoBehaviour
             pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
             baseObjectController.SetFirebaseGameObject(pair.Value);
         }
+        
+        BussGrid.SetPreviewItem(baseObjectController);
     }
 
     private IEnumerator TestPlacingObjects(StoreGameObject obj)

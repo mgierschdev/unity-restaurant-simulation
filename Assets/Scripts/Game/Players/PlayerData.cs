@@ -305,6 +305,18 @@ public static class PlayerData
         return storedIventory;
     }
 
+    public static GameGridObject GetGameGridObject(string ID)
+    {
+        foreach (GameGridObject obj in storedIventory)
+        {
+            if (obj.Name.Equals(ID))
+            {
+                return obj;
+            }
+        }
+        return null;
+    }
+
     // public static GameGridObject GetFreeBaseContainer()
     // {
     //     foreach (GameGridObject g in Inventory)

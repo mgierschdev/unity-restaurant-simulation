@@ -375,4 +375,9 @@ public class BaseObjectController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         isDraggDisabled = false;
     }
+
+    public GameGridObject GetGameGridObject()
+    {
+        return gameGridObject;
+    }
 }
