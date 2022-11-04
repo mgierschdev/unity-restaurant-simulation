@@ -56,76 +56,33 @@ public class EmployeeController : GameObjectMovementBase
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
-
-        // To Handle States
-        // If the player removes the counter the employee goes away
-        UpdateRestartStates();
+        UpdateTimeInState();
 
         try
         {
-            if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
+            // If the player removes the counter the employee goes away
+            UpdateRestartStates();
+
+            switch (localState)
             {
-                AddStateHistory("State: 1 \n");
-                UpdateGoToUnrespawn_1();
-            }
-            else if (localState == NpcState.WALKING_UNRESPAWN)
-            {
-                AddStateHistory("State: 2 \n");
-                UpdaetIsAtUnrespawn_2();
-            }
-            else if (localState == NpcState.IDLE)
-            {
-                AddStateHistory("State: 3 \n");
-                UpdateGoNextToCounter_3();
-            }
-            else if (localState == NpcState.WALKING_TO_COUNTER)
-            {
-                AddStateHistory("State: 4 \n");
-                UpdateIsAtCounter_4();
-            }
-            else if (localState == NpcState.AT_COUNTER && idleTime > TIME_IDLE_BEFORE_TAKING_ORDER)
-            {
-                AddStateHistory("State: 5 \n");
-                UpdateAttendTable_5();
-            }
-            else if (localState == NpcState.WALKING_TO_TABLE)
-            {
-                AddStateHistory("State: 6 \n");
-                UpdateIsTakingOrder_6();
-            }
-            else if (localState == NpcState.TAKING_ORDER)
-            {
-                AddStateHistory("State: 7 \n");
-                UpdateTakeOrder_7();
-            }
-            else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER && CurrentEnergy >= 100)
-            {
-                AddStateHistory("State: 8 \n");
-                UpdateOrderAttended_8();
-            }
-            else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
-            {
-                AddStateHistory("State: 9 \n");
-                UpdateIsAtCounterAfterOrder_9();
-            }
-            else if (localState == NpcState.REGISTERING_CASH)
-            {
-                AddStateHistory("State: 10 \n");
-                UpdateRegisterCash_10();
-            }
-            else if (localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH && CurrentEnergy >= 100)
-            {
-                AddStateHistory("State: 11 \n");
-                UpdateFinishRegistering_11();
+                case NpcState.WALKING_UNRESPAWN: UpdaetIsAtUnrespawn_2(); break;
+                case NpcState.IDLE: UpdateGoNextToCounter_3(); break;
+                case NpcState.WALKING_TO_COUNTER: UpdateIsAtCounter_4(); break;
+                case NpcState.AT_COUNTER when idleTime > TIME_IDLE_BEFORE_TAKING_ORDER: UpdateAttendTable_5(); break;
+                case NpcState.WALKING_TO_TABLE: UpdateIsTakingOrder_6(); break;
+                case NpcState.TAKING_ORDER: UpdateTakeOrder_7(); break;
+                case NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER when CurrentEnergy >= 100: UpdateOrderAttended_8(); break;
+                case NpcState.WALKING_TO_COUNTER_AFTER_ORDER: UpdateIsAtCounterAfterOrder_9(); break;
+                case NpcState.REGISTERING_CASH: UpdateRegisterCash_10(); break;
+                case NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH when CurrentEnergy >= 100: UpdateFinishRegistering_11(); break;
             }
         }
         catch (Exception e)
         {
             GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate EmployeeController): " + e);
         }
-        // Intended to be at the end
+
         UpdateAnimation();
-        UpdateTimeInState();
     }
 
     // This updates checks in case the table is not longer available or any other state in which
@@ -137,7 +94,11 @@ public class EmployeeController : GameObjectMovementBase
             tableToBeAttended = null;
         }
 
-        if ((localState == NpcState.WALKING_TO_COUNTER ||
+        if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
+        {
+            UpdateGoToUnrespawn_1();
+        }
+        else if ((localState == NpcState.WALKING_TO_COUNTER ||
             localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER ||
             localState == NpcState.AT_COUNTER ||
             localState == NpcState.REGISTERING_CASH ||
@@ -213,6 +174,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdaetIsAtUnrespawn_2()
     {
+        AddStateHistory("State: 2 \n");
         if (Util.IsAtDistanceWithObject(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
         {
             gameController.RemoveEmployee();

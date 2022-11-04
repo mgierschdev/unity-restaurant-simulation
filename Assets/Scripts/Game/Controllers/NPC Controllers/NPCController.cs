@@ -59,44 +59,27 @@ public class NPCController : GameObjectMovementBase
         UpdateTargetMovement();
         UpdatePosition();
         UpdateEnergyBar();
+        UpdateTimeInState();
 
         try
         {
             UpdateTableAvailability();
-
             //Handle NPC States
-            if (localState == NpcState.WANDER)
+            switch (localState)
             {
-                Wander_0();
+                case NpcState.WANDER: Wander_0(); break;
+                case NpcState.IDLE: UpdateFindPlace_1(); UpdateAnimation(); break;
+                case NpcState.WALKING_TO_TABLE: UpdateIsAtTable_2(); UpdateAnimation(); break;
+                case NpcState.AT_TABLE: UpdateWaitToBeAttended_3(); UpdateAnimation(); break;
+                case NpcState.ATTENDED: GoToFinalState_4(); UpdateAnimation(); break;
+                case NpcState.WALKING_UNRESPAWN: UpdateIsAtRespawn_5(); UpdateAnimation(); break;
             }
-            else if (localState == NpcState.IDLE)
-            {
-                UpdateFindPlace_1();
-            }
-            else if (localState == NpcState.WALKING_TO_TABLE)
-            {
-                UpdateIsAtTable_2();
-            }
-            else if (localState == NpcState.AT_TABLE)
-            {
-                UpdateWaitToBeAttended_3();
-            }
-            else if (localState == NpcState.ATTENDED)
-            {
-                GoToFinalState_4();
-            }
-            else if (localState == NpcState.WALKING_UNRESPAWN)
-            {
-                UpdateIsAtRespawn_5();
-            }
+            UpdateAnimation();
         }
         catch (Exception e)
         {
             GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate NPCController):  " + e);
         }
-        // Intended to go at the end
-        UpdateTimeInState();
-        UpdateAnimation();
     }
 
     public void UpdateTableAvailability()
@@ -106,7 +89,8 @@ public class NPCController : GameObjectMovementBase
             return;
         }
 
-        if (table == null || table.GetIsObjectSelected()){
+        if (table == null || table.GetIsObjectSelected())
+        {
             GoToFinalState_4();
         }
     }
