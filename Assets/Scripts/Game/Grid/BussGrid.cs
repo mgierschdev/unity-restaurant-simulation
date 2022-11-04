@@ -881,7 +881,12 @@ public static class BussGrid
     {
         GameGridObject obj = GetActiveGameGridObject();
 
-        // Meaning on preview
+        if (obj == null)
+        {
+            return;
+        }
+
+        // Handling preview items
         if (!obj.GetIsItemBought())
         {
             obj.CancelPurchase();
@@ -893,7 +898,7 @@ public static class BussGrid
 
         previewGameGridObject = null;
     }
-    
+
     // This disables the effect since we are clicking outside the object
     public static void SetDisablePerspectiveHand()
     {
