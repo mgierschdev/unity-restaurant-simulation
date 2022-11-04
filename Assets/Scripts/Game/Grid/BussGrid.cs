@@ -501,7 +501,7 @@ public static class BussGrid
         // we add all the objects to the player inventory
         PlayerData.AddItemToInventory(obj);
 
-        if (obj.Type == ObjectType.NPC_COUNTER)
+        if (obj.Type == ObjectType.NPC_COUNTER && obj.GetIsItemBought())
         {
             counter = obj;
         }
@@ -821,6 +821,18 @@ public static class BussGrid
     public static ConcurrentDictionary<string, GameGridObject> GetBusinessObjects()
     {
         return BusinessObjects;
+    }
+
+    public static GameGridObject GetFreeCounter()
+    {
+        foreach (KeyValuePair<string, GameGridObject> g in BusinessObjects)
+        {
+            if (g.Value.GetIsItemBought() && !IsThisSelectedObject(g.Key) && g.Value.Type == ObjectType.NPC_COUNTER)
+            {
+                return g.Value;
+            }
+        }
+        return null;
     }
 
     // ******* ENQUEUES AND DEQUEUES

@@ -763,12 +763,22 @@ public class GameGridObject : GameObjectBase
             firebaseGameObject.IS_STORED = false;
         }
 
+
+        SetAsCounter(); //If it is a counter we set if in the grid
         BussGrid.SetObjectObstacle(this);
         UpdateCoordsAndSetObstacle();
         SetInactive();
         HideUnderTiles();
         // Now it can be used by NPCs
         active = true;
+    }
+
+    private void SetAsCounter()
+    {
+        if (Type == ObjectType.NPC_COUNTER)
+        {
+            BussGrid.SetCounter(this);
+        }
     }
 
     public void CancelPurchase()
