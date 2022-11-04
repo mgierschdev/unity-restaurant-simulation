@@ -83,18 +83,24 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateTopItemSlider()
     {
-        if (isLoadingItemSlider)
+        if (isLoadingItemSlider &&
+        !gameGridObject.GetIsObjectSelected() &&
+        timeClicking < 0.1f
+        )
         {
             gameGridObject.UpdateLoadItemSlider();
         }
     }
 
-    //TODO: extra validations to not load both sliders at the same time, move Slider / item slider and the top info popup
     private void UpdateSelectionSlider()
     {
         if (timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected())
         {
-            gameGridObject.UpdateSlider();
+            gameGridObject.UpdateMoveSlider();
+            if (gameGridObject.GetIsItemLoading() || gameGridObject.GetIsItemReady())
+            {
+                gameGridObject.DiableTopInfoObject();
+            }
         }
 
         // If the item is selected and the user is clicking outside we un-select the item
@@ -155,7 +161,9 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (gameGridObject != null && !gameGridObject.GetStoreGameObject().HasActionPoint && !gameGridObject.GetIsItemReady())
+        if (gameGridObject != null &&
+        !gameGridObject.GetStoreGameObject().HasActionPoint &&
+        !gameGridObject.GetIsItemReady())
         {
             isLoadingItemSlider = true;
         }
@@ -215,7 +223,7 @@ public class BaseObjectController : MonoBehaviour
         if (gameGridObject.GetCurrentMoveSliderValue() > 0)
         {
             //we disable the slider
-            gameGridObject.DisableSlider();
+            gameGridObject.DisableMoveSlider();
         }
 
         if (!Menu || !BussGrid.IsDraggingEnabled(gameGridObject))

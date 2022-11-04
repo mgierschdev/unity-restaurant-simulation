@@ -12,9 +12,9 @@ public static class Settings
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f;
-    public const float ItemLoadSliderMultiplayer = 0.2f;
+    public const float ItemLoadSliderMultiplayer = 0.05f;
     public const float ScreenLoadTime = 2f;
-    public const float TimeBeforeTheSliderIsEnabled = 1f;
+    public const float TimeBeforeTheSliderIsEnabled = 0.4f;
 
     //Witing times
     public const float NPCMaxWaitingTime = 10f;
