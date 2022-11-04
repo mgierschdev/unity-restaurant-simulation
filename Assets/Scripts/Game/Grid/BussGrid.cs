@@ -424,7 +424,7 @@ public static class BussGrid
         {
             return Util.GetVector3IntNegativeInfinity();
         }
-        
+
 
         GameTile tile = mapPathFindingGrid[position];
         return tile.WorldPosition;
@@ -550,7 +550,15 @@ public static class BussGrid
         GameGridObject gameGridObject = null;
         if (currentClickedActiveGameObject != "")
         {
-            gameGridObject = BusinessObjects[currentClickedActiveGameObject];
+            if (!BusinessObjects.ContainsKey(currentClickedActiveGameObject))
+            {
+                //Meanning the item is on previoud but not inventory
+            }
+            else
+            {
+                gameGridObject = BusinessObjects[currentClickedActiveGameObject];
+            }
+
         }
         return gameGridObject;
     }
@@ -868,6 +876,12 @@ public static class BussGrid
     public static void DisableDragging()
     {
         GameGridObject obj = GetActiveGameGridObject();
+
+        //If game Grid object is not bought we erase it 
+        if (obj.GetIsItemBought())
+        {
+            obj.CancelPurchase();
+        }
 
         // it has been erased before reaching this stage
         if (obj == null)

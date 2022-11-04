@@ -49,7 +49,7 @@ public class GameGridObject : GameObjectBase
     // Move slider attributess
     private float loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer;
     private float currentLoadSliderValue;
-    private bool isItemReady;// item on top of the objects
+    private bool isItemReady, isItemLoading;// item on top of the objects
 
     //Firebase obj
     private FirebaseGameObject firebaseGameObject;
@@ -578,12 +578,14 @@ public class GameGridObject : GameObjectBase
         moveSlider.value = 0;
     }
 
-    public void UpdateSlider()
+    public void UpdateMoveSlider()
     {
         if (isObjectSelected)
         {
             return;
         }
+
+        DiableTopInfoObject();
 
         if (!moveObjectSlider.activeSelf)
         {
@@ -608,10 +610,16 @@ public class GameGridObject : GameObjectBase
     // This loads the top Item
     public void UpdateLoadItemSlider()
     {
+        if (isObjectSelected)
+        {
+            return;
+        }
+
         if (!loadObjectSlider.activeSelf)
         {
             loadObjectSlider.SetActive(true);
             loadSlider.value = 0;
+            isItemLoading = true;
         }
 
         // EnergyBar controller, only if it is active
@@ -619,7 +627,7 @@ public class GameGridObject : GameObjectBase
         {
             if (currentLoadSliderValue <= 1)
             {
-                currentLoadSliderValue += Time.fixedDeltaTime * moveSliderMultiplayer;
+                currentLoadSliderValue += Time.fixedDeltaTime * loadSliderMultiplayer;
                 loadSlider.value = currentLoadSliderValue;
             }
             else
@@ -632,6 +640,7 @@ public class GameGridObject : GameObjectBase
     public void SetItemsReady()
     {
         isItemReady = true;
+        isItemLoading = false;
         topInfoObject.SetActive(true);
         loadObjectSlider.SetActive(false);
     }
@@ -641,7 +650,12 @@ public class GameGridObject : GameObjectBase
         return isItemReady;
     }
 
-    public void DisableSlider()
+    public bool GetIsItemLoading()
+    {
+        return isItemLoading;
+    }
+
+    public void DisableMoveSlider()
     {
         currentMoveSliderValue = 0;
         moveSlider.value = 0;
@@ -658,6 +672,21 @@ public class GameGridObject : GameObjectBase
         baseObjectController.RestartTableNPC();
         //We clean grid position
         BussGrid.FreeObject(this);
+        // We clean in case the item is loaded on top
+        if (storeGameObject.HasActionPoint && isItemReady)
+        {
+            DiableTopInfoObject();
+        }
+    }
+
+    public void DiableTopInfoObject()
+    {
+        isItemReady = false;
+        isItemLoading = false;
+        currentLoadSliderValue = 0;
+        loadSlider.value = 0;
+        topInfoObject.SetActive(false);
+        loadObjectSlider.SetActive(false);
     }
 
     public void SetInactive()
@@ -685,6 +714,7 @@ public class GameGridObject : GameObjectBase
         rotateObjLeftButton.SetActive(true);
         saveObjButton.SetActive(false);
     }
+
     public void SetStoreObject()
     {
         // We show accept, cancel buttons and select the object
@@ -717,6 +747,7 @@ public class GameGridObject : GameObjectBase
         rotateObjLeftButton.SetActive(true);
         saveObjButton.SetActive(true);
         HideEditMenu();
+
         // We dont substract if the item is comming from the storage
         if (!baseObjectController.GetIsStorageItem() && firebaseGameObject == null)
         {
