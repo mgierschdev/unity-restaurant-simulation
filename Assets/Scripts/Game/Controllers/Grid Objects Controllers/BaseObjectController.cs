@@ -27,6 +27,7 @@ public class BaseObjectController : MonoBehaviour
     private bool isSpriteSetted;
     // Keeps track of the Drag, if it is disables
     private bool isDraggDisabled;
+    private bool isLoadingItemSlider;
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class BaseObjectController : MonoBehaviour
         isSpriteSetted = false;
         isCurrentValidPos = true;
         isDraggDisabled = false;
+        isLoadingItemSlider = false;
         timeClicking = 0;
         initialRotation = ObjectRotation.FRONT;
         currentPos = transform.position;
@@ -58,6 +60,7 @@ public class BaseObjectController : MonoBehaviour
         UpdateInit(); // Init constructor
         UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
         UpdateSelectionSlider(); // Checks for long pressed over the object and updates the slider
+        UpdateTopItemSlider(); // Checks for long pressed over the object and updates the slider
         UpdateIsValidPosition(); // Checks if the current position is a valid one 
     }
 
@@ -78,6 +81,15 @@ public class BaseObjectController : MonoBehaviour
         }
     }
 
+    private void UpdateTopItemSlider()
+    {
+        if (isLoadingItemSlider)
+        {
+            gameGridObject.UpdateLoadItemSlider();
+        }
+    }
+
+    //TODO: extra validations to not load both sliders at the same time, move Slider / item slider and the top info popup
     private void UpdateSelectionSlider()
     {
         if (timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected())
@@ -143,6 +155,10 @@ public class BaseObjectController : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (gameGridObject != null && !gameGridObject.GetStoreGameObject().HasActionPoint && !gameGridObject.GetIsItemReady())
+        {
+            isLoadingItemSlider = true;
+        }
     }
 
     // Restart the state of the npcs in case that there is any
@@ -196,7 +212,7 @@ public class BaseObjectController : MonoBehaviour
     private void OnMouseUp()
     {
         timeClicking = 0;
-        if (gameGridObject.GetCurrentSliderValue() > 0)
+        if (gameGridObject.GetCurrentMoveSliderValue() > 0)
         {
             //we disable the slider
             gameGridObject.DisableSlider();

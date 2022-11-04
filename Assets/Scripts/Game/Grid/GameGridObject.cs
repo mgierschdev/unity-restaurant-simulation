@@ -41,9 +41,15 @@ public class GameGridObject : GameObjectBase
     // On top info popup
     private GameObject topInfoObject;
 
-    private float sliderMultiplayer = Settings.ObjectSliderMultiplayer;
-    private float currentSliderValue;
+    // Load slider attributess
+    private float moveSliderMultiplayer = Settings.ObjectMoveSliderMultiplayer;
+    private float currentMoveSliderValue;
     private bool isObjectSelected;
+
+    // Move slider attributess
+    private float loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer;
+    private float currentLoadSliderValue;
+    private bool isItemReady;// item on top of the objects
 
     //Firebase obj
     private FirebaseGameObject firebaseGameObject;
@@ -77,9 +83,6 @@ public class GameGridObject : GameObjectBase
         SpriteRenderer tileUnder = objectTileUnder.GetComponent<SpriteRenderer>();
         SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
         SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
-
-        // Hide topItem panel
-        // topItemController.SetGamegridObject(this);
 
         // Setting base controller
         baseObjectController = objectTransform.GetComponent<BaseObjectController>();
@@ -569,7 +572,7 @@ public class GameGridObject : GameObjectBase
         hasNPCAssigned = val;
     }
 
-    private void SetActiveSlider(bool var)
+    private void SetActiveMoveSlider(bool var)
     {
         moveObjectSlider.SetActive(var);
         moveSlider.value = 0;
@@ -584,37 +587,73 @@ public class GameGridObject : GameObjectBase
 
         if (!moveObjectSlider.activeSelf)
         {
-            SetActiveSlider(true);
+            SetActiveMoveSlider(true);
         }
 
         // EnergyBar controller, only if it is active
         if (moveObjectSlider.activeSelf)
         {
-            if (currentSliderValue <= 1)
+            if (currentMoveSliderValue <= 1)
             {
-                currentSliderValue += Time.fixedDeltaTime * sliderMultiplayer;
-                moveSlider.value = currentSliderValue;
+                currentMoveSliderValue += Time.fixedDeltaTime * moveSliderMultiplayer;
+                moveSlider.value = currentMoveSliderValue;
             }
             else
             {
-                SetActive();
+                SetObjectSelected();
             }
         }
     }
 
+    // This loads the top Item
+    public void UpdateLoadItemSlider()
+    {
+        if (!loadObjectSlider.activeSelf)
+        {
+            loadObjectSlider.SetActive(true);
+            loadSlider.value = 0;
+        }
+
+        // EnergyBar controller, only if it is active
+        if (loadObjectSlider.activeSelf)
+        {
+            if (currentLoadSliderValue <= 1)
+            {
+                currentLoadSliderValue += Time.fixedDeltaTime * moveSliderMultiplayer;
+                loadSlider.value = currentLoadSliderValue;
+            }
+            else
+            {
+                SetItemsReady();
+            }
+        }
+    }
+
+    public void SetItemsReady()
+    {
+        isItemReady = true;
+        topInfoObject.SetActive(true);
+        loadObjectSlider.SetActive(false);
+    }
+
+    public bool GetIsItemReady()
+    {
+        return isItemReady;
+    }
+
     public void DisableSlider()
     {
-        currentSliderValue = 0;
+        currentMoveSliderValue = 0;
         moveSlider.value = 0;
         moveObjectSlider.SetActive(false);
     }
 
-    private void SetActive()
+    private void SetObjectSelected()
     {
         // Disables dragging for a second 
         baseObjectController.DisableDisableDraggingTemp();
         isObjectSelected = true;
-        SetActiveSlider(false);
+        SetActiveMoveSlider(false);
         BussGrid.SetActiveGameGridObject(this);
         baseObjectController.RestartTableNPC();
         //We clean grid position
@@ -629,9 +668,9 @@ public class GameGridObject : GameObjectBase
         BussGrid.HideHighlightedGridBussFloor();
     }
 
-    public float GetCurrentSliderValue()
+    public float GetCurrentMoveSliderValue()
     {
-        return currentSliderValue;
+        return currentMoveSliderValue;
     }
 
     public bool GetIsObjectSelected()
@@ -731,13 +770,4 @@ public class GameGridObject : GameObjectBase
     {
         return facingPosition;
     }
-
-    // public StoreGameObject GetTopItem()
-    // {
-    //     return topItemController.GetTopItem();
-    // }
-
-    // public void SetTopItem(StoreGameObject obj){
-    //     topItemController.SetTopItem(obj);
-    // }
 }
