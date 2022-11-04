@@ -327,6 +327,7 @@ public class MenuHandlerController : MonoBehaviour
         CloseMenu();
         GameObject newObject;
         
+        // To automaticly choose the next available spot
         // if (obj.HasActionPoint)
         // {
         //     newObject = placeGameObject(obj);
@@ -353,7 +354,6 @@ public class MenuHandlerController : MonoBehaviour
             pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
             baseObjectController.SetFirebaseGameObject(pair.Value);
         }
-
     }
 
     private IEnumerator TestPlacingObjects(StoreGameObject obj)
