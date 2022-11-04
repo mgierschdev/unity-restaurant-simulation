@@ -11,7 +11,8 @@ public static class Settings
     public const float PlayerMovementSpeed = 3f;
 
     //Sliders 
-    public const float ObjectSliderMultiplayer = 0.8f;
+    public const float ObjectMoveSliderMultiplayer = 0.8f;
+    public const float ItemLoadSliderMultiplayer = 0.2f;
     public const float ScreenLoadTime = 2f;
     public const float TimeBeforeTheSliderIsEnabled = 1f;
 
