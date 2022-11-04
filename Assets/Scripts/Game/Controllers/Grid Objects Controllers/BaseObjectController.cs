@@ -83,6 +83,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateTopItemSlider()
     {
+        //TODO: Check that is not a long press
         if (isLoadingItemSlider &&
         !gameGridObject.GetIsObjectSelected() &&
         timeClicking < 0.1f
@@ -109,6 +110,7 @@ public class BaseObjectController : MonoBehaviour
         !IsClickingSelf() &&
         !IsClickingButton())
         {
+            isLoadingItemSlider = false;
             gameGridObject.SetInactive();
 
             // If it is a store item not bought we erase it 
