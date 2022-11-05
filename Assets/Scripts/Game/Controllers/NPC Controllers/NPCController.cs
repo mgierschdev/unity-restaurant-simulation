@@ -6,20 +6,16 @@ using Random = UnityEngine.Random;
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
 {
-    //Doing a different activity properties
-    private GameGridObject table;
-    private GameController gameController;
-    private GameTile unRespawnTile;
-    private PlayerAnimationStateController animationController;
-    // Wander properties
-    [SerializeField]
-    private float timeWandering;
     private const float IDLE_MAX_TIME = 3f; //in seconds
     private const float MAX_TABLE_WAITING_TIME = 20f;
-    private float MIN_TIME_TO_FIND_TABLE;// Defined as random 
-    private float randMax = 3f;
+    private float MIN_TIME_TO_FIND_TABLE, randMax = 3f;// Defined as random 
+    //Doing a different activity properties
+    private GameGridObject table;
+    private GameTile unRespawnTile;
+    // Wander properties
     private Vector3Int target; // walking to target
     private Vector3 targetInWorldPosition;
+    private float timeWandering;
 
     private void Start()
     {
