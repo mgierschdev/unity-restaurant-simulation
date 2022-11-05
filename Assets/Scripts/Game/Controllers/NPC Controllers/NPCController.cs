@@ -16,7 +16,7 @@ public class NPCController : GameObjectMovementBase
     private float timeWandering;
     private const float IDLE_MAX_TIME = 3f; //in seconds
     private const float MAX_TABLE_WAITING_TIME = 20f;
-    private float MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);// Defined as random 
+    private float MIN_TIME_TO_FIND_TABLE;// Defined as random 
     private float randMax = 3f;
     private Vector3Int target; // walking to target
     private Vector3 targetInWorldPosition;
@@ -26,6 +26,7 @@ public class NPCController : GameObjectMovementBase
         timeWandering = 0;
         Type = ObjectType.NPC;
         localState = NpcState.WANDER;
+        MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
     }
 
     private void FixedUpdate()
