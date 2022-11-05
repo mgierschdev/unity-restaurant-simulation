@@ -17,7 +17,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void Start()
     {
-        Type = ObjectType.EMPLOYEE;
+        type = ObjectType.EMPLOYEE;
         localState = NpcState.IDLE;
     }
 
