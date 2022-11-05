@@ -45,13 +45,13 @@ public class EmployeeController : GameObjectMovementBase
                 case NpcState.REGISTERING_CASH: UpdateRegisterCash_10(); break;
                 case NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH when currentEnergy >= 100: UpdateFinishRegistering_11(); break;
             }
+
+            UpdateAnimation();
         }
         catch (Exception e)
         {
             GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate EmployeeController): " + e);
-        }
-
-        UpdateAnimation();
+        }        
     }
 
     // This updates checks in case the table is not longer available or any other state in which
@@ -88,18 +88,6 @@ public class EmployeeController : GameObjectMovementBase
             tableToBeAttended = null;
             localState = NpcState.WALKING_TO_COUNTER;
             GoToCounter();
-        }
-    }
-
-    private void UpdateAnimation()
-    {
-        if (IsMoving())
-        {
-            animationController.SetState(NpcState.WALKING);
-        }
-        else
-        {
-            animationController.SetState(localState);
         }
     }
 
