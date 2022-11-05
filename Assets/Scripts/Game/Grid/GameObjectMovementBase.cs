@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -8,9 +7,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 {
     public string Name { get; set; }
     public Vector3Int Position { get; set; } //PathFindingGrid Position
-    // Getters and setters
-    protected ObjectType Type { get; set; }
-    // Movement 
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
     //Movement Queue
@@ -28,9 +24,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected NpcState localState, prevState;
     protected PlayerAnimationStateController animationController;
     protected GameController gameController;
+    protected ObjectType Type { get; set; }
     private Queue pendingMovementQueue;
-    [SerializeField]
-    protected string npcDebug;
 
     // Attributes for temporaly marking the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
@@ -215,15 +210,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    public void AddMovement(Vector3 direction)
-    {
-        if (direction != new Vector3(0, 0))
-        {
-            Vector3 newDirection = direction + transform.position;
-            currentTargetPosition = new Vector3(newDirection.x, newDirection.y);
-        }
-    }
-
     private void AddMovement()
     {
         if (pendingMovementQueue.Count == 0)
@@ -234,15 +220,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
         Vector3 direction = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
         currentTargetPosition = new Vector3(direction.x, direction.y);
-    }
-
-    private void ResetMovementIfMoving()
-    {
-        // If the player is moving, we change direction and empty the previous queue
-        if (pendingMovementQueue.Count != 0)
-        {
-            ResetMovementQueue();
-        }
     }
 
     protected bool IsMoving()
@@ -313,18 +290,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return Util.GetDirectionFromAngles(degrees);
     }
 
-    protected void MovingOnLongTouch()
-    {
-        if (!clickController || !clickController.IsLongClick)
-        {
-            return;
-        }
-
-        ResetMovementIfMoving();
-        Vector3 mousePosition = Util.GetMouseInWorldPosition();
-        AddMovement(Util.GetVectorFromDirection(GetDirectionFromPositions(transform.position, mousePosition)));
-    }
-
     private void AddPath(List<Node> path)
     {
         if (path.Count == 0)
@@ -360,19 +325,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         AddMovement(); // To set the first target
     }
 
-    protected void MouseOnClick()
-    {
-        if (Input.GetMouseButtonDown(0) && clickController && !clickController.IsLongClick)
-        {
-            UpdatePosition();
-            Vector3 mousePosition = Util.GetMouseInWorldPosition();
-            Vector3Int mouseInGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(mousePosition);
-            GoTo(mouseInGridPosition);
-        }
-    }
-
-
-
     public bool GoTo(Vector3Int pos)
     {
         List<Node> path = BussGrid.GetPath(new[] { Position.x, Position.y }, new[] { pos.x, pos.y });
@@ -392,30 +344,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return true;
     }
 
-    public void SetClickController(ClickController controller)
-    {
-        this.clickController = controller;
-    }
-
-    public string GetDebugInfo()
-    {
-        return npcDebug;
-    }
-
-    public float[] GetPositionAsArray()
-    {
-        return new float[] { Position.x, Position.y };
-    }
-
     private bool IsInTargetPosition()
     {
         return Util.IsAtDistanceWithObject(currentTargetPosition, transform.position);
-    }
-
-    public bool IsInFinalTargetPosition()
-    {
-        return Util.IsAtDistanceWithObject(FinalTarget, Position) ||
-               FinalTarget == Util.GetVector3IntNegativeInfinity();
     }
 
     public void SetSpeed(float speed)
