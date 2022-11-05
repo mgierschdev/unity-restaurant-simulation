@@ -26,8 +26,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     //Energy Bars
     private EnergyBarController energyBar;
-    protected float CurrentEnergy { get; set; }
-    private float speedDecreaseEnergyBar;
+    protected float CurrentEnergy, speedDecreaseEnergyBar;
 
     // Debug attributes
     [SerializeField]
@@ -36,8 +35,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected Queue<string> stateHistory;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
-    protected Rigidbody2D rb2D;
+
     private float speed;
+    [SerializeField]
+    protected NpcState localState, prevState;
+    protected float idleTime, stateTime;
+    protected PlayerAnimationStateController animationController;
+    protected GameController gameController;
 
     // Attributes for temporaly marking the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
@@ -73,7 +77,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speedDecreaseEnergyBar = 20f;
 
         //Velocity for the 2D rigidbody
-        rb2D = transform.GetComponent<Rigidbody2D>();
         speed = Settings.NpcDefaultMovementSpeed;
 
         // Path marking attributes
@@ -86,6 +89,25 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         UpdatePosition();
         ClickUpdateController();
+
+        // Animation controller
+        animationController = GetComponent<PlayerAnimationStateController>();
+
+        // Game Controller
+        GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
+        gameController = gameObject.GetComponent<GameController>();
+
+        // keeps the time in the current state
+        idleTime = 0;
+        stateTime = 0;
+        prevState = localState;
+        Name = transform.name;
+
+        //Checking for null
+        if (animationController == null || gameObject == null)
+        {
+            GameLog.LogWarning("NPCController/animationController-gameObj null");
+        }        
     }
 
     protected void ActivateEnergyBar(float val)

@@ -9,49 +9,23 @@ public class NPCController : GameObjectMovementBase
     //Doing a different activity properties
     private GameGridObject table;
     private GameController gameController;
-    [SerializeField]
-    private NpcState localState;
     private GameTile unRespawnTile;
     private PlayerAnimationStateController animationController;
     // Wander properties
-    private float idleTime;
     [SerializeField]
     private float timeWandering;
     private const float IDLE_MAX_TIME = 3f; //in seconds
     private const float MAX_TABLE_WAITING_TIME = 20f;
-    private float MIN_TIME_TO_FIND_TABLE;// Defined as random 
+    private float MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);// Defined as random 
     private float randMax = 3f;
     private Vector3Int target; // walking to target
     private Vector3 targetInWorldPosition;
-    private bool IsNPCVisible;
-    //Time in the current state
-    private float stateTime;
-    private NpcState prevState;
-    [SerializeField]
-    public Vector2 TmpVelocity;
 
     private void Start()
     {
-        Type = ObjectType.NPC;
-        Name = transform.name;
-        localState = NpcState.WANDER;
-        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
-        gameController = gameObj.GetComponent<GameController>();
-        animationController = GetComponent<PlayerAnimationStateController>();
-        stateTime = 0;
         timeWandering = 0;
-        prevState = localState;
-        MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
-
-        if (gameController == null)
-        {
-            GameLog.LogWarning("NPCController/GameController null");
-        }
-
-        if (animationController == null)
-        {
-            GameLog.LogWarning("NPCController/animationController null");
-        }
+        Type = ObjectType.NPC;
+        localState = NpcState.WANDER;
     }
 
     private void FixedUpdate()

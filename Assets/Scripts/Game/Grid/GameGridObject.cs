@@ -8,11 +8,12 @@ using Object = UnityEngine.Object;
 
 public class GameGridObject : GameObjectBase
 {
+    private Transform objectTransform;
+    private FirebaseGameObject firebaseGameObject;
+    private BaseObjectController baseObjectController;
     private List<GameObject> actionTiles;
     private List<SpriteRenderer> tiles;
-    private GameObject objectWithSprite;
     private SpriteResolver spriteResolver;
-    private Transform objectTransform;
     private int actionTile;
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
@@ -20,45 +21,16 @@ public class GameGridObject : GameObjectBase
     private ObjectRotation facingPosition; // Facing position
     private NPCController usedBy;
     private EmployeeController attendedBy;
-    private GameObject editMenu;
-    private bool isObjectBeingDragged;
-    private bool hasNPCAssigned;
-    private GameObject saveObjButton;
-    private GameObject rotateObjLeftButton;
-    private GameObject cancelButton;
-    private GameObject acceptButton;
-
-    // Controllers
-    private BaseObjectController baseObjectController;
-
-    // Sliders
-    // Move Slider on top of the object
-    private GameObject moveObjectSlider;
-    private Slider moveSlider;
-    // Load item slider
-    private GameObject loadObjectSlider;
-    private Slider loadSlider;
-    // On top info popup
-    private GameObject topInfoObject;
-
-    // Load slider attributess
+    // Buttons/ Sprites and edit menus
+    private GameObject saveObjButton, rotateObjLeftButton, cancelButton, acceptButton, editMenu, objectWithSprite;
+    private GameObject moveObjectSlider, loadObjectSlider, topInfoObject;
+    private Slider moveSlider, loadSlider;
+    //Slider attributes
     private float moveSliderMultiplayer = Settings.ObjectMoveSliderMultiplayer;
-    private float currentMoveSliderValue;
-    private bool isObjectSelected;
-
-    // Move slider attributess
     private float loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer;
-    private float currentLoadSliderValue;
-    private bool isItemReady, isItemLoading;// item on top of the objects
-
-    //Firebase obj
-    private FirebaseGameObject firebaseGameObject;
-
-    // Store - To be bought Item
-    private bool isItemBought;
-
-    // Is Item active, before purchase
-    private bool active;
+    private float currentMoveSliderValue, currentLoadSliderValue;
+    // Store - To be bought Item, Is Item active, before purchase, (isItemReady, isItemLoading) item on top of the objects, (isObjectSelected) current under preview
+    private bool isItemBought, active, isItemReady, isObjectSelected, hasNPCAssigned, isObjectBeingDragged, isItemLoading;
 
     public GameGridObject(Transform transform)
     {
@@ -195,7 +167,7 @@ public class GameGridObject : GameObjectBase
             {
                 BussGrid.GetBussQueueMap().TryRemove(this, out byte tmp2);
             }
-            
+
             DisableIfCounter();
             Object.Destroy(objectTransform.gameObject);
         }
@@ -817,5 +789,11 @@ public class GameGridObject : GameObjectBase
     public ObjectRotation GetFacingPosition()
     {
         return facingPosition;
+    }
+
+    public override string ToString()
+    {
+        return "isItemBought: "+isItemBought + " active: " + active + " isItemReady: " + isItemReady + " isObjectSelected: " + 
+        isObjectSelected + " hasNPCAssigned: " + hasNPCAssigned + " isObjectBeingDragged: " + isObjectBeingDragged + " isItemLoading: " + isItemLoading;
     }
 }
