@@ -2,9 +2,12 @@ using System.Collections.Generic;
 
 public class StateMachineNode
 {
-    public List<StateMachineNode> transitionStates;
+    public List<StateMachineNode> TransitionStates { get; set; }
+    public NpcState State { get; set; }
 
-    public StateMachineNode(){
-        transitionStates = new List<StateMachineNode>();
+    public StateMachineNode(NpcState state)
+    {
+        TransitionStates = new List<StateMachineNode>();
+        State = state;
     }
 }
