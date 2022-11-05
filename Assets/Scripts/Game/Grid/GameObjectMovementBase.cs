@@ -35,6 +35,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Name = transform.name;
         currentTargetPosition = transform.position;
         speed = Settings.NpcDefaultMovementSpeed;
+        side = CharacterSide.RIGHT;
         pendingMovementQueue = new Queue();
         positionAdded = new HashSet<Vector3Int>();
         npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
@@ -59,7 +60,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // Overlap sphere
     private void Start()
     {
-        side = CharacterSide.RIGHT;
         idleTime = 0;
         stateTime = 0;
         prevState = localState;
@@ -193,7 +193,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         else
         {
             moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
-            UpdateObjectDirection(); // It flips the side of the pbject depending on direction
+            UpdateObjectDirection(); // It flips the side of the object depending on direction
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime);
         }
     }
