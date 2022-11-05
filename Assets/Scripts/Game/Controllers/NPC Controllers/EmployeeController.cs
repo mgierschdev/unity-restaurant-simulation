@@ -10,12 +10,10 @@ public class EmployeeController : GameObjectMovementBase
     private const float TIME_IDLE_BEFORE_TAKING_ORDER = 2f;
     private const int RANDOM_PROBABILITY_TO_WAIT = 0;
     private const float MAX_TIME_IN_STATE = Settings.NPCMaxTimeInState;
+    private const float MAX_TABLE_WAITING_TIME = Settings.NPCMaxWaitingTime;
     private GameGridObject tableToBeAttended;
     private GameTile unRespawnTile;
-    //Current Goto Target
-    private Vector3Int target;
-    private const float MAX_TABLE_WAITING_TIME = Settings.NPCMaxWaitingTime;
-    private Vector3Int coordOfTableToBeAttended;
+    private Vector3Int target, coordOfTableToBeAttended;
 
     private void Start()
     {
