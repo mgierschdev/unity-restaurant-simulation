@@ -198,6 +198,20 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
+    protected void UpdateAnimation()
+    {
+        // TODO: for performance reasons only animate inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
+        // Animates depending on the current state
+        if (IsMoving())
+        {
+            animationController.SetState(NpcState.WALKING);
+        }
+        else
+        {
+            animationController.SetState(localState);
+        }
+    }
+
     private void AddMovement()
     {
         if (pendingMovementQueue.Count == 0)
