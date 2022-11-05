@@ -4,7 +4,7 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private const int NPC_MAX_NUMBER = 4;
+    private const int NPC_MAX_NUMBER = 1;
     private const int EMPLOYEE_MAX_NUMBER = 1;
     private int employeeCount = 0;
     private int npcId;
@@ -118,7 +118,7 @@ public class GameController : MonoBehaviour
         if (employeeController != null)
         {
             // We cannot place on top of the employee
-            if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.CoordOfTableToBeAttended)
+            if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.GetCoordOfTableToBeAttended())
             {
                 return true;
             }
