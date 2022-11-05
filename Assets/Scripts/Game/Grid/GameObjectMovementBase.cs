@@ -7,41 +7,30 @@ using UnityEngine.Rendering;
 public abstract class GameObjectMovementBase : MonoBehaviour
 {
     public string Name { get; set; }
+    public Vector3Int Position { get; set; } //PathFindingGrid Position
     // Getters and setters
     protected ObjectType Type { get; set; }
-    public Vector3Int Position { get; set; } //PathFindingGrid Position
-
     // Movement 
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
-
     //Movement Queue
-    private Queue pendingMovementQueue;
     private Vector3 currentTargetPosition;
     private Vector3Int FinalTarget { get; set; }
     private GameObject gameGridObject;
-
     // ClickController for the long click duration for the player
     private ClickController clickController;
-
     //Energy Bars
     private EnergyBarController energyBar;
-    protected float CurrentEnergy, speedDecreaseEnergyBar;
-
-    // Debug attributes
-    [SerializeField]
-    protected string npcDebug;
-    [SerializeField]
-    protected Queue<string> stateHistory;
+    protected float currentEnergy, speedDecreaseEnergyBar, idleTime, stateTime, speed;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
-
-    private float speed;
     [SerializeField]
     protected NpcState localState, prevState;
-    protected float idleTime, stateTime;
     protected PlayerAnimationStateController animationController;
     protected GameController gameController;
+    private Queue pendingMovementQueue;
+    [SerializeField]
+    protected string npcDebug;
 
     // Attributes for temporaly marking the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
@@ -51,63 +40,42 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void Awake()
     {
-        //Setting default init name
         Name = transform.name;
+        pendingMovementQueue = new Queue();
+        positionAdded = new HashSet<Vector3Int>();
+        npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
 
-        //Sortering layer
+        // Game Controller
+        GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
+        gameController = gameObject.GetComponent<GameController>();
+        energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
+        animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
 
-        // Debug parameters
-        stateHistory = new Queue<string>();
-
-        // Energy bar
-        energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
         if (!Util.IsNull(energyBar, "GameObjectMovementBase/energyBar null"))
         {
             energyBar.SetInactive();
         }
 
-        // Movement Queue
-        pendingMovementQueue = new Queue();
-
-        //Update Object initial position
-        currentTargetPosition = transform.position;
-        FinalTarget = Util.GetVector3IntNegativeInfinity();
-        side = CharacterSide.RIGHT; // The side in which the character is facing by default = false meaning right.
-        speedDecreaseEnergyBar = 20f;
-
-        //Velocity for the 2D rigidbody
-        speed = Settings.NpcDefaultMovementSpeed;
-
-        // Path marking attributes
-        positionAdded = new HashSet<Vector3Int>();
-        npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
+        if (animationController == null || gameObject == null)
+        {
+            GameLog.LogWarning("NPCController/animationController-gameObj null");
+        }
     }
 
     // Overlap sphere
     private void Start()
     {
-        UpdatePosition();
-        ClickUpdateController();
-
-        // Animation controller
-        animationController = GetComponent<PlayerAnimationStateController>();
-
-        // Game Controller
-        GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
-        gameController = gameObject.GetComponent<GameController>();
-
-        // keeps the time in the current state
+        FinalTarget = Util.GetVector3IntNegativeInfinity();
+        side = CharacterSide.RIGHT;
         idleTime = 0;
         stateTime = 0;
         prevState = localState;
         Name = transform.name;
-
-        //Checking for null
-        if (animationController == null || gameObject == null)
-        {
-            GameLog.LogWarning("NPCController/animationController-gameObj null");
-        }        
+        speedDecreaseEnergyBar = 20f;
+        currentTargetPosition = transform.position;
+        UpdatePosition();
+        ClickUpdateController();
     }
 
     protected void ActivateEnergyBar(float val)
@@ -115,7 +83,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         if (!energyBar.IsActive())
         {
             energyBar.SetActive();
-            CurrentEnergy = 0;
+            currentEnergy = 0;
             speedDecreaseEnergyBar = val;
         }
     }
@@ -138,10 +106,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // EnergyBar controller, only if it is active
         if (energyBar.IsActive())
         {
-            if (CurrentEnergy <= 100)
+            if (currentEnergy <= 100)
             {
-                CurrentEnergy += Time.fixedDeltaTime * speedDecreaseEnergyBar;
-                energyBar.SetEnergy((int)CurrentEnergy);
+                currentEnergy += Time.fixedDeltaTime * speedDecreaseEnergyBar;
+                energyBar.SetEnergy((int)currentEnergy);
             }
             else
             {
@@ -403,26 +371,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    private void SetDebug()
-    {
-        npcDebug = "";
-        for (int i = 0; i < stateHistory.Count; i++)
-        {
-            npcDebug += stateHistory.ElementAt(i) + "<br>";
-        }
-    }
-    // TODO: Remove for prod
-    protected void AddStateHistory(string s)
-    {
-        stateHistory.Enqueue(s);
 
-        if (stateHistory.Count > STATE_HISTORY_MAX_SIZE)
-        {
-            stateHistory.Dequeue();
-        }
-
-        SetDebug();
-    }
 
     public bool GoTo(Vector3Int pos)
     {
@@ -433,7 +382,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return false;
         }
 
-        AddStateHistory("Time: " + Time.fixedTime + " steps: " + path.Count + " t: " + pos.x + "," + pos.y);
         FinalTarget = pos;
         AddPath(path);
         if (pendingMovementQueue.Count != 0)
@@ -441,7 +389,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             AddMovement();
         }
 
-        AddStateHistory("Pending movingQueue Size: " + pendingMovementQueue.Count);
         return true;
     }
 

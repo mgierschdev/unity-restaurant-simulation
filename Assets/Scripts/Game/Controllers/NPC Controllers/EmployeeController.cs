@@ -42,10 +42,10 @@ public class EmployeeController : GameObjectMovementBase
                 case NpcState.AT_COUNTER when idleTime > TIME_IDLE_BEFORE_TAKING_ORDER: UpdateAttendTable_5(); break;
                 case NpcState.WALKING_TO_TABLE: UpdateIsTakingOrder_6(); break;
                 case NpcState.TAKING_ORDER: UpdateTakeOrder_7(); break;
-                case NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER when CurrentEnergy >= 100: UpdateOrderAttended_8(); break;
+                case NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER when currentEnergy >= 100: UpdateOrderAttended_8(); break;
                 case NpcState.WALKING_TO_COUNTER_AFTER_ORDER: UpdateIsAtCounterAfterOrder_9(); break;
                 case NpcState.REGISTERING_CASH: UpdateRegisterCash_10(); break;
-                case NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH when CurrentEnergy >= 100: UpdateFinishRegistering_11(); break;
+                case NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH when currentEnergy >= 100: UpdateFinishRegistering_11(); break;
             }
         }
         catch (Exception e)
@@ -87,7 +87,6 @@ public class EmployeeController : GameObjectMovementBase
             localState == NpcState.TAKING_ORDER) &&
             (tableToBeAttended == null || (tableToBeAttended != null && !tableToBeAttended.HasNPCAssigned())))
         {
-            AddStateHistory("State: UpdateRestartStates 2 \n");
             tableToBeAttended = null;
             localState = NpcState.WALKING_TO_COUNTER;
             GoToCounter();
@@ -149,7 +148,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdaetIsAtUnrespawn_2()
     {
-        AddStateHistory("State: 2 \n");
         if (Util.IsAtDistanceWithObject(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
         {
             gameController.RemoveEmployee();
@@ -158,7 +156,6 @@ public class EmployeeController : GameObjectMovementBase
     }
     private void UpdateGoNextToCounter_3()
     {
-        AddStateHistory("State: 3 \n");
         localState = NpcState.WALKING_TO_COUNTER;
         target = BussGrid.GetCounter().GetActionTileInGridPosition();
 
@@ -188,7 +185,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounter_4()
     {
-        AddStateHistory("State: 4 \n");
         if (!Util.IsAtDistanceWithObject(transform.position, BussGrid.GetCounter().GetActionTile()))
         {
             return;
@@ -205,7 +201,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateAttendTable_5()
     {
-        AddStateHistory("State: 5 \n");
         // we idle and not attend the table. "Waiting..."
         float idleProbability = Random.Range(0, 100);
         if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
@@ -219,7 +214,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsTakingOrder_6()
     {
-        AddStateHistory("State: 6 \n");
         if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(coordOfTableToBeAttended), transform))
         {
             return;
@@ -244,7 +238,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateTakeOrder_7()
     {
-        AddStateHistory("State: 7 \n");
         localState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
         ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
     }
@@ -253,7 +246,6 @@ public class EmployeeController : GameObjectMovementBase
     // The client leaves the table once the table is set as free
     private void UpdateOrderAttended_8()
     {
-        AddStateHistory("State: 8 \n");
         localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended.SetUsedBy(null);
@@ -271,7 +263,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateIsAtCounterAfterOrder_9()
     {
-        AddStateHistory("State: 9 \n");
         if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetCounter().GetActionTile(), transform))
         {
             return;
@@ -282,14 +273,12 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateRegisterCash_10()
     {
-        AddStateHistory("State: 10 \n");
         localState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
         ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
     }
 
     private void UpdateFinishRegistering_11()
     {
-        AddStateHistory("State: 11 \n");
         SetStateAtCounter();
         double orderCost = Random.Range(5, 10);
         //TODO: cost depending on the NPC order
