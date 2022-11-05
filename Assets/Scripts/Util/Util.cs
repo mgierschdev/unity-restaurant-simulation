@@ -55,9 +55,9 @@ public static class Util
             {
                 row += "(" + i + "," + j + ")" + grid[i, j] + " ";
             }
-            GameLog.Log(row);
+            Debug.Log(row);
         }
-        GameLog.Log(" ");
+        Debug.Log(" ");
     }
 
     public static void PrintBussGrid(int[,] bGrid)

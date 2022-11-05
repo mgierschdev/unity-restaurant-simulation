@@ -24,8 +24,7 @@ public class NPCController : GameObjectMovementBase
         localState = NpcState.WANDER;
         MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
 
-        // State Machine
-
+        //Create state machine
     }
 
     private void FixedUpdate()
