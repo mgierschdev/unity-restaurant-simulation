@@ -4,51 +4,23 @@ using Random = UnityEngine.Random;
 
 public class EmployeeController : GameObjectMovementBase
 {
-    private GameGridObject tableToBeAttended;
-    [SerializeField]
-    private NpcState localState;
-    private PlayerAnimationStateController animationController;
-    private GameController gameController;
-    private GameTile unRespawnTile;
     // This attributes stay here, since there will be different employees with different attributes
     private const float SPEED_TIME_TO_TAKING_ORDER = 80f; //Decrease per second  100/15
     private const float SPEED_TIME_TO_REGISTER_IN_CASH = 150f; //Decrease per second  100/30 10
     private const float TIME_IDLE_BEFORE_TAKING_ORDER = 2f;
     private const int RANDOM_PROBABILITY_TO_WAIT = 0;
     private const float MAX_TIME_IN_STATE = Settings.NPCMaxTimeInState;
-    public Vector3Int CoordOfTableToBeAttended { get; set; }
-    private float idleTime;
-    //Time in the current state
-    private float stateTime;
-    private NpcState prevState;
+    private GameGridObject tableToBeAttended;
+    private GameTile unRespawnTile;
     //Current Goto Target
     private Vector3Int target;
     private const float MAX_TABLE_WAITING_TIME = Settings.NPCMaxWaitingTime;
+    private Vector3Int coordOfTableToBeAttended;
 
     private void Start()
     {
-        // Animation controller
-        animationController = GetComponent<PlayerAnimationStateController>();
-
-        // Game Controller
-        GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
-        gameController = gameObject.GetComponent<GameController>();
-
-        // keeps the time in the current state
-        idleTime = 0;
-        stateTime = 0;
-        prevState = localState;
-
-        //Setting initial vars
         Type = ObjectType.EMPLOYEE;
         localState = NpcState.IDLE;
-        Name = transform.name;
-
-        //Checking for null
-        if (animationController == null || gameObject == null)
-        {
-            GameLog.LogWarning("NPCController/animationController-gameObj null");
-        }
     }
 
     private void FixedUpdate()
@@ -88,7 +60,7 @@ public class EmployeeController : GameObjectMovementBase
     // the npc has to restart
     private void UpdateRestartStates()
     {
-        if (Util.CompareNegativeInifinity(CoordOfTableToBeAttended))
+        if (Util.CompareNegativeInifinity(coordOfTableToBeAttended))
         {
             tableToBeAttended = null;
         }
@@ -113,9 +85,10 @@ public class EmployeeController : GameObjectMovementBase
         else if ((localState == NpcState.WALKING_TO_TABLE ||
             localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER ||
             localState == NpcState.TAKING_ORDER) &&
-            tableToBeAttended == null)
+            (tableToBeAttended == null || (tableToBeAttended != null && !tableToBeAttended.HasNPCAssigned())))
         {
             AddStateHistory("State: UpdateRestartStates 2 \n");
+            tableToBeAttended = null;
             localState = NpcState.WALKING_TO_COUNTER;
             GoToCounter();
         }
@@ -247,7 +220,7 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateIsTakingOrder_6()
     {
         AddStateHistory("State: 6 \n");
-        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(CoordOfTableToBeAttended), transform))
+        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(coordOfTableToBeAttended), transform))
         {
             return;
         }
@@ -377,7 +350,7 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         Vector3Int localTarget = BussGrid.GetPathFindingGridFromWorldPosition(tableToBeAttended.GetActionTile());
-        CoordOfTableToBeAttended = BussGrid.GetClosestPathGridPoint(Position, localTarget);
+        coordOfTableToBeAttended = BussGrid.GetClosestPathGridPoint(Position, localTarget);
 
         // Meaning we did not find a correct spot to standup, we return
         // and enqueue de table to the list again 
@@ -387,14 +360,14 @@ public class EmployeeController : GameObjectMovementBase
         //     return;
         // }
 
-        target = CoordOfTableToBeAttended;
+        target = coordOfTableToBeAttended;
 
         // we can attend the table from the position we are currently at the moment     
         // In case the table is placed next to the counter 
         if (isAlreadyAtTarget(localTarget))
         {
             target = Position;
-            CoordOfTableToBeAttended = Position;
+            coordOfTableToBeAttended = Position;
         }
 
         if (!GoTo(target))
@@ -454,5 +427,10 @@ public class EmployeeController : GameObjectMovementBase
             }
         }
         return false;
+    }
+
+    public Vector3Int GetCoordOfTableToBeAttended()
+    {
+        return coordOfTableToBeAttended;
     }
 }
