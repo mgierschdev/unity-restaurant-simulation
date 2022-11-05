@@ -54,6 +54,9 @@ public class TestNPCStateMachine
 
         adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = 1;
 
+        GraphGenerator<NpcState> graphGenerator = new GraphGenerator<NpcState>(adjMatrix);
+        graphGenerator.Draw();
+
         // stateMachine.printStateMachine();
     }
 
