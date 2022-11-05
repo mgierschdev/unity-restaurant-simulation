@@ -89,7 +89,7 @@ public static class Settings
     public const string undefined = "undefined";
 
     //NPC Default
-    public const float MinDistanceToTarget = 0.1f;//0.13f;
+    public const float MinDistanceToTarget = 0.001f;
     public const int NpcDefaultEnergy = 100;
     public const string NpcEnergyBar = "EnergyBar";
     public const string NpcCharacter = "Character";
