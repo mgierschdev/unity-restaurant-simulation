@@ -24,7 +24,8 @@ public class NPCController : GameObjectMovementBase
         localState = NpcState.WANDER;
         MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
 
-        
+        // State Machine
+
     }
 
     private void FixedUpdate()
@@ -41,11 +42,11 @@ public class NPCController : GameObjectMovementBase
             switch (localState)
             {
                 case NpcState.WANDER: Wander_0(); break;
-                case NpcState.IDLE: UpdateFindPlace_1(); UpdateAnimation(); break;
-                case NpcState.WALKING_TO_TABLE: UpdateIsAtTable_2(); UpdateAnimation(); break;
-                case NpcState.AT_TABLE: UpdateWaitToBeAttended_3(); UpdateAnimation(); break;
-                case NpcState.ATTENDED: GoToFinalState_4(); UpdateAnimation(); break;
-                case NpcState.WALKING_UNRESPAWN: UpdateIsAtRespawn_5(); UpdateAnimation(); break;
+                case NpcState.IDLE: UpdateFindPlace_1(); break;
+                case NpcState.WALKING_TO_TABLE: UpdateIsAtTable_2(); break;
+                case NpcState.AT_TABLE: UpdateWaitToBeAttended_3(); break;
+                case NpcState.ATTENDED: GoToFinalState_4(); break;
+                case NpcState.WALKING_UNRESPAWN: UpdateIsAtRespawn_5(); break;
             }
             UpdateAnimation();
         }
@@ -86,21 +87,7 @@ public class NPCController : GameObjectMovementBase
         {
             GoToFinalState_4();
         }
-    }
-
-    private void UpdateAnimation()
-    {
-        // TODO: for performance reasons only animate inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
-        // Animates depending on the current state
-        if (IsMoving())
-        {
-            animationController.SetState(NpcState.WALKING);
-        }
-        else
-        {
-            animationController.SetState(localState);
-        }
-    }
+    }    
 
     private void UpdateFindPlace_1()
     {

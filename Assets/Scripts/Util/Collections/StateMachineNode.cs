@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 public class StateMachineNode
 {
-    public List<StateMachineNode> nextStates;
+    public List<StateMachineNode> transitionStates;
 
     public StateMachineNode(){
-        nextStates = new List<StateMachineNode>();
+        transitionStates = new List<StateMachineNode>();
     }
 }
