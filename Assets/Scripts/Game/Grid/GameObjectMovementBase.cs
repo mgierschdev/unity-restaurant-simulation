@@ -11,41 +11,39 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private CharacterSide side; // false right, true left
     //Movement Queue
     private Vector3 currentTargetPosition;
-    private Vector3Int FinalTarget { get; set; }
     private GameObject gameGridObject;
-    // ClickController for the long click duration for the player
-    private ClickController clickController;
     //Energy Bars
     private EnergyBarController energyBar;
-    protected float currentEnergy, speedDecreaseEnergyBar, idleTime, stateTime, speed;
+    [SerializeField]
+    protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemoving = 0.1f;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
     protected NpcState localState, prevState;
     protected PlayerAnimationStateController animationController;
     protected GameController gameController;
-    protected ObjectType Type { get; set; }
+    protected ObjectType type;
+    [SerializeField]
     private Queue pendingMovementQueue;
-
     // Attributes for temporaly marking the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
     private HashSet<Vector3Int> positionAdded;
     private Queue<Pair<float, Vector3Int>> npcPrevPositions;
-    private float timeBeforeRemoving = 0.1f;
 
     private void Awake()
     {
         Name = transform.name;
+        currentTargetPosition = transform.position;
+        speed = Settings.NpcDefaultMovementSpeed;
         pendingMovementQueue = new Queue();
         positionAdded = new HashSet<Vector3Int>();
         npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
 
-        // Game Controller
         GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
         gameController = gameObject.GetComponent<GameController>();
-        energyBar = gameObject.transform.Find(Settings.NpcEnergyBar).gameObject.GetComponent<EnergyBarController>();
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
+        energyBar = transform.Find(Settings.NpcEnergyBar).GetComponent<EnergyBarController>();
 
         if (!Util.IsNull(energyBar, "GameObjectMovementBase/energyBar null"))
         {
@@ -61,16 +59,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // Overlap sphere
     private void Start()
     {
-        FinalTarget = Util.GetVector3IntNegativeInfinity();
         side = CharacterSide.RIGHT;
         idleTime = 0;
         stateTime = 0;
         prevState = localState;
         Name = transform.name;
-        speedDecreaseEnergyBar = 20f;
-        currentTargetPosition = transform.position;
+        energyBarSpeed = 20f;
         UpdatePosition();
-        ClickUpdateController();
     }
 
     protected void ActivateEnergyBar(float val)
@@ -79,7 +74,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             energyBar.SetActive();
             currentEnergy = 0;
-            speedDecreaseEnergyBar = val;
+            energyBarSpeed = val;
         }
     }
 
@@ -98,12 +93,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdateEnergyBar()
     {
+        if (energyBar == null)
+        {
+            return;
+        }
+
         // EnergyBar controller, only if it is active
         if (energyBar.IsActive())
         {
             if (currentEnergy <= 100)
             {
-                currentEnergy += Time.fixedDeltaTime * speedDecreaseEnergyBar;
+                currentEnergy += Time.fixedDeltaTime * energyBarSpeed;
                 energyBar.SetEnergy((int)currentEnergy);
             }
             else
@@ -120,7 +120,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         //Sorting (sprite) the layer depending on the player position
         sortingLayer.sortingOrder = Util.GetSorting(Position);
         // We mark the grid with the current NPC position
-
         if (!positionAdded.Contains(Position))
         {
             positionAdded.Add(Position);// we add once and we remove inside the co-routine
@@ -196,17 +195,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             moveDirection = GetDirectionFromPositions(transform.position, currentTargetPosition);
             UpdateObjectDirection(); // It flips the side of the pbject depending on direction
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, speed * Time.fixedDeltaTime);
-        }
-    }
-
-    private void ClickUpdateController()
-    {
-        Type = ObjectType.PLAYER;
-        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
-
-        if (!Util.IsNull(cController, "PlayerController/clickController null"))
-        {
-            clickController = cController.GetComponent<ClickController>();
         }
     }
 
@@ -334,8 +322,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return false;
         }
 
-        FinalTarget = pos;
         AddPath(path);
+
         if (pendingMovementQueue.Count != 0)
         {
             AddMovement();
@@ -347,11 +335,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private bool IsInTargetPosition()
     {
         return Util.IsAtDistanceWithObject(currentTargetPosition, transform.position);
-    }
-
-    public void SetSpeed(float speed)
-    {
-        this.speed = speed;
     }
 
     public float GetSpeed()
