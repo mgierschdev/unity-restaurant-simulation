@@ -23,6 +23,8 @@ public class NPCController : GameObjectMovementBase
         type = ObjectType.NPC;
         localState = NpcState.WANDER;
         MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
+
+        
     }
 
     private void FixedUpdate()
