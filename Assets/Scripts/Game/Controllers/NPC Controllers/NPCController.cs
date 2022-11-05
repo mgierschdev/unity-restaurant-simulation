@@ -20,7 +20,7 @@ public class NPCController : GameObjectMovementBase
     private void Start()
     {
         timeWandering = 0;
-        Type = ObjectType.NPC;
+        type = ObjectType.NPC;
         localState = NpcState.WANDER;
         MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
     }
