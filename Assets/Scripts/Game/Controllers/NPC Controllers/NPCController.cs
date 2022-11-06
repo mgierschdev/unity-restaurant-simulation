@@ -92,7 +92,7 @@ public class NPCController : GameObjectMovementBase
         transitionStates[2] = false; // WANDER_TIME = 2,
         transitionStates[3] = false; // WAITING_AT_TABLE_TIME = 3,
         transitionStates[4] = false; // IDLE_TIME = 4,
-        transitionStates[5] = false; //ORDER_SERVED = 5,
+        transitionStates[5] = false; // ORDER_SERVED = 5,
         transitionStates[6] = false; // ORDER_FINISHED = 6,
         transitionStates[7] = false; // ENERGY_BAR_VALUE = 7,
         transitionStates[8] = false; // COUNTER_MOVED = 8,
