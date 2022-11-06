@@ -23,8 +23,6 @@ public class NPCController : GameObjectMovementBase
         type = ObjectType.NPC;
         localState = NpcState.WANDER;
         MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
-
-        //Create state machine
     }
 
     private void FixedUpdate()
@@ -238,7 +236,6 @@ public class NPCController : GameObjectMovementBase
         // we could add more random by deciding to move or not 
         idleTime += Time.fixedDeltaTime;
 
-
         if (idleTime < randMax)
         {
             localState = NpcState.IDLE;
@@ -252,7 +249,6 @@ public class NPCController : GameObjectMovementBase
 
         if (!GoTo(target))
         {
-            ///sLog("Could not find a path Wander_0 ");
             localState = NpcState.IDLE;
             return;
         }

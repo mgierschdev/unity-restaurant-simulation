@@ -58,6 +58,19 @@ public enum MoveDirection
     DOWNRIGHT = 8
 }
 
+// NPC transition attributes
+public enum NpcStateTransitions
+{
+    TABLE_AVAILABLE = 0,
+    TABLE_MOVED = 1,
+    WANDER_TIME = 2,
+    WAITING_AT_TABLE_TIME = 3,
+    IDLE_TIME = 4,
+    ORDER_SERVED = 5,
+    ORDER_FINISHED = 6,
+    ENERGY_BAR_VALUE = 7,
+    COUNTER_MOVED = 8
+}
 //Players and NPCs, to set the NPC to wander or other states
 public enum NpcState
 {
