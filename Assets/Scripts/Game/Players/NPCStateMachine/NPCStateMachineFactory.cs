@@ -12,66 +12,66 @@ public static class NPCStateMachineFactory
 
         //IDLE -> Other
         nodeTransition[(int)NpcStateTransitions.TABLE_AVAILABLE] = true;
-        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_TABLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_TABLE] = new StateNodeTransition((bool[])nodeTransition.Clone(), 0);
         Array.Fill(nodeTransition, false);
         nodeTransition[(int)NpcStateTransitions.WANDER] = true;
-        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WANDER] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WANDER] = new StateNodeTransition((bool[])nodeTransition.Clone(), 0);
         Array.Fill(nodeTransition, false);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
         nodeTransition[(int)NpcStateTransitions.STATE_TIME] = true;
-        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone(), 60);
         Array.Fill(nodeTransition, false);
 
         //WANDER -> Other
         nodeTransition[(int)NpcStateTransitions.NPC_IS_NOT_MOVING] = true;
-        adjMatrix[(int)NpcState.WANDER, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.WANDER, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone(), 0);
         Array.Fill(nodeTransition, false);
         nodeTransition[(int)NpcStateTransitions.WANDER_TIME] = true;
         nodeTransition[(int)NpcStateTransitions.STATE_TIME] = true;
-        adjMatrix[(int)NpcState.WANDER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.WANDER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone(), 0);
         Array.Fill(nodeTransition, false);
 
         //WALKING_TO_TABLE -> Other
         nodeTransition[(int)NpcStateTransitions.TABLE_AVAILABLE] = true;
-        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.AT_TABLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.AT_TABLE] = new StateNodeTransition((bool[])nodeTransition.Clone(), 0);
         Array.Fill(nodeTransition, false);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
         nodeTransition[(int)NpcStateTransitions.STATE_TIME] = true;
-        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone(), 60);
         Array.Fill(nodeTransition, false);
 
         //AT_TABLE -> Other
         nodeTransition[(int)NpcStateTransitions.NPC_IS_NOT_MOVING] = true;
-        adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WAITING_TO_BE_ATTENDED] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WAITING_TO_BE_ATTENDED] = new StateNodeTransition((bool[])nodeTransition.Clone(), 0);
         Array.Fill(nodeTransition, false);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
         nodeTransition[(int)NpcStateTransitions.STATE_TIME] = true;
-        adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone(), 60);
         Array.Fill(nodeTransition, false);
 
         //WAITING_TO_BE_ATTENDED -> Other
         nodeTransition[(int)NpcStateTransitions.BEING_ATTENDED] = true;
-        adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.BEING_ATTENDED] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.BEING_ATTENDED] = new StateNodeTransition((bool[])nodeTransition.Clone(), 0);
         Array.Fill(nodeTransition, false);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
         nodeTransition[(int)NpcStateTransitions.STATE_TIME] = true;
-        adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone(), 60);
         Array.Fill(nodeTransition, false);
 
         //BEING_ATTENDED -> Other
         nodeTransition[(int)NpcStateTransitions.ATTENDED] = true;
-        adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.ATTENDED] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.ATTENDED] = new StateNodeTransition((bool[])nodeTransition.Clone(), 0);
         Array.Fill(nodeTransition, false);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
         nodeTransition[(int)NpcStateTransitions.STATE_TIME] = true;
-        adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone(), 60);
         Array.Fill(nodeTransition, false);
 
         //ATTENDED -> Other
         nodeTransition[(int)NpcStateTransitions.ORDER_SERVED] = true;
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
         nodeTransition[(int)NpcStateTransitions.STATE_TIME] = true;
-        adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone(), 60);
         Array.Fill(nodeTransition, false);
         return new StateMachine(adjMatrix);
     }
