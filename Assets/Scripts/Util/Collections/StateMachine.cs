@@ -43,7 +43,6 @@ public class StateMachine
 
     public void printStateMachine()
     {
-
         Queue<StateMachineNode> queue = new Queue<StateMachineNode>();
         HashSet<StateMachineNode> visited = new HashSet<StateMachineNode>();
 
@@ -68,6 +67,31 @@ public class StateMachine
                 }
             }
             level++;
+        }
+    }
+
+    public void CheckTransition(int[] transitionAttributes)
+    {
+        //TODO: we could encode this into a single integer, instead of an array
+        //Except from the time/ attributes
+        foreach (StateMachineNode node in Current.TransitionStates)
+        {
+            StateNodeTransition transition = AdjacencyMatrix[(int)Current.State, (int)node.State];
+            bool valid = true;
+
+            for (int i = 0; i < transition.StateTransitions.Length; i++)
+            {
+                if (transition.StateTransitions[i] != 0 && transitionAttributes[i] < transition.StateTransitions[i])
+                {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid)
+            {
+                GameLog.Log("Can move to: " + node.State);
+            }
         }
     }
 }

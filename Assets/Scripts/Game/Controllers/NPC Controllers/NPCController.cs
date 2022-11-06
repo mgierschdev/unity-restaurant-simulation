@@ -89,13 +89,11 @@ public class NPCController : GameObjectMovementBase
     public void UpdateTransitionStates()
     {
         smState = stateMachine.Current.State;
-        
+
         if (stateMachine.Current.State == NpcState.WANDER)
         {
             smTimWandering += Time.fixedDeltaTime;
         }
-
-
     }
 
     public void UpdateTableAvailability()
