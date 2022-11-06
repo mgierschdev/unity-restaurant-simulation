@@ -34,7 +34,7 @@ public class EmployeeController : GameObjectMovementBase
 
             switch (localState)
             {
-                case NpcState.WALKING_UNRESPAWN: UpdaetIsAtUnrespawn_2(); break;
+                case NpcState.WALKING_UNRESPAWN: UpdateIsAtUnrespawn_2(); break;
                 case NpcState.IDLE: UpdateGoNextToCounter_3(); break;
                 case NpcState.WALKING_TO_COUNTER: UpdateIsAtCounter_4(); break;
                 case NpcState.AT_COUNTER when idleTime > TIME_IDLE_BEFORE_TAKING_ORDER: UpdateAttendTable_5(); break;
@@ -132,7 +132,7 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
 
-    private void UpdaetIsAtUnrespawn_2()
+    private void UpdateIsAtUnrespawn_2()
     {
         if (Util.IsAtDistanceWithObject(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(unRespawnTile.GridPosition)))
         {

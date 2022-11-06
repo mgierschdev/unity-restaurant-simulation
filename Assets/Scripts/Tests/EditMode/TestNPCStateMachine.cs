@@ -1,7 +1,5 @@
 using System;
-using System.Drawing;
 using NUnit.Framework;
-using UnityEngine;
 
 public class TestNPCStateMachine
 {
@@ -31,33 +29,28 @@ public class TestNPCStateMachine
         // ATTENDED = 17
 
         // Keeps the posible transition bewteen the nodes
-        int[,] adjMatrix = new int[Enum.GetNames(typeof(NpcState)).Length, Enum.GetNames(typeof(NpcState)).Length];
+        StateNodeTransition[,] adjMatrix = new StateNodeTransition[Enum.GetNames(typeof(NpcState)).Length, Enum.GetNames(typeof(NpcState)).Length];
 
-        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_TABLE] = 1;
-        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WANDER] = 1;
-        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_UNRESPAWN] = 1;
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_TABLE] = new StateNodeTransition();
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WANDER] = new StateNodeTransition();
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition();
 
-        adjMatrix[(int)NpcState.WANDER, (int)NpcState.IDLE] = 1;
-        adjMatrix[(int)NpcState.WANDER, (int)NpcState.WALKING_UNRESPAWN] = 1;
+        adjMatrix[(int)NpcState.WANDER, (int)NpcState.IDLE] = new StateNodeTransition();
+        adjMatrix[(int)NpcState.WANDER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition();
 
-        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.AT_TABLE] = 1;
-        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.WALKING_UNRESPAWN] = 1;
+        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.AT_TABLE] = new StateNodeTransition();
+        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition();
 
-        adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WAITING_TO_BE_ATTENDED] = 1;
-        adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WALKING_UNRESPAWN] = 1;
+        adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WAITING_TO_BE_ATTENDED] = new StateNodeTransition();
+        adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition();
 
-        adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.BEING_ATTENDED] = 1;
-        adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = 1;
+        adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.BEING_ATTENDED] = new StateNodeTransition();
+        adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition();
 
-        adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.ATTENDED] = 1;
-        adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = 1;
+        adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.ATTENDED] = new StateNodeTransition();
+        adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition();
 
-        adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = 1;
-
-        GraphGenerator<NpcState> graphGenerator = new GraphGenerator<NpcState>(adjMatrix);
-        graphGenerator.Draw();
-
-        // stateMachine.printStateMachine();
+        adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition();
     }
 
 }
