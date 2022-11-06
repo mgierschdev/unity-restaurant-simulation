@@ -77,6 +77,7 @@ public enum NpcStateTransitions
     STATE_TIME = 13,
     NPC_IS_MOVING = 14
 }
+
 //Players and NPCs, to set the NPC to wander or other states
 public enum NpcState
 {
