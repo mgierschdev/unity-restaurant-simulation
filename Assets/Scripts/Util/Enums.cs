@@ -69,7 +69,11 @@ public enum NpcStateTransitions
     ORDER_SERVED = 5,
     ORDER_FINISHED = 6,
     ENERGY_BAR_VALUE = 7,
-    COUNTER_MOVED = 8
+    COUNTER_MOVED = 8,
+    WANDER = 9,
+    NPC_IS_NOT_MOVING = 10,
+    ATTENDED = 11,
+    BEING_ATTENDED = 12
 }
 //Players and NPCs, to set the NPC to wander or other states
 public enum NpcState
