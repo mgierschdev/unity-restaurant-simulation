@@ -24,19 +24,6 @@ public class NPCController : GameObjectMovementBase
     private bool smTableMoved;
     [SerializeField]
     private NpcState smState;
-    // TABLE_AVAILABLE = 0,
-    // TABLE_MOVED = 1,
-    // WANDER_TIME = 2,
-    // WAITING_AT_TABLE_TIME = 3,
-    // IDLE_TIME = 4,
-    // ORDER_SERVED = 5,
-    // ORDER_FINISHED = 6,
-    // ENERGY_BAR_VALUE = 7,
-    // COUNTER_MOVED = 8,
-    // WANDER = 9,
-    // NPC_IS_NOT_MOVING = 10,
-    // ATTENDED = 11,
-    // BEING_ATTENDED = 12
 
     private void Start()
     {
@@ -89,7 +76,7 @@ public class NPCController : GameObjectMovementBase
         smState = stateMachine.Current.State;
         transitionStates[0] = smTableAvailable; // TABLE_AVAILABLE = 0,
         transitionStates[1] = smTableMoved; // TABLE_MOVED = 1,
-        transitionStates[2] = false; // WANDER_TIME = 2,
+        transitionStates[2] = false; // WALK_TO_UNRESPAWN = 2,
         transitionStates[3] = false; // WAITING_AT_TABLE_TIME = 3,
         transitionStates[4] = false; // IDLE_TIME = 4,
         transitionStates[5] = false; // ORDER_SERVED = 5,
