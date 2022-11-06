@@ -2,11 +2,9 @@ public class StateNodeTransition
 {
     // Same size as NpcStateTransitions
     public bool[] StateTransitions { get; set; }
-    public float TimeToTransition { get; set; }
 
-    public StateNodeTransition(bool[] nodeTransition, float TimeToTransition)
+    public StateNodeTransition(bool[] nodeTransition)
     {
         StateTransitions = nodeTransition;
-        this.TimeToTransition = TimeToTransition;
     }
 }
