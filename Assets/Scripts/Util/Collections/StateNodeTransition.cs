@@ -1,9 +1,9 @@
 public class StateNodeTransition
 {
     // Same size as NpcStateTransitions
-    public int[] StateTransitions { get; set; }
+    public bool[] StateTransitions { get; set; }
 
-    public StateNodeTransition(int[] nodeTransition)
+    public StateNodeTransition(bool[] nodeTransition)
     {
         StateTransitions = nodeTransition;
     }

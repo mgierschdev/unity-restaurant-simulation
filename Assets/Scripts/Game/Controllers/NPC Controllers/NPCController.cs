@@ -18,9 +18,8 @@ public class NPCController : GameObjectMovementBase
     private float timeWandering;
     private StateMachine stateMachine;
 
-
     //StateMachine transition attribures
-    private float smTimWandering;
+    private bool[] transitionStates;
     private bool smTableAvailable;
     private bool smTableMoved;
     [SerializeField]
@@ -39,7 +38,6 @@ public class NPCController : GameObjectMovementBase
     // ATTENDED = 11,
     // BEING_ATTENDED = 12
 
-
     private void Start()
     {
         timeWandering = 0;
@@ -48,8 +46,8 @@ public class NPCController : GameObjectMovementBase
         MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
         stateMachine = NPCStateMachineFactory.GetClientStateMachine();
 
-        //StateMachine transition attribures
-        smTimWandering = 0f;
+        //StateMachine transition attributes
+        transitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
         smTableAvailable = false;
         smTableMoved = false;
     }
@@ -89,11 +87,37 @@ public class NPCController : GameObjectMovementBase
     public void UpdateTransitionStates()
     {
         smState = stateMachine.Current.State;
+        transitionStates[0] = smTableAvailable; // TABLE_AVAILABLE = 0,
+        transitionStates[1] = smTableMoved; // TABLE_MOVED = 1,
+        transitionStates[2] = false; // WANDER_TIME = 2,
+        transitionStates[3] = false; // WAITING_AT_TABLE_TIME = 3,
+        transitionStates[4] = false; // IDLE_TIME = 4,
+        transitionStates[5] = false; //ORDER_SERVED = 5,
+        transitionStates[6] = false; // ORDER_FINISHED = 6,
+        transitionStates[7] = false; // ENERGY_BAR_VALUE = 7,
+        transitionStates[8] = false; // COUNTER_MOVED = 8,
+        transitionStates[9] = WanderGenerator(); // WANDER = 9,
+        transitionStates[10] = !IsMoving(); // NPC_IS_NOT_MOVING = 10,
+        transitionStates[11] = false; // ATTENDED = 11,
+        transitionStates[12] = false; // BEING_ATTENDED = 12,
+        transitionStates[13] = false; // STATE_TIME = 13
+        transitionStates[14] = IsMoving(); // NPC_IS_MOVING = 14
 
-        if (stateMachine.Current.State == NpcState.WANDER)
+        stateMachine.CheckTransition(transitionStates);
+    }
+
+    private bool WanderGenerator()
+    {
+        float randT = Random.Range(0, 1000);
+
+        if (smState != NpcState.IDLE || randT > 2)
         {
-            smTimWandering += Time.fixedDeltaTime;
+            return false;
         }
+
+        target = GetRandomWalkablePosition();
+        GoTo(target);
+        return true;
     }
 
     public void UpdateTableAvailability()
@@ -296,6 +320,7 @@ public class NPCController : GameObjectMovementBase
             return;
         }
     }
+
 
     private Vector3Int GetRandomWalkablePosition()
     {

@@ -70,7 +70,7 @@ public class StateMachine
         }
     }
 
-    public void CheckTransition(int[] transitionAttributes)
+    public void CheckTransition(bool[] transitionAttributes)
     {
         //TODO: we could encode this into a single integer, instead of an array
         //Except from the time/ attributes
@@ -81,8 +81,9 @@ public class StateMachine
 
             for (int i = 0; i < transition.StateTransitions.Length; i++)
             {
-                if (transition.StateTransitions[i] != 0 && transitionAttributes[i] < transition.StateTransitions[i])
+                if (transition.StateTransitions[i] && transitionAttributes[i] != transition.StateTransitions[i])
                 {
+                    GameLog.Log("Cannot move to: " + node.State +" attribute "+ i);
                     valid = false;
                     break;
                 }
@@ -90,7 +91,9 @@ public class StateMachine
 
             if (valid)
             {
-                GameLog.Log("Can move to: " + node.State);
+                GameLog.Log("Moving to: " + node.State);
+                Current = node;
+                break;
             }
         }
     }
