@@ -1,12 +1,42 @@
+using System;
 using System.Collections.Generic;
 
+// Npc state machine represented as a directed graph
 public class StateMachine
 {
-    public StateMachineNode start;
+    public StateNodeTransition[,] AdjacencyMatrix { get; set; }
+    public Dictionary<NpcState, StateMachineNode> Map { get; set; }
 
-    public StateMachine(StateMachineNode start)
+    public StateMachine(StateNodeTransition[,] adjacencyMatrix)
     {
-        this.start = start;
+        this.AdjacencyMatrix = adjacencyMatrix;
+        Map = new Dictionary<NpcState, StateMachineNode>();
+        AddNodes();
+        BuildGraph();
+    }
+
+    private void BuildGraph()
+    {
+        foreach (NpcState state in Enum.GetValues(typeof(NpcState)))
+        {
+            StateMachineNode node = Map[state];
+
+            foreach (NpcState neighbor in Enum.GetValues(typeof(NpcState)))
+            {
+                if (AdjacencyMatrix[(int)node.State, (int)neighbor] != null)
+                {
+                    node.TransitionStates.Add(Map[neighbor]);
+                }
+            }
+        }
+    }
+
+    private void AddNodes()
+    {
+        foreach (NpcState state in Enum.GetValues(typeof(NpcState)))
+        {
+            Map.Add(state, new StateMachineNode(state));
+        }
     }
 
     public void printStateMachine()
@@ -15,7 +45,7 @@ public class StateMachine
         Queue<StateMachineNode> queue = new Queue<StateMachineNode>();
         HashSet<StateMachineNode> visited = new HashSet<StateMachineNode>();
 
-        queue.Enqueue(start);
+        queue.Enqueue(Map[NpcState.IDLE]);
         int level = 0;
 
         while (queue.Count != 0)
@@ -35,7 +65,6 @@ public class StateMachine
                     }
                 }
             }
-            
             level++;
         }
     }
