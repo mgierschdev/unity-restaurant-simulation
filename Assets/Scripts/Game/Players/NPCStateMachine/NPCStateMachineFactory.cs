@@ -18,6 +18,7 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.IDLE, (int)NpcState.WANDER] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = 1;
+        nodeTransition[(int)NpcStateTransitions.STATE_TIME] = 60;
         adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
 
@@ -26,6 +27,7 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.WANDER, (int)NpcState.IDLE] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
         nodeTransition[(int)NpcStateTransitions.WANDER_TIME] = 10;
+        nodeTransition[(int)NpcStateTransitions.STATE_TIME] = 60;
         adjMatrix[(int)NpcState.WANDER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
 
@@ -34,6 +36,7 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.AT_TABLE] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = 1;
+        nodeTransition[(int)NpcStateTransitions.STATE_TIME] = 60;
         adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
 
@@ -42,6 +45,7 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WAITING_TO_BE_ATTENDED] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = 1;
+        nodeTransition[(int)NpcStateTransitions.STATE_TIME] = 60;
         adjMatrix[(int)NpcState.AT_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
 
@@ -50,6 +54,7 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.BEING_ATTENDED] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = 1;
+        nodeTransition[(int)NpcStateTransitions.STATE_TIME] = 60;
         adjMatrix[(int)NpcState.WAITING_TO_BE_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
 
@@ -58,12 +63,14 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.ATTENDED] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = 1;
+        nodeTransition[(int)NpcStateTransitions.STATE_TIME] = 60;
         adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
 
         //ATTENDED -> Other
         nodeTransition[(int)NpcStateTransitions.ORDER_SERVED] = 1;
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = 1;
+        nodeTransition[(int)NpcStateTransitions.STATE_TIME] = 60;
         adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((int[])nodeTransition.Clone());
         Array.Fill(nodeTransition, 0);
         return new StateMachine(adjMatrix);
