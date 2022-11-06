@@ -6,13 +6,15 @@ public class StateMachine
 {
     public StateNodeTransition[,] AdjacencyMatrix { get; set; }
     public Dictionary<NpcState, StateMachineNode> Map { get; set; }
+    public StateMachineNode Current { get; set; }
 
     public StateMachine(StateNodeTransition[,] adjacencyMatrix)
     {
-        this.AdjacencyMatrix = adjacencyMatrix;
+        AdjacencyMatrix = adjacencyMatrix;
         Map = new Dictionary<NpcState, StateMachineNode>();
         AddNodes();
         BuildGraph();
+        Current = Map[NpcState.IDLE];
     }
 
     private void BuildGraph()
