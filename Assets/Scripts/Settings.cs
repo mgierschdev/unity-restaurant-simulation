@@ -2,7 +2,7 @@ public static class Settings
 {
     //DEBUG/DEV parameterss
     public const bool IsFirebaseEmulatorEnabled = true;
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f;
 
@@ -16,7 +16,7 @@ public static class Settings
     public const float ScreenLoadTime = 2f;
     public const float TimeBeforeTheSliderIsEnabled = 0.4f;
 
-    //Witing times
+    //Waiting times
     public const float NPCMaxWaitingTime = 10f;
     public const float NPCMaxTimeInState = 10f;
 
