@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 // This will contain Utility functions, to create Unity Object and other
@@ -510,5 +509,4 @@ public static class Util
     {
         return coord.Equals(GetVector3IntNegativeInfinity()) || coord.Equals(new Vector3(GetVector3IntNegativeInfinity().x, GetVector3IntNegativeInfinity().y, 0));
     }
-
 }
