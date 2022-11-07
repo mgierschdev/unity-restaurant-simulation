@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +36,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     //State machine
     protected GameGridObject table;
-    protected StateMachine stateMachine;
+    protected StateMachine<NpcState, NpcStateTransitions> stateMachine;
 
     private void Awake()
     {
