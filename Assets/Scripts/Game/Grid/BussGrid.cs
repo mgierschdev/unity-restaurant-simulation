@@ -452,7 +452,19 @@ public static class BussGrid
     //     }
     // }
 
-    public static Vector3Int GetRandomWalkableGridPosition()
+
+    public static Vector3Int GetRandomWalkablePosition(Vector3Int currentPosition)
+    {
+        Vector3Int wanderPos = currentPosition;
+        // There is a small chance that the NPC will go to the same place in which he is standing
+        while (wanderPos == currentPosition)
+        {
+            wanderPos = BussGrid.GetRandomWalkableGridPosition();
+        }
+        return wanderPos;
+    }
+
+    private static Vector3Int GetRandomWalkableGridPosition()
     {
         if (listWalkingPathTileMap.Count == 0)
         {
