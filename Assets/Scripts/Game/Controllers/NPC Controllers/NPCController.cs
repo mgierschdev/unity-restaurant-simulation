@@ -7,11 +7,14 @@ using Random = UnityEngine.Random;
 public class NPCController : GameObjectMovementBase
 {
     [SerializeField]
-    private const float MAX_STATE_TIME = 15;
+    private const float MAX_STATE_TIME = 120; // 1min
+    [SerializeField]
+    private NpcState state;
 
     private void Start()
     {
         type = ObjectType.NPC;
+        SetID();
         // MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
         stateMachine = NPCStateMachineFactory.GetClientStateMachine();
     }
@@ -46,28 +49,26 @@ public class NPCController : GameObjectMovementBase
             CheckIfAtTarget();
         }
 
-        currentState = stateMachine.Current.State;
-
         CheckUnrespawn();
         CheckIfTableHasBeenAssigned();
         Wander();
-
+        state = stateMachine.Current.State;
         stateMachine.CheckTransition();
         MoveNPC();
     }
 
     private void MoveNPC()
     {
-        if (currentState == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.MOVING_TO_UNSRESPAWN))
+        if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.MOVING_TO_UNSRESPAWN))
         {
             stateMachine.SetTransition(NpcStateTransitions.MOVING_TO_UNSRESPAWN);
             GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         }
-        else if (currentState == NpcState.WANDER)
+        else if (stateMachine.Current.State == NpcState.WANDER)
         {
             GoTo(BussGrid.GetRandomWalkablePosition(Position));
         }
-        else if (currentState == NpcState.WALKING_TO_TABLE)
+        else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
         {
             if (table == null) { return; }
             GoTo(table.GetActionTileInGridPosition());
@@ -91,24 +92,25 @@ public class NPCController : GameObjectMovementBase
     private void Wander()
     {
         float randT = Random.Range(0, 1000);//TODO
-        if (currentState != NpcState.IDLE || randT > 2)
+        if (stateMachine.Current.State != NpcState.IDLE || randT > 2)
         {
             stateMachine.UnSetTransition(NpcStateTransitions.WANDER);
-            return;
         }
-        stateMachine.SetTransition(NpcStateTransitions.WANDER);
+        else
+        {
+            stateMachine.SetTransition(NpcStateTransitions.WANDER);
+        }
     }
 
     private void CheckIfTableHasBeenAssigned()
     {
-        if (currentState != NpcState.IDLE)
-        {
-            stateMachine.UnSetTransition(NpcStateTransitions.TABLE_AVAILABLE);
-            return;
-        }
         if (table != null)
         {
             stateMachine.SetTransition(NpcStateTransitions.TABLE_AVAILABLE);
+        }
+        else
+        {
+            stateMachine.UnSetTransition(NpcStateTransitions.TABLE_AVAILABLE);
         }
     }
 
@@ -119,7 +121,7 @@ public class NPCController : GameObjectMovementBase
             return;
         }
 
-        if (currentState == NpcState.WALKING_UNRESPAWN)
+        if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN)
         {
             gameController.RemoveNpc(this);
             if (table != null)
@@ -129,7 +131,7 @@ public class NPCController : GameObjectMovementBase
             }
             Destroy(gameObject);
         }
-        else if (currentState == NpcState.WALKING_TO_TABLE)
+        else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
         {
             stateMachine.SetTransition(NpcStateTransitions.WAITING_AT_TABLE);
         }
@@ -137,7 +139,7 @@ public class NPCController : GameObjectMovementBase
 
     public NpcState GetNpcState()
     {
-        return currentState;
+        return stateMachine.Current.State;
     }
 
     public float GetNpcStateTime()

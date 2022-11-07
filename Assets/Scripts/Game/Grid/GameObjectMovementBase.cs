@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
-    protected NpcState currentState, prevState;
+    private NpcState currentState, prevState;
     protected PlayerAnimationStateController animationController;
     protected GameController gameController;
     protected ObjectType type;
@@ -40,7 +41,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void Awake()
     {
-        SetID();
         currentTargetPosition = transform.position;
         speed = Settings.NpcDefaultMovementSpeed;
         side = CharacterSide.RIGHT;
@@ -76,10 +76,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         UpdatePosition();
     }
 
-    private void SetID()
+    protected void SetID()
     {
         string id = BussGrid.GameController.GetNpcSet().Count + 1 + "-" + Time.frameCount;
-        transform.name = type + "." + id;
+        transform.name = type.ToString() + "." + id;
         Name = transform.name;
     }
 
