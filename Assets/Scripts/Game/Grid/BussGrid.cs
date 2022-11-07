@@ -847,7 +847,6 @@ public static class BussGrid
         return null;
     }
 
-    // ******* ENQUEUES AND DEQUEUES
     // Returns a free table to the NPC, if there is one 
     public static bool GetFreeTable(out GameGridObject result)
     {
@@ -883,9 +882,7 @@ public static class BussGrid
 
         return false;
     }
-
-    // // ******* ENQUEUES AND DEQUEUES
-
+    // 
     public static bool IsDraggingEnabled(GameGridObject obj)
     {
         return isDraggingEnabled && IsThisSelectedObject(obj.Name);

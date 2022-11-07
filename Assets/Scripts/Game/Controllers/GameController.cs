@@ -51,6 +51,7 @@ public class GameController : MonoBehaviour
             {
                 if(!npcController.HasTable()){
                     table.SetHashNPCAssigned(true);
+                    table.SetUsedBy(npcController);
                     npcController.SetTable(table);
                     break;
                 }
