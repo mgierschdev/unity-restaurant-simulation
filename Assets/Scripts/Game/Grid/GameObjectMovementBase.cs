@@ -74,6 +74,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         prevState = currentState;
         Name = transform.name;
         energyBarSpeed = 20f;
+        currentState = NpcState.IDLE;
         UpdatePosition();
     }
 
