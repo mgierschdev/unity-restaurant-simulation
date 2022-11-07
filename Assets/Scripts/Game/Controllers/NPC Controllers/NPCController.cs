@@ -32,7 +32,7 @@ public class NPCController : GameObjectMovementBase
         catch (Exception e)
         {
             GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate NPCController): " + e);
-            tableMoved = true; // we unrespawn
+            stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         }
     }
 
@@ -48,25 +48,12 @@ public class NPCController : GameObjectMovementBase
         }
 
         currentState = stateMachine.Current.State;
+        CheckIfTableHasBeenAssigned();
+        Unrespawn();
+        Wander();
 
-        transitionStates[0] = CheckIfTableHasBeenAssigned(); // TABLE_AVAILABLE = 0,
-        transitionStates[1] = tableMoved; // TABLE_MOVED = 1,
-        transitionStates[2] = Unrespawn(); // WALK_TO_UNRESPAWN = 2,
-        transitionStates[3] = waitingAtTable; // WAITING_AT_TABLE_TIME = 3,
-        transitionStates[4] = false; // UNDEFINED_4 = 4,
-        transitionStates[5] = orderServed; // ORDER_SERVED = 5,
-        transitionStates[6] = false; // UNDEFINED_6 = 6,
-        transitionStates[7] = false; // ENERGY_BAR_VALUE = 7,
-        transitionStates[8] = false; // COUNTER_MOVED = 8,
-        transitionStates[9] = Wander(); // WANDER = 9,
-        transitionStates[10] = false; // UNDEFINED_10 = 10,
-        transitionStates[11] = attended; // ATTENDED = 11,
-        transitionStates[12] = beingAttended; // BEING_ATTENDED = 12,
-        transitionStates[13] = false; // STATE_TIME = 13
-        transitionStates[14] = false; // UNDEFINED_14 = 14
-
-        stateMachine.CheckTransition(transitionStates);
-        MoveNPC();// Move /or not, depending on the state
+        stateMachine.CheckTransition();
+        MoveNPC();
     }
 
     private void MoveNPC()
@@ -86,40 +73,45 @@ public class NPCController : GameObjectMovementBase
         }
     }
 
-    private bool Unrespawn()
+    private void Unrespawn()
     {
-        if ((!tableMoved && stateTime < MAX_STATE_TIME && !attended) || currentState == NpcState.WALKING_UNRESPAWN)
+        if ((!stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) && stateTime < MAX_STATE_TIME && !stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED)) || currentState == NpcState.WALKING_UNRESPAWN)
         {
-            return false;
+            stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
         }
         // it is required since it most match all operator to pass to the next stage
-        tableMoved = true;
+        stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         // we clean the table pointer if assigned
         if (table != null)
         {
             table.FreeObject();
             table = null;
         }
-        return true;
+        stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
     }
 
-    private bool Wander()
+    private void Wander()
     {
         float randT = Random.Range(0, 1000);//TODO
         if (currentState != NpcState.IDLE || randT > 2)
         {
-            return false;
+            stateMachine.UnSetTransition(NpcStateTransitions.WANDER);
+            return;
         }
-        return true;
+        stateMachine.SetTransition(NpcStateTransitions.WANDER);
     }
 
-    private bool CheckIfTableHasBeenAssigned()
+    private void CheckIfTableHasBeenAssigned()
     {
         if (currentState != NpcState.IDLE)
         {
-            return false;
+            stateMachine.UnSetTransition(NpcStateTransitions.TABLE_AVAILABLE);
+            return;
         }
-        return table != null;
+        if (table != null)
+        {
+            stateMachine.SetTransition(NpcStateTransitions.TABLE_AVAILABLE);
+        }
     }
 
     private void CheckIfAtTarget()
@@ -137,7 +129,7 @@ public class NPCController : GameObjectMovementBase
 
         if (currentState == NpcState.WALKING_TO_TABLE)
         {
-            waitingAtTable = true;
+            stateMachine.SetTransition(NpcStateTransitions.WAITING_AT_TABLE);
         }
     }
 
@@ -173,17 +165,17 @@ public class NPCController : GameObjectMovementBase
 
     public void SetTableMoved()
     {
-        tableMoved = true;
+        stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
     }
 
     public void SetAttended()
     {
-        attended = true;
-        orderServed = true;
+        stateMachine.SetTransition(NpcStateTransitions.ATTENDED);
+        stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
     }
 
     public void SetBeingAttended()
     {
-        beingAttended = true;
+        stateMachine.SetTransition(NpcStateTransitions.BEING_ATTENDED);
     }
 }

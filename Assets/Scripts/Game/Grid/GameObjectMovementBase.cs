@@ -38,9 +38,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //State machine
     protected GameGridObject table;
     protected StateMachine stateMachine;
-    protected bool[] transitionStates;
-    protected bool tableMoved, waitingAtTable, attended, beingAttended, orderServed, atCounter;
-
+    
     private void Awake()
     {
         Name = transform.name;
@@ -50,7 +48,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         pendingMovementQueue = new Queue();
         positionAdded = new HashSet<Vector3Int>();
         npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
-        transitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
 
         GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
         gameController = gameObject.GetComponent<GameController>();
@@ -77,12 +74,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         prevState = currentState;
         Name = transform.name;
         energyBarSpeed = 20f;
-        tableMoved = false;
-        waitingAtTable = false;
-        attended = false;
-        beingAttended = false;
-        atCounter = false;
-        orderServed = false;
         UpdatePosition();
     }
 
@@ -398,5 +389,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public float GetSpeed()
     {
         return speed;
+    }
+
+    public bool IsEnergybarActive()
+    {
+        return energyBar.IsActive();
     }
 }
