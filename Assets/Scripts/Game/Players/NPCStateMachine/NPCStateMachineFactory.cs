@@ -88,8 +88,8 @@ public static class NPCStateMachineFactory
         bool[] nodeTransition = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
 
         // //IDLE -> Other
-        nodeTransition[(int)NpcStateTransitions.TABLE_AVAILABLE] = true;
-        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_TABLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        nodeTransition[(int)NpcStateTransitions.COUNTER_AVAILABLE] = true;
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
         // nodeTransition[(int)NpcStateTransitions.WANDER] = true;

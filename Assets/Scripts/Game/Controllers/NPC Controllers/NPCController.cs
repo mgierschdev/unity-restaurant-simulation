@@ -55,7 +55,7 @@ public class NPCController : GameObjectMovementBase
         transitionStates[3] = waitingAtTable; // WAITING_AT_TABLE_TIME = 3,
         transitionStates[4] = false; // UNDEFINED_4 = 4,
         transitionStates[5] = orderServed; // ORDER_SERVED = 5,
-        transitionStates[6] = false; // ORDER_FINISHED = 6,
+        transitionStates[6] = false; // UNDEFINED_6 = 6,
         transitionStates[7] = false; // ENERGY_BAR_VALUE = 7,
         transitionStates[8] = false; // COUNTER_MOVED = 8,
         transitionStates[9] = Wander(); // WANDER = 9,
