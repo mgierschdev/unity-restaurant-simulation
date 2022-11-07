@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected Vector3 currentTargetWorldPosition;
     protected Vector3Int currentTargetGridPosition;
 
+    //State machine
+    protected GameGridObject table;
+    protected StateMachine stateMachine;
+    protected bool[] transitionStates;
+    protected bool tableMoved, waitingAtTable, attended, beingAttended, orderServed;
+
     private void Awake()
     {
         Name = transform.name;
@@ -69,6 +76,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         prevState = currentState;
         Name = transform.name;
         energyBarSpeed = 20f;
+        transitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
+        tableMoved = false;
+        waitingAtTable = false;
+        attended = false;
+        beingAttended = false;
+        orderServed = false;
         UpdatePosition();
     }
 
@@ -216,6 +229,21 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
+    protected void UpdateTimeInState()
+    {
+        // keeps the time in the current state
+        if (prevState == currentState)
+        {
+            //Log("Current state time "+stateTime);
+            stateTime += Time.fixedDeltaTime;
+        }
+        else
+        {
+            stateTime = 0;
+            prevState = currentState;
+        }
+    }
+
     private void AddMovement()
     {
         if (pendingMovementQueue.Count == 0)
@@ -339,7 +367,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             return false;
         }
-        
+
         currentTargetGridPosition = pos;
         currentTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(pos);
 
