@@ -64,18 +64,18 @@ public enum NpcStateTransitions
     TABLE_AVAILABLE = 0,
     TABLE_MOVED = 1,
     WALK_TO_UNRESPAWN = 2,
-    WAITING_AT_TABLE_TIME = 3,
-    IDLE_TIME = 4,
+    UNDEFINED_3 = 3,
+    UNDEFINED_4 = 4,
     ORDER_SERVED = 5,
     ORDER_FINISHED = 6,
     ENERGY_BAR_VALUE = 7,
     COUNTER_MOVED = 8,
     WANDER = 9,
-    NPC_IS_NOT_MOVING = 10,
+    UNDEFINED_10 = 10,
     ATTENDED = 11,
     BEING_ATTENDED = 12,
     STATE_TIME = 13,
-    NPC_IS_MOVING = 14
+    UNDEFINED_14 = 14
 }
 
 //Players and NPCs, to set the NPC to wander or other states

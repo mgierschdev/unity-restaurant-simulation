@@ -12,7 +12,7 @@ public class NPCController : GameObjectMovementBase
     private bool tableAvailable;
     private bool tableMoved;
     [SerializeField]
-    private const float MAX_STATE_TIME = 20;
+    private const float MAX_STATE_TIME = 15;
 
     private void Start()
     {
@@ -75,18 +75,18 @@ public class NPCController : GameObjectMovementBase
         transitionStates[0] = tableAvailable; // TABLE_AVAILABLE = 0,
         transitionStates[1] = tableMoved; // TABLE_MOVED = 1,
         transitionStates[2] = Unrespawn(); // WALK_TO_UNRESPAWN = 2,
-        transitionStates[3] = false; // WAITING_AT_TABLE_TIME = 3,
-        transitionStates[4] = false; // IDLE_TIME = 4,
+        transitionStates[3] = false; // UNDEFINED_3 = 3,
+        transitionStates[4] = false; // UNDEFINED_4 = 4,
         transitionStates[5] = false; // ORDER_SERVED = 5,
         transitionStates[6] = false; // ORDER_FINISHED = 6,
         transitionStates[7] = false; // ENERGY_BAR_VALUE = 7,
         transitionStates[8] = false; // COUNTER_MOVED = 8,
         transitionStates[9] = Wander(); // WANDER = 9,
-        transitionStates[10] = !IsMoving(); // NPC_IS_NOT_MOVING = 10,
+        transitionStates[10] = false; // UNDEFINED_10 = 10,
         transitionStates[11] = false; // ATTENDED = 11,
         transitionStates[12] = false; // BEING_ATTENDED = 12,
         transitionStates[13] = false; // STATE_TIME = 13
-        transitionStates[14] = IsMoving(); // NPC_IS_MOVING = 14
+        transitionStates[14] = false; // UNDEFINED_14 = 14
 
         stateMachine.CheckTransition(transitionStates);
         MoveNPC();// Move /or not, depending on the state
