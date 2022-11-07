@@ -77,7 +77,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
     public void SetTransition(S transition)
     {
-        TransitionStates[(int)(int)Enum.Parse(typeof(T), transition.ToString())] = true;
+        TransitionStates[(int)(int)Enum.Parse(typeof(S), transition.ToString())] = true;
     }
 
     public void UnSetTransition(S transition)
