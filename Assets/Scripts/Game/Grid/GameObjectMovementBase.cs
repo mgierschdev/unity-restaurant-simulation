@@ -19,7 +19,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
-    protected NpcState localState, prevState;
+    protected NpcState currentState, prevState;
     protected PlayerAnimationStateController animationController;
     protected GameController gameController;
     protected ObjectType type;
@@ -29,6 +29,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // This will help to void placing objects on top of the NPC
     private HashSet<Vector3Int> positionAdded;
     private Queue<Pair<float, Vector3Int>> npcPrevPositions;
+
+    //Final target 
+    protected Vector3 currentTargetWorldPosition;
+    protected Vector3Int currentTargetGridPosition;
 
     private void Awake()
     {
@@ -62,7 +66,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         idleTime = 0;
         stateTime = 0;
-        prevState = localState;
+        prevState = currentState;
         Name = transform.name;
         energyBarSpeed = 20f;
         UpdatePosition();
@@ -208,7 +212,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-            animationController.SetState(localState);
+            animationController.SetState(currentState);
         }
     }
 
@@ -335,7 +339,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             return false;
         }
-
+        
+        currentTargetGridPosition = pos;
+        currentTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(pos);
+        
         AddPath(path);
 
         if (pendingMovementQueue.Count != 0)
@@ -344,6 +351,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void RecalculateGoTo()
+    {
+        if (!GoTo(currentTargetGridPosition))
+        {
+            return;
+        }
     }
 
     private bool IsInTargetPosition()
