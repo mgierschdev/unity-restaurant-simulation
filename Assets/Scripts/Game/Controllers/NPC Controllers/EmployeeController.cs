@@ -83,7 +83,7 @@ public class EmployeeController : GameObjectMovementBase
         else if ((currentState == NpcState.WALKING_TO_TABLE ||
             currentState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER ||
             currentState == NpcState.TAKING_ORDER) &&
-            (tableToBeAttended == null || (tableToBeAttended != null && !tableToBeAttended.HasNPCAssigned())))
+            (tableToBeAttended == null || (tableToBeAttended != null && !tableToBeAttended.GetBusy())))
         {
             tableToBeAttended = null;
             currentState = NpcState.WALKING_TO_COUNTER;
@@ -219,7 +219,7 @@ public class EmployeeController : GameObjectMovementBase
 
         StandTowards(tableToBeAttended.GetUsedBy().Position);//We flip the Employee -> CLient
         tableToBeAttended.GetUsedBy().FlipTowards(Position); // We flip client -> employee
-        tableToBeAttended.GetUsedBy().SetBeingAttended();
+        //tableToBeAttended.GetUsedBy().SetBeingAttended();
     }
 
     private void UpdateTakeOrder_7()
@@ -233,7 +233,7 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateOrderAttended_8()
     {
         currentState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
-        tableToBeAttended.GetUsedBy().SetAttended();
+        //tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended.SetUsedBy(null);
         tableToBeAttended = null;
 

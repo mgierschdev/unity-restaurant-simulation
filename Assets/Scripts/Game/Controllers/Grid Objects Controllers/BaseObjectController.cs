@@ -209,7 +209,7 @@ public class BaseObjectController : MonoBehaviour
 
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
-        currentPos = BussGrid.GetMouseOnGameGridWorldPosition();//BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetMouseInWorldPosition());
+        currentPos = BussGrid.GetMouseOnGameGridWorldPosition();
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
 
         // So it will overlay over the rest of the items while dragging

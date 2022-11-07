@@ -531,16 +531,6 @@ public class GameGridObject : GameObjectBase
         return usedBy != null;
     }
 
-    public bool HasNPCAssigned()
-    {
-        return hasNPCAssigned;
-
-    }
-    public void SetHashNPCAssigned(bool val)
-    {
-        hasNPCAssigned = val;
-    }
-
     private void SetActiveMoveSlider(bool var)
     {
         moveObjectSlider.SetActive(var);
@@ -793,7 +783,7 @@ public class GameGridObject : GameObjectBase
 
     public override string ToString()
     {
-        return "isItemBought: "+isItemBought + " active: " + active + " isItemReady: " + isItemReady + " isObjectSelected: " + 
-        isObjectSelected + " hasNPCAssigned: " + hasNPCAssigned + " isObjectBeingDragged: " + isObjectBeingDragged + " isItemLoading: " + isItemLoading;
+        return "isItemBought: " + isItemBought + " active: " + active + " isItemReady: " + isItemReady + " isObjectSelected: " +
+        isObjectSelected + " isObjectBeingDragged: " + isObjectBeingDragged + " isItemLoading: " + isItemLoading;
     }
 }
