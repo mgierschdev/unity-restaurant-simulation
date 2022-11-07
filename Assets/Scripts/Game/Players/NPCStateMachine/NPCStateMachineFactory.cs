@@ -87,10 +87,17 @@ public static class NPCStateMachineFactory
         StateNodeTransition[,] adjMatrix = new StateNodeTransition[Enum.GetNames(typeof(NpcState)).Length, Enum.GetNames(typeof(NpcState)).Length];
         bool[] nodeTransition = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
 
-        // //IDLE -> Other
+        //IDLE -> Other
         nodeTransition[(int)NpcStateTransitions.COUNTER_AVAILABLE] = true;
         adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
+
+
+        //WALKING_TO_COUNTER --> Other
+        nodeTransition[(int)NpcStateTransitions.AT_COUNTER] = true;
+        adjMatrix[(int)NpcState.WALKING_TO_COUNTER, (int)NpcState.AT_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
 
         // nodeTransition[(int)NpcStateTransitions.WANDER] = true;
         // adjMatrix[(int)NpcState.IDLE, (int)NpcState.WANDER] = new StateNodeTransition((bool[])nodeTransition.Clone());

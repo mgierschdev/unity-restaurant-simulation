@@ -83,7 +83,7 @@ public class StateMachine
             {
                 if (transition.StateTransitions[i] && transitionAttributes[i] != transition.StateTransitions[i])
                 {
-                    //GameLog.Log("Cannot move to: " + node.State +" attribute "+ i);
+                    GameLog.Log("Cannot move to: " + node.State +" attribute "+ i);
                     valid = false;
                     break;
                 }
@@ -91,7 +91,7 @@ public class StateMachine
 
             if (valid)
             {
-                //GameLog.Log("Moving to: " + node.State);
+                GameLog.Log("Moving to: " + node.State);
                 Current = node;
                 break;
             }

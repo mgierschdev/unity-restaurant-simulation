@@ -39,7 +39,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected GameGridObject table;
     protected StateMachine stateMachine;
     protected bool[] transitionStates;
-    protected bool tableMoved, waitingAtTable, attended, beingAttended, orderServed;
+    protected bool tableMoved, waitingAtTable, attended, beingAttended, orderServed, atCounter;
 
     private void Awake()
     {
@@ -81,6 +81,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         waitingAtTable = false;
         attended = false;
         beingAttended = false;
+        atCounter = false;
         orderServed = false;
         UpdatePosition();
     }
