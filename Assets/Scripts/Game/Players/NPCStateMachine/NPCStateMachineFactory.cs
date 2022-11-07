@@ -34,7 +34,7 @@ public static class NPCStateMachineFactory
         Array.Fill(nodeTransition, false);
 
         //WALKING_TO_TABLE -> Other
-        nodeTransition[(int)NpcStateTransitions.TABLE_AVAILABLE] = true;
+        nodeTransition[(int)NpcStateTransitions.WAITING_AT_TABLE_TIME] = true;
         adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.AT_TABLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 

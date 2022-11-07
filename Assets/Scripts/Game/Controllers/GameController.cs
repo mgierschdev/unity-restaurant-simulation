@@ -4,7 +4,7 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private const int NPC_MAX_NUMBER = 1;
+    private const int NPC_MAX_NUMBER = 2;
     private const int EMPLOYEE_MAX_NUMBER = 1;
     private int employeeCount = 0;
     private int npcId;
@@ -28,10 +28,33 @@ public class GameController : MonoBehaviour
         {
             SpamNpc();
         }
+
         if (BussGrid.GetFreeCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER)
         {
             SpamEmployee();
             employeeCount++;
+        }
+
+        if (BussGrid.GetFreeBusinessSpots().GetLength(0) > 0)
+        {
+            AssignTable();
+        }
+    }
+
+    private void AssignTable()
+    {
+        GameGridObject table = null;
+
+        if (BussGrid.GetFreeTable(out table))
+        {
+            foreach (NPCController npcController in NpcSet)
+            {
+                if(!npcController.HasTable()){
+                    table.SetHashNPCAssigned(true);
+                    npcController.SetTable(table);
+                    break;
+                }
+            }
         }
     }
 

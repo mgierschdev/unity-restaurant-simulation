@@ -64,7 +64,7 @@ public enum NpcStateTransitions
     TABLE_AVAILABLE = 0,
     TABLE_MOVED = 1,
     WALK_TO_UNRESPAWN = 2,
-    UNDEFINED_3 = 3,
+    WAITING_AT_TABLE_TIME = 3,
     UNDEFINED_4 = 4,
     ORDER_SERVED = 5,
     ORDER_FINISHED = 6,
