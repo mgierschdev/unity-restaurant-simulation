@@ -110,15 +110,10 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        if (currentState == NpcState.WALKING_UNRESPAWN)
+        if (currentState == NpcState.WALKING_TO_COUNTER)
         {
-            //gameController.RemoveNpc(this);
-            Destroy(gameObject);
-        }
-
-        if (currentState == NpcState.WALKING_TO_TABLE)
-        {
-            waitingAtTable = true;
+            if (counter == null) { return; }
+            GoTo(counter.GetActionTileInGridPosition());
         }
     }
 
