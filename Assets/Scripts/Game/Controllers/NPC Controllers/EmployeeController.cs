@@ -111,6 +111,7 @@ public class EmployeeController : GameObjectMovementBase
         else if (currentState == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
+            StandTowards(BussGrid.GetCounter().GridPosition);
         }
         else if (currentState == NpcState.WALKING_TO_TABLE)
         {
@@ -158,6 +159,8 @@ public class EmployeeController : GameObjectMovementBase
         else if (currentState == NpcState.TAKING_ORDER && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
             ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
+            StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
+            table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         }
         else if (currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
@@ -277,73 +280,73 @@ public class EmployeeController : GameObjectMovementBase
     //     }
     // }
 
-    private bool IsAtTargetPosition(Vector3 target)
-    {
-        if (Vector3.Distance(Position, target) < Settings.MinDistanceToTarget)
-        {
-            return true;
-        }
-        return false;
-    }
+    // private bool IsAtTargetPosition(Vector3 target)
+    // {
+    //     if (Vector3.Distance(Position, target) < Settings.MinDistanceToTarget)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
-    private void UpdateIsAtCounter_4()
-    {
-        if (!Util.IsAtDistanceWithObject(transform.position, BussGrid.GetCounter().GetActionTile()))
-        {
-            return;
-        }
-        SetStateAtCounter(); //localState = NpcState.AT_COUNTER;
-        idleTime = 0;
-    }
+    // private void UpdateIsAtCounter_4()
+    // {
+    //     if (!Util.IsAtDistanceWithObject(transform.position, BussGrid.GetCounter().GetActionTile()))
+    //     {
+    //         return;
+    //     }
+    //     SetStateAtCounter(); //localState = NpcState.AT_COUNTER;
+    //     idleTime = 0;
+    // }
 
-    private void SetStateAtCounter()
-    {
-        StandTowards(BussGrid.GetCounter().GridPosition);
-        currentState = NpcState.AT_COUNTER;
-    }
+    // private void SetStateAtCounter()
+    // {
 
-    private void UpdateAttendTable_5()
-    {
-        // we idle and not attend the table. "Waiting..."
-        float idleProbability = Random.Range(0, 100);
-        if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
-        {
-            idleTime = 0;
-            return;
-        }
-        currentState = NpcState.WALKING_TO_TABLE;
-        GoToTableToBeAttended();
-    }
+    //     currentState = NpcState.AT_COUNTER;
+    // }
 
-    private void UpdateIsTakingOrder_6()
-    {
-        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(table.GridPosition), transform))
-        {
-            return;
-        }
+    // private void UpdateAttendTable_5()
+    // {
+    //     // we idle and not attend the table. "Waiting..."
+    //     float idleProbability = Random.Range(0, 100);
+    //     if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
+    //     {
+    //         idleTime = 0;
+    //         return;
+    //     }
+    //     currentState = NpcState.WALKING_TO_TABLE;
+    //     GoToTableToBeAttended();
+    // }
 
-        currentState = NpcState.TAKING_ORDER;
+    // private void UpdateIsTakingOrder_6()
+    // {
+    //     if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(table.GridPosition), transform))
+    //     {
+    //         return;
+    //     }
 
-        //the NPC left and the pointer to the table is null, we go to the counter
-        if (table == null || table.GetUsedBy() == null)
-        {
-            if (!RestartState())
-            {
-                currentState = NpcState.IDLE;
-            }
-            return;
-        }
+    //     currentState = NpcState.TAKING_ORDER;
 
-        StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
-        table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
-        table.GetUsedBy().SetBeingAttended();
-    }
+    //     //the NPC left and the pointer to the table is null, we go to the counter
+    //     if (table == null || table.GetUsedBy() == null)
+    //     {
+    //         if (!RestartState())
+    //         {
+    //             currentState = NpcState.IDLE;
+    //         }
+    //         return;
+    //     }
 
-    private void UpdateTakeOrder_7()
-    {
-        currentState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
-        ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
-    }
+    //     StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
+    //     table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
+    //     table.GetUsedBy().SetBeingAttended();
+    // }
+
+    // private void UpdateTakeOrder_7()
+    // {
+    //     currentState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
+    //     ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
+    // }
 
     // The client was attended we return the free table and Add money to the wallet
     // The client leaves the table once the table is set as free
@@ -364,29 +367,29 @@ public class EmployeeController : GameObjectMovementBase
     //     }
     // }
 
-    private void UpdateIsAtCounterAfterOrder_9()
-    {
-        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetCounter().GetActionTile(), transform))
-        {
-            return;
-        }
-        currentState = NpcState.REGISTERING_CASH;
-        StandTowards(BussGrid.GetCounter().GridPosition);
-    }
+    // private void UpdateIsAtCounterAfterOrder_9()
+    // {
+    //     if (!Util.IsAtDistanceWithObjectTraslate(transform.position, BussGrid.GetCounter().GetActionTile(), transform))
+    //     {
+    //         return;
+    //     }
+    //     currentState = NpcState.REGISTERING_CASH;
+    //     StandTowards(BussGrid.GetCounter().GridPosition);
+    // }
 
-    private void UpdateRegisterCash_10()
-    {
-        currentState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
-        ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
-    }
+    // private void UpdateRegisterCash_10()
+    // {
+    //     currentState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
+    //     ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
+    // }
 
-    private void UpdateFinishRegistering_11()
-    {
-        SetStateAtCounter();
-        double orderCost = Random.Range(5, 10);
-        //TODO: cost depending on the NPC order
-        PlayerData.AddMoney(orderCost);
-    }
+    // private void UpdateFinishRegistering_11()
+    // {
+    //     SetStateAtCounter();
+    //     double orderCost = Random.Range(5, 10);
+    //     //TODO: cost depending on the NPC order
+    //     PlayerData.AddMoney(orderCost);
+    // }
 
     public void RecalculateState(GameGridObject obj)
     {
@@ -425,48 +428,48 @@ public class EmployeeController : GameObjectMovementBase
     //     //return GoTo(target);
     // }
 
-    private void GoToTableToBeAttended()
-    {
-        if (table == null || table.GetIsObjectBeingDragged())
-        {
-            if (BussGrid.GetTableWithClient(out table))
-            {
-                table.SetAttendedBy(this);
-            }
-            else
-            {
-                // If there is not tables with client
-                currentState = NpcState.IDLE;
-                return;
-            }
-        }
+    // private void GoToTableToBeAttended()
+    // {
+    //     if (table == null || table.GetIsObjectBeingDragged())
+    //     {
+    //         if (BussGrid.GetTableWithClient(out table))
+    //         {
+    //             table.SetAttendedBy(this);
+    //         }
+    //         else
+    //         {
+    //             // If there is not tables with client
+    //             currentState = NpcState.IDLE;
+    //             return;
+    //         }
+    //     }
 
-        Vector3Int localTarget = BussGrid.GetPathFindingGridFromWorldPosition(table.GetActionTile());
-        Vector3Int coordOfTableToBeAttended = BussGrid.GetClosestPathGridPoint(Position, localTarget);
+    //     Vector3Int localTarget = BussGrid.GetPathFindingGridFromWorldPosition(table.GetActionTile());
+    //     Vector3Int coordOfTableToBeAttended = BussGrid.GetClosestPathGridPoint(Position, localTarget);
 
-        // Meaning we did not find a correct spot to standup, we return
-        // and enqueue de table to the list again 
-        // if (localTarget == CoordOfTableToBeAttended)
-        // {
-        //     GameLog.Log("TODO: Popup We could not find a proper place to standup - GoToTableToBeAttended()");
-        //     return;
-        // }
+    //     // Meaning we did not find a correct spot to standup, we return
+    //     // and enqueue de table to the list again 
+    //     // if (localTarget == CoordOfTableToBeAttended)
+    //     // {
+    //     //     GameLog.Log("TODO: Popup We could not find a proper place to standup - GoToTableToBeAttended()");
+    //     //     return;
+    //     // }
 
-        // target = coordOfTableToBeAttended;
+    //     // target = coordOfTableToBeAttended;
 
-        // // we can attend the table from the position we are currently at the moment     
-        // // In case the table is placed next to the counter 
-        // if (isAlreadyAtTarget(localTarget))
-        // {
-        //     target = Position;
-        //     coordOfTableToBeAttended = Position;
-        // }
+    //     // // we can attend the table from the position we are currently at the moment     
+    //     // // In case the table is placed next to the counter 
+    //     // if (isAlreadyAtTarget(localTarget))
+    //     // {
+    //     //     target = Position;
+    //     //     coordOfTableToBeAttended = Position;
+    //     // }
 
-        // if (!GoTo(target))
-        // {
-        //     return;
-        // }
-    }
+    //     // if (!GoTo(target))
+    //     // {
+    //     //     return;
+    //     // }
+    // }
 
     public bool RestartState()
     {
