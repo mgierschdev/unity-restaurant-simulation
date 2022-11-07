@@ -9,7 +9,7 @@ public class NPCController : GameObjectMovementBase
     private GameGridObject table;
     private StateMachine stateMachine;
     private bool[] transitionStates;
-    private bool tableMoved, waitingAtTable;
+    private bool tableMoved, waitingAtTable, attended, beingAttended;
     [SerializeField]
     private const float MAX_STATE_TIME = 15;
 
@@ -22,6 +22,8 @@ public class NPCController : GameObjectMovementBase
         transitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
         tableMoved = false;
         waitingAtTable = false;
+        attended = false;
+        beingAttended = false;
     }
 
     private void FixedUpdate()
@@ -82,8 +84,8 @@ public class NPCController : GameObjectMovementBase
         transitionStates[8] = false; // COUNTER_MOVED = 8,
         transitionStates[9] = Wander(); // WANDER = 9,
         transitionStates[10] = false; // UNDEFINED_10 = 10,
-        transitionStates[11] = false; // ATTENDED = 11,
-        transitionStates[12] = false; // BEING_ATTENDED = 12,
+        transitionStates[11] = attended; // ATTENDED = 11,
+        transitionStates[12] = beingAttended; // BEING_ATTENDED = 12,
         transitionStates[13] = false; // STATE_TIME = 13
         transitionStates[14] = false; // UNDEFINED_14 = 14
 
@@ -392,5 +394,15 @@ public class NPCController : GameObjectMovementBase
     public void SetTableMoved()
     {
         tableMoved = true;
+    }
+
+    public void SetAttended()
+    {
+        attended = true;
+    }
+
+    public void SetBeingAttended()
+    {
+        beingAttended = true;
     }
 }
