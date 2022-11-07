@@ -15,7 +15,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //Energy Bars
     private EnergyBarController energyBar;
     [SerializeField]
-    protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemoving = 0.1f;
+    protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
@@ -131,9 +131,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             npcPrevPositions.Enqueue(current);
             BussGrid.MarkNPCPosition(Position);
 
-            if (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemoving)
+            if (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemovingDebugPanel)
             {
-                while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemoving))
+                while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemovingDebugPanel))
                 {
                     positionAdded.Remove(npcPrevPositions.Peek().Value);
                     BussGrid.RemoveMarkNPCPosition(npcPrevPositions.Peek().Value);
@@ -342,7 +342,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         
         currentTargetGridPosition = pos;
         currentTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(pos);
-        
+
         AddPath(path);
 
         if (pendingMovementQueue.Count != 0)
