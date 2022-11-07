@@ -2,32 +2,35 @@ using System;
 using System.Collections.Generic;
 
 // Npc state machine represented as a directed graph
-public class StateMachine
+// T = NpcState, S = NpcStateTransitions. Finite states = T, Transitions = S
+public class StateMachine<T, S> where T : Enum where S : Enum
 {
     public StateNodeTransition[,] AdjacencyMatrix { get; set; }
-    public Dictionary<NpcState, StateMachineNode> Map { get; set; }
-    public StateMachineNode Current { get; set; }
+    public Dictionary<T, StateMachineNode<T>> Map { get; set; }
+    public StateMachineNode<T> Current { get; set; }
     public bool[] TransitionStates { get; set; }
+    private T startState;
 
-    public StateMachine(StateNodeTransition[,] adjacencyMatrix)
+    public StateMachine(StateNodeTransition[,] adjacencyMatrix, T startState)
     {
         AdjacencyMatrix = adjacencyMatrix;
-        Map = new Dictionary<NpcState, StateMachineNode>();
-        AddNodes();
+        Map = new Dictionary<T, StateMachineNode<T>>();
+        TransitionStates = new bool[Enum.GetNames(typeof(S)).Length];
+        AddNodes();// Adds nodes to map
         BuildGraph();
-        TransitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
-        Current = Map[NpcState.IDLE];
+        Current = Map[startState];
+        this.startState = startState;
     }
 
     private void BuildGraph()
     {
-        foreach (NpcState state in Enum.GetValues(typeof(NpcState)))
+        foreach (T state in Enum.GetValues(typeof(T)))
         {
-            StateMachineNode node = Map[state];
+            StateMachineNode<T> node = Map[state];
 
-            foreach (NpcState neighbor in Enum.GetValues(typeof(NpcState)))
+            foreach (T neighbor in Enum.GetValues(typeof(T)))
             {
-                if (AdjacencyMatrix[(int)node.State, (int)neighbor] != null)
+                if (AdjacencyMatrix[(int)Enum.Parse(typeof(T), node.State.ToString()), (int)Enum.Parse(typeof(T), neighbor.ToString())] != null)//test
                 {
                     node.TransitionStates.Add(Map[neighbor]);
                 }
@@ -37,18 +40,18 @@ public class StateMachine
 
     private void AddNodes()
     {
-        foreach (NpcState state in Enum.GetValues(typeof(NpcState)))
+        foreach (T state in Enum.GetValues(typeof(T)))
         {
-            Map.Add(state, new StateMachineNode(state));
+            Map.Add(state, new StateMachineNode<T>(state));
         }
     }
 
     public void printStateMachine()
     {
-        Queue<StateMachineNode> queue = new Queue<StateMachineNode>();
-        HashSet<StateMachineNode> visited = new HashSet<StateMachineNode>();
+        Queue<StateMachineNode<T>> queue = new Queue<StateMachineNode<T>>();
+        HashSet<StateMachineNode<T>> visited = new HashSet<StateMachineNode<T>>();
 
-        queue.Enqueue(Map[NpcState.IDLE]);
+        queue.Enqueue(Map[startState]);
         int level = 0;
 
         while (queue.Count != 0)
@@ -57,10 +60,10 @@ public class StateMachine
 
             while (size-- > 0)
             {
-                StateMachineNode current = queue.Dequeue();
+                StateMachineNode<T> current = queue.Dequeue();
                 GameLog.Log("Node: " + current.State + " floor " + level);
                 visited.Add(current);
-                foreach (StateMachineNode node in current.TransitionStates)
+                foreach (StateMachineNode<T> node in current.TransitionStates)
                 {
                     if (!visited.Contains(node))
                     {
@@ -72,33 +75,33 @@ public class StateMachine
         }
     }
 
-    public void SetTransition(NpcStateTransitions transition)
+    public void SetTransition(S transition)
     {
-        TransitionStates[(int)transition] = true;
+        TransitionStates[(int)(int)Enum.Parse(typeof(T), transition.ToString())] = true;
     }
 
-    public void UnSetTransition(NpcStateTransitions transition)
+    public void UnSetTransition(S transition)
     {
-        TransitionStates[(int)transition] = false;
+        TransitionStates[(int)Enum.Parse(typeof(S), transition.ToString())] = false;
     }
 
-    public bool GetTransitionState(NpcStateTransitions transition)
+    public bool GetTransitionState(S transition)
     {
-        return TransitionStates[(int)transition];
+        return TransitionStates[(int)Enum.Parse(typeof(S), transition.ToString())];
     }
 
     public void UnSetAll()
     {
-        TransitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
+        TransitionStates = new bool[Enum.GetNames(typeof(S)).Length];
     }
 
     public void CheckTransition()
     {
         //TODO: we could encode this into a single integer, instead of an array
         //Except from the time/ attributes
-        foreach (StateMachineNode node in Current.TransitionStates)
+        foreach (StateMachineNode<T> node in Current.TransitionStates)
         {
-            StateNodeTransition transition = AdjacencyMatrix[(int)Current.State, (int)node.State];
+            StateNodeTransition transition = AdjacencyMatrix[(int)Enum.Parse(typeof(T), Current.State.ToString()), (int)Enum.Parse(typeof(T), node.State.ToString())];
             bool valid = true;
 
             for (int i = 0; i < transition.StateTransitions.Length; i++)

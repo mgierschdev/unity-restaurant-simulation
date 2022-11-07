@@ -1,13 +1,14 @@
+using System;
 using System.Collections.Generic;
 
-public class StateMachineNode
+public class StateMachineNode<T> where T : Enum
 {
-    public List<StateMachineNode> TransitionStates { get; set; }
-    public NpcState State { get; set; }
+    public List<StateMachineNode<T>> TransitionStates { get; set; }
+    public T State { get; set; }
 
-    public StateMachineNode(NpcState state)
+    public StateMachineNode(T state)
     {
         State = state;
-        TransitionStates = new List<StateMachineNode>();
+        TransitionStates = new List<StateMachineNode<T>>();
     }
 }
