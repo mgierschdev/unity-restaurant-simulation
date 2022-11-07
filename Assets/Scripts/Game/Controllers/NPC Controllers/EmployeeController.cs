@@ -15,6 +15,7 @@ public class EmployeeController : GameObjectMovementBase
     private void Start()
     {
         type = ObjectType.EMPLOYEE;
+        SetID();
         counter = BussGrid.GetCounter();
         stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine();
     }
@@ -48,13 +49,11 @@ public class EmployeeController : GameObjectMovementBase
             CheckIfAtTarget();
         }
 
-        currentState = stateMachine.Current.State;
-        Debug.Log("current state " + currentState);
         TableWithCustomer();
         Unrespawn();
         CheckCounter();
         stateMachine.CheckTransition();
-        MoveNPC();// Move /or not, depending on the state
+        MoveNPC();// Move/or not, depending on the state
     }
 
     private void CheckCounter()
@@ -71,7 +70,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void TableWithCustomer()
     {
-        if (currentState != NpcState.AT_COUNTER)
+        if (stateMachine.Current.State != NpcState.AT_COUNTER)
         {
             return;
         }
@@ -87,7 +86,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void Unrespawn()
     {
-        if (currentState == NpcState.WALKING_UNRESPAWN || BussGrid.GetCounter() != null)
+        if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN || BussGrid.GetCounter() != null)
         {
             stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
             return;
@@ -109,28 +108,28 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        if (currentState == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
+        if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
             StandTowards(BussGrid.GetCounter().GridPosition);
         }
-        else if (currentState == NpcState.WALKING_TO_TABLE)
+        else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_TABLE);
             stateMachine.UnSetTransition(NpcStateTransitions.AT_COUNTER);
         }
-        else if (currentState == NpcState.TAKING_ORDER && currentEnergy >= 100 && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
+        else if (stateMachine.Current.State == NpcState.TAKING_ORDER && currentEnergy >= 100 && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
             stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
             table.GetUsedBy().SetAttended();
         }
-        else if (currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
+        else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
             stateMachine.SetTransition(NpcStateTransitions.REGISTERING_CASH);
             stateMachine.UnSetTransition(NpcStateTransitions.AT_TABLE);
         }
-        else if (currentState == NpcState.REGISTERING_CASH && currentEnergy >= 100)
+        else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && currentEnergy >= 100)
         {
             stateMachine.UnSetAll();
             stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
@@ -142,34 +141,34 @@ public class EmployeeController : GameObjectMovementBase
 
     private void MoveNPC()
     {
-        if (currentState == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.MOVING_TO_UNSRESPAWN))
+        if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.MOVING_TO_UNSRESPAWN))
         {
             stateMachine.SetTransition(NpcStateTransitions.MOVING_TO_UNSRESPAWN);
             GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         }
-        else if (currentState == NpcState.WALKING_TO_COUNTER)
+        else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER)
         {
             if (counter == null) { return; }
             GoTo(counter.GetActionTileInGridPosition());
         }
-        else if (currentState == NpcState.WALKING_TO_TABLE)
+        else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
         {
             if (table == null) { return; }
             //TODO: improve, method to standup on any non-busy cell
             GoTo(BussGrid.GetClosestPathGridPoint(Position, table.GetActionTileInGridPosition()));
         }
-        else if (currentState == NpcState.TAKING_ORDER && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
+        else if (stateMachine.Current.State == NpcState.TAKING_ORDER && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
             ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
             StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
             table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         }
-        else if (currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
+        else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
             if (counter == null) { return; }
             GoTo(counter.GetActionTileInGridPosition());
         }
-        else if (currentState == NpcState.REGISTERING_CASH && !stateMachine.GetTransitionState(NpcStateTransitions.CASH_REGISTERED))
+        else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && !stateMachine.GetTransitionState(NpcStateTransitions.CASH_REGISTERED))
         {
             ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
         }
@@ -499,7 +498,7 @@ public class EmployeeController : GameObjectMovementBase
 
     public NpcState GetNpcState()
     {
-        return currentState;
+        return stateMachine.Current.State;
     }
 
     public float GetNpcStateTime()

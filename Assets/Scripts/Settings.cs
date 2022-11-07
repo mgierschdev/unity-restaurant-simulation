@@ -2,9 +2,9 @@ public static class Settings
 {
     //DEBUG/DEV parameterss
     public const bool IsFirebaseEmulatorEnabled = true;
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
-    public const float NpcDefaultMovementSpeed = 3f;
+    public const float NpcDefaultMovementSpeed = 2f;
 
     //Player Config
     public const bool PlayerWalkOnClick = true;
