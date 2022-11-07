@@ -67,7 +67,7 @@ public enum NpcStateTransitions
     WAITING_AT_TABLE_TIME = 3,
     COUNTER_AVAILABLE = 4,
     ORDER_SERVED = 5,
-    UNDEFINED_6 = 6,
+    AT_COUNTER = 6,
     ENERGY_BAR_VALUE = 7,
     COUNTER_MOVED = 8,
     WANDER = 9,

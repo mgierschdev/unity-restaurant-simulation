@@ -66,13 +66,13 @@ public class EmployeeController : GameObjectMovementBase
 
         currentState = stateMachine.Current.State;
 
-        transitionStates[0] = counter != null; // TABLE_AVAILABLE = 0,
+        transitionStates[0] = false; // TABLE_AVAILABLE = 0,
         transitionStates[1] = tableMoved; // TABLE_MOVED = 1,
         transitionStates[2] = Unrespawn(); // WALK_TO_UNRESPAWN = 2,
         transitionStates[3] = waitingAtTable; // WAITING_AT_TABLE_TIME = 3,
-        transitionStates[4] = false; // UNDEFINED_4 = 4,
+        transitionStates[4] = counter != null; // COUNTER_AVAILABLE = 4,
         transitionStates[5] = orderServed; // ORDER_SERVED = 5,
-        transitionStates[6] = false; // UNDEFINED_6 = 6,
+        transitionStates[6] = atCounter; // AT_COUNTER = 6,
         transitionStates[7] = false; // ENERGY_BAR_VALUE = 7,
         transitionStates[8] = false; // COUNTER_MOVED = 8,
         transitionStates[9] = false; // WANDER = 9,
@@ -107,6 +107,11 @@ public class EmployeeController : GameObjectMovementBase
         if (!(currentTargetGridPosition.x == Position.x && currentTargetGridPosition.y == Position.y))
         {
             return;
+        }
+
+        if (currentState == NpcState.WALKING_TO_COUNTER && !atCounter)
+        {
+            atCounter = true;
         }
 
     }
