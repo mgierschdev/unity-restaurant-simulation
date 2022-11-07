@@ -92,9 +92,17 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
+        nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         //WALKING_TO_COUNTER --> Other
         nodeTransition[(int)NpcStateTransitions.AT_COUNTER] = true;
         adjMatrix[(int)NpcState.WALKING_TO_COUNTER, (int)NpcState.AT_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
+        nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
+        adjMatrix[(int)NpcState.WALKING_TO_COUNTER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
         //AT_COUNTER --> Other
@@ -102,9 +110,17 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.AT_COUNTER, (int)NpcState.WALKING_TO_TABLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
+        nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
+        adjMatrix[(int)NpcState.AT_COUNTER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         //WALKING_TO_TABLE --> Other
         nodeTransition[(int)NpcStateTransitions.AT_TABLE] = true;
         adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.TAKING_ORDER] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
+        nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
+        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
         //TAKING_ORDER --> Other
@@ -112,14 +128,26 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.TAKING_ORDER, (int)NpcState.WALKING_TO_COUNTER_AFTER_ORDER] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
+        nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
+        adjMatrix[(int)NpcState.TAKING_ORDER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         //WALKING_TO_COUNTER_AFTER_ORDER --> Other
         nodeTransition[(int)NpcStateTransitions.REGISTERING_CASH] = true;
         adjMatrix[(int)NpcState.WALKING_TO_COUNTER_AFTER_ORDER, (int)NpcState.REGISTERING_CASH] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
+        nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
+        adjMatrix[(int)NpcState.WALKING_TO_COUNTER_AFTER_ORDER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         //REGISTERING_CASH --> Other
         nodeTransition[(int)NpcStateTransitions.CASH_REGISTERED] = true;
         adjMatrix[(int)NpcState.REGISTERING_CASH, (int)NpcState.AT_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
+        nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
+        adjMatrix[(int)NpcState.REGISTERING_CASH, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
         return new StateMachine(adjMatrix);
