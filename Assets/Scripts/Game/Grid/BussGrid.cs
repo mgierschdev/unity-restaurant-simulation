@@ -873,7 +873,7 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            if (tmp.HasClient() && !tmp.GetIsObjectBeingDragged() && !PlayerData.IsItemStored(tmp.Name))
+            if (tmp.HasClient() && !tmp.GetIsObjectBeingDragged() && !PlayerData.IsItemStored(tmp.Name) && tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
             {
                 result = tmp;
                 return true;
@@ -882,7 +882,7 @@ public static class BussGrid
 
         return false;
     }
-    // 
+    
     public static bool IsDraggingEnabled(GameGridObject obj)
     {
         return isDraggingEnabled && IsThisSelectedObject(obj.Name);
