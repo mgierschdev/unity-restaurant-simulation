@@ -109,7 +109,7 @@ public class EmployeeController : GameObjectMovementBase
         if (stateTime > MAX_TIME_IN_STATE)
         {
             // if we are already at the counter and the time passed the max time 
-            // there is no customers we stay at the counter, no need to RecalculateState()
+            // there is no cufstomers we stay at the counter, no need to RecalculateState()
             if (currentState == NpcState.AT_COUNTER || BussGrid.GetCounter() == null)
             {
                 return;
