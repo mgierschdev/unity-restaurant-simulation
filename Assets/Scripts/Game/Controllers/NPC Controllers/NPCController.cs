@@ -6,10 +6,6 @@ using Random = UnityEngine.Random;
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
 {
-    private GameGridObject table;
-    private StateMachine stateMachine;
-    private bool[] transitionStates;
-    private bool tableMoved, waitingAtTable, attended, beingAttended, orderServed;
     [SerializeField]
     private const float MAX_STATE_TIME = 15;
 
@@ -19,12 +15,6 @@ public class NPCController : GameObjectMovementBase
         currentState = NpcState.WANDER;
         // MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
         stateMachine = NPCStateMachineFactory.GetClientStateMachine();
-        transitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
-        tableMoved = false;
-        waitingAtTable = false;
-        attended = false;
-        beingAttended = false;
-        orderServed = false;
     }
 
     private void FixedUpdate()
@@ -148,21 +138,6 @@ public class NPCController : GameObjectMovementBase
         if (currentState == NpcState.WALKING_TO_TABLE)
         {
             waitingAtTable = true;
-        }
-    }
-
-    private void UpdateTimeInState()
-    {
-        // keeps the time in the current state
-        if (prevState == currentState)
-        {
-            //Log("Current state time "+stateTime);
-            stateTime += Time.fixedDeltaTime;
-        }
-        else
-        {
-            stateTime = 0;
-            prevState = currentState;
         }
     }
 
