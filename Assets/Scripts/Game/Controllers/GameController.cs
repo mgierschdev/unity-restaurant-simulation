@@ -138,10 +138,8 @@ public class GameController : MonoBehaviour
 
     public bool PositionOverlapsNPC(Vector3Int position)
     {
-        // Employee could not exist
         if (employeeController != null)
         {
-            // We cannot place on top of the employee
             if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.GetCoordOfTableToBeAttended())
             {
                 return true;
