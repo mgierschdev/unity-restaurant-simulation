@@ -31,21 +31,6 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateTransitionStates();
             UpdateAnimation();
-            //UpdateRestartStates();
-
-            // switch (currentState)
-            // {
-            //     case NpcState.WALKING_UNRESPAWN: UpdateIsAtUnrespawn_2(); break;
-            //     case NpcState.IDLE: UpdateGoNextToCounter_3(); break;
-            //     case NpcState.WALKING_TO_COUNTER: UpdateIsAtCounter_4(); break;
-            //     case NpcState.AT_COUNTER when idleTime > TIME_IDLE_BEFORE_TAKING_ORDER: UpdateAttendTable_5(); break;
-            //     case NpcState.WALKING_TO_TABLE: UpdateIsTakingOrder_6(); break;
-            //     case NpcState.TAKING_ORDER: UpdateTakeOrder_7(); break;
-            //     case NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER when currentEnergy >= 100: UpdateOrderAttended_8(); break;
-            //     case NpcState.WALKING_TO_COUNTER_AFTER_ORDER: UpdateIsAtCounterAfterOrder_9(); break;
-            //     case NpcState.REGISTERING_CASH: UpdateRegisterCash_10(); break;
-            //     case NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH when currentEnergy >= 100: UpdateFinishRegistering_11(); break;
-            // }
         }
         catch (Exception e)
         {
@@ -55,7 +40,7 @@ public class EmployeeController : GameObjectMovementBase
 
     public void UpdateTransitionStates()
     {
-        if (IsMoving())
+        if (IsMoving() && IsEnergybarActive())
         {
             return;
         }
@@ -65,32 +50,33 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         currentState = stateMachine.Current.State;
-
-        transitionStates[0] = false; // TABLE_AVAILABLE = 0,
-        transitionStates[1] = tableMoved; // TABLE_MOVED = 1,
-        transitionStates[2] = Unrespawn(); // WALK_TO_UNRESPAWN = 2,
-        transitionStates[3] = waitingAtTable; // WAITING_AT_TABLE_TIME = 3,
-        transitionStates[4] = counter != null; // COUNTER_AVAILABLE = 4,
-        transitionStates[5] = orderServed; // ORDER_SERVED = 5,
-        transitionStates[6] = atCounter; // AT_COUNTER = 6,
-        transitionStates[7] = false; // ENERGY_BAR_VALUE = 7,
-        transitionStates[8] = false; // COUNTER_MOVED = 8,
-        transitionStates[9] = false; // WANDER = 9,
-        transitionStates[10] = false; // UNDEFINED_10 = 10,
-        transitionStates[11] = attended; // ATTENDED = 11,
-        transitionStates[12] = beingAttended; // BEING_ATTENDED = 12,
-        transitionStates[13] = false; // STATE_TIME = 13
-        transitionStates[14] = false; // UNDEFINED_14 = 14
-
-        stateMachine.CheckTransition(transitionStates);
+        TableWithCustomer();
+        Unrespawn();
+        stateMachine.CheckTransition();
         MoveNPC();// Move /or not, depending on the state
     }
 
-    private bool Unrespawn()
+    private void TableWithCustomer()
+    {
+        if (currentState != NpcState.AT_COUNTER)
+        {
+            return;
+        }
+
+        if (BussGrid.GetTableWithClient(out table))
+        {
+            table.SetAttendedBy(this);
+            stateMachine.SetTransition(NpcStateTransitions.TABLE_AVAILABLE);
+        }
+        stateMachine.UnSetTransition(NpcStateTransitions.TABLE_AVAILABLE);
+    }
+
+    private void Unrespawn()
     {
         if (currentState == NpcState.WALKING_UNRESPAWN || BussGrid.GetCounter() != null)
         {
-            return false;
+            stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
+            return;
         }
 
         // we clean the table pointer if assigned
@@ -99,7 +85,7 @@ public class EmployeeController : GameObjectMovementBase
             table.FreeObject();
             table = null;
         }
-        return true;
+        stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
     }
 
     private void CheckIfAtTarget()
@@ -108,12 +94,34 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-
-        if (currentState == NpcState.WALKING_TO_COUNTER && !atCounter)
+        else if (currentState == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
         {
-            atCounter = true;
+            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
         }
-
+        else if (currentState == NpcState.WALKING_TO_TABLE)
+        {
+            stateMachine.SetTransition(NpcStateTransitions.AT_TABLE);
+            stateMachine.UnSetTransition(NpcStateTransitions.AT_COUNTER);
+        }
+        else if (currentState == NpcState.TAKING_ORDER && currentEnergy >= 100 && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
+        {
+            stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
+            table.GetUsedBy().SetAttended();
+        }
+        else if (currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
+        {
+            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
+            stateMachine.SetTransition(NpcStateTransitions.REGISTERING_CASH);
+            stateMachine.UnSetTransition(NpcStateTransitions.AT_TABLE);
+        }
+        else if (currentState == NpcState.REGISTERING_CASH && currentEnergy >= 100)
+        {
+            stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
+            stateMachine.UnSetTransition(NpcStateTransitions.ORDER_SERVED);
+            //TODO: register cost depending on the NPC order
+            double orderCost = Random.Range(5, 10);
+            PlayerData.AddMoney(orderCost);
+        }
     }
 
     private void MoveNPC()
@@ -126,6 +134,25 @@ public class EmployeeController : GameObjectMovementBase
         {
             if (counter == null) { return; }
             GoTo(counter.GetActionTileInGridPosition());
+        }
+        else if (currentState == NpcState.WALKING_TO_TABLE)
+        {
+            if (table == null) { return; }
+            //TODO: improve, method to standup on any non-busy cell
+            GoTo(BussGrid.GetClosestPathGridPoint(Position, table.GetActionTileInGridPosition()));
+        }
+        else if (currentState == NpcState.TAKING_ORDER && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
+        {
+            ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
+        }
+        else if (currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
+        {
+            if (counter == null) { return; }
+            GoTo(counter.GetActionTileInGridPosition());
+        }
+        else if (currentState == NpcState.REGISTERING_CASH && !stateMachine.GetTransitionState(NpcStateTransitions.CASH_REGISTERED))
+        {
+            ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
         }
     }
 
