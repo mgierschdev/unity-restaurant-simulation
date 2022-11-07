@@ -58,7 +58,7 @@ public class NPCController : GameObjectMovementBase
 
     private void MoveNPC()
     {
-        if (currentState == NpcState.WALKING_UNRESPAWN && prevState != NpcState.WALKING_UNRESPAWN)
+        if (currentState == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.WALK_TO_UNRESPAWN))
         {
             GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         }
@@ -75,9 +75,12 @@ public class NPCController : GameObjectMovementBase
 
     private void Unrespawn()
     {
-        if ((!stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) && stateTime < MAX_STATE_TIME && !stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED)) || currentState == NpcState.WALKING_UNRESPAWN)
+        if ((!stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) && 
+        stateTime < MAX_STATE_TIME && 
+        !stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED)) || currentState == NpcState.WALKING_UNRESPAWN)
         {
-            stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
+           stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
+           return;
         }
         // it is required since it most match all operator to pass to the next stage
         stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
