@@ -81,12 +81,16 @@ public class TestPathFind
         expected.Add(new Node(new int[] { 1, 0 }));
         expected.Add(new Node(new int[] { 2, 0 }));
         expected.Add(new Node(new int[] { 3, 0 }));
+        expected.Add(new Node(new int[] { 4, 0 }));
         expected.Add(new Node(new int[] { 4, 1 }));
         expected.Add(new Node(new int[] { 4, 2 }));
         expected.Add(new Node(new int[] { 4, 3 }));
         expected.Add(new Node(new int[] { 4, 4 }));
 
+        Util.PrintGrid(grid);
         path = pathFind.Find(start, target, grid);
+        Util.PrintPath(path);
+
         for (int i = 0; i < path.Count; i++)
         {
             Assert.True(expected[i].Compare(path[i]));
@@ -117,7 +121,9 @@ public class TestPathFind
         path.Clear();
 
         expected.Add(new Node(new int[] { 0, 1 }));
-        expected.Add(new Node(new int[] { 1, 0 }));
+        expected.Add(new Node(new int[] { 0, 2 }));
+        expected.Add(new Node(new int[] { 1, 2 }));
+        expected.Add(new Node(new int[] { 2, 2 }));
         expected.Add(new Node(new int[] { 2, 1 }));
 
         grid[1, 1] = 1;
