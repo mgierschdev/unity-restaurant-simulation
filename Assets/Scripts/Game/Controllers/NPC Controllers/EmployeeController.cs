@@ -102,7 +102,6 @@ public class EmployeeController : GameObjectMovementBase
         return true;
     }
 
-
     private void CheckIfAtTarget()
     {
         if (!(currentTargetGridPosition.x == Position.x && currentTargetGridPosition.y == Position.y))
@@ -110,11 +109,6 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        if (currentState == NpcState.WALKING_TO_COUNTER)
-        {
-            if (counter == null) { return; }
-            GoTo(counter.GetActionTileInGridPosition());
-        }
     }
 
     private void MoveNPC()
@@ -123,19 +117,12 @@ public class EmployeeController : GameObjectMovementBase
         {
             GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         }
-        else if (currentState == NpcState.WANDER)
+        else if (currentState == NpcState.WALKING_TO_COUNTER)
         {
-            GoTo(BussGrid.GetRandomWalkablePosition(Position));
-        }
-        else if (currentState == NpcState.WALKING_TO_TABLE)
-        {
-            if (table == null) { return; }
-            GoTo(table.GetActionTileInGridPosition());
+            if (counter == null) { return; }
+            GoTo(counter.GetActionTileInGridPosition());
         }
     }
-
-
-
 
 
     // This updates checks in case the table is not longer available or any other state in which
