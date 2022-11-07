@@ -4,7 +4,7 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private const int NPC_MAX_NUMBER = 10;
+    private const int NPC_MAX_NUMBER = 1;
     private const int EMPLOYEE_MAX_NUMBER = 1;
     private int employeeCount = 0;
     private int npcId;
@@ -61,23 +61,24 @@ public class GameController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //not longer required since we assign the tables 
         // We check that 2 npc dont have the same table
-        HashSet<string> set = new HashSet<string>();
+        // HashSet<string> set = new HashSet<string>();
 
-        foreach (NPCController npc in NpcSet)
-        {
-            if (npc.HasTable())
-            {
-                if (set.Contains(npc.GetTable().Name))
-                {
-                    npc.SetTableMoved();
-                }
-                else
-                {
-                    set.Add(npc.GetTable().Name);
-                }
-            }
-        }
+        // foreach (NPCController npc in NpcSet)
+        // {
+        //     if (npc.HasTable())
+        //     {
+        //         if (set.Contains(npc.GetTable().Name))
+        //         {
+        //             npc.SetTableMoved();
+        //         }
+        //         else
+        //         {
+        //             set.Add(npc.GetTable().Name);
+        //         }
+        //     }
+        // }
     }
 
     private void LoadUserObjects()

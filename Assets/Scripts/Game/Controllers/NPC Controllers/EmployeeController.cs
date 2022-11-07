@@ -15,7 +15,6 @@ public class EmployeeController : GameObjectMovementBase
     private void Start()
     {
         type = ObjectType.EMPLOYEE;
-        currentState = NpcState.IDLE;
         counter = BussGrid.GetCounter();
         stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine();
     }

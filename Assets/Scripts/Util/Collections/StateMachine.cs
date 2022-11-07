@@ -114,4 +114,14 @@ public class StateMachine
             }
         }
     }
+
+    public override string ToString()
+    {
+        string str = "";
+        for (int i = 0; i < TransitionStates.GetLength(0); i++)
+        {
+            str += Enum.GetName(typeof(NpcStateTransitions), i) + ":" + TransitionStates[i] + "\n";
+        }
+        return str;
+    }
 }
