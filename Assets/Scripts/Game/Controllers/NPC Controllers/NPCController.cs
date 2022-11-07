@@ -68,7 +68,8 @@ public class NPCController : GameObjectMovementBase
         }
 
         currentState = stateMachine.Current.State;
-        Debug.Log("Current state " + currentState + " " + Name);
+
+       // Debug.Log("Current state " + currentState + " " + Name);
 
         transitionStates[0] = CheckIfTableHasBeenAssigned(); // TABLE_AVAILABLE = 0,
         transitionStates[1] = tableMoved; // TABLE_MOVED = 1,
@@ -380,16 +381,6 @@ public class NPCController : GameObjectMovementBase
     public void FlipTowards(Vector3Int direction)
     {
         StandTowards(direction);
-    }
-
-    public void SetAttended()
-    {
-        currentState = NpcState.ATTENDED;
-    }
-
-    public void SetBeingAttended()
-    {
-        currentState = NpcState.BEING_ATTENDED;
     }
 
     public bool HasTable()

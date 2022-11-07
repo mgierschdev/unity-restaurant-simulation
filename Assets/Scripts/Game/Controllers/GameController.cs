@@ -47,10 +47,12 @@ public class GameController : MonoBehaviour
 
         if (BussGrid.GetFreeTable(out table))
         {
+            Debug.Log("Assigning table " + table.Name);
+            
             foreach (NPCController npcController in NpcSet)
             {
-                if(!npcController.HasTable()){
-                    table.SetHashNPCAssigned(true);
+                if (!npcController.HasTable())
+                {
                     table.SetUsedBy(npcController);
                     npcController.SetTable(table);
                     break;
