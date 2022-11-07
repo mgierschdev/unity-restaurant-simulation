@@ -342,8 +342,6 @@ public class MenuHandlerController : MonoBehaviour
         newObject = PlaceAtCameraSquare(obj);
         // }
 
-        BussGrid.CameraController.GoTo(newObject.transform.position);
-
         BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
         baseObjectController.SetNewItem(true, storage);
         baseObjectController.SetStoreGameObject(obj);
