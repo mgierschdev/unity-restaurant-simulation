@@ -49,6 +49,7 @@ public class EmployeeController : GameObjectMovementBase
         }
 
         currentState = stateMachine.Current.State;
+        Debug.Log("current state " + currentState);
         TableWithCustomer();
         Unrespawn();
         CheckCounter();
@@ -131,8 +132,8 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (currentState == NpcState.REGISTERING_CASH && currentEnergy >= 100)
         {
+            stateMachine.UnSetAll();
             stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
-            stateMachine.UnSetTransition(NpcStateTransitions.ORDER_SERVED);
             //TODO: register cost depending on the NPC order
             double orderCost = Random.Range(5, 10);
             PlayerData.AddMoney(orderCost);
@@ -395,27 +396,27 @@ public class EmployeeController : GameObjectMovementBase
     public void RecalculateState(GameGridObject obj)
     {
 
-        if (obj == table)
-        {
-            if (!RestartState())
-            {
-                currentState = NpcState.IDLE;
-            }
-        }
-        else if (currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER || currentState == NpcState.WALKING_TO_COUNTER)
-        {
-            // if (!GoToCounter())
-            // {
-            //     if (IsAtTargetPosition(currentTargetWorldPosition))
-            //     {
-            //         SetStateAtCounter();
-            //     }
-            //     else
-            //     {
-            //         GameLog.LogWarning("Could not go to the counter. RecalculateState()");
-            //     }
-            // }
-        }
+        // if (obj == table)
+        // {
+        //     if (!RestartState())
+        //     {
+        //         currentState = NpcState.IDLE;
+        //     }
+        // }
+        // else if (currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER || currentState == NpcState.WALKING_TO_COUNTER)
+        // {
+        //     // if (!GoToCounter())
+        //     // {
+        //     //     if (IsAtTargetPosition(currentTargetWorldPosition))
+        //     //     {
+        //     //         SetStateAtCounter();
+        //     //     }
+        //     //     else
+        //     //     {
+        //     //         GameLog.LogWarning("Could not go to the counter. RecalculateState()");
+        //     //     }
+        //     // }
+        // }
     }
 
     // private bool GoToCounter()
@@ -512,19 +513,19 @@ public class EmployeeController : GameObjectMovementBase
     }
 
     //In case the table is placed next to the counter there is no need to calculate the path
-    public bool isAlreadyAtTarget(Vector3Int target)
-    {
-        for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
-        {
-            Vector3Int current = new Vector3Int(Position.x + Util.ArroundVectorPoints[i, 0], Position.y + Util.ArroundVectorPoints[i, 1]);
+    // public bool isAlreadyAtTarget(Vector3Int target)
+    // {
+    //     for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
+    //     {
+    //         Vector3Int current = new Vector3Int(Position.x + Util.ArroundVectorPoints[i, 0], Position.y + Util.ArroundVectorPoints[i, 1]);
 
-            if (current == target)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    //         if (current == target)
+    //         {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public Vector3Int GetCoordOfTableToBeAttended()
     {
