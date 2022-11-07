@@ -78,10 +78,9 @@ public class NPCController : GameObjectMovementBase
     {
         if (!stateMachine.GetTransitionState(NpcStateTransitions.WALK_TO_UNRESPAWN))
         {
-            Debug.Log("Checking CheckUnrespawn " + stateTime + " " + stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) + " " + stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED));
             if (stateTime >= MAX_STATE_TIME ||
-            stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) ||
-            stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED))
+                stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) ||
+                stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED))
             {
                 stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
                 stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
@@ -115,9 +114,6 @@ public class NPCController : GameObjectMovementBase
 
     private void CheckIfAtTarget()
     {
-        Debug.Log("Target:" + currentTargetGridPosition);
-
-
         if (!(currentTargetGridPosition.x == Position.x && currentTargetGridPosition.y == Position.y))
         {
             return;

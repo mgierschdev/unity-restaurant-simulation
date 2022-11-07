@@ -87,6 +87,11 @@ public class StateMachine
         return TransitionStates[(int)transition];
     }
 
+    public void UnSetAll()
+    {
+        TransitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
+    }
+
     public void CheckTransition()
     {
         //TODO: we could encode this into a single integer, instead of an array
@@ -100,7 +105,7 @@ public class StateMachine
             {
                 if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
                 {
-                    //GameLog.Log("Cannot move to: " + node.State + " attribute " + Enum.GetName(typeof(NpcStateTransitions), i));
+                    //GameLog.Log("Cannot move from "+Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
                     valid = false;
                     break;
                 }
