@@ -37,8 +37,6 @@ public class NPCController : GameObjectMovementBase
 
     public void UpdateTransitionStates()
     {
-        Debug.Log("Name " + Name +" "+stateMachine.ToString());
-        
         if (IsMoving())
         {
             return;
@@ -60,8 +58,9 @@ public class NPCController : GameObjectMovementBase
 
     private void MoveNPC()
     {
-        if (currentState == NpcState.WALKING_UNRESPAWN)
+        if (currentState == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.MOVING_TO_UNSRESPAWN))
         {
+            stateMachine.SetTransition(NpcStateTransitions.MOVING_TO_UNSRESPAWN);
             GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         }
         else if (currentState == NpcState.WANDER)
@@ -116,11 +115,15 @@ public class NPCController : GameObjectMovementBase
 
     private void CheckIfAtTarget()
     {
+        Debug.Log("Target:" + currentTargetGridPosition);
+
+
         if (!(currentTargetGridPosition.x == Position.x && currentTargetGridPosition.y == Position.y))
         {
             return;
         }
-        else if (currentState == NpcState.WALKING_UNRESPAWN)
+
+        if (currentState == NpcState.WALKING_UNRESPAWN)
         {
             gameController.RemoveNpc(this);
             if (table != null)

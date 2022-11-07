@@ -75,7 +75,7 @@ public enum NpcStateTransitions
     ATTENDED = 11,
     BEING_ATTENDED = 12,
     CASH_REGISTERED = 13,
-    UNDEFINED_14 = 14
+    MOVING_TO_UNSRESPAWN = 14
 }
 
 //Players and NPCs, to set the NPC to wander or other states
