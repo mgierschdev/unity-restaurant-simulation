@@ -38,7 +38,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //State machine
     protected GameGridObject table;
     protected StateMachine stateMachine;
-    
+
     private void Awake()
     {
         Name = transform.name;
@@ -72,10 +72,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         idleTime = 0;
         stateTime = 0;
         prevState = currentState;
-        Name = transform.name;
+        SetID();
         energyBarSpeed = 20f;
         currentState = NpcState.IDLE;
         UpdatePosition();
+    }
+
+    private void SetID()
+    {
+        string id = BussGrid.GameController.GetNpcSet().Count + 1 + "-" + Time.frameCount;
+        transform.name = type + "." + id;
+        Name = transform.name;
     }
 
     protected void ActivateEnergyBar(float val)
