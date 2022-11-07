@@ -7,6 +7,7 @@ public class StateMachine
     public StateNodeTransition[,] AdjacencyMatrix { get; set; }
     public Dictionary<NpcState, StateMachineNode> Map { get; set; }
     public StateMachineNode Current { get; set; }
+    public bool[] TransitionStates { get; set; }
 
     public StateMachine(StateNodeTransition[,] adjacencyMatrix)
     {
@@ -14,6 +15,7 @@ public class StateMachine
         Map = new Dictionary<NpcState, StateMachineNode>();
         AddNodes();
         BuildGraph();
+        TransitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
         Current = Map[NpcState.IDLE];
     }
 
@@ -70,7 +72,22 @@ public class StateMachine
         }
     }
 
-    public void CheckTransition(bool[] transitionAttributes)
+    public void SetTransition(NpcStateTransitions transition)
+    {
+        TransitionStates[(int)transition] = true;
+    }
+
+    public void UnSetTransition(NpcStateTransitions transition)
+    {
+        TransitionStates[(int)transition] = false;
+    }
+
+    public bool GetTransitionState(NpcStateTransitions transition)
+    {
+        return TransitionStates[(int)transition];
+    }
+
+    public void CheckTransition()
     {
         //TODO: we could encode this into a single integer, instead of an array
         //Except from the time/ attributes
@@ -81,9 +98,9 @@ public class StateMachine
 
             for (int i = 0; i < transition.StateTransitions.Length; i++)
             {
-                if (transition.StateTransitions[i] && transitionAttributes[i] != transition.StateTransitions[i])
+                if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
                 {
-                    GameLog.Log("Cannot move to: " + node.State +" attribute "+ i);
+                    GameLog.Log("Cannot move to: " + node.State + " attribute " + Enum.GetName(typeof(NpcStateTransitions), i));
                     valid = false;
                     break;
                 }
