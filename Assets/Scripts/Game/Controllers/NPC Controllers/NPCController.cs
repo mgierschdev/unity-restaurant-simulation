@@ -48,8 +48,9 @@ public class NPCController : GameObjectMovementBase
         }
 
         currentState = stateMachine.Current.State;
+
+        CheckUnrespawn();
         CheckIfTableHasBeenAssigned();
-        Unrespawn();
         Wander();
 
         stateMachine.CheckTransition();
@@ -58,7 +59,7 @@ public class NPCController : GameObjectMovementBase
 
     private void MoveNPC()
     {
-        if (currentState == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.WALK_TO_UNRESPAWN))
+        if (currentState == NpcState.WALKING_UNRESPAWN)
         {
             GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         }
@@ -73,24 +74,18 @@ public class NPCController : GameObjectMovementBase
         }
     }
 
-    private void Unrespawn()
+    private void CheckUnrespawn()
     {
-        if ((!stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) && 
-        stateTime < MAX_STATE_TIME && 
-        !stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED)) || currentState == NpcState.WALKING_UNRESPAWN)
+        if (currentState != NpcState.WALKING_UNRESPAWN)
         {
-           stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
-           return;
+            if (stateTime >= MAX_STATE_TIME || 
+            stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) || 
+            stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED))
+            {
+                stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
+                stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
+            }
         }
-        // it is required since it most match all operator to pass to the next stage
-        stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
-        // we clean the table pointer if assigned
-        if (table != null)
-        {
-            table.FreeObject();
-            table = null;
-        }
-        stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
     }
 
     private void Wander()
@@ -123,14 +118,17 @@ public class NPCController : GameObjectMovementBase
         {
             return;
         }
-
-        if (currentState == NpcState.WALKING_UNRESPAWN)
+        else if (currentState == NpcState.WALKING_UNRESPAWN)
         {
             gameController.RemoveNpc(this);
+            if (table != null)
+            {
+                table.FreeObject();
+                table = null;
+            }
             Destroy(gameObject);
         }
-
-        if (currentState == NpcState.WALKING_TO_TABLE)
+        else if (currentState == NpcState.WALKING_TO_TABLE)
         {
             stateMachine.SetTransition(NpcStateTransitions.WAITING_AT_TABLE);
         }
