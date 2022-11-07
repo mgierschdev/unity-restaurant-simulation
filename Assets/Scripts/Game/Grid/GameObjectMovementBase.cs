@@ -50,6 +50,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         pendingMovementQueue = new Queue();
         positionAdded = new HashSet<Vector3Int>();
         npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
+        transitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
 
         GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
         gameController = gameObject.GetComponent<GameController>();
@@ -76,7 +77,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         prevState = currentState;
         Name = transform.name;
         energyBarSpeed = 20f;
-        transitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
         tableMoved = false;
         waitingAtTable = false;
         attended = false;
