@@ -69,7 +69,7 @@ public class NPCController : GameObjectMovementBase
 
         currentState = stateMachine.Current.State;
 
-       // Debug.Log("Current state " + currentState + " " + Name);
+        Debug.Log("Current state " + currentState + " " + Name);
 
         transitionStates[0] = CheckIfTableHasBeenAssigned(); // TABLE_AVAILABLE = 0,
         transitionStates[1] = tableMoved; // TABLE_MOVED = 1,
@@ -103,13 +103,14 @@ public class NPCController : GameObjectMovementBase
         }
         else if (currentState == NpcState.WALKING_TO_TABLE)
         {
+            if (table == null) { return; }
             GoTo(table.GetActionTileInGridPosition());
         }
     }
 
     private bool Unrespawn()
     {
-        if (stateTime < MAX_STATE_TIME || currentState == NpcState.WALKING_UNRESPAWN)
+        if ((!tableMoved && stateTime < MAX_STATE_TIME) || currentState == NpcState.WALKING_UNRESPAWN)
         {
             return false;
         }
