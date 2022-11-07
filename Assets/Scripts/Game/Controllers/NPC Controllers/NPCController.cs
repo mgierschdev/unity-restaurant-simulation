@@ -12,7 +12,6 @@ public class NPCController : GameObjectMovementBase
     private void Start()
     {
         type = ObjectType.NPC;
-        currentState = NpcState.WANDER;
         // MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
         stateMachine = NPCStateMachineFactory.GetClientStateMachine();
     }
@@ -38,6 +37,8 @@ public class NPCController : GameObjectMovementBase
 
     public void UpdateTransitionStates()
     {
+        Debug.Log("Name " + Name +" "+stateMachine.ToString());
+        
         if (IsMoving())
         {
             return;
@@ -76,10 +77,11 @@ public class NPCController : GameObjectMovementBase
 
     private void CheckUnrespawn()
     {
-        if (currentState != NpcState.WALKING_UNRESPAWN)
+        if (!stateMachine.GetTransitionState(NpcStateTransitions.WALK_TO_UNRESPAWN))
         {
-            if (stateTime >= MAX_STATE_TIME || 
-            stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) || 
+            Debug.Log("Checking CheckUnrespawn " + stateTime + " " + stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) + " " + stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED));
+            if (stateTime >= MAX_STATE_TIME ||
+            stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) ||
             stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED))
             {
                 stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
