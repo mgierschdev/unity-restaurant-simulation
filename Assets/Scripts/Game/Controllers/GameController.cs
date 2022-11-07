@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
             {
                 if (set.Contains(npc.GetTable().Name))
                 {
-                    npc.GoToFinalState();
+                    npc.SetTableMoved();
                 }
                 else
                 {

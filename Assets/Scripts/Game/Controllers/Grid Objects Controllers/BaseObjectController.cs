@@ -183,7 +183,7 @@ public class BaseObjectController : MonoBehaviour
 
             if (npc != null)
             {
-                npc.GoToFinalState();
+                npc.SetTableMoved();
             }
 
             if (employee != null)
