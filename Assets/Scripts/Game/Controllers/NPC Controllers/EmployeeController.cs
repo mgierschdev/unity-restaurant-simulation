@@ -52,8 +52,21 @@ public class EmployeeController : GameObjectMovementBase
         currentState = stateMachine.Current.State;
         TableWithCustomer();
         Unrespawn();
+        CheckCounter();
         stateMachine.CheckTransition();
         MoveNPC();// Move /or not, depending on the state
+    }
+
+    private void CheckCounter()
+    {
+        if (counter == null)
+        {
+            stateMachine.UnSetTransition(NpcStateTransitions.COUNTER_AVAILABLE);
+        }
+        else
+        {
+            stateMachine.SetTransition(NpcStateTransitions.COUNTER_AVAILABLE);
+        }
     }
 
     private void TableWithCustomer()
@@ -67,6 +80,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             table.SetAttendedBy(this);
             stateMachine.SetTransition(NpcStateTransitions.TABLE_AVAILABLE);
+            return;
         }
         stateMachine.UnSetTransition(NpcStateTransitions.TABLE_AVAILABLE);
     }
