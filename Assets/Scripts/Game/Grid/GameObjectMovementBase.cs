@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,7 +40,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void Awake()
     {
-        Name = transform.name;
+        SetID();
         currentTargetPosition = transform.position;
         speed = Settings.NpcDefaultMovementSpeed;
         side = CharacterSide.RIGHT;
@@ -72,7 +71,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         idleTime = 0;
         stateTime = 0;
         prevState = currentState;
-        SetID();
         energyBarSpeed = 20f;
         currentState = NpcState.IDLE;
         UpdatePosition();

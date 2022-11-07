@@ -100,7 +100,7 @@ public class StateMachine
             {
                 if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
                 {
-                    GameLog.Log("Cannot move to: " + node.State + " attribute " + Enum.GetName(typeof(NpcStateTransitions), i));
+                    //GameLog.Log("Cannot move to: " + node.State + " attribute " + Enum.GetName(typeof(NpcStateTransitions), i));
                     valid = false;
                     break;
                 }
@@ -108,7 +108,7 @@ public class StateMachine
 
             if (valid)
             {
-                GameLog.Log("Moving to: " + node.State);
+                //GameLog.Log("Moving to: " + node.State);
                 Current = node;
                 break;
             }

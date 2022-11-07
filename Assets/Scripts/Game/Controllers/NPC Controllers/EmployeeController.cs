@@ -107,7 +107,8 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-        else if (currentState == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
+
+        if (currentState == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
             StandTowards(BussGrid.GetCounter().GridPosition);
@@ -140,8 +141,9 @@ public class EmployeeController : GameObjectMovementBase
 
     private void MoveNPC()
     {
-        if (currentState == NpcState.WALKING_UNRESPAWN && prevState != NpcState.WALKING_UNRESPAWN)
+        if (currentState == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.MOVING_TO_UNSRESPAWN))
         {
+            stateMachine.SetTransition(NpcStateTransitions.MOVING_TO_UNSRESPAWN);
             GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         }
         else if (currentState == NpcState.WALKING_TO_COUNTER)
