@@ -154,7 +154,7 @@ public class GameGridObject : GameObjectBase
             // we clean the table from the client
             if (usedBy != null)
             {
-                usedBy.GoToFinalState();
+                usedBy.SetTableMoved();
                 usedBy = null;
             }
 
@@ -297,7 +297,7 @@ public class GameGridObject : GameObjectBase
         if (usedBy != null)
         {
             usedBy.SetTable(null);
-            usedBy.GoToFinalState();
+            usedBy.SetTableMoved();
             usedBy = null;
         }
     }

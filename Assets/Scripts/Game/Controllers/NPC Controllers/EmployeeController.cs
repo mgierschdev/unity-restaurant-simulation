@@ -18,7 +18,7 @@ public class EmployeeController : GameObjectMovementBase
     private void Start()
     {
         type = ObjectType.EMPLOYEE;
-        localState = NpcState.IDLE;
+        currentState = NpcState.IDLE;
     }
 
     private void FixedUpdate()
@@ -32,7 +32,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             UpdateRestartStates();
 
-            switch (localState)
+            switch (currentState)
             {
                 case NpcState.WALKING_UNRESPAWN: UpdateIsAtUnrespawn_2(); break;
                 case NpcState.IDLE: UpdateGoNextToCounter_3(); break;
@@ -63,30 +63,30 @@ public class EmployeeController : GameObjectMovementBase
             tableToBeAttended = null;
         }
 
-        if (BussGrid.GetCounter() != null && BussGrid.GetCounter().GetIsObjectSelected() && localState != NpcState.WALKING_UNRESPAWN)
+        if (BussGrid.GetCounter() != null && BussGrid.GetCounter().GetIsObjectSelected() && currentState != NpcState.WALKING_UNRESPAWN)
         {
             UpdateGoToUnrespawn_1();
         }
-        else if (BussGrid.GetCounter() == null && localState != NpcState.WALKING_UNRESPAWN)
+        else if (BussGrid.GetCounter() == null && currentState != NpcState.WALKING_UNRESPAWN)
         {
             UpdateGoToUnrespawn_1();
         }
-        else if ((localState == NpcState.WALKING_TO_COUNTER ||
-            localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER ||
-            localState == NpcState.AT_COUNTER ||
-            localState == NpcState.REGISTERING_CASH ||
-            localState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH) &&
+        else if ((currentState == NpcState.WALKING_TO_COUNTER ||
+            currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER ||
+            currentState == NpcState.AT_COUNTER ||
+            currentState == NpcState.REGISTERING_CASH ||
+            currentState == NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH) &&
             BussGrid.GetCounter() == null)
         {
             UpdateGoToUnrespawn_1();
         }
-        else if ((localState == NpcState.WALKING_TO_TABLE ||
-            localState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER ||
-            localState == NpcState.TAKING_ORDER) &&
+        else if ((currentState == NpcState.WALKING_TO_TABLE ||
+            currentState == NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER ||
+            currentState == NpcState.TAKING_ORDER) &&
             (tableToBeAttended == null || (tableToBeAttended != null && !tableToBeAttended.HasNPCAssigned())))
         {
             tableToBeAttended = null;
-            localState = NpcState.WALKING_TO_COUNTER;
+            currentState = NpcState.WALKING_TO_COUNTER;
             GoToCounter();
         }
     }
@@ -94,14 +94,14 @@ public class EmployeeController : GameObjectMovementBase
     private void UpdateTimeInState()
     {
         // keeps the time in the current state
-        if (prevState == localState)
+        if (prevState == currentState)
         {
             stateTime += Time.fixedDeltaTime;
         }
         else
         {
             stateTime = 0;
-            prevState = localState;
+            prevState = currentState;
         }
 
         idleTime += Time.fixedDeltaTime;
@@ -110,7 +110,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             // if we are already at the counter and the time passed the max time 
             // there is no customers we stay at the counter, no need to RecalculateState()
-            if (localState == NpcState.AT_COUNTER || BussGrid.GetCounter() == null)
+            if (currentState == NpcState.AT_COUNTER || BussGrid.GetCounter() == null)
             {
                 return;
             }
@@ -122,13 +122,13 @@ public class EmployeeController : GameObjectMovementBase
     //First State
     private void UpdateGoToUnrespawn_1()
     {
-        localState = NpcState.WALKING_UNRESPAWN;
+        currentState = NpcState.WALKING_UNRESPAWN;
         unRespawnTile = BussGrid.GetRandomSpamPointWorldPosition();
         target = unRespawnTile.GridPosition;
         if (!GoTo(target))
         {
             GameLog.LogWarning("Retrying: We could not find a path - UpdateGoToUnrespawn_0()");
-            localState = NpcState.IDLE;
+            currentState = NpcState.IDLE;
         }
     }
 
@@ -142,7 +142,7 @@ public class EmployeeController : GameObjectMovementBase
     }
     private void UpdateGoNextToCounter_3()
     {
-        localState = NpcState.WALKING_TO_COUNTER;
+        currentState = NpcState.WALKING_TO_COUNTER;
         target = BussGrid.GetCounter().GetActionTileInGridPosition();
 
         if (!GoTo(target))
@@ -150,12 +150,12 @@ public class EmployeeController : GameObjectMovementBase
             //Go to counter if it is already at the counter we change the state
             if (IsAtTargetPosition(target))
             {
-                localState = NpcState.AT_COUNTER;
+                currentState = NpcState.AT_COUNTER;
             }
             else
             {
                 GameLog.LogWarning("Retrying: We could not find a path - UpdateGoNextToCounter_1() ");
-                localState = NpcState.IDLE;
+                currentState = NpcState.IDLE;
             }
         }
     }
@@ -182,7 +182,7 @@ public class EmployeeController : GameObjectMovementBase
     private void SetStateAtCounter()
     {
         StandTowards(BussGrid.GetCounter().GridPosition);
-        localState = NpcState.AT_COUNTER;
+        currentState = NpcState.AT_COUNTER;
     }
 
     private void UpdateAttendTable_5()
@@ -194,7 +194,7 @@ public class EmployeeController : GameObjectMovementBase
             idleTime = 0;
             return;
         }
-        localState = NpcState.WALKING_TO_TABLE;
+        currentState = NpcState.WALKING_TO_TABLE;
         GoToTableToBeAttended();
     }
 
@@ -205,14 +205,14 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        localState = NpcState.TAKING_ORDER;
+        currentState = NpcState.TAKING_ORDER;
 
         //the NPC left and the pointer to the table is null, we go to the counter
         if (tableToBeAttended == null || tableToBeAttended.GetUsedBy() == null)
         {
             if (!RestartState())
             {
-                localState = NpcState.IDLE;
+                currentState = NpcState.IDLE;
             }
             return;
         }
@@ -224,7 +224,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void UpdateTakeOrder_7()
     {
-        localState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
+        currentState = NpcState.WAITING_FOR_ENERGY_BAR_TAKING_ORDER;
         ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
     }
 
@@ -232,7 +232,7 @@ public class EmployeeController : GameObjectMovementBase
     // The client leaves the table once the table is set as free
     private void UpdateOrderAttended_8()
     {
-        localState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
+        currentState = NpcState.WALKING_TO_COUNTER_AFTER_ORDER;
         tableToBeAttended.GetUsedBy().SetAttended();
         tableToBeAttended.SetUsedBy(null);
         tableToBeAttended = null;
@@ -253,13 +253,13 @@ public class EmployeeController : GameObjectMovementBase
         {
             return;
         }
-        localState = NpcState.REGISTERING_CASH;
+        currentState = NpcState.REGISTERING_CASH;
         StandTowards(BussGrid.GetCounter().GridPosition);
     }
 
     private void UpdateRegisterCash_10()
     {
-        localState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
+        currentState = NpcState.WAITING_FOR_ENERGY_BAR_REGISTERING_CASH;
         ActivateEnergyBar(SPEED_TIME_TO_REGISTER_IN_CASH);
     }
 
@@ -278,10 +278,10 @@ public class EmployeeController : GameObjectMovementBase
         {
             if (!RestartState())
             {
-                localState = NpcState.IDLE;
+                currentState = NpcState.IDLE;
             }
         }
-        else if (localState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER || localState == NpcState.WALKING_TO_COUNTER)
+        else if (currentState == NpcState.WALKING_TO_COUNTER_AFTER_ORDER || currentState == NpcState.WALKING_TO_COUNTER)
         {
             if (!GoToCounter())
             {
@@ -319,7 +319,7 @@ public class EmployeeController : GameObjectMovementBase
             else
             {
                 // If there is not tables with client
-                localState = NpcState.IDLE;
+                currentState = NpcState.IDLE;
                 return;
             }
         }
@@ -360,7 +360,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             if (IsAtTargetPosition(target))
             {
-                localState = NpcState.AT_COUNTER;
+                currentState = NpcState.AT_COUNTER;
                 return true;
             }
             else
@@ -370,13 +370,13 @@ public class EmployeeController : GameObjectMovementBase
             return false;
         }
 
-        localState = NpcState.WALKING_TO_COUNTER;
+        currentState = NpcState.WALKING_TO_COUNTER;
         return true;
     }
 
     public NpcState GetNpcState()
     {
-        return localState;
+        return currentState;
     }
 
     public float GetNpcStateTime()
