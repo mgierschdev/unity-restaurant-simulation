@@ -12,7 +12,7 @@ public class NPCController : GameObjectMovementBase
     private bool tableAvailable;
     private bool tableMoved;
     [SerializeField]
-    private const float MAX_STATE_TIME = 10;
+    private const float MAX_STATE_TIME = 20;
 
     private void Start()
     {
@@ -54,6 +54,7 @@ public class NPCController : GameObjectMovementBase
         catch (Exception e)
         {
             GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate NPCController): " + e);
+            tableMoved = true; // we unrespawn
         }
     }
 
@@ -88,6 +89,19 @@ public class NPCController : GameObjectMovementBase
         transitionStates[14] = IsMoving(); // NPC_IS_MOVING = 14
 
         stateMachine.CheckTransition(transitionStates);
+        MoveNPC();// Move /or not, depending on the state
+    }
+
+    private void MoveNPC()
+    {
+        if (currentState == NpcState.WALKING_UNRESPAWN)
+        {
+            GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
+        }
+        else if (currentState == NpcState.WANDER)
+        {
+            GoTo(BussGrid.GetRandomWalkablePosition(Position));
+        }
     }
 
     private bool Unrespawn()
@@ -96,18 +110,16 @@ public class NPCController : GameObjectMovementBase
         {
             return false;
         }
-        GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         return true;
     }
 
     private bool Wander()
     {
-        float randT = Random.Range(0, 1000);
+        float randT = Random.Range(0, 1000);//TODO
         if (currentState != NpcState.IDLE || randT > 2)
         {
             return false;
         }
-        GoTo(GetRandomWalkablePosition());
         return true;
     }
 
@@ -118,10 +130,12 @@ public class NPCController : GameObjectMovementBase
             return;
         }
 
+        if (currentState == NpcState.WALKING_UNRESPAWN)
+        {
+            gameController.RemoveNpc(this);
+            Destroy(gameObject);
+        }
     }
-
-
-
 
     // public void UpdateTableAvailability()
     // {
@@ -318,18 +332,6 @@ public class NPCController : GameObjectMovementBase
     //         return;
     //     }
     // }
-
-
-    private Vector3Int GetRandomWalkablePosition()
-    {
-        Vector3Int wanderPos = Position;
-        // There is a small chance that the NPC will go to the same place 
-        while (wanderPos == Position)
-        {
-            wanderPos = BussGrid.GetRandomWalkableGridPosition();
-        }
-        return wanderPos;
-    }
 
     public NpcState GetNpcState()
     {
