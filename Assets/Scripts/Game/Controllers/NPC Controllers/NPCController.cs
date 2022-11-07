@@ -9,8 +9,7 @@ public class NPCController : GameObjectMovementBase
     private GameGridObject table;
     private StateMachine stateMachine;
     private bool[] transitionStates;
-    private bool tableAvailable;
-    private bool tableMoved;
+    private bool tableMoved, waitingAtTable;
     [SerializeField]
     private const float MAX_STATE_TIME = 15;
 
@@ -21,8 +20,8 @@ public class NPCController : GameObjectMovementBase
         // MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
         stateMachine = NPCStateMachineFactory.GetClientStateMachine();
         transitionStates = new bool[Enum.GetNames(typeof(NpcStateTransitions)).Length];
-        tableAvailable = false;
         tableMoved = false;
+        waitingAtTable = false;
     }
 
     private void FixedUpdate()
@@ -38,7 +37,6 @@ public class NPCController : GameObjectMovementBase
             //Handle NPC States
             // switch (localState)
             // {
-            //     case NpcState.WANDER: Wander_0(); break;
             //     case NpcState.IDLE: UpdateFindPlace_1(); break;
             //     case NpcState.WALKING_TO_TABLE: UpdateIsAtTable_2(); break;
             //     case NpcState.AT_TABLE: UpdateWaitToBeAttended_3(); break;
@@ -72,10 +70,10 @@ public class NPCController : GameObjectMovementBase
         currentState = stateMachine.Current.State;
         Debug.Log("Current state " + currentState + " " + Name);
 
-        transitionStates[0] = tableAvailable; // TABLE_AVAILABLE = 0,
+        transitionStates[0] = CheckIfTableHasBeenAssigned(); // TABLE_AVAILABLE = 0,
         transitionStates[1] = tableMoved; // TABLE_MOVED = 1,
         transitionStates[2] = Unrespawn(); // WALK_TO_UNRESPAWN = 2,
-        transitionStates[3] = false; // UNDEFINED_3 = 3,
+        transitionStates[3] = waitingAtTable; // WAITING_AT_TABLE_TIME = 3,
         transitionStates[4] = false; // UNDEFINED_4 = 4,
         transitionStates[5] = false; // ORDER_SERVED = 5,
         transitionStates[6] = false; // ORDER_FINISHED = 6,
@@ -94,13 +92,17 @@ public class NPCController : GameObjectMovementBase
 
     private void MoveNPC()
     {
-        if (currentState == NpcState.WALKING_UNRESPAWN)
+        if (currentState == NpcState.WALKING_UNRESPAWN && prevState != NpcState.WALKING_UNRESPAWN)
         {
             GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
         }
         else if (currentState == NpcState.WANDER)
         {
             GoTo(BussGrid.GetRandomWalkablePosition(Position));
+        }
+        else if (currentState == NpcState.WALKING_TO_TABLE)
+        {
+            GoTo(table.GetActionTileInGridPosition());
         }
     }
 
@@ -109,6 +111,14 @@ public class NPCController : GameObjectMovementBase
         if (stateTime < MAX_STATE_TIME || currentState == NpcState.WALKING_UNRESPAWN)
         {
             return false;
+        }
+        // it is required since it most match all operator to pass to the next stage
+        tableMoved = true;
+        // we clean the table pointer if assigned
+        if (table != null)
+        {
+            table.FreeObject();
+            table = null;
         }
         return true;
     }
@@ -123,9 +133,18 @@ public class NPCController : GameObjectMovementBase
         return true;
     }
 
+    private bool CheckIfTableHasBeenAssigned()
+    {
+        if (currentState != NpcState.IDLE)
+        {
+            return false;
+        }
+        return table != null;
+    }
+
     private void CheckIfAtTarget()
     {
-        if (!Util.IsAtDistanceWithObjectTraslate(transform.position, currentTargetWorldPosition, transform))
+        if (!(currentTargetGridPosition.x == Position.x && currentTargetGridPosition.y == Position.y))
         {
             return;
         }
@@ -134,6 +153,11 @@ public class NPCController : GameObjectMovementBase
         {
             gameController.RemoveNpc(this);
             Destroy(gameObject);
+        }
+
+        if (currentState == NpcState.WALKING_TO_TABLE)
+        {
+            waitingAtTable = true;
         }
     }
 
