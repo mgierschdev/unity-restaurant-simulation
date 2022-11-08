@@ -15,7 +15,7 @@ public class GridDebugPanel : EditorWindow
     private GameController gameController;
     private List<Toggle> npcsToggle;
     private Toggle currentlySelectedToggle;
-    private int maxComboboxView = 10;
+    private int maxComboboxView = 10, togglePos;
     private const string EMPTY_CELL_STYLE = "grid-cell-empty",
     BUSY_CELL_STYLE = "grid-cell-busy",
     ACTION_CELL_STYLE = "grid-cell-action",
@@ -280,10 +280,11 @@ public class GridDebugPanel : EditorWindow
 
     private string SetPlayerData()
     {
+        togglePos = 0;
         string output = "Employe and Client states: \n";
         if (gameController.GetEmployeeController() != null)
         {
-            //CreateComboBox(gameController.GetEmployeeController().Name);
+            AddToggle(gameController.GetEmployeeController().Name);
             output += gameController.GetEmployeeController().Name + " State: " + gameController.GetEmployeeController().GetNpcState();
             output += " Time:" + gameController.GetEmployeeController().GetNpcStateTime() + " \n";
         }
@@ -294,11 +295,22 @@ public class GridDebugPanel : EditorWindow
 
         foreach (NPCController current in gameController.GetNpcSet())
         {
-            // CreateComboBox(current.Name);
+            AddToggle(current.Name);
             output += current.Name + " State: " + current.GetNpcState() + "(" + (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
         }
 
         return output;
+    }
+
+    private void AddToggle(string name)
+    {
+        if (togglePos >= maxComboboxView)
+        {
+            return;
+        }
+        npcsToggle[togglePos].visible = true;
+        npcsToggle[togglePos].text = name;
+        npcsToggle[togglePos++].name = name;
     }
 
     private void buildComboBoxView()
@@ -323,21 +335,23 @@ public class GridDebugPanel : EditorWindow
         playerToggle.text = name;
         npcsToggle.Add(playerToggle);
         playerToggle.RegisterCallback<ClickEvent>(ToggleClickListener);
+        playerToggle.visible = false;
     }
 
     private void ToggleClickListener(ClickEvent evt)
     {
         Toggle toggle = evt.currentTarget as Toggle;
-        Debug.Log("Clicking " + toggle.name);
-        Debug.Log("Cliking");
+        ComboBoxHandler(toggle);
+        //We draw the state machine for that selected player
+         
     }
 
-    // This will handle that only one combobox can be selected at the time, 
-    private void ComboBoxHandler(string NameID)
+    // This will handle that only one combobox can be selected at the time.
+    private void ComboBoxHandler(Toggle toggle)
     {
         foreach (Toggle t in npcsToggle)
         {
-            if (t.name == NameID)
+            if (toggle == t)
             {
                 t.value = true;
             }
