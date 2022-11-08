@@ -74,10 +74,6 @@
     display: flex;
 }
 
-.state-node-prev-active {
-    background-color: rgb(22, 31, 55);
-}
-
 .next-states-node {
     align-items: center;
     justify-content: center;
@@ -89,19 +85,18 @@
     align-items: center;
     flex-direction: row;
     -unity-text-align: upper-center;
-    font-size: 16px;
+    font-size: 13px;
     -unity-font-style: bold;
     color: rgb(255, 255, 255);
 }
 
 .next-states-node-title {
     flex-direction: row;
-    font-size: 12px;
+    font-size: 10px;
     -unity-font-style: bold;
     -unity-text-align: upper-center;
 }
 
 .state-node-prev-active {
-    background-color: rgb(22, 31, 55);
-    color: rgba(139, 140, 43, 255);
+    background-color: rgb(132, 130, 58);
 }
