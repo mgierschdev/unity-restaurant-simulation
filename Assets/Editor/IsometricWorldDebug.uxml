@@ -13,7 +13,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="PlayerGraphDebuger">
                 <ui:Label text="Player Graph Debuger" name="PlayerGraphDebuger" class="H1" />
-                <ui:Toggle label="NPC" />
+                <ui:VisualElement name="ComboBoxContainer" />
                 <ui:VisualElement name="GraphContainer" />
             </ui:VisualElement>
         </ui:VisualElement>
