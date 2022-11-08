@@ -4,7 +4,6 @@ using Firebase.Extensions;
 using Firebase.Firestore;
 using Firebase.Functions;
 using NUnit.Framework;
-using UnityEngine;
 
 //This test only passes if the firestore emulator suite is running locally and firestore running at 8080
 public class TestFirebase

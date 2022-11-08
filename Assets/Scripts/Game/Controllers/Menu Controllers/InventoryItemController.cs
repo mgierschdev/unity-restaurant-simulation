@@ -6,10 +6,9 @@ public class InventoryItemController : MonoBehaviour
 {
     private Button button;
     private GameObject img;
-    private Image background;
+    private Image background, imgComponent;
     private GameObject text;
     private TextMeshProUGUI textMesh;
-    private Image imgComponent;
 
     void Awake()
     {

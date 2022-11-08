@@ -4,10 +4,7 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private const int NPC_MAX_NUMBER = 10;
-    private const int EMPLOYEE_MAX_NUMBER = 1;
-    private int employeeCount = 0;
-    private int npcId;
+    private int NPC_MAX_NUMBER = 10, EMPLOYEE_MAX_NUMBER = 1, employeeCount = 0, npcId;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
     private GameObject NPCS;
@@ -46,7 +43,7 @@ public class GameController : MonoBehaviour
         GameGridObject table = null;
 
         if (BussGrid.GetFreeTable(out table))
-        {   
+        {
             foreach (NPCController npcController in NpcSet)
             {
                 if (!npcController.HasTable())
