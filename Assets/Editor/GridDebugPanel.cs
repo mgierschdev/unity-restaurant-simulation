@@ -9,7 +9,7 @@ public class GridDebugPanel : EditorWindow
     [SerializeField]
     private bool isGameSceneLoaded, gridDebugEnabled;
     private Label gridDebugContent;
-    private VisualElement gridDisplay, mainContainer, containerGraphDebuger, comboBoxContainer;
+    private VisualElement gridDisplay, mainContainer, containerGraphDebuger, comboBoxContainer, sampleGraphLevel, sampleNode;
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
     private GameController gameController;
@@ -57,6 +57,9 @@ public class GridDebugPanel : EditorWindow
 
         containerGraphDebuger = templateContainer.Q<VisualElement>("GraphContainer"); // Place to show the graph
         comboBoxContainer = templateContainer.Q<VisualElement>("ComboBoxContainer"); // Place to show the graph
+        sampleGraphLevel = templateContainer.Q<VisualElement>("GraphLevel");
+        sampleNode = templateContainer.Q<VisualElement>("NODE");
+
         npcsToggle = new List<Toggle>();
         currentlySelectedToggle = null;
         buildComboBoxView();
@@ -349,7 +352,7 @@ public class GridDebugPanel : EditorWindow
     private void ComboBoxHandler(Toggle toggle)
     {
         currentlySelectedToggle = toggle;
-        
+
         foreach (Toggle t in npcsToggle)
         {
             if (toggle == t)
