@@ -19,7 +19,7 @@ public class EmployeeController : GameObjectMovementBase
         type = ObjectType.EMPLOYEE;
         SetID();
         counter = BussGrid.GetCounter();
-        stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine();
+        stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine(Name);
     }
 
     private void FixedUpdate()
@@ -111,6 +111,14 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
+        Debug.Log(Position + " " + counter.GetActionTileInGridPosition());
+
+        // we check if at counter we set the bit
+        if (counter != null && Position == counter.GetActionTileInGridPosition())
+        {
+            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
+        }
+
         if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
@@ -121,14 +129,21 @@ public class EmployeeController : GameObjectMovementBase
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_TABLE);
             stateMachine.UnSetTransition(NpcStateTransitions.AT_COUNTER);
+            if (table == null) { return; }
+            NPCController controller = table.GetUsedBy();
+            if (controller == null) { return; }
             StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
             table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         }
         else if (stateMachine.Current.State == NpcState.TAKING_ORDER && currentEnergy >= 100 && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
             stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
-            table.GetUsedBy().SetAttended();
+            if (table == null) { return; }
+            NPCController controller = table.GetUsedBy();
+            if (controller == null) { return; }
+            controller.SetAttended();
         }
+
         else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);

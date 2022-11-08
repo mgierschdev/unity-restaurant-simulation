@@ -5,7 +5,7 @@ using IEnumerator = System.Collections.IEnumerator;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private int NPC_MAX_NUMBER = 10,
+    private int NPC_MAX_NUMBER = 4,
     EMPLOYEE_MAX_NUMBER = 1,
     employeeCount = 0,
     npcId;
@@ -40,7 +40,9 @@ public class GameController : MonoBehaviour
                 employeeCount++;
             }
 
-            yield return new WaitForSeconds(1f);
+            Debug.Log("NPCSPam called");
+
+            yield return new WaitForSeconds(5f);
         }
     }
 
@@ -63,7 +65,9 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(2f);
+            Debug.Log("AssignTables called");
+
+            yield return new WaitForSeconds(5f);
         }
     }
 

@@ -141,6 +141,7 @@ public class GameGridObject : GameObjectBase
             GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
             firebaseGameObject.IS_STORED = true;
             PlayerData.StoreItem(this);
+            
             // Clear the Item from the current selected in the grid 
             BussGrid.ClearCurrentClickedActiveGameObject();
 
@@ -148,6 +149,7 @@ public class GameGridObject : GameObjectBase
             if (attendedBy != null)
             {
                 attendedBy.SetTableToBeAttended(null);
+                attendedBy.SetTableMoved();
             }
 
             // we clean the table from the client

@@ -5,14 +5,16 @@ using System.Collections.Generic;
 // T = NpcState, S = NpcStateTransitions. Finite states = T, Transitions = S
 public class StateMachine<T, S> where T : Enum where S : Enum
 {
+    public string ID;
     public StateNodeTransition[,] AdjacencyMatrix { get; set; }
     public Dictionary<T, StateMachineNode<T>> Map { get; set; }
     public StateMachineNode<T> Current { get; set; }
     public bool[] TransitionStates { get; set; }
     private T startState;
 
-    public StateMachine(StateNodeTransition[,] adjacencyMatrix, T startState)
+    public StateMachine(StateNodeTransition[,] adjacencyMatrix, T startState, string ID)
     {
+        this.ID = ID;
         AdjacencyMatrix = adjacencyMatrix;
         Map = new Dictionary<T, StateMachineNode<T>>();
         TransitionStates = new bool[Enum.GetNames(typeof(S)).Length];
@@ -61,7 +63,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
             while (size-- > 0)
             {
                 StateMachineNode<T> current = queue.Dequeue();
-                
+
                 if (visited.Contains(current.State))
                 {
                     continue;
@@ -114,7 +116,12 @@ public class StateMachine<T, S> where T : Enum where S : Enum
             {
                 if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
                 {
-                    //GameLog.Log("Cannot move from " + Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
+                    //TODO: erase debug
+                    if (ID.Contains(Settings.EMPLOYEE_PREFIX))
+                    {
+                        GameLog.Log("Cannot move from " + Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
+                    }
+
                     valid = false;
                     break;
                 }
