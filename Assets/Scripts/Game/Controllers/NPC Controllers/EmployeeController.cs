@@ -11,6 +11,8 @@ public class EmployeeController : GameObjectMovementBase
     SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
     SPEED_TIME_TO_TAKING_ORDER = 80f;
     private GameGridObject counter;
+    [SerializeField]
+    private NpcState state;//TODO: for debug
 
     private void Start()
     {
@@ -52,6 +54,7 @@ public class EmployeeController : GameObjectMovementBase
         TableWithCustomer();
         Unrespawn();
         CheckCounter();
+        state = stateMachine.Current.State;
         stateMachine.CheckTransition();
         MoveNPC();// Move/or not, depending on the state
     }
