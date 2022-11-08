@@ -42,7 +42,25 @@
 }
 
 .grid-cell-npc {
-    background-color: rgba(255, 247, 69, 255);
+    background-color: rgb(255, 247, 69);
     width: 30px;
     height: 30px;
+}
+
+.state-node {
+    background-color: rgb(91, 91, 91);
+    width: 100px;
+    height: 50px;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.state-node-active {
+    background-color: rgba(22, 31, 55, 255);
+}
+
+.graph-level {
 }
