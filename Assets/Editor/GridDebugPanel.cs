@@ -422,7 +422,7 @@ public class GridDebugPanel : EditorWindow
             paintedStates.RemoveAt(paintedStates.Count - 1);
         }
 
-        for (int i = 0; i < cssColors.Length; i++)
+        for (int i = 0; i < paintedStates.Count; i++)
         {
             VisualElement node = paintedStates[i];
             node.RemoveFromClassList(STATE_NODE_ACTIVE);
