@@ -15,7 +15,7 @@ public class GridDebugPanel : EditorWindow
     private GameController gameController;
     private List<Toggle> npcsToggle;
     private StateMachine<NpcState, NpcStateTransitions> currentStateMachine;
-    private Queue<VisualElement> paintedStates;
+    private List<VisualElement> paintedStates;
     private HashSet<VisualElement> paintedStatesSet;
     private Toggle currentSelectedToggle;
     private Dictionary<NpcState, VisualElement> clientGraphNodes, employeeGraphNodes;
@@ -28,8 +28,10 @@ public class GridDebugPanel : EditorWindow
     STATE_NODE = "state-node",
     STATE_NODE_ACTIVE = "state-node-active",
     STATE_NODE_PREV_ACTIVE = "state-node-prev-active",
+    STATE_NODE_PREV_PREV_ACTIVE = "state-node-prev-prev-active",
     STATE_NAME_TITLE_LABEL = "state-name-title",
     NEXT_STATES_NODE_LABEL = "next-states-node-title";
+    private string[] cssColors;
 
     [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
     public static void RunMainScene()
@@ -70,10 +72,12 @@ public class GridDebugPanel : EditorWindow
         comboBoxContainer = templateContainer.Q<VisualElement>(Settings.ComboBoxContainer); // Place to show the graph
         clientGraphNodes = new Dictionary<NpcState, VisualElement>();
         employeeGraphNodes = new Dictionary<NpcState, VisualElement>();
-        paintedStates = new Queue<VisualElement>();
+        paintedStates = new List<VisualElement>();
         paintedStatesSet = new HashSet<VisualElement>();
         BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), ClientContainerGraphDebuger, clientGraphNodes); // Building, Lazy loading
         BuildUIGraph(NPCStateMachineFactory.GetEmployeeStateMachine(), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
+        cssColors = new string[] { STATE_NODE_ACTIVE, STATE_NODE_PREV_ACTIVE, STATE_NODE_PREV_PREV_ACTIVE };
+
 
         npcsToggle = new List<Toggle>();
         currentSelectedToggle = null;
@@ -405,22 +409,50 @@ public class GridDebugPanel : EditorWindow
             return;
         }
 
-        if (paintedStates.Count == 2)
-        {
-            VisualElement deNode = paintedStates.Dequeue();
-            paintedStatesSet.Remove(deNode);
-            deNode.RemoveFromClassList(STATE_NODE_PREV_ACTIVE);
-        }
-
-        if (paintedStates.Count == 1)
-        {
-            paintedStates.Peek().RemoveFromClassList(STATE_NODE_ACTIVE);
-            paintedStates.Peek().AddToClassList(STATE_NODE_PREV_ACTIVE);
-        }
-
-        currentNode.AddToClassList(STATE_NODE_ACTIVE);
-        paintedStates.Enqueue(currentNode);
+        paintedStates.Insert(0, currentNode);
         paintedStatesSet.Add(currentNode);
+
+        if (paintedStates.Count > 3)
+        {
+            VisualElement node = paintedStates[paintedStates.Count - 1];
+            node.RemoveFromClassList(STATE_NODE_ACTIVE);
+            node.RemoveFromClassList(STATE_NODE_PREV_ACTIVE);
+            node.RemoveFromClassList(STATE_NODE_PREV_PREV_ACTIVE);
+            paintedStatesSet.Remove(paintedStates[paintedStates.Count - 1]);
+            paintedStates.RemoveAt(paintedStates.Count - 1);
+        }
+
+        for (int i = 0; i < cssColors.Length; i++)
+        {
+            VisualElement node = paintedStates[i];
+            node.RemoveFromClassList(STATE_NODE_ACTIVE);
+            node.RemoveFromClassList(STATE_NODE_PREV_ACTIVE);
+            node.RemoveFromClassList(STATE_NODE_PREV_PREV_ACTIVE);
+            node.AddToClassList(cssColors[i]);
+        }
+
+        // if (paintedStates.Count == 3)
+        // {
+        //     VisualElement deNode = paintedStates.Dequeue();
+        //     paintedStatesSet.Remove(deNode);
+        //     deNode.RemoveFromClassList(STATE_NODE_PREV_PREV_ACTIVE);
+        // }
+
+        // if (paintedStates.Count == 2)
+        // {
+        //     VisualElement deNode = paintedStates.Dequeue();
+        //     paintedStatesSet.Remove(deNode);
+        //     deNode.RemoveFromClassList(STATE_NODE_PREV_ACTIVE);
+        //     deNode.AddToClassList(STATE_NODE_PREV_PREV_ACTIVE);
+        // }
+
+        // if (paintedStates.Count == 1)
+        // {
+        //     paintedStates.Peek().RemoveFromClassList(STATE_NODE_ACTIVE);
+        //     paintedStates.Peek().AddToClassList(STATE_NODE_PREV_ACTIVE);
+        // }
+
+
     }
 
     private void SetStateMachine(string ID)

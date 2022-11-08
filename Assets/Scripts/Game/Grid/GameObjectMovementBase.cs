@@ -96,11 +96,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         MoveDirection m = GetDirectionFromPositions(Position, target);
 
-        if (Name.Contains(Settings.EMPLOYEE_PREFIX))
-        {
-            Debug.Log(Name + " Flipping towards " + Position + " --> " + target + " MoveDirection: " + m);
-        }
-
         if (m == MoveDirection.LEFT || m == MoveDirection.DOWNLEFT || m == MoveDirection.UPLEFT || m == MoveDirection.UP)
         {
             FlipToSide(CharacterSide.LEFT);
