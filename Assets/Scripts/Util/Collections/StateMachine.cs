@@ -114,6 +114,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
             for (int i = 0; i < transition.StateTransitions.Length; i++)
             {
+                // Transitions from the adj matrix should match TransitionStates
                 if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
                 {
                     //TODO: erase debug
@@ -129,7 +130,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
             if (valid)
             {
-                //GameLog.Log("Moving to: " + node.State);
+                GameLog.Log("Moving to: " + node.State);
                 Current = node;
                 break;
             }

@@ -51,12 +51,24 @@ public class EmployeeController : GameObjectMovementBase
             CheckIfAtTarget();
         }
 
+        // Functions that set/unset bits depending on the environments
         TableWithCustomer();
         Unrespawn();
         CheckCounter();
+        CheckAtCounter();
+
         state = stateMachine.Current.State;
         stateMachine.CheckTransition();
         MoveNPC();// Move/or not, depending on the state
+    }
+
+    private void CheckAtCounter()
+    {
+        // we check if at counter we set the bit
+        if (counter != null && Position.x == counter.GetActionTileInGridPosition().x && Position.y == counter.GetActionTileInGridPosition().y)
+        {
+            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
+        }
     }
 
     private void CheckCounter()
@@ -109,14 +121,6 @@ public class EmployeeController : GameObjectMovementBase
         if (!(currentTargetGridPosition.x == Position.x && currentTargetGridPosition.y == Position.y))
         {
             return;
-        }
-
-        Debug.Log(Position + " " + counter.GetActionTileInGridPosition());
-
-        // we check if at counter we set the bit
-        if (counter != null && Position == counter.GetActionTileInGridPosition())
-        {
-            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
         }
 
         if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
