@@ -16,6 +16,7 @@ public class GridDebugPanel : EditorWindow
     private List<Toggle> npcsToggle;
     private StateMachine<NpcState, NpcStateTransitions> currentStateMachine;
     private Queue<VisualElement> paintedStates;
+    private HashSet<VisualElement> paintedStatesSet;
     private Toggle currentSelectedToggle;
     private Dictionary<NpcState, VisualElement> clientGraphNodes, employeeGraphNodes;
     private int maxComboboxView = 10, togglePos;
@@ -71,6 +72,7 @@ public class GridDebugPanel : EditorWindow
         clientGraphNodes = new Dictionary<NpcState, VisualElement>();
         employeeGraphNodes = new Dictionary<NpcState, VisualElement>();
         paintedStates = new Queue<VisualElement>();
+        paintedStatesSet = new HashSet<VisualElement>();
         BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), ClientContainerGraphDebuger, clientGraphNodes); // Building, Lazy loading
         BuildUIGraph(NPCStateMachineFactory.GetEmployeeStateMachine(), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
 
@@ -399,13 +401,19 @@ public class GridDebugPanel : EditorWindow
 
     private void SetNodesColor(VisualElement currentNode)
     {
-        if (paintedStates.Count >= 2)
+        if (paintedStatesSet.Contains(currentNode))
+        {
+            return;
+        }
+
+        if (paintedStates.Count == 2)
         {
             VisualElement deNode = paintedStates.Dequeue();
+            paintedStatesSet.Remove(deNode);
             deNode.RemoveFromClassList(STATE_NODE_PREV_ACTIVE);
         }
 
-        if (paintedStates.Peek() != null)
+        if (paintedStates.Count == 1)
         {
             paintedStates.Peek().RemoveFromClassList(STATE_NODE_ACTIVE);
             paintedStates.Peek().AddToClassList(STATE_NODE_PREV_ACTIVE);
@@ -413,8 +421,9 @@ public class GridDebugPanel : EditorWindow
 
         currentNode.AddToClassList(STATE_NODE_ACTIVE);
         paintedStates.Enqueue(currentNode);
+        paintedStatesSet.Add(currentNode);
     }
-    
+
     private void SetStateMachine(string ID)
     {
         GameObjectMovementBase controller;
