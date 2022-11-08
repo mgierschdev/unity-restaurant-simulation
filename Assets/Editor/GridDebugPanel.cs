@@ -29,8 +29,7 @@ public class GridDebugPanel : EditorWindow
     STATE_NODE_ACTIVE = "state-node-active",
     STATE_NODE_PREV_ACTIVE = "state-node-prev-active",
     STATE_NAME_TITLE_LABEL = "state-name-title",
-    NEXT_STATES_NODE_LABEL = "next-states-node-title",
-    EMPLOYEE_PREFIX = "EMPLOYEE";
+    NEXT_STATES_NODE_LABEL = "next-states-node-title";
 
     [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
     public static void RunMainScene()
@@ -363,7 +362,7 @@ public class GridDebugPanel : EditorWindow
         currentSelectedToggle = evt.currentTarget as Toggle;
         ComboBoxHandler(currentSelectedToggle);
 
-        if (currentSelectedToggle.name.Contains(EMPLOYEE_PREFIX))
+        if (currentSelectedToggle.name.Contains(Settings.EMPLOYEE_PREFIX))
         {
             EmployeeContainerGraphDebuger.SetEnabled(true);
             ClientContainerGraphDebuger.SetEnabled(false);
@@ -387,7 +386,7 @@ public class GridDebugPanel : EditorWindow
 
         VisualElement node;
 
-        if (currentSelectedToggle.name.Contains(EMPLOYEE_PREFIX))
+        if (currentSelectedToggle.name.Contains(Settings.EMPLOYEE_PREFIX))
         {
             node = employeeGraphNodes[currentStateMachine.Current.State];
         }
@@ -428,7 +427,7 @@ public class GridDebugPanel : EditorWindow
     {
         GameObjectMovementBase controller;
 
-        if (ID.Contains(EMPLOYEE_PREFIX))
+        if (ID.Contains(Settings.EMPLOYEE_PREFIX))
         {
             controller = BussGrid.GameController.GetEmployeeController();
         }

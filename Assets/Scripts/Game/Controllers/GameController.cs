@@ -4,7 +4,10 @@ using UnityEngine;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private int NPC_MAX_NUMBER = 1, EMPLOYEE_MAX_NUMBER = 1, employeeCount = 0, npcId;
+    private int NPC_MAX_NUMBER = 5, 
+    EMPLOYEE_MAX_NUMBER = 1, 
+    employeeCount = 0, 
+    npcId;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
     private GameObject NPCS;

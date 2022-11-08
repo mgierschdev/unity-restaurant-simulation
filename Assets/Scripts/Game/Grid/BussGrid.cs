@@ -297,7 +297,6 @@ public static class BussGrid
     public static bool IsValidBussPosition(GameGridObject gameGridObject)
     {
         Vector3Int gridPosition = gameGridObject.GridPosition;
-        // TODO: cannot close the buss entrance
         bool isClosingGrid = IsClosingIsland(gridPosition);
 
         // Single square objects
