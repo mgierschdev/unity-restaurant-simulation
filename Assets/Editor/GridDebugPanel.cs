@@ -430,29 +430,6 @@ public class GridDebugPanel : EditorWindow
             node.RemoveFromClassList(STATE_NODE_PREV_PREV_ACTIVE);
             node.AddToClassList(cssColors[i]);
         }
-
-        // if (paintedStates.Count == 3)
-        // {
-        //     VisualElement deNode = paintedStates.Dequeue();
-        //     paintedStatesSet.Remove(deNode);
-        //     deNode.RemoveFromClassList(STATE_NODE_PREV_PREV_ACTIVE);
-        // }
-
-        // if (paintedStates.Count == 2)
-        // {
-        //     VisualElement deNode = paintedStates.Dequeue();
-        //     paintedStatesSet.Remove(deNode);
-        //     deNode.RemoveFromClassList(STATE_NODE_PREV_ACTIVE);
-        //     deNode.AddToClassList(STATE_NODE_PREV_PREV_ACTIVE);
-        // }
-
-        // if (paintedStates.Count == 1)
-        // {
-        //     paintedStates.Peek().RemoveFromClassList(STATE_NODE_ACTIVE);
-        //     paintedStates.Peek().AddToClassList(STATE_NODE_PREV_ACTIVE);
-        // }
-
-
     }
 
     private void SetStateMachine(string ID)
