@@ -114,6 +114,7 @@ public class EmployeeController : GameObjectMovementBase
         if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
+            stateMachine.UnSetTransition(NpcStateTransitions.CASH_REGISTERED);
             StandTowards(BussGrid.GetCounter().GridPosition);
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
@@ -136,11 +137,16 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && currentEnergy >= 100)
         {
-            stateMachine.UnSetAll();
             stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
+            currentEnergy = 0;
             //TODO: register cost depending on the NPC order
             double orderCost = Random.Range(5, 10);
             PlayerData.AddMoney(orderCost);
+        }
+        else if (stateMachine.Current.State == NpcState.AT_COUNTER_FINAL)
+        {
+            stateMachine.UnSetAll();
+            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER_FINAL);
         }
     }
 

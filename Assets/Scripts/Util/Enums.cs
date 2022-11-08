@@ -75,7 +75,8 @@ public enum NpcStateTransitions
     ATTENDED = 11,
     BEING_ATTENDED = 12,
     CASH_REGISTERED = 13,
-    MOVING_TO_UNSRESPAWN = 14
+    MOVING_TO_UNSRESPAWN = 14,
+    AT_COUNTER_FINAL = 15
 }
 
 //Players and NPCs, to set the NPC to wander or other states
@@ -86,7 +87,7 @@ public enum NpcState
     AT_TABLE = 2,
     WALKING_TO_COUNTER = 3,
     AT_COUNTER = 4,
-    WALKING_WANDER = 5,
+    AT_COUNTER_FINAL = 5,
     TAKING_ORDER = 6,
     WAITING_TO_BE_ATTENDED = 7,
     WALKING_UNRESPAWN = 8,
