@@ -9,10 +9,13 @@ public class GridDebugPanel : EditorWindow
     [SerializeField]
     private bool isGameSceneLoaded, gridDebugEnabled;
     private Label gridDebugContent;
-    private VisualElement gridDisplay, mainContainer;
+    private VisualElement gridDisplay, mainContainer, containerGraphDebuger, comboBoxContainer;
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
     private GameController gameController;
+    private List<Toggle> npcsToggle;
+    private Toggle currentlySelectedToggle;
+    private int maxComboboxView = 10;
     private const string EMPTY_CELL_STYLE = "grid-cell-empty",
     BUSY_CELL_STYLE = "grid-cell-busy",
     ACTION_CELL_STYLE = "grid-cell-action",
@@ -51,6 +54,13 @@ public class GridDebugPanel : EditorWindow
         gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
         gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
+
+        containerGraphDebuger = templateContainer.Q<VisualElement>("GraphContainer"); // Place to show the graph
+        comboBoxContainer = templateContainer.Q<VisualElement>("ComboBoxContainer"); // Place to show the graph
+        npcsToggle = new List<Toggle>();
+        currentlySelectedToggle = null;
+        buildComboBoxView();
+
         mainContainer.SetEnabled(false);
     }
 
@@ -114,7 +124,7 @@ public class GridDebugPanel : EditorWindow
                     SetBussGrid();
                     string debugText = " ";
                     debugText += DebugBussData();
-                    debugText += GetPlayerStates();
+                    debugText += SetPlayerData();
                     gridDebugContent.text = debugText;
                 }
                 else
@@ -268,11 +278,12 @@ public class GridDebugPanel : EditorWindow
         return output;
     }
 
-    private string GetPlayerStates()
+    private string SetPlayerData()
     {
         string output = "Employe and Client states: \n";
         if (gameController.GetEmployeeController() != null)
         {
+            //CreateComboBox(gameController.GetEmployeeController().Name);
             output += gameController.GetEmployeeController().Name + " State: " + gameController.GetEmployeeController().GetNpcState();
             output += " Time:" + gameController.GetEmployeeController().GetNpcStateTime() + " \n";
         }
@@ -283,9 +294,57 @@ public class GridDebugPanel : EditorWindow
 
         foreach (NPCController current in gameController.GetNpcSet())
         {
+            // CreateComboBox(current.Name);
             output += current.Name + " State: " + current.GetNpcState() + "(" + (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
         }
 
         return output;
+    }
+
+    private void buildComboBoxView()
+    {
+        // Toggle handler
+        comboBoxContainer.Clear();
+        npcsToggle.Clear();
+
+        for (int i = 0; i < maxComboboxView; i++)
+        {
+            CreateComboBox(i.ToString());
+        }
+    }
+
+    //create combobox
+    private void CreateComboBox(string name)
+    {
+        Toggle playerToggle = new Toggle();
+        playerToggle.SetEnabled(true);
+        comboBoxContainer.Add(playerToggle);
+        playerToggle.name = name;
+        playerToggle.text = name;
+        npcsToggle.Add(playerToggle);
+        playerToggle.RegisterCallback<ClickEvent>(ToggleClickListener);
+    }
+
+    private void ToggleClickListener(ClickEvent evt)
+    {
+        Toggle toggle = evt.currentTarget as Toggle;
+        Debug.Log("Clicking " + toggle.name);
+        Debug.Log("Cliking");
+    }
+
+    // This will handle that only one combobox can be selected at the time, 
+    private void ComboBoxHandler(string NameID)
+    {
+        foreach (Toggle t in npcsToggle)
+        {
+            if (t.name == NameID)
+            {
+                t.value = true;
+            }
+            else
+            {
+                t.value = false;
+            }
+        }
     }
 }
