@@ -5,23 +5,17 @@ using UnityEngine;
 // Attached to: MainCamera Object
 public class CameraController : MonoBehaviour
 {
-    private Vector3 pointerDownStart;
-    private Vector3 direction;
-    // MouseScroll zoom 
-    private float targetPosition;
-    private const float CAMERA_MOVEMENT_SPEED = 25f;
-    private const float ZOOM_SPEED = 35;
-    private const float ZOOM_SPEED_PINCH = 8f;
-    private const float MIN_ZOOM_SIZE = 1;
-    private const float MAX_ZOOM_SIZE = 5;
-    //Disabling perspective hand after moving an object
-    private const float MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = 0.5f;
-    // To center camera with respect of the top/bot menu
-    private Vector3 GO_TO_OFFSET = new Vector3(0, 0.5f, 0);
-    // Main Camera
+    private Vector3 pointerDownStart, direction, GO_TO_OFFSET = new Vector3(0, 0.5f, 0), targetVectorPosition;
+    private float targetPosition,
+    targetOrthographicSize,
+    CAMERA_MOVEMENT_SPEED = 25f,
+    ZOOM_SPEED = 35,
+    ZOOM_SPEED_PINCH = 8f,
+    MIN_ZOOM_SIZE = 1,
+    MAX_ZOOM_SIZE = 5,
+    MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = 0.5f;
     private Camera mainCamera;
-    private Vector3 targetVectorPosition;
-    private float targetOrthographicSize;
+
     // Menu Controller
     private MenuHandlerController menuHandlerController;
 
