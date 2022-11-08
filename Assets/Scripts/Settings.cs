@@ -4,7 +4,7 @@ public static class Settings
     public const bool IsFirebaseEmulatorEnabled = true;
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
-    public const float NpcDefaultMovementSpeed = 1f;
+    public const float NpcDefaultMovementSpeed = 3f;
 
     //Player Config
     public const bool PlayerWalkOnClick = true;

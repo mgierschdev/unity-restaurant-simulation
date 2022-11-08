@@ -265,6 +265,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return !Util.IsAtDistanceWithObject(transform.position, currentTargetPosition);
     }
 
+    protected bool IsAtTarget()
+    {
+        return Util.IsAtDistanceWithObject(transform.position, currentTargetPosition);
+    }
+
     // private bool IsPendingQueueEmpty()
     // {
     //     return pendingMovementQueue.Count != 0;
@@ -398,11 +403,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    private bool IsInTargetPosition()
-    {
-        return Util.IsAtDistanceWithObject(currentTargetPosition, transform.position);
-    }
-
     public float GetSpeed()
     {
         return speed;
@@ -413,6 +413,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return energyBar.IsActive();
     }
 
+    private bool IsInTargetPosition()
+    {
+        return Util.IsAtDistanceWithObject(currentTargetPosition, transform.position);
+    }
+    
     public StateMachine<NpcState, NpcStateTransitions> GetStateMachine()
     {
         return stateMachine;

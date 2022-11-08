@@ -76,8 +76,8 @@ public class GridDebugPanel : EditorWindow
         employeeGraphNodes = new Dictionary<NpcState, VisualElement>();
         paintedStates = new List<VisualElement>();
         paintedStatesSet = new HashSet<VisualElement>();
-        BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), ClientContainerGraphDebuger, clientGraphNodes); // Building, Lazy loading
-        BuildUIGraph(NPCStateMachineFactory.GetEmployeeStateMachine(), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
+        BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine("ID"), ClientContainerGraphDebuger, clientGraphNodes); // Building, Lazy loading
+        BuildUIGraph(NPCStateMachineFactory.GetEmployeeStateMachine("ID"), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
         cssColors = new string[] { STATE_NODE_ACTIVE, STATE_NODE_PREV_ACTIVE, STATE_NODE_PREV_PREV_ACTIVE };
 
         npcsToggle = new List<Toggle>();

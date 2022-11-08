@@ -4,7 +4,7 @@ using System;
 // Returns a state machine for npcs
 public static class NPCStateMachineFactory
 {
-    public static StateMachine<NpcState, NpcStateTransitions> GetClientStateMachine()
+    public static StateMachine<NpcState, NpcStateTransitions> GetClientStateMachine(string ID)
     {
         // Keeps the posible transition bewteen the nodes
         StateNodeTransition[,] adjMatrix = new StateNodeTransition[Enum.GetNames(typeof(NpcState)).Length, Enum.GetNames(typeof(NpcState)).Length];
@@ -78,10 +78,10 @@ public static class NPCStateMachineFactory
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
         adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
-        return new StateMachine<NpcState, NpcStateTransitions>(adjMatrix, NpcState.IDLE);
+        return new StateMachine<NpcState, NpcStateTransitions>(adjMatrix, NpcState.IDLE, ID);
     }
 
-    public static StateMachine<NpcState, NpcStateTransitions> GetEmployeeStateMachine()
+    public static StateMachine<NpcState, NpcStateTransitions> GetEmployeeStateMachine(string ID)
     {
         // Keeps the posible transition bewteen the nodes
         StateNodeTransition[,] adjMatrix = new StateNodeTransition[Enum.GetNames(typeof(NpcState)).Length, Enum.GetNames(typeof(NpcState)).Length];
@@ -90,6 +90,10 @@ public static class NPCStateMachineFactory
         //IDLE -> Other
         nodeTransition[(int)NpcStateTransitions.COUNTER_AVAILABLE] = true;
         adjMatrix[(int)NpcState.IDLE, (int)NpcState.WALKING_TO_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
+        nodeTransition[(int)NpcStateTransitions.AT_COUNTER] = true;
+        adjMatrix[(int)NpcState.IDLE, (int)NpcState.AT_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
@@ -187,6 +191,6 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.AT_COUNTER_FINAL, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
-        return new StateMachine<NpcState, NpcStateTransitions>(adjMatrix, NpcState.IDLE);
+        return new StateMachine<NpcState, NpcStateTransitions>(adjMatrix, NpcState.IDLE, ID);
     }
 }

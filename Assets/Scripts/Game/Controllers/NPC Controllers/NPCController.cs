@@ -16,7 +16,7 @@ public class NPCController : GameObjectMovementBase
         type = ObjectType.NPC;
         SetID();
         // MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
-        stateMachine = NPCStateMachineFactory.GetClientStateMachine();
+        stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
     }
 
     private void FixedUpdate()
@@ -170,6 +170,7 @@ public class NPCController : GameObjectMovementBase
     public void SetTableMoved()
     {
         stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
+        stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
     }
 
     public void SetAttended()
