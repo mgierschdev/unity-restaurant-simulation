@@ -7,18 +7,16 @@ using UnityEngine.UIElements;
 public class GridDebugPanel : EditorWindow
 {
     [SerializeField]
-    private bool isGameSceneLoaded;
-    private bool gridDebugEnabled;
+    private bool isGameSceneLoaded, gridDebugEnabled;
     private Label gridDebugContent;
-    private VisualElement gridDisplay;
+    private VisualElement gridDisplay, mainContainer;
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
-    private VisualElement mainContainer;
     private GameController gameController;
-    private const string EMPTY_CELL_STYLE = "grid-cell-empty";
-    private const string BUSY_CELL_STYLE = "grid-cell-busy";
-    private const string ACTION_CELL_STYLE = "grid-cell-action";
-    private const string NPC_BUSY_CELL_STYLE = "grid-cell-npc";
+    private const string EMPTY_CELL_STYLE = "grid-cell-empty", 
+    BUSY_CELL_STYLE = "grid-cell-busy", 
+    ACTION_CELL_STYLE = "grid-cell-action", 
+    NPC_BUSY_CELL_STYLE = "grid-cell-npc";
 
     [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
     public static void RunMainScene()

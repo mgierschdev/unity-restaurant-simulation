@@ -2,8 +2,7 @@
 
 public class CameraScale : MonoBehaviour
 {
-    private float currentWindowAspectRatio;
-    private float targetSpectRatio;
+    private float currentWindowAspectRatio, targetSpectRatio;
     private Camera mainCamera;
 
     private void Start()

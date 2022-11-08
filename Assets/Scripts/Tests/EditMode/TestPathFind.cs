@@ -3,12 +3,10 @@ using NUnit.Framework;
 
 public class TestPathFind
 {
-    private int[] start;
-    private int[] target;
+    private int[] start, target;
     private int[,] grid;
     private PathFind pathFind;
-    private List<Node> path;
-    private List<Node> expected;
+    private List<Node> path, expected;
 
     [SetUp]
     public void Setup()

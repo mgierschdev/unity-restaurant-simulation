@@ -6,9 +6,7 @@ public class BaseObjectController : MonoBehaviour
 {
     [SerializeField]
     private Vector3 currentPos; // Current position of the object including while dragging
-    private bool isCurrentValidPos; // Is the current position valid for the object including while dragging
     protected GameGridObject gameGridObject;
-    // protected ObjectRotation InitialObjectRotation;
     protected MenuHandlerController Menu { get; set; }
     //Long click controller
     private float timeClicking;
@@ -17,17 +15,7 @@ public class BaseObjectController : MonoBehaviour
     private FirebaseGameObject firebaseGameObject;
     private ObjectRotation initialRotation;
     private StoreGameObject storeGameObject;
-    // New item (not yet bought)
-    // isNewItem: New item added through the store
-    private bool isNewItem;
-    private bool isStorageItem;
-    // isNewItemSetted: New item config setted
-    private bool isNewItemSetted;
-    // isSprite seted 
-    private bool isSpriteSetted;
-    // Keeps track of the Drag, if it is disables
-    private bool isDraggDisabled;
-    private bool isLoadingItemSlider;
+    private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled, isLoadingItemSlider;
 
     private void Awake()
     {

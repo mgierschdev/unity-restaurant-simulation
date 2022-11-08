@@ -8,19 +8,14 @@ using UnityEngine.UI;
 // All the bottom calls will be handled by this class.
 public class MenuHandlerController : MonoBehaviour
 {
-    private GameObject centerPanel;
     //center panel scrollview
-    private GameObject scrollView;
-    private GameObject scrollViewContent;
-    private GameObject centerPanelSideMenu;
+    private GameObject centerPanel, scrollView, scrollViewContent, centerPanelSideMenu, leftDownPanel;
     //saves the latest reference to the npc if the menu was opened
     private MenuItem centerTabMenu;
     // Click controller
     private ClickController clickController;
     // Min amount of time the the menu has to be open before activating -> closing on click outside
-    private const float MIN_OPENED_TIME = 0.5f;
-    private float openedTime;
-    private GameObject leftDownPanel;
+    private float MIN_OPENED_TIME = 0.5f, openedTime;
     private TextMeshProUGUI moneyText;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
@@ -352,7 +347,7 @@ public class MenuHandlerController : MonoBehaviour
             pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
             baseObjectController.SetFirebaseGameObject(pair.Value);
         }
-        
+
         BussGrid.SetPreviewItem(baseObjectController);
     }
 

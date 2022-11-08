@@ -9,12 +9,9 @@ using UnityEngine.UI;
 
 public static class PlayerData
 {
-    private static TextMeshProUGUI moneyText;
-    private static TextMeshProUGUI levelText;
-    private static TextMeshProUGUI gemsText;
+    private static TextMeshProUGUI moneyText, levelText, gemsText;
     private static Slider expirienceSlider;
-    private static List<GameGridObject> storedIventory;
-    private static List<GameGridObject> Inventory;
+    private static List<GameGridObject> storedIventory, Inventory;
     private static HashSet<string> setStoredInventory; // Saved stored inventory by ID
     private static FirebaseGameUser user;
 

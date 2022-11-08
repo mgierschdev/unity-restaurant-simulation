@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Node
 {
-    private int x;
-    private int y;
+    private int x, y;
 
     public Node(int x, int y)
     {

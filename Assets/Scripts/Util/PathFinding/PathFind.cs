@@ -3,14 +3,11 @@ using UnityEngine;
 
 public class PathFind
 {
-    private const int COST_DIAGONAL = 14;
-    private const int COST_STRAIGHT = 10;
-
+    private const int COST_DIAGONAL = 14, COST_STRAIGHT = 10;
     private PathNode[,] grid;
     private int[,] arrayGrid;
     private bool found;
-    private PathNode target;
-    private PathNode start;
+    private PathNode target, start;
     private List<int[]> path;
 
     //source to target in grid positions
