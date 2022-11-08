@@ -188,7 +188,15 @@ public class BaseObjectController : MonoBehaviour
 
             if (employee != null)
             {
-                employee.RecalculateState(gameGridObject);
+                if (gameGridObject.Type == ObjectType.NPC_COUNTER)
+                {
+                    employee.SetUnrespawn();
+                }
+                else
+                {
+                    employee.SetTableMoved();
+                }
+                //employee.RecalculateState(gameGridObject);
             }
 
             gameGridObject.FreeObject(); // So it will be removed while dragging   
