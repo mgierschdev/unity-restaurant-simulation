@@ -49,7 +49,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
     public void printStateMachine()
     {
         Queue<StateMachineNode<T>> queue = new Queue<StateMachineNode<T>>();
-        HashSet<StateMachineNode<T>> visited = new HashSet<StateMachineNode<T>>();
+        HashSet<T> visited = new HashSet<T>();
 
         queue.Enqueue(Map[startState]);
         int level = 0;
@@ -61,11 +61,17 @@ public class StateMachine<T, S> where T : Enum where S : Enum
             while (size-- > 0)
             {
                 StateMachineNode<T> current = queue.Dequeue();
-                GameLog.Log("Node: " + current.State + " floor " + level);
-                visited.Add(current);
+                
+                if (visited.Contains(current.State))
+                {
+                    continue;
+                }
+
+                GameLog.Log("Node: " + current.State + " floor " + level + " node id " + current.GetHashCode());
+                visited.Add(current.State);
                 foreach (StateMachineNode<T> node in current.TransitionStates)
                 {
-                    if (!visited.Contains(node))
+                    if (!visited.Contains(node.State))
                     {
                         queue.Enqueue(node);
                     }
@@ -108,7 +114,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
             {
                 if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
                 {
-                    GameLog.Log("Cannot move from " + Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
+                    //GameLog.Log("Cannot move from " + Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
                     valid = false;
                     break;
                 }
@@ -116,7 +122,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
             if (valid)
             {
-                GameLog.Log("Moving to: " + node.State);
+                //GameLog.Log("Moving to: " + node.State);
                 Current = node;
                 break;
             }

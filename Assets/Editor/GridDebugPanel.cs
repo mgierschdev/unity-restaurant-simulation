@@ -424,7 +424,7 @@ public class GridDebugPanel : EditorWindow
 
         StateMachineNode<NpcState> startNode = stateMachine.GetStartNode();
         Queue<StateMachineNode<NpcState>> queue = new Queue<StateMachineNode<NpcState>>();
-        HashSet<StateMachineNode<NpcState>> visited = new HashSet<StateMachineNode<NpcState>>();
+        HashSet<NpcState> visited = new HashSet<NpcState>();
 
         stateMachine.printStateMachine();//debug
         queue.Enqueue(startNode);
@@ -439,15 +439,19 @@ public class GridDebugPanel : EditorWindow
             while (size-- > 0)
             {
                 StateMachineNode<NpcState> current = queue.Dequeue();
-                visited.Add(current);
+                if (visited.Contains(current.State))
+                {
+                    continue;
+                }
 
+                visited.Add(current.State);
                 VisualElement UINode = CreateUIGraphNode(current.State.ToString(), current.GetNextStates());
                 map.Add(current.State, UINode);
                 UILevel.Add(UINode);
 
                 foreach (StateMachineNode<NpcState> node in current.TransitionStates)
                 {
-                    if (!visited.Contains(node))
+                    if (!visited.Contains(node.State))
                     {
                         queue.Enqueue(node);
                     }
