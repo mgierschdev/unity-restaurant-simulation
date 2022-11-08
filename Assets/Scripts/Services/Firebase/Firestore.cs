@@ -7,8 +7,7 @@ public static class Firestore
     private static bool isFirebaseEnabled;
     private static FirebaseFirestore firestore;
     private static DocumentReference docReference;
-    private static string collectionName;
-    private static string document;
+    private static string collectionName, document;
     private static AppOptions appOptions;
     private static FirebaseApp app;
 

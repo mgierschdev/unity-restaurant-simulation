@@ -15,12 +15,8 @@ public class SceneLoadController : MonoBehaviour
     private FirebaseAuth auth;
     // Scene load
     private AsyncOperation operation;
-    private float currentProgress;
+    private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene;
     private DocumentSnapshot userData;
-    // Min time while laoding the screen
-    private float MIN_TIME_LOADING = Settings.ScreenLoadTime; 
-    // Current time at the screen
-    private float currentTimeAtScene; 
     private FirebaseUser newUser;
 
     // Loads Auth and user data
