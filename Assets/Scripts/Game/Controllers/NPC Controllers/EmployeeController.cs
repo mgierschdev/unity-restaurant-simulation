@@ -120,6 +120,8 @@ public class EmployeeController : GameObjectMovementBase
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_TABLE);
             stateMachine.UnSetTransition(NpcStateTransitions.AT_COUNTER);
+            StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
+            table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         }
         else if (stateMachine.Current.State == NpcState.TAKING_ORDER && currentEnergy >= 100 && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
@@ -163,8 +165,6 @@ public class EmployeeController : GameObjectMovementBase
         else if (stateMachine.Current.State == NpcState.TAKING_ORDER && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
             ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
-            StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
-            table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {

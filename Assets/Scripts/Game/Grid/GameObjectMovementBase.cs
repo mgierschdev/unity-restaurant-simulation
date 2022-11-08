@@ -95,6 +95,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected void StandTowards(Vector3Int target)
     {
         MoveDirection m = GetDirectionFromPositions(Position, target);
+
+        if (Name.Contains(Settings.EMPLOYEE_PREFIX))
+        {
+            Debug.Log(Name + " Flipping towards " + Position + " --> " + target + " MoveDirection: " + m);
+        }
+
         if (m == MoveDirection.LEFT || m == MoveDirection.DOWNLEFT || m == MoveDirection.UPLEFT || m == MoveDirection.UP)
         {
             FlipToSide(CharacterSide.LEFT);
@@ -215,6 +221,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected void UpdateAnimation()
     {
         // TODO: for performance reasons only animate inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
+        // another sol: it can also spam the NPC inside/near the camera 
         // Animates depending on the current state
         if (IsMoving())
         {
@@ -255,8 +262,18 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected bool IsMoving()
     {
-        return pendingMovementQueue.Count != 0;
+        // if (Name.Contains(Settings.EMPLOYEE_PREFIX))
+        // {
+        //     Debug.Log("Is Moving " + transform.position + " " + currentTargetPosition + " " + Util.IsAtDistanceWithObject(transform.position, currentTargetPosition));
+        // }
+
+        return !Util.IsAtDistanceWithObject(transform.position, currentTargetPosition);
     }
+
+    // private bool IsPendingQueueEmpty()
+    // {
+    //     return pendingMovementQueue.Count != 0;
+    // }
 
     // Resets the planned Path
     private void ResetMovementQueue()
