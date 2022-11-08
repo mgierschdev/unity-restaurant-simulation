@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
+using IEnumerator = System.Collections.IEnumerator;
 
 public class GridDebugPanel : EditorWindow
 {
@@ -78,12 +80,37 @@ public class GridDebugPanel : EditorWindow
         BuildUIGraph(NPCStateMachineFactory.GetEmployeeStateMachine(), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
         cssColors = new string[] { STATE_NODE_ACTIVE, STATE_NODE_PREV_ACTIVE, STATE_NODE_PREV_PREV_ACTIVE };
 
-
         npcsToggle = new List<Toggle>();
         currentSelectedToggle = null;
         buildComboBoxView();
-
+        EditorCoroutineUtility.StartCoroutine(UpdateUICoroutine(), this);
         mainContainer.SetEnabled(false);
+    }
+
+    // IEnumerator to not refresh the UI on the Update which is computational expensive 
+    private IEnumerator UpdateUICoroutine()
+    {
+        for (; ; )
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                if (gridDebugEnabled)
+                {
+                    SetBussGrid();
+                    string debugText = " ";
+                    debugText += DebugBussData();
+                    debugText += SetPlayerData();
+                    gridDebugContent.text = debugText;
+                    PaintCurrentSelectedNode();
+                }
+                else
+                {
+                    gridDebugContent.text = "";
+                    gridDisplay.Clear();
+                }
+            }
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     // This iterates all buttons 
@@ -139,23 +166,6 @@ public class GridDebugPanel : EditorWindow
         }
         else
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode)
-            {
-                if (gridDebugEnabled)
-                {
-                    SetBussGrid();
-                    string debugText = " ";
-                    debugText += DebugBussData();
-                    debugText += SetPlayerData();
-                    gridDebugContent.text = debugText;
-                    PaintCurrentSelectedNode();
-                }
-                else
-                {
-                    gridDebugContent.text = "";
-                    gridDisplay.Clear();
-                }
-            }
         }
     }
 

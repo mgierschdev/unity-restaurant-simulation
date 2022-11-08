@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using IEnumerator = System.Collections.IEnumerator;
 // This class in charge of loading the game and prefabs
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private int NPC_MAX_NUMBER = 5, 
-    EMPLOYEE_MAX_NUMBER = 1, 
-    employeeCount = 0, 
+    private int NPC_MAX_NUMBER = 10,
+    EMPLOYEE_MAX_NUMBER = 1,
+    employeeCount = 0,
     npcId;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
@@ -20,44 +21,52 @@ public class GameController : MonoBehaviour
         NpcSet = new HashSet<NPCController>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         LoadUserObjects();
+        StartCoroutine(AssignTables());
+        StartCoroutine(NPCSpam());
     }
 
-    private void Update()
+    private IEnumerator NPCSpam()
     {
-        if (NpcSet.Count < NPC_MAX_NUMBER)
+        for (; ; )
         {
-            SpamNpc();
-        }
-
-        if (BussGrid.GetFreeCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER)
-        {
-            SpamEmployee();
-            employeeCount++;
-        }
-
-        if (BussGrid.GetFreeBusinessSpots().GetLength(0) > 0)
-        {
-            AssignTable();
-        }
-    }
-
-    private void AssignTable()
-    {
-        GameGridObject table = null;
-
-        if (BussGrid.GetFreeTable(out table))
-        {
-            foreach (NPCController npcController in NpcSet)
+            if (NpcSet.Count < NPC_MAX_NUMBER)
             {
-                if (!npcController.HasTable())
+                SpamNpc();
+            }
+
+            if (BussGrid.GetFreeCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER)
+            {
+                SpamEmployee();
+                employeeCount++;
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private IEnumerator AssignTables()
+    {
+        for (; ; )
+        {
+            GameGridObject table = null;
+
+            if (BussGrid.GetFreeTable(out table))
+            {
+                foreach (NPCController npcController in NpcSet)
                 {
-                    table.SetUsedBy(npcController);
-                    npcController.SetTable(table);
-                    break;
+                    if (!npcController.HasTable())
+                    {
+                        table.SetUsedBy(npcController);
+                        npcController.SetTable(table);
+                        break;
+                    }
                 }
             }
+
+            yield return new WaitForSeconds(2f);
         }
     }
+
 
     // private void FixedUpdate()
     // {
