@@ -343,12 +343,13 @@ public class GridDebugPanel : EditorWindow
         Toggle toggle = evt.currentTarget as Toggle;
         ComboBoxHandler(toggle);
         //We draw the state machine for that selected player
-         
     }
 
     // This will handle that only one combobox can be selected at the time.
     private void ComboBoxHandler(Toggle toggle)
     {
+        currentlySelectedToggle = toggle;
+        
         foreach (Toggle t in npcsToggle)
         {
             if (toggle == t)
