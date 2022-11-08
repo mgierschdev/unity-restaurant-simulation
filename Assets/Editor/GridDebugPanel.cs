@@ -9,12 +9,14 @@ public class GridDebugPanel : EditorWindow
     [SerializeField]
     private bool isGameSceneLoaded, gridDebugEnabled;
     private Label gridDebugContent;
-    private VisualElement gridDisplay, mainContainer, containerGraphDebuger, comboBoxContainer;
+    private VisualElement gridDisplay, mainContainer, ClientContainerGraphDebuger, EmployeeContainerGraphDebuger, comboBoxContainer;
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
     private GameController gameController;
     private List<Toggle> npcsToggle;
-    private StateMachine<NpcState, NpcStateTransitions> stateMachine;
+    private StateMachine<NpcState, NpcStateTransitions> currentStateMachine;
+    private Toggle currentSelectedToggle;
+    private Dictionary<NpcState, VisualElement> clientGraphNodes, employeeGraphNodes;
     private int maxComboboxView = 10, togglePos;
     private const string EMPTY_CELL_STYLE = "grid-cell-empty",
     BUSY_CELL_STYLE = "grid-cell-busy",
@@ -60,12 +62,19 @@ public class GridDebugPanel : EditorWindow
         gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
 
-        containerGraphDebuger = templateContainer.Q<VisualElement>(Settings.GraphContainer); // Place to show the graph
+        ClientContainerGraphDebuger = templateContainer.Q<VisualElement>(Settings.ClientContainerGraphDebuger); // Place to show the graph
+        EmployeeContainerGraphDebuger = templateContainer.Q<VisualElement>(Settings.EmployeeContainerGraphDebuger); // Place to show the graph
         comboBoxContainer = templateContainer.Q<VisualElement>(Settings.ComboBoxContainer); // Place to show the graph
         VisualElement sampleGraphLevel = templateContainer.Q<VisualElement>(Settings.GraphLevel); // Used for fast prototype
         VisualElement sampleNode = templateContainer.Q<VisualElement>(Settings.NODE); // Used for fast prototype
-
+        BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), ClientContainerGraphDebuger, clientGraphNodes); // Building, Lazy loading
+        BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
+        clientGraphNodes = new Dictionary<NpcState, VisualElement>();
+        employeeGraphNodes = new Dictionary<NpcState, VisualElement>();
+        ClientContainerGraphDebuger.visible = false;
+        EmployeeContainerGraphDebuger.visible = false;
         npcsToggle = new List<Toggle>();
+        currentSelectedToggle = null;
         buildComboBoxView();
 
         mainContainer.SetEnabled(false);
@@ -133,7 +142,6 @@ public class GridDebugPanel : EditorWindow
                     debugText += DebugBussData();
                     debugText += SetPlayerData();
                     gridDebugContent.text = debugText;
-                    BuildUIGraph(); // if statemachine available
                 }
                 else
                 {
@@ -348,10 +356,41 @@ public class GridDebugPanel : EditorWindow
 
     private void ToggleClickListener(ClickEvent evt)
     {
-        Toggle toggle = evt.currentTarget as Toggle;
-        ComboBoxHandler(toggle);
-        //We draw the state machine for that selected player
-        SetStateMachine(toggle.name);
+        currentSelectedToggle = evt.currentTarget as Toggle;
+        ComboBoxHandler(currentSelectedToggle);
+
+        if (currentSelectedToggle.name.Contains("Employee"))
+        {
+            EmployeeContainerGraphDebuger.visible = true;
+            ClientContainerGraphDebuger.visible = false;
+        }
+        else
+        {
+            EmployeeContainerGraphDebuger.visible = false;
+            ClientContainerGraphDebuger.visible = true;
+        }
+
+        SetStateMachine(currentSelectedToggle.name);
+    }
+
+    private void PaintCurrentSelectedNode()
+    {
+        if (currentStateMachine == null)
+        {
+            return;
+        }
+        VisualElement node;
+
+        if (EmployeeContainerGraphDebuger.visible)
+        {
+            node = employeeGraphNodes[currentStateMachine.Current.State];
+        }
+        else
+        {
+            node = clientGraphNodes[currentStateMachine.Current.State];
+        }
+
+        node.AddToClassList(STATE_NODE_ACTIVE);
     }
 
     private void SetStateMachine(string ID)
@@ -370,10 +409,11 @@ public class GridDebugPanel : EditorWindow
         {
             return;
         }
-        stateMachine = controller.GetStateMachine();
+
+        currentStateMachine = controller.GetStateMachine();
     }
 
-    private void BuildUIGraph()
+    private void BuildUIGraph(StateMachine<NpcState, NpcStateTransitions> stateMachine, VisualElement parent, Dictionary<NpcState, VisualElement> map)
     {
         if (stateMachine == null)
         {
@@ -385,7 +425,7 @@ public class GridDebugPanel : EditorWindow
         HashSet<StateMachineNode<NpcState>> set = new HashSet<StateMachineNode<NpcState>>();
         queue.Enqueue(startNode);
         int level = 0;
-        containerGraphDebuger.Clear();
+        parent.Clear();
 
 
         while (queue.Count != 0)
@@ -399,11 +439,7 @@ public class GridDebugPanel : EditorWindow
                 StateMachineNode<NpcState> current = queue.Dequeue();
                 VisualElement UINode = CreateUIGraphNode(current.State.ToString(), current.GetNextStates());
                 UILevel.Add(UINode);
-
-                if (stateMachine.Current == current)
-                {
-                    UINode.AddToClassList(STATE_NODE_ACTIVE);
-                }
+                map.Add(current.State, UINode);
 
                 foreach (StateMachineNode<NpcState> neighbor in current.TransitionStates)
                 {
@@ -413,7 +449,7 @@ public class GridDebugPanel : EditorWindow
                     }
                 }
             }
-            containerGraphDebuger.Add(UILevel);
+            parent.Add(UILevel);
         }
     }
 

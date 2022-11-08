@@ -137,7 +137,8 @@ public static class Settings
     public const string GridDebugContent = "GridDebug";
     public const string GridDisplay = "GridDisplay";
     public const string MainContainer = "MainContainer";
-    public const string GraphContainer = "GraphContainer";
+    public const string ClientContainerGraphDebuger = "ClientContainerGraphDebuger";
+    public const string EmployeeContainerGraphDebuger = "EmployeeContainerGraphDebuger";
     public const string ComboBoxContainer = "ComboBoxContainer";
     public const string GraphLevel = "GraphLevel";
     public const string NODE = "NODE";
