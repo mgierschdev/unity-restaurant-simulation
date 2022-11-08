@@ -9,17 +9,22 @@ public class GridDebugPanel : EditorWindow
     [SerializeField]
     private bool isGameSceneLoaded, gridDebugEnabled;
     private Label gridDebugContent;
-    private VisualElement gridDisplay, mainContainer, containerGraphDebuger, comboBoxContainer, sampleGraphLevel, sampleNode;
+    private VisualElement gridDisplay, mainContainer, containerGraphDebuger, comboBoxContainer;
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
     private GameController gameController;
     private List<Toggle> npcsToggle;
-    private Toggle currentlySelectedToggle;
+    private StateMachine<NpcState, NpcStateTransitions> stateMachine;
     private int maxComboboxView = 10, togglePos;
     private const string EMPTY_CELL_STYLE = "grid-cell-empty",
     BUSY_CELL_STYLE = "grid-cell-busy",
     ACTION_CELL_STYLE = "grid-cell-action",
-    NPC_BUSY_CELL_STYLE = "grid-cell-npc";
+    NPC_BUSY_CELL_STYLE = "grid-cell-npc",
+    GRAPH_LEVEL = "graph-level",
+    STATE_NODE = "state-node",
+    STATE_NODE_ACTIVE = "state-node-active",
+    STATE_NAME_TITLE = "state-name-title",
+    NEXT_STATES_NODE = "next-states-node";
 
     [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
     public static void RunMainScene()
@@ -55,13 +60,12 @@ public class GridDebugPanel : EditorWindow
         gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
 
-        containerGraphDebuger = templateContainer.Q<VisualElement>("GraphContainer"); // Place to show the graph
-        comboBoxContainer = templateContainer.Q<VisualElement>("ComboBoxContainer"); // Place to show the graph
-        sampleGraphLevel = templateContainer.Q<VisualElement>("GraphLevel");
-        sampleNode = templateContainer.Q<VisualElement>("NODE");
+        containerGraphDebuger = templateContainer.Q<VisualElement>(Settings.GraphContainer); // Place to show the graph
+        comboBoxContainer = templateContainer.Q<VisualElement>(Settings.ComboBoxContainer); // Place to show the graph
+        VisualElement sampleGraphLevel = templateContainer.Q<VisualElement>(Settings.GraphLevel); // Used for fast prototype
+        VisualElement sampleNode = templateContainer.Q<VisualElement>(Settings.NODE); // Used for fast prototype
 
         npcsToggle = new List<Toggle>();
-        currentlySelectedToggle = null;
         buildComboBoxView();
 
         mainContainer.SetEnabled(false);
@@ -129,6 +133,7 @@ public class GridDebugPanel : EditorWindow
                     debugText += DebugBussData();
                     debugText += SetPlayerData();
                     gridDebugContent.text = debugText;
+                    BuildUIGraph(); // if statemachine available
                 }
                 else
                 {
@@ -346,13 +351,75 @@ public class GridDebugPanel : EditorWindow
         Toggle toggle = evt.currentTarget as Toggle;
         ComboBoxHandler(toggle);
         //We draw the state machine for that selected player
+        SetStateMachine(toggle.name);
+    }
+
+    private void SetStateMachine(string ID)
+    {
+        GameObjectMovementBase controller;
+
+        if (ID.Contains("Employee"))
+        {
+            controller = BussGrid.GameController.GetEmployeeController();
+        }
+        else
+        {
+            controller = BussGrid.GameController.GetNPC(ID);
+        }
+        if (controller == null)
+        {
+            return;
+        }
+        stateMachine = controller.GetStateMachine();
+    }
+
+    private void BuildUIGraph()
+    {
+        if (stateMachine == null)
+        {
+            return;
+        }
+
+        StateMachineNode<NpcState> startNode = stateMachine.GetStartNode();
+        Queue<StateMachineNode<NpcState>> queue = new Queue<StateMachineNode<NpcState>>();
+        HashSet<StateMachineNode<NpcState>> set = new HashSet<StateMachineNode<NpcState>>();
+        queue.Enqueue(startNode);
+        int level = 0;
+        containerGraphDebuger.Clear();
+
+
+        while (queue.Count != 0)
+        {
+            int size = queue.Count;
+            VisualElement UILevel = CreateUIGraphLevel(level.ToString());
+            level++;
+
+            while (size-- > 0)
+            {
+                StateMachineNode<NpcState> current = queue.Dequeue();
+                VisualElement UINode = CreateUIGraphNode(current.State.ToString(), current.GetNextStates());
+                UILevel.Add(UINode);
+
+                if (stateMachine.Current == current)
+                {
+                    UINode.AddToClassList(STATE_NODE_ACTIVE);
+                }
+
+                foreach (StateMachineNode<NpcState> neighbor in current.TransitionStates)
+                {
+                    if (!set.Contains(neighbor))
+                    {
+                        queue.Enqueue(neighbor);
+                    }
+                }
+            }
+            containerGraphDebuger.Add(UILevel);
+        }
     }
 
     // This will handle that only one combobox can be selected at the time.
     private void ComboBoxHandler(Toggle toggle)
     {
-        currentlySelectedToggle = toggle;
-
         foreach (Toggle t in npcsToggle)
         {
             if (toggle == t)
@@ -364,5 +431,32 @@ public class GridDebugPanel : EditorWindow
                 t.value = false;
             }
         }
+    }
+
+    private VisualElement CreateUIGraphLevel(string id)
+    {
+        VisualElement visualElement = new VisualElement()
+        {
+            name = id
+        };
+        visualElement.AddToClassList(GRAPH_LEVEL);
+        return visualElement;
+    }
+
+    private VisualElement CreateUIGraphNode(string name, string nextStates)
+    {
+        VisualElement visualElement = new VisualElement();
+        visualElement.AddToClassList(STATE_NODE);
+        Label nodeTitle = new Label();
+        nodeTitle.AddToClassList(STATE_NAME_TITLE);
+        nodeTitle.name = name;
+        nodeTitle.text = name;
+        Label nodeNextStates = new Label();
+        nodeNextStates.AddToClassList(NEXT_STATES_NODE);
+        nodeNextStates.name = nextStates;
+        nodeNextStates.text = nextStates;
+        visualElement.Add(nodeTitle);
+        visualElement.Add(nodeNextStates);
+        return visualElement;
     }
 }

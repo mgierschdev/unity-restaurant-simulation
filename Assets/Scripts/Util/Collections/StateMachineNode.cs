@@ -11,4 +11,16 @@ public class StateMachineNode<T> where T : Enum
         State = state;
         TransitionStates = new List<StateMachineNode<T>>();
     }
+
+    public string GetNextStates()
+    {
+        string states = "";
+
+        foreach (StateMachineNode<T> n in TransitionStates)
+        {
+            states += n.State.ToString() + "\n";
+
+        }
+        return states;
+    }
 }

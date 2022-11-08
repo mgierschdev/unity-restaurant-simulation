@@ -137,6 +137,10 @@ public static class Settings
     public const string GridDebugContent = "GridDebug";
     public const string GridDisplay = "GridDisplay";
     public const string MainContainer = "MainContainer";
+    public const string GraphContainer = "GraphContainer";
+    public const string ComboBoxContainer = "ComboBoxContainer";
+    public const string GraphLevel = "GraphLevel";
+    public const string NODE = "NODE";
     public const string IsometricWorldDebugUI = "Assets/Editor/IsometricWorldDebug.uxml";
     public const string IsometricWorldDebugUIStyles = "Assets/Editor/IsometricWorldDebug.uss";
 
