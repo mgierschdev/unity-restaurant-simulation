@@ -30,7 +30,7 @@ public class GameGridObject : GameObjectBase
     private float loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer;
     private float currentMoveSliderValue, currentLoadSliderValue;
     // Store - To be bought Item, Is Item active, before purchase, (isItemReady, isItemLoading) item on top of the objects, (isObjectSelected) current under preview
-    private bool isItemBought, active, isItemReady, isObjectSelected, hasNPCAssigned, isObjectBeingDragged, isItemLoading;
+    private bool isItemBought, active, isItemReady, isObjectSelected, isObjectBeingDragged, isItemLoading;
 
     public GameGridObject(Transform transform)
     {
@@ -43,7 +43,6 @@ public class GameGridObject : GameObjectBase
         spriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
         SortingLayer = transform.GetComponent<SortingGroup>();
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
-        hasNPCAssigned = false;
         isObjectSelected = false;
         isItemBought = true;
 
@@ -220,7 +219,6 @@ public class GameGridObject : GameObjectBase
     {
         usedBy = null;
         attendedBy = null;
-        hasNPCAssigned = false;
     }
 
     public Vector3 GetActionTile()
