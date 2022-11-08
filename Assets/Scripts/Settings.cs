@@ -2,9 +2,9 @@ public static class Settings
 {
     //DEBUG/DEV parameterss
     public const bool IsFirebaseEmulatorEnabled = true;
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
-    public const float NpcDefaultMovementSpeed = 2f;
+    public const float NpcDefaultMovementSpeed = 1f;
 
     //Player Config
     public const bool PlayerWalkOnClick = true;
@@ -142,6 +142,7 @@ public static class Settings
     public const string ComboBoxContainer = "ComboBoxContainer";
     public const string GraphLevel = "GraphLevel";
     public const string NODE = "NODE";
+    public const string EMPLOYEE_PREFIX = "EMPLOYEE";
     public const string IsometricWorldDebugUI = "Assets/Editor/IsometricWorldDebug.uxml";
     public const string IsometricWorldDebugUIStyles = "Assets/Editor/IsometricWorldDebug.uss";
 
