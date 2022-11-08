@@ -9,7 +9,7 @@ public class NPCController : GameObjectMovementBase
     [SerializeField]
     private const float MAX_STATE_TIME = 120; // 1min
     [SerializeField]
-    private NpcState state;
+    private NpcState state;//TODO: for debug
 
     private void Start()
     {
