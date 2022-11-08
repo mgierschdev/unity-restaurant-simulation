@@ -67,10 +67,10 @@ public class GridDebugPanel : EditorWindow
         comboBoxContainer = templateContainer.Q<VisualElement>(Settings.ComboBoxContainer); // Place to show the graph
         VisualElement sampleGraphLevel = templateContainer.Q<VisualElement>(Settings.GraphLevel); // Used for fast prototype
         VisualElement sampleNode = templateContainer.Q<VisualElement>(Settings.NODE); // Used for fast prototype
-        BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), ClientContainerGraphDebuger, clientGraphNodes); // Building, Lazy loading
-        BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
         clientGraphNodes = new Dictionary<NpcState, VisualElement>();
         employeeGraphNodes = new Dictionary<NpcState, VisualElement>();
+        BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), ClientContainerGraphDebuger, clientGraphNodes); // Building, Lazy loading
+        BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine(), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
         ClientContainerGraphDebuger.visible = false;
         EmployeeContainerGraphDebuger.visible = false;
         npcsToggle = new List<Toggle>();
@@ -373,6 +373,7 @@ public class GridDebugPanel : EditorWindow
         SetStateMachine(currentSelectedToggle.name);
     }
 
+    //paint selected node
     private void PaintCurrentSelectedNode()
     {
         if (currentStateMachine == null)
@@ -419,14 +420,15 @@ public class GridDebugPanel : EditorWindow
         {
             return;
         }
+        parent.Clear();
 
         StateMachineNode<NpcState> startNode = stateMachine.GetStartNode();
         Queue<StateMachineNode<NpcState>> queue = new Queue<StateMachineNode<NpcState>>();
-        HashSet<StateMachineNode<NpcState>> set = new HashSet<StateMachineNode<NpcState>>();
+        HashSet<StateMachineNode<NpcState>> visited = new HashSet<StateMachineNode<NpcState>>();
+
+        stateMachine.printStateMachine();//debug
         queue.Enqueue(startNode);
         int level = 0;
-        parent.Clear();
-
 
         while (queue.Count != 0)
         {
@@ -437,15 +439,17 @@ public class GridDebugPanel : EditorWindow
             while (size-- > 0)
             {
                 StateMachineNode<NpcState> current = queue.Dequeue();
-                VisualElement UINode = CreateUIGraphNode(current.State.ToString(), current.GetNextStates());
-                UILevel.Add(UINode);
-                map.Add(current.State, UINode);
+                visited.Add(current);
 
-                foreach (StateMachineNode<NpcState> neighbor in current.TransitionStates)
+                VisualElement UINode = CreateUIGraphNode(current.State.ToString(), current.GetNextStates());
+                map.Add(current.State, UINode);
+                UILevel.Add(UINode);
+
+                foreach (StateMachineNode<NpcState> node in current.TransitionStates)
                 {
-                    if (!set.Contains(neighbor))
+                    if (!visited.Contains(node))
                     {
-                        queue.Enqueue(neighbor);
+                        queue.Enqueue(node);
                     }
                 }
             }
