@@ -15,12 +15,7 @@
                 <ui:Label text="Player Graph Debuger" name="PlayerGraphDebuger" class="H1" />
                 <ui:VisualElement name="ComboBoxContainer" />
                 <ui:VisualElement name="EmployeeContainerGraphDebuger" class="graph-container" />
-                <ui:VisualElement name="ClientContainerGraphDebuger" class="graph-container">
-                    <ui:VisualElement class="state-node state-node-prev-active" style="width: 150px;">
-                        <ui:Label text="Label" display-tooltip-when-elided="true" class="state-name-title" style="font-size: 13px;" />
-                        <ui:Label text="Label" display-tooltip-when-elided="true" class="next-states-node-title" style="font-size: 11px;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
+                <ui:VisualElement name="ClientContainerGraphDebuger" class="graph-container" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:ScrollView>
