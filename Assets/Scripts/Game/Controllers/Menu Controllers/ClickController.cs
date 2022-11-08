@@ -3,23 +3,18 @@ using UnityEngine;
 // Controlled attached to Game Object.
 public class ClickController : MonoBehaviour
 {
-    private bool isClicking;
-    public bool IsLongClick { get; set; }
-    private float ClickingTime { get; set; }
-    private const float LONG_CLICK_DURATION = 0.2f;
+    private bool isClicking, isLongClick, isPressingButton, mouseOverUI;
+    private float clickingTime, LONG_CLICK_DURATION = 0.2f, lastClickTime;
     private Camera mainCamera;
-    private float lastClickTime;
-    private bool isPressingButton;
-    private bool mouseOverUI;
     private GameObject clickedObject;
     private GameTile clickedGameTile;
 
     private void Start()
     {
         // Long Click
-        ClickingTime = 0;
+        clickingTime = 0;
         isClicking = false;
-        IsLongClick = false;
+        isLongClick = false;
         mainCamera = Camera.main;
         // Time passed between clicks 
         lastClickTime = 0;
@@ -40,7 +35,7 @@ public class ClickController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             lastClickTime = Time.unscaledTime;
-            ClickingTime = 0;
+            clickingTime = 0;
             isClicking = true;
         }
 
@@ -50,26 +45,26 @@ public class ClickController : MonoBehaviour
             // Continues counting even while the game is paused
             if (Time.deltaTime == 0)
             {
-                ClickingTime += Time.unscaledDeltaTime;
+                clickingTime += Time.unscaledDeltaTime;
             }
             else
             {
-                ClickingTime += Time.fixedDeltaTime;
+                clickingTime += Time.fixedDeltaTime;
             }
         }
 
         // On realising the mouse
         if (Input.GetMouseButtonUp(0))
         {
-            ClickingTime = 0;
+            clickingTime = 0;
             isClicking = false;
-            IsLongClick = false;
+            isLongClick = false;
         }
 
         // Resets isLongClick
-        if (ClickingTime > LONG_CLICK_DURATION)
+        if (clickingTime > LONG_CLICK_DURATION)
         {
-            IsLongClick = true;
+            isLongClick = true;
         }
     }
 
