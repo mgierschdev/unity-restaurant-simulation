@@ -290,7 +290,7 @@ public class GameGridObject : GameObjectBase
         if (attendedBy != null)
         {
             attendedBy.SetTableToBeAttended(null);
-            attendedBy.RestartState();
+            // attendedBy.RestartState();
             attendedBy = null;
         }
 

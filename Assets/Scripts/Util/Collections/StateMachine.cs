@@ -30,7 +30,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
             foreach (T neighbor in Enum.GetValues(typeof(T)))
             {
-                if (AdjacencyMatrix[(int)Enum.Parse(typeof(T), node.State.ToString()), (int)Enum.Parse(typeof(T), neighbor.ToString())] != null)//test
+                if (AdjacencyMatrix[(int)Enum.Parse(typeof(T), node.State.ToString()), (int)Enum.Parse(typeof(T), neighbor.ToString())] != null)
                 {
                     node.TransitionStates.Add(Map[neighbor]);
                 }

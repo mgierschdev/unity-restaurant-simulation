@@ -40,7 +40,7 @@ public class EmployeeController : GameObjectMovementBase
 
     public void UpdateTransitionStates()
     {
-        if (IsMoving() && IsEnergybarActive())
+        if (IsMoving() || IsEnergybarActive())
         {
             return;
         }
@@ -472,29 +472,29 @@ public class EmployeeController : GameObjectMovementBase
     //     // }
     // }
 
-    public bool RestartState()
-    {
-        // ResetMovement();
-        // target = BussGrid.GetCounter().GetActionTileInGridPosition();
+    // public bool RestartState()
+    // {
+    //     // ResetMovement();
+    //     // target = BussGrid.GetCounter().GetActionTileInGridPosition();
 
-        // if (!GoTo(target))
-        // {
-        //     if (IsAtTargetPosition(target))
-        //     {
-        //         currentState = NpcState.AT_COUNTER;
-        //         return true;
-        //     }
-        //     else
-        //     {
-        //         // ("Retrying: We could not find a path - RestartState()");
-        //     }
-        //     return false;
-        // }
+    //     // if (!GoTo(target))
+    //     // {
+    //     //     if (IsAtTargetPosition(target))
+    //     //     {
+    //     //         currentState = NpcState.AT_COUNTER;
+    //     //         return true;
+    //     //     }
+    //     //     else
+    //     //     {
+    //     //         // ("Retrying: We could not find a path - RestartState()");
+    //     //     }
+    //     //     return false;
+    //     // }
 
-        // currentState = NpcState.WALKING_TO_COUNTER;
-        // return true;
-        return false;
-    }
+    //     // currentState = NpcState.WALKING_TO_COUNTER;
+    //     // return true;
+    //    ; return false;
+    // }
 
     public NpcState GetNpcState()
     {
