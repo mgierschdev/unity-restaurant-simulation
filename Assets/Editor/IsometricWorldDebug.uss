@@ -100,3 +100,7 @@
 .state-node-prev-active {
     background-color: rgb(132, 130, 58);
 }
+
+.state-node-prev-prev-active {
+    background-color: rgba(132, 130, 58, 0.5);
+}
