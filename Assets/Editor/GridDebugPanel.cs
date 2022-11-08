@@ -13,9 +13,9 @@ public class GridDebugPanel : EditorWindow
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
     private GameController gameController;
-    private const string EMPTY_CELL_STYLE = "grid-cell-empty", 
-    BUSY_CELL_STYLE = "grid-cell-busy", 
-    ACTION_CELL_STYLE = "grid-cell-action", 
+    private const string EMPTY_CELL_STYLE = "grid-cell-empty",
+    BUSY_CELL_STYLE = "grid-cell-busy",
+    ACTION_CELL_STYLE = "grid-cell-action",
     NPC_BUSY_CELL_STYLE = "grid-cell-npc";
 
     [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
@@ -47,7 +47,7 @@ public class GridDebugPanel : EditorWindow
         templateContainer.styleSheets.Add(styleSheet);
         buttonStartDebug = templateContainer.Q<Button>(Settings.DebugStartButton);
         buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
-        buttonStartDebug.text = "In order to start, enter in Play mode . GameScene.";
+        buttonStartDebug.text = "In order to start, enter in Play mode. GameScene.";
         gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
         gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
@@ -201,7 +201,6 @@ public class GridDebugPanel : EditorWindow
 
     private string DebugBussData()
     {
-        string objects = "";
         string maps = "";
 
         maps += "Queue FreeBusinessSpots size: " + BussGrid.GetFreeBusinessSpots().Length + "\n";
@@ -214,7 +213,7 @@ public class GridDebugPanel : EditorWindow
             maps += "<b>" + g.Key.Name + "</b> \n";
         }
 
-        maps += "</b> \n";
+        maps += " \n";
 
         maps += "Queue TablesWithClient size: " + BussGrid.GetFreeBusinessSpots().Length + "\n";
         foreach (KeyValuePair<GameGridObject, byte> g in BussGrid.GetFreeBusinessSpots())
@@ -226,23 +225,25 @@ public class GridDebugPanel : EditorWindow
             maps += "<b>" + g.Key.Name + "</b> \n";
         }
 
-        maps += "</b> \n";
+        maps += " \n";
 
-        objects += "BusinessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
+        maps += "BusinessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
         {
-            objects += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + "</b> \n";
+            maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + "</b> \n";
         }
 
-        maps += "</b> \n";
+        maps += " \n";
 
-        objects += "FirebaseObjects size: " + PlayerData.GetFirebaseGameUser().OBJECTS.Count + " \n";
+        maps += "FirebaseObjects size: " + PlayerData.GetFirebaseGameUser().OBJECTS.Count + " \n";
         foreach (FirebaseGameObject g in PlayerData.GetFirebaseGameUser().OBJECTS)
         {
-            objects += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
+            maps += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
         }
 
-        return maps + " " + objects;
+        maps += "\n";
+
+        return maps;
     }
 
     private string EntireGridToText()
