@@ -14,7 +14,7 @@
             <ui:VisualElement name="PlayerGraphDebuger">
                 <ui:Label text="Player Graph Debuger" name="PlayerGraphDebuger" class="H1" />
                 <ui:VisualElement name="ComboBoxContainer" />
-                <ui:VisualElement name="ClientContainerGraphDebuger" style="padding-left: 50px; padding-right: 50px; padding-top: 50px; padding-bottom: 50px; flex-direction: row;" />
+                <ui:VisualElement name="ClientContainerGraphDebuger" style="padding-left: 50px; padding-right: 50px; padding-top: 50px; padding-bottom: 50px; flex-direction: row; display: flex;" />
                 <ui:VisualElement name="Mock" style="padding-left: 50px; padding-right: 50px; padding-top: 50px; padding-bottom: 50px; flex-direction: row; display: none;">
                     <ui:VisualElement name="NODE" class="state-node">
                         <ui:Label text="StateName" display-tooltip-when-elided="true" name="StateName" style="align-items: center; justify-content: flex-end; flex-direction: column; -unity-text-align: upper-center; font-size: 16px;" />
@@ -22,7 +22,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="GraphLevel" class="graph-level" />
                 </ui:VisualElement>
-                <ui:VisualElement name="EmployeeContainerGraphDebuger" style="padding-left: 50px; padding-right: 50px; padding-top: 50px; padding-bottom: 50px; flex-direction: row;" />
+                <ui:VisualElement name="EmployeeContainerGraphDebuger" style="padding-left: 50px; padding-right: 50px; padding-top: 50px; padding-bottom: 50px; flex-direction: row; display: flex;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:ScrollView>
