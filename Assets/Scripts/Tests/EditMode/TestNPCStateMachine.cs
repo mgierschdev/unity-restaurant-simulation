@@ -8,7 +8,7 @@ public class TestNPCStateMachine
     [Test]
     public void TestNPCStateMachineClient()
     {
-        StateMachine<NpcState, NpcStateTransitions> stateMachine = NPCStateMachineFactory.GetClientStateMachine();
+        StateMachine<NpcState, NpcStateTransitions> stateMachine = NPCStateMachineFactory.GetClientStateMachine("ID");
         stateMachine.printStateMachine();
         Assert.True(AssertStates(stateMachine.Map[NpcState.IDLE], 9));
     }
@@ -16,7 +16,7 @@ public class TestNPCStateMachine
     [Test]
     public void TestNPCStateMachineEmployee()
     {
-        StateMachine<NpcState, NpcStateTransitions> stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine();
+        StateMachine<NpcState, NpcStateTransitions> stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine("ID");
         stateMachine.printStateMachine();
         Assert.True(AssertStates(stateMachine.Map[NpcState.IDLE], 9));
     }
