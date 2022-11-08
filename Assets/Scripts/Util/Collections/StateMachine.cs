@@ -108,7 +108,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
             {
                 if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
                 {
-                    GameLog.Log("Cannot move from "+Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
+                    GameLog.Log("Cannot move from " + Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
                     valid = false;
                     break;
                 }
@@ -131,5 +131,10 @@ public class StateMachine<T, S> where T : Enum where S : Enum
             str += Enum.GetName(typeof(NpcStateTransitions), i) + ":" + TransitionStates[i] + " ";
         }
         return str;
+    }
+
+    public StateMachineNode<T> GetStartNode()
+    {
+        return Map[startState];
     }
 }

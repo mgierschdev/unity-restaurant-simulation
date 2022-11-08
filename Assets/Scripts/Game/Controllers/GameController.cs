@@ -56,27 +56,27 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        //not longer required since we assign the tables 
-        // We check that 2 npc dont have the same table
-        // HashSet<string> set = new HashSet<string>();
+    // private void FixedUpdate()
+    // {
+    //     //not longer required since we assign the tables 
+    //     // We check that 2 npc dont have the same table
+    //     // HashSet<string> set = new HashSet<string>();
 
-        // foreach (NPCController npc in NpcSet)
-        // {
-        //     if (npc.HasTable())
-        //     {
-        //         if (set.Contains(npc.GetTable().Name))
-        //         {
-        //             npc.SetTableMoved();
-        //         }
-        //         else
-        //         {
-        //             set.Add(npc.GetTable().Name);
-        //         }
-        //     }
-        // }
-    }
+    //     // foreach (NPCController npc in NpcSet)
+    //     // {
+    //     //     if (npc.HasTable())
+    //     //     {
+    //     //         if (set.Contains(npc.GetTable().Name))
+    //     //         {
+    //     //             npc.SetTableMoved();
+    //     //         }
+    //     //         else
+    //     //         {
+    //     //             set.Add(npc.GetTable().Name);
+    //     //         }
+    //     //     }
+    //     // }
+    // }
 
     private void LoadUserObjects()
     {
@@ -178,6 +178,19 @@ public class GameController : MonoBehaviour
     public HashSet<NPCController> GetNpcSet()
     {
         return NpcSet;
+    }
+
+    // Used for debug
+    public NPCController GetNPC(string ID)
+    {
+        foreach (NPCController npc in NpcSet)
+        {
+            if (npc.Name == ID)
+            {
+                return npc;
+            }
+        }
+        return null;
     }
 
     public EmployeeController GetEmployeeController()
