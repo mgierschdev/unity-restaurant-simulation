@@ -105,6 +105,10 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.WALKING_TO_COUNTER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
+        nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
+        adjMatrix[(int)NpcState.WALKING_TO_COUNTER, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         //AT_COUNTER --> Other
         nodeTransition[(int)NpcStateTransitions.TABLE_AVAILABLE] = true;
         adjMatrix[(int)NpcState.AT_COUNTER, (int)NpcState.WALKING_TO_TABLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
@@ -112,6 +116,10 @@ public static class NPCStateMachineFactory
 
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
         adjMatrix[(int)NpcState.AT_COUNTER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
+        nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
+        adjMatrix[(int)NpcState.AT_COUNTER, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
         //WALKING_TO_TABLE --> Other
@@ -123,6 +131,10 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
+        nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
+        adjMatrix[(int)NpcState.WALKING_TO_TABLE, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         //TAKING_ORDER --> Other
         nodeTransition[(int)NpcStateTransitions.ORDER_SERVED] = true;
         adjMatrix[(int)NpcState.TAKING_ORDER, (int)NpcState.WALKING_TO_COUNTER_AFTER_ORDER] = new StateNodeTransition((bool[])nodeTransition.Clone());
@@ -130,6 +142,10 @@ public static class NPCStateMachineFactory
 
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
         adjMatrix[(int)NpcState.TAKING_ORDER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
+        nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
+        adjMatrix[(int)NpcState.TAKING_ORDER, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
         //WALKING_TO_COUNTER_AFTER_ORDER --> Other
@@ -141,6 +157,10 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.WALKING_TO_COUNTER_AFTER_ORDER, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
+        nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
+        adjMatrix[(int)NpcState.WALKING_TO_COUNTER_AFTER_ORDER, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         //REGISTERING_CASH --> Other
         nodeTransition[(int)NpcStateTransitions.CASH_REGISTERED] = true;
         adjMatrix[(int)NpcState.REGISTERING_CASH, (int)NpcState.AT_COUNTER] = new StateNodeTransition((bool[])nodeTransition.Clone());
@@ -148,6 +168,10 @@ public static class NPCStateMachineFactory
 
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
         adjMatrix[(int)NpcState.REGISTERING_CASH, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
+        nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
+        adjMatrix[(int)NpcState.REGISTERING_CASH, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
         return new StateMachine<NpcState, NpcStateTransitions>(adjMatrix, NpcState.IDLE);

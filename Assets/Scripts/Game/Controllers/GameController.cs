@@ -164,7 +164,7 @@ public class GameController : MonoBehaviour
     {
         if (employeeController != null && obj.GetAttendedBy() != null)
         {
-            employeeController.RecalculateState(obj);
+            employeeController.RecalculateGoTo();
         }
 
         foreach (NPCController npcController in NpcSet)
