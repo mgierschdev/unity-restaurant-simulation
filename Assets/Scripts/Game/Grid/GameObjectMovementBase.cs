@@ -400,4 +400,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         return energyBar.IsActive();
     }
+
+    public StateMachine<NpcState, NpcStateTransitions> GetStateMachine()
+    {
+        return stateMachine;
+    }
 }
