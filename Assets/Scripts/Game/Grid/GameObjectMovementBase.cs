@@ -229,7 +229,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-            animationController.SetState(currentState);
+            animationController.SetState(stateMachine.Current.State);
         }
     }
 

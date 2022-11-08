@@ -436,7 +436,6 @@ public class GridDebugPanel : EditorWindow
             controller = BussGrid.GameController.GetNPC(ID);
         }
 
-        Debug.Log("SETTING STATE MACHINE " + controller.name + " " + ID);
         if (controller == null)
         {
             return;
