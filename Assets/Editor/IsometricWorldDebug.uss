@@ -59,8 +59,49 @@
 }
 
 .state-node-active {
-    background-color: rgba(22, 31, 55, 255);
+    background-color: rgb(22, 31, 55);
 }
 
 .graph-level {
+}
+
+.graph-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    flex-direction: row;
+    display: flex;
+}
+
+.state-node-prev-active {
+    background-color: rgb(22, 31, 55);
+}
+
+.next-states-node {
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.state-name-title {
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    -unity-text-align: upper-center;
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+}
+
+.next-states-node-title {
+    flex-direction: row;
+    font-size: 12px;
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+}
+
+.state-node-prev-active {
+    background-color: rgb(22, 31, 55);
+    color: rgba(139, 140, 43, 255);
 }
