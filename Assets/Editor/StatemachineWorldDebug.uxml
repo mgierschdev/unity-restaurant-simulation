@@ -5,7 +5,7 @@
         <ui:VisualElement name="MainContainer">
             <ui:Label text="Player Graph Debuger" name="PlayerGraphDebuger" class="H1" />
             <ui:VisualElement name="TextDebugContainer">
-                <ui:Label text="GridDebug&#10;" display-tooltip-when-elided="true" name="GridDebug" />
+                <ui:Label text="&#10;" display-tooltip-when-elided="true" name="GridDebug" />
             </ui:VisualElement>
             <ui:VisualElement name="ComboBoxContainer" />
             <ui:VisualElement name="PlayerGraphDebuger">
