@@ -118,10 +118,10 @@ public class StateMachine<T, S> where T : Enum where S : Enum
                 if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
                 {
                     //TODO: erase debug
-                    if (ID.Contains(Settings.EMPLOYEE_PREFIX))
-                    {
-                        GameLog.Log("Cannot move from " + Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
-                    }
+                    // if (ID.Contains(Settings.EMPLOYEE_PREFIX))
+                    // {
+                    //     //GameLog.Log("Cannot move from " + Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
+                    // }
 
                     valid = false;
                     break;
@@ -130,7 +130,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
             if (valid)
             {
-                GameLog.Log("Moving to: " + node.State);
+               // GameLog.Log("Moving to: " + node.State);
                 Current = node;
                 break;
             }
