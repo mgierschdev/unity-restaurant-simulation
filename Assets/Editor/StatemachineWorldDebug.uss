@@ -1,50 +1,8 @@
-.grid-cell-empty {
-    width: 30px;
-    height: 30px;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
-    background-color: rgb(255, 255, 255);
-}
-
-.grid-cell-busy {
-    width: 30px;
-    height: 30px;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
-    background-color: rgb(28, 94, 101);
-}
-
-.grid-display {
-    flex-wrap: wrap;
-    width: 500px;
-    flex-direction: row;
-}
-
 .H1 {
     -unity-text-align: upper-center;
     font-size: 20px;
     -unity-font-style: bold;
     background-color: rgb(7, 7, 7);
-}
-
-.grid-cell-action {
-    width: 30px;
-    height: 30px;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
-    background-color: rgb(44, 218, 238);
-}
-
-.grid-cell-npc {
-    background-color: rgb(255, 247, 69);
-    width: 30px;
-    height: 30px;
 }
 
 .state-node {

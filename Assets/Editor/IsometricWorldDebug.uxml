@@ -11,12 +11,6 @@
                 <ui:Label text="Grid Debug view" name="GridDebugTitle" class="H1" />
                 <ui:Label name="GridDebug" />
             </ui:VisualElement>
-            <ui:VisualElement name="PlayerGraphDebuger">
-                <ui:Label text="Player Graph Debuger" name="PlayerGraphDebuger" class="H1" />
-                <ui:VisualElement name="ComboBoxContainer" />
-                <ui:VisualElement name="EmployeeContainerGraphDebuger" class="graph-container" />
-                <ui:VisualElement name="ClientContainerGraphDebuger" class="graph-container" />
-            </ui:VisualElement>
         </ui:VisualElement>
     </ui:ScrollView>
 </ui:UXML>
