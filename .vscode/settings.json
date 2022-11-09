@@ -80,5 +80,7 @@
         "Textt",
         "UPLEFT"
     ],
-    "omnisharp.useModernNet": false
+    "omnisharp.useModernNet": false,
+    "omnisharp.useGlobalMono": "always",
+    "omnisharp.monoPath": "/Library/Frameworks/Mono.framework/Versions/Current/"
 }
