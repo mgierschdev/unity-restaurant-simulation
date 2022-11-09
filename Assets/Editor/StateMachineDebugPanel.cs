@@ -6,12 +6,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using IEnumerator = System.Collections.IEnumerator;
 
-public class GridDebugPanel : EditorWindow
+public class StateMachineDebugPanel : EditorWindow
 {
     [SerializeField]
     private bool isGameSceneLoaded, gridDebugEnabled;
-    private Label gridDebugContent;
-    private VisualElement gridDisplay, mainContainer, ClientContainerGraphDebuger, EmployeeContainerGraphDebuger, comboBoxContainer;
+    //private Label gridDebugContent;
+    private VisualElement mainContainer, ClientContainerGraphDebuger, EmployeeContainerGraphDebuger, comboBoxContainer;
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
     private GameController gameController;
@@ -22,11 +22,7 @@ public class GridDebugPanel : EditorWindow
     private Toggle currentSelectedToggle;
     private Dictionary<NpcState, VisualElement> clientGraphNodes, employeeGraphNodes;
     private int maxComboboxView = 10, togglePos;
-    private const string EMPTY_CELL_STYLE = "grid-cell-empty",
-    BUSY_CELL_STYLE = "grid-cell-busy",
-    ACTION_CELL_STYLE = "grid-cell-action",
-    NPC_BUSY_CELL_STYLE = "grid-cell-npc",
-    GRAPH_LEVEL = "graph-level",
+    private const string GRAPH_LEVEL = "graph-level",
     STATE_NODE = "state-node",
     STATE_NODE_ACTIVE = "state-node-active",
     STATE_NODE_PREV_ACTIVE = "state-node-prev-active",
@@ -35,11 +31,11 @@ public class GridDebugPanel : EditorWindow
     NEXT_STATES_NODE_LABEL = "next-states-node-title";
     private string[] cssColors;
 
-    [UnityEditor.MenuItem(Settings.gameName + "/State machine debug)]
+    [UnityEditor.MenuItem(Settings.gameName + "/Debug: NPC State Machine")]
     public static void ShowExample()
     {
-        GridDebugPanel wnd = GetWindow<GridDebugPanel>();
-        wnd.titleContent = new GUIContent("State machine debug");
+        StateMachineDebugPanel wnd = GetWindow<StateMachineDebugPanel>();
+        wnd.titleContent = new GUIContent("State Machine debug Panel");
     }
 
     public void CreateGUI()
@@ -50,16 +46,16 @@ public class GridDebugPanel : EditorWindow
         // Setting up: Editor window UI parameters
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
-        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(Settings.IsometricWorldDebugUI);
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(Settings.IsometricWorldDebugUIStyles);
+        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(Settings.IsometricWorldDebugUIStateMachine);
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(Settings.IsometricWorldDebugUIStylesStateMachine);
         templateContainer = visualTree.Instantiate();
         root.Add(templateContainer);
         templateContainer.styleSheets.Add(styleSheet);
         buttonStartDebug = templateContainer.Q<Button>(Settings.DebugStartButton);
         buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
         buttonStartDebug.text = "In order to start, enter in Play mode. GameScene.";
-        gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
-        gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
+        //gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
+        //gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
 
         ClientContainerGraphDebuger = templateContainer.Q<VisualElement>(Settings.ClientContainerGraphDebuger); // Place to show the graph
@@ -89,17 +85,13 @@ public class GridDebugPanel : EditorWindow
             {
                 if (gridDebugEnabled)
                 {
-                    SetBussGrid();
-                    string debugText = " ";
-                    debugText += DebugBussData();
-                    debugText += SetPlayerData();
-                    gridDebugContent.text = debugText;
+                    SetPlayerData();
                     PaintCurrentSelectedNode();
                 }
                 else
                 {
-                    gridDebugContent.text = "";
-                    gridDisplay.Clear();
+                    //gridDebugContent.text = "";
+                    //gridDisplay.Clear();
                 }
             }
             yield return new WaitForSeconds(1f);
@@ -132,8 +124,8 @@ public class GridDebugPanel : EditorWindow
             button.text = "Start Debug";
             gridDebugEnabled = false;
             mainContainer.SetEnabled(false);
-            gridDisplay.Clear();
-            gridDebugContent.text = "";
+            //gridDisplay.Clear();
+            //gridDebugContent.text = "";
         }
         else
         {
@@ -161,7 +153,31 @@ public class GridDebugPanel : EditorWindow
         {
         }
     }
-    
+
+    private string SetPlayerData()
+    {
+        togglePos = 0;
+        string output = "Employe and Client states: \n";
+        if (gameController.GetEmployeeController() != null)
+        {
+            AddToggle(gameController.GetEmployeeController().Name);
+            output += gameController.GetEmployeeController().Name + " State: " + gameController.GetEmployeeController().GetNpcState();
+            output += " Time:" + gameController.GetEmployeeController().GetNpcStateTime() + " \n";
+        }
+        else
+        {
+            output += "Employee: NONE \n";
+        }
+
+        foreach (NPCController current in gameController.GetNpcSet())
+        {
+            AddToggle(current.Name);
+            output += current.Name + " State: " + current.GetNpcState() + "(" + (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
+        }
+
+        return output;
+    }
+
     private void AddToggle(string name)
     {
         if (togglePos >= maxComboboxView)

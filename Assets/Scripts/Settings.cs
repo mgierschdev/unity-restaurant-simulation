@@ -147,6 +147,8 @@ public static class Settings
     public const string EMPLOYEE_PREFIX = "EMPLOYEE";
     public const string IsometricWorldDebugUI = "Assets/Editor/IsometricWorldDebug.uxml";
     public const string IsometricWorldDebugUIStyles = "Assets/Editor/IsometricWorldDebug.uss";
+    public const string IsometricWorldDebugUIStateMachine = "Assets/Editor/StatemachineWorldDebug.uxml";
+    public const string IsometricWorldDebugUIStylesStateMachine = "Assets/Editor/StatemachineWorldDebug.uss";
 
     //SCENE
     public const string MainCamera = "MainCamera";
