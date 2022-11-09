@@ -52,6 +52,8 @@ public class NPCController : GameObjectMovementBase
         CheckUnrespawn();
         CheckIfTableHasBeenAssigned();
         Wander();
+        CheckIfTableMoved();
+
         state = stateMachine.Current.State;
         stateMachine.CheckTransition();
         MoveNPC();
@@ -72,6 +74,14 @@ public class NPCController : GameObjectMovementBase
         {
             if (table == null) { return; }
             GoTo(table.GetActionTileInGridPosition());
+        }
+    }
+
+    private void CheckIfTableMoved()
+    {
+        if (stateMachine.Current.State == NpcState.WAITING_TO_BE_ATTENDED && table == null)
+        {
+            stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         }
     }
 
@@ -169,6 +179,7 @@ public class NPCController : GameObjectMovementBase
 
     public void SetTableMoved()
     {
+        table = null;
         stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
     }
