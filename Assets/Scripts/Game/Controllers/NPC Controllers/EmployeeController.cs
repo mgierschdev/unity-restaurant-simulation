@@ -56,10 +56,20 @@ public class EmployeeController : GameObjectMovementBase
         Unrespawn();
         CheckCounter();
         CheckAtCounter();
+        CheckTableMoved();
 
         state = stateMachine.Current.State;
         stateMachine.CheckTransition();
         MoveNPC();// Move/or not, depending on the state
+    }
+    
+    // if Idle and table moved we unset it since it is not longer attending the table
+    private void CheckTableMoved()
+    {
+        if (stateMachine.Current.State == NpcState.IDLE && stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED))
+        {
+            stateMachine.UnSetTransition(NpcStateTransitions.TABLE_MOVED);
+        }
     }
 
     private void CheckAtCounter()
