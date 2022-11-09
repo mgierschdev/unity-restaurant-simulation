@@ -1,0 +1,106 @@
+.grid-cell-empty {
+    width: 30px;
+    height: 30px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+}
+
+.grid-cell-busy {
+    width: 30px;
+    height: 30px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    background-color: rgb(28, 94, 101);
+}
+
+.grid-display {
+    flex-wrap: wrap;
+    width: 500px;
+    flex-direction: row;
+}
+
+.H1 {
+    -unity-text-align: upper-center;
+    font-size: 20px;
+    -unity-font-style: bold;
+    background-color: rgb(7, 7, 7);
+}
+
+.grid-cell-action {
+    width: 30px;
+    height: 30px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    background-color: rgb(44, 218, 238);
+}
+
+.grid-cell-npc {
+    background-color: rgb(255, 247, 69);
+    width: 30px;
+    height: 30px;
+}
+
+.state-node {
+    background-color: rgb(91, 91, 91);
+    width: 150px;
+    height: 100px;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.state-node-active {
+    background-color: rgb(22, 31, 55);
+}
+
+.graph-level {
+}
+
+.graph-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    flex-direction: row;
+    display: flex;
+}
+
+.next-states-node {
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.state-name-title {
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    -unity-text-align: upper-center;
+    font-size: 13px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+}
+
+.next-states-node-title {
+    flex-direction: row;
+    font-size: 10px;
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+}
+
+.state-node-prev-active {
+    background-color: rgb(132, 130, 58);
+}
+
+.state-node-prev-prev-active {
+    background-color: rgba(132, 130, 58, 0.5);
+}
