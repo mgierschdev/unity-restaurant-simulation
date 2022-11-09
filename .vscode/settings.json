@@ -79,5 +79,6 @@
         "Rigidbody",
         "Textt",
         "UPLEFT"
-    ]
+    ],
+    "omnisharp.useModernNet": false
 }
