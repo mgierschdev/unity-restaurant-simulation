@@ -142,7 +142,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
         string str = "";
         for (int i = 0; i < TransitionStates.GetLength(0); i++)
         {
-            str += Enum.GetName(typeof(NpcStateTransitions), i) + ":" + TransitionStates[i] + " ";
+            str += Enum.GetName(typeof(S), i) + ":" + TransitionStates[i] + " ";
         }
         return str;
     }
@@ -150,5 +150,16 @@ public class StateMachine<T, S> where T : Enum where S : Enum
     public StateMachineNode<T> GetStartNode()
     {
         return Map[startState];
+    }
+
+    public string GetDebugTransitions()
+    {
+        string str = "";
+
+        for (int i = 0; i < TransitionStates.Length; i++)
+        {
+            str += Enum.GetName(typeof(S), i) + " " + TransitionStates[i] + " \n";
+        }
+        return str;
     }
 }

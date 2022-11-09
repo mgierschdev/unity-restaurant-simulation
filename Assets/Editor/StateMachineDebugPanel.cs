@@ -10,7 +10,7 @@ public class StateMachineDebugPanel : EditorWindow
 {
     [SerializeField]
     private bool isGameSceneLoaded, gridDebugEnabled;
-    //private Label gridDebugContent;
+    private Label gridDebugContent;
     private VisualElement mainContainer, ClientContainerGraphDebuger, EmployeeContainerGraphDebuger, comboBoxContainer;
     private TemplateContainer templateContainer;
     private Button buttonStartDebug;
@@ -54,7 +54,7 @@ public class StateMachineDebugPanel : EditorWindow
         buttonStartDebug = templateContainer.Q<Button>(Settings.DebugStartButton);
         buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
         buttonStartDebug.text = "In order to start, enter in Play mode. GameScene.";
-        //gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
+        gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
         //gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
 
@@ -90,8 +90,7 @@ public class StateMachineDebugPanel : EditorWindow
                 }
                 else
                 {
-                    //gridDebugContent.text = "";
-                    //gridDisplay.Clear();
+                    gridDebugContent.text = "";
                 }
             }
             yield return new WaitForSeconds(1f);
@@ -124,8 +123,7 @@ public class StateMachineDebugPanel : EditorWindow
             button.text = "Start Debug";
             gridDebugEnabled = false;
             mainContainer.SetEnabled(false);
-            //gridDisplay.Clear();
-            //gridDebugContent.text = "";
+            gridDebugContent.text = "";
         }
         else
         {
@@ -252,6 +250,8 @@ public class StateMachineDebugPanel : EditorWindow
             node = clientGraphNodes[currentStateMachine.Current.State];
         }
 
+        gridDebugContent.text = currentStateMachine.GetDebugTransitions();
+        
         SetNodesColor(node);
     }
 
