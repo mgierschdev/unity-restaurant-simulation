@@ -171,6 +171,26 @@ public static class Util
         }
     }
 
+    public static Vector3Int GetGridPositionFromMoveDirection(MoveDirection d, Vector3Int pos)
+    {
+        if (d == MoveDirection.DOWN)
+        {
+            return pos + new Vector3Int(0, -1, 0);
+        }
+        else if (d == MoveDirection.UP)
+        {
+            return pos + new Vector3Int(0, 1, 0);
+        }
+        else if (d == MoveDirection.LEFT)
+        {
+            return pos + new Vector3Int(-1, 0, 0);
+        }
+        else
+        {
+            return pos + new Vector3Int(-1, 0, 0);
+        }
+    }
+
     public static Vector3 GetVectorFromDirection(MoveDirection d)
     {
         //in case it is MoveDirection.IDLE do nothing
