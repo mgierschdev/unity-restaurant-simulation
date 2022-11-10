@@ -9,8 +9,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public Vector3Int Position { get; set; } //PathFindingGrid Position
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
-    //Movement Queue
-    private Vector3 currentLocalTargetPosition; //step by step target to
     private GameObject gameGridObject;
     //Energy Bars
     private EnergyBarController energyBar;
@@ -24,12 +22,20 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected PlayerAnimationStateController animationController;
     protected GameController gameController;
     protected ObjectType type;
-    [SerializeField]
-    private Queue pendingMovementQueue;
+
+    //A*
     // Attributes for temporaly marking the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
+    private Queue pendingMovementQueue;
+    private Vector3 currentLocalTargetPosition; //step by step target to
     private HashSet<Vector3Int> positionAdded;
     private Queue<Pair<float, Vector3Int>> npcPrevPositions;
+    //A*
+
+    //Bug Path finding
+    private Vector3Int nextBugTargetPosition;
+    //Bug Path finding
+
 
     //Final target 
     protected Vector3 currentTargetWorldPosition;
@@ -79,6 +85,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         AStar = false;// mutual exclusive with BugPathfinding
         BugPathFinding = true;// mutual exclusive with A*
         currentState = NpcState.IDLE;
+        nextBugTargetPosition = Vector3Int.zero;
         UpdatePosition();
     }
 
@@ -242,6 +249,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdateTargetMovement()
     {
+        if (!isMoving)
+        {
+            return;
+        }
+
         if (AStar)
         {
             UpdateAStarMovement();
@@ -261,9 +273,18 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             moveDirection = MoveDirection.IDLE;
             isMoving = false;
         }
+        else if (Util.IsAtDistanceWithObject(nextBugTargetPosition, transform.position) || nextBugTargetPosition == Vector3Int.zero)
+        {
+            //Get next move close to 
+            // Assign nextBugTargetPosition
+            nextBugTargetPosition = NextPathFindingBugPosition();
+            moveDirection = GetDirectionFromPositions(transform.position, nextBugTargetPosition);
+            UpdateObjectDirection(); // It flips the side of the object depending on direction
+            transform.position = Vector3.MoveTowards(transform.position, nextBugTargetPosition, speed * Time.fixedDeltaTime);
+        }
         else
         {
-            //Get next move close to target
+
         }
     }
 
