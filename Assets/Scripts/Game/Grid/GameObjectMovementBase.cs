@@ -224,8 +224,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void UpdateBugPathMovement()
     {
-        Debug.Log("Trying to go to: " + currentTargetGridPosition + " we are at " + Position);
-        if (Util.IsAtDistanceWithObject(currentTargetWorldPosition, transform.position))
+        Debug.Log("Is at distance : " + currentTargetWorldPosition + "," + transform.position + " " + 
+        Vector3.Distance(new Vector3(currentTargetWorldPosition.x, currentTargetWorldPosition.y, 0), new Vector3(transform.position.x, transform.position.y, 0)));
+
+        if (Vector3.Distance(new Vector3(currentTargetWorldPosition.x, currentTargetWorldPosition.y, 0), new Vector3(transform.position.x, transform.position.y, 0)) <= 0.4f)
         {
             //final target reached 
             moveDirection = MoveDirection.IDLE;
@@ -242,7 +244,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             //nextBugTargetGridPosition = BussGrid.GetLocalGridFromWorldPosition(nextBugTargetWorldPosition);
             nextBugTargetGridPosition = GetNextBugCell();
             nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(nextBugTargetGridPosition);
-            Debug.Log("Next Bug " + nextBugTargetGridPosition + " " + nextBugTargetWorldPosition);
+            //Debug.Log("Next Bug " + nextBugTargetGridPosition + " " + nextBugTargetWorldPosition);
         }
         else
         {
@@ -258,10 +260,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         double min = double.MaxValue;
         Vector3Int sol = Vector3Int.zero;
 
-        foreach (MoveDirection direction in Enum.GetValues(typeof(MoveDirection)))
+        for (int i = (int)MoveDirection.UP; i <= (int)MoveDirection.RIGHT; i++)
         {
+            MoveDirection direction = (MoveDirection)i;
             Vector3Int current = Util.GetGridPositionFromMoveDirection(direction, Position);
             double localDistance = Util.EuclidianDistance(current, currentTargetGridPosition);
+            Debug.Log("Calc " + current + "," + currentTargetGridPosition + " local dist: " + localDistance + " Direction " + direction);
 
             if (localDistance < min)
             {
@@ -270,29 +274,28 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             }
         }
 
-        Debug.Log("Min naive distance " + sol);
         return sol;
     }
 
     private void GotoBug(Vector3Int target)
     {
-        Debug.Log("GotoBug() Setting Goto to " + target);
+        // Debug.Log("GotoBug() Setting Goto to " + target);
         SetGoTo(target);
     }
 
-    private Vector3 Move(MoveDirection direction)
-    {
-        Vector3 target = Util.GetVectorFromDirection(direction);
+    // private Vector3 Move(MoveDirection direction)
+    // {
+    //     Vector3 target = Util.GetVectorFromDirection(direction);
 
-        return target;
+    //     return target;
 
-        // if (direction == MoveDirection.DOWN)
-        // {
-        //     //Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
-        //     //Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
-        //     //npcController.AddMovement(target);
-        // }
-    }
+    //     // if (direction == MoveDirection.DOWN)
+    //     // {
+    //     //     //Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
+    //     //     //Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
+    //     //     //npcController.AddMovement(target);
+    //     // }
+    // }
 
     // private Vector3Int NextPathFindingBugPosition()
     // {

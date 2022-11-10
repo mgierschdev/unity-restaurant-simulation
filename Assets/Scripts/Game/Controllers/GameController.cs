@@ -39,9 +39,6 @@ public class GameController : MonoBehaviour
                 SpamEmployee();
                 employeeCount++;
             }
-
-            Debug.Log("NPCSpam called");
-
             yield return new WaitForSeconds(5f);
         }
     }
@@ -64,9 +61,6 @@ public class GameController : MonoBehaviour
                     }
                 }
             }
-
-            Debug.Log("AssignTables called");
-
             yield return new WaitForSeconds(5f);
         }
     }
