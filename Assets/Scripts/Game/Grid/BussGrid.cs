@@ -290,6 +290,14 @@ public static class BussGrid
         }
     }
 
+    public static bool IsValidWalkablePosition(Vector3Int position)
+    {
+        return  IsCoordValid(position.x, position.y) &&
+          //  !IsThereNPCInPosition(position) &&
+            gridArray[position.x, position.y] == (int)CellValue.EMPTY &&
+            IsValidBussCoord(position);
+    }
+
     // Used while dragging
     // worldPos = Current position that you are moving the object
     // actionTileOne: the initial actiontile in grid coord
@@ -460,7 +468,7 @@ public static class BussGrid
         while (wanderPos == currentPosition && distance <= Settings.MIN_EUCLIDIAN_DISTANCE_RANDOM_WALK)
         {
             wanderPos = GetRandomWalkableGridPosition();
-            distance = Util.EuclidianDistance(new int[] { currentPosition.x, currentPosition.y }, new int[]{wanderPos.x, wanderPos.y});
+            distance = Util.EuclidianDistance(new int[] { currentPosition.x, currentPosition.y }, new int[] { wanderPos.x, wanderPos.y });
         }
         return wanderPos;
     }
@@ -522,6 +530,7 @@ public static class BussGrid
 
     // It gets the closest free coord next to the target
     //TODO: Improve so it will choose the closest path and the npc will stand towards the client
+    // This should be calculating with Vector3 instead of vector3int
     public static Vector3Int GetClosestPathGridPoint(Vector3Int currentPosition, Vector3Int target)
     {
         Vector3Int result = target;

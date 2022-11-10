@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
                 employeeCount++;
             }
 
-            Debug.Log("NPCSPam called");
+            Debug.Log("NPCSpam called");
 
             yield return new WaitForSeconds(5f);
         }
