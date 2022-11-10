@@ -14,7 +14,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private EnergyBarController energyBar;
     [SerializeField]
     protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
-    private bool isMoving, AStar, BugPathFinding;
+    private bool isMoving, AStar = false, BugPathFinding = true;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
@@ -83,10 +83,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         prevState = currentState;
         energyBarSpeed = 20f;
         isMoving = false;
-        AStar = false;// mutual exclusive with BugPathfinding
-        BugPathFinding = true;// mutual exclusive with A*
         currentState = NpcState.IDLE;
         nextBugTargetGridPosition = Vector3Int.zero;
+        nextBugTargetWorldPosition = Vector3.zero;
         UpdatePosition();
     }
 
@@ -213,12 +212,15 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return;
         }
 
+        Debug.Log("Update target movement " + BugPathFinding);
+
         if (AStar)
         {
             UpdateAStarMovement();
         }
         else if (BugPathFinding)
         {
+            Debug.Log("Update target movement BugPathFinding " + BugPathFinding);
             UpdateBugPathMovement();
         }
     }
@@ -232,12 +234,18 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             moveDirection = MoveDirection.IDLE;
             isMoving = false;
         }
-        else if (Util.IsAtDistanceWithObject(nextBugTargetWorldPosition, transform.position) || nextBugTargetGridPosition == Vector3Int.zero)
+        else if (Util.IsAtDistanceWithObject(nextBugTargetWorldPosition, transform.position) || (nextBugTargetGridPosition.x == 0 && nextBugTargetGridPosition.y == 0))
         {
             //Get next move close to 
-            // Assign nextBugTargetPosition
-            nextBugTargetGridPosition = NextPathFindingBugPosition();
-            nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition);
+            // // Assign nextBugTargetPosition
+            // nextBugTargetGridPosition = Move // NextPathFindingBugPosition();
+            // nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition);
+
+            //nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(Position + Util.GetVector3IntNegativeInfinity);
+            //nextBugTargetGridPosition = BussGrid.GetLocalGridFromWorldPosition(nextBugTargetWorldPosition);
+            nextBugTargetGridPosition = Util.GetGridPositionFromMoveDirection(MoveDirection.DOWN, Position);
+            nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(nextBugTargetGridPosition);
+            Debug.Log("Next Bug " + nextBugTargetGridPosition + " " + nextBugTargetWorldPosition);
         }
         else
         {
@@ -248,37 +256,50 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-
     private void GotoBug(Vector3Int target)
     {
         Debug.Log("GotoBug() Setting Goto to " + target);
         SetGoTo(target);
     }
 
-    private Vector3Int NextPathFindingBugPosition()
+    private Vector3 Move(MoveDirection direction)
     {
-        //   collider.Distance(); min distance to other colliders
-        //choose the next position based on the euclidian distance
-        // and if it is not busy with another npc
+        Vector3 target = Util.GetVectorFromDirection(direction);
 
-        Vector3Int result = Position;
-        double distance = double.MaxValue;
+        return target;
 
-        for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
+        if (direction == MoveDirection.DOWN)
         {
-            int x = Util.ArroundVectorPoints[i, 0] + currentTargetGridPosition.x;
-            int y = Util.ArroundVectorPoints[i, 1] + currentTargetGridPosition.y;
-            Vector3Int tmp = new Vector3Int(x, y, 0);
-            double localMin = Util.EuclidianDistance(new int[] { Position.x, Position.y }, new int[] { x, y });
-
-            if (BussGrid.IsValidWalkablePosition(tmp) && localMin < distance)
-            {
-                distance = localMin;
-                result = tmp;
-            }
+            //Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
+            //Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
+            //npcController.AddMovement(target);
         }
-        return result;
     }
+
+    // private Vector3Int NextPathFindingBugPosition()
+    // {
+    //     //   collider.Distance(); min distance to other colliders
+    //     //choose the next position based on the euclidian distance
+    //     // and if it is not busy with another npc
+
+    //     Vector3Int result = Position;
+    //     double distance = double.MaxValue;
+
+    //     for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
+    //     {
+    //         int x = Util.ArroundVectorPoints[i, 0] + currentTargetGridPosition.x;
+    //         int y = Util.ArroundVectorPoints[i, 1] + currentTargetGridPosition.y;
+    //         Vector3Int tmp = new Vector3Int(x, y, 0);
+    //         double localMin = Util.EuclidianDistance(new int[] { Position.x, Position.y }, new int[] { x, y });
+
+    //         if (BussGrid.IsValidWalkablePosition(tmp) && localMin < distance)
+    //         {
+    //             distance = localMin;
+    //             result = tmp;
+    //         }
+    //     }
+    //     return result;
+    // }
 
     private void UpdateAStarMovement()
     {
