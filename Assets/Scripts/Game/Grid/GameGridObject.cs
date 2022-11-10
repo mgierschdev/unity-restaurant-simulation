@@ -210,6 +210,7 @@ public class GameGridObject : GameObjectBase
     {
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
         HideUnderTiles();
+        spriteRenderer.color =  Util.Free;
         editMenu.SetActive(false);
     }
 
@@ -217,7 +218,7 @@ public class GameGridObject : GameObjectBase
     public void ShowEditMenu()
     {
         SortingLayer.sortingOrder = Util.highlightSortingPosition;
-        spriteRenderer.color = Util.Available;
+        spriteRenderer.color =  Util.LightAvailable;
         editMenu.SetActive(true);
     }
 
