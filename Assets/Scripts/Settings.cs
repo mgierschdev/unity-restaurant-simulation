@@ -4,11 +4,12 @@ public static class Settings
     public const bool IsFirebaseEmulatorEnabled = true;
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
-    public const float NpcDefaultMovementSpeed = 3f;
+    public const float NpcDefaultMovementSpeed = 1f;
 
     //Player Config
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
+    public const int  MaxNpcNumber = 1; // Performance relevant
     public static int[] StartContainer = new int[] { 4, 13 };
     public static int[] StartTable = new int[] { 4, 11 };
 
@@ -21,7 +22,7 @@ public static class Settings
     //Waiting times
     public const float NPCMaxWaitingTime = 10f;
     public const float NPCMaxTimeInState = 10f;
-    public const double MIN_EUCLIDIAN_DISTANCE_RANDOM_WALK = 10;
+    public const double MIN_EUCLIDIAN_DISTANCE_RANDOM_WALK = 10; // Performance relevant
 
     //FIREBASE TEST ENV 
     public const string FIRESTORE_HOST = "localhost:8080";

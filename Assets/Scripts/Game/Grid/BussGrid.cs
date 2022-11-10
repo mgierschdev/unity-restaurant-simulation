@@ -457,9 +457,9 @@ public static class BussGrid
         Vector3Int wanderPos = currentPosition;
         double distance = 0;
         // There is a small chance that the NPC will go to the same place in which he is standing
-        while (wanderPos == currentPosition && distance >= Settings.MIN_EUCLIDIAN_DISTANCE_RANDOM_WALK)
+        while (wanderPos == currentPosition && distance <= Settings.MIN_EUCLIDIAN_DISTANCE_RANDOM_WALK)
         {
-            wanderPos = BussGrid.GetRandomWalkableGridPosition();
+            wanderPos = GetRandomWalkableGridPosition();
             distance = Util.EuclidianDistance(new int[] { currentPosition.x, currentPosition.y }, new int[]{wanderPos.x, wanderPos.y});
         }
         return wanderPos;
