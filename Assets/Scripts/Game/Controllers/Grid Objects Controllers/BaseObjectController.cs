@@ -121,7 +121,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateFirstTimeSetupStoreItem()
     {
-        //First time settup for a store item
+        //First time setup for a store item
         if (!isNewItemSetted && isNewItem)
         {
             SetNewGameGridObject();
@@ -146,16 +146,6 @@ public class BaseObjectController : MonoBehaviour
             isCurrentValidPos = false;
             gameGridObject.LightOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
-        }
-    }
-
-    private void OnMouseDown()
-    {
-        if (gameGridObject != null &&
-        !gameGridObject.GetStoreGameObject().HasActionPoint &&
-        !gameGridObject.GetIsItemReady())
-        {
-            isLoadingItemSlider = true;
         }
     }
 
@@ -190,10 +180,23 @@ public class BaseObjectController : MonoBehaviour
             gameGridObject.FreeObject(); // So it will be removed while dragging   
         }
     }
+    // Called on mouse down
+    private void OnMouseDown()
+    {
+        if (gameGridObject != null &&
+        !gameGridObject.GetStoreGameObject().HasActionPoint &&
+        !gameGridObject.GetIsItemReady())
+        {
+            isLoadingItemSlider = true;
+        }
+    }
 
+    // Called when dragging the object
     private void OnMouseDrag()
     {
         timeClicking += Time.unscaledDeltaTime;
+
+        Debug.Log("OnMouseDrag() " + gameGridObject.Name + " " + !gameGridObject.GetIsObjectSelected() + " " + IsClickingButton() + " " + isDraggDisabled);
 
         if (!Menu || gameGridObject == null ||
         !gameGridObject.GetIsObjectSelected() ||
@@ -209,8 +212,8 @@ public class BaseObjectController : MonoBehaviour
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
 
         // So it will overlay over the rest of the items while dragging
-        Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
-        gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(currentGridPosition);
+        //Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
+        //gameGridObject.SortingLayer.sortingOrder = Util.highlightSortingPosition;// Util.GetSorting(currentGridPosition);
         gameGridObject.UpdateObjectCoords();
     }
 
@@ -230,7 +233,7 @@ public class BaseObjectController : MonoBehaviour
         }
 
         gameGridObject.UpdateObjectCoords();
-        gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
+        //gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
 
         //We recalculate Paths once the object is placed
         BussGrid.GameController.ReCalculateNpcStates(gameGridObject);

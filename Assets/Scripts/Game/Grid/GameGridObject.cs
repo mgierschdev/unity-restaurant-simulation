@@ -141,7 +141,7 @@ public class GameGridObject : GameObjectBase
             GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
             firebaseGameObject.IS_STORED = true;
             PlayerData.StoreItem(this);
-            
+
             // Clear the Item from the current selected in the grid 
             BussGrid.ClearCurrentClickedActiveGameObject();
 
@@ -205,14 +205,18 @@ public class GameGridObject : GameObjectBase
         }
     }
 
+    // Changes the sprite renderer of the selected object
     public void HideEditMenu()
     {
+        SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
         HideUnderTiles();
         editMenu.SetActive(false);
     }
 
+    // Changes the sprite renderer of the selected object
     public void ShowEditMenu()
     {
+        SortingLayer.sortingOrder = Util.highlightSortingPosition;
         spriteRenderer.color = Util.Available;
         editMenu.SetActive(true);
     }
@@ -747,7 +751,6 @@ public class GameGridObject : GameObjectBase
             BussGrid.SetCounter(null);
         }
     }
-
 
     public void CancelPurchase()
     {
