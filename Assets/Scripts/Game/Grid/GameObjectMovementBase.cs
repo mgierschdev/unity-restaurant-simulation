@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //Bug Path finding
     private Vector3Int nextBugTargetGridPosition;
     private Vector3 nextBugTargetWorldPosition;
+    private PolygonCollider2D collider; // to check for other npc
     //Bug Path finding
 
 
@@ -46,8 +48,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected GameGridObject table;
     protected StateMachine<NpcState, NpcStateTransitions> stateMachine;
 
-    // Collider
-    private PolygonCollider2D collider;
 
     private void Awake()
     {
@@ -212,15 +212,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return;
         }
 
-        Debug.Log("Update target movement " + BugPathFinding);
-
         if (AStar)
         {
             UpdateAStarMovement();
         }
         else if (BugPathFinding)
         {
-            Debug.Log("Update target movement BugPathFinding " + BugPathFinding);
             UpdateBugPathMovement();
         }
     }
@@ -243,7 +240,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
             //nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(Position + Util.GetVector3IntNegativeInfinity);
             //nextBugTargetGridPosition = BussGrid.GetLocalGridFromWorldPosition(nextBugTargetWorldPosition);
-            nextBugTargetGridPosition = Util.GetGridPositionFromMoveDirection(MoveDirection.DOWN, Position);
+            nextBugTargetGridPosition = GetNextBugCell();
             nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(nextBugTargetGridPosition);
             Debug.Log("Next Bug " + nextBugTargetGridPosition + " " + nextBugTargetWorldPosition);
         }
@@ -254,6 +251,27 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             UpdateObjectDirection(); // It flips the side of the object depending on direction
             transform.position = Vector3.MoveTowards(transform.position, nextBugTargetWorldPosition, speed * Time.fixedDeltaTime);
         }
+    }
+
+    private Vector3Int GetNextBugCell()
+    {
+        double min = double.MaxValue;
+        Vector3Int sol = Vector3Int.zero;
+
+        foreach (MoveDirection direction in Enum.GetValues(typeof(MoveDirection)))
+        {
+            Vector3Int current = Util.GetGridPositionFromMoveDirection(direction, Position);
+            double localDistance = Util.EuclidianDistance(current, currentTargetGridPosition);
+
+            if (localDistance < min)
+            {
+                sol = current;
+                min = localDistance;
+            }
+        }
+
+        Debug.Log("Min naive distance " + sol);
+        return sol;
     }
 
     private void GotoBug(Vector3Int target)
@@ -268,12 +286,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         return target;
 
-        if (direction == MoveDirection.DOWN)
-        {
-            //Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
-            //Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
-            //npcController.AddMovement(target);
-        }
+        // if (direction == MoveDirection.DOWN)
+        // {
+        //     //Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
+        //     //Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
+        //     //npcController.AddMovement(target);
+        // }
     }
 
     // private Vector3Int NextPathFindingBugPosition()
