@@ -16,7 +16,7 @@ public class BaseObjectController : MonoBehaviour
     private ObjectRotation initialRotation;
     private StoreGameObject storeGameObject;
     private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled, isLoadingItemSlider;
-
+    
     private void Awake()
     {
         isNewItem = false;
