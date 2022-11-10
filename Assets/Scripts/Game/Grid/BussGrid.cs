@@ -432,7 +432,7 @@ public static class BussGrid
         return tile.WorldPosition;
     }
 
-    // Only for unit test use
+    // Only for unit test case use
     // public static void SetTestGridObstacles(int row, int x1, int x2)
     // {
     //     //int x, int y, ObjectType type, Color? color = null
@@ -442,7 +442,7 @@ public static class BussGrid
     //     }
     // }
 
-    // Only for unit test use
+    // Only for unit test case use
     // public static void FreeTestGridObstacles(int row, int x1, int x2)
     // {
     //     for (int i = x1; i <= x2; i++)
@@ -455,10 +455,12 @@ public static class BussGrid
     public static Vector3Int GetRandomWalkablePosition(Vector3Int currentPosition)
     {
         Vector3Int wanderPos = currentPosition;
+        double distance = 0;
         // There is a small chance that the NPC will go to the same place in which he is standing
-        while (wanderPos == currentPosition)
+        while (wanderPos == currentPosition && distance >= Settings.MIN_EUCLIDIAN_DISTANCE_RANDOM_WALK)
         {
             wanderPos = BussGrid.GetRandomWalkableGridPosition();
+            distance = Util.EuclidianDistance(new int[] { currentPosition.x, currentPosition.y }, new int[]{wanderPos.x, wanderPos.y});
         }
         return wanderPos;
     }
@@ -881,7 +883,7 @@ public static class BussGrid
 
         return false;
     }
-    
+
     public static bool IsDraggingEnabled(GameGridObject obj)
     {
         return isDraggingEnabled && IsThisSelectedObject(obj.Name);

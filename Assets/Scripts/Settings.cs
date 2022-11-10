@@ -21,6 +21,7 @@ public static class Settings
     //Waiting times
     public const float NPCMaxWaitingTime = 10f;
     public const float NPCMaxTimeInState = 10f;
+    public const double MIN_EUCLIDIAN_DISTANCE_RANDOM_WALK = 10;
 
     //FIREBASE TEST ENV 
     public const string FIRESTORE_HOST = "localhost:8080";

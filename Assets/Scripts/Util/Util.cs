@@ -79,9 +79,9 @@ public static class Util
         }
         GameLog.Log(output);
     }
-    public static double EuclidianDistance(int[] a, int[] b)
+    public static double EuclidianDistance(int[] coordA, int[] coordB)
     {
-        double distance = System.Math.Sqrt(System.Math.Pow(a[0] - b[0], 2) + System.Math.Pow(a[1] - b[1], 2));
+        double distance = System.Math.Sqrt(System.Math.Pow(coordA[0] - coordB[0], 2) + System.Math.Pow(coordA[1] - coordB[1], 2));
         return distance;
     }
 
