@@ -544,7 +544,7 @@ public static class BussGrid
 
             if (IsCoordValid(x, y) && gridArray[x, y] == (int)CellValue.EMPTY)
             {
-                List<Node> path = BussGrid.GetPath(new[] { currentPosition.x, currentPosition.y }, new[] { target.x, target.y });
+                List<Node> path = GetPath(new[] { currentPosition.x, currentPosition.y }, new[] { target.x, target.y });
                 if (distance > path.Count && path.Count != 0)
                 {
                     result = tmp;
