@@ -82,15 +82,15 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         UpdatePosition();
     }
 
-    private void UpdateSimpleBugPathFinding()
-    {
-        if (!isMoving)
-        {
-            return;
-        }
+    // private void UpdateSimpleBugPathFinding()
+    // {
+    //     if (!isMoving)
+    //     {
+    //         return;
+    //     }
 
-        Vector3Int nextPosition;
-    }
+    //     Vector3Int nextPosition;
+    // }
 
     private Vector3Int NextPathFindingBugPosition()
     {
@@ -120,9 +120,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private void GotoBug(Vector3Int target)
     {
         SetGoTo(target);
-        Debug.Log("Trying to go to: " + target);
         //   collider.Distance(); min distance to other colliders
-        UpdateSimpleBugPathFinding();
+        // UpdateSimpleBugPathFinding();
     }
 
     protected void SetID()
@@ -250,13 +249,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         else if (BugPathFinding)
         {
             UpdateBugPathMovement();
-
         }
     }
 
     private void UpdateBugPathMovement()
     {
-        if (Util.IsAtDistanceWithObject(currentLocalTargetPosition, transform.position))
+        Debug.Log("Trying to go to: " + currentTargetGridPosition + " we are at " + Position);
+        if (Util.IsAtDistanceWithObject(currentTargetGridPosition, transform.position))
         {
             //final target reached 
             moveDirection = MoveDirection.IDLE;
@@ -264,7 +263,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-            //Get next heuristic move
+            //Get next move close to target
         }
     }
 
