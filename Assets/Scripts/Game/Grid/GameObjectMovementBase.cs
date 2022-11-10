@@ -16,6 +16,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private EnergyBarController energyBar;
     [SerializeField]
     protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
+    private bool isMoving;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
@@ -71,6 +72,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         stateTime = 0;
         prevState = currentState;
         energyBarSpeed = 20f;
+        isMoving = false;
         currentState = NpcState.IDLE;
         UpdatePosition();
     }
@@ -201,8 +203,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             }
             else
             {
-                //target reached 
+                //final target reached 
                 moveDirection = MoveDirection.IDLE;
+                isMoving = false;
             }
         }
         else
@@ -218,7 +221,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // TODO: for performance reasons only animate inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
         // another sol: it can also spam the NPC inside/near the camera 
         // Animates depending on the current state
-        if (IsMoving())
+        if (IsMoving() && prevState == currentState)
         {
             animationController.SetState(NpcState.WALKING);
         }
@@ -230,10 +233,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdateTimeInState()
     {
+        currentState = stateMachine.Current.State;
         // keeps the time in the current state
         if (prevState == currentState)
         {
-            //Log("Current state time "+stateTime);
             stateTime += Time.fixedDeltaTime;
         }
         else
@@ -257,23 +260,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected bool IsMoving()
     {
-        // if (Name.Contains(Settings.EMPLOYEE_PREFIX))
-        // {
-        //     Debug.Log("Is Moving " + transform.position + " " + currentTargetPosition + " " + Util.IsAtDistanceWithObject(transform.position, currentTargetPosition));
-        // }
-
-        return !Util.IsAtDistanceWithObject(transform.position, currentTargetPosition);
+        return isMoving;
     }
 
     protected bool IsAtTarget()
     {
         return Util.IsAtDistanceWithObject(transform.position, currentTargetPosition);
     }
-
-    // private bool IsPendingQueueEmpty()
-    // {
-    //     return pendingMovementQueue.Count != 0;
-    // }
 
     // Resets the planned Path
     private void ResetMovementQueue()
@@ -384,6 +377,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         currentTargetGridPosition = pos;
         currentTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(pos);
+        isMoving = true;
 
         AddPath(path);
 
@@ -417,7 +411,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         return Util.IsAtDistanceWithObject(currentTargetPosition, transform.position);
     }
-    
+
     public StateMachine<NpcState, NpcStateTransitions> GetStateMachine()
     {
         return stateMachine;

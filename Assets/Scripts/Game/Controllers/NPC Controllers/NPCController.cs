@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class NPCController : GameObjectMovementBase
 {
     [SerializeField]
-    private const float MAX_STATE_TIME = 120; // 1min
+    private const float MAX_STATE_TIME = 120; // 2min
     [SerializeField]
     private NpcState state;//TODO: for debug
 
@@ -15,7 +15,7 @@ public class NPCController : GameObjectMovementBase
     {
         type = ObjectType.NPC;
         SetID();
-        // MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
+        //TODO: MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
     }
 
