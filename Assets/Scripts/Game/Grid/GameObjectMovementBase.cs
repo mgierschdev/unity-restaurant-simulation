@@ -33,7 +33,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //A*
 
     //Bug Path finding
-    private Vector3Int nextBugTargetPosition;
+    private Vector3Int nextBugTargetGridPosition;
+    private Vector3 nextBugTargetWorldPosition;
     //Bug Path finding
 
 
@@ -85,7 +86,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         AStar = false;// mutual exclusive with BugPathfinding
         BugPathFinding = true;// mutual exclusive with A*
         currentState = NpcState.IDLE;
-        nextBugTargetPosition = Vector3Int.zero;
+        nextBugTargetGridPosition = Vector3Int.zero;
         UpdatePosition();
     }
 
@@ -267,24 +268,25 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private void UpdateBugPathMovement()
     {
         Debug.Log("Trying to go to: " + currentTargetGridPosition + " we are at " + Position);
-        if (Util.IsAtDistanceWithObject(currentTargetGridPosition, transform.position))
+        if (Util.IsAtDistanceWithObject(currentTargetWorldPosition, transform.position))
         {
             //final target reached 
             moveDirection = MoveDirection.IDLE;
             isMoving = false;
         }
-        else if (Util.IsAtDistanceWithObject(nextBugTargetPosition, transform.position) || nextBugTargetPosition == Vector3Int.zero)
+        else if (Util.IsAtDistanceWithObject(nextBugTargetWorldPosition, transform.position) || nextBugTargetGridPosition == Vector3Int.zero)
         {
             //Get next move close to 
             // Assign nextBugTargetPosition
-            nextBugTargetPosition = NextPathFindingBugPosition();
-            moveDirection = GetDirectionFromPositions(transform.position, nextBugTargetPosition);
-            UpdateObjectDirection(); // It flips the side of the object depending on direction
-            transform.position = Vector3.MoveTowards(transform.position, nextBugTargetPosition, speed * Time.fixedDeltaTime);
+            nextBugTargetGridPosition = NextPathFindingBugPosition();
+            nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition);
         }
         else
         {
-
+            moveDirection = GetDirectionFromPositions(transform.position, BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition));
+            // Move arround the wall/ or colliders objects
+            UpdateObjectDirection(); // It flips the side of the object depending on direction
+            transform.position = Vector3.MoveTowards(transform.position, nextBugTargetWorldPosition, speed * Time.fixedDeltaTime);
         }
     }
 
