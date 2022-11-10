@@ -90,48 +90,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         UpdatePosition();
     }
 
-    // private void UpdateSimpleBugPathFinding()
-    // {
-    //     if (!isMoving)
-    //     {
-    //         return;
-    //     }
-
-    //     Vector3Int nextPosition;
-    // }
-
-    private Vector3Int NextPathFindingBugPosition()
-    {
-        //choose the next position based on the euclidian distance
-        // and if it is not busy with another npc
-
-        Vector3Int result = Position;
-        double distance = double.MaxValue;
-
-        for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
-        {
-            int x = Util.ArroundVectorPoints[i, 0] + currentTargetGridPosition.x;
-            int y = Util.ArroundVectorPoints[i, 1] + currentTargetGridPosition.y;
-            Vector3Int tmp = new Vector3Int(x, y, 0);
-            double localMin = Util.EuclidianDistance(new int[] { Position.x, Position.y }, new int[] { x, y });
-
-            if (BussGrid.IsValidWalkablePosition(tmp) && localMin < distance)
-            {
-                distance = localMin;
-                result = tmp;
-            }
-        }
-
-        return result;
-    }
-
-    private void GotoBug(Vector3Int target)
-    {
-        SetGoTo(target);
-        //   collider.Distance(); min distance to other colliders
-        // UpdateSimpleBugPathFinding();
-    }
-
     protected void SetID()
     {
         string id = BussGrid.GameController.GetNpcSet().Count + 1 + "-" + Time.frameCount;
@@ -288,6 +246,38 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             UpdateObjectDirection(); // It flips the side of the object depending on direction
             transform.position = Vector3.MoveTowards(transform.position, nextBugTargetWorldPosition, speed * Time.fixedDeltaTime);
         }
+    }
+
+
+    private void GotoBug(Vector3Int target)
+    {
+        Debug.Log("GotoBug() Setting Goto to " + target);
+        SetGoTo(target);
+    }
+
+    private Vector3Int NextPathFindingBugPosition()
+    {
+        //   collider.Distance(); min distance to other colliders
+        //choose the next position based on the euclidian distance
+        // and if it is not busy with another npc
+
+        Vector3Int result = Position;
+        double distance = double.MaxValue;
+
+        for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
+        {
+            int x = Util.ArroundVectorPoints[i, 0] + currentTargetGridPosition.x;
+            int y = Util.ArroundVectorPoints[i, 1] + currentTargetGridPosition.y;
+            Vector3Int tmp = new Vector3Int(x, y, 0);
+            double localMin = Util.EuclidianDistance(new int[] { Position.x, Position.y }, new int[] { x, y });
+
+            if (BussGrid.IsValidWalkablePosition(tmp) && localMin < distance)
+            {
+                distance = localMin;
+                result = tmp;
+            }
+        }
+        return result;
     }
 
     private void UpdateAStarMovement()
