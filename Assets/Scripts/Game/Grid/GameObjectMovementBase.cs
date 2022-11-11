@@ -550,8 +550,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (path.Count == 0)
         {
-            // TODO: Re try not found path after some time add  new state, retry
-            Debug.Log("Not path found");
+            // TODO: Re-try or change state if the path is not found
+            Debug.Log(Name + " No path found");
             return false;
         }
 

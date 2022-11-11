@@ -385,8 +385,10 @@ public static class BussGrid
         {
             return new List<Node>();
         }
-
-        return pathFind.Find(start, end, gridArray, GameController.GetPlayerPositionSet());
+        
+        HashSet<Vector3Int> set = new HashSet<Vector3Int>(GameController.GetPlayerPositionSet());
+        set.Remove(new Vector3Int(start[0], start[1], 0));// removing current npc position
+        return pathFind.Find(start, end, gridArray, set);
     }
 
     // Returns the Grid position given a Vector3 world position

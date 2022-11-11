@@ -75,7 +75,7 @@ public class PathFind
                 //Checking for player positions
                 Vector3Int currentEvaluatedPosition = new Vector3Int(x, y, 0);
 
-                if (IsValid(x, y) && arrayGrid[x, y] != (int)ObjectType.OBSTACLE && !playerPositions.Contains(currentEvaluatedPosition))//&& arrayGrid[x, y] != (int)ObjectType.PLAYER)
+                if (IsValid(x, y) && arrayGrid[x, y] != (int)ObjectType.OBSTACLE && !playerPositions.Contains(currentEvaluatedPosition))
                 {
                     //Additional validation to no go diagonally through 2 obstacles
                     // if (!IsValidDiagonal(x, y))
