@@ -119,7 +119,6 @@ public static class MenuObjectList
             case MenuTab.TABLES_TAB: return ActionPointItems;
             case MenuTab.DISPENSERS: return BaseDispenserList;
             // case MenuTab.IN_GAME_STORE_TAB: return InGameStoreItems;
-            // case MenuTab.EMPLOYEE_TAB: return EmployeeItems;
             case MenuTab.SETTINGS_TAB: return SettingsItems;
         }
 
@@ -133,7 +132,6 @@ public static class MenuObjectList
             case MenuTab.TABLES_TAB: return "Tables";
             case MenuTab.DISPENSERS: return "Dispensers";
             // case MenuTab.IN_GAME_STORE_TAB: return "Store";
-            // case MenuTab.EMPLOYEE_TAB: return "Employees";
             case MenuTab.STORAGE_TAB: return "Storage";
             case MenuTab.SETTINGS_TAB: return "Settings";
         }
