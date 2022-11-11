@@ -1,3 +1,4 @@
+using UnityEngine;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -57,7 +58,7 @@ public class TestPathFind
         expected.Add(new Node(new int[] { 3, 3 }));
         expected.Add(new Node(new int[] { 4, 4 }));
 
-        path = pathFind.Find(start, target, grid);
+        path = pathFind.Find(start, target, grid, new HashSet<Vector3Int>());
         for (int i = 0; i < path.Count; i++)
         {
             Assert.True(expected[i].Compare(path[i]));
@@ -86,7 +87,7 @@ public class TestPathFind
         expected.Add(new Node(new int[] { 4, 4 }));
 
         Util.PrintGrid(grid);
-        path = pathFind.Find(start, target, grid);
+        path = pathFind.Find(start, target, grid, new HashSet<Vector3Int>());
         Util.PrintPath(path);
 
         for (int i = 0; i < path.Count; i++)
@@ -104,7 +105,7 @@ public class TestPathFind
 
         expected.Clear();
         path.Clear();
-        path = pathFind.Find(start, target, grid);
+        path = pathFind.Find(start, target, grid, new HashSet<Vector3Int>());
 
         Assert.AreEqual(path, expected);
     }
@@ -127,7 +128,7 @@ public class TestPathFind
         grid[1, 1] = 1;
 
         Util.PrintGrid(grid);
-        path = pathFind.Find(start, target, grid);
+        path = pathFind.Find(start, target, grid, new HashSet<Vector3Int>());
         Util.PrintPath(path);
 
         for (int i = 0; i < path.Count; i++)

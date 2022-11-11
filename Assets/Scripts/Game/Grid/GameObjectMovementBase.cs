@@ -8,6 +8,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 {
     public string Name { get; set; }
     public Vector3Int Position { get; set; } //PathFindingGrid Position
+    public Vector3Int PrevGridPosition { get; set; }
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
     private GameObject gameGridObject;
@@ -39,7 +40,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // private Vector3 nextBugTargetWorldPosition;
     // 
     //Bug Path finding
-
 
     //Final target 
     protected Vector3 currentTargetWorldPosition;
@@ -147,9 +147,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         Position = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
+        UpdatePrevPosition();
         //Sorting (sprite) the layer depending on the player position
         sortingLayer.sortingOrder = Util.GetSorting(Position);
+
+        // TOOD: remove for UpdatePrevPosition(), Only for DEBUG
         // We mark the grid with the current NPC position
+        // Performance relevant
         if (!positionAdded.Contains(Position))
         {
             positionAdded.Add(Position);// we add once and we remove inside the co-routine
@@ -256,27 +260,27 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //     }
     // }
 
-    private Vector3Int GetNextBugCell()
-    {
-        double min = double.MaxValue;
-        Vector3Int sol = Vector3Int.zero;
+    // private Vector3Int GetNextBugCell()
+    // {
+    //     double min = double.MaxValue;
+    //     Vector3Int sol = Vector3Int.zero;
 
-        for (int i = (int)MoveDirection.UP; i <= (int)MoveDirection.RIGHT; i++)
-        {
-            MoveDirection direction = (MoveDirection)i;
-            Vector3Int current = Util.GetGridPositionFromMoveDirection(direction, Position);
-            double localDistance = Util.EuclidianDistance(current, currentTargetGridPosition);
-            Debug.Log("Calc " + current + "," + currentTargetGridPosition + " local dist: " + localDistance + " Direction " + direction);
+    //     for (int i = (int)MoveDirection.UP; i <= (int)MoveDirection.RIGHT; i++)
+    //     {
+    //         MoveDirection direction = (MoveDirection)i;
+    //         Vector3Int current = Util.GetGridPositionFromMoveDirection(direction, Position);
+    //         double localDistance = Util.EuclidianDistance(current, currentTargetGridPosition);
+    //         Debug.Log("Calc " + current + "," + currentTargetGridPosition + " local dist: " + localDistance + " Direction " + direction);
 
-            if (localDistance < min)
-            {
-                sol = current;
-                min = localDistance;
-            }
-        }
+    //         if (localDistance < min)
+    //         {
+    //             sol = current;
+    //             min = localDistance;
+    //         }
+    //     }
 
-        return sol;
-    }
+    //     return sol;
+    // }
 
     // private void GotoBug(Vector3Int target)
     // {
@@ -376,6 +380,20 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
+    private void UpdatePrevPosition()
+    {
+        //Position changed
+        if (PrevGridPosition != Position)
+        {
+            BussGrid.GameController.RemovePlayerPosition(PrevGridPosition);
+            BussGrid.GameController.AddPlayerPositions(Position);
+            GoToAStar(currentTargetGridPosition); // recalculate
+            PrevGridPosition = Position;
+        }
+        // DEBUG
+        BussGrid.GameController.PrintDebugPlayerPositionsSet();
+    }
+
     private void AddMovement()
     {
         if (pendingMovementQueue.Count == 0)
@@ -385,6 +403,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
         Vector3 direction = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
+
+        // we can recalculate for each step
         currentLocalTargetPosition = new Vector3(direction.x, direction.y);
     }
 
@@ -516,11 +536,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (path.Count == 0)
         {
+            // Re try not found path after some time 
+            Debug.Log("Not path found");
             return false;
         }
 
         SetGoTo(pos);
-
         AddPath(path);
 
         if (pendingMovementQueue.Count != 0)

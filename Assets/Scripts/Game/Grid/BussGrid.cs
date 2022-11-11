@@ -292,8 +292,8 @@ public static class BussGrid
 
     public static bool IsValidWalkablePosition(Vector3Int position)
     {
-        return  IsCoordValid(position.x, position.y) &&
-          //  !IsThereNPCInPosition(position) &&
+        return IsCoordValid(position.x, position.y) &&
+            //  !IsThereNPCInPosition(position) &&
             gridArray[position.x, position.y] == (int)CellValue.EMPTY &&
             IsValidBussCoord(position);
     }
@@ -386,7 +386,7 @@ public static class BussGrid
             return new List<Node>();
         }
 
-        return pathFind.Find(start, end, gridArray);
+        return pathFind.Find(start, end, gridArray, GameController.GetPlayerPositionSet());
     }
 
     // Returns the Grid position given a Vector3 world position

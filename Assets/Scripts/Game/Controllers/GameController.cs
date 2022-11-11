@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using IEnumerator = System.Collections.IEnumerator;
@@ -13,12 +14,14 @@ public class GameController : MonoBehaviour
     private GameTile tileSpawn;
     private GameObject NPCS;
     private HashSet<NPCController> NpcSet;
+    private HashSet<Vector3Int> playerPositionSet;
     private EmployeeController employeeController;
 
     private void Start()
     {
         npcId = 0;
         NpcSet = new HashSet<NPCController>();
+        playerPositionSet = new HashSet<Vector3Int>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         LoadUserObjects();
         StartCoroutine(AssignTables());
@@ -224,5 +227,30 @@ public class GameController : MonoBehaviour
         BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
         controller.SetFirebaseGameObjectAndInitRotation(obj);
         controller.SetStoreGameObject(MenuObjectList.GetStoreObject((StoreItemType)obj.ID));
+    }
+
+    public void AddPlayerPositions(Vector3Int position)
+    {
+        playerPositionSet.Add(position);
+    }
+
+    public void RemovePlayerPosition(Vector3Int position)
+    {
+        playerPositionSet.Remove(position);
+    }
+
+    public HashSet<Vector3Int> GetPlayerPositionSet()
+    {
+        return playerPositionSet;
+    }
+
+    public void PrintDebugPlayerPositionsSet()
+    {
+        string debug = "PrintDebugPlayerPositionsSet: " + playerPositionSet.Count;
+        foreach (Vector3Int pos in playerPositionSet)
+        {
+            debug += " " + pos + " ";
+        }
+        GameLog.Log(debug);
     }
 }
