@@ -33,6 +33,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private Vector3 currentLocalTargetPosition; //step by step target to
     private HashSet<Vector3Int> positionAdded;
     private Queue<Pair<float, Vector3Int>> npcPrevPositions;
+    private int debugColorValue = 0;
     //A*
 
     //Bug Path finding
@@ -334,8 +335,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             if (pendingMovementQueue.Count != 0)
             {
                 // we can recalculate for each step, to avoid other NPCs
-                GoTo(currentTargetGridPosition);
-                //AddMovement();
+                Debug.Log("Current position " + Position);
+                GoToAStar(currentTargetGridPosition);
+                //AddMovement(); Old 
             }
             else
             {
@@ -391,8 +393,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             BussGrid.GameController.AddPlayerPositions(Position);
             PrevGridPosition = Position;
         }
-        // DEBUG
-        BussGrid.GameController.PrintDebugPlayerPositionsSet();
+        // DEBUG 
+        //BussGrid.GameController.PrintDebugPlayerPositionsSet();
     }
 
     private void AddMovement()
@@ -490,7 +492,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (pendingMovementQueue.Count != 0)
         {
-            path = MergePath(path); // We merge Paths
+            //path = MergePath(path); // We merge Paths
+            pendingMovementQueue.Clear();
         }
 
         pendingMovementQueue.Enqueue(path[0].GetVector3());
@@ -501,11 +504,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             {
                 Vector3 from = BussGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
                 Vector3 to = BussGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
-                Debug.DrawLine(from, to, Util.GetRandomColor(), 15f);
+                Debug.DrawLine(from, to, Util.GetRandomColor(debugColorValue % 10), 15f);
             }
 
             pendingMovementQueue.Enqueue(path[i].GetVector3());
         }
+
+        debugColorValue++;
 
         if (path.Count == 0)
         {
@@ -530,7 +535,18 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //     // return false;
     // }
 
-    public bool GoTo(Vector3Int pos)
+
+    public bool GoTo(Vector3Int position)
+    {
+        if (GoToAStar(position))
+        {
+            SetGoTo(position);
+            return true;
+        }
+        return false;
+    }
+
+    public bool GoToAStar(Vector3Int pos)
     {
         List<Node> path = BussGrid.GetPath(new[] { Position.x, Position.y }, new[] { pos.x, pos.y });
 
@@ -541,7 +557,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return false;
         }
 
-        SetGoTo(pos);
         AddPath(path);
 
         if (pendingMovementQueue.Count != 0)
