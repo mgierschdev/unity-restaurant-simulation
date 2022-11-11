@@ -121,22 +121,22 @@ public static class MenuObjectList
         {
             case MenuTab.TABLES_TAB: return ActionPointItems;
             case MenuTab.DISPENSERS: return BaseContainerItems;
-            case MenuTab.IN_GAME_STORE_TAB: return InGameStoreItems;
-            case MenuTab.EMPLOYEE_TAB: return EmployeeItems;
+            // case MenuTab.IN_GAME_STORE_TAB: return InGameStoreItems;
+            // case MenuTab.EMPLOYEE_TAB: return EmployeeItems;
             case MenuTab.SETTINGS_TAB: return SettingsItems;
         }
 
         return new List<StoreGameObject>();
     }
-
+    // TODO: translation text
     public static string GetButtonLabel(MenuTab tab)
     {
         switch (tab)
         {
             case MenuTab.TABLES_TAB: return "Tables";
             case MenuTab.DISPENSERS: return "Dispensers";
-            case MenuTab.IN_GAME_STORE_TAB: return "Store";
-            case MenuTab.EMPLOYEE_TAB: return "Employees";
+            // case MenuTab.IN_GAME_STORE_TAB: return "Store";
+            // case MenuTab.EMPLOYEE_TAB: return "Employees";
             case MenuTab.STORAGE_TAB: return "Storage";
             case MenuTab.SETTINGS_TAB: return "Settings";
         }
