@@ -11,7 +11,7 @@ public class PathFind
     private List<int[]> path;
 
     //source to target in grid positions
-    public List<Node> Find(int[] s, int[] t, int[,] sourceGrid, HashSet<Vector3Int> playerPositions)
+    public List<Node> Find(int[] s, int[] t, int[,] sourceGrid)
     {
         // If it is out of bounds of if the target coord it is equal to the start coord
         if (s[0] < 0 || s[1] < 0 || t[0] < 0 || t[1] < 0 || s[0] >= sourceGrid.GetLength(0) || t[1] >= sourceGrid.GetLength(1) || (s[0] == t[0] && s[1] == t[1]))
@@ -75,7 +75,7 @@ public class PathFind
                 //Checking for player positions
                 Vector3Int currentEvaluatedPosition = new Vector3Int(x, y, 0);
 
-                if (IsValid(x, y) && arrayGrid[x, y] != (int)ObjectType.OBSTACLE && !playerPositions.Contains(currentEvaluatedPosition))//&& arrayGrid[x, y] != (int)ObjectType.PLAYER)
+                if (IsValid(x, y) && arrayGrid[x, y] != (int)ObjectType.OBSTACLE)//&& arrayGrid[x, y] != (int)ObjectType.PLAYER)
                 {
                     //Additional validation to no go diagonally through 2 obstacles
                     // if (!IsValidDiagonal(x, y))
@@ -167,7 +167,6 @@ public class PathFind
         int xAbs = Mathf.Abs(a.GetX() - b.GetX());
         int yAbs = Mathf.Abs(a.GetY() - b.GetY());
         int diff = Mathf.Abs(xAbs - yAbs);
-
         return COST_DIAGONAL * Mathf.Min(xAbs, yAbs) + COST_STRAIGHT * diff;
     }
 }

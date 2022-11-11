@@ -52,7 +52,7 @@ public static class BussGrid
     private static GameGridObject counter;
 
     //Position list with NPCs
-    private static ConcurrentDictionary<Vector3Int, byte> positionsAdded;
+    // private static ConcurrentDictionary<Vector3Int, byte> positionsAdded;
 
     //Is dragging mode enabled and object selected?
     private static bool isDraggingEnabled;
@@ -90,7 +90,7 @@ public static class BussGrid
         mapBusinessFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
 
         // Path marking attributes
-        positionsAdded = new ConcurrentDictionary<Vector3Int, byte>();
+        // positionsAdded = new ConcurrentDictionary<Vector3Int, byte>();
 
         //ObjectListConfiguration
         MenuObjectList.Init();
@@ -313,7 +313,7 @@ public static class BussGrid
             return
             IsCoordValid(gridPosition.x, gridPosition.y) &&
             !isClosingGrid &&
-            !IsThereNPCInPosition(gridPosition) &&
+            !GameController.GetPlayerPositionSet().Contains(gridPosition) &&
             gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY &&
             IsValidBussCoord(gridPosition) &&
             !IsGridPositionBlockingEntrance(gridPosition);
@@ -331,7 +331,7 @@ public static class BussGrid
 
         return IsCoordValid(gridPosition.x, gridPosition.y) && IsCoordValid(gridActionPoint.x, gridActionPoint.y) &&
                !isClosingGrid &&
-               !IsThereNPCInPosition(gridPosition) && !IsThereNPCInPosition(gridActionPoint) &&
+               !GameController.GetPlayerPositionSet().Contains(gridPosition) && !GameController.GetPlayerPositionSet().Contains(gridActionPoint) &&
                gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY && gridArray[gridActionPoint.x, gridActionPoint.y] == (int)CellValue.EMPTY &&
                IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint) &&
                !IsGridPositionBlockingEntrance(gridPosition);
@@ -386,7 +386,7 @@ public static class BussGrid
             return new List<Node>();
         }
 
-        return pathFind.Find(start, end, gridArray, GameController.GetPlayerPositionSet());
+        return pathFind.Find(start, end, gridArray);
     }
 
     // Returns the Grid position given a Vector3 world position
@@ -745,21 +745,21 @@ public static class BussGrid
         DFS(bGrid, x + 1, y);
     }
 
-    public static void RemoveMarkNPCPosition(Vector3Int pos)
-    {
-        positionsAdded.TryRemove(pos, out byte val);
-    }
+    // public static void RemoveMarkNPCPosition(Vector3Int pos)
+    // {
+    //     positionsAdded.TryRemove(pos, out byte val);
+    // }
 
-    public static void MarkNPCPosition(Vector3Int pos)
-    {
-        byte val = 0;
-        positionsAdded.TryAdd(pos, val);
-    }
+    // public static void MarkNPCPosition(Vector3Int pos)
+    // {
+    //     byte val = 0;
+    //     positionsAdded.TryAdd(pos, val);
+    // }
 
-    public static bool IsThereNPCInPosition(Vector3Int pos)
-    {
-        return positionsAdded.ContainsKey(pos);
-    }
+    // public static bool IsThereNPCInPosition(Vector3Int pos)
+    // {
+    //     return positionsAdded.ContainsKey(pos);
+    // }
 
     // This evaluates that the Grid is representing properly every object position
     public static void RecalculateBussGrid()

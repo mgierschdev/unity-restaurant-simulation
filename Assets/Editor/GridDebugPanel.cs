@@ -164,7 +164,7 @@ public class GridDebugPanel : EditorWindow
         {
             for (int j = 0; j < busGrid.GetLength(1); j++)
             {
-                if (BussGrid.IsThereNPCInPosition(new Vector3Int(i, j)))
+                if (BussGrid.GameController.GetPlayerPositionSet().Contains(new Vector3Int(i, j, 0)))
                 {
                     busGrid[i, j] = -2;
                 }

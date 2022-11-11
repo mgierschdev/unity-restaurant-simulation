@@ -31,8 +31,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // This will help to void placing objects on top of the NPC
     private Queue pendingMovementQueue;
     private Vector3 currentLocalTargetPosition; //step by step target to
-    private HashSet<Vector3Int> positionAdded;
-    private Queue<Pair<float, Vector3Int>> npcPrevPositions;
+    // private HashSet<Vector3Int> positionAdded;
+    // private Queue<Pair<float, Vector3Int>> npcPrevPositions;
     private int debugColorValue = 0;
     //A*
 
@@ -57,8 +57,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speed = Settings.NpcDefaultMovementSpeed;
         side = CharacterSide.RIGHT;
         pendingMovementQueue = new Queue();
-        positionAdded = new HashSet<Vector3Int>();
-        npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
+        // positionAdded = new HashSet<Vector3Int>();
+        // npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
 
         GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
         collider = gameObject.GetComponent<PolygonCollider2D>();
@@ -155,23 +155,23 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // TOOD: remove for UpdatePrevPosition(), Only for DEBUG
         // We mark the grid with the current NPC position
         // Performance relevant
-        if (!positionAdded.Contains(Position))
-        {
-            positionAdded.Add(Position);// we add once and we remove inside the co-routine
-            Pair<float, Vector3Int> current = new Pair<float, Vector3Int>(Time.fixedTime, Position);
-            npcPrevPositions.Enqueue(current);
-            BussGrid.MarkNPCPosition(Position);
+        // if (!positionAdded.Contains(Position))
+        // {
+        //     positionAdded.Add(Position);// we add once and we remove inside the co-routine
+        //     Pair<float, Vector3Int> current = new Pair<float, Vector3Int>(Time.fixedTime, Position);
+        //     npcPrevPositions.Enqueue(current);
+        //     BussGrid.MarkNPCPosition(Position);
 
-            if (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemovingDebugPanel)
-            {
-                while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemovingDebugPanel))
-                {
-                    positionAdded.Remove(npcPrevPositions.Peek().Value);
-                    BussGrid.RemoveMarkNPCPosition(npcPrevPositions.Peek().Value);
-                    npcPrevPositions.Dequeue();
-                }
-            }
-        }
+        //     if (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemovingDebugPanel)
+        //     {
+        //         while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemovingDebugPanel))
+        //         {
+        //             positionAdded.Remove(npcPrevPositions.Peek().Value);
+        //             BussGrid.RemoveMarkNPCPosition(npcPrevPositions.Peek().Value);
+        //             npcPrevPositions.Dequeue();
+        //         }
+        //     }
+        // }
     }
 
     private void UpdateObjectDirection()
@@ -334,8 +334,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             if (pendingMovementQueue.Count != 0)
             {
-                // we can recalculate for each step, to avoid other NPCs
-                GoToAStar(currentTargetGridPosition);
+                AddMovement();
             }
             else
             {
@@ -392,7 +391,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             PrevGridPosition = Position;
         }
         // DEBUG 
-        //BussGrid.GameController.PrintDebugPlayerPositionsSet();
+        // BussGrid.GameController.PrintDebugPlayerPositionsSet();
     }
 
     private void AddMovement()
