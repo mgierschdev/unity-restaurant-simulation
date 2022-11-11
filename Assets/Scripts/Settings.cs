@@ -63,17 +63,15 @@ public static class Settings
 
     //SPRITE LIBS CATEGORIES
     public const string SpriteLibCategoryTables = "Tables";
-    public const string SpriteLibCategoryContainers = "BaseContainers";
-    public const string SpriteLibCategoryCoffeMachines = "CoffeMachines";
+    public const string SpriteLibCategoryDispensers = "Dispensers";
     public const string SpriteLibCategoryStoreObjects = "StoreObjects";
 
     //PREFABS AND OBJECTS
     public const string Button = "Button";
     public const string PrefabGridTile = "Grid/GridTile";
     public const string PrefabSingleTable = "Objects/SingleTable";
-    public const string PrefabBaseContainerItem = "Objects/ContainerItem";
     public const string PrefabCounter = "Objects/Counter";
-    public const string PrefabBaseContainer = "Objects/BaseContainer";
+    public const string PrefabBaseDispenser = "Objects/BaseDispenser";
     public const string ObjectRotationFrontInverted = "Inverted";
     public const string ObjectRotationFront = "Front";
     public const string PrefabPlayer = "Players/Player";
