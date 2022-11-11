@@ -15,7 +15,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private EnergyBarController energyBar;
     [SerializeField]
     protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
-    private bool isMoving, AStar = false, BugPathFinding = true;
+    private bool isMoving;//, AStar = false, BugPathFinding = true;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
@@ -23,6 +23,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected PlayerAnimationStateController animationController;
     protected GameController gameController;
     protected ObjectType type;
+    private PolygonCollider2D collider; // to check for other npc
 
     //A*
     // Attributes for temporaly marking the path of the NPC on the grid
@@ -34,9 +35,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //A*
 
     //Bug Path finding
-    private Vector3Int nextBugTargetGridPosition;
-    private Vector3 nextBugTargetWorldPosition;
-    private PolygonCollider2D collider; // to check for other npc
+    // private Vector3Int nextBugTargetGridPosition;
+    // private Vector3 nextBugTargetWorldPosition;
+    // 
     //Bug Path finding
 
 
@@ -84,8 +85,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         energyBarSpeed = 20f;
         isMoving = false;
         currentState = NpcState.IDLE;
-        nextBugTargetGridPosition = Vector3Int.zero;
-        nextBugTargetWorldPosition = Vector3.zero;
+        // nextBugTargetGridPosition = Vector3Int.zero;
+        // nextBugTargetWorldPosition = Vector3.zero;
         UpdatePosition();
     }
 
@@ -212,48 +213,48 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return;
         }
 
-        if (AStar)
-        {
-            UpdateAStarMovement();
-        }
-        else if (BugPathFinding)
-        {
-            UpdateBugPathMovement();
-        }
+        // if (AStar)
+        // {
+        UpdateAStarMovement();
+        // }
+        // else if (BugPathFinding)
+        // {
+        //     UpdateBugPathMovement();
+        // }
     }
 
-    private void UpdateBugPathMovement()
-    {
-        Debug.Log("Is at distance : " + currentTargetWorldPosition + "," + transform.position + " " + 
-        Vector3.Distance(new Vector3(currentTargetWorldPosition.x, currentTargetWorldPosition.y, 0), new Vector3(transform.position.x, transform.position.y, 0)));
+    // private void UpdateBugPathMovement()
+    // {
+    //     Debug.Log("Is at distance : " + currentTargetWorldPosition + "," + transform.position + " " +
+    //     Vector3.Distance(new Vector3(currentTargetWorldPosition.x, currentTargetWorldPosition.y, 0), new Vector3(transform.position.x, transform.position.y, 0)));
 
-        if (Vector3.Distance(new Vector3(currentTargetWorldPosition.x, currentTargetWorldPosition.y, 0), new Vector3(transform.position.x, transform.position.y, 0)) <= 0.4f)
-        {
-            //final target reached 
-            moveDirection = MoveDirection.IDLE;
-            isMoving = false;
-        }
-        else if (Util.IsAtDistanceWithObject(nextBugTargetWorldPosition, transform.position) || (nextBugTargetGridPosition.x == 0 && nextBugTargetGridPosition.y == 0))
-        {
-            //Get next move close to 
-            // // Assign nextBugTargetPosition
-            // nextBugTargetGridPosition = Move // NextPathFindingBugPosition();
-            // nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition);
+    //     if (Vector3.Distance(new Vector3(currentTargetWorldPosition.x, currentTargetWorldPosition.y, 0), new Vector3(transform.position.x, transform.position.y, 0)) <= 0.4f)
+    //     {
+    //         //final target reached 
+    //         moveDirection = MoveDirection.IDLE;
+    //         isMoving = false;
+    //     }
+    //     else if (Util.IsAtDistanceWithObject(nextBugTargetWorldPosition, transform.position) || (nextBugTargetGridPosition.x == 0 && nextBugTargetGridPosition.y == 0))
+    //     {
+    //         //Get next move close to 
+    //         // // Assign nextBugTargetPosition
+    //         // nextBugTargetGridPosition = Move // NextPathFindingBugPosition();
+    //         // nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition);
 
-            //nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(Position + Util.GetVector3IntNegativeInfinity);
-            //nextBugTargetGridPosition = BussGrid.GetLocalGridFromWorldPosition(nextBugTargetWorldPosition);
-            nextBugTargetGridPosition = GetNextBugCell();
-            nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(nextBugTargetGridPosition);
-            //Debug.Log("Next Bug " + nextBugTargetGridPosition + " " + nextBugTargetWorldPosition);
-        }
-        else
-        {
-            moveDirection = GetDirectionFromPositions(transform.position, BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition));
-            // Move arround the wall/ or colliders objects
-            UpdateObjectDirection(); // It flips the side of the object depending on direction
-            transform.position = Vector3.MoveTowards(transform.position, nextBugTargetWorldPosition, speed * Time.fixedDeltaTime);
-        }
-    }
+    //         //nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(Position + Util.GetVector3IntNegativeInfinity);
+    //         //nextBugTargetGridPosition = BussGrid.GetLocalGridFromWorldPosition(nextBugTargetWorldPosition);
+    //         nextBugTargetGridPosition = GetNextBugCell();
+    //         nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(nextBugTargetGridPosition);
+    //         //Debug.Log("Next Bug " + nextBugTargetGridPosition + " " + nextBugTargetWorldPosition);
+    //     }
+    //     else
+    //     {
+    //         moveDirection = GetDirectionFromPositions(transform.position, BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition));
+    //         // Move arround the wall/ or colliders objects
+    //         UpdateObjectDirection(); // It flips the side of the object depending on direction
+    //         transform.position = Vector3.MoveTowards(transform.position, nextBugTargetWorldPosition, speed * Time.fixedDeltaTime);
+    //     }
+    // }
 
     private Vector3Int GetNextBugCell()
     {
@@ -277,11 +278,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         return sol;
     }
 
-    private void GotoBug(Vector3Int target)
-    {
-        // Debug.Log("GotoBug() Setting Goto to " + target);
-        SetGoTo(target);
-    }
+    // private void GotoBug(Vector3Int target)
+    // {
+    //     // Debug.Log("GotoBug() Setting Goto to " + target);
+    //     SetGoTo(target);
+    // }
 
     // private Vector3 Move(MoveDirection direction)
     // {
@@ -497,16 +498,16 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public bool GoTo(Vector3Int pos)
     {
-        if (AStar)
-        {
-            return GoToAStar(pos);
-        }
-        else
-        {
-            GotoBug(pos);
-            return true;
-        }
-        return false;
+        // if (AStar)
+        // {
+        return GoToAStar(pos);
+        // }
+        // else
+        // {
+        //     GotoBug(pos);
+        //     return true;
+        // }
+        // return false;
     }
 
     public bool GoToAStar(Vector3Int pos)
