@@ -9,8 +9,7 @@ public enum ObjectType
     NPC_COUNTER = 5,
     FLOOR = 6,
     NPC_SINGLE_TABLE = 7,
-    BASE_CONTAINER = 8,
-    CONTAINER_ITEM = 9,
+    DISPENSER = 8,
     UNDEFINED = 999
 }
 
@@ -106,8 +105,7 @@ public enum NpcState
 public enum MenuTab
 {
     TABLES_TAB = 1,//COUNTER HERE
-    BASE_CONTAINER_TAB = 2,
-    ITEMS_TAB = 3,
+    DISPENSERS = 2,
     EMPLOYEE_TAB = 4,//YOU MOST HAVE A COUNTER
     IN_GAME_STORE_TAB = 5,
     STORAGE_TAB = 6,
