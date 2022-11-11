@@ -111,7 +111,7 @@ public class GameController : MonoBehaviour
     private void SpamNpc()
     {
         tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
-        GameObject npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
+        GameObject npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), tileSpawn.GetWorldPositionWithOffset(), Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(NPCS.transform);
         npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
         NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
@@ -122,7 +122,7 @@ public class GameController : MonoBehaviour
     {
         //Adding Employees
         tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
-        GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.WorldPosition, Quaternion.identity) as GameObject;
+        GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), tileSpawn.GetWorldPositionWithOffset(), Quaternion.identity) as GameObject;
         employeeObject.transform.SetParent(NPCS.transform);
         employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
         employeeController = employeeObject.GetComponent<EmployeeController>();

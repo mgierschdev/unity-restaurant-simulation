@@ -335,9 +335,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             if (pendingMovementQueue.Count != 0)
             {
                 // we can recalculate for each step, to avoid other NPCs
-                Debug.Log("Current position " + Position);
                 GoToAStar(currentTargetGridPosition);
-                //AddMovement(); Old 
             }
             else
             {
