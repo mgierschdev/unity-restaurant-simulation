@@ -37,21 +37,19 @@ public static class MenuObjectList
         AllStoreItems = new List<StoreGameObject>{
             new StoreGameObject("Wooden table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 20, true),
             new StoreGameObject("Wooden squared table", "SingleTable-2", ObjectType.NPC_SINGLE_TABLE, StoreItemType.SQUARED_WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 40, true),
-            new StoreGameObject("Wooden table", "SingleTable-3", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_3, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 50, true),
-            new StoreGameObject("Dark wood table", "SingleTable-4", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_4, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 60, true),
-            new StoreGameObject("Wooden table", "SingleTable-5", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_5, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 70, true),
-            new StoreGameObject("Dark wood table", "SingleTable-6", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_6, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 80, true),
-            new StoreGameObject("Wooden table", "SingleTable-7", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_7, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 90, true),
-            new StoreGameObject("Dark wood table", "SingleTable-8", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_8, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 100, true),
-            new StoreGameObject("Iron table", "SingleTable-9", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_9, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
-            new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
+            // new StoreGameObject("Wooden table", "SingleTable-3", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_3, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 50, true),
+            // new StoreGameObject("Dark wood table", "SingleTable-4", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_4, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 60, true),
+            // new StoreGameObject("Wooden table", "SingleTable-5", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_5, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 70, true),
+            // new StoreGameObject("Dark wood table", "SingleTable-6", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_6, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 80, true),
+            // new StoreGameObject("Wooden table", "SingleTable-7", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_7, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 90, true),
+            // new StoreGameObject("Dark wood table", "SingleTable-8", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_8, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 100, true),
+            // new StoreGameObject("Iron table", "SingleTable-9", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_9, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
+            // new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
 
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
 
-            new StoreGameObject("Wooden container", "BaseContainer-1", ObjectType.BASE_CONTAINER, StoreItemType.WOODEN_BASE_CONTAINER, Settings.SpriteLibCategoryContainers, Settings.PrefabBaseContainer, 40, false),
-            
-            //The prefab for bae container items is undefined, since it requires a place to be setted on top of
-            new StoreGameObject("Coffe Machine", "Coffe-Machine-1", ObjectType.CONTAINER_ITEM, StoreItemType.ITEM_COFFE_MACHINE_1, Settings.SpriteLibCategoryCoffeMachines, Settings.undefined, 40, false),
+            new StoreGameObject("Wooden container", "BaseContainer-1", ObjectType.DISPENSER, StoreItemType.WOODEN_BASE_CONTAINER, Settings.SpriteLibCategoryContainers, Settings.PrefabBaseContainer, 40, false),
+            new StoreGameObject("Coffe Machine", "Coffe-Machine-1", ObjectType.DISPENSER, StoreItemType.ITEM_COFFE_MACHINE_1, Settings.SpriteLibCategoryCoffeMachines, Settings.undefined, 40, false),            
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
@@ -66,14 +64,9 @@ public static class MenuObjectList
                 ActionPointItems.Add(storeItem);
             }
 
-            if (storeItem.Type == ObjectType.BASE_CONTAINER)
+            if (storeItem.Type == ObjectType.DISPENSER)
             {
                 BaseContainerItems.Add(storeItem);
-            }
-
-            if (storeItem.Type == ObjectType.CONTAINER_ITEM)
-            {
-                ContainerItems.Add(storeItem);
             }
         }
 
@@ -127,8 +120,7 @@ public static class MenuObjectList
         switch (tab)
         {
             case MenuTab.TABLES_TAB: return ActionPointItems;
-            case MenuTab.BASE_CONTAINER_TAB: return BaseContainerItems;
-            case MenuTab.ITEMS_TAB: return ContainerItems;
+            case MenuTab.DISPENSERS: return BaseContainerItems;
             case MenuTab.IN_GAME_STORE_TAB: return InGameStoreItems;
             case MenuTab.EMPLOYEE_TAB: return EmployeeItems;
             case MenuTab.SETTINGS_TAB: return SettingsItems;
@@ -142,8 +134,7 @@ public static class MenuObjectList
         switch (tab)
         {
             case MenuTab.TABLES_TAB: return "Tables";
-            case MenuTab.BASE_CONTAINER_TAB: return "Containers";
-            case MenuTab.ITEMS_TAB: return "Items";
+            case MenuTab.DISPENSERS: return "Dispensers";
             case MenuTab.IN_GAME_STORE_TAB: return "Store";
             case MenuTab.EMPLOYEE_TAB: return "Employees";
             case MenuTab.STORAGE_TAB: return "Storage";
