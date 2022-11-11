@@ -9,7 +9,7 @@ public static class Settings
     //Player Config
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
-    public const int  MaxNpcNumber = 3; // Performance relevant
+    public const int  MaxNpcNumber = 30; // Performance relevant
     public static int[] StartContainer = new int[] { 4, 13 };
     public static int[] StartTable = new int[] { 4, 11 };
 

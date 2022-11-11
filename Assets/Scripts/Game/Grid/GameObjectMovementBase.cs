@@ -333,7 +333,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             if (pendingMovementQueue.Count != 0)
             {
-                AddMovement();
+                // we can recalculate for each step, to avoid other NPCs
+                GoTo(currentTargetGridPosition);
+                //AddMovement();
             }
             else
             {
@@ -387,7 +389,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             BussGrid.GameController.RemovePlayerPosition(PrevGridPosition);
             BussGrid.GameController.AddPlayerPositions(Position);
-            GoToAStar(currentTargetGridPosition); // recalculate
             PrevGridPosition = Position;
         }
         // DEBUG
@@ -404,7 +405,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         Vector3 queuePosition = (Vector3)pendingMovementQueue.Dequeue();
         Vector3 direction = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(new Vector3Int((int)queuePosition.x, (int)queuePosition.y));
 
-        // we can recalculate for each step
         currentLocalTargetPosition = new Vector3(direction.x, direction.y);
     }
 
@@ -516,27 +516,27 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         AddMovement(); // To set the first target
     }
 
-    public bool GoTo(Vector3Int pos)
-    {
-        // if (AStar)
-        // {
-        return GoToAStar(pos);
-        // }
-        // else
-        // {
-        //     GotoBug(pos);
-        //     return true;
-        // }
-        // return false;
-    }
+    // public bool GoTo(Vector3Int pos)
+    // {
+    //     // if (AStar)
+    //     // {
+    //     return GoToAStar(pos);
+    //     // }
+    //     // else
+    //     // {
+    //     //     GotoBug(pos);
+    //     //     return true;
+    //     // }
+    //     // return false;
+    // }
 
-    public bool GoToAStar(Vector3Int pos)
+    public bool GoTo(Vector3Int pos)
     {
         List<Node> path = BussGrid.GetPath(new[] { Position.x, Position.y }, new[] { pos.x, pos.y });
 
         if (path.Count == 0)
         {
-            // Re try not found path after some time 
+            // TODO: Re try not found path after some time add  new state, retry
             Debug.Log("Not path found");
             return false;
         }
