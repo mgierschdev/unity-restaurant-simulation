@@ -181,8 +181,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void MoveNPC()
     {
-        Debug.Log("MoveNPC");
-        
         if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.MOVING_TO_UNSRESPAWN))
         {
             stateMachine.SetTransition(NpcStateTransitions.MOVING_TO_UNSRESPAWN);
