@@ -465,7 +465,7 @@ public static class Util
         {
             case 0: return Color.black;
             case 1: return Color.blue;
-            case 2: return Color.clear;
+            case 2: return new Color(Random.Range(1, 255), Random.Range(1, 255), Random.Range(1, 255));
             case 3: return Color.cyan;
             case 4: return Color.gray;
             case 5: return Color.green;
@@ -477,6 +477,26 @@ public static class Util
         }
         return Color.black;
     }
+
+    public static Color GetRandomColor(int val)
+    {
+        switch (val)
+        {
+            case 0: return Color.black;
+            case 1: return Color.blue;
+            case 2: return new Color(Random.Range(1, 255), Random.Range(1, 255), Random.Range(1, 255));
+            case 3: return Color.cyan;
+            case 4: return Color.gray;
+            case 5: return Color.green;
+            case 6: return Color.grey;
+            case 7: return Color.magenta;
+            case 8: return Color.red;
+            case 9: return Color.white;
+            case 10: return Color.yellow;
+        }
+        return Color.black;
+    }
+
     public static int[,] TransposeGridForDebugging(int[,] grid)
     {
         int w = grid.GetLength(0);
