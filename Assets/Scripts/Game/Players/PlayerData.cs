@@ -314,7 +314,7 @@ public static class PlayerData
         return null;
     }
 
-    // public static GameGridObject GetFreeBaseContainer()
+    // public static GameGridObject GetFreeBaseDispenser()
     // {
     //     foreach (GameGridObject g in Inventory)
     //     {

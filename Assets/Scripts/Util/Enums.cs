@@ -135,7 +135,6 @@ public enum StoreItemType
     TABLE_SINGLE_10 = 10,
     COUNTER = 11,
     WOODEN_BASE_CONTAINER = 12,
-    ITEM_COFFE_MACHINE_1 = 13,
     UNDEFINED = 999
 }
 
