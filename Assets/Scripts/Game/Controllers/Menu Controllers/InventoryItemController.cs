@@ -14,7 +14,7 @@ public class InventoryItemController : MonoBehaviour
     {
         button = GetComponent<Button>();
         img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
-        GameObject gameObject = transform.Find("Image/ItemImage").gameObject;
+        GameObject gameObject = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
         background = img.GetComponent<Image>();
         text = transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
         textMesh = text.GetComponent<TextMeshProUGUI>();

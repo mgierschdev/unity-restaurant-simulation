@@ -48,7 +48,7 @@ public class BaseObjectController : MonoBehaviour
         UpdateInit(); // Init constructor
         UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
         UpdateSelectionSlider(); // Checks for long pressed over the object and updates the slider
-        UpdateTopItemSlider(); // Checks for long pressed over the object and updates the slider
+        UpdateTopItemDispenserSlider(); // Checks for long pressed over the object and updates the slider
         UpdateIsValidPosition(); // Checks if the current position is a valid one 
     }
 
@@ -69,7 +69,7 @@ public class BaseObjectController : MonoBehaviour
         }
     }
 
-    private void UpdateTopItemSlider()
+    private void UpdateTopItemDispenserSlider()
     {
         //TODO: Check that is not a long press
         if (isLoadingItemSlider &&
@@ -83,7 +83,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateSelectionSlider()
     {
-        if (timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected())
+        if (timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected() && !BussGrid.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
             if (gameGridObject.GetIsItemLoading() || gameGridObject.GetIsItemReady())
@@ -210,10 +210,6 @@ public class BaseObjectController : MonoBehaviour
         // Mark 2 tiles of the object action tile and position tile
         currentPos = BussGrid.GetMouseOnGameGridWorldPosition();
         transform.position = new Vector3(currentPos.x, currentPos.y, 1);
-
-        // So it will overlay over the rest of the items while dragging
-        //Vector3Int currentGridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
-        //gameGridObject.SortingLayer.sortingOrder = Util.highlightSortingPosition;// Util.GetSorting(currentGridPosition);
         gameGridObject.UpdateObjectCoords();
     }
 
@@ -233,7 +229,6 @@ public class BaseObjectController : MonoBehaviour
         }
 
         gameGridObject.UpdateObjectCoords();
-        //gameGridObject.SortingLayer.sortingOrder = Util.GetSorting(gameGridObject.GridPosition);
 
         //We recalculate Paths once the object is placed
         BussGrid.GameController.ReCalculateNpcStates(gameGridObject);

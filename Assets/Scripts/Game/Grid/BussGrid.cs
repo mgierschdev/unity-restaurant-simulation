@@ -43,24 +43,16 @@ public static class BussGrid
     private static ConcurrentDictionary<Vector3Int, GameTile> mapBusinessFloor;
     private static string currentClickedActiveGameObject;
     public static GameController GameController { get; set; }
-    //private static MenuObjectList ObjectListConfiguration;
     public static GameObject ControllerGameObject { get; set; }
-
     //Buss Queues and map
     public static ConcurrentDictionary<string, GameGridObject> BusinessObjects { get; set; }
     private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
     private static GameGridObject counter;
-
-    //Position list with NPCs
-    // private static ConcurrentDictionary<Vector3Int, byte> positionsAdded;
-
     //Is dragging mode enabled and object selected?
     private static bool isDraggingEnabled;
     private static bool draggingObject;
-
     //Perspective hand
     public static CameraController CameraController { get; set; }
-
     //Preview object
     private static BaseObjectController previewGameGridObject;
 
@@ -88,9 +80,6 @@ public static class BussGrid
 
         listBusinessFloor = new List<GameTile>();
         mapBusinessFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
-
-        // Path marking attributes
-        // positionsAdded = new ConcurrentDictionary<Vector3Int, byte>();
 
         //ObjectListConfiguration
         MenuObjectList.Init();
@@ -744,23 +733,7 @@ public static class BussGrid
         DFS(bGrid, x, y + 1);
         DFS(bGrid, x + 1, y);
     }
-
-    // public static void RemoveMarkNPCPosition(Vector3Int pos)
-    // {
-    //     positionsAdded.TryRemove(pos, out byte val);
-    // }
-
-    // public static void MarkNPCPosition(Vector3Int pos)
-    // {
-    //     byte val = 0;
-    //     positionsAdded.TryAdd(pos, val);
-    // }
-
-    // public static bool IsThereNPCInPosition(Vector3Int pos)
-    // {
-    //     return positionsAdded.ContainsKey(pos);
-    // }
-
+    
     // This evaluates that the Grid is representing properly every object position
     public static void RecalculateBussGrid()
     {
