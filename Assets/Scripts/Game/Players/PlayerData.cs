@@ -313,17 +313,4 @@ public static class PlayerData
         }
         return null;
     }
-
-    // public static GameGridObject GetFreeBaseDispenser()
-    // {
-    //     foreach (GameGridObject g in Inventory)
-    //     {
-    //         if(!setStoredInventory.Contains(g.Name) && 
-    //         g.Type == ObjectType.BASE_CONTAINER &&
-    //         g.GetTopItem() == null){
-    //             return g;
-    //         }
-    //    }
-    //    return null;
-    // }
 }

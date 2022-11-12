@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using IEnumerator = System.Collections.IEnumerator;
@@ -67,29 +66,6 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(5f);
         }
     }
-
-
-    // private void FixedUpdate()
-    // {
-    //     //not longer required since we assign the tables 
-    //     // We check that 2 npc dont have the same table
-    //     // HashSet<string> set = new HashSet<string>();
-
-    //     // foreach (NPCController npc in NpcSet)
-    //     // {
-    //     //     if (npc.HasTable())
-    //     //     {
-    //     //         if (set.Contains(npc.GetTable().Name))
-    //     //         {
-    //     //             npc.SetTableMoved();
-    //     //         }
-    //     //         else
-    //     //         {
-    //     //             set.Add(npc.GetTable().Name);
-    //     //         }
-    //     //     }
-    //     // }
-    // }
 
     private void LoadUserObjects()
     {

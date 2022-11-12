@@ -9,7 +9,6 @@ using UnityEngine.UI;
 // Check the folder under Assets/Scenes
 public class SceneLoadController : MonoBehaviour
 {
-    //private TextMeshProUGUI sliderProgress;
     private Slider slider;
     private FirebaseLoad firebase;
     private FirebaseAuth auth;

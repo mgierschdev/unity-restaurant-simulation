@@ -46,8 +46,6 @@ public class GameGridObject : GameObjectBase
         isObjectSelected = false;
         isItemBought = true;
 
-        // GameObject topObject = objectWithSprite.transform.Find(Settings.BaseObjectTopObject).gameObject;
-        // topItemController = topObject.GetComponent<TopItemController>();
         GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
         Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
         Transform objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2);
@@ -277,8 +275,6 @@ public class GameGridObject : GameObjectBase
         // If there is any NPC we send it to the final state
         ResetNPCStates();
         FreeObject();
-
-        //Vector3Int prev = GetActionTileInGridPosition();
         facingPosition--;
 
         if ((int)facingPosition <= 0)
@@ -726,7 +722,6 @@ public class GameGridObject : GameObjectBase
             isItemBought = true;
             firebaseGameObject.IS_STORED = false;
         }
-
 
         SetAsCounter(); //If it is a counter we set if in the grid
         BussGrid.SetObjectObstacle(this);

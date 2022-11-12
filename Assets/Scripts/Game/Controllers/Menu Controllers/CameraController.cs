@@ -53,7 +53,6 @@ public class CameraController : MonoBehaviour
         if (Util.IsAtDistanceWithObject(transform.position, targetVectorPosition))
         {
             targetVectorPosition = Vector3.zero;
-            //mainCamera.transform.position = new Vector3(targetVectorPosition.x, targetVectorPosition.y, -1);
             return;
         }
 

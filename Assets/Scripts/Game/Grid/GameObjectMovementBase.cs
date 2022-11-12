@@ -16,7 +16,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private EnergyBarController energyBar;
     [SerializeField]
     protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
-    private bool isMoving;//, AStar = false, BugPathFinding = true;
+    private bool isMoving;
     private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
@@ -31,16 +31,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     // This will help to void placing objects on top of the NPC
     private Queue pendingMovementQueue;
     private Vector3 currentLocalTargetPosition; //step by step target to
-    // private HashSet<Vector3Int> positionAdded;
-    // private Queue<Pair<float, Vector3Int>> npcPrevPositions;
     private int debugColorValue = 0;
     //A*
-
-    //Bug Path finding
-    // private Vector3Int nextBugTargetGridPosition;
-    // private Vector3 nextBugTargetWorldPosition;
-    // 
-    //Bug Path finding
 
     //Final target 
     protected Vector3 currentTargetWorldPosition;
@@ -57,9 +49,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speed = Settings.NpcDefaultMovementSpeed;
         side = CharacterSide.RIGHT;
         pendingMovementQueue = new Queue();
-        // positionAdded = new HashSet<Vector3Int>();
-        // npcPrevPositions = new Queue<Pair<float, Vector3Int>>();
-
         GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
         collider = gameObject.GetComponent<PolygonCollider2D>();
         gameController = gameObject.GetComponent<GameController>();
@@ -86,8 +75,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         energyBarSpeed = 20f;
         isMoving = false;
         currentState = NpcState.IDLE;
-        // nextBugTargetGridPosition = Vector3Int.zero;
-        // nextBugTargetWorldPosition = Vector3.zero;
         UpdatePosition();
     }
 
@@ -151,27 +138,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         UpdatePrevPosition();
         //Sorting (sprite) the layer depending on the player position
         sortingLayer.sortingOrder = Util.GetSorting(Position);
-
-        // TOOD: remove for UpdatePrevPosition(), Only for DEBUG
-        // We mark the grid with the current NPC position
-        // Performance relevant
-        // if (!positionAdded.Contains(Position))
-        // {
-        //     positionAdded.Add(Position);// we add once and we remove inside the co-routine
-        //     Pair<float, Vector3Int> current = new Pair<float, Vector3Int>(Time.fixedTime, Position);
-        //     npcPrevPositions.Enqueue(current);
-        //     BussGrid.MarkNPCPosition(Position);
-
-        //     if (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemovingDebugPanel)
-        //     {
-        //         while (npcPrevPositions.Count > 0 && (Time.fixedTime - npcPrevPositions.Peek().Key > timeBeforeRemovingDebugPanel))
-        //         {
-        //             positionAdded.Remove(npcPrevPositions.Peek().Value);
-        //             BussGrid.RemoveMarkNPCPosition(npcPrevPositions.Peek().Value);
-        //             npcPrevPositions.Dequeue();
-        //         }
-        //     }
-        // }
     }
 
     private void UpdateObjectDirection()
@@ -218,115 +184,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             return;
         }
 
-        // if (AStar)
-        // {
         UpdateAStarMovement();
-        // }
-        // else if (BugPathFinding)
-        // {
-        //     UpdateBugPathMovement();
-        // }
     }
-
-    // private void UpdateBugPathMovement()
-    // {
-    //     Debug.Log("Is at distance : " + currentTargetWorldPosition + "," + transform.position + " " +
-    //     Vector3.Distance(new Vector3(currentTargetWorldPosition.x, currentTargetWorldPosition.y, 0), new Vector3(transform.position.x, transform.position.y, 0)));
-
-    //     if (Vector3.Distance(new Vector3(currentTargetWorldPosition.x, currentTargetWorldPosition.y, 0), new Vector3(transform.position.x, transform.position.y, 0)) <= 0.4f)
-    //     {
-    //         //final target reached 
-    //         moveDirection = MoveDirection.IDLE;
-    //         isMoving = false;
-    //     }
-    //     else if (Util.IsAtDistanceWithObject(nextBugTargetWorldPosition, transform.position) || (nextBugTargetGridPosition.x == 0 && nextBugTargetGridPosition.y == 0))
-    //     {
-    //         //Get next move close to 
-    //         // // Assign nextBugTargetPosition
-    //         // nextBugTargetGridPosition = Move // NextPathFindingBugPosition();
-    //         // nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition);
-
-    //         //nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(Position + Util.GetVector3IntNegativeInfinity);
-    //         //nextBugTargetGridPosition = BussGrid.GetLocalGridFromWorldPosition(nextBugTargetWorldPosition);
-    //         nextBugTargetGridPosition = GetNextBugCell();
-    //         nextBugTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPositionWithOffSet(nextBugTargetGridPosition);
-    //         //Debug.Log("Next Bug " + nextBugTargetGridPosition + " " + nextBugTargetWorldPosition);
-    //     }
-    //     else
-    //     {
-    //         moveDirection = GetDirectionFromPositions(transform.position, BussGrid.GetWorldFromPathFindingGridPosition(nextBugTargetGridPosition));
-    //         // Move arround the wall/ or colliders objects
-    //         UpdateObjectDirection(); // It flips the side of the object depending on direction
-    //         transform.position = Vector3.MoveTowards(transform.position, nextBugTargetWorldPosition, speed * Time.fixedDeltaTime);
-    //     }
-    // }
-
-    // private Vector3Int GetNextBugCell()
-    // {
-    //     double min = double.MaxValue;
-    //     Vector3Int sol = Vector3Int.zero;
-
-    //     for (int i = (int)MoveDirection.UP; i <= (int)MoveDirection.RIGHT; i++)
-    //     {
-    //         MoveDirection direction = (MoveDirection)i;
-    //         Vector3Int current = Util.GetGridPositionFromMoveDirection(direction, Position);
-    //         double localDistance = Util.EuclidianDistance(current, currentTargetGridPosition);
-    //         Debug.Log("Calc " + current + "," + currentTargetGridPosition + " local dist: " + localDistance + " Direction " + direction);
-
-    //         if (localDistance < min)
-    //         {
-    //             sol = current;
-    //             min = localDistance;
-    //         }
-    //     }
-
-    //     return sol;
-    // }
-
-    // private void GotoBug(Vector3Int target)
-    // {
-    //     // Debug.Log("GotoBug() Setting Goto to " + target);
-    //     SetGoTo(target);
-    // }
-
-    // private Vector3 Move(MoveDirection direction)
-    // {
-    //     Vector3 target = Util.GetVectorFromDirection(direction);
-
-    //     return target;
-
-    //     // if (direction == MoveDirection.DOWN)
-    //     // {
-    //     //     //Vector3 expected = npcObject.transform.position + Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
-    //     //     //Vector3 target = Util.GetVectorFromDirection(MoveDirection.DOWNLEFT);
-    //     //     //npcController.AddMovement(target);
-    //     // }
-    // }
-
-    // private Vector3Int NextPathFindingBugPosition()
-    // {
-    //     //   collider.Distance(); min distance to other colliders
-    //     //choose the next position based on the euclidian distance
-    //     // and if it is not busy with another npc
-
-    //     Vector3Int result = Position;
-    //     double distance = double.MaxValue;
-
-    //     for (int i = 0; i < Util.ArroundVectorPoints.GetLength(0); i++)
-    //     {
-    //         int x = Util.ArroundVectorPoints[i, 0] + currentTargetGridPosition.x;
-    //         int y = Util.ArroundVectorPoints[i, 1] + currentTargetGridPosition.y;
-    //         Vector3Int tmp = new Vector3Int(x, y, 0);
-    //         double localMin = Util.EuclidianDistance(new int[] { Position.x, Position.y }, new int[] { x, y });
-
-    //         if (BussGrid.IsValidWalkablePosition(tmp) && localMin < distance)
-    //         {
-    //             distance = localMin;
-    //             result = tmp;
-    //         }
-    //     }
-    //     return result;
-    // }
 
     private void UpdateAStarMovement()
     {
@@ -390,8 +249,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             BussGrid.GameController.AddPlayerPositions(Position);
             PrevGridPosition = Position;
         }
-        // DEBUG 
-        // BussGrid.GameController.PrintDebugPlayerPositionsSet();
     }
 
     private void AddMovement()
@@ -517,21 +374,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         AddMovement(); // To set the first target
     }
-
-    // public bool GoTo(Vector3Int pos)
-    // {
-    //     // if (AStar)
-    //     // {
-    //     return GoToAStar(pos);
-    //     // }
-    //     // else
-    //     // {
-    //     //     GotoBug(pos);
-    //     //     return true;
-    //     // }
-    //     // return false;
-    // }
-
 
     public bool GoTo(Vector3Int position)
     {

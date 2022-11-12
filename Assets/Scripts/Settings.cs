@@ -82,6 +82,7 @@ public static class Settings
     public const string MenuContainer = "MenuContainer";
     public const string SideMenuButton = "Menu/CenterTabMenuBotton";
     public const string PrefabInventoryItemImage = "Image";
+    public const string PrefabMenuInventoryItemImage = "Image/ItemImage";
     public const string PrefabInventoryItemTextPrice = "Image/TextBackground/Price";
     public const string BaseObjectUnderTile = "Object/Tiles/UnderTile";
     public const string BaseObjectActionTile = "Object/Tiles/ActionTile";
