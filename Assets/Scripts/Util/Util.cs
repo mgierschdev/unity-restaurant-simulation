@@ -8,7 +8,9 @@ using Random = UnityEngine.Random;
 public static class Util
 {
     private const int sortingLevel = Settings.ConstDefaultBackgroundOrderingLevel; // Background 
-    public const int highlightSortingPosition = 999;
+    //UI sorting
+    public const int highlightObjectSortingPosition = 800;
+    // Colors
     public static Color Unavailable = new Color(0.1f, 0.1f, 0.1f, 1);
     public static Color Available = new Color(0, 1, 50, 1);
     public static Color LightAvailable = new Color(0, 1, 50, 0.5f);
