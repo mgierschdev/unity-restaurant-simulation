@@ -217,7 +217,7 @@ public class GameGridObject : GameObjectBase
     // Changes the sprite renderer of the selected object
     public void ShowEditMenu()
     {
-        SortingLayer.sortingOrder = Util.highlightSortingPosition;
+        SortingLayer.sortingOrder = Util.highlightObjectSortingPosition;
         spriteRenderer.color =  Util.LightAvailable;
         editMenu.SetActive(true);
     }
