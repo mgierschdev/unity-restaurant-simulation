@@ -33,7 +33,7 @@ public static class Settings
 
     //FIREBASE TEST ENV 
     public const string FIRESTORE_HOST = "localhost:8080",
-    LOUD_FUNCTION_HOST = IsFirebaseEmulatorEnabled ? "localhost:5001" : "",
+    CLOUD_FUNCTION_HOST = IsFirebaseEmulatorEnabled ? "localhost:5001" : "",
     USER_PRED_PROD_COLLECTION = "PreProd",
     TEST_USER = "TESTUSERID";
 
