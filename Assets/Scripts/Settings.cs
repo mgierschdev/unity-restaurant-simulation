@@ -83,7 +83,7 @@ public static class Settings
     ObjectRotationFront = "Front",
     PrefabPlayer = "Players/Player",
     PrefabNpcClient = "Players/Client",
-    refabNpcEmployee = "Players/Employee",
+    PrefabNpcEmployee = "Players/Employee",
     PrefabInventoryItem = "Menu/InventoryItem",
     MenuBackground = "MenuBackground",
     MenuContainer = "MenuContainer",
