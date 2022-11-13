@@ -199,6 +199,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             {
                 //final target reached 
                 moveDirection = MoveDirection.IDLE;
+                BussGrid.GameController.RemoveEmployeePlannedTarget(currentTargetGridPosition);
                 isMoving = false;
             }
         }
@@ -267,11 +268,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected bool IsMoving()
     {
         return isMoving;
-    }
-
-    protected bool IsAtTarget()
-    {
-        return Util.IsAtDistanceWithObject(transform.position, currentLocalTargetPosition);
     }
 
     // Resets the planned Path
@@ -391,7 +387,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (path.Count == 0)
         {
-            // TODO: Re try not found path after some time add  new state, retry
+            // TODO: Retry not found path after some time add new state
             Debug.Log("Not path found");
             return false;
         }
@@ -410,12 +406,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     {
         currentTargetGridPosition = target;
         currentTargetWorldPosition = BussGrid.GetWorldFromPathFindingGridPosition(target);
+        BussGrid.GameController.AddEmployeePlannedTarget(target);
         isMoving = true;
     }
 
     public void RecalculateGoTo()
     {
-        Debug.Log("Recalculating " + currentTargetGridPosition);
         if (!GoTo(currentTargetGridPosition))
         {
             return;

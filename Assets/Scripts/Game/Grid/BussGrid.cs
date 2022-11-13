@@ -304,7 +304,8 @@ public static class BussGrid
             !GameController.GetPlayerPositionSet().Contains(gridPosition) &&
             gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY &&
             IsValidBussCoord(gridPosition) &&
-            !IsGridPositionBlockingEntrance(gridPosition);
+            !IsGridPositionBlockingEntrance(gridPosition) &&
+            !GameController.IsPathPlannedByEmployee(gridPosition);
         }
 
         // Objects with two squares or action tiles,
@@ -322,7 +323,8 @@ public static class BussGrid
                !GameController.GetPlayerPositionSet().Contains(gridPosition) && !GameController.GetPlayerPositionSet().Contains(gridActionPoint) &&
                gridArray[gridPosition.x, gridPosition.y] == (int)CellValue.EMPTY && gridArray[gridActionPoint.x, gridActionPoint.y] == (int)CellValue.EMPTY &&
                IsValidBussCoord(gridPosition) && IsValidBussCoord(gridActionPoint) &&
-               !IsGridPositionBlockingEntrance(gridPosition);
+               !IsGridPositionBlockingEntrance(gridPosition) &&
+               !GameController.IsPathPlannedByEmployee(gridPosition);
     }
 
     public static bool IsValidBussCoord(Vector3Int pos)
@@ -731,7 +733,7 @@ public static class BussGrid
         DFS(bGrid, x, y + 1);
         DFS(bGrid, x + 1, y);
     }
-    
+
     // This evaluates that the Grid is representing properly every object position
     public static void RecalculateBussGrid()
     {
