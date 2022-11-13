@@ -39,6 +39,8 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("isLoadingItemSlider " + isLoadingItemSlider);
+
         if (gameGridObject == null && storeGameObject != null)
         {
             return;
@@ -157,7 +159,8 @@ public class BaseObjectController : MonoBehaviour
         // For dispenser items
         if (gameGridObject != null &&
         !gameGridObject.GetStoreGameObject().HasActionPoint &&
-        !gameGridObject.GetIsItemReady())
+        !gameGridObject.GetIsItemReady() &&
+        !gameGridObject.GetIsObjectSelected())
         {
             isLoadingItemSlider = true;
         }
