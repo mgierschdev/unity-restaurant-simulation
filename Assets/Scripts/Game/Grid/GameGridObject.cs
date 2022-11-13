@@ -665,7 +665,6 @@ public class GameGridObject : GameObjectBase
     {
         isObjectSelected = false;
         objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.SelectedObjectZPosition);
-        BussGrid.SetDraggingObject(false);
         BussGrid.SetIsDraggingEnable(false);
         BussGrid.HideHighlightedGridBussFloor();
     }

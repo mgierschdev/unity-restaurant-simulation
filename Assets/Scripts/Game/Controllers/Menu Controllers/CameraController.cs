@@ -77,7 +77,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (!Settings.CameraPerspectiveHand || BussGrid.GetDragginObject() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
+        if (!Settings.CameraPerspectiveHand || BussGrid.GetIsDraggingEnabled() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
         {
             return;
         }

@@ -50,7 +50,6 @@ public static class BussGrid
     private static GameGridObject counter;
     //Is dragging mode enabled and object selected?
     private static bool isDraggingEnabled; // Is amy object being dragged ?
-    private static bool draggingObject;
     //Perspective hand
     public static CameraController CameraController { get; set; }
     //Preview object
@@ -546,7 +545,6 @@ public static class BussGrid
     // Used to highlight the current object being edited
     public static void SetActiveGameGridObject(GameGridObject obj)
     {
-        SetDraggingObject(true);
         isDraggingEnabled = true;
 
         if (currentClickedActiveGameObject != "" && BusinessObjects.ContainsKey(currentClickedActiveGameObject))
@@ -781,16 +779,6 @@ public static class BussGrid
     public static int GetObjectCount()
     {
         return BusinessObjects.Count;
-    }
-
-    public static bool GetDragginObject()
-    {
-        return draggingObject;
-    }
-
-    public static void SetDraggingObject(bool value)
-    {
-        draggingObject = value;
     }
 
     public static GameGridObject GetCounter()
