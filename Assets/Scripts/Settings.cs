@@ -38,7 +38,7 @@ public static class Settings
     TEST_USER = "TESTUSERID";
 
     //GAME TAGS
-    public const string gameName = "Idle Tycoon - Bushiness",
+    public const string gameName = "Idle Tycoon - Business",
     NpcTag = "NPC",
     NpcEmployeeTag = "Employee",
     SliderTag = "Slider";
