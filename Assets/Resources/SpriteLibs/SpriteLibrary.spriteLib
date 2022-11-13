@@ -180,8 +180,8 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 21300000, guid: e85205c1519484c6fa76f6235357a89b, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 1
-  - m_Name: DispensersSprites
-    m_Hash: -558634537
+  - m_Name: Sprites
+    m_Hash: -1020177061
     m_CategoryList: []
     m_OverrideEntries:
     - m_Name: Dispenser-1
@@ -189,6 +189,21 @@ MonoBehaviour:
       m_Sprite: {fileID: 21300000, guid: 984e7dd9cb62746078556966a0cee794, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: 984e7dd9cb62746078556966a0cee794, type: 3}
+    - m_Name: SingleTable-1
+      m_Hash: -1529734353
+      m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
+    - m_Name: Counter-1
+      m_Hash: -1571246328
+      m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
+    - m_Name: SingleTable-2
+      m_Hash: 1037781653
+      m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 1
+    m_EntryOverrideCount: 4
   m_PrimaryLibraryGUID: 
