@@ -160,7 +160,8 @@ public class BaseObjectController : MonoBehaviour
         if (gameGridObject != null &&
         !gameGridObject.GetStoreGameObject().HasActionPoint &&
         !gameGridObject.GetIsItemReady() &&
-        !gameGridObject.GetIsObjectSelected())
+        !gameGridObject.GetIsObjectSelected() &&
+        !BussGrid.GetIsDraggingEnabled())
         {
             isLoadingItemSlider = true;
         }
