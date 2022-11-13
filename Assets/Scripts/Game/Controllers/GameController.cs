@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     private GameObject NPCS;
     private HashSet<NPCController> NpcSet;
     private HashSet<Vector3Int> playerPositionSet;
+    private HashSet<Vector3Int> employeePlannedTarget;
     private EmployeeController employeeController;
 
     private void Start()
@@ -21,6 +22,7 @@ public class GameController : MonoBehaviour
         npcId = 0;
         NpcSet = new HashSet<NPCController>();
         playerPositionSet = new HashSet<Vector3Int>();
+        employeePlannedTarget = new HashSet<Vector3Int>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         LoadUserObjects();
         StartCoroutine(AssignTables());
@@ -217,6 +219,31 @@ public class GameController : MonoBehaviour
     public HashSet<Vector3Int> GetPlayerPositionSet()
     {
         return playerPositionSet;
+    }
+
+    public void AddEmployeePlannedTarget(Vector3Int position)
+    {
+        employeePlannedTarget.Add(position);
+    }
+
+    public void RemoveEmployeePlannedTarget(Vector3Int position)
+    {
+        employeePlannedTarget.Remove(position);
+    }
+
+    public bool IsPathPlannedByEmployee(Vector3Int position)
+    {
+        return employeePlannedTarget.Contains(position);
+    }
+
+    public void PrintDebugEmployeePlannedPaths()
+    {
+        string debug = "PrintDebugEmployeePlannedPaths: " + employeePlannedTarget.Count;
+        foreach (Vector3Int pos in employeePlannedTarget)
+        {
+            debug += " " + pos + " ";
+        }
+        GameLog.Log(debug);
     }
 
     public void PrintDebugPlayerPositionsSet()
