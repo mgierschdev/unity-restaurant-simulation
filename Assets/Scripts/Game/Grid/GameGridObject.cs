@@ -159,8 +159,8 @@ public class GameGridObject : GameObjectBase
 
             BussGrid.GameController.ReCalculateNpcStates(this);
             BussGrid.CameraController.SetIsPerspectiveHandTempDisabled(false);
-            BussGrid.SetDraggingObject(false);
             BussGrid.GetBusinessObjects().TryRemove(Name, out GameGridObject tmp);
+            BussGrid.SetIsDraggingEnable(false);// it can be clicked independent 
 
             if (Type == ObjectType.NPC_SINGLE_TABLE)
             {
@@ -208,7 +208,7 @@ public class GameGridObject : GameObjectBase
     {
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
         HideUnderTiles();
-        spriteRenderer.color =  Util.Free;
+        spriteRenderer.color = Util.Free;
         editMenu.SetActive(false);
     }
 
@@ -216,8 +216,8 @@ public class GameGridObject : GameObjectBase
     public void ShowEditMenu()
     {
         SortingLayer.sortingOrder = Util.highlightObjectSortingPosition;
-       // objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, U)
-        spriteRenderer.color =  Util.LightAvailable;
+        // objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, U)
+        spriteRenderer.color = Util.LightAvailable;
         editMenu.SetActive(true);
     }
 

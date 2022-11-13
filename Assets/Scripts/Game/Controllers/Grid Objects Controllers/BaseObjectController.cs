@@ -10,7 +10,6 @@ public class BaseObjectController : MonoBehaviour
     protected MenuHandlerController Menu { get; set; }
     //Long click controller
     private float timeClicking;
-    private const float TIME_BEFORE_ACTIVATING_SLIDER = Settings.TimeBeforeTheSliderIsEnabled;
     //Firebase obj reference and initial rotation
     private FirebaseGameObject firebaseGameObject;
     private ObjectRotation initialRotation;
@@ -40,6 +39,9 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
+
+        Debug.Log(name + " " + gameGridObject.GetIsObjectSelected());
+
         if (gameGridObject == null && storeGameObject != null)
         {
             return;
@@ -83,7 +85,10 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateSelectionSlider()
     {
-        if (timeClicking > TIME_BEFORE_ACTIVATING_SLIDER && !gameGridObject.GetIsObjectSelected() && !BussGrid.GetIsDraggingEnabled())
+        Debug.Log(name + " " + !gameGridObject.GetIsObjectSelected() + " is dragging enabled?: " + BussGrid.GetIsDraggingEnabled() + " " + timeClicking);
+
+        // Selecting the item 
+        if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled && !gameGridObject.GetIsObjectSelected() && !BussGrid.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
             if (gameGridObject.GetIsItemLoading() || gameGridObject.GetIsItemReady())
@@ -92,6 +97,7 @@ public class BaseObjectController : MonoBehaviour
             }
         }
 
+        // Unselecting the item
         // If the item is selected and the user is clicking outside we un-select the item
         if (Input.GetMouseButtonDown(0) &&
         gameGridObject.GetIsObjectSelected() &&
@@ -100,6 +106,8 @@ public class BaseObjectController : MonoBehaviour
         {
             isLoadingItemSlider = false;
             gameGridObject.SetInactive();
+            BussGrid.SetIsDraggingEnable(false);
+            Debug.Log("Setting BussGrid.SetIsDraggingEnable(false); " + BussGrid.GetIsDraggingEnabled());
 
             // If it is a store item not bought we erase it 
             if (!gameGridObject.GetIsItemBought() && !PlayerData.IsItemStored(gameGridObject.Name))
@@ -183,6 +191,7 @@ public class BaseObjectController : MonoBehaviour
     // Called on mouse down
     private void OnMouseDown()
     {
+        // For dispenser items
         if (gameGridObject != null &&
         !gameGridObject.GetStoreGameObject().HasActionPoint &&
         !gameGridObject.GetIsItemReady())
