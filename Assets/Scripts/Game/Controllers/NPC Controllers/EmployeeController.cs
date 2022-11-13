@@ -177,6 +177,11 @@ public class EmployeeController : GameObjectMovementBase
             stateMachine.UnSetAll();
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER_FINAL);
         }
+        else if(stateMachine.Current.State == NpcState.WALKING_UNRESPAWN)
+        {
+            gameController.RemoveEmployee();
+            Destroy(gameObject);
+        }
     }
 
     private void MoveNPC()

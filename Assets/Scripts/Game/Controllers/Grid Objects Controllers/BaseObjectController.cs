@@ -151,37 +151,6 @@ public class BaseObjectController : MonoBehaviour
         }
     }
 
-    // Restart the state of the npcs in case that there is any
-    public void RestartTableNPC()
-    {
-        // If you move a table while busy the NPC will self destroy
-        if (gameGridObject.GetStoreGameObject().HasActionPoint)
-        {
-            // Restart NPCs states
-            NPCController npc = gameGridObject.GetUsedBy();
-            EmployeeController employee = gameGridObject.GetAttendedBy();
-
-            if (npc != null)
-            {
-                npc.SetTableMoved();
-            }
-
-            if (employee != null)
-            {
-                if (gameGridObject.Type == ObjectType.NPC_COUNTER)
-                {
-                    employee.SetUnrespawn();
-                }
-                else
-                {
-                    employee.SetTableMoved();
-                }
-                //employee.RecalculateState(gameGridObject);
-            }
-
-            gameGridObject.FreeObject(); // So it will be removed while dragging   
-        }
-    }
     // Called on mouse down
     private void OnMouseDown()
     {

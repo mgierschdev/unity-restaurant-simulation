@@ -131,7 +131,7 @@ public class GameGridObject : GameObjectBase
         cancelButton.SetActive(false);
     }
 
-    // Store Item in inventory
+    // Store Item in inventory, store object
     public void StoreInInventory()
     {
         try
@@ -144,18 +144,10 @@ public class GameGridObject : GameObjectBase
             BussGrid.ClearCurrentClickedActiveGameObject();
 
             // we clean the table from the employer
-            if (attendedBy != null)
-            {
-                attendedBy.SetTableToBeAttended(null);
-                attendedBy.SetTableMoved();
-            }
+            ClearTableEmployee();
 
-            // we clean the table from the client
-            if (usedBy != null)
-            {
-                usedBy.SetTableMoved();
-                usedBy = null;
-            }
+            // we clear the table from the client
+            ClearTableClient();
 
             BussGrid.GameController.ReCalculateNpcStates(this);
             BussGrid.CameraController.SetIsPerspectiveHandTempDisabled(false);
@@ -173,6 +165,24 @@ public class GameGridObject : GameObjectBase
         catch (Exception e)
         {
             GameLog.LogWarning("Exception thrown, likely missing reference (StoreInInventory GameGridObject): " + e);
+        }
+    }
+
+    private void ClearTableClient()
+    {
+        if (usedBy != null)
+        {
+            usedBy.SetTableMoved();
+            usedBy = null;
+        }
+    }
+
+    private void ClearTableEmployee()
+    {
+        if (attendedBy != null)
+        {
+            attendedBy.SetTableToBeAttended(null);
+            attendedBy.SetTableMoved();
         }
     }
 
@@ -292,7 +302,6 @@ public class GameGridObject : GameObjectBase
         if (attendedBy != null)
         {
             attendedBy.SetTableToBeAttended(null);
-            // attendedBy.RestartState();
             attendedBy = null;
         }
 
@@ -630,7 +639,9 @@ public class GameGridObject : GameObjectBase
         isObjectSelected = true;
         SetActiveMoveSlider(false);
         BussGrid.SetActiveGameGridObject(this);
-        baseObjectController.RestartTableNPC();
+        ClearTableClient();
+        ClearTableEmployee();
+        DisableIfCounter();
         //We clean grid position
         BussGrid.FreeObject(this);
         // We clean in case the item is loaded on top
