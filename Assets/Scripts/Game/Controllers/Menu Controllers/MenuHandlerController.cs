@@ -374,7 +374,7 @@ public class MenuHandlerController : MonoBehaviour
         Vector3 spamPosition = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetCameraPoisiton());
         GameObject newObject;
 
-        newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+        newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
         return newObject;
     }
 
@@ -390,7 +390,7 @@ public class MenuHandlerController : MonoBehaviour
         }
         else
         {
-            newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+            newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
         }
 
         return newObject;
@@ -405,7 +405,7 @@ public class MenuHandlerController : MonoBehaviour
         if (BussGrid.BusinessObjects.Count == 0)
         {
             spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextTileFromEmptyMap(obj));
-            return spamPosition == Util.GetVector3IntNegativeInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+            return spamPosition == Util.GetVector3IntNegativeInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
         }
 
         foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)
@@ -424,7 +424,7 @@ public class MenuHandlerController : MonoBehaviour
                     inverted = false;
                 }
 
-                newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, 1), Quaternion.identity, parent.transform) as GameObject;
+                newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
                 // There can be only one counter at the tinme
                 BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
                 baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.FRONT);

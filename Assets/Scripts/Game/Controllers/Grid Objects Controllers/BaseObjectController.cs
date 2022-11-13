@@ -82,7 +82,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateSelectionSlider()
     {
-        // Selecting the item 
+        // Selecting the item while pressing over it
         if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled && !gameGridObject.GetIsObjectSelected() && !BussGrid.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
