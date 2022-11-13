@@ -644,6 +644,7 @@ public class GameGridObject : GameObjectBase
         DisableIfCounter();
         //We clean grid position
         BussGrid.FreeObject(this);
+        objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.SelectedObjectZPosition);
         // We clean in case the item is loaded on top
         if (storeGameObject.HasActionPoint && isItemReady)
         {
@@ -664,7 +665,7 @@ public class GameGridObject : GameObjectBase
     public void SetInactive()
     {
         isObjectSelected = false;
-        objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.SelectedObjectZPosition);
+        objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.ObjectZPosition);
         BussGrid.SetIsDraggingEnable(false);
         BussGrid.HideHighlightedGridBussFloor();
     }
