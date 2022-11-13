@@ -13,7 +13,7 @@ public class GameGridObject : GameObjectBase
     private BaseObjectController baseObjectController;
     private List<GameObject> actionTiles;
     private List<SpriteRenderer> tiles;
-    private SpriteResolver spriteResolver;
+    private SpriteResolver spriteResolver, spriteResolverTopDispenser;
     private int actionTile;
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
@@ -23,7 +23,7 @@ public class GameGridObject : GameObjectBase
     private EmployeeController attendedBy;
     // Buttons/ Sprites and edit menus
     private GameObject saveObjButton, rotateObjLeftButton, cancelButton, acceptButton, editMenu, objectWithSprite;
-    private GameObject moveObjectSlider, loadObjectSlider, topInfoObject;
+    private GameObject moveObjectSlider, loadObjectSlider, topInfoObject, topDispenserInfoPopUpImage;
     private Slider moveSlider, loadSlider;
     //Slider attributes
     private float moveSliderMultiplayer = Settings.ObjectMoveSliderMultiplayer;
@@ -72,7 +72,11 @@ public class GameGridObject : GameObjectBase
 
         //On top Info popup
         topInfoObject = transform.Find("Slider/InfoPopUp").gameObject;
+        topDispenserInfoPopUpImage = topInfoObject.transform.Find("Image").gameObject;
+        spriteResolverTopDispenser = topDispenserInfoPopUpImage.GetComponent<SpriteResolver>();
+        spriteResolverTopDispenser.SetCategoryAndLabel("Sprites", storeGameObject.Identifier);
         topInfoObject.SetActive(false);
+        topDispenserInfoPopUpImage.SetActive(false);
 
         actionTiles = new List<GameObject>() { objectActionTile.gameObject, objectSecondActionTile.gameObject };
         tiles = new List<SpriteRenderer>() { tileUnder, actionTileSpriteRenderer, secondActionTileSprite };
@@ -95,6 +99,8 @@ public class GameGridObject : GameObjectBase
         UpdateInitRotation(baseObjectController.GetInitialRotation());
         Init(); // StoreGameObject.Type requiredD
     }
+
+    //spriteResolverTopDispenser
 
     private void SetID()
     {
@@ -368,8 +374,6 @@ public class GameGridObject : GameObjectBase
             firebaseGameObject.ROTATION = (int)newPosition;
         }
 
-
-
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
@@ -613,6 +617,7 @@ public class GameGridObject : GameObjectBase
         isItemReady = true;
         isItemLoading = false;
         topInfoObject.SetActive(true);
+        topDispenserInfoPopUpImage.SetActive(true);
         loadObjectSlider.SetActive(false);
     }
 
@@ -660,6 +665,7 @@ public class GameGridObject : GameObjectBase
         currentLoadSliderValue = 0;
         loadSlider.value = 0;
         topInfoObject.SetActive(false);
+        topDispenserInfoPopUpImage.SetActive(false);
         loadObjectSlider.SetActive(false);
     }
 
