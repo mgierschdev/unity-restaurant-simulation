@@ -39,9 +39,6 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-
-        Debug.Log(name + " " + gameGridObject.GetIsObjectSelected());
-
         if (gameGridObject == null && storeGameObject != null)
         {
             return;
@@ -85,8 +82,6 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateSelectionSlider()
     {
-        Debug.Log(name + " " + !gameGridObject.GetIsObjectSelected() + " is dragging enabled?: " + BussGrid.GetIsDraggingEnabled() + " " + timeClicking);
-
         // Selecting the item 
         if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled && !gameGridObject.GetIsObjectSelected() && !BussGrid.GetIsDraggingEnabled())
         {
@@ -107,7 +102,6 @@ public class BaseObjectController : MonoBehaviour
             isLoadingItemSlider = false;
             gameGridObject.SetInactive();
             BussGrid.SetIsDraggingEnable(false);
-            Debug.Log("Setting BussGrid.SetIsDraggingEnable(false); " + BussGrid.GetIsDraggingEnabled());
 
             // If it is a store item not bought we erase it 
             if (!gameGridObject.GetIsItemBought() && !PlayerData.IsItemStored(gameGridObject.Name))
@@ -216,7 +210,7 @@ public class BaseObjectController : MonoBehaviour
         // Change Overlay color depending if can place or not
         // Mark 2 tiles of the object action tile and position tile
         currentPos = BussGrid.GetMouseOnGameGridWorldPosition();
-        transform.position = new Vector3(currentPos.x, currentPos.y, 1);
+        transform.position = new Vector3(currentPos.x, currentPos.y, Util.SelectedObjectZPosition);
         gameGridObject.UpdateObjectCoords();
     }
 
