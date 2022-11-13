@@ -73,8 +73,9 @@ public class GameGridObject : GameObjectBase
         //On top Info popup
         topInfoObject = transform.Find("Slider/InfoPopUp").gameObject;
         topDispenserInfoPopUpImage = topInfoObject.transform.Find("Image").gameObject;
+        Util.IsNull(topInfoObject, "GameGridObject/topInfoObject null");
+        Util.IsNull(topDispenserInfoPopUpImage, "GameGridObject/topDispenserInfoPopUpImage null");
         spriteResolverTopDispenser = topDispenserInfoPopUpImage.GetComponent<SpriteResolver>();
-        spriteResolverTopDispenser.SetCategoryAndLabel("Sprites", storeGameObject.Identifier);
         topInfoObject.SetActive(false);
         topDispenserInfoPopUpImage.SetActive(false);
 
@@ -96,6 +97,7 @@ public class GameGridObject : GameObjectBase
         Type = storeGameObject.Type;
         spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
         spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+        spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, storeGameObject.Identifier);
         UpdateInitRotation(baseObjectController.GetInitialRotation());
         Init(); // StoreGameObject.Type requiredD
     }
