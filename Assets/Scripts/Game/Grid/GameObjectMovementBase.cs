@@ -415,6 +415,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     public void RecalculateGoTo()
     {
+        Debug.Log("Recalculating " + currentTargetGridPosition);
         if (!GoTo(currentTargetGridPosition))
         {
             return;

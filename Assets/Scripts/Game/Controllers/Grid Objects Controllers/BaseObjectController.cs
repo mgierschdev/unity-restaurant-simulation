@@ -116,8 +116,8 @@ public class BaseObjectController : MonoBehaviour
             {
                 gameGridObject.AcceptPurchase();
             }
-
-            //BussGrid.SetDisablePerspectiveHand(); // We disable perspective hand for a second
+            // recalculates Goto when the object is placed
+            BussGrid.GameController.ReCalculateNpcStates(gameGridObject);
         }
     }
 
