@@ -150,7 +150,6 @@ public class GameGridObject : GameObjectBase
             ClearTableClient();
 
             BussGrid.GameController.ReCalculateNpcStates(this);
-            BussGrid.CameraController.SetIsPerspectiveHandTempDisabled(false);
             BussGrid.GetBusinessObjects().TryRemove(Name, out GameGridObject tmp);
             BussGrid.SetIsDraggingEnable(false);// it can be clicked independent 
 
@@ -766,8 +765,6 @@ public class GameGridObject : GameObjectBase
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
-        // Disables the perspective hand for a second
-        BussGrid.SetDisablePerspectiveHand();
         DisableIfCounter();
         SetInactive();
         BussGrid.RecalculateBussGrid();
