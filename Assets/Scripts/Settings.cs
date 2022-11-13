@@ -96,6 +96,7 @@ public static class Settings
     BaseObjectActionTile2 = "Object/Tiles/ActionTile2",
     BaseObjectSpriteRenderer = "Object",
     BaseObjectTopObject = "TopObject",
+    TopObjectInfoSprite = "Sprites",
     undefined = "undefined";
 
     //NPC Default
