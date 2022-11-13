@@ -25,7 +25,6 @@ public class InventoryItemController : MonoBehaviour
     {
         Sprite sp = Resources.Load<Sprite>(spReference);
         imgComponent.sprite = sp;
-        Debug.Log("Setting image component " + sp + " " + spReference + " bot label " + botLeftLabelValue);
         textMesh.text = botLeftLabelValue;
     }
 

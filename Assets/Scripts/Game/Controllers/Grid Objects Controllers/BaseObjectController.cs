@@ -16,7 +16,7 @@ public class BaseObjectController : MonoBehaviour
     private ObjectRotation initialRotation;
     private StoreGameObject storeGameObject;
     private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled, isLoadingItemSlider;
-    
+
     private void Awake()
     {
         isNewItem = false;
@@ -196,8 +196,6 @@ public class BaseObjectController : MonoBehaviour
     {
         timeClicking += Time.unscaledDeltaTime;
 
-        Debug.Log("OnMouseDrag() " + gameGridObject.Name + " " + !gameGridObject.GetIsObjectSelected() + " " + IsClickingButton() + " " + isDraggDisabled);
-
         if (!Menu || gameGridObject == null ||
         !gameGridObject.GetIsObjectSelected() ||
         IsClickingButton() ||
@@ -275,6 +273,7 @@ public class BaseObjectController : MonoBehaviour
         return gameGridObject.Type != ObjectType.UNDEFINED && !IsClickingButton();
     }
 
+    // To detect multiple colliders: RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(mainCamera.ScreenPointToRay(Input.mousePosition));
     // private bool IsOverNPC()
     // {
     //     Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());

@@ -216,6 +216,7 @@ public class GameGridObject : GameObjectBase
     public void ShowEditMenu()
     {
         SortingLayer.sortingOrder = Util.highlightObjectSortingPosition;
+       // objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, U)
         spriteRenderer.color =  Util.LightAvailable;
         editMenu.SetActive(true);
     }
