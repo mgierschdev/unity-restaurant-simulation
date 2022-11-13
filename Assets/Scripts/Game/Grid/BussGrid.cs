@@ -49,7 +49,7 @@ public static class BussGrid
     private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
     private static GameGridObject counter;
     //Is dragging mode enabled and object selected?
-    private static bool isDraggingEnabled;
+    private static bool isDraggingEnabled; // Is amy object being dragged ?
     private static bool draggingObject;
     //Perspective hand
     public static CameraController CameraController { get; set; }
@@ -870,7 +870,7 @@ public static class BussGrid
     {
         return isDraggingEnabled && IsThisSelectedObject(obj.Name);
     }
-
+    // Is any object being dragged
     public static void SetIsDraggingEnable(bool val)
     {
         isDraggingEnabled = val;
