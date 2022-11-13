@@ -20,7 +20,7 @@ public class GridDebugPanel : EditorWindow
     ACTION_CELL_STYLE = "grid-cell-action",
     NPC_BUSY_CELL_STYLE = "grid-cell-npc";
 
-    [UnityEditor.MenuItem(Settings.gameName + "/Play First Scene")]
+    [UnityEditor.MenuItem(Settings.gameName + "/Play: First Scene")]
     public static void RunMainScene()
     {
         EditorSceneManager.OpenScene("Assets/Scenes/" + Settings.LoadScene + ".unity");
