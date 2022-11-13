@@ -368,6 +368,8 @@ public class GameGridObject : GameObjectBase
             firebaseGameObject.ROTATION = (int)newPosition;
         }
 
+
+
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
