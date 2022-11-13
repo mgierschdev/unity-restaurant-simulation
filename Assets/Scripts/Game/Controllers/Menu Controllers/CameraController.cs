@@ -77,6 +77,9 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
+    
+        Debug.Log(BussGrid.GetIsDraggingEnabled() + " " + menuHandlerController.IsMenuOpen() + " " + IsPerspectiveHandTempDisabled);
+
         if (!Settings.CameraPerspectiveHand || BussGrid.GetIsDraggingEnabled() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
         {
             return;
@@ -102,7 +105,8 @@ public class CameraController : MonoBehaviour
             transform.position = new Vector3(clampX, clampY, transformPosition.z);
         }
 
-        if (Input.touchCount > 1) // Mobile pinch
+        // 2 finger, Mobile pinch, ZOOM in/out
+        if (Input.touchCount > 1)
         {
             Touch firstFinger = Input.GetTouch(0);
             Touch secondFinger = Input.GetTouch(1);
@@ -127,32 +131,14 @@ public class CameraController : MonoBehaviour
             }
         }
 
+        //DEV: Camera zoom with mouse scroll wheel, only on desktop
         if (Input.mouseScrollDelta != Vector2.zero)
         {
             // Camera zoom
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             targetPosition -= scroll * ZOOM_SPEED;
             targetPosition = Mathf.Clamp(targetPosition, MIN_ZOOM_SIZE, MAX_ZOOM_SIZE);
-            // fixedDeltaTime works with the time scale = 0
             mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetPosition, ZOOM_SPEED * Time.fixedDeltaTime);
         }
-    }
-
-    private IEnumerator DisablePerspectiveHandEnum()
-    {
-        yield return new WaitForSeconds(0.3f);
-        IsPerspectiveHandTempDisabled = false;
-    }
-
-    public void DisableTempPerspectiveHand()
-    {
-        IsPerspectiveHandTempDisabled = true;
-        IEnumerator coroutine = DisablePerspectiveHandEnum();
-        StartCoroutine(coroutine);
-    }
-
-    public void SetIsPerspectiveHandTempDisabled(bool val)
-    {
-        IsPerspectiveHandTempDisabled = val;
     }
 }

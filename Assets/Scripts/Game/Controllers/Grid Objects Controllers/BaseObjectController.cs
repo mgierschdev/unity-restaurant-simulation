@@ -39,8 +39,6 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("isLoadingItemSlider " + isLoadingItemSlider);
-
         if (gameGridObject == null && storeGameObject != null)
         {
             return;
@@ -119,7 +117,7 @@ public class BaseObjectController : MonoBehaviour
                 gameGridObject.AcceptPurchase();
             }
 
-            BussGrid.SetDisablePerspectiveHand(); // We disable perspective hand for a second
+            //BussGrid.SetDisablePerspectiveHand(); // We disable perspective hand for a second
         }
     }
 

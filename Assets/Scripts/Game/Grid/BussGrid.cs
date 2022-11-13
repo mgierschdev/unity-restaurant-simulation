@@ -891,13 +891,6 @@ public static class BussGrid
         previewGameGridObject = null;
     }
 
-    // This disables the effect since we are clicking outside the object
-    public static void SetDisablePerspectiveHand()
-    {
-        //disables perspective ha d for 0.3 sec
-        CameraController.DisableTempPerspectiveHand();
-    }
-
     public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
     {
         return BussQueueMap;
