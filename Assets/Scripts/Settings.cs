@@ -10,8 +10,16 @@ public static class Settings
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
     public const int  MaxNpcNumber = 11; // Performance relevant, 60fps 11-12
-    public static int[] StartContainer = new int[] { 4, 13 };
-    public static int[] StartTable = new int[] { 4, 11 };
+    public static int[] 
+    StartContainer = new int[] { 4, 13 },
+    StartTable = new int[] { 4, 11 };
+
+    //Init start attributes
+    public static int InitGameMoney = 2000,
+                InitGems = 40,
+                InitExperience = 0,
+                InitLevel = 0,
+                InitGridSize = 4;
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f;

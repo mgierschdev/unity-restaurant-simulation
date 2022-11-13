@@ -152,19 +152,14 @@ public class GameController : MonoBehaviour
     //Recalculates the paths of moving NPCs or they current state depending on whether the grid changed
     public void ReCalculateNpcStates(GameGridObject obj)
     {
-        if (employeeController != null && obj.GetAttendedBy() != null)
+        if (employeeController != null)
         {
             employeeController.RecalculateGoTo();
         }
 
         foreach (NPCController npcController in NpcSet)
         {
-            if (npcController.GetNpcState() == NpcState.WALKING_TO_TABLE)
-            {
-                // If not in any of the previous cases, we recalculate the path 
-                // since the grid might be changing
-                npcController.RecalculateGoTo();
-            }
+            npcController.RecalculateGoTo();
         }
     }
 
