@@ -8,6 +8,10 @@ using Random = UnityEngine.Random;
 public static class Util
 {
     private const int sortingLevel = Settings.ConstDefaultBackgroundOrderingLevel; // Background 
+    // Z ordering objects , less closer to the camera
+    public static int NPCZPosition = 0;
+    public static int ObjectZPosition = -1;
+    public static int SelectedObjectZPosition = -2;
     //UI sorting
     public const int highlightObjectSortingPosition = 800;
     // Colors

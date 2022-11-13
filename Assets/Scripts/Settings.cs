@@ -2,14 +2,14 @@ public static class Settings
 {
     //DEBUG/DEV parameterss
     public const bool IsFirebaseEmulatorEnabled = true;
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f;
 
     //Player Config
     public const bool PlayerWalkOnClick = true;
     public const float PlayerMovementSpeed = 3f;
-    public const int  MaxNpcNumber = 1; // Performance relevant, 60fps 11-12
+    public const int  MaxNpcNumber = 11; // Performance relevant, 60fps 11-12
     public static int[] StartContainer = new int[] { 4, 13 };
     public static int[] StartTable = new int[] { 4, 11 };
 
