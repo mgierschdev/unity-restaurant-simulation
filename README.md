@@ -1,1 +1,1 @@
-This is the first version of the UnityProject, tentative name: CafeMadness, an isometric game which will allow you to manage and customize a restaurant/cafe.
+This is the first version of the UnityProject, tentative name: Idle Tycoon - Restaurant, an isometric game which will allow you to manage and customize a restaurant/cafe.
