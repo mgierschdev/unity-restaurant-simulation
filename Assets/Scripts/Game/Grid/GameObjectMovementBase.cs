@@ -25,6 +25,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected GameController gameController;
     protected ObjectType type;
     private PolygonCollider2D collider; // to check for other npc
+    private InfoPopUpController infoPopUpController;
 
     //A*
     // Attributes for temporaly marking the path of the NPC on the grid
@@ -55,6 +56,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
         energyBar = transform.Find(Settings.NpcEnergyBar).GetComponent<EnergyBarController>();
+        GameObject gameObjectInfoPopUp = transform.Find(Settings.TopPopUpObject).gameObject;
+        infoPopUpController = gameObjectInfoPopUp.GetComponent<InfoPopUpController>();
 
         if (!Util.IsNull(energyBar, "GameObjectMovementBase/energyBar null"))
         {
