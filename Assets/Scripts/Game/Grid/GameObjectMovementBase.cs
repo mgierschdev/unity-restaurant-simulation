@@ -12,7 +12,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
     //Energy Bars
-    private EnergyBarController energyBar;
+    private LoadSliderController energyBar;
     [SerializeField]
     protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
     private bool isMoving;
@@ -52,7 +52,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         gameController = gameObject.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
-        energyBar = transform.Find(Settings.NpcEnergyBar).GetComponent<EnergyBarController>();
+        energyBar = transform.Find(Settings.NpcEnergyBar).GetComponent<LoadSliderController>();
         GameObject gameObjectInfoPopUp = transform.Find(Settings.TopPopUpObject).gameObject;
         infoPopUpController = gameObjectInfoPopUp.GetComponent<InfoPopUpController>();
 
