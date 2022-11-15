@@ -62,6 +62,7 @@ public static class Settings
     public const float MinDistanceToTarget = 0.001f;
     public const int NpcDefaultEnergy = 100;
     public const string NpcEnergyBar = "EnergyBar",
+    TopPopUpObject = "InfoPopUp",
     NpcCharacter = "Character";
 
     //FIREBASE TEST ENV 
