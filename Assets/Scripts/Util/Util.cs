@@ -7,13 +7,13 @@ using Random = UnityEngine.Random;
 // This will contain Utility functions, to create Unity Object and other
 public static class Util
 {
-    private const int sortingLevel = Settings.ConstDefaultBackgroundOrderingLevel; // Background 
     // Z ordering objects , less closer to the camera
-    public static int NPCZPosition = 0;
-    public static int ObjectZPosition = -1;
-    public static int SelectedObjectZPosition = -2;
+    public static int NPCZPosition = 0,
+    ObjectZPosition = -1,
+    SelectedObjectZPosition = -2;
     //UI sorting
-    public const int highlightObjectSortingPosition = 800;
+    public const int highlightObjectSortingPosition = 800,
+    ConstDefaultBackgroundOrderingLevel = 200;
     // Colors
     public static Color Unavailable = new Color(0.1f, 0.1f, 0.1f, 1);
     public static Color Available = new Color(0, 1, 50, 1);
@@ -41,7 +41,7 @@ public static class Util
         textMesh.text = text;
         textMesh.fontSize = fontSize;
         textMesh.color = color;
-        textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingLevel;
+        textMesh.GetComponent<MeshRenderer>().sortingOrder = ConstDefaultBackgroundOrderingLevel;
         return textMesh;
     }
 
@@ -244,7 +244,7 @@ public static class Util
     // Gets the GRID cell position in a non-isometric grid
     public static Vector3 GetCellPosition(int x, int y)
     {
-        Vector3 gridOriginPosition = new Vector3(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
+        Vector3 gridOriginPosition = new Vector3(Settings.GridStartX, Settings.GrtGridStartY, ConstDefaultBackgroundOrderingLevel);
         Vector3 cellPosition = new Vector3(x, y) * Settings.GridCellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
         return new Vector3(cellPosition.x, cellPosition.y);
     }
@@ -252,7 +252,7 @@ public static class Util
     // Gets the cell position in a non-isometric grid
     public static Vector3 GetCellPosition(Vector3 position)
     {
-        Vector3 gridOriginPosition = new Vector3(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
+        Vector3 gridOriginPosition = new Vector3(Settings.GridStartX, Settings.GrtGridStartY, ConstDefaultBackgroundOrderingLevel);
         Vector3 cellPosition = position * Settings.GridCellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
         return new Vector3(cellPosition.x, cellPosition.y);
     }
