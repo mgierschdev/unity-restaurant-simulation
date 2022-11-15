@@ -3,17 +3,14 @@ using UnityEngine.U2D.Animation;
 
 public class InfoPopUpController : MonoBehaviour
 {
-    GameObject topInfoObject, topDispenserInfoPopUpImage;
+    GameObject topDispenserInfoPopUpImage;
     SpriteResolver spriteResolverTopDispenser;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        topInfoObject = transform.Find("Slider/InfoPopUp").gameObject;
-        topDispenserInfoPopUpImage = topInfoObject.transform.Find("Image").gameObject;
-        Util.IsNull(topInfoObject, "GameGridObject/topInfoObject null");
-        Util.IsNull(topDispenserInfoPopUpImage, "GameGridObject/topDispenserInfoPopUpImage null");
-        spriteResolverTopDispenser = topDispenserInfoPopUpImage.GetComponent<UnityEngine.U2D.Animation.SpriteResolver>();
-        topInfoObject.SetActive(false);
+        topDispenserInfoPopUpImage = transform.Find("Image").gameObject;
+        Util.IsNull(topDispenserInfoPopUpImage, "InfoPopUpController/topDispenserInfoPopUpImage null");
+        spriteResolverTopDispenser = topDispenserInfoPopUpImage.GetComponent<SpriteResolver>();
         topDispenserInfoPopUpImage.SetActive(false);
     }
 
@@ -24,13 +21,13 @@ public class InfoPopUpController : MonoBehaviour
 
     public void Enable()
     {
-        topInfoObject.SetActive(true);
+        gameObject.SetActive(true);
         topDispenserInfoPopUpImage.SetActive(true);
     }
 
     public void Disable()
     {
-        topInfoObject.SetActive(false);
+        gameObject.SetActive(false);
         topDispenserInfoPopUpImage.SetActive(false);
     }
 }

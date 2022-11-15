@@ -72,7 +72,8 @@ public class GameGridObject : GameObjectBase
         loadObjectSlider.SetActive(false);
 
         //On top Info popup
-
+        GameObject infoPopUpGameobject = transform.Find("Slider/InfoPopUp").gameObject;
+        infoPopUpController = infoPopUpGameobject.GetComponent<InfoPopUpController>();
 
         actionTiles = new List<GameObject>() { objectActionTile.gameObject, objectSecondActionTile.gameObject };
         tiles = new List<SpriteRenderer>() { tileUnder, actionTileSpriteRenderer, secondActionTileSprite };
