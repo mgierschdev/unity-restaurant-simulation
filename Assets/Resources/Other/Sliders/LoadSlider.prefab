@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 2456333023517425734}
   - component: {fileID: 4771881838460713426}
   - component: {fileID: 5413066953152769993}
+  - component: {fileID: 1413668272311576381}
   m_Layer: 10
   m_Name: LoadSlider
   m_TagString: Untagged
@@ -179,7 +180,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2612619908215057078}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -286,6 +287,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2612619908215057078}
   m_CullTransparentMesh: 1
+--- !u!114 &1413668272311576381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2612619908215057078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e7c98a84e504cde9f7a7c353923f34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3571974533098964604
 GameObject:
   m_ObjectHideFlags: 0

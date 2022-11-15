@@ -77,13 +77,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         UpdatePosition();
     }
 
-    private void FixedUpdate()
-    {
-        //UpdatePosition();
-        //UpdateTargetMovement();
-        //UpdateTimeInState();
-    }
-
     protected void SetID()
     {
         string id = BussGrid.GameController.GetNpcSet().Count + 1 + "-" + Time.frameCount;
