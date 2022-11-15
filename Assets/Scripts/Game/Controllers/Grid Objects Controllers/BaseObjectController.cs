@@ -82,7 +82,9 @@ public class BaseObjectController : MonoBehaviour
     private void UpdateSelectionSlider()
     {
         // Selecting the item while pressing over it
-        if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled && !gameGridObject.GetIsObjectSelected() && !BussGrid.GetIsDraggingEnabled())
+        if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled && 
+        !gameGridObject.GetIsObjectSelected() && 
+        !BussGrid.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
             if (gameGridObject.GetLoadItemSlider().IsActive() || gameGridObject.GetIsItemReady())
@@ -152,7 +154,7 @@ public class BaseObjectController : MonoBehaviour
     // Called on mouse down
     private void OnMouseDown()
     {
-        // For dispenser items
+        // For GetLoadItemSlider, dispenser items
         if (gameGridObject != null &&
         !gameGridObject.GetStoreGameObject().HasActionPoint &&
         !gameGridObject.GetIsItemReady() &&
@@ -189,8 +191,8 @@ public class BaseObjectController : MonoBehaviour
         timeClicking = 0;
         if (gameGridObject.GetCurrentMoveSliderValue() > 0)
         {
-            //we disable the slider
-            gameGridObject.DisableMoveSlider();
+            //we disable the move slider
+            gameGridObject.GetMoveSlider().SetInactive();
         }
 
         if (!Menu || !BussGrid.IsDraggingEnabled(gameGridObject))
