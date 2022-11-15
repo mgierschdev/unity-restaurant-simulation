@@ -12,8 +12,8 @@ public class CameraController : MonoBehaviour
     ZOOM_SPEED = Settings.ZoomSpeed,
     ZOOM_SPEED_PINCH = Settings.ZoomSpeedPinch,
     MIN_ZOOM_SIZE = Settings.MinZoomSize,
-    MAX_ZOOM_SIZE = Settings.MaxZoomSize,
-    MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = Settings.MinTimeToEnablePerspectiveHand;
+    MAX_ZOOM_SIZE = Settings.MaxZoomSize;
+    // MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = Settings.MinTimeToEnablePerspectiveHand;
     private Camera mainCamera;
 
     // Menu Controller
