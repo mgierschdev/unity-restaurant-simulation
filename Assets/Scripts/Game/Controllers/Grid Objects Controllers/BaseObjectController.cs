@@ -141,12 +141,12 @@ public class BaseObjectController : MonoBehaviour
         {
             isCurrentValidPos = true;
             gameGridObject.GetSpriteRenderer().color = Util.Available;
-            gameGridObject.ShowAvailableUnderTiles();
+            // gameGridObject.ShowAvailableUnderTiles();
         }
         else
         {
             isCurrentValidPos = false;
-            gameGridObject.ShowOccupiedUnderTiles();
+            // gameGridObject.ShowOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
     }
