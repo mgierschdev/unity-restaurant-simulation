@@ -189,11 +189,6 @@ public class GameGridObject : GameObjectBase
         }
     }
 
-    public bool IsLastPositionEqual(Vector3 actionGridPosition)
-    {
-        return Util.IsAtDistanceWithObject(GetActionTile(), actionGridPosition);
-    }
-
     public void UpdateObjectCoords()
     {
         GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(objectTransform.position);
@@ -505,34 +500,9 @@ public class GameGridObject : GameObjectBase
         attendedBy = controller;
     }
 
-    public EmployeeController GetAttendedBy()
-    {
-        return attendedBy;
-    }
-
-    public void SetIsObjectBeingDragged(bool val)
-    {
-        isObjectBeingDragged = val;
-    }
-
     public bool GetIsObjectBeingDragged()
     {
         return isObjectBeingDragged;
-    }
-
-    public SpriteResolver GetSpriteResolver()
-    {
-        return spriteResolver;
-    }
-
-    public List<GameObject> GetActionTileList()
-    {
-        return actionTiles;
-    }
-
-    public List<SpriteRenderer> GetTileList()
-    {
-        return tiles;
     }
 
     public bool IsFree()
@@ -781,11 +751,6 @@ public class GameGridObject : GameObjectBase
     public void SetFirebaseGameObject(FirebaseGameObject obj)
     {
         firebaseGameObject = obj;
-    }
-
-    public FirebaseGameObject GetFirebaseGameObject()
-    {
-        return firebaseGameObject;
     }
 
     public ObjectRotation GetFacingPosition()
