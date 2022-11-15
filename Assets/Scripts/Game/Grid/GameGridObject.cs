@@ -233,7 +233,6 @@ public class GameGridObject : GameObjectBase
     public void ShowEditMenu()
     {
         SortingLayer.sortingOrder = Util.highlightObjectSortingPosition;
-        // objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, U)
         spriteRenderer.color = Util.LightAvailable;
         editMenu.SetActive(true);
     }
@@ -461,9 +460,9 @@ public class GameGridObject : GameObjectBase
         tiles[actionTile + 1].color = Util.Hidden;
     }
 
-    public void LightOccupiedUnderTiles()
+    public void ShowOccupiedUnderTiles()
     {
-        tiles[0].color = Util.LightOccupied;
+        //tiles[0].color = Util.LightOccupied;
 
         if (storeGameObject.HasActionPoint)
         {
@@ -471,9 +470,9 @@ public class GameGridObject : GameObjectBase
         }
     }
 
-    public void LightAvailableUnderTiles()
+    public void ShowAvailableUnderTiles()
     {
-        tiles[0].color = Util.LightAvailable;
+        //tiles[0].color = Util.LightAvailable;
         if (storeGameObject.HasActionPoint)
         {
             tiles[actionTile + 1].color = Util.LightAvailable;
