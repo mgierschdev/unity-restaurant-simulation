@@ -86,4 +86,9 @@ public class LoadSliderController : MonoBehaviour
     {
         return currentEnergy;
     }
+
+    public bool IsEnergyFull()
+    {
+        return currentEnergy >= maxEnergy;
+    }
 }
