@@ -42,7 +42,7 @@ public class EmployeeController : GameObjectMovementBase
 
     public void UpdateTransitionStates()
     {
-        if (IsMoving() || IsEnergybarActive())
+        if (IsMoving() || EnergyBar.IsActive())
         {
             return;
         }
@@ -112,7 +112,7 @@ public class EmployeeController : GameObjectMovementBase
     private void Unrespawn()
     {
         if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN || BussGrid.GetCounter() != null)
-        {
+        {   
             stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
             return;
         }
@@ -149,7 +149,7 @@ public class EmployeeController : GameObjectMovementBase
             StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
             table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         }
-        else if (stateMachine.Current.State == NpcState.TAKING_ORDER && currentEnergy >= 100 && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
+        else if (stateMachine.Current.State == NpcState.TAKING_ORDER && EnergyBar.GetCurrentEnergy() >= 100 && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
             stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
             if (table == null) { return; }
@@ -164,10 +164,10 @@ public class EmployeeController : GameObjectMovementBase
             stateMachine.SetTransition(NpcStateTransitions.REGISTERING_CASH);
             stateMachine.UnSetTransition(NpcStateTransitions.AT_TABLE);
         }
-        else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && currentEnergy >= 100)
+        else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && EnergyBar.GetCurrentEnergy() >= 100)
         {
             stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
-            currentEnergy = 0;
+            EnergyBar.ResetCurrentEnergy();
             //TODO: register cost depending on the NPC order
             double orderCost = Random.Range(5, 10);
             PlayerData.AddMoney(orderCost);
