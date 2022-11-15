@@ -64,12 +64,13 @@ public class GameGridObject : GameObjectBase
         // On top Move slider
         GameObject moveObjectSlider = transform.Find("Slider/LoadSliderMove").gameObject;
         loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
+        loadSlider.SetSliderFillMethod(Image.FillMethod.Vertical);
+        loadSliderMove.SetInactive();
 
         //On top load slider
         GameObject loadObjectSlider = transform.Find("Slider/LoadSlider").gameObject;
         loadSlider = loadObjectSlider.GetComponent<LoadSliderController>();
         loadSlider.SetInactive();
-        // loadObjectSlider.SetActive(false);
 
         //On top Info popup
         GameObject infoPopUpGameobject = transform.Find("Slider/" + Settings.TopPopUpObject).gameObject;

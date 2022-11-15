@@ -1,15 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.Image.FillMethod;
 
 public class LoadSliderController : MonoBehaviour
 {
     private float maxEnergy = 100;
     private Slider slider;
     private float currentEnergy, energyBarSpeed = 20f;
+    private Image sliderImage;
 
     public void Start()
     {
         slider = GetComponent<Slider>();
+        GameObject fillAreaObject = transform.Find("FillArea/Fill").gameObject;
+        sliderImage = fillAreaObject.GetComponent<Image>();
 
         if (slider == null)
         {
@@ -89,5 +93,10 @@ public class LoadSliderController : MonoBehaviour
     public bool IsEnergyFull()
     {
         return currentEnergy >= maxEnergy;
+    }
+
+    public void SetSliderFillMethod(Image.FillMethod method)
+    {
+        sliderImage.fillMethod = method;
     }
 }
