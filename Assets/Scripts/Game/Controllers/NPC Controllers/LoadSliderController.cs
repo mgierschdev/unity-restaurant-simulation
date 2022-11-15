@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.Image.FillMethod;
 
 public class LoadSliderController : MonoBehaviour
 {
@@ -8,12 +7,15 @@ public class LoadSliderController : MonoBehaviour
     private Slider slider;
     private float currentEnergy, energyBarSpeed = 20f;
     private Image sliderImage;
+    private Image.FillMethod fillMethod = Image.FillMethod.Radial360;
 
-    public void Start()
+    public void Awake()
     {
         slider = GetComponent<Slider>();
         GameObject fillAreaObject = transform.Find("FillArea/Fill").gameObject;
+        Util.IsNull(fillAreaObject, "LoadSliderController/fillAreaObject is null ");
         sliderImage = fillAreaObject.GetComponent<Image>();
+        sliderImage.fillMethod = fillMethod;
 
         if (slider == null)
         {
@@ -97,6 +99,6 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetSliderFillMethod(Image.FillMethod method)
     {
-        sliderImage.fillMethod = method;
+        sliderImage.fillMethod = fillMethod;
     }
 }

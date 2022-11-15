@@ -63,8 +63,9 @@ public class GameGridObject : GameObjectBase
 
         // On top Move slider
         GameObject moveObjectSlider = transform.Find("Slider/LoadSliderMove").gameObject;
+        Util.IsNull(moveObjectSlider, "MoveSlider is null");
         loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
-        loadSlider.SetSliderFillMethod(Image.FillMethod.Vertical);
+        loadSliderMove.SetSliderFillMethod(Image.FillMethod.Vertical);
         loadSliderMove.SetInactive();
 
         //On top load slider
