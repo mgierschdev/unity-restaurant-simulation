@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class NPCController : GameObjectMovementBase
 {
     [SerializeField]
-    private const float MAX_STATE_TIME = 120; // 2min
+    private const float MaxStateTime = 120; // 2min
     [SerializeField]
     private NpcState state;//TODO: for debug
 
@@ -21,13 +21,12 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
-        UpdateTargetMovement();
-        UpdatePosition();
-        UpdateEnergyBar();
-        UpdateTimeInState();
-
         try
         {
+            UpdatePosition();
+            UpdateTimeInState();
+            UpdateTargetMovement();
+
             UpdateTransitionStates();
             UpdateAnimation();
         }
@@ -89,7 +88,7 @@ public class NPCController : GameObjectMovementBase
     {
         if (!stateMachine.GetTransitionState(NpcStateTransitions.WALK_TO_UNRESPAWN))
         {
-            if (stateTime >= MAX_STATE_TIME ||
+            if (stateTime >= MaxStateTime ||
                 stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) ||
                 stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED))
             {

@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class LoadSliderController : MonoBehaviour
 {
+    private float maxEnergy = 100;
     private Slider slider;
-    private float currentEnergy, energyBarSpeed;
+    private float currentEnergy, energyBarSpeed = 20f;
 
     public void Start()
     {
-        energyBarSpeed = 20f;
         slider = GetComponent<Slider>();
 
         if (slider == null)
@@ -16,6 +16,23 @@ public class LoadSliderController : MonoBehaviour
             GameLog.LogWarning("EnergyBarController/Slider null");
         }
         SetMaxEnergy(Settings.NpcDefaultEnergy);
+    }
+
+    public void Update()
+    {
+        // EnergyBar controller, only if it is active
+        if (IsActive())
+        {
+            if (currentEnergy <= maxEnergy)
+            {
+                currentEnergy += Time.fixedDeltaTime * energyBarSpeed;
+                SetEnergy((int)currentEnergy);
+            }
+            else
+            {
+                SetInactive();
+            }
+        }
     }
 
     public void SetEnergy(int energy)
@@ -37,31 +54,17 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetActive(float speed)
     {
-        currentEnergy = 0;
-        energyBarSpeed = speed;
-        gameObject.SetActive(true);
+        if (!IsActive())
+        {
+            currentEnergy = 0;
+            energyBarSpeed = speed;
+            gameObject.SetActive(true);
+        }
     }
 
     public bool IsActive()
     {
         return gameObject.activeSelf;
-    }
-
-    public void UpdateLoadSlider()
-    {
-        // EnergyBar controller, only if it is active
-        if (IsActive())
-        {
-            if (currentEnergy <= 100)
-            {
-                currentEnergy += Time.fixedDeltaTime * energyBarSpeed;
-                SetEnergy((int)currentEnergy);
-            }
-            else
-            {
-                SetInactive();
-            }
-        }
     }
 
     public void ResetCurrentEnergy()

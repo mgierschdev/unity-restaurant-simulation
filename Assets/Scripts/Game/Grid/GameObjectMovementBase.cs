@@ -77,19 +77,18 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         UpdatePosition();
     }
 
+    private void FixedUpdate()
+    {
+        //UpdatePosition();
+        //UpdateTargetMovement();
+        //UpdateTimeInState();
+    }
+
     protected void SetID()
     {
         string id = BussGrid.GameController.GetNpcSet().Count + 1 + "-" + Time.frameCount;
         transform.name = type.ToString() + "." + id;
         Name = transform.name;
-    }
-
-    protected void ActivateEnergyBar(float val)
-    {
-        if (!EnergyBar.IsActive())
-        {
-            EnergyBar.SetActive(val);
-        }
     }
 
     protected void StandTowards(Vector3Int target)
@@ -104,16 +103,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             FlipToSide(CharacterSide.RIGHT);
         }
-    }
-
-    protected void UpdateEnergyBar()
-    {
-        if (EnergyBar == null)
-        {
-            return;
-        }
-
-        EnergyBar.UpdateLoadSlider();
     }
 
     protected void UpdatePosition()
