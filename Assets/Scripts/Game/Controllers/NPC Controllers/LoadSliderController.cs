@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnergyBarController : MonoBehaviour
+public class LoadSliderController : MonoBehaviour
 {
     private Slider Slider { get; set; }
-    private EnergyBarController energyBar;
 
     public void Start()
     {

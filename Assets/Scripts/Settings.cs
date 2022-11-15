@@ -61,7 +61,7 @@ public static class Settings
     //NPC Default
     public const float MinDistanceToTarget = 0.001f;
     public const int NpcDefaultEnergy = 100;
-    public const string NpcEnergyBar = "EnergyBar",
+    public const string NpcEnergyBar = "LoadSlider",
     TopPopUpObject = "InfoPopUp",
     NpcCharacter = "Character";
 

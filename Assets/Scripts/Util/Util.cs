@@ -393,7 +393,7 @@ public static class Util
         return true;
     }
 
-    public static bool IsNull(EnergyBarController gameObject, string message)
+    public static bool IsNull(LoadSliderController gameObject, string message)
     {
         if (gameObject == null)
         {
