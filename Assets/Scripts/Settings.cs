@@ -19,7 +19,7 @@ public static class Settings
     ZoomSpeed = 35,
     ZoomSpeedPinch = 8f,
     MinZoomSize = 0.5f, // the max zoom in
-    MaxZoomSize = 1f, // the max zoom out
+    MaxZoomSize = 2f, // the max zoom out
     MinTimeToEnablePerspectiveHand = 0.5f;
     public static int ConstDefaultCameraOrthographicsize = 7;
 

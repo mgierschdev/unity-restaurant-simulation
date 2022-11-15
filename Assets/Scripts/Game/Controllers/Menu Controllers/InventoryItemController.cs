@@ -20,9 +20,11 @@ public class InventoryItemController : MonoBehaviour
         textMesh = text.GetComponent<TextMeshProUGUI>();
         imgComponent = gameObject.GetComponent<Image>();
     }
-
+    // Sets the Item image on the tab Menu for the current item
     public void SetInventoryItem(string spReference, string botLeftLabelValue)
     {
+        Debug.Log("SpRefenrece: " + spReference);
+        
         Sprite sp = Resources.Load<Sprite>(spReference);
         imgComponent.sprite = sp;
         textMesh.text = botLeftLabelValue;
