@@ -30,9 +30,9 @@ public class GameGridObject : GameObjectBase
     //Slider attributes
     private float moveSliderMultiplayer = Settings.ObjectMoveSliderMultiplayer;
     private float loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer;
-    private float currentMoveSliderValue, currentLoadSliderValue;
+    private float currentMoveSliderValue;//, currentLoadSliderValue;
     // Store - To be bought Item, Is Item active, before purchase, (isItemReady, isItemLoading) item on top of the objects, (isObjectSelected) current under preview
-    private bool isItemBought, active, isItemReady, isObjectSelected, isObjectBeingDragged, isItemLoading;
+    private bool isItemBought, active, isItemReady, isObjectSelected, isObjectBeingDragged;//, isItemLoading;
 
     public GameGridObject(Transform transform)
     {
@@ -559,27 +559,16 @@ public class GameGridObject : GameObjectBase
             return;
         }
 
-        // if (!loadObjectSlider.activeSelf)
-        // {
-        //     loadObjectSlider.SetActive(true);
-        //     loadSlider.value = 0;
-        //     isItemLoading = true;
-        // }
-
-        // EnergyBar controller, only if it is active
-        // if (loadObjectSlider.activeSelf)
-        // {
-        if (loadSlider.GetCurrentEnergy() >= 1)
+        if (loadSlider.IsEnergyFull())
         {
             SetItemsReady();
         }
-        // }
     }
 
     public void SetItemsReady()
     {
         isItemReady = true;
-        isItemLoading = false;
+        //  isItemLoading = false;
         infoPopUpController.Enable();
         // loadSlider.SetInactive();
         //loadObjectSlider.SetActive(false);
@@ -590,10 +579,10 @@ public class GameGridObject : GameObjectBase
         return isItemReady;
     }
 
-    public bool GetIsItemLoading()
-    {
-        return isItemLoading;
-    }
+    // public bool GetIsItemLoading()
+    // {
+    //     return isItemLoading;
+    // }
 
     public void DisableMoveSlider()
     {
@@ -625,8 +614,8 @@ public class GameGridObject : GameObjectBase
     public void DiableTopInfoObject()
     {
         isItemReady = false;
-        isItemLoading = false;
-        currentLoadSliderValue = 0;
+        // isItemLoading = false;
+        //currentLoadSliderValue = 0;
         //loadSlider.value = 0;
         infoPopUpController.Disable();
         // loadObjectSlider.SetActive(false);
@@ -764,6 +753,6 @@ public class GameGridObject : GameObjectBase
     public override string ToString()
     {
         return "isItemBought: " + isItemBought + " active: " + active + " isItemReady: " + isItemReady + " isObjectSelected: " +
-        isObjectSelected + " isObjectBeingDragged: " + isObjectBeingDragged + " isItemLoading: " + isItemLoading;
+        isObjectSelected + " isObjectBeingDragged: " + isObjectBeingDragged;
     }
 }

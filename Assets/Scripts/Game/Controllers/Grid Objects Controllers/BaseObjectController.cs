@@ -85,7 +85,7 @@ public class BaseObjectController : MonoBehaviour
         if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled && !gameGridObject.GetIsObjectSelected() && !BussGrid.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
-            if (gameGridObject.GetIsItemLoading() || gameGridObject.GetIsItemReady())
+            if (gameGridObject.GetLoadItemSlider().IsActive() || gameGridObject.GetIsItemReady())
             {
                 gameGridObject.DiableTopInfoObject();
             }
