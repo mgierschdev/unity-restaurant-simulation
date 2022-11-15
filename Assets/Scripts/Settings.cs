@@ -13,6 +13,15 @@ public static class Settings
     public static int[] StartContainer = new int[] { 4, 13 },
     StartTable = new int[] { 4, 11 };
 
+    //CAMERA ATTRIBUTES
+    public static float 
+    CameraMovementSpeed = 25f,
+    ZoomSpeed = 35,
+    ZoomSpeedPinch = 8f,
+    MinZoomSize = 1,
+    MaxZoomSize = 8,
+    MinTimeToEnablePerspectiveHand = 0.5f; 
+
     //Init start attributes
     public static int InitGameMoney = 2000,
     InitGems = 40,
