@@ -14,7 +14,7 @@ public class BaseObjectController : MonoBehaviour
     private FirebaseGameObject firebaseGameObject;
     private ObjectRotation initialRotation;
     private StoreGameObject storeGameObject;
-    private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled, isLoadingItemSlider;
+    private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled;
 
     private void Awake()
     {
@@ -23,7 +23,6 @@ public class BaseObjectController : MonoBehaviour
         isSpriteSetted = false;
         isCurrentValidPos = true;
         isDraggDisabled = false;
-        isLoadingItemSlider = false;
         timeClicking = 0;
         initialRotation = ObjectRotation.FRONT;
         currentPos = transform.position;
@@ -71,7 +70,7 @@ public class BaseObjectController : MonoBehaviour
     private void UpdateTopItemDispenserSlider()
     {
         //TODO: Check that is not a long press
-        if (isLoadingItemSlider &&
+        if (gameGridObject.GetLoadItemSlider().IsActive() &&
         !gameGridObject.GetIsObjectSelected() &&
         timeClicking < 0.1f
         )
@@ -99,7 +98,6 @@ public class BaseObjectController : MonoBehaviour
         !IsClickingSelf() &&
         !IsClickingButton())
         {
-            isLoadingItemSlider = false;
             gameGridObject.SetInactive();
             BussGrid.SetIsDraggingEnable(false);
 
@@ -161,7 +159,7 @@ public class BaseObjectController : MonoBehaviour
         !gameGridObject.GetIsObjectSelected() &&
         !BussGrid.GetIsDraggingEnabled())
         {
-            isLoadingItemSlider = true;
+            gameGridObject.GetLoadItemSlider().SetActive();
         }
     }
 
