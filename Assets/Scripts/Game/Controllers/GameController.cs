@@ -5,8 +5,8 @@ using IEnumerator = System.Collections.IEnumerator;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private int NPC_MAX_NUMBER = Settings.MaxNpcNumber,
-    EMPLOYEE_MAX_NUMBER = 1,
+    private int NpcMaxNumber = Settings.MaxNpcNumber,
+    employeeMaxNumber = 1,
     employeeCount = 0,
     npcId;
     private GameObject gameGridObject;
@@ -33,12 +33,12 @@ public class GameController : MonoBehaviour
     {
         for (; ; )
         {
-            if (NpcSet.Count < NPC_MAX_NUMBER)
+            if (NpcSet.Count < NpcMaxNumber)
             {
                 SpamNpc();
             }
 
-            if (BussGrid.GetFreeCounter() != null && employeeCount < EMPLOYEE_MAX_NUMBER)
+            if (BussGrid.GetFreeCounter() != null && employeeCount < employeeMaxNumber)
             {
                 SpamEmployee();
                 employeeCount++;

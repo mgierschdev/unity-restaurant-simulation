@@ -9,7 +9,7 @@ public class EmployeeController : GameObjectMovementBase
     MAX_TABLE_WAITING_TIME = Settings.NPCMaxWaitingTime,
     TIME_IDLE_BEFORE_TAKING_ORDER = 2f,
     SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
-    SPEED_TIME_TO_TAKING_ORDER = 80f;
+    SPEED_TIME_TAKING_ORDER = 80f;
     private GameGridObject counter;
     [SerializeField]
     private NpcState state;//TODO: for debug
@@ -24,13 +24,12 @@ public class EmployeeController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
-        UpdateTargetMovement();
-        UpdatePosition();
-        UpdateEnergyBar();
-        UpdateTimeInState();
-
         try
         {
+            UpdatePosition();
+            UpdateTimeInState();
+            UpdateTargetMovement();
+            
             UpdateTransitionStates();
             UpdateAnimation();
         }
@@ -204,7 +203,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (stateMachine.Current.State == NpcState.TAKING_ORDER && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
-            ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
+            EnergyBar.SetActive(SPEED_TIME_TAKING_ORDER);
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
@@ -213,7 +212,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && !stateMachine.GetTransitionState(NpcStateTransitions.CASH_REGISTERED))
         {
-            ActivateEnergyBar(SPEED_TIME_TO_TAKING_ORDER);
+             EnergyBar.SetActive(SPEED_TIME_TAKING_ORDER);
         }
     }
 
