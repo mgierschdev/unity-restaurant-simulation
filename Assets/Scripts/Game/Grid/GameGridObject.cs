@@ -23,10 +23,9 @@ public class GameGridObject : GameObjectBase
     private EmployeeController attendedBy;
     // Buttons/ Sprites and edit menus
     private GameObject saveObjButton, rotateObjLeftButton, cancelButton, acceptButton, editMenu, objectWithSprite;
-    private GameObject moveObjectSlider;//, loadObjectSlider;
+    // private GameObject moveObjectSlider;//, loadObjectSlider;
     private InfoPopUpController infoPopUpController;
-    private Slider moveSlider;//, loadSlider;
-    private LoadSliderController loadSlider;
+    private LoadSliderController loadSlider, loadSliderMove;
     //Slider attributes
     private float moveSliderMultiplayer = Settings.ObjectMoveSliderMultiplayer;
     private float loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer;
@@ -63,9 +62,8 @@ public class GameGridObject : GameObjectBase
         editMenu.SetActive(false);
 
         // On top Move slider
-        moveObjectSlider = transform.Find("Slider/Slider").gameObject;
-        moveSlider = moveObjectSlider.GetComponent<Slider>();
-        moveObjectSlider.SetActive(false);
+        GameObject moveObjectSlider = transform.Find("Slider/LoadSliderMove").gameObject;
+        loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
 
         //On top load slider
         GameObject loadObjectSlider = transform.Find("Slider/LoadSlider").gameObject;
@@ -516,11 +514,11 @@ public class GameGridObject : GameObjectBase
         return usedBy != null;
     }
 
-    private void SetActiveMoveSlider(bool var)
-    {
-        moveObjectSlider.SetActive(var);
-        moveSlider.value = 0;
-    }
+    // private void SetActiveMoveSlider(bool var)
+    // {
+    //     moveObjectSlider.SetActive(var);
+    //     moveSlider.value = 0;
+    // }
 
     public void UpdateMoveSlider()
     {
@@ -531,23 +529,9 @@ public class GameGridObject : GameObjectBase
 
         DiableTopInfoObject();
 
-        if (!moveObjectSlider.activeSelf)
+        if (loadSliderMove.GetCurrentEnergy() >= 1)
         {
-            SetActiveMoveSlider(true);
-        }
-
-        // EnergyBar controller, only if it is active
-        if (moveObjectSlider.activeSelf)
-        {
-            if (currentMoveSliderValue <= 1)
-            {
-                currentMoveSliderValue += Time.fixedDeltaTime * moveSliderMultiplayer;
-                moveSlider.value = currentMoveSliderValue;
-            }
-            else
-            {
-                SetObjectSelected();
-            }
+            SetObjectSelected();
         }
     }
 
@@ -584,19 +568,19 @@ public class GameGridObject : GameObjectBase
     //     return isItemLoading;
     // }
 
-    public void DisableMoveSlider()
-    {
-        currentMoveSliderValue = 0;
-        moveSlider.value = 0;
-        moveObjectSlider.SetActive(false);
-    }
+    // public void DisableMoveSlider()
+    // {
+    //     currentMoveSliderValue = 0;
+    //     moveSlider.value = 0;
+    //     moveObjectSlider.SetActive(false);
+    // }
 
     private void SetObjectSelected()
     {
         // Disables dragging for a second 
         baseObjectController.DisableDisableDraggingTemp();
         isObjectSelected = true;
-        SetActiveMoveSlider(false);
+        loadSliderMove.SetInactive();
         BussGrid.SetActiveGameGridObject(this);
         ClearTableClient();
         ClearTableEmployee();
@@ -614,11 +598,8 @@ public class GameGridObject : GameObjectBase
     public void DiableTopInfoObject()
     {
         isItemReady = false;
-        // isItemLoading = false;
-        //currentLoadSliderValue = 0;
-        //loadSlider.value = 0;
         infoPopUpController.Disable();
-        // loadObjectSlider.SetActive(false);
+        loadSlider.SetInactive();
     }
 
     public void SetInactive()
@@ -748,6 +729,11 @@ public class GameGridObject : GameObjectBase
     public LoadSliderController GetLoadItemSlider()
     {
         return loadSlider;
+    }
+
+    public LoadSliderController GetMoveSlider()
+    {
+        return loadSliderMove;
     }
 
     public override string ToString()

@@ -48,7 +48,6 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetInactive()
     {
-
         gameObject.SetActive(false);
     }
 
@@ -67,7 +66,7 @@ public class LoadSliderController : MonoBehaviour
         if (!IsActive())
         {
             currentEnergy = 0;
-            energyBarSpeed = 10f;
+            energyBarSpeed = 30f;
             gameObject.SetActive(true);
         }
     }
