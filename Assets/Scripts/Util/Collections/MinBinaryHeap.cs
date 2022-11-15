@@ -5,7 +5,7 @@ public class MinBinaryHeap : IBaseGameCollections
 {
     private HashSet<PathNode> hashNodes;
     private PathNode[] nodes;
-    private int treeSize, currentHeapSize;
+    private int currentHeapSize;
 
     public MinBinaryHeap(int heapSize)
     {

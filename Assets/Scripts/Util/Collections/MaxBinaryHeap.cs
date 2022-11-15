@@ -3,7 +3,6 @@
 public class MaxBinaryHeap : IBaseGameCollections
 {
     private PathNode[] nodes;
-    private int treeSize;
     private int currentHeapSize;
 
     public MaxBinaryHeap(int heapSize)

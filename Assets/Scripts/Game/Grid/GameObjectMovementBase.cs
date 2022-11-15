@@ -11,13 +11,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public Vector3Int PrevGridPosition { get; set; }
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
-    private GameObject gameGridObject;
     //Energy Bars
     private EnergyBarController energyBar;
     [SerializeField]
     protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
     private bool isMoving;
-    private const int STATE_HISTORY_MAX_SIZE = 20;
     private SortingGroup sortingLayer;
     [SerializeField]
     private NpcState currentState, prevState;
@@ -42,7 +40,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     //State machine
     protected GameGridObject table;
     protected StateMachine<NpcState, NpcStateTransitions> stateMachine;
-
 
     private void Awake()
     {
