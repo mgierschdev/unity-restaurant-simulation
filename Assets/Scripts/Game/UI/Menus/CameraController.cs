@@ -8,12 +8,12 @@ public class CameraController : MonoBehaviour
     private Vector3 pointerDownStart, direction, GO_TO_OFFSET = new Vector3(0, 0.5f, 0), targetVectorPosition;
     private float targetPosition,
     targetOrthographicSize,
-    CAMERA_MOVEMENT_SPEED = 25f,
-    ZOOM_SPEED = 35,
-    ZOOM_SPEED_PINCH = 8f,
-    MIN_ZOOM_SIZE = 1,
-    MAX_ZOOM_SIZE = 5,
-    MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = 0.5f;
+    CAMERA_MOVEMENT_SPEED = Settings.CameraMovementSpeed,
+    ZOOM_SPEED = Settings.ZoomSpeed,
+    ZOOM_SPEED_PINCH = Settings.ZoomSpeedPinch,
+    MIN_ZOOM_SIZE = Settings.MinZoomSize,
+    MAX_ZOOM_SIZE = Settings.MaxZoomSize,
+    MIN_TIME_TO_ENABLE_PERSPECTIVE_HAND = Settings.MinTimeToEnablePerspectiveHand;
     private Camera mainCamera;
 
     // Menu Controller
