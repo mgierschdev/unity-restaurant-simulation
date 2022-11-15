@@ -224,7 +224,7 @@ public class GameGridObject : GameObjectBase
     public void HideEditMenu()
     {
         SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
-       //HideUnderTiles();
+        HideUnderTiles();
         spriteRenderer.color = Util.Free;
         editMenu.SetActive(false);
     }
@@ -384,7 +384,7 @@ public class GameGridObject : GameObjectBase
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.FRONT);
                     // tiles[1].color = Util.LightAvailable;
-                    // tiles[2].color = Util.Hidden;
+                    tiles[2].color = Util.Hidden;
                 }
                 return;
             case ObjectRotation.FRONT_INVERTED:
@@ -395,7 +395,7 @@ public class GameGridObject : GameObjectBase
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
                     // tiles[1].color = Util.LightAvailable;
-                    // tiles[2].color = Util.Hidden;
+                    tiles[2].color = Util.Hidden;
                 }
                 return;
             case ObjectRotation.BACK:
@@ -404,7 +404,7 @@ public class GameGridObject : GameObjectBase
                 if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.BACK);
-                    // tiles[1].color = Util.Hidden;
+                    tiles[1].color = Util.Hidden;
                     // tiles[2].color = Util.LightAvailable;
                 }
                 return;
@@ -414,7 +414,7 @@ public class GameGridObject : GameObjectBase
                 if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
-                    // tiles[1].color = Util.Hidden;
+                    tiles[1].color = Util.Hidden;
                     // tiles[2].color = Util.LightAvailable;
 
                 }
@@ -454,11 +454,11 @@ public class GameGridObject : GameObjectBase
         return int.MaxValue;
     }
 
-    // public void HideUnderTiles()
-    // {
-    //     // tiles[0].color = Util.Hidden;
-    //     // tiles[actionTile + 1].color = Util.Hidden;
-    // }
+    public void HideUnderTiles()
+    {
+        tiles[0].color = Util.Hidden;
+        tiles[actionTile + 1].color = Util.Hidden;
+    }
 
     // public void ShowOccupiedUnderTiles()
     // {
@@ -748,7 +748,7 @@ public class GameGridObject : GameObjectBase
         BussGrid.SetObjectObstacle(this);
         UpdateCoordsAndSetObstacle();
         SetInactive();
-        //HideUnderTiles();
+        HideUnderTiles();
         // Now it can be used by NPCs
         active = true;
     }
