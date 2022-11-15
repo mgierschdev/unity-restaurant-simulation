@@ -9,7 +9,7 @@ public static class BussGrid
     //Tilemap 
     private static int WIDTH = Settings.GridWidth; // Down -> Up
     private static int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
-    private static Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Settings.ConstDefaultBackgroundOrderingLevel);
+    private static Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Util.ConstDefaultBackgroundOrderingLevel);
     // Isometric Grid with pathfinding
     public static Tilemap TilemapPathFinding { get; set; }
     private static ConcurrentDictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile

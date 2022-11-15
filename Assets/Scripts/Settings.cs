@@ -14,13 +14,14 @@ public static class Settings
     StartTable = new int[] { 4, 11 };
 
     //CAMERA ATTRIBUTES
-    public static float 
+    public static float
     CameraMovementSpeed = 25f,
     ZoomSpeed = 35,
     ZoomSpeedPinch = 8f,
-    MinZoomSize = 1,
-    MaxZoomSize = 8,
-    MinTimeToEnablePerspectiveHand = 0.5f; 
+    MinZoomSize = 0.5f, // the max zoom in
+    MaxZoomSize = 1f, // the max zoom out
+    MinTimeToEnablePerspectiveHand = 0.5f;
+    public static int ConstDefaultCameraOrthographicsize = 7;
 
     //Init start attributes
     public static int InitGameMoney = 2000,
@@ -39,6 +40,29 @@ public static class Settings
     public const float NPCMaxWaitingTime = 10f,
     NPCMaxTimeInState = 10f,
     MinEuclidianDistanceRandomWalk = 10; // Performance relevant
+
+    // Grid Config
+    public const float GridCellSize = 0.25f; // 0.25f default
+    public const int GridWidth = 25, // Number of cell per Grid CellSize
+    GridHeight = 20,
+    GridStartX = 0,
+    GrtGridStartY = 0;
+
+    //UI: Camera
+    public const bool CameraPerspectiveHand = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
+    public static float[] CameraPerspectiveHandClampX = { -20f, 20 },
+    CameraPerspectiveHandClampY = { -20, 20f }; // X = -8, 1 || Y = Initial default -8, 1
+    public const float CameraFollowInterpolation = 0.034f;
+
+    //UI : Camera
+    public const int ConstDefaultCameraWidth = 1500,
+    ConstDefaultCameraHeight = 1600;
+
+    //NPC Default
+    public const float MinDistanceToTarget = 0.001f;
+    public const int NpcDefaultEnergy = 100;
+    public const string NpcEnergyBar = "EnergyBar",
+    NpcCharacter = "Character";
 
     //FIREBASE TEST ENV 
     public const string FIRESTORE_HOST = "localhost:8080",
@@ -108,12 +132,6 @@ public static class Settings
     TopObjectInfoSprite = "Sprites",
     undefined = "undefined";
 
-    //NPC Default
-    public const float MinDistanceToTarget = 0.001f;
-    public const int NpcDefaultEnergy = 100;
-    public const string NpcEnergyBar = "EnergyBar",
-    NpcCharacter = "Character";
-
     //UI Constants
     public const string ConstNpcProfileMenu = "NPCProfile",
     ConstCanvasParentMenu = "CanvasMenu",
@@ -135,21 +153,8 @@ public static class Settings
 
     public const string ConstEditStoreMenuSave = "ButtonSave",
     ConstParentGameObject = "Game";
-    public const int ConstDefaultCameraOrthographicsize = 7,
-    ConstDefaultBackgroundOrderingLevel = 200;
-
     //UI: Menu
     public const string ConstLeftDownMenuStore = "Store";
-
-    //UI: Camera
-    public const bool CameraPerspectiveHand = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public static float[] CameraPerspectiveHandClampX = { -20f, 20 },
-    CameraPerspectiveHandClampY = { -20, 20f }; // X = -8, 1 || Y = Initial default -8, 1
-    public const float CameraFollowInterpolation = 0.034f;
-
-    //UI : Camera
-    public const int ConstDefaultCameraWidth = 1500,
-    ConstDefaultCameraHeight = 1600;
 
     //UI: Buttons listeners
     //UI: Editor tools
@@ -174,11 +179,4 @@ public static class Settings
     //Tiles
     public const string GridTilesSimple = "Grid/Tiles/GridTile",
     GridTilesHighlightedFloor = "Grid/Tiles/HighlightedFloor@3x";
-
-    // Grid Config
-    public const float GridCellSize = 0.25f; // 0.25f default
-    public const int GridWidth = 25, // Number of cell per Grid CellSize
-    GridHeight = 20,
-    GridStartX = 0,
-    GrtGridStartY = 0;
 }
