@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +12,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
     //Energy Bars
-    private LoadSliderController energyBar;
+    protected LoadSliderController EnergyBar;
     [SerializeField]
-    protected float currentEnergy, energyBarSpeed, idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
+    protected float idleTime, stateTime, speed, timeBeforeRemovingDebugPanel = 0.1f;
     private bool isMoving;
     private SortingGroup sortingLayer;
     [SerializeField]
@@ -52,13 +52,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         gameController = gameObject.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
-        energyBar = transform.Find(Settings.NpcEnergyBar).GetComponent<LoadSliderController>();
+        EnergyBar = transform.Find(Settings.LoadSlider).GetComponent<LoadSliderController>();
         GameObject gameObjectInfoPopUp = transform.Find(Settings.TopPopUpObject).gameObject;
         infoPopUpController = gameObjectInfoPopUp.GetComponent<InfoPopUpController>();
 
-        if (!Util.IsNull(energyBar, "GameObjectMovementBase/energyBar null"))
+        if (!Util.IsNull(EnergyBar, "GameObjectMovementBase/energyBar null"))
         {
-            energyBar.SetInactive();
+            EnergyBar.SetInactive();
         }
 
         if (animationController == null || gameObject == null)
@@ -72,7 +72,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         idleTime = 0;
         stateTime = 0;
         prevState = currentState;
-        energyBarSpeed = 20f;
         isMoving = false;
         currentState = NpcState.IDLE;
         UpdatePosition();
@@ -87,11 +86,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void ActivateEnergyBar(float val)
     {
-        if (!energyBar.IsActive())
+        if (!EnergyBar.IsActive())
         {
-            energyBar.SetActive();
-            currentEnergy = 0;
-            energyBarSpeed = val;
+            EnergyBar.SetActive(val);
         }
     }
 
@@ -111,24 +108,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdateEnergyBar()
     {
-        if (energyBar == null)
+        if (EnergyBar == null)
         {
             return;
         }
 
-        // EnergyBar controller, only if it is active
-        if (energyBar.IsActive())
-        {
-            if (currentEnergy <= 100)
-            {
-                currentEnergy += Time.fixedDeltaTime * energyBarSpeed;
-                energyBar.SetEnergy((int)currentEnergy);
-            }
-            else
-            {
-                energyBar.SetInactive();
-            }
-        }
+        EnergyBar.UpdateLoadSlider();
     }
 
     protected void UpdatePosition()
@@ -282,9 +267,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // we are already at target and not moving
         currentLocalTargetPosition = transform.position;
         pendingMovementQueue = new Queue();
-        if (energyBar.IsActive())
+        if (EnergyBar.IsActive())
         {
-            energyBar.SetInactive();
+            EnergyBar.SetInactive();
         }
     }
 
@@ -421,11 +406,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public float GetSpeed()
     {
         return speed;
-    }
-
-    public bool IsEnergybarActive()
-    {
-        return energyBar.IsActive();
     }
 
     private bool IsInTargetPosition()
