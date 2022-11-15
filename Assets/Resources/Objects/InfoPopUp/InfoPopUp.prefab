@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7038975255882887805}
   - component: {fileID: 5422194248596158049}
   - component: {fileID: 813202852642496454}
+  - component: {fileID: 5939041650500769966}
   m_Layer: 5
   m_Name: InfoPopUp
   m_TagString: Untagged
@@ -80,6 +81,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06616591754740f58d934fb0659e689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5939041650500769966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3676167169059973106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 307c8e2ec54c84e2da8be07d24771b76, type: 3}
 --- !u!1 &4387132143866304149
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,15 +204,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 984e7dd9cb62746078556966a0cee794, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.41, y: 0.57}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7905611672297344520
@@ -214,4 +229,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CategoryHash: 0
   m_labelHash: 0
-  m_SpriteKey: 0
+  m_SpriteKey: 5.794929e-16
