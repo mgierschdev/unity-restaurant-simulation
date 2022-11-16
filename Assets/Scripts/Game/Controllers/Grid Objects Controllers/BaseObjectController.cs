@@ -58,8 +58,6 @@ public class BaseObjectController : MonoBehaviour
         {
             isClicking = true;
 
-            Debug.Log("Clicking object " + gameGridObject.Name);
-
             // For GetLoadItemSlider, dispenser items
             if (gameGridObject != null &&
             !gameGridObject.GetStoreGameObject().HasActionPoint &&
@@ -190,22 +188,6 @@ public class BaseObjectController : MonoBehaviour
         }
     }
 
-    // Called on mouse down
-    // private void OnMouseDown()
-    // {
-    //     Debug.Log("Clicking " + gameGridObject.Name);
-
-    //     // For GetLoadItemSlider, dispenser items
-    //     if (gameGridObject != null &&
-    //     !gameGridObject.GetStoreGameObject().HasActionPoint &&
-    //     !gameGridObject.GetIsItemReady() &&
-    //     !gameGridObject.GetIsObjectSelected() &&
-    //     !BussGrid.GetIsDraggingEnabled())
-    //     {
-    //         SetLoadSliderActive();
-    //     }
-    // }
-
     private void SetLoadSliderActive()
     {
         IEnumerator coroutine = EnableSlider();
@@ -306,7 +288,7 @@ public class BaseObjectController : MonoBehaviour
     public void SetNewItem(bool val, bool storage)
     {
         isNewItem = val;
-        this.isStorageItem = storage; // is the item comming from storage
+        isStorageItem = storage; // is the item comming from storage
     }
 
     // returns if the item is comming from the storage
