@@ -8,6 +8,7 @@ public class ClickController : MonoBehaviour
     private float clickingTime, LONG_CLICK_DURATION = 0.2f, lastClickTime;
     private Camera mainCamera;
     private GameObject clickedObject;
+    private GameGridObject clickedGameGridObject;
     private GameTile clickedGameTile;
 
     private void Start()
@@ -81,34 +82,23 @@ public class ClickController : MonoBehaviour
         Vector3Int clickPosition = BussGrid.GetPathFindingGridFromWorldPosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
         GameTile tile = BussGrid.GetGameTileFromClickInPathFindingGrid(clickPosition);
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        //RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-
         Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
-
-        // List<GameGridObject> selectedObjectList = new List<GameGridObject>();
-
         SortedList<GameGridObject, int> list = new SortedList<GameGridObject, int>();
-        string log = "";
 
         foreach (Collider2D r in hits)
         {
-
-            clickedObject = GameObject.Find(r.name);
-
             if (BussGrid.GetBusinessObjects().ContainsKey(r.name))
             {
                 GameGridObject selected = BussGrid.GetBusinessObjects()[r.name];
-                Debug.Log(selected.Name + " " + selected.GetSortingOrder());
                 list.Add(selected, selected.GetSortingOrder());
             }
         }
 
-        foreach (KeyValuePair<GameGridObject, int> gamegridObject in list)
+        if (list.Count > 0)
         {
-            log += " " + gamegridObject.Key.Name + "," + gamegridObject.Value;
+            clickedGameGridObject = list.Keys[0];
+            clickedObject = GameObject.Find(list.Keys[0].Name);
         }
-
-        Debug.Log(log);
 
         if (tile != null)
         {
