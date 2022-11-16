@@ -14,7 +14,7 @@ public class BaseObjectController : MonoBehaviour
     private FirebaseGameObject firebaseGameObject;
     private ObjectRotation initialRotation;
     private StoreGameObject storeGameObject;
-    private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled;
+    private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled, isClicking;
 
     private void Awake()
     {
@@ -23,6 +23,7 @@ public class BaseObjectController : MonoBehaviour
         isSpriteSetted = false;
         isCurrentValidPos = true;
         isDraggDisabled = false;
+        isClicking = false;
         timeClicking = 0;
         initialRotation = ObjectRotation.FRONT;
         currentPos = transform.position;
@@ -46,18 +47,37 @@ public class BaseObjectController : MonoBehaviour
         UpdateInit(); // Init constructor
         UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
         UpdateMoveSelectionSlider(); // Checks for long pressed over the object and updates the slider
-        UpdateTopItemDispenserSlider(); // Checks for long pressed over the object and updates the slider
+        UpdateTopItemDispenserSlider();
         UpdateIsValidPosition(); // Checks if the current position is a valid one 
-
-
-        UpdateOnMouseDown();
+        UpdateOnMouseDown();// OnMouseDown implementation which takes into consideration the layer ordering
     }
 
     private void UpdateOnMouseDown()
     {
         if (Input.GetMouseButtonDown(0) && BussGrid.ClickController.GetGameGridClickedObject() == gameGridObject)
         {
-            SetRandomColor();
+            isClicking = true;
+            // For GetLoadItemSlider, dispenser items
+            if (gameGridObject != null &&
+            !gameGridObject.GetStoreGameObject().HasActionPoint &&
+            !gameGridObject.GetIsItemReady() &&
+            !gameGridObject.GetIsObjectSelected() &&
+            !BussGrid.GetIsDraggingEnabled())
+            {
+                SetLoadSliderActive();
+            }
+        }
+
+        if (isClicking)
+        {
+            timeClicking += Time.unscaledDeltaTime;
+        }
+
+        // On release, the mouse
+        if (Input.GetMouseButtonUp(0))
+        {
+            timeClicking = 0;
+            isClicking = false;
         }
     }
 
@@ -110,7 +130,7 @@ public class BaseObjectController : MonoBehaviour
         }
 
         // Unselecting the item
-        // If the item is selected and the user is clicking outside we un-select the item
+        // If the item is selected and the user is clicking outside we unselect the item
         if (Input.GetMouseButtonDown(0) &&
         gameGridObject.GetIsObjectSelected() &&
         !IsClickingSelf() &&
@@ -132,7 +152,7 @@ public class BaseObjectController : MonoBehaviour
             {
                 gameGridObject.AcceptPurchase();
             }
-            // recalculates Goto when the object is placed
+            // recalculates Goto when the object is placed, TODO: path not found
             BussGrid.GameController.ReCalculateNpcStates(gameGridObject);
         }
     }
@@ -168,20 +188,20 @@ public class BaseObjectController : MonoBehaviour
     }
 
     // Called on mouse down
-    private void OnMouseDown()
-    {
-        // Debug.Log("Clicking " + gameGridObject.Name);s
+    // private void OnMouseDown()
+    // {
+    //     Debug.Log("Clicking " + gameGridObject.Name);
 
-        // For GetLoadItemSlider, dispenser items
-        if (gameGridObject != null &&
-        !gameGridObject.GetStoreGameObject().HasActionPoint &&
-        !gameGridObject.GetIsItemReady() &&
-        !gameGridObject.GetIsObjectSelected() &&
-        !BussGrid.GetIsDraggingEnabled())
-        {
-            SetLoadSliderActive();
-        }
-    }
+    //     // For GetLoadItemSlider, dispenser items
+    //     if (gameGridObject != null &&
+    //     !gameGridObject.GetStoreGameObject().HasActionPoint &&
+    //     !gameGridObject.GetIsItemReady() &&
+    //     !gameGridObject.GetIsObjectSelected() &&
+    //     !BussGrid.GetIsDraggingEnabled())
+    //     {
+    //         SetLoadSliderActive();
+    //     }
+    // }
 
     private void SetLoadSliderActive()
     {
@@ -198,8 +218,6 @@ public class BaseObjectController : MonoBehaviour
     // Called when dragging the object
     private void OnMouseDrag()
     {
-        timeClicking += Time.unscaledDeltaTime;
-
         if (!Menu || gameGridObject == null ||
         !gameGridObject.GetIsObjectSelected() ||
         IsClickingButton() ||
@@ -218,7 +236,6 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        timeClicking = 0;
         if (gameGridObject.GetCurrentMoveSliderValue() > 0)
         {
             //we disable the move slider
