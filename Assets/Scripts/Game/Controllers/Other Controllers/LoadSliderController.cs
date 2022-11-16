@@ -4,8 +4,11 @@ using UnityEngine.UI;
 public class LoadSliderController : MonoBehaviour
 {
     private Slider slider;
-    private float currentEnergy, energyBarSpeed = 30f, defaultMaxEnergy = 100;
+    private float currentEnergy, energyBarTime = 3f;
     private Image sliderImage;
+
+    // debug
+    private float seconds;
 
     public void Awake()
     {
@@ -14,6 +17,7 @@ public class LoadSliderController : MonoBehaviour
         Util.IsNull(fillAreaObject, "LoadSliderController/fillAreaObject is null ");
         sliderImage = fillAreaObject.GetComponent<Image>();
         slider.value = 0;
+        seconds = 0;
 
         if (slider == null)
         {
@@ -24,24 +28,30 @@ public class LoadSliderController : MonoBehaviour
 
     public void Update()
     {
+
         // EnergyBar controller, only if it is active
         if (gameObject.activeSelf)
         {
-            if (currentEnergy <= defaultMaxEnergy)
+            seconds += Time.deltaTime;
+
+            Debug.Log(seconds);
+
+            if (seconds <= energyBarTime)
             {
-                currentEnergy += Time.deltaTime * energyBarSpeed;
+                currentEnergy = seconds * 100 / energyBarTime;
                 SetEnergy((int)currentEnergy);
             }
             else
             {
                 SetInactive();
+                seconds = 0;
             }
         }
     }
 
-    public void SetDefaultFillSpeed(float speed)
+    public void SetDefaultFillTime(float time)
     {
-        energyBarSpeed = speed;
+        energyBarTime = time;
     }
 
     public void SetEnergy(int energy)
@@ -60,12 +70,12 @@ public class LoadSliderController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetActive(float speed)
+    public void SetActive(float seconds)
     {
         if (!gameObject.activeSelf)
         {
             currentEnergy = 0;
-            energyBarSpeed = speed;
+            energyBarTime = seconds;
             gameObject.SetActive(true);
         }
     }
@@ -97,7 +107,7 @@ public class LoadSliderController : MonoBehaviour
 
     public bool IsEnergyFull()
     {
-        return currentEnergy >= defaultMaxEnergy;
+        return seconds >= energyBarTime;
     }
 
     public void SetSliderFillMethod(Image.FillMethod method)

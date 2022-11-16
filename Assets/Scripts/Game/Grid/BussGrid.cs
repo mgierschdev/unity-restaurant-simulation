@@ -778,7 +778,6 @@ public static class BussGrid
             (gridArray[tile.GridPosition.x, tile.GridPosition.y] == (int)CellValue.ACTION_POINT && !actionPositions.Contains(current)))
             {
                 // we clean the invalid position   
-                // Log("Cleanning invalid position in RecalculateBussGrid()");
                 gridArray[tile.GridPosition.x, tile.GridPosition.y] = (int)CellValue.EMPTY;
             }
         }

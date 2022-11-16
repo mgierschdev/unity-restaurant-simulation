@@ -63,7 +63,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         Util.IsNull(moveObjectSlider, "MoveSlider is null");
         loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
         loadSliderMove.SetSliderFillMethod(Image.FillMethod.Vertical);
-        loadSliderMove.SetDefaultFillSpeed(200f);
+        loadSliderMove.SetDefaultFillTime(200f);
         loadSliderMove.SetInactive();
 
         //On top load slider
