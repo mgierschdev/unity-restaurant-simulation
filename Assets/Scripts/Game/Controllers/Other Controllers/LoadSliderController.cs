@@ -6,6 +6,7 @@ public class LoadSliderController : MonoBehaviour
     private Slider slider;
     private float currentEnergy, energyBarTime = 3f, seconds;
     private Image sliderImage;
+    private bool finished;
 
     public void Awake()
     {
@@ -15,6 +16,7 @@ public class LoadSliderController : MonoBehaviour
         sliderImage = fillAreaObject.GetComponent<Image>();
         slider.value = 0;
         seconds = 0;
+        finished = false;
 
         if (slider == null)
         {
@@ -28,10 +30,9 @@ public class LoadSliderController : MonoBehaviour
         // EnergyBar controller, only if it is active
         if (gameObject.activeSelf)
         {
-            seconds += Time.deltaTime;
+            seconds += Time.unscaledDeltaTime;
 
-            Debug.Log(seconds);
-
+            Debug.Log("Seconds " + seconds);
             if (seconds <= energyBarTime)
             {
                 currentEnergy = seconds * 100 / energyBarTime;
@@ -39,8 +40,9 @@ public class LoadSliderController : MonoBehaviour
             }
             else
             {
-                SetInactive();
+                finished = true;
                 seconds = 0;
+                SetInactive();
             }
         }
     }
@@ -50,7 +52,7 @@ public class LoadSliderController : MonoBehaviour
         energyBarTime = time;
     }
 
-    public void SetEnergy(int energy)
+    private void SetEnergy(int energy)
     {
         slider.value = energy;
     }
@@ -70,6 +72,7 @@ public class LoadSliderController : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
+            finished = false;
             currentEnergy = 0;
             energyBarTime = seconds;
             gameObject.SetActive(true);
@@ -80,6 +83,9 @@ public class LoadSliderController : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
+            Debug.Log("Enabling slider");
+
+            finished = false;
             currentEnergy = 0;
             SetEnergy(0);
             gameObject.SetActive(true);
@@ -91,19 +97,19 @@ public class LoadSliderController : MonoBehaviour
         return gameObject.activeSelf;
     }
 
-    public void ResetCurrentEnergy()
+    private void ResetCurrentEnergy()
     {
         currentEnergy = 0;
     }
 
-    public float GetCurrentEnergy()
+    private float GetCurrentEnergy()
     {
         return currentEnergy;
     }
 
-    public bool IsEnergyFull()
+    public bool IsFinished()
     {
-        return seconds >= energyBarTime;
+        return finished;
     }
 
     public void SetSliderFillMethod(Image.FillMethod method)

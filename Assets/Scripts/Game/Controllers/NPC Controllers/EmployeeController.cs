@@ -9,7 +9,7 @@ public class EmployeeController : GameObjectMovementBase
     MAX_TABLE_WAITING_TIME = Settings.NPCMaxWaitingTime,
     TIME_IDLE_BEFORE_TAKING_ORDER = 2f,
     SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
-    SPEED_TIME_TAKING_ORDER = 3f;
+    SPEED_TIME_TAKING_ORDER = 1.5f;
     private GameGridObject counter;
 
     private void Start()
@@ -145,7 +145,7 @@ public class EmployeeController : GameObjectMovementBase
             StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
             table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         }
-        else if (stateMachine.Current.State == NpcState.TAKING_ORDER && EnergyBar.GetCurrentEnergy() >= 100 && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
+        else if (stateMachine.Current.State == NpcState.TAKING_ORDER && EnergyBar.IsFinished() && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
             stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
             if (table == null) { return; }
@@ -160,10 +160,10 @@ public class EmployeeController : GameObjectMovementBase
             stateMachine.SetTransition(NpcStateTransitions.REGISTERING_CASH);
             stateMachine.UnSetTransition(NpcStateTransitions.AT_TABLE);
         }
-        else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && EnergyBar.GetCurrentEnergy() >= 100)
+        else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && EnergyBar.IsFinished())
         {
             stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
-            EnergyBar.ResetCurrentEnergy();
+            // EnergyBar.ResetCurrentEnergy();
             //TODO: register cost depending on the NPC order
             double orderCost = Random.Range(5, 10);
             PlayerData.AddMoney(orderCost);
