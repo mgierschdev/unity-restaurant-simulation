@@ -221,11 +221,11 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (gameGridObject.GetCurrentMoveSliderValue() > 0)
-        {
-            //we disable the move slider
-            gameGridObject.GetMoveSlider().SetInactive();
-        }
+        // if (gameGridObject.GetCurrentMoveSliderValue() > 0)
+        // {
+        //     //we disable the move slider
+        //     gameGridObject.GetMoveSlider().SetInactive();
+        // }
 
         if (!Menu || !BussGrid.IsDraggingEnabled(gameGridObject))
         {

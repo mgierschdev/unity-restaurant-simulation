@@ -24,10 +24,6 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     private GameObject saveObjButton, rotateObjLeftButton, cancelButton, acceptButton, editMenu, objectWithSprite;
     private InfoPopUpController infoPopUpController;
     private LoadSliderController loadSlider, loadSliderMove;
-    //Slider attributes
-    private float moveSliderMultiplayer = Settings.ObjectMoveSliderMultiplayer,
-    loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer,
-    currentMoveSliderValue;//, currentLoadSliderValue;
     // Store - To be bought Item, Is Item active, before purchase, (isItemReady, isItemLoading) item on top of the objects, (isObjectSelected) current under preview
     private bool isItemBought, active, isItemReady, isObjectSelected, isObjectBeingDragged;
     public GameGridObject(Transform transform)
@@ -63,7 +59,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         Util.IsNull(moveObjectSlider, "MoveSlider is null");
         loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
         loadSliderMove.SetSliderFillMethod(Image.FillMethod.Vertical);
-        loadSliderMove.SetDefaultFillTime(200f);
+        loadSliderMove.SetDefaultFillTime(1.5f);
         loadSliderMove.SetInactive();
 
         //On top load slider
@@ -520,9 +516,10 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         }
 
         DiableTopInfoObject();
+
         loadSliderMove.SetActive();
 
-        if (loadSliderMove.IsEnergyFull())
+        if (loadSliderMove.IsFinished())
         {
             SetObjectSelected();
         }
@@ -536,7 +533,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
             return;
         }
 
-        if (loadSlider.IsEnergyFull())
+        if (loadSlider.IsFinished())
         {
             SetItemsReady();
         }
@@ -586,11 +583,6 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.ObjectZPosition);
         BussGrid.SetIsDraggingEnable(false);
         BussGrid.HideHighlightedGridBussFloor();
-    }
-
-    public float GetCurrentMoveSliderValue()
-    {
-        return currentMoveSliderValue;
     }
 
     public bool GetIsObjectSelected()

@@ -22,8 +22,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected PlayerAnimationStateController animationController;
     protected GameController gameController;
     protected ObjectType type;
-    private PolygonCollider2D collider; // to check for other npc
-    private InfoPopUpController infoPopUpController;
 
     //A*
     // Attributes for temporaly marking the path of the NPC on the grid
@@ -47,21 +45,17 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speed = Settings.NpcDefaultMovementSpeed;
         side = CharacterSide.RIGHT;
         pendingMovementQueue = new Queue();
-        GameObject gameObject = GameObject.Find(Settings.ConstParentGameObject);
-        collider = gameObject.GetComponent<PolygonCollider2D>();
         gameController = gameObject.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
         EnergyBar = transform.Find(Settings.LoadSlider).GetComponent<LoadSliderController>();
-        GameObject gameObjectInfoPopUp = transform.Find(Settings.TopPopUpObject).gameObject;
-        infoPopUpController = gameObjectInfoPopUp.GetComponent<InfoPopUpController>();
 
         if (!Util.IsNull(EnergyBar, "GameObjectMovementBase/energyBar null"))
         {
             EnergyBar.SetInactive();
         }
 
-        if (animationController == null || gameObject == null)
+        if (animationController == null)
         {
             GameLog.LogWarning("NPCController/animationController-gameObj null");
         }
@@ -355,7 +349,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         if (path.Count == 0)
         {
             // TODO: Retry not found path after some time add new state
-            //Debug.Log("Not path found");
+            //GameLog.Log("Not path found");
             return false;
         }
 
