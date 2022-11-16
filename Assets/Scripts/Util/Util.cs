@@ -466,22 +466,7 @@ public static class Util
 
     public static Color GetRandomColor()
     {
-        int rand = Random.Range(0, 10);
-        switch (rand)
-        {
-            case 0: return Color.black;
-            case 1: return Color.blue;
-            case 2: return new Color(Random.Range(1, 255), Random.Range(1, 255), Random.Range(1, 255));
-            case 3: return Color.cyan;
-            case 4: return Color.gray;
-            case 5: return Color.green;
-            case 6: return Color.grey;
-            case 7: return Color.magenta;
-            case 8: return Color.red;
-            case 9: return Color.white;
-            case 10: return Color.yellow;
-        }
-        return Color.black;
+        return new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
     }
 
     public static Color GetRandomColor(int val)
@@ -490,14 +475,14 @@ public static class Util
         {
             case 0: return Color.black;
             case 1: return Color.blue;
-            case 2: return new Color(Random.Range(1, 255), Random.Range(1, 255), Random.Range(1, 255));
-            case 3: return Color.cyan;
-            case 4: return Color.gray;
-            case 5: return Color.green;
-            case 6: return Color.grey;
-            case 7: return Color.magenta;
-            case 8: return Color.red;
-            case 9: return Color.white;
+            case 2: return Color.cyan;
+            case 3: return Color.gray;
+            case 4: return Color.green;
+            case 5: return Color.grey;
+            case 6: return Color.magenta;
+            case 7: return Color.red;
+            case 8: return Color.white;
+            case 9: return Color.yellow;
             case 10: return Color.yellow;
         }
         return Color.black;
