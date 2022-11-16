@@ -14,6 +14,7 @@ public class LoadSliderController : MonoBehaviour
         GameObject fillAreaObject = transform.Find("FillArea/Fill").gameObject;
         Util.IsNull(fillAreaObject, "LoadSliderController/fillAreaObject is null ");
         sliderImage = fillAreaObject.GetComponent<Image>();
+        slider.value = 0;
 
         if (slider == null)
         {
@@ -29,7 +30,6 @@ public class LoadSliderController : MonoBehaviour
         {
             if (currentEnergy <= defaultMaxEnergy)
             {
-                Debug.Log(name + " " + energyBarSpeed);
                 currentEnergy += Time.deltaTime * energyBarSpeed;
                 SetEnergy((int)currentEnergy);
             }
@@ -76,6 +76,7 @@ public class LoadSliderController : MonoBehaviour
         if (!gameObject.activeSelf)
         {
             currentEnergy = 0;
+            SetEnergy(0);
             gameObject.SetActive(true);
         }
     }
