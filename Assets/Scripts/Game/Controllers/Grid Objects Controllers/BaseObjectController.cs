@@ -48,6 +48,17 @@ public class BaseObjectController : MonoBehaviour
         UpdateMoveSelectionSlider(); // Checks for long pressed over the object and updates the slider
         UpdateTopItemDispenserSlider(); // Checks for long pressed over the object and updates the slider
         UpdateIsValidPosition(); // Checks if the current position is a valid one 
+
+
+        UpdateOnMouseDown();
+    }
+
+    private void UpdateOnMouseDown()
+    {
+        if (Input.GetMouseButtonDown(0) && BussGrid.ClickController.GetGameGridClickedObject() == gameGridObject)
+        {
+            SetRandomColor();
+        }
     }
 
     private void UpdateInit()
@@ -159,8 +170,7 @@ public class BaseObjectController : MonoBehaviour
     // Called on mouse down
     private void OnMouseDown()
     {
-        // Debug.Log("Clicking " + gameGridObject.Name);
-        // SetRandomColor();
+        // Debug.Log("Clicking " + gameGridObject.Name);s
 
         // For GetLoadItemSlider, dispenser items
         if (gameGridObject != null &&
