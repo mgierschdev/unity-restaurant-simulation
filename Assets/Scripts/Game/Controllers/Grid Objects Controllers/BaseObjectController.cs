@@ -30,7 +30,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void Start()
     {
-        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu).gameObject;
+        GameObject menuHandler = GameObject.Find(Settings.ConstCanvasParentMenu);
         Util.IsNull(menuHandler, "BaseObjectController/MenuHandlerController null");
         Menu = menuHandler.GetComponent<MenuHandlerController>();
         gameGridObject = new GameGridObject(transform);
@@ -45,7 +45,7 @@ public class BaseObjectController : MonoBehaviour
 
         UpdateInit(); // Init constructor
         UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
-        UpdateSelectionSlider(); // Checks for long pressed over the object and updates the slider
+        UpdateMoveSelectionSlider(); // Checks for long pressed over the object and updates the slider
         UpdateTopItemDispenserSlider(); // Checks for long pressed over the object and updates the slider
         UpdateIsValidPosition(); // Checks if the current position is a valid one 
     }
@@ -69,27 +69,32 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateTopItemDispenserSlider()
     {
-        //TODO: Check that is not a long press
         if (gameGridObject.GetLoadItemSlider().IsActive() &&
-        !gameGridObject.GetIsObjectSelected() &&
-        timeClicking < 0.1f
+        !gameGridObject.GetIsObjectSelected()
         )
         {
             gameGridObject.UpdateLoadItemSlider();
         }
     }
 
-    private void UpdateSelectionSlider()
+    private void UpdateMoveSelectionSlider()
     {
         // Selecting the item while pressing over it
-        if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled && 
-        !gameGridObject.GetIsObjectSelected() && 
+        if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled &&
+        !gameGridObject.GetIsObjectSelected() &&
         !BussGrid.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
             if (gameGridObject.GetLoadItemSlider().IsActive() || gameGridObject.GetIsItemReady())
             {
                 gameGridObject.DiableTopInfoObject();
+            }
+        }
+        else
+        {
+            if (gameGridObject.GetMoveSlider().IsActive())
+            {
+                gameGridObject.GetMoveSlider().SetInactive();
             }
         }
 
@@ -161,8 +166,20 @@ public class BaseObjectController : MonoBehaviour
         !gameGridObject.GetIsObjectSelected() &&
         !BussGrid.GetIsDraggingEnabled())
         {
-            gameGridObject.GetLoadItemSlider().SetActive();
+            SetLoadSliderActive();
         }
+    }
+
+    private void SetLoadSliderActive()
+    {
+        IEnumerator coroutine = EnableSlider();
+        StartCoroutine(coroutine);
+    }
+
+    private IEnumerator EnableSlider()
+    {
+        yield return new WaitForSeconds(Settings.TimeBeforeTheSliderIsEnabled);
+        gameGridObject.GetLoadItemSlider().SetActive();
     }
 
     // Called when dragging the object

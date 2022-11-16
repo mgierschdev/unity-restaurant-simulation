@@ -34,7 +34,7 @@ public static class Settings
     public const float ObjectMoveSliderMultiplayer = 0.8f,
     ItemLoadSliderMultiplayer = 0.05f,
     ScreenLoadTime = 2f,
-    TimeBeforeTheSliderIsEnabled = 0.4f;
+    TimeBeforeTheSliderIsEnabled = 0.2f;
 
     //Waiting times
     public const float NPCMaxWaitingTime = 10f,

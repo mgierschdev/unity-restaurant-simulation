@@ -1,13 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LoadSliderController : MonoBehaviour
 {
-    private float maxEnergy = 100;
     private Slider slider;
-    private float currentEnergy, energyBarSpeed = 20f;
+    private float currentEnergy, energyBarSpeed = 30f, defaultMaxEnergy = 100;
     private Image sliderImage;
-    private Image.FillMethod fillMethod = Image.FillMethod.Radial360;
 
     public void Awake()
     {
@@ -15,7 +14,6 @@ public class LoadSliderController : MonoBehaviour
         GameObject fillAreaObject = transform.Find("FillArea/Fill").gameObject;
         Util.IsNull(fillAreaObject, "LoadSliderController/fillAreaObject is null ");
         sliderImage = fillAreaObject.GetComponent<Image>();
-        sliderImage.fillMethod = fillMethod;
 
         if (slider == null)
         {
@@ -27,11 +25,12 @@ public class LoadSliderController : MonoBehaviour
     public void Update()
     {
         // EnergyBar controller, only if it is active
-        if (IsActive())
+        if (gameObject.activeSelf)
         {
-            if (currentEnergy <= maxEnergy)
+            if (currentEnergy <= defaultMaxEnergy)
             {
-                currentEnergy += Time.fixedDeltaTime * energyBarSpeed;
+                Debug.Log(name + " " + energyBarSpeed);
+                currentEnergy += Time.deltaTime * energyBarSpeed;
                 SetEnergy((int)currentEnergy);
             }
             else
@@ -39,6 +38,11 @@ public class LoadSliderController : MonoBehaviour
                 SetInactive();
             }
         }
+    }
+
+    public void SetDefaultFillSpeed(float speed)
+    {
+        energyBarSpeed = speed;
     }
 
     public void SetEnergy(int energy)
@@ -59,7 +63,7 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetActive(float speed)
     {
-        if (!IsActive())
+        if (!gameObject.activeSelf)
         {
             currentEnergy = 0;
             energyBarSpeed = speed;
@@ -69,10 +73,9 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetActive()
     {
-        if (!IsActive())
+        if (!gameObject.activeSelf)
         {
             currentEnergy = 0;
-            energyBarSpeed = 30f;
             gameObject.SetActive(true);
         }
     }
@@ -94,11 +97,11 @@ public class LoadSliderController : MonoBehaviour
 
     public bool IsEnergyFull()
     {
-        return currentEnergy >= maxEnergy;
+        return currentEnergy >= defaultMaxEnergy;
     }
 
     public void SetSliderFillMethod(Image.FillMethod method)
     {
-        sliderImage.fillMethod = fillMethod;
+        sliderImage.fillMethod = method;
     }
 }

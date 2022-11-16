@@ -66,6 +66,7 @@ public class GameGridObject : GameObjectBase
         Util.IsNull(moveObjectSlider, "MoveSlider is null");
         loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
         loadSliderMove.SetSliderFillMethod(Image.FillMethod.Vertical);
+        loadSliderMove.SetDefaultFillSpeed(200f);
         loadSliderMove.SetInactive();
 
         //On top load slider
@@ -516,12 +517,6 @@ public class GameGridObject : GameObjectBase
         return usedBy != null;
     }
 
-    // private void SetActiveMoveSlider(bool var)
-    // {
-    //     moveObjectSlider.SetActive(var);
-    //     moveSlider.value = 0;
-    // }
-
     public void UpdateMoveSlider()
     {
         if (isObjectSelected)
@@ -530,8 +525,9 @@ public class GameGridObject : GameObjectBase
         }
 
         DiableTopInfoObject();
+        loadSliderMove.SetActive();
 
-        if (loadSliderMove.GetCurrentEnergy() >= 1)
+        if (loadSliderMove.IsEnergyFull())
         {
             SetObjectSelected();
         }
@@ -554,10 +550,7 @@ public class GameGridObject : GameObjectBase
     public void SetItemsReady()
     {
         isItemReady = true;
-        //  isItemLoading = false;
         infoPopUpController.Enable();
-        // loadSlider.SetInactive();
-        //loadObjectSlider.SetActive(false);
     }
 
     public bool GetIsItemReady()
@@ -565,17 +558,6 @@ public class GameGridObject : GameObjectBase
         return isItemReady;
     }
 
-    // public bool GetIsItemLoading()
-    // {
-    //     return isItemLoading;
-    // }
-
-    // public void DisableMoveSlider()
-    // {
-    //     currentMoveSliderValue = 0;
-    //     moveSlider.value = 0;
-    //     moveObjectSlider.SetActive(false);
-    // }
 
     private void SetObjectSelected()
     {
