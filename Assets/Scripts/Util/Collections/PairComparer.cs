@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-public class PairComparer : IComparer<Pair<StoreGameObject, int>>
+public class PairComparer<T> : IComparer<Pair<T, int>>
 {
-    public int Compare(Pair<StoreGameObject, int> a, Pair<StoreGameObject, int> b)
+    public int Compare(Pair<T, int> a, Pair<T, int> b)
     {
         return a.Value - b.Value;
     }
