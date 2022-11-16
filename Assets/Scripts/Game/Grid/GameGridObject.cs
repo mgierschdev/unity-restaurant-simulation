@@ -25,9 +25,9 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     private InfoPopUpController infoPopUpController;
     private LoadSliderController loadSlider, loadSliderMove;
     //Slider attributes
-    private float moveSliderMultiplayer = Settings.ObjectMoveSliderMultiplayer;
-    private float loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer;
-    private float currentMoveSliderValue;//, currentLoadSliderValue;
+    private float moveSliderMultiplayer = Settings.ObjectMoveSliderMultiplayer,
+    loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer,
+    currentMoveSliderValue;//, currentLoadSliderValue;
     // Store - To be bought Item, Is Item active, before purchase, (isItemReady, isItemLoading) item on top of the objects, (isObjectSelected) current under preview
     private bool isItemBought, active, isItemReady, isObjectSelected, isObjectBeingDragged;
     public GameGridObject(Transform transform)
@@ -739,8 +739,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
     public bool Equals(GameGridObject obj2)
     {
-        if (obj2 == null) { return false; }
+        if (obj2 == null || SortingLayer == null) { return false; }
         return SortingLayer.sortingOrder == obj2.GetSortingOrder();
     }
-
 }
