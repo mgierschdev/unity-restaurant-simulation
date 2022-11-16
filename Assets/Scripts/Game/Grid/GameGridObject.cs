@@ -6,7 +6,7 @@ using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-public class GameGridObject : GameObjectBase
+public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, IComparable<GameGridObject>
 {
     private Transform objectTransform;
     private FirebaseGameObject firebaseGameObject;
@@ -724,4 +724,23 @@ public class GameGridObject : GameObjectBase
     {
         return SortingLayer.sortingOrder;
     }
+
+    public int CompareTo(GameGridObject obj2)
+    {
+        if (obj2 == null)
+        {
+            return 1;
+        }
+        else
+        {
+            return obj2.GetSortingOrder() - SortingLayer.sortingOrder;
+        }
+    }
+
+    public bool Equals(GameGridObject obj2)
+    {
+        if (obj2 == null) { return false; }
+        return SortingLayer.sortingOrder == obj2.GetSortingOrder();
+    }
+
 }
