@@ -14,8 +14,7 @@ public static class Settings
     StartTable = new int[] { 4, 11 };
 
     //CAMERA ATTRIBUTES
-    public static float
-    CameraMovementSpeed = 25f,
+    public static float CameraMovementSpeed = 25f,
     ZoomSpeed = 35,
     ZoomSpeedPinch = 8f,
     MinZoomSize = 0.5f, // the max zoom in
