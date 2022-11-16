@@ -17,13 +17,11 @@ public class GameGridObject : GameObjectBase
     private int actionTile;
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
-    // private TopItemController topItemController;
     private ObjectRotation facingPosition; // Facing position
     private NPCController usedBy;
     private EmployeeController attendedBy;
     // Buttons/ Sprites and edit menus
     private GameObject saveObjButton, rotateObjLeftButton, cancelButton, acceptButton, editMenu, objectWithSprite;
-    // private GameObject moveObjectSlider;//, loadObjectSlider;
     private InfoPopUpController infoPopUpController;
     private LoadSliderController loadSlider, loadSliderMove;
     //Slider attributes
@@ -31,8 +29,7 @@ public class GameGridObject : GameObjectBase
     private float loadSliderMultiplayer = Settings.ItemLoadSliderMultiplayer;
     private float currentMoveSliderValue;//, currentLoadSliderValue;
     // Store - To be bought Item, Is Item active, before purchase, (isItemReady, isItemLoading) item on top of the objects, (isObjectSelected) current under preview
-    private bool isItemBought, active, isItemReady, isObjectSelected, isObjectBeingDragged;//, isItemLoading;
-
+    private bool isItemBought, active, isItemReady, isObjectSelected, isObjectBeingDragged;
     public GameGridObject(Transform transform)
     {
         objectTransform = transform;
@@ -100,8 +97,6 @@ public class GameGridObject : GameObjectBase
         UpdateInitRotation(baseObjectController.GetInitialRotation());
         Init(); // StoreGameObject.Type requiredD
     }
-
-    //spriteResolverTopDispenser
 
     private void SetID()
     {
@@ -557,7 +552,6 @@ public class GameGridObject : GameObjectBase
     {
         return isItemReady;
     }
-
 
     private void SetObjectSelected()
     {
