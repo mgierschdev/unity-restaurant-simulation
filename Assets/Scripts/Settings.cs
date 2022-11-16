@@ -101,6 +101,10 @@ public static class Settings
     TilemapBusinessFloor_10 = "TilemapBusinessFloor_10",
     PathFindingGrid = "PathFindingGrid";
 
+    //OBJECTS PREFIXES
+    public const string DiespenserPrefix = "DISPENSER",
+    CounterPrefix = "COUNTER";
+
     //SPRITE LIBS CATEGORIES
     public const string SpriteLibCategoryTables = "Tables",
     SpriteLibCategoryDispensers = "Dispensers",
