@@ -25,6 +25,8 @@ public class InfoPopUpController : MonoBehaviour
         topDispenserInfoPopUpImage.SetActive(true);
     }
 
+
+
     public void Disable()
     {
         gameObject.SetActive(false);

@@ -48,7 +48,7 @@ public class TestNPCStateMachine
             }
         }
 
-        Debug.Log(count);
+        GameLog.Log(count);
 
         return count == states && count <= Enum.GetNames(typeof(NpcState)).Length;
     }
