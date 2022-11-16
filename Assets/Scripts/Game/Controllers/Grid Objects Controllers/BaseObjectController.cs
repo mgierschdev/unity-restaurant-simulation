@@ -159,6 +159,8 @@ public class BaseObjectController : MonoBehaviour
     // Called on mouse down
     private void OnMouseDown()
     {
+        Debug.Log("Clicking " + gameGridObject.Name);
+
         // For GetLoadItemSlider, dispenser items
         if (gameGridObject != null &&
         !gameGridObject.GetStoreGameObject().HasActionPoint &&
@@ -365,5 +367,10 @@ public class BaseObjectController : MonoBehaviour
     public GameGridObject GetGameGridObject()
     {
         return gameGridObject;
+    }
+
+    public void SetRandomColor()
+    {
+        gameGridObject.GetSpriteRenderer().color = Util.GetRandomColor();
     }
 }
