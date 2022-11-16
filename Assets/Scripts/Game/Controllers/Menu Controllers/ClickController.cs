@@ -133,4 +133,9 @@ public class ClickController : MonoBehaviour
     {
         clickedObject = obj;
     }
+
+    public GameGridObject GetGameGridClickedObject()
+    {
+        return clickedGameGridObject;
+    }
 }

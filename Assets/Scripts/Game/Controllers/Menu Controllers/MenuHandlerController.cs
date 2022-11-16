@@ -12,8 +12,6 @@ public class MenuHandlerController : MonoBehaviour
     private GameObject centerPanel, scrollView, scrollViewContent, centerPanelSideMenu, leftDownPanel;
     //saves the latest reference to the npc if the menu was opened
     private MenuItem centerTabMenu;
-    // Click controller
-    private ClickController clickController;
     // Min amount of time the the menu has to be open before activating -> closing on click outside
     private float MIN_OPENED_TIME = 0.5f, openedTime;
     private TextMeshProUGUI moneyText;
@@ -24,9 +22,7 @@ public class MenuHandlerController : MonoBehaviour
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
     {
-        // Click controller
-        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
-        clickController = cController.GetComponent<ClickController>();
+
 
         // Setting up Top level UI
         GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
@@ -61,12 +57,11 @@ public class MenuHandlerController : MonoBehaviour
             CenterPanelViewPanel.GetComponent<RectTransform>()
         };
 
-        if (!centerPanel || !leftDownPanel || !cController)
+        if (!centerPanel || !leftDownPanel)
         {
             GameLog.LogWarning("UIHandler Menu null ");
             GameLog.LogWarning("tabMenu " + centerPanel);
             GameLog.LogWarning("leftDownPanel " + leftDownPanel);
-            GameLog.LogWarning("cController " + cController);
         }
 
         //Center tab menus tabs
@@ -114,22 +109,22 @@ public class MenuHandlerController : MonoBehaviour
 
     private void CheckCLickControl()
     {
-        if (clickController == null || !clickController.GetClickedObject())
+        if (BussGrid.ClickController == null || !BussGrid.ClickController.GetClickedObject())
         {
             return;
         }
 
-        Util.GetObjectType(clickController.GetClickedObject());
+        Util.GetObjectType(BussGrid.ClickController.GetClickedObject());
 
-        if (clickController.GetClickedObject().name.Contains(Settings.PrefabNpcEmployee))
+        if (BussGrid.ClickController.GetClickedObject().name.Contains(Settings.PrefabNpcEmployee))
         {
             return;
         }
         // We reset the clicked object after the action
-        clickController.SetClickedObject(null);
-        if (clickController.GetClickedGameTile() != null)
+        BussGrid.ClickController.SetClickedObject(null);
+        if (BussGrid.ClickController.GetClickedGameTile() != null)
         {
-            clickController.SetClickedGameTile(null);
+            BussGrid.ClickController.SetClickedGameTile(null);
         }
     }
 
