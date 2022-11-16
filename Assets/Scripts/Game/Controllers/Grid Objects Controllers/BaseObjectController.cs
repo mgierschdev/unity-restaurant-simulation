@@ -160,6 +160,7 @@ public class BaseObjectController : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("Clicking " + gameGridObject.Name);
+        SetRandomColor();
 
         // For GetLoadItemSlider, dispenser items
         if (gameGridObject != null &&
