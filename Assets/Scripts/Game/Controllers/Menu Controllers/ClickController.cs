@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Controlled attached to Game scene and main Game Object.
@@ -16,6 +17,7 @@ public class ClickController : MonoBehaviour
         isClicking = false;
         isLongClick = false;
         mainCamera = Camera.main;
+
         // Time passed between clicks 
         lastClickTime = 0;
     }
@@ -82,11 +84,20 @@ public class ClickController : MonoBehaviour
         //RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
         Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
+        List<GameGridObject> selectedObjectList = new List<GameGridObject>();
+
+        SortedList<>    
+
         string log = "";
         foreach (Collider2D r in hits)
         {
             log += " " + r.name;
             clickedObject = GameObject.Find(r.name);
+
+            if (BussGrid.GetBusinessObjects().ContainsKey(r.name))
+            {
+                selectedObjectList.Add(BussGrid.GetBusinessObjects()[r.name]);
+            }
         }
         Debug.Log(log);
 
@@ -94,28 +105,7 @@ public class ClickController : MonoBehaviour
         {
             clickedGameTile = tile;
         }
-
-        // if (hit.collider)
-        // {
-        //     clickedObject = GameObject.Find(hit.collider.name);
-        //     Debug.Log("Clicked object " + clickedObject.name);
-        // }
     }
-
-    // To detect multiple colliders: RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(mainCamera.ScreenPointToRay(Input.mousePosition));
-    // private bool IsOverNPC()
-    // {
-    //     Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
-    //     foreach (Collider2D r in hits)
-    //     {
-    //         if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee))
-    //         {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
 
     public double TimePassedSinceLastClick()
     {
