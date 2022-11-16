@@ -90,7 +90,6 @@ public class ClickController : MonoBehaviour
         SortedList<GameGridObject, int> list = new SortedList<GameGridObject, int>();
         string log = "";
 
-
         foreach (Collider2D r in hits)
         {
 
@@ -99,6 +98,7 @@ public class ClickController : MonoBehaviour
             if (BussGrid.GetBusinessObjects().ContainsKey(r.name))
             {
                 GameGridObject selected = BussGrid.GetBusinessObjects()[r.name];
+                Debug.Log(selected.Name + " " + selected.GetSortingOrder());
                 list.Add(selected, selected.GetSortingOrder());
             }
         }
