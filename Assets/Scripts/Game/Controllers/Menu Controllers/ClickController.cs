@@ -84,21 +84,30 @@ public class ClickController : MonoBehaviour
         //RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
         Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
-        List<GameGridObject> selectedObjectList = new List<GameGridObject>();
 
-        SortedList<>    
+        // List<GameGridObject> selectedObjectList = new List<GameGridObject>();
 
+        SortedList<GameGridObject, int> list = new SortedList<GameGridObject, int>();
         string log = "";
+
+
         foreach (Collider2D r in hits)
         {
-            log += " " + r.name;
+
             clickedObject = GameObject.Find(r.name);
 
             if (BussGrid.GetBusinessObjects().ContainsKey(r.name))
             {
-                selectedObjectList.Add(BussGrid.GetBusinessObjects()[r.name]);
+                GameGridObject selected = BussGrid.GetBusinessObjects()[r.name];
+                list.Add(selected, selected.GetSortingOrder());
             }
         }
+
+        foreach (KeyValuePair<GameGridObject, int> gamegridObject in list)
+        {
+            log += " " + gamegridObject.Key.Name + "," + gamegridObject.Value;
+        }
+
         Debug.Log(log);
 
         if (tile != null)

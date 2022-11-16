@@ -725,4 +725,9 @@ public class GameGridObject : GameObjectBase
         return "isItemBought: " + isItemBought + " active: " + active + " isItemReady: " + isItemReady + " isObjectSelected: " +
         isObjectSelected + " isObjectBeingDragged: " + isObjectBeingDragged;
     }
+
+    public int GetSortingOrder()
+    {
+        return SortingLayer.sortingOrder;
+    }
 }

@@ -236,16 +236,18 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         // sorting the final list
-        List<Pair<StoreGameObject, int>> list = new List<Pair<StoreGameObject, int>>();
+        SortedList<StoreGameObject, int> list = new SortedList<StoreGameObject, int>();
+
+        //List<Pair<StoreGameObject, int>> list = new List<Pair<StoreGameObject, int>>();
         foreach (KeyValuePair<StoreGameObject, int> entry in objectDic)
         {
-            list.Add(new Pair<StoreGameObject, int>(entry.Key, entry.Value));
+            list.Add(entry.Key, entry.Value);
         }
 
-        PairComparer comparer = new PairComparer();
-        list.Sort(comparer);
+        // PairComparer comparer = new PairComparer();
+        // list.Sort(comparer);
 
-        foreach (Pair<StoreGameObject, int> entry in list)
+        foreach (KeyValuePair<StoreGameObject, int> entry in list)
         {
             item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             inventoryItemController = item.GetComponent<InventoryItemController>();
