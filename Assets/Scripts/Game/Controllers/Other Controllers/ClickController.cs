@@ -99,6 +99,10 @@ public class ClickController : MonoBehaviour
             clickedGameGridObject = list.Keys[0];
             clickedObject = GameObject.Find(list.Keys[0].Name);
         }
+        else
+        {
+            clickedGameGridObject = null;
+        }
 
         if (tile != null)
         {

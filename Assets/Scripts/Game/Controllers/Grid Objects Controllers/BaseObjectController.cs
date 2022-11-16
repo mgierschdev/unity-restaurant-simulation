@@ -57,6 +57,9 @@ public class BaseObjectController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && BussGrid.ClickController.GetGameGridClickedObject() == gameGridObject)
         {
             isClicking = true;
+
+            Debug.Log("Clicking object " + gameGridObject.Name);
+
             // For GetLoadItemSlider, dispenser items
             if (gameGridObject != null &&
             !gameGridObject.GetStoreGameObject().HasActionPoint &&
