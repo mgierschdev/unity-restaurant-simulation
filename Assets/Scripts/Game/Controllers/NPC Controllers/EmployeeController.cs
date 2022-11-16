@@ -9,7 +9,7 @@ public class EmployeeController : GameObjectMovementBase
     MAX_TABLE_WAITING_TIME = Settings.NPCMaxWaitingTime,
     TIME_IDLE_BEFORE_TAKING_ORDER = 2f,
     SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
-    SPEED_TIME_TAKING_ORDER = 80f;
+    SPEED_TIME_TAKING_ORDER = 3f;
     private GameGridObject counter;
     [SerializeField]
     private NpcState state;//TODO: for debug

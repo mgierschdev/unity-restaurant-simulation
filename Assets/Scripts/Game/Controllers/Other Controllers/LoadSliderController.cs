@@ -4,11 +4,8 @@ using UnityEngine.UI;
 public class LoadSliderController : MonoBehaviour
 {
     private Slider slider;
-    private float currentEnergy, energyBarTime = 3f;
+    private float currentEnergy, energyBarTime = 3f, seconds;
     private Image sliderImage;
-
-    // debug
-    private float seconds;
 
     public void Awake()
     {
@@ -28,7 +25,6 @@ public class LoadSliderController : MonoBehaviour
 
     public void Update()
     {
-
         // EnergyBar controller, only if it is active
         if (gameObject.activeSelf)
         {
