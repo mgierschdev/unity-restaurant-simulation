@@ -52,6 +52,8 @@ public static class BussGrid
     private static bool isDraggingEnabled; // Is amy object being dragged ?
     //Perspective hand
     public static CameraController CameraController { get; set; }
+    //ClickController
+    public static ClickController ClickController { get; set; }
     //Preview object
     private static BaseObjectController previewGameGridObject;
 
@@ -79,6 +81,10 @@ public static class BussGrid
 
         listBusinessFloor = new List<GameTile>();
         mapBusinessFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
+
+        // Click controller
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
+        ClickController = cController.GetComponent<ClickController>();
 
         //ObjectListConfiguration
         MenuObjectList.Init();
