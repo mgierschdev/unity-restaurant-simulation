@@ -56,7 +56,7 @@ public class ClickController : MonoBehaviour
             }
         }
 
-        // On realising the mouse
+        // On release, the mouse
         if (Input.GetMouseButtonUp(0))
         {
             clickingTime = 0;
