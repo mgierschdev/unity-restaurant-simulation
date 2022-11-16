@@ -11,8 +11,6 @@ public class EmployeeController : GameObjectMovementBase
     SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
     SPEED_TIME_TAKING_ORDER = 3f;
     private GameGridObject counter;
-    [SerializeField]
-    private NpcState state;//TODO: for debug
 
     private void Start()
     {
@@ -57,7 +55,6 @@ public class EmployeeController : GameObjectMovementBase
         CheckAtCounter();
         CheckTableMoved();
 
-        state = stateMachine.Current.State;
         stateMachine.CheckTransition();
         MoveNPC();// Move/or not, depending on the state
     }
@@ -215,19 +212,6 @@ public class EmployeeController : GameObjectMovementBase
              EnergyBar.SetActive(SPEED_TIME_TAKING_ORDER);
         }
     }
-
-    // private void UpdateAttendTable_5()
-    // {
-    //     // we idle and not attend the table. "Waiting..."
-    //     float idleProbability = Random.Range(0, 100);
-    //     if (idleProbability < RANDOM_PROBABILITY_TO_WAIT)
-    //     {
-    //         idleTime = 0;
-    //         return;
-    //     }
-    //     currentState = NpcState.WALKING_TO_TABLE;
-    //     GoToTableToBeAttended();
-    // }
 
     public NpcState GetNpcState()
     {
