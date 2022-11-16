@@ -159,8 +159,8 @@ public class BaseObjectController : MonoBehaviour
     // Called on mouse down
     private void OnMouseDown()
     {
-        Debug.Log("Clicking " + gameGridObject.Name);
-        SetRandomColor();
+        // Debug.Log("Clicking " + gameGridObject.Name);
+        // SetRandomColor();
 
         // For GetLoadItemSlider, dispenser items
         if (gameGridObject != null &&
@@ -266,20 +266,6 @@ public class BaseObjectController : MonoBehaviour
         // If overlaps with any UI button 
         return gameGridObject.Type != ObjectType.UNDEFINED && !IsClickingButton();
     }
-
-    // To detect multiple colliders: RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(mainCamera.ScreenPointToRay(Input.mousePosition));
-    // private bool IsOverNPC()
-    // {
-    //     Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
-    //     foreach (Collider2D r in hits)
-    //     {
-    //         if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee))
-    //         {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 
     public void SetNewGameGridObject()
     {

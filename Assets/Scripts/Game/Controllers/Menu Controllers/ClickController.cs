@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Controlled attached to Game Object.
+// Controlled attached to Game scene and main Game Object.
 public class ClickController : MonoBehaviour
 {
     private bool isClicking, isLongClick, isPressingButton, mouseOverUI;
@@ -79,18 +79,44 @@ public class ClickController : MonoBehaviour
         Vector3Int clickPosition = BussGrid.GetPathFindingGridFromWorldPosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
         GameTile tile = BussGrid.GetGameTileFromClickInPathFindingGrid(clickPosition);
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+        //RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+
+        Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
+        string log = "";
+        foreach (Collider2D r in hits)
+        {
+            log += " " + r.name;
+            clickedObject = GameObject.Find(r.name);
+        }
+        Debug.Log(log);
 
         if (tile != null)
         {
             clickedGameTile = tile;
         }
 
-        if (hit.collider)
-        {
-            clickedObject = GameObject.Find(hit.collider.name);
-        }
+        // if (hit.collider)
+        // {
+        //     clickedObject = GameObject.Find(hit.collider.name);
+        //     Debug.Log("Clicked object " + clickedObject.name);
+        // }
     }
+
+    // To detect multiple colliders: RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(mainCamera.ScreenPointToRay(Input.mousePosition));
+    // private bool IsOverNPC()
+    // {
+    //     Collider2D[] hits = Physics2D.OverlapPointAll(Util.GetMouseInWorldPosition());
+    //     foreach (Collider2D r in hits)
+    //     {
+    //         if (r.name.Contains(Settings.PrefabNpcClient) || r.name.Contains(Settings.PrefabNpcEmployee))
+    //         {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+
     public double TimePassedSinceLastClick()
     {
         return 0 > (Time.unscaledTime - lastClickTime) ? 0 : Time.unscaledTime - lastClickTime;
