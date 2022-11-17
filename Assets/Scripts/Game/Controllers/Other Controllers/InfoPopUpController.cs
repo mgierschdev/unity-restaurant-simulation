@@ -3,8 +3,10 @@ using UnityEngine.U2D.Animation;
 
 public class InfoPopUpController : MonoBehaviour
 {
-    GameObject topDispenserInfoPopUpImage;
-    SpriteResolver spriteResolverTopDispenser;
+    private GameObject topDispenserInfoPopUpImage;
+    private SpriteResolver spriteResolverTopDispenser;
+    private Animator animator;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -21,15 +23,12 @@ public class InfoPopUpController : MonoBehaviour
 
     public void Enable()
     {
-        Debug.Log("Enabling InfoPopUpCOntroller");
         gameObject.SetActive(true);
         topDispenserInfoPopUpImage.SetActive(true);
     }
 
     public void Disable()
     {
-        Debug.Log("Disabling InfoPopUpController");
-
         gameObject.SetActive(false);
         topDispenserInfoPopUpImage.SetActive(false);
     }
