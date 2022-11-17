@@ -68,6 +68,9 @@ public class StateMachineDebugPanel : EditorWindow
         BuildUIGraph(NPCStateMachineFactory.GetClientStateMachine("ID"), ClientContainerGraphDebuger, clientGraphNodes); // Building, Lazy loading
         BuildUIGraph(NPCStateMachineFactory.GetEmployeeStateMachine("ID"), EmployeeContainerGraphDebuger, employeeGraphNodes); // Building, Lazy loading
         cssColors = new string[] { STATE_NODE_ACTIVE, STATE_NODE_PREV_ACTIVE, STATE_NODE_PREV_PREV_ACTIVE };
+        //Loading grid controller
+        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
+        gameController = gameObj.GetComponent<GameController>();
 
         npcsToggle = new List<Toggle>();
         currentSelectedToggle = null;
@@ -141,14 +144,8 @@ public class StateMachineDebugPanel : EditorWindow
 
         if (!isGameSceneLoaded)
         {
-            //Loading grid controller
-            GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
-            gameController = gameObj.GetComponent<GameController>();
             gridDebugEnabled = false;
             isGameSceneLoaded = true;
-        }
-        else
-        {
         }
     }
 
@@ -251,7 +248,7 @@ public class StateMachineDebugPanel : EditorWindow
         }
 
         gridDebugContent.text = currentStateMachine.GetDebugTransitions();
-        
+
         SetNodesColor(node);
     }
 
