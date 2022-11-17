@@ -62,15 +62,15 @@ public class InfoPopUpController : MonoBehaviour
 
     private void EnableAnimation()
     {
+        animator.enabled = true;
         animator.ResetTrigger(InfoAnimatorState.Idle);
         animator.SetTrigger(InfoAnimatorState.Moving);
-        animator.Play(InfoAnimatorState.Idle, 0);
     }
 
     private void DisableAnimation()
     {
+        animator.enabled = false;
         animator.ResetTrigger(InfoAnimatorState.Moving);
         animator.SetTrigger(InfoAnimatorState.Idle);
-        animator.StopPlayback();
     }
 }
