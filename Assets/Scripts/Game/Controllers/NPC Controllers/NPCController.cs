@@ -1,7 +1,7 @@
 using System;
+using Unity.Profiling;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Unity.Profiling;
 
 // Controls NPCs players
 // Attached to: NPC Objects
@@ -12,9 +12,6 @@ public class NPCController : GameObjectMovementBase
     [SerializeField]
     private NpcState state;//TODO: for debug
 
-    //Profiling 
-    private static readonly ProfilerMarker profileMarker = new ProfilerMarker("NPCController.Prepare");
-
     private void Start()
     {
         type = ObjectType.NPC;
@@ -23,24 +20,38 @@ public class NPCController : GameObjectMovementBase
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
     }
 
+    //Profiling 
+    private static readonly ProfilerMarker pM1 = new ProfilerMarker("NPCController.UpdatePosition");
+    private static readonly ProfilerMarker pM2 = new ProfilerMarker("NPCController.UpdateTimeInState");
+    private static readonly ProfilerMarker pM3 = new ProfilerMarker("NPCController.UpdateTargetMovement");
+    private static readonly ProfilerMarker pM4 = new ProfilerMarker("NPCController.UpdateTransitionStates");
+    private static readonly ProfilerMarker pM5 = new ProfilerMarker("NPCController.UpdateAnimation");
+
     private void FixedUpdate()
     {
-        profileMarker.Begin();
         try
         {
+            pM1.Begin();
             UpdatePosition();
+            pM1.End();
+            pM2.Begin();
             UpdateTimeInState();
+            pM2.End();
+            pM3.Begin();
             UpdateTargetMovement();
-
+            pM3.End();
+            pM4.Begin();
             UpdateTransitionStates();
+            pM4.End();
+            pM5.Begin();
             UpdateAnimation();
+            pM5.End();
         }
         catch (Exception e)
         {
             GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate NPCController): " + e);
             stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         }
-        profileMarker.End();
     }
 
     public void UpdateTransitionStates()
