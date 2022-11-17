@@ -23,10 +23,13 @@ public class NPCController : GameObjectMovementBase
     {
         Camera camera = Camera.main;
         Rect rect = camera.rect;
+
         Vector3Int cameraGridPosition = BussGrid.GetLocalGridFromWorldPosition(camera.transform.position);
-        Debug.Log("Main camera rect " + camera.pixelRect);
-        Debug.Log("Main aspect " + camera.aspect);
-        Debug.Log("Main projectionMatrix " + camera.projectionMatrix);
+        Debug.Log("0,0 left bot corner, top right corner:" + camera.pixelWidth + "," + camera.pixelHeight);
+
+        Vector3 pixelToWorldPosition = camera.transform.position + camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth, 0, 0));
+        Debug.Log("Camera corner " + BussGrid.GetLocalGridFromWorldPosition(pixelToWorldPosition));
+
         Debug.Log("Camera position " + cameraGridPosition);
         //BussGrid.DrawCell(cameraGridPosition);
 
