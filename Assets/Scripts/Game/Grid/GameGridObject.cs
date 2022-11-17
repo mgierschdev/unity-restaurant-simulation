@@ -515,14 +515,13 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
             return;
         }
 
-        DiableTopInfoObject();
-
-        loadSliderMove.SetActive();
-
         if (loadSliderMove.IsFinished())
         {
             SetObjectSelected();
         }
+
+        DiableTopInfoObject();
+        loadSliderMove.SetActive();
     }
 
     // This loads the top Item

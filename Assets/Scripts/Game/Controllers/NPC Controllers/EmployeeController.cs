@@ -27,7 +27,7 @@ public class EmployeeController : GameObjectMovementBase
             UpdatePosition();
             UpdateTimeInState();
             UpdateTargetMovement();
-            
+
             UpdateTransitionStates();
             UpdateAnimation();
         }
@@ -108,7 +108,7 @@ public class EmployeeController : GameObjectMovementBase
     private void Unrespawn()
     {
         if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN || BussGrid.GetCounter() != null)
-        {   
+        {
             stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
             return;
         }
@@ -173,7 +173,7 @@ public class EmployeeController : GameObjectMovementBase
             stateMachine.UnSetAll();
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER_FINAL);
         }
-        else if(stateMachine.Current.State == NpcState.WALKING_UNRESPAWN)
+        else if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN)
         {
             gameController.RemoveEmployee();
             Destroy(gameObject);
@@ -209,7 +209,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && !stateMachine.GetTransitionState(NpcStateTransitions.CASH_REGISTERED))
         {
-             EnergyBar.SetActive(SPEED_TIME_TAKING_ORDER);
+            EnergyBar.SetActive(SPEED_TIME_TAKING_ORDER);
         }
     }
 
