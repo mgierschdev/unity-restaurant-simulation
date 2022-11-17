@@ -13,9 +13,10 @@ public class InfoPopUpController : MonoBehaviour
         topDispenserInfoPopUpImage = transform.Find("Image").gameObject;
         Util.IsNull(topDispenserInfoPopUpImage, "InfoPopUpController/topDispenserInfoPopUpImage null");
         spriteResolverTopDispenser = topDispenserInfoPopUpImage.GetComponent<SpriteResolver>();
-        topDispenserInfoPopUpImage.SetActive(false);
         animator = transform.GetComponent<Animator>();
+        spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Dispenser-1");//TODO: TMP
         DisableAnimation();
+        topDispenserInfoPopUpImage.SetActive(false);
     }
 
     public void SetSprite(string sprite)
@@ -65,11 +66,13 @@ public class InfoPopUpController : MonoBehaviour
     {
         animator.ResetTrigger(InfoAnimatorState.Idle);
         animator.SetTrigger(InfoAnimatorState.Moving);
+        animator.Play(InfoAnimatorState.Idle, 0);
     }
 
     private void DisableAnimation()
     {
         animator.ResetTrigger(InfoAnimatorState.Moving);
         animator.SetTrigger(InfoAnimatorState.Idle);
+        animator.StopPlayback();
     }
 }
