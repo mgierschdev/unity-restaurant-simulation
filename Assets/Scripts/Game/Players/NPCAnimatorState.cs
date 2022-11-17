@@ -1,4 +1,4 @@
-public static class AnimatorState
+public static class NPCAnimatorState
 {
     public const string Walking = "Walking";
     public const string Idle = "Idle";
