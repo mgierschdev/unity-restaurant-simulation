@@ -23,21 +23,21 @@ public class PlayerAnimationStateController : MonoBehaviour
 
         if (state == NpcState.WALKING)
         {
-            animator.ResetTrigger(AnimatorState.WaitingAtTable);
-            animator.SetTrigger(AnimatorState.Walking);
-            animator.ResetTrigger(AnimatorState.Idle);
+            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.SetTrigger(NPCAnimatorState.Walking);
+            animator.ResetTrigger(NPCAnimatorState.Idle);
         }
         else if (state != NpcState.WAITING_TO_BE_ATTENDED)
         {
-            animator.ResetTrigger(AnimatorState.Walking);
-            animator.ResetTrigger(AnimatorState.WaitingAtTable);
-            animator.SetTrigger(AnimatorState.Idle);
+            animator.ResetTrigger(NPCAnimatorState.Walking);
+            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.SetTrigger(NPCAnimatorState.Idle);
         }
         else if (state == NpcState.WAITING_TO_BE_ATTENDED)
         {
-            animator.ResetTrigger(AnimatorState.Idle);
-            animator.ResetTrigger(AnimatorState.Walking);
-            animator.SetTrigger(AnimatorState.WaitingAtTable);
+            animator.ResetTrigger(NPCAnimatorState.Idle);
+            animator.ResetTrigger(NPCAnimatorState.Walking);
+            animator.SetTrigger(NPCAnimatorState.WaitingAtTable);
         }
     }
 }
