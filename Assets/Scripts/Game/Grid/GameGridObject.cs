@@ -59,12 +59,13 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         Util.IsNull(moveObjectSlider, "MoveSlider is null");
         loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
         loadSliderMove.SetSliderFillMethod(Image.FillMethod.Vertical);
-        loadSliderMove.SetDefaultFillTime(1.5f);
+        loadSliderMove.SetDefaultFillTime(1f);
         loadSliderMove.SetInactive();
 
         //On top load slider
         GameObject loadObjectSlider = transform.Find("Slider/LoadSlider").gameObject;
         loadSlider = loadObjectSlider.GetComponent<LoadSliderController>();
+        loadSlider.SetDefaultFillTime(1f);
         loadSlider.SetInactive();
 
         //On top Info popup
@@ -534,6 +535,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
         if (loadSlider.IsFinished())
         {
+            loadSlider.RestartState();
             SetItemsReady();
         }
     }
