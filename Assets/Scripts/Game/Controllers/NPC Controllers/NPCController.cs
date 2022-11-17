@@ -19,8 +19,34 @@ public class NPCController : GameObjectMovementBase
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
     }
 
+    private void IsInsideCamera()
+    {
+        Camera camera = Camera.main;
+        Rect rect = camera.rect;
+        Vector3Int cameraGridPosition = BussGrid.GetLocalGridFromWorldPosition(camera.transform.position);
+        Debug.Log("Main camera rect " + camera.pixelRect);
+        Debug.Log("Main aspect " + camera.aspect);
+        Debug.Log("Main projectionMatrix " + camera.projectionMatrix);
+        Debug.Log("Camera position " + cameraGridPosition);
+        //BussGrid.DrawCell(cameraGridPosition);
+
+
+        // Ray ray = camera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+        // RaycastHit hit;
+        // if (Physics.Raycast(ray, out hit))
+        //     print("I'm looking at " + hit.transform.name);
+        // else
+        //     print("I'm looking at nothing!");
+        // choose the margin randomly
+        //float margin = Random.Range(0.0f, 0.3f);
+        // setup the rectangle
+        //camera.rect = new Rect(margin, 0.0f, 1.0f - margin * 2.0f, 1.0f);
+    }
+
     private void FixedUpdate()
     {
+        IsInsideCamera();
+
         try
         {
             UpdatePosition();
