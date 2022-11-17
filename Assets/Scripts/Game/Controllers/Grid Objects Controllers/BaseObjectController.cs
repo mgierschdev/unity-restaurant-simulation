@@ -101,7 +101,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateTopItemDispenserSlider()
     {
-        if (gameGridObject.GetLoadItemSlider().IsActive() &&
+        if (gameGridObject.GetLoadItemSlider() &&
         !gameGridObject.GetIsObjectSelected()
         )
         {
@@ -117,6 +117,8 @@ public class BaseObjectController : MonoBehaviour
         !BussGrid.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
+
+            Debug.Log("UpdateMoveSelectionSlider: " + gameGridObject.GetLoadItemSlider().IsActive() + " " + gameGridObject.GetIsItemReady());
             if (gameGridObject.GetLoadItemSlider().IsActive() || gameGridObject.GetIsItemReady())
             {
                 gameGridObject.DiableTopInfoObject();

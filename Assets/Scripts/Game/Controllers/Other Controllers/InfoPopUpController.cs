@@ -21,15 +21,21 @@ public class InfoPopUpController : MonoBehaviour
 
     public void Enable()
     {
+        Debug.Log("Enabling InfoPopUpCOntroller");
         gameObject.SetActive(true);
         topDispenserInfoPopUpImage.SetActive(true);
     }
 
-
-
     public void Disable()
     {
+        Debug.Log("Disabling InfoPopUpController");
+
         gameObject.SetActive(false);
         topDispenserInfoPopUpImage.SetActive(false);
+    }
+
+    public bool IsEnable()
+    {
+        return gameObject.activeSelf;
     }
 }

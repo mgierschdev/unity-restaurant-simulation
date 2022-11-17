@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class LoadSliderController : MonoBehaviour
 {
     private Slider slider;
-    private float currentEnergy, energyBarTime = 3f, seconds;
+    private float currentEnergy, energyBarTime, seconds;
     private Image sliderImage;
     private bool finished;
 
@@ -48,7 +48,9 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetDefaultFillTime(float time)
     {
+        Debug.Log("Setting time " + time);
         energyBarTime = time;
+        Debug.Log("Setting time " + energyBarTime);
     }
 
     private void SetEnergy(int energy)
@@ -71,8 +73,7 @@ public class LoadSliderController : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
-            finished = false;
-            currentEnergy = 0;
+            RestartState();
             energyBarTime = seconds;
             gameObject.SetActive(true);
         }
@@ -82,9 +83,8 @@ public class LoadSliderController : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
-            finished = false;
-            currentEnergy = 0;
-            SetEnergy(0);
+            energyBarTime = energyBarTime == 0 ? 3 : energyBarTime;
+            RestartState();
             gameObject.SetActive(true);
         }
     }
@@ -92,11 +92,6 @@ public class LoadSliderController : MonoBehaviour
     public bool IsActive()
     {
         return gameObject.activeSelf;
-    }
-
-    private void ResetCurrentEnergy()
-    {
-        currentEnergy = 0;
     }
 
     private float GetCurrentEnergy()
@@ -107,6 +102,14 @@ public class LoadSliderController : MonoBehaviour
     public bool IsFinished()
     {
         return finished;
+    }
+
+    public void RestartState()
+    {
+        finished = false;
+        currentEnergy = 0;
+        seconds = 0;
+        SetEnergy(0);
     }
 
     public void SetSliderFillMethod(Image.FillMethod method)
