@@ -25,6 +25,7 @@ public class InfoPopUpController : MonoBehaviour
 
     public void Enable()
     {
+        Debug.Log("Enabling animation while waiting to be attended - ");
         EnableAnimation();
         gameObject.SetActive(true);
         topDispenserInfoPopUpImage.SetActive(true);
@@ -32,12 +33,24 @@ public class InfoPopUpController : MonoBehaviour
 
     public void EnableWithoutAnimation()
     {
+        if (gameObject.activeSelf)
+        {
+            return;
+        }
+
+        Debug.Log("Enabling animation while waiting to be attended");
+        DisableAnimation();
         gameObject.SetActive(true);
         topDispenserInfoPopUpImage.SetActive(true);
     }
 
     public void Disable()
     {
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
+
         DisableAnimation();
         gameObject.SetActive(false);
         topDispenserInfoPopUpImage.SetActive(false);
