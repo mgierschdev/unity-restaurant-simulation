@@ -20,7 +20,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     [SerializeField]
     private NpcState currentState, prevState;
     protected PlayerAnimationStateController animationController;
-    protected GameController gameController;
     protected ObjectType type;
 
     //A*
@@ -45,7 +44,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         speed = Settings.NpcDefaultMovementSpeed;
         side = CharacterSide.RIGHT;
         pendingMovementQueue = new Queue();
-        gameController = gameObject.GetComponent<GameController>();
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
         EnergyBar = transform.Find(Settings.LoadSlider).GetComponent<LoadSliderController>();
