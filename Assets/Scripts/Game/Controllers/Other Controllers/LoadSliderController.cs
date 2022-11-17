@@ -32,7 +32,6 @@ public class LoadSliderController : MonoBehaviour
         {
             seconds += Time.unscaledDeltaTime;
 
-            Debug.Log("Seconds " + seconds);
             if (seconds <= energyBarTime)
             {
                 currentEnergy = seconds * 100 / energyBarTime;
@@ -83,8 +82,6 @@ public class LoadSliderController : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
-            Debug.Log("Enabling slider");
-
             finished = false;
             currentEnergy = 0;
             SetEnergy(0);
