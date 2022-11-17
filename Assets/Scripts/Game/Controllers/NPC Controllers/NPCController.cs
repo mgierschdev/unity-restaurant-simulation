@@ -132,12 +132,14 @@ public class NPCController : GameObjectMovementBase
 
         if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN)
         {
-            gameController.RemoveNpc(this);
+            BussGrid.GameController.RemoveNpc(this);
+
             if (table != null)
             {
                 table.FreeObject();
                 table = null;
             }
+            Debug.Log("Removing game object");
             Destroy(gameObject);
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)

@@ -113,6 +113,13 @@ public class GameController : MonoBehaviour
 
     public void RemoveNpc(NPCController controller)
     {
+        if (controller == null)
+        {
+            return;
+        }
+
+        Debug.Log("Removing " + controller.name);
+
         if (NpcSet.Contains(controller))
         {
             NpcSet.Remove(controller);
