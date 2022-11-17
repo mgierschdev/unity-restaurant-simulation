@@ -153,6 +153,18 @@ public static class BussGrid
         }
     }
 
+    // Debug method to draw a cell
+    public static void DrawCell(Vector3Int cellPosition)
+    {
+        if (!mapGridPositionToTile.ContainsKey(cellPosition) || !Settings.CellDebug)
+        {
+            return;
+        }
+
+        TextMesh text = debugGrid[cellPosition.x, cellPosition.y];
+        text.color = Util.GetRandomColor();
+    }
+
     private static void InitGrid()
     {
         for (int i = 0; i < gridArray.GetLength(0); i++)
