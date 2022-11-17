@@ -53,8 +53,6 @@ public class GridDebugPanel : EditorWindow
         gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
         gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
-        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
-        gameController = gameObj.GetComponent<GameController>();
         EditorCoroutineUtility.StartCoroutine(UpdateUICoroutine(), this);
         mainContainer.SetEnabled(false);
     }
@@ -66,8 +64,15 @@ public class GridDebugPanel : EditorWindow
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode)
             {
+                // TODO: and scene is the game scene
                 if (gridDebugEnabled)
                 {
+                    if (gameController == null)
+                    {
+                        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
+                        gameController = gameObj.GetComponent<GameController>();
+                    }
+
                     SetBussGrid();
                     string debugText = " ";
                     debugText += DebugBussData();
