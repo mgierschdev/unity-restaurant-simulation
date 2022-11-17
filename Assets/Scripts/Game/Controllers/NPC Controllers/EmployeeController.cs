@@ -175,7 +175,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN)
         {
-            gameController.RemoveEmployee();
+            BussGrid.GameController.RemoveEmployee();
             Destroy(gameObject);
         }
     }

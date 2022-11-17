@@ -118,8 +118,6 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        Debug.Log("Removing " + controller.name);
-
         if (NpcSet.Contains(controller))
         {
             NpcSet.Remove(controller);

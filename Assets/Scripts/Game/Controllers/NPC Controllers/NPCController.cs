@@ -139,7 +139,6 @@ public class NPCController : GameObjectMovementBase
                 table.FreeObject();
                 table = null;
             }
-            Debug.Log("Removing game object");
             Destroy(gameObject);
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
