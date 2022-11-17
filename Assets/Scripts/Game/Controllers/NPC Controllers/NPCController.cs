@@ -27,23 +27,19 @@ public class NPCController : GameObjectMovementBase
         Vector3Int cameraGridPosition = BussGrid.GetLocalGridFromWorldPosition(camera.transform.position);
         Debug.Log("0,0 left bot corner, top right corner:" + camera.pixelWidth + "," + camera.pixelHeight);
 
-        Vector3 pixelToWorldPosition = camera.transform.position + camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth, 0, 0));
-        Debug.Log("Camera corner " + BussGrid.GetLocalGridFromWorldPosition(pixelToWorldPosition));
+        int size = 8;
+
+        Vector3Int rightBotCorner = cameraGridPosition + new Vector3Int(0, -size);
+        Vector3Int leftBotCorner = cameraGridPosition + new Vector3Int(-size, 0);
+        Vector3Int leftTopCorner = cameraGridPosition + new Vector3Int(0, size);
+        Vector3Int rightTopCorner = cameraGridPosition + new Vector3Int(size, 0);
 
         Debug.Log("Camera position " + cameraGridPosition);
         //BussGrid.DrawCell(cameraGridPosition);
-
-
-        // Ray ray = camera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
-        // RaycastHit hit;
-        // if (Physics.Raycast(ray, out hit))
-        //     print("I'm looking at " + hit.transform.name);
-        // else
-        //     print("I'm looking at nothing!");
-        // choose the margin randomly
-        //float margin = Random.Range(0.0f, 0.3f);
-        // setup the rectangle
-        //camera.rect = new Rect(margin, 0.0f, 1.0f - margin * 2.0f, 1.0f);
+        BussGrid.DrawCell(rightBotCorner);
+        BussGrid.DrawCell(leftBotCorner);
+        BussGrid.DrawCell(leftTopCorner);
+        BussGrid.DrawCell(rightTopCorner);
     }
 
     private void FixedUpdate()
