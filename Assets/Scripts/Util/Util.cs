@@ -545,4 +545,27 @@ public static class Util
     {
         return coord.Equals(GetVector3IntNegativeInfinity()) || coord.Equals(new Vector3(GetVector3IntNegativeInfinity().x, GetVector3IntNegativeInfinity().y, 0));
     }
+
+    public static void DrawMainCameraCorners()
+    {
+        Camera camera = Camera.main;
+        Rect rect = camera.rect;
+
+        Vector3Int cameraGridPosition = BussGrid.GetLocalGridFromWorldPosition(camera.transform.position);
+        Debug.Log("0,0 left bot corner, top right corner:" + camera.pixelWidth + "," + camera.pixelHeight);
+
+        int size = 8;
+
+        Vector3Int rightBotCorner = cameraGridPosition + new Vector3Int(0, -size);
+        Vector3Int leftBotCorner = cameraGridPosition + new Vector3Int(-size, 0);
+        Vector3Int leftTopCorner = cameraGridPosition + new Vector3Int(0, size);
+        Vector3Int rightTopCorner = cameraGridPosition + new Vector3Int(size, 0);
+
+        Debug.Log("Camera position " + cameraGridPosition);
+        //BussGrid.DrawCell(cameraGridPosition);
+        BussGrid.DrawCell(rightBotCorner);
+        BussGrid.DrawCell(leftBotCorner);
+        BussGrid.DrawCell(leftTopCorner);
+        BussGrid.DrawCell(rightTopCorner);
+    }
 }
