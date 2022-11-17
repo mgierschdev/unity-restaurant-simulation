@@ -48,9 +48,7 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetDefaultFillTime(float time)
     {
-        Debug.Log("Setting time " + time);
         energyBarTime = time;
-        Debug.Log("Setting time " + energyBarTime);
     }
 
     private void SetEnergy(int energy)
