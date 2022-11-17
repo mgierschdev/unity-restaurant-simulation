@@ -11,7 +11,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public Vector3Int PrevGridPosition { get; set; }
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
-    private InfoPopUpController infoPopUpController;
     //Energy Bars
     protected LoadSliderController EnergyBar;
     [SerializeField]
@@ -50,9 +49,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
         EnergyBar = transform.Find(Settings.LoadSlider).GetComponent<LoadSliderController>();
-        //On top Info popup
-        GameObject infoPopUpGameobject = transform.Find(Settings.TopPopUpObject).gameObject;
-        infoPopUpController = infoPopUpGameobject.GetComponent<InfoPopUpController>();
 
         if (!Util.IsNull(EnergyBar, "GameObjectMovementBase/energyBar null"))
         {

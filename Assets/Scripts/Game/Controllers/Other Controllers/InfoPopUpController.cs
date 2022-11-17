@@ -30,6 +30,12 @@ public class InfoPopUpController : MonoBehaviour
         topDispenserInfoPopUpImage.SetActive(true);
     }
 
+    public void EnableWithoutAnimation()
+    {
+        gameObject.SetActive(true);
+        topDispenserInfoPopUpImage.SetActive(true);
+    }
+
     public void Disable()
     {
         DisableAnimation();
