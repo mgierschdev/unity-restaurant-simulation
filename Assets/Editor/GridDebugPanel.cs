@@ -53,7 +53,8 @@ public class GridDebugPanel : EditorWindow
         gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
         gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
-
+        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
+        gameController = gameObj.GetComponent<GameController>();
         EditorCoroutineUtility.StartCoroutine(UpdateUICoroutine(), this);
         mainContainer.SetEnabled(false);
     }
@@ -129,13 +130,8 @@ public class GridDebugPanel : EditorWindow
         if (!isGameSceneLoaded)
         {
             //Loading grid controller
-            GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
-            gameController = gameObj.GetComponent<GameController>();
             gridDebugEnabled = false;
             isGameSceneLoaded = true;
-        }
-        else
-        {
         }
     }
 

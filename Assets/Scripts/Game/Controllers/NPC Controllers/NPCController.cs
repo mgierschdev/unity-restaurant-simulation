@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Unity.Profiling;
 
 // Controls NPCs players
 // Attached to: NPC Objects
@@ -10,6 +11,9 @@ public class NPCController : GameObjectMovementBase
     private const float MaxStateTime = 120; // 2min
     [SerializeField]
     private NpcState state;//TODO: for debug
+
+    //Profiling 
+    private static readonly ProfilerMarker profileMarker = new ProfilerMarker("NPCController.Prepare");
 
     private void Start()
     {
@@ -21,6 +25,7 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
+        profileMarker.Begin();
         try
         {
             UpdatePosition();
@@ -35,6 +40,7 @@ public class NPCController : GameObjectMovementBase
             GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate NPCController): " + e);
             stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         }
+        profileMarker.End();
     }
 
     public void UpdateTransitionStates()

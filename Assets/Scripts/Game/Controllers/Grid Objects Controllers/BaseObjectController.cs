@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Profiling;
 
 // Here we control the object drag and drop and the state of the NPCs during the drag
 public class BaseObjectController : MonoBehaviour
@@ -37,12 +38,15 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject = new GameGridObject(transform);
     }
 
+    private static readonly ProfilerMarker profileMarker = new ProfilerMarker("BaseObjectController.Prepare");
+
     private void Update()
     {
         if (gameGridObject == null && storeGameObject != null)
         {
             return;
         }
+        profileMarker.Begin();
 
         UpdateInit(); // Init constructor
         UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
@@ -50,6 +54,8 @@ public class BaseObjectController : MonoBehaviour
         UpdateTopItemDispenserSlider();
         UpdateIsValidPosition(); // Checks if the current position is a valid one 
         UpdateOnMouseDown();// OnMouseDown implementation which takes into consideration the layer ordering
+
+        profileMarker.End();
     }
 
     private void UpdateOnMouseDown()
