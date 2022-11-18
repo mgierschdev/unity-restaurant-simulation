@@ -52,7 +52,7 @@ public class NPCController : GameObjectMovementBase
                 MoveNPC();
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
     }
 

@@ -179,12 +179,10 @@ public class BaseObjectController : MonoBehaviour
         {
             isCurrentValidPos = true;
             gameGridObject.GetSpriteRenderer().color = Util.Available;
-            // gameGridObject.ShowAvailableUnderTiles();
         }
         else
         {
             isCurrentValidPos = false;
-            // gameGridObject.ShowOccupiedUnderTiles();
             gameGridObject.GetSpriteRenderer().color = Util.Occupied;
         }
     }
@@ -222,12 +220,6 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        // if (gameGridObject.GetCurrentMoveSliderValue() > 0)
-        // {
-        //     //we disable the move slider
-        //     gameGridObject.GetMoveSlider().SetInactive();
-        // }
-
         if (!Menu || !BussGrid.IsDraggingEnabled(gameGridObject))
         {
             return;

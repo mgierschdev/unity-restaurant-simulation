@@ -233,14 +233,10 @@ public class MenuHandlerController : MonoBehaviour
         // sorting the final list
         SortedList<StoreGameObject, int> list = new SortedList<StoreGameObject, int>();
 
-        //List<Pair<StoreGameObject, int>> list = new List<Pair<StoreGameObject, int>>();
         foreach (KeyValuePair<StoreGameObject, int> entry in objectDic)
         {
             list.Add(entry.Key, entry.Value);
         }
-
-        // PairComparer comparer = new PairComparer();
-        // list.Sort(comparer);
 
         foreach (KeyValuePair<StoreGameObject, int> entry in list)
         {
