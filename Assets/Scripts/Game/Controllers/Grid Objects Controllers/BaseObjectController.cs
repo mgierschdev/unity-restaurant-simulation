@@ -1,6 +1,6 @@
 using System.Collections;
-using UnityEngine;
 using Unity.Profiling;
+using UnityEngine;
 
 // Here we control the object drag and drop and the state of the NPCs during the drag
 public class BaseObjectController : MonoBehaviour
@@ -38,7 +38,13 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject = new GameGridObject(transform);
     }
 
-    private static readonly ProfilerMarker profileMarker = new ProfilerMarker("BaseObjectController.Prepare");
+    private static readonly ProfilerMarker pM1 = new ProfilerMarker("BaseObjectController.UpdateInit");
+
+    private static readonly ProfilerMarker pM2 = new ProfilerMarker("BaseObjectController.UpdateFirstTimeSetupStoreItem");
+    private static readonly ProfilerMarker pM3 = new ProfilerMarker("BaseObjectController.UpdateMoveSelectionSlider");
+    private static readonly ProfilerMarker pM4 = new ProfilerMarker("BaseObjectController.UpdateTopItemDispenserSlider");
+    private static readonly ProfilerMarker pM5 = new ProfilerMarker("BaseObjectController.UpdateIsValidPosition");
+    private static readonly ProfilerMarker pM6 = new ProfilerMarker("BaseObjectController.UpdateOnMouseDown");
 
     private void Update()
     {
@@ -46,16 +52,29 @@ public class BaseObjectController : MonoBehaviour
         {
             return;
         }
-        profileMarker.Begin();
-
+        pM1.Begin();
         UpdateInit(); // Init constructor
-        UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
-        UpdateMoveSelectionSlider(); // Checks for long pressed over the object and updates the slider
-        UpdateTopItemDispenserSlider();
-        UpdateIsValidPosition(); // Checks if the current position is a valid one 
-        UpdateOnMouseDown();// OnMouseDown implementation which takes into consideration the layer ordering
+        pM1.End();
 
-        profileMarker.End();
+        pM2.Begin();
+        UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
+        pM2.End();
+
+        pM3.Begin();
+        UpdateMoveSelectionSlider(); // Checks for long pressed over the object and updates the slider
+        pM3.End();
+
+        pM4.Begin();
+        UpdateTopItemDispenserSlider();
+        pM4.End();
+
+        pM5.Begin();
+        UpdateIsValidPosition(); // Checks if the current position is a valid one 
+        pM5.End();
+
+        pM6.Begin();
+        UpdateOnMouseDown();// OnMouseDown implementation which takes into consideration the layer ordering
+        pM6.End();
     }
 
     private void UpdateOnMouseDown()
@@ -123,7 +142,7 @@ public class BaseObjectController : MonoBehaviour
         !BussGrid.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
-            
+
             if (gameGridObject.GetLoadItemSlider().IsActive() || gameGridObject.GetIsItemReady())
             {
                 gameGridObject.DiableTopInfoObject();
