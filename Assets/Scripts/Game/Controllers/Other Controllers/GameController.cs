@@ -6,26 +6,27 @@ using IEnumerator = System.Collections.IEnumerator;
 public class GameController : MonoBehaviour
 {
     private int NpcMaxNumber = Settings.MaxNpcNumber,
-    employeeMaxNumber = 1,
-    employeeCount = 0,
     npcId;
     private GameObject gameGridObject;
     private GameTile tileSpawn;
     private GameObject NPCS;
     private HashSet<NPCController> NpcSet;
+    private HashSet<EmployeeController> EmployeeSet;
     private HashSet<Vector3Int> playerPositionSet;
     private HashSet<Vector3Int> employeePlannedTarget;
-    private EmployeeController employeeController;
 
     private void Start()
     {
         npcId = 0;
         NpcSet = new HashSet<NPCController>();
+        EmployeeSet = new HashSet<EmployeeController>();
         playerPositionSet = new HashSet<Vector3Int>();
         employeePlannedTarget = new HashSet<Vector3Int>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         LoadUserObjects();
-        StartCoroutine(AssignTables());
+        StartCoroutine(AssignTablesToNPCs());
+        //Assign tables to attend to employees
+        //StartCoroutine(AssignTablesToEmployees());
         StartCoroutine(NPCSpam());
     }
 
@@ -38,16 +39,17 @@ public class GameController : MonoBehaviour
                 SpamNpc();
             }
 
-            if (BussGrid.GetFreeCounter() != null && employeeCount < employeeMaxNumber)
+            GameGridObject counter = BussGrid.GetFreeCounter();
+
+            if (counter != null)
             {
-                SpamEmployee();
-                employeeCount++;
+                SpamEmployee(counter);
             }
             yield return new WaitForSeconds(5f);
         }
     }
 
-    private IEnumerator AssignTables()
+    private IEnumerator AssignTablesToNPCs()
     {
         for (; ; )
         {
@@ -98,16 +100,17 @@ public class GameController : MonoBehaviour
         NpcSet.Add(isometricNPCController);
         npcId++;
     }
-    private void SpamEmployee()
+    private void SpamEmployee(GameGridObject counter)
     {
-        //Adding Employees
         tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
         Vector3 spamPosition = tileSpawn.GetWorldPositionWithOffset();
         spamPosition.z = Util.NPCZPosition;
         GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), spamPosition, Quaternion.identity) as GameObject;
         employeeObject.transform.SetParent(NPCS.transform);
         employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
-        employeeController = employeeObject.GetComponent<EmployeeController>();
+        EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
+        employeeController.SetCounter(counter);
+        EmployeeSet.Add(employeeController);
         npcId++;
     }
 
@@ -128,15 +131,14 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void RemoveEmployee()
+    public void RemoveEmployee(EmployeeController employeeController)
     {
-        employeeCount--;
-        employeeController = null;
+        EmployeeSet.Remove(employeeController);
     }
 
     public bool PositionOverlapsNPC(Vector3Int position)
     {
-        if (employeeController != null)
+        foreach (EmployeeController employeeController in EmployeeSet)
         {
             if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.GetCoordOfTableToBeAttended())
             {
@@ -159,7 +161,7 @@ public class GameController : MonoBehaviour
     //Recalculates the paths of moving NPCs or they current state depending on whether the grid changed
     public void ReCalculateNpcStates(GameGridObject obj)
     {
-        if (employeeController != null)
+        foreach (EmployeeController employeeController in EmployeeSet)
         {
             employeeController.RecalculateGoTo();
         }
@@ -188,10 +190,10 @@ public class GameController : MonoBehaviour
         return null;
     }
 
-    public EmployeeController GetEmployeeController()
-    {
-        return employeeController;
-    }
+    // public EmployeeController GetEmployeeController()
+    // {
+    //     return employeeController;
+    // }
 
     public static void PlaceGameObjectAt(FirebaseGameObject obj)
     {
