@@ -1,6 +1,6 @@
+using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Profiling;
 
 public class LoadSliderController : MonoBehaviour
 {
@@ -76,9 +76,9 @@ public class LoadSliderController : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
+            gameObject.SetActive(true);
             RestartState();
             energyBarTime = seconds;
-            gameObject.SetActive(true);
         }
     }
 
@@ -86,9 +86,9 @@ public class LoadSliderController : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
+            gameObject.SetActive(true);
             energyBarTime = energyBarTime == 0 ? 3 : energyBarTime;
             RestartState();
-            gameObject.SetActive(true);
         }
     }
 

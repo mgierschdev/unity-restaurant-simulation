@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using IEnumerator = System.Collections.IEnumerator;
 using Random = UnityEngine.Random;
 
 public class EmployeeController : GameObjectMovementBase
@@ -18,6 +19,7 @@ public class EmployeeController : GameObjectMovementBase
         SetID();
         counter = BussGrid.GetCounter();
         stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine(Name);
+        StartCoroutine(UpdateTransitionStates());
     }
 
     private void FixedUpdate()
@@ -27,8 +29,6 @@ public class EmployeeController : GameObjectMovementBase
             UpdatePosition();
             UpdateTimeInState();
             UpdateTargetMovement();
-
-            UpdateTransitionStates();
             UpdateAnimation();
         }
         catch (Exception e)
@@ -37,26 +37,28 @@ public class EmployeeController : GameObjectMovementBase
         }
     }
 
-    public void UpdateTransitionStates()
+    public IEnumerator UpdateTransitionStates()
     {
-        if (IsMoving() || EnergyBar.IsActive())
+        for (; ; )
         {
-            return;
-        }
-        else
-        {
-            CheckIfAtTarget();
-        }
+            if (IsMoving() || EnergyBar.IsActive())
+            {
 
-        // Functions that set/unset bits depending on the environments
-        TableWithCustomer();
-        Unrespawn();
-        CheckCounter();
-        CheckAtCounter();
-        CheckTableMoved();
+            }
+            else
+            {
+                CheckIfAtTarget();
+                TableWithCustomer();
+                Unrespawn();
+                CheckCounter();
+                CheckAtCounter();
+                CheckTableMoved();
+                stateMachine.CheckTransition();
+                MoveNPC();// Move/or not, depending on the state
+            }
 
-        stateMachine.CheckTransition();
-        MoveNPC();// Move/or not, depending on the state
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     // if Idle and table moved we unset it since it is not longer attending the table
