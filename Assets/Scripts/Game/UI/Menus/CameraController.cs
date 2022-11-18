@@ -1,5 +1,4 @@
 using UnityEngine;
-using Unity.Profiling;
 
 // This class handles the change of camera with the touch
 // Attached to: MainCamera Object
@@ -34,15 +33,13 @@ public class CameraController : MonoBehaviour
         targetOrthographicSize = 2.5f;
         IsPerspectiveHandTempDisabled = false;
     }
-    private static readonly ProfilerMarker profileMarker = new ProfilerMarker("CameraController.Prepare");
+
     // Update is called once per frame
     void Update()
     {
-        profileMarker.Begin();
         // Only if enabled in Settings or if no menu is open
         PerspectiveHand();
         UpdateGoTo();
-        profileMarker.End();
     }
 
     private void UpdateGoTo()

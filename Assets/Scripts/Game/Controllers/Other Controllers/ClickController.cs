@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Profiling;
 
 // Controlled attached to Game scene and main Game Object.
 public class ClickController : MonoBehaviour
@@ -24,17 +23,13 @@ public class ClickController : MonoBehaviour
         lastClickTime = 0;
     }
 
-    private static readonly ProfilerMarker profileMarker = new ProfilerMarker("ClickController.Prepare");
-
     private void Update()
     {
-        profileMarker.Begin();
         // Controls the state of the first and long click
         ClickControl();
 
         //Object Clicked Control, sets the last ClickedObject
         ObjectClickedControl();
-        profileMarker.Begin();
     }
 
     private void ClickControl()

@@ -1,4 +1,3 @@
-using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,11 +25,8 @@ public class LoadSliderController : MonoBehaviour
         SetMaxEnergy(Settings.NpcDefaultEnergy);
     }
 
-    private static readonly ProfilerMarker profileMarker = new ProfilerMarker("LoadSliderController.Prepare");
-
     public void Update()
     {
-        profileMarker.Begin();
         // EnergyBar controller, only if it is active
         if (gameObject.activeSelf)
         {
@@ -48,7 +44,6 @@ public class LoadSliderController : MonoBehaviour
                 SetInactive();
             }
         }
-        profileMarker.End();
     }
 
     public void SetDefaultFillTime(float time)
