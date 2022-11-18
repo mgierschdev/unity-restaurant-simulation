@@ -12,6 +12,7 @@ public class EmployeeController : GameObjectMovementBase
     SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
     SPEED_TIME_TAKING_ORDER = 1.5f;
     private GameGridObject counter;
+    private GameGridObject tableToAttend;
     private bool counterAssigned;
 
     private void Start()
@@ -50,7 +51,7 @@ public class EmployeeController : GameObjectMovementBase
             else
             {
                 CheckIfAtTarget();
-                TableWithCustomer();
+                //TableWithCustomer();
                 Unrespawn();
                 CheckCounter();
                 CheckAtCounter();
@@ -100,12 +101,13 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        if (BussGrid.GetTableWithClient(out table))
+        if (tableToAttend != null)
         {
             table.SetAttendedBy(this);
             stateMachine.SetTransition(NpcStateTransitions.TABLE_AVAILABLE);
             return;
         }
+
         stateMachine.UnSetTransition(NpcStateTransitions.TABLE_AVAILABLE);
     }
 
@@ -208,6 +210,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
+            tableToAttend = null;
             if (counter == null) { return; }
             GoTo(counter.GetActionTileInGridPosition());
         }
@@ -254,11 +257,13 @@ public class EmployeeController : GameObjectMovementBase
         this.counter = counter;
     }
 
-    private void CheckForCounter()
+    public void SetTableToAttend(GameGridObject obj)
     {
-        if (!counterAssigned && counter != null)
-        {
-            counterAssigned = true;
-        }
+        tableToAttend = obj;
+    }
+
+    public bool IsAttendingTable()
+    {
+        return tableToAttend != null;
     }
 }
