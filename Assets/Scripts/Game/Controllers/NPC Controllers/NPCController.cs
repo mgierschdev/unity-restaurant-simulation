@@ -16,7 +16,6 @@ public class NPCController : GameObjectMovementBase
     {
         type = ObjectType.NPC;
         SetID();
-        //TODO: MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());
     }

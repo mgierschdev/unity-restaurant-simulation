@@ -535,7 +535,7 @@ public static class BussGrid
     }
 
     // It gets the closest free coord next to the target
-    //TODO: Improve so it will choose the closest path and the npc will stand towards the client
+    // TODO: Improve so it will choose the closest path and the npc will stand towards the client
     // This should be calculating with Vector3 instead of vector3int
     public static Vector3Int GetClosestPathGridPoint(Vector3Int currentPosition, Vector3Int target)
     {

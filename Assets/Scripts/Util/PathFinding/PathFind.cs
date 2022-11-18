@@ -24,7 +24,6 @@ public class PathFind
         //to explore all directions
         int[,] directions = new int[,] { { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 }/*, { -1, -1 }, { 1, -1 }, { -1, 1 }, { 1, 1 } */};
 
-        // This should be a priority queue to achieve Log(n). 
         MinBinaryHeap openList = new MinBinaryHeap(sourceGrid.GetLength(0) * sourceGrid.GetLength(1));
 
         // init grid, G cost == int.MaxValue

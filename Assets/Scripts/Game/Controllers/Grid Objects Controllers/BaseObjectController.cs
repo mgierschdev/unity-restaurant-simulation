@@ -154,7 +154,7 @@ public class BaseObjectController : MonoBehaviour
             {
                 gameGridObject.AcceptPurchase();
             }
-            // recalculates Goto when the object is placed, TODO: path not found
+            // recalculates Goto when the object is placed
             BussGrid.GameController.ReCalculateNpcStates(gameGridObject);
         }
     }

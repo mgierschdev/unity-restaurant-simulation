@@ -124,7 +124,7 @@ public static class MenuObjectList
 
         return new List<StoreGameObject>();
     }
-    // TODO: translation text
+
     public static string GetButtonLabel(MenuTab tab)
     {
         switch (tab)

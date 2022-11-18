@@ -152,6 +152,4 @@ public class MaxBinaryHeap : IBaseGameCollections
     {
         return currentHeapSize == 0;
     }
-
-
 }
