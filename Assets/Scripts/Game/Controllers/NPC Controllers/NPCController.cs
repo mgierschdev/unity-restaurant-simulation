@@ -1,5 +1,4 @@
 using System;
-using Unity.Profiling;
 using UnityEngine;
 using IEnumerator = System.Collections.IEnumerator;
 using Random = UnityEngine.Random;
@@ -22,29 +21,14 @@ public class NPCController : GameObjectMovementBase
         StartCoroutine(UpdateTransitionStates());
     }
 
-    //Profiling 
-    private static readonly ProfilerMarker pM1 = new ProfilerMarker("NPCController.UpdatePosition");
-    private static readonly ProfilerMarker pM2 = new ProfilerMarker("NPCController.UpdateTimeInState");
-    private static readonly ProfilerMarker pM3 = new ProfilerMarker("NPCController.UpdateTargetMovement");
-    private static readonly ProfilerMarker pM4 = new ProfilerMarker("NPCController.UpdateTransitionStates");
-    private static readonly ProfilerMarker pM5 = new ProfilerMarker("NPCController.UpdateAnimation");
-
     private void FixedUpdate()
     {
         try
         {
-            pM1.Begin();
             UpdatePosition();
-            pM1.End();
-            pM2.Begin();
             UpdateTimeInState();
-            pM2.End();
-            pM3.Begin();
             UpdateTargetMovement();
-            pM3.End();
-            pM5.Begin();
             UpdateAnimation();
-            pM5.End();
         }
         catch (Exception e)
         {
@@ -53,50 +37,20 @@ public class NPCController : GameObjectMovementBase
         }
     }
 
-
-    private static readonly ProfilerMarker pMUT2 = new ProfilerMarker("NPCController.CheckIfAtTarget");
-    private static readonly ProfilerMarker pMUT3 = new ProfilerMarker("NPCController.CheckUnrespawn");
-    private static readonly ProfilerMarker pMUT4 = new ProfilerMarker("NPCController.CheckIfTableHasBeenAssigned");
-    private static readonly ProfilerMarker pMUT5 = new ProfilerMarker("NPCController.Wander");
-    private static readonly ProfilerMarker pMUT6 = new ProfilerMarker("NPCController.CheckIfTableMoved");
-    private static readonly ProfilerMarker pMUT7 = new ProfilerMarker("NPCController.CheckTransition");
-    private static readonly ProfilerMarker pMUT8 = new ProfilerMarker("NPCController.MoveNPC");
-
-
     public IEnumerator UpdateTransitionStates()
     {
         for (; ; )
         {
             if (!IsMoving())
             {
-                pMUT2.Begin();
                 CheckIfAtTarget();
-                pMUT2.End();
-
-                pMUT3.Begin();
                 CheckUnrespawn();
-                pMUT3.End();
-
-                pMUT4.Begin();
                 CheckIfTableHasBeenAssigned();
-                pMUT4.End();
-
-                pMUT5.Begin();
                 Wander();
-                pMUT5.End();
-
-                pMUT6.Begin();
                 CheckIfTableMoved();
-                pMUT6.End();
-
                 state = stateMachine.Current.State;
-                pMUT7.Begin();
                 stateMachine.CheckTransition();
-                pMUT7.End();
-
-                pMUT8.Begin();
                 MoveNPC();
-                pMUT8.End();
             }
 
             yield return new WaitForSeconds(1f);
