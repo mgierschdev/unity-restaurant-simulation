@@ -130,48 +130,16 @@ public class StateMachine<T, S> where T : Enum where S : Enum
             StateNodeTransition transition = AdjacencyMatrix[(int)Enum.Parse(typeof(T), Current.State.ToString()), (int)Enum.Parse(typeof(T), node.State.ToString())];
 
             Int32 mask = transition.StateTransitionsEncoded & TransitionStates;
-            // Debug.Log("CheckTransition() " + mask + " " + Convert.ToString(transition.StateTransitionsEncoded, 2) + " " + Convert.ToString(TransitionStates, 2));
 
-            if (mask == TransitionStates && TransitionStates != 0)
+            Debug.Log("CheckTransition() " + mask + " " + Convert.ToString(transition.StateTransitionsEncoded, 2) + " " + Convert.ToString(TransitionStates, 2));
+
+            if (mask == transition.StateTransitionsEncoded && TransitionStates != 0)
             {
                 Debug.Log("CheckTransition(): Valid " + Enum.Parse(typeof(T), node.State.ToString()));
                 Current = node;
                 break;
             }
-
-            //     Debug.Log("StateTransitionsEncoded: " + Convert.ToString(transition.StateTransitionsEncoded, 2));
-            //     Debug.Log("Current: " + Convert.ToString(TransitionStates, 2));
-            //     Debug.Log("Mask " + Convert.ToString(mask, 2));
-
-            //     if (mask == TransitionStates)
-            //     {
-            //         Current = node;
-            //         break;
-            //     }
         }
-        // Debug.Log("Current transitions: " + debug);
-
-        //     foreach (StateMachineNode<T> node in Current.TransitionStates)
-        //     {
-        //         StateNodeTransition transition = AdjacencyMatrix[(int)Enum.Parse(typeof(T), Current.State.ToString()), (int)Enum.Parse(typeof(T), node.State.ToString())];
-        //         bool valid = true;
-
-        //         for (int i = 0; i < transition.StateTransitions.Length; i++)
-        //         {
-        //             // Transitions from the adj matrix should match TransitionStates
-        //             if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
-        //             {
-        //                 valid = false;
-        //                 break;
-        //             }
-        //         }
-
-        //         if (valid)
-        //         {
-        //             Current = node;
-        //             break;
-        //         }
-        //     }
     }
 
     public override string ToString()
