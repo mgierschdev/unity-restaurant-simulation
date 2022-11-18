@@ -21,13 +21,13 @@ public class StateNodeTransition
         {
             if (StateTransitions[i])
             {
-                StateTransitionsEncoded |= 1 << i;
+                StateTransitionsEncoded = BitUtil.SetBit(StateTransitionsEncoded, i);
             }
         }
     }
 
     public void printBinaryRepresentation()
     {
-        GameLog.Log("Convert to binary " + Convert.ToString(StateTransitionsEncoded, 2));
+        GameLog.Log("Binary representation: " + BitUtil.GetBinaryString(StateTransitionsEncoded));
     }
 }
