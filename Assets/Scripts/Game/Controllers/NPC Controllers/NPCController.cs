@@ -31,7 +31,6 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
-        Debug.Log("State: " + state);
         try
         {
             pM1.Begin();
