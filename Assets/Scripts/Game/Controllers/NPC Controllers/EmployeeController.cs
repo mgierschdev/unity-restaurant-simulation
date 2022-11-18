@@ -103,7 +103,7 @@ public class EmployeeController : GameObjectMovementBase
 
         if (tableToAttend != null)
         {
-            table.SetAttendedBy(this);
+            tableToAttend.SetAttendedBy(this);
             stateMachine.SetTransition(NpcStateTransitions.TABLE_AVAILABLE);
             return;
         }
