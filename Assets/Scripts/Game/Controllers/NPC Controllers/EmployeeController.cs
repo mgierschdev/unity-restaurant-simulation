@@ -12,18 +12,24 @@ public class EmployeeController : GameObjectMovementBase
     SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
     SPEED_TIME_TAKING_ORDER = 1.5f;
     private GameGridObject counter;
+    private bool counterAssigned;
 
     private void Start()
     {
         type = ObjectType.EMPLOYEE;
+        counterAssigned = false;
         SetID();
-        counter = BussGrid.GetCounter();
         stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());
     }
 
     private void FixedUpdate()
     {
+        if (!counterAssigned)
+        {
+            return;
+        }
+
         try
         {
             UpdatePosition();
@@ -109,7 +115,7 @@ public class EmployeeController : GameObjectMovementBase
 
     private void Unrespawn()
     {
-        if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN || BussGrid.GetCounter() != null)
+        if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN || counter != null)
         {
             stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
             return;
@@ -135,7 +141,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
             stateMachine.UnSetTransition(NpcStateTransitions.CASH_REGISTERED);
-            StandTowards(BussGrid.GetCounter().GridPosition);
+            StandTowards(counter.GridPosition);
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
         {
@@ -244,5 +250,11 @@ public class EmployeeController : GameObjectMovementBase
     {
         stateMachine.UnSetAll();
         stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
+    }
+
+    public void SetCounter(GameGridObject counter)
+    {
+        counterAssigned = true;
+        this.counter = counter;
     }
 }

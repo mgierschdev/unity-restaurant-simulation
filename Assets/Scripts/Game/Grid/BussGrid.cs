@@ -47,7 +47,7 @@ public static class BussGrid
     //Buss Queues and map
     public static ConcurrentDictionary<string, GameGridObject> BusinessObjects { get; set; }
     private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
-    private static GameGridObject counter;
+    //private static GameGridObject counter;
     //Is dragging mode enabled and object selected?
     private static bool isDraggingEnabled; // Is amy object being dragged ?
     //Perspective hand
@@ -534,10 +534,10 @@ public static class BussGrid
         // we add all the objects to the player inventory
         PlayerData.AddItemToInventory(obj);
 
-        if (obj.Type == ObjectType.NPC_COUNTER && obj.GetIsItemBought())
-        {
-            counter = obj;
-        }
+        // if (obj.Type == ObjectType.NPC_COUNTER && obj.GetIsItemBought())
+        // {
+        //     counter = obj;
+        // }
     }
 
     // It gets the closest free coord next to the target
@@ -804,10 +804,10 @@ public static class BussGrid
         return BusinessObjects.Count;
     }
 
-    public static GameGridObject GetCounter()
-    {
-        return counter;
-    }
+    // public static GameGridObject GetCounter()
+    // {
+    //     return counter;
+    // }
 
     public static int[,] GetGridArray()
     {
@@ -979,10 +979,10 @@ public static class BussGrid
         }
     }
 
-    public static void SetCounter(GameGridObject obj)
-    {
-        counter = obj;
-    }
+    // public static void SetCounter(GameGridObject obj)
+    // {
+    //     counter = obj;
+    // }
 
     public static void SetPreviewItem(BaseObjectController obj)
     {
