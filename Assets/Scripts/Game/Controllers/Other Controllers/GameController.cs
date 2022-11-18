@@ -177,6 +177,11 @@ public class GameController : MonoBehaviour
         return NpcSet;
     }
 
+    public HashSet<EmployeeController> GetEmployeeSet()
+    {
+        return EmployeeSet;
+    }
+
     // Used for debug
     public NPCController GetNPC(string ID)
     {
@@ -189,11 +194,18 @@ public class GameController : MonoBehaviour
         }
         return null;
     }
-
-    // public EmployeeController GetEmployeeController()
-    // {
-    //     return employeeController;
-    // }
+    // Used for debug
+    public EmployeeController GetEmployee(string ID)
+    {
+        foreach (EmployeeController npc in EmployeeSet)
+        {
+            if (npc.Name == ID)
+            {
+                return npc;
+            }
+        }
+        return null;
+    }
 
     public static void PlaceGameObjectAt(FirebaseGameObject obj)
     {
