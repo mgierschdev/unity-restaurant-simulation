@@ -26,7 +26,6 @@ public class GameController : MonoBehaviour
         LoadUserObjects();
         StartCoroutine(AssignTablesToNPCs());
         //Assign tables to attend to employees
-        //StartCoroutine(AssignTablesToEmployees());
         StartCoroutine(NPCSpam());
     }
 
@@ -53,9 +52,7 @@ public class GameController : MonoBehaviour
     {
         for (; ; )
         {
-            GameGridObject table = null;
-
-            if (BussGrid.GetFreeTable(out table))
+            if (BussGrid.GetFreeTable(out GameGridObject table))
             {
                 foreach (NPCController npcController in NpcSet)
                 {
@@ -64,6 +61,18 @@ public class GameController : MonoBehaviour
                         table.SetUsedBy(npcController);
                         npcController.SetTable(table);
                         break;
+                    }
+                }
+            }
+
+            if (BussGrid.GetTableWithClient(out GameGridObject tableToAttend))
+            {
+                foreach (EmployeeController employeeController in EmployeeSet)
+                {
+                    if (!employeeController.IsAttendingTable())
+                    {
+                        employeeController.SetTableToAttend(tableToAttend);
+                        tableToAttend.SetAttendedBy(employeeController);
                     }
                 }
             }
