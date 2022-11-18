@@ -861,7 +861,11 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            if (tmp.HasClient() && !tmp.GetIsObjectBeingDragged() && !PlayerData.IsItemStored(tmp.Name) && tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
+            if (!tmp.HasEmployeeAssigned() &&    
+            tmp.HasClient() && 
+            !tmp.GetIsObjectBeingDragged() && 
+            !PlayerData.IsItemStored(tmp.Name) && 
+            tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
             {
                 result = tmp;
                 return true;

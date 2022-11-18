@@ -519,6 +519,11 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         return usedBy != null;
     }
 
+    public bool HasEmployeeAssigned()
+    {
+        return attendedBy != null;
+    }
+
     public void UpdateMoveSlider()
     {
         if (isObjectSelected)
