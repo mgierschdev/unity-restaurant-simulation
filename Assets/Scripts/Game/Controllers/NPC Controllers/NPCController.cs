@@ -1,6 +1,7 @@
 using System;
 using Unity.Profiling;
 using UnityEngine;
+using IEnumerator = System.Collections.IEnumerator;
 using Random = UnityEngine.Random;
 
 // Controls NPCs players
@@ -18,6 +19,7 @@ public class NPCController : GameObjectMovementBase
         SetID();
         //TODO: MIN_TIME_TO_FIND_TABLE = Random.Range(0f, 10f);
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
+        StartCoroutine(UpdateTransitionStates());
     }
 
     //Profiling 
@@ -40,9 +42,6 @@ public class NPCController : GameObjectMovementBase
             pM3.Begin();
             UpdateTargetMovement();
             pM3.End();
-            pM4.Begin();
-            UpdateTransitionStates();
-            pM4.End();
             pM5.Begin();
             UpdateAnimation();
             pM5.End();
@@ -63,43 +62,48 @@ public class NPCController : GameObjectMovementBase
     private static readonly ProfilerMarker pMUT7 = new ProfilerMarker("NPCController.CheckTransition");
     private static readonly ProfilerMarker pMUT8 = new ProfilerMarker("NPCController.MoveNPC");
 
-    public void UpdateTransitionStates()
+
+    public IEnumerator UpdateTransitionStates()
     {
-        if (IsMoving())
+        for (; ; )
         {
-            return;
+            if (IsMoving())
+            {
+                yield return new WaitForSeconds(3f);
+            }
+            else
+            {
+                pMUT2.Begin();
+                CheckIfAtTarget();
+                pMUT2.End();
+            }
+            pMUT3.Begin();
+            CheckUnrespawn();
+            pMUT3.End();
+
+            pMUT4.Begin();
+            CheckIfTableHasBeenAssigned();
+            pMUT4.End();
+
+            pMUT5.Begin();
+            Wander();
+            pMUT5.End();
+
+            pMUT6.Begin();
+            CheckIfTableMoved();
+            pMUT6.End();
+
+            state = stateMachine.Current.State;
+            pMUT7.Begin();
+            stateMachine.CheckTransition();
+            pMUT7.End();
+
+            pMUT8.Begin();
+            MoveNPC();
+            pMUT8.End();
+
+            yield return new WaitForSeconds(3f);
         }
-        else
-        {
-            pMUT2.Begin();
-            CheckIfAtTarget();
-            pMUT2.End();
-        }
-        pMUT3.Begin();
-        CheckUnrespawn();
-        pMUT3.End();
-
-        pMUT4.Begin();
-        CheckIfTableHasBeenAssigned();
-        pMUT4.End();
-
-        pMUT5.Begin();
-        Wander();
-        pMUT5.End();
-
-        pMUT6.Begin();
-        CheckIfTableMoved();
-        pMUT6.End();
-
-        state = stateMachine.Current.State;
-        pMUT7.Begin();
-        stateMachine.CheckTransition();
-        pMUT7.End();
-
-        pMUT8.Begin();
-        MoveNPC();
-        pMUT8.End();
-        
     }
 
     private void MoveNPC()

@@ -1,10 +1,35 @@
+using System;
+
 public class StateNodeTransition
 {
     // Same size as NpcStateTransitions
-    public bool[] StateTransitions { get; set; }
+    public bool[] StateTransitions { get; set; } //single 32 bit int
+
+    public Int32 StateTransitionsEncoded { get; set; }
 
     public StateNodeTransition(bool[] nodeTransition)
     {
         StateTransitions = nodeTransition;
+        EncodeTransitions();
+    }
+
+    private void EncodeTransitions()
+    {
+        GameLog.Log(" ");
+
+        StateTransitionsEncoded = 0;
+
+        for (int i = 0; i < StateTransitions.Length; i++)
+        {
+            if (StateTransitions[i])
+            {
+                StateTransitionsEncoded |= 1 << i;
+            }
+        }
+    }
+
+    public void printBinaryRepresentation()
+    {
+        GameLog.Log("Convert to binary " + Convert.ToString(StateTransitionsEncoded, 2));
     }
 }

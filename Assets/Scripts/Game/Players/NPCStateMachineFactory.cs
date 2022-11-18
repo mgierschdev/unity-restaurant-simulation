@@ -2,6 +2,7 @@
 using System;
 
 // Returns a state machine for npcs
+// Order of the transitions is relevant
 public static class NPCStateMachineFactory
 {
     public static StateMachine<NpcState, NpcStateTransitions> GetClientStateMachine(string ID)
