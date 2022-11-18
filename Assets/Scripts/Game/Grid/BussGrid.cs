@@ -160,7 +160,6 @@ public static class BussGrid
         {
             return;
         }
-        Debug.Log("Setting text color");
         TextMesh text = debugGrid[cellPosition.x, cellPosition.y];
         text.color = Util.GetRandomColor();
     }

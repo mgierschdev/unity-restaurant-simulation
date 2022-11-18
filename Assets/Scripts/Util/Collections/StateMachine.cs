@@ -86,24 +86,15 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
     public void SetTransition(S transition)
     {
-        Debug.Log(" ");
         // we set the bit
         TransitionStates |= 1 << (int)Enum.Parse(typeof(S), transition.ToString());
-        Debug.Log("Setting " + Enum.Parse(typeof(S), transition.ToString()) + " " + Convert.ToString(TransitionStates, 2) + " " + (int)Enum.Parse(typeof(S), transition.ToString()));
-        Debug.Log(" ");
     }
 
     public void UnSetTransition(S transition)
     {
         // we clear the bit
         Int32 mask = ~(1 << (int)Enum.Parse(typeof(S), transition.ToString()));
-        // Debug.Log("UnSetTransition bit " + (int)Enum.Parse(typeof(S), transition.ToString()));
-        // Debug.Log("UnSetTransition Current states " + ToString());
-        // Debug.Log("UnSetTransition Mask " + Convert.ToString(mask, 2));
-
         TransitionStates &= mask;
-
-        // Debug.Log("UnSetTransition result Current state " + ToString());
     }
 
     public bool GetTransitionState(S transition)
@@ -119,23 +110,13 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
     public void CheckTransition()
     {
-        //TODO: we could encode this into a single integer, instead of an array
-        //GameLog.Log(" current "+);
-        string debug = " ";
-        //AdjacencyMatrix
-
-        Debug.Log("CheckTransition()");
         foreach (StateMachineNode<T> node in Current.TransitionStates)
         {
             StateNodeTransition transition = AdjacencyMatrix[(int)Enum.Parse(typeof(T), Current.State.ToString()), (int)Enum.Parse(typeof(T), node.State.ToString())];
-
             Int32 mask = transition.StateTransitionsEncoded & TransitionStates;
-
-            Debug.Log("CheckTransition() " + mask + " " + Convert.ToString(transition.StateTransitionsEncoded, 2) + " " + Convert.ToString(TransitionStates, 2));
 
             if (mask == transition.StateTransitionsEncoded && TransitionStates != 0)
             {
-                Debug.Log("CheckTransition(): Valid " + Enum.Parse(typeof(T), node.State.ToString()));
                 Current = node;
                 break;
             }

@@ -15,8 +15,6 @@ public class StateNodeTransition
 
     private void EncodeTransitions()
     {
-        GameLog.Log(" ");
-
         StateTransitionsEncoded = 0;
 
         for (int i = 0; i < StateTransitions.Length; i++)
