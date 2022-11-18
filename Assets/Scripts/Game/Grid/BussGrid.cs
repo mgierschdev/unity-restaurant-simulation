@@ -833,7 +833,7 @@ public static class BussGrid
     {
         foreach (KeyValuePair<string, GameGridObject> g in BusinessObjects)
         {
-            if (g.Value.GetIsItemBought() && !IsThisSelectedObject(g.Key) && g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NPC_COUNTER)
+            if (g.Value.GetIsItemBought() && !IsThisSelectedObject(g.Key) && !g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NPC_COUNTER)
             {
                 return g.Value;
             }
