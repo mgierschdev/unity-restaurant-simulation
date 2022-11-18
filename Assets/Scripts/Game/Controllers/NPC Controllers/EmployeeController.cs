@@ -12,7 +12,6 @@ public class EmployeeController : GameObjectMovementBase
     SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
     SPEED_TIME_TAKING_ORDER = 1.5f;
     private GameGridObject counter;
-    private GameGridObject tableToAttend;
     private bool counterAssigned;
 
     private void Start()
@@ -42,8 +41,6 @@ public class EmployeeController : GameObjectMovementBase
     {
         for (; ; )
         {
-            Debug.Log("Counter assigned " + counterAssigned);
-
             if (!counterAssigned || IsMoving() || EnergyBar.IsActive())
             {
 
@@ -101,9 +98,9 @@ public class EmployeeController : GameObjectMovementBase
             return;
         }
 
-        if (tableToAttend != null)
+        if (table != null)
         {
-            tableToAttend.SetAttendedBy(this);
+            table.SetAttendedBy(this);
             stateMachine.SetTransition(NpcStateTransitions.TABLE_AVAILABLE);
             return;
         }
@@ -145,17 +142,17 @@ public class EmployeeController : GameObjectMovementBase
         {
             stateMachine.SetTransition(NpcStateTransitions.AT_TABLE);
             stateMachine.UnSetTransition(NpcStateTransitions.AT_COUNTER);
-            if (table == null) { return; }
-            NPCController controller = table.GetUsedBy();
+            if (base.table == null) { return; }
+            NPCController controller = base.table.GetUsedBy();
             if (controller == null) { return; }
-            StandTowards(table.GetUsedBy().Position);//We flip the Employee -> CLient
-            table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
+            StandTowards(base.table.GetUsedBy().Position);//We flip the Employee -> CLient
+            base.table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
         }
         else if (stateMachine.Current.State == NpcState.TAKING_ORDER && EnergyBar.IsFinished() && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
             stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
-            if (table == null) { return; }
-            NPCController controller = table.GetUsedBy();
+            if (base.table == null) { return; }
+            NPCController controller = base.table.GetUsedBy();
             if (controller == null) { return; }
             controller.SetAttended();
         }
@@ -209,7 +206,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
         {
-            tableToAttend = null;
+            table = null;
             if (counter == null) { return; }
             GoTo(counter.GetActionTileInGridPosition());
         }
@@ -229,14 +226,9 @@ public class EmployeeController : GameObjectMovementBase
         return Mathf.Floor(stateTime);
     }
 
-    public void SetTableToBeAttended(GameGridObject table)
-    {
-        this.table = table;
-    }
-
     public Vector3Int GetCoordOfTableToBeAttended()
     {
-        return table.GridPosition;
+        return base.table.GridPosition;
     }
 
     public void SetUnrespawn()
@@ -258,11 +250,11 @@ public class EmployeeController : GameObjectMovementBase
 
     public void SetTableToAttend(GameGridObject obj)
     {
-        tableToAttend = obj;
+        table = obj;
     }
 
     public bool IsAttendingTable()
     {
-        return tableToAttend != null;
+        return table != null;
     }
 }

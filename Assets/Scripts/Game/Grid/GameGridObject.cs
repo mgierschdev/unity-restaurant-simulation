@@ -179,7 +179,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     {
         if (attendedBy != null)
         {
-            attendedBy.SetTableToBeAttended(null);
+            attendedBy.SetTableToAttend(null);
             attendedBy.SetTableMoved();
         }
     }
@@ -293,7 +293,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     {
         if (attendedBy != null)
         {
-            attendedBy.SetTableToBeAttended(null);
+            attendedBy.SetTableToAttend(null);
             attendedBy = null;
         }
 
