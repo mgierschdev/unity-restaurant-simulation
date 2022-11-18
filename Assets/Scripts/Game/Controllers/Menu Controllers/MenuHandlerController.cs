@@ -247,16 +247,8 @@ public class MenuHandlerController : MonoBehaviour
             item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             inventoryItemController = item.GetComponent<InventoryItemController>();
             button = inventoryItemController.GetButton();
-
-
-            // if (entry.Key.Type != ObjectType.NPC_COUNTER || (BussGrid.GetCounter() == null && entry.Key.Type == ObjectType.NPC_COUNTER))
-            // {
-                button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
-            // }
-            // else
-            // {
-            //     inventoryItemController.SetBackground(Util.Unavailable);
-            // }
+            //TODO: max employees we can define the number of counters here
+            button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
 
             inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
             item.transform.SetParent(scrollViewContent.transform);
@@ -282,15 +274,11 @@ public class MenuHandlerController : MonoBehaviour
             };
 
             // Adding click listener
-            if ((obj.Cost <= PlayerData.GetMoneyDouble() && obj.Type != ObjectType.NPC_COUNTER) /* ||
-            (BussGrid.GetCounter() == null && obj.Type == ObjectType.NPC_COUNTER) */ )
+            //TODO: max employees we can define the number of counters here
+            if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
             }
-            // else
-            // {
-            //     inventoryItemController.SetBackground(Util.Unavailable);
-            // }
 
             inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString());
             item.transform.SetParent(scrollViewContent.transform);
