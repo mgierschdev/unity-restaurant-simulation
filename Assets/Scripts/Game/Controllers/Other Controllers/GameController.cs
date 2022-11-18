@@ -73,6 +73,7 @@ public class GameController : MonoBehaviour
                     {
                         employeeController.SetTableToAttend(tableToAttend);
                         tableToAttend.SetAttendedBy(employeeController);
+                        break;
                     }
                 }
             }
