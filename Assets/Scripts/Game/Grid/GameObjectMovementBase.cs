@@ -172,8 +172,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     protected void UpdateAnimation()
     {
-        // TODO: for performance reasons only animate inside camera CLAMP --> animationController.SetState(NpcState.IDLE);
-        // another sol: it can also spam the NPC inside/near the camera 
         // Animates depending on the current state
         if (IsMoving() && prevState == currentState)
         {
