@@ -249,14 +249,14 @@ public class MenuHandlerController : MonoBehaviour
             button = inventoryItemController.GetButton();
 
 
-            if (entry.Key.Type != ObjectType.NPC_COUNTER || (BussGrid.GetCounter() == null && entry.Key.Type == ObjectType.NPC_COUNTER))
-            {
+            // if (entry.Key.Type != ObjectType.NPC_COUNTER || (BussGrid.GetCounter() == null && entry.Key.Type == ObjectType.NPC_COUNTER))
+            // {
                 button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
-            }
-            else
-            {
-                inventoryItemController.SetBackground(Util.Unavailable);
-            }
+            // }
+            // else
+            // {
+            //     inventoryItemController.SetBackground(Util.Unavailable);
+            // }
 
             inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
             item.transform.SetParent(scrollViewContent.transform);
@@ -282,15 +282,15 @@ public class MenuHandlerController : MonoBehaviour
             };
 
             // Adding click listener
-            if ((obj.Cost <= PlayerData.GetMoneyDouble() && obj.Type != ObjectType.NPC_COUNTER) ||
-            (BussGrid.GetCounter() == null && obj.Type == ObjectType.NPC_COUNTER))
+            if ((obj.Cost <= PlayerData.GetMoneyDouble() && obj.Type != ObjectType.NPC_COUNTER) /* ||
+            (BussGrid.GetCounter() == null && obj.Type == ObjectType.NPC_COUNTER) */ )
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
             }
-            else
-            {
-                inventoryItemController.SetBackground(Util.Unavailable);
-            }
+            // else
+            // {
+            //     inventoryItemController.SetBackground(Util.Unavailable);
+            // }
 
             inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString());
             item.transform.SetParent(scrollViewContent.transform);

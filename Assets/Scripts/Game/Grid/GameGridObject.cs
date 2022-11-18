@@ -157,7 +157,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 BussGrid.GetBussQueueMap().TryRemove(this, out byte tmp2);
             }
 
-            DisableIfCounter();
+           // DisableIfCounter();
             Object.Destroy(objectTransform.gameObject);
         }
         catch (Exception e)
@@ -560,7 +560,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         BussGrid.SetActiveGameGridObject(this);
         ClearTableClient();
         ClearTableEmployee();
-        DisableIfCounter();
+       // DisableIfCounter();
         //We clean grid position
         BussGrid.FreeObject(this);
         objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.SelectedObjectZPosition);
@@ -647,7 +647,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
             firebaseGameObject.IS_STORED = false;
         }
 
-        SetAsCounter(); //If it is a counter we set if in the grid
+        //SetAsCounter(); //If it is a counter we set if in the grid
         BussGrid.SetObjectObstacle(this);
         UpdateCoordsAndSetObstacle();
         SetInactive();
@@ -656,28 +656,28 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         active = true;
     }
 
-    private void SetAsCounter()
-    {
-        if (Type == ObjectType.NPC_COUNTER)
-        {
-            BussGrid.SetCounter(this);
-        }
-    }
+    // private void SetAsCounter()
+    // {
+    //     if (Type == ObjectType.NPC_COUNTER)
+    //     {
+    //         BussGrid.SetCounter(this);
+    //     }
+    // }
 
-    private void DisableIfCounter()
-    {
-        if (Type == ObjectType.NPC_COUNTER)
-        {
-            BussGrid.SetCounter(null);
-        }
-    }
+    // private void DisableIfCounter()
+    // {
+    //     if (Type == ObjectType.NPC_COUNTER)
+    //     {
+    //         BussGrid.SetCounter(null);
+    //     }
+    // }
 
     public void CancelPurchase()
     {
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
-        DisableIfCounter();
+      //  DisableIfCounter();
         SetInactive();
         BussGrid.RecalculateBussGrid();
     }
