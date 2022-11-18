@@ -157,15 +157,11 @@ public class StateMachineDebugPanel : EditorWindow
     {
         togglePos = 0;
         string output = "Employe and Client states: \n";
-        if (gameController.GetEmployeeController() != null)
+        foreach (EmployeeController employeeController in gameController.GetEmployeeSet())
         {
-            AddToggle(gameController.GetEmployeeController().Name);
-            output += gameController.GetEmployeeController().Name + " State: " + gameController.GetEmployeeController().GetNpcState();
-            output += " Time:" + gameController.GetEmployeeController().GetNpcStateTime() + " \n";
-        }
-        else
-        {
-            output += "Employee: NONE \n";
+            AddToggle(employeeController.Name);
+            output += employeeController.Name + " State: " +employeeController.GetNpcState();
+            output += " Time:" + employeeController.GetNpcStateTime() + " \n";
         }
 
         foreach (NPCController current in gameController.GetNpcSet())
@@ -292,7 +288,7 @@ public class StateMachineDebugPanel : EditorWindow
 
         if (ID.Contains(Settings.EMPLOYEE_PREFIX))
         {
-            controller = BussGrid.GameController.GetEmployeeController();
+            controller = BussGrid.GameController.GetEmployee(ID);
         }
         else
         {

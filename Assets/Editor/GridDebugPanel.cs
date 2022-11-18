@@ -285,14 +285,11 @@ public class GridDebugPanel : EditorWindow
     private string SetPlayerData()
     {
         string output = "Employe and Client states: \n";
-        if (gameController.GetEmployeeController() != null)
+
+        foreach (EmployeeController employeeController in gameController.GetEmployeeSet())
         {
-            output += gameController.GetEmployeeController().Name + " State: " + gameController.GetEmployeeController().GetNpcState();
-            output += " Time:" + gameController.GetEmployeeController().GetNpcStateTime() + " \n";
-        }
-        else
-        {
-            output += "Employee: NONE \n";
+            output += employeeController.Name + " State: " + employeeController.GetNpcState();
+            output += " Time:" + employeeController.GetNpcStateTime() + " \n";
         }
 
         foreach (NPCController current in gameController.GetNpcSet())
