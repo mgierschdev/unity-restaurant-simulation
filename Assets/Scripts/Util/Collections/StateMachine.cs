@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 // Npc state machine represented as a directed graph
 // T = NpcState, S = NpcStateTransitions. Finite states = T, Transitions = S
@@ -9,7 +10,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
     public StateNodeTransition[,] AdjacencyMatrix { get; set; }
     public Dictionary<T, StateMachineNode<T>> Map { get; set; }
     public StateMachineNode<T> Current { get; set; }
-    public bool[] TransitionStates { get; set; }
+    public Int32 TransitionStates { get; set; } // State machine current states
     private T startState;
 
     public StateMachine(StateNodeTransition[,] adjacencyMatrix, T startState, string ID)
@@ -17,7 +18,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
         this.ID = ID;
         AdjacencyMatrix = adjacencyMatrix;
         Map = new Dictionary<T, StateMachineNode<T>>();
-        TransitionStates = new bool[Enum.GetNames(typeof(S)).Length];
+        TransitionStates = 0;
         AddNodes();// Adds nodes to map
         BuildGraph();
         Current = Map[startState];
@@ -85,81 +86,94 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
     public void SetTransition(S transition)
     {
-        TransitionStates[(int)(int)Enum.Parse(typeof(S), transition.ToString())] = true;
+        Debug.Log(" ");
+        // we set the bit
+        TransitionStates |= 1 << (int)Enum.Parse(typeof(S), transition.ToString());
+        Debug.Log("Setting " + Enum.Parse(typeof(S), transition.ToString()) + " " + Convert.ToString(TransitionStates, 2) + " " + (int)Enum.Parse(typeof(S), transition.ToString()));
+        Debug.Log(" ");
     }
 
     public void UnSetTransition(S transition)
     {
-        TransitionStates[(int)Enum.Parse(typeof(S), transition.ToString())] = false;
+        // we clear the bit
+        Int32 mask = ~(1 << (int)Enum.Parse(typeof(S), transition.ToString())) - 1;
+        TransitionStates &= mask;
     }
 
     public bool GetTransitionState(S transition)
     {
-        return TransitionStates[(int)Enum.Parse(typeof(S), transition.ToString())];
+        // we get the bit
+        return (TransitionStates & (1 << (int)Enum.Parse(typeof(S), transition.ToString()))) != 0;
     }
 
     public void UnSetAll()
     {
-        TransitionStates = new bool[Enum.GetNames(typeof(S)).Length];
+        TransitionStates = 0;
     }
 
     public void CheckTransition()
     {
         //TODO: we could encode this into a single integer, instead of an array
-        //Except from the time/ attributes
+        //GameLog.Log(" current "+);
+        string debug = " ";
+        //AdjacencyMatrix
+
         foreach (StateMachineNode<T> node in Current.TransitionStates)
         {
             StateNodeTransition transition = AdjacencyMatrix[(int)Enum.Parse(typeof(T), Current.State.ToString()), (int)Enum.Parse(typeof(T), node.State.ToString())];
-            bool valid = true;
 
-            for (int i = 0; i < transition.StateTransitions.Length; i++)
+            Int32 mask = transition.StateTransitionsEncoded & TransitionStates;
+            Debug.Log("CheckTransition " + mask + " " + Convert.ToString(transition.StateTransitionsEncoded, 2) + " " + Convert.ToString(TransitionStates, 2));
+
+            if (mask == TransitionStates && (mask != 0 && TransitionStates != 0))
             {
-                // Transitions from the adj matrix should match TransitionStates
-                if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
-                {
-                    //TODO: erase debug
-                    // if (ID.Contains(Settings.EMPLOYEE_PREFIX))
-                    // {
-                    //     //GameLog.Log("Cannot move from " + Current.State + " ---> " + node.State + " reason: " + Enum.GetName(typeof(NpcStateTransitions), i));
-                    // }
-
-                    valid = false;
-                    break;
-                }
-            }
-
-            if (valid)
-            {
-               // GameLog.Log("Moving to: " + node.State);
+                Debug.Log("CheckTransition: Valid " + Enum.Parse(typeof(T), node.State.ToString()));
                 Current = node;
                 break;
             }
+
+            //     Debug.Log("StateTransitionsEncoded: " + Convert.ToString(transition.StateTransitionsEncoded, 2));
+            //     Debug.Log("Current: " + Convert.ToString(TransitionStates, 2));
+            //     Debug.Log("Mask " + Convert.ToString(mask, 2));
+
+            //     if (mask == TransitionStates)
+            //     {
+            //         Current = node;
+            //         break;
+            //     }
         }
+        // Debug.Log("Current transitions: " + debug);
+
+        //     foreach (StateMachineNode<T> node in Current.TransitionStates)
+        //     {
+        //         StateNodeTransition transition = AdjacencyMatrix[(int)Enum.Parse(typeof(T), Current.State.ToString()), (int)Enum.Parse(typeof(T), node.State.ToString())];
+        //         bool valid = true;
+
+        //         for (int i = 0; i < transition.StateTransitions.Length; i++)
+        //         {
+        //             // Transitions from the adj matrix should match TransitionStates
+        //             if (transition.StateTransitions[i] && TransitionStates[i] != transition.StateTransitions[i])
+        //             {
+        //                 valid = false;
+        //                 break;
+        //             }
+        //         }
+
+        //         if (valid)
+        //         {
+        //             Current = node;
+        //             break;
+        //         }
+        //     }
     }
 
     public override string ToString()
     {
-        string str = "";
-        for (int i = 0; i < TransitionStates.GetLength(0); i++)
-        {
-            str += Enum.GetName(typeof(S), i) + ":" + TransitionStates[i] + " ";
-        }
-        return str;
+        return Convert.ToString(TransitionStates, 2);
     }
 
     public StateMachineNode<T> GetStartNode()
     {
         return Map[startState];
-    }
-
-    public string GetDebugTransitions()
-    {
-        string str = "";
-
-        for (int i = 0; i < TransitionStates.Length; i++)
-        {
-            str += Enum.GetName(typeof(S), i) + " " + TransitionStates[i] + " \n";
-        }
-        return str;
     }
 }
