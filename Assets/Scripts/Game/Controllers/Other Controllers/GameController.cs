@@ -100,6 +100,7 @@ public class GameController : MonoBehaviour
         NpcSet.Add(isometricNPCController);
         npcId++;
     }
+
     private void SpamEmployee(GameGridObject counter)
     {
         tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
@@ -110,6 +111,7 @@ public class GameController : MonoBehaviour
         employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
         EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
         employeeController.SetCounter(counter);
+        counter.SetAssignedTo(employeeController);
         EmployeeSet.Add(employeeController);
         npcId++;
     }

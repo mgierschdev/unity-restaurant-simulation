@@ -19,7 +19,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     private SpriteRenderer spriteRenderer;
     private ObjectRotation facingPosition; // Facing position
     private NPCController usedBy;
-    private EmployeeController attendedBy;
+    private EmployeeController attendedBy, assignedTo;
     // Buttons/ Sprites and edit menus
     private GameObject saveObjButton, rotateObjLeftButton, cancelButton, acceptButton, editMenu, objectWithSprite;
     private InfoPopUpController infoPopUpController;
@@ -157,7 +157,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 BussGrid.GetBussQueueMap().TryRemove(this, out byte tmp2);
             }
 
-           // DisableIfCounter();
+            DisableIfCounter();
             Object.Destroy(objectTransform.gameObject);
         }
         catch (Exception e)
@@ -495,6 +495,16 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         attendedBy = controller;
     }
 
+    public void SetAssignedTo(EmployeeController controller)
+    {
+        assignedTo = controller;
+    }
+
+    public bool IsItemAssignedTo()
+    {
+        return assignedTo != null;
+    }
+
     public bool GetIsObjectBeingDragged()
     {
         return isObjectBeingDragged;
@@ -560,7 +570,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         BussGrid.SetActiveGameGridObject(this);
         ClearTableClient();
         ClearTableEmployee();
-       // DisableIfCounter();
+        DisableIfCounter();
         //We clean grid position
         BussGrid.FreeObject(this);
         objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.SelectedObjectZPosition);
@@ -664,20 +674,20 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     //     }
     // }
 
-    // private void DisableIfCounter()
-    // {
-    //     if (Type == ObjectType.NPC_COUNTER)
-    //     {
-    //         BussGrid.SetCounter(null);
-    //     }
-    // }
+    private void DisableIfCounter()
+    {
+        if (Type == ObjectType.NPC_COUNTER && assignedTo != null)
+        {
+            assignedTo.SetCounter(null);
+        }
+    }
 
     public void CancelPurchase()
     {
         BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
-      //  DisableIfCounter();
+        DisableIfCounter();
         SetInactive();
         BussGrid.RecalculateBussGrid();
     }
