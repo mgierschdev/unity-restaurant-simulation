@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
             {
                 SpamEmployee(counter);
             }
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
         }
     }
 
@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour
                     }
                 }
             }
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
