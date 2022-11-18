@@ -51,7 +51,7 @@ public class EmployeeController : GameObjectMovementBase
             else
             {
                 CheckIfAtTarget();
-                //TableWithCustomer();
+                TableWithCustomer();
                 Unrespawn();
                 CheckCounter();
                 CheckAtCounter();
@@ -169,7 +169,6 @@ public class EmployeeController : GameObjectMovementBase
         else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && EnergyBar.IsFinished())
         {
             stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
-            // EnergyBar.ResetCurrentEnergy();
             //TODO: register cost depending on the NPC order
             double orderCost = Random.Range(5, 10);
             PlayerData.AddMoney(orderCost);
