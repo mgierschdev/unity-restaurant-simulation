@@ -135,7 +135,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     {
         try
         {
-            GameLog.Log("TODO: UI message: Storing item in Inventory " + Name);
+            GameLog.Log("TODO: UI message / notification banner: Storing item in Inventory " + Name);
             firebaseGameObject.IS_STORED = true;
             PlayerData.StoreItem(this);
 

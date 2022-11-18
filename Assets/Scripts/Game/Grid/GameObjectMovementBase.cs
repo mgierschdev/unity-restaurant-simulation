@@ -23,7 +23,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected ObjectType type;
 
     //A*
-    // Attributes for temporaly marking the path of the NPC on the grid
+    // Attributes for saving the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
     private Queue pendingMovementQueue;
     private Vector3 currentLocalTargetPosition; //step by step target to
@@ -344,8 +344,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
         if (path.Count == 0)
         {
-            // TODO: Retry not found path after some time add new state
-            //GameLog.Log("Not path found");
             return false;
         }
 
