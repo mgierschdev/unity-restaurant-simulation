@@ -17,7 +17,6 @@ public class EmployeeController : GameObjectMovementBase
     private void Start()
     {
         type = ObjectType.EMPLOYEE;
-        counterAssigned = false;
         SetID();
         stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());
@@ -25,11 +24,6 @@ public class EmployeeController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
-        if (!counterAssigned)
-        {
-            return;
-        }
-
         try
         {
             UpdatePosition();
@@ -47,7 +41,9 @@ public class EmployeeController : GameObjectMovementBase
     {
         for (; ; )
         {
-            if (IsMoving() || EnergyBar.IsActive())
+            Debug.Log("Counter assigned " + counterAssigned);
+
+            if (!counterAssigned || IsMoving() || EnergyBar.IsActive())
             {
 
             }
@@ -256,5 +252,13 @@ public class EmployeeController : GameObjectMovementBase
     {
         counterAssigned = true;
         this.counter = counter;
+    }
+
+    private void CheckForCounter()
+    {
+        if (!counterAssigned && counter != null)
+        {
+            counterAssigned = true;
+        }
     }
 }
