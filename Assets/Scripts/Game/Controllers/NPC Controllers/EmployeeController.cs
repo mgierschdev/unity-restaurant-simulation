@@ -145,8 +145,9 @@ public class EmployeeController : GameObjectMovementBase
             if (base.table == null) { return; }
             NPCController controller = base.table.GetUsedBy();
             if (controller == null) { return; }
-            StandTowards(base.table.GetUsedBy().Position);//We flip the Employee -> CLient
-            base.table.GetUsedBy().FlipTowards(Position); // We flip client -> employee
+            StandTowards(controller.Position);//We flip the Employee -> CLient
+            controller.FlipTowards(Position); // We flip client -> employee
+            controller.SetBeingAttended();
         }
         else if (stateMachine.Current.State == NpcState.TAKING_ORDER && EnergyBar.IsFinished() && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
         {
