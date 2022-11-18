@@ -26,6 +26,7 @@ public static class NPCStateMachineFactory
         Array.Fill(nodeTransition, false);
 
         //WANDER -> Other
+        nodeTransition[(int)NpcStateTransitions.WANDER_TO_IDLE] = true;
         adjMatrix[(int)NpcState.WANDER, (int)NpcState.IDLE] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 

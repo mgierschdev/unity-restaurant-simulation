@@ -251,7 +251,7 @@ public class StateMachineDebugPanel : EditorWindow
             node = clientGraphNodes[currentStateMachine.Current.State];
         }
 
-        gridDebugContent.text = currentStateMachine.ToString();
+        gridDebugContent.text = currentStateMachine.DebugTransitions();
 
         SetNodesColor(node);
     }

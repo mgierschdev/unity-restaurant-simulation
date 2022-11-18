@@ -75,7 +75,8 @@ public enum NpcStateTransitions
     BEING_ATTENDED = 12,
     CASH_REGISTERED = 13,
     MOVING_TO_UNSRESPAWN = 14,
-    AT_COUNTER_FINAL = 15
+    AT_COUNTER_FINAL = 15,
+    WANDER_TO_IDLE = 16
 }
 
 //Players and NPCs, to set the NPC to wander or other states
