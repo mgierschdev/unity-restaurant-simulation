@@ -96,8 +96,14 @@ public class StateMachine<T, S> where T : Enum where S : Enum
     public void UnSetTransition(S transition)
     {
         // we clear the bit
-        Int32 mask = ~(1 << (int)Enum.Parse(typeof(S), transition.ToString())) - 1;
+        Int32 mask = ~(1 << (int)Enum.Parse(typeof(S), transition.ToString()));
+        // Debug.Log("UnSetTransition bit " + (int)Enum.Parse(typeof(S), transition.ToString()));
+        // Debug.Log("UnSetTransition Current states " + ToString());
+        // Debug.Log("UnSetTransition Mask " + Convert.ToString(mask, 2));
+
         TransitionStates &= mask;
+
+        // Debug.Log("UnSetTransition result Current state " + ToString());
     }
 
     public bool GetTransitionState(S transition)
@@ -118,16 +124,17 @@ public class StateMachine<T, S> where T : Enum where S : Enum
         string debug = " ";
         //AdjacencyMatrix
 
+        Debug.Log("CheckTransition()");
         foreach (StateMachineNode<T> node in Current.TransitionStates)
         {
             StateNodeTransition transition = AdjacencyMatrix[(int)Enum.Parse(typeof(T), Current.State.ToString()), (int)Enum.Parse(typeof(T), node.State.ToString())];
 
             Int32 mask = transition.StateTransitionsEncoded & TransitionStates;
-            Debug.Log("CheckTransition " + mask + " " + Convert.ToString(transition.StateTransitionsEncoded, 2) + " " + Convert.ToString(TransitionStates, 2));
+            // Debug.Log("CheckTransition() " + mask + " " + Convert.ToString(transition.StateTransitionsEncoded, 2) + " " + Convert.ToString(TransitionStates, 2));
 
-            if (mask == TransitionStates && (mask != 0 && TransitionStates != 0))
+            if (mask == TransitionStates && TransitionStates != 0)
             {
-                Debug.Log("CheckTransition: Valid " + Enum.Parse(typeof(T), node.State.ToString()));
+                Debug.Log("CheckTransition(): Valid " + Enum.Parse(typeof(T), node.State.ToString()));
                 Current = node;
                 break;
             }
@@ -170,6 +177,24 @@ public class StateMachine<T, S> where T : Enum where S : Enum
     public override string ToString()
     {
         return Convert.ToString(TransitionStates, 2);
+    }
+
+    public string DebugTransitions()
+    {
+        string debug = "";
+        foreach (S state in Enum.GetValues(typeof(S)))
+        {
+            if (GetTransitionState(state))
+            {
+                debug += state.ToString() + "= 1";
+            }
+            else
+            {
+                debug += state.ToString() + "= 0";
+            }
+            debug += "\n";
+        }
+        return debug;
     }
 
     public StateMachineNode<T> GetStartNode()

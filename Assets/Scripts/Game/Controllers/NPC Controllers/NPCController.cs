@@ -31,6 +31,7 @@ public class NPCController : GameObjectMovementBase
 
     private void FixedUpdate()
     {
+        Debug.Log("State: " + state);
         try
         {
             pM1.Begin();
@@ -67,42 +68,39 @@ public class NPCController : GameObjectMovementBase
     {
         for (; ; )
         {
-            if (IsMoving())
-            {
-                yield return new WaitForSeconds(3f);
-            }
-            else
+            if (!IsMoving())
             {
                 pMUT2.Begin();
                 CheckIfAtTarget();
                 pMUT2.End();
+
+                pMUT3.Begin();
+                CheckUnrespawn();
+                pMUT3.End();
+
+                pMUT4.Begin();
+                CheckIfTableHasBeenAssigned();
+                pMUT4.End();
+
+                pMUT5.Begin();
+                Wander();
+                pMUT5.End();
+
+                pMUT6.Begin();
+                CheckIfTableMoved();
+                pMUT6.End();
+
+                state = stateMachine.Current.State;
+                pMUT7.Begin();
+                stateMachine.CheckTransition();
+                pMUT7.End();
+
+                pMUT8.Begin();
+                MoveNPC();
+                pMUT8.End();
             }
-            pMUT3.Begin();
-            CheckUnrespawn();
-            pMUT3.End();
 
-            pMUT4.Begin();
-            CheckIfTableHasBeenAssigned();
-            pMUT4.End();
-
-            pMUT5.Begin();
-            Wander();
-            pMUT5.End();
-
-            pMUT6.Begin();
-            CheckIfTableMoved();
-            pMUT6.End();
-
-            state = stateMachine.Current.State;
-            pMUT7.Begin();
-            stateMachine.CheckTransition();
-            pMUT7.End();
-
-            pMUT8.Begin();
-            MoveNPC();
-            pMUT8.End();
-
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -146,15 +144,28 @@ public class NPCController : GameObjectMovementBase
         }
     }
 
+    private void CheckWanderToIdle()
+    {
+
+    }
+
     private void Wander()
     {
-        float randT = Random.Range(0, 1000);//TODO
+        // Chance to no wander
+        float randT = Random.Range(0, 8);
+
         if (stateMachine.Current.State != NpcState.IDLE || randT > 2)
         {
             stateMachine.UnSetTransition(NpcStateTransitions.WANDER);
+
+            if (stateMachine.Current.State == NpcState.WANDER)
+            {
+                stateMachine.SetTransition(NpcStateTransitions.WANDER_TO_IDLE);
+            }
         }
         else
         {
+            stateMachine.UnSetTransition(NpcStateTransitions.WANDER_TO_IDLE);
             stateMachine.SetTransition(NpcStateTransitions.WANDER);
         }
     }
