@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-// Npc state machine represented as a directed graph
+// Builds a StateMachine given 2 enums.
+// Example: Npc state machine represented as a directed graph
 // T = NpcState, S = NpcStateTransitions. Finite states = T, Transitions = S
 public class StateMachine<T, S> where T : Enum where S : Enum
 {
@@ -86,21 +86,17 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
     public void SetTransition(S transition)
     {
-        // we set the bit
-        TransitionStates |= 1 << (int)Enum.Parse(typeof(S), transition.ToString());
+        TransitionStates = BitUtil.SetBit(TransitionStates, (int)Enum.Parse(typeof(S), transition.ToString()));
     }
 
     public void UnSetTransition(S transition)
     {
-        // we clear the bit
-        Int32 mask = ~(1 << (int)Enum.Parse(typeof(S), transition.ToString()));
-        TransitionStates &= mask;
+        TransitionStates = BitUtil.UnSetBit(TransitionStates, (int)Enum.Parse(typeof(S), transition.ToString()));
     }
 
     public bool GetTransitionState(S transition)
     {
-        // we get the bit
-        return (TransitionStates & (1 << (int)Enum.Parse(typeof(S), transition.ToString()))) != 0;
+        return BitUtil.GetBit(TransitionStates, (int)Enum.Parse(typeof(S), transition.ToString()));
     }
 
     public void UnSetAll()
@@ -125,7 +121,7 @@ public class StateMachine<T, S> where T : Enum where S : Enum
 
     public override string ToString()
     {
-        return Convert.ToString(TransitionStates, 2);
+        return BitUtil.GetBinaryString(TransitionStates);
     }
 
     public string DebugTransitions()
