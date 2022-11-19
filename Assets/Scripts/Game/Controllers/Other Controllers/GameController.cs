@@ -84,12 +84,12 @@ public class GameController : MonoBehaviour
     private void LoadUserObjects()
     {
         // The user can store all the inventory 
-        if (PlayerData.GetFirebaseGameUser().OBJECTS == null)
+        if (PlayerData.GetDataGameUser().OBJECTS == null)
         {
             return;
         }
 
-        foreach (FirebaseGameObject obj in PlayerData.GetFirebaseGameUser().OBJECTS)
+        foreach (DataGameObject obj in PlayerData.GetDataGameUser().OBJECTS)
         {
             if (!obj.IS_STORED)
             {
@@ -219,7 +219,7 @@ public class GameController : MonoBehaviour
         return null;
     }
 
-    public static void PlaceGameObjectAt(FirebaseGameObject obj)
+    public static void PlaceGameObjectAt(DataGameObject obj)
     {
         StoreItemType type = (StoreItemType)obj.ID;
         Vector3Int position = new Vector3Int(obj.POSITION[0], obj.POSITION[1]);
@@ -233,7 +233,7 @@ public class GameController : MonoBehaviour
 
         GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, Util.ObjectZPosition), Quaternion.identity, BussGrid.TilemapObjects.transform) as GameObject;
         BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
-        controller.SetFirebaseGameObjectAndInitRotation(obj);
+        controller.SetDataGameObjectAndInitRotation(obj);
         controller.SetStoreGameObject(MenuObjectList.GetStoreObject((StoreItemType)obj.ID));
     }
 

@@ -210,10 +210,10 @@ public class MenuHandlerController : MonoBehaviour
         InventoryItemController inventoryItemController;
         Button button;
         Dictionary<StoreGameObject, int> objectDic = new Dictionary<StoreGameObject, int>();
-        Dictionary<StoreGameObject, Pair<StoreGameObject, FirebaseGameObject>> dicPair = new Dictionary<StoreGameObject, Pair<StoreGameObject, FirebaseGameObject>>();
-        List<FirebaseGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
+        Dictionary<StoreGameObject, Pair<StoreGameObject, DataGameObject>> dicPair = new Dictionary<StoreGameObject, Pair<StoreGameObject, DataGameObject>>();
+        List<DataGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
 
-        foreach (FirebaseGameObject fireObj in userStorage)
+        foreach (DataGameObject fireObj in userStorage)
         {
             StoreGameObject obj = MenuObjectList.GetStoreObject((StoreItemType)fireObj.ID);
 
@@ -224,7 +224,7 @@ public class MenuHandlerController : MonoBehaviour
             }
             else
             {
-                Pair<StoreGameObject, FirebaseGameObject> pair = new Pair<StoreGameObject, FirebaseGameObject>(obj, fireObj);
+                Pair<StoreGameObject, DataGameObject> pair = new Pair<StoreGameObject, DataGameObject>(obj, fireObj);
                 dicPair.Add(obj, pair);
             }
             objectDic.Add(obj, count);
@@ -264,7 +264,7 @@ public class MenuHandlerController : MonoBehaviour
             item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             inventoryItemController = item.GetComponent<InventoryItemController>();
             button = inventoryItemController.GetButton();
-            Pair<StoreGameObject, FirebaseGameObject> pair = new Pair<StoreGameObject, FirebaseGameObject>
+            Pair<StoreGameObject, DataGameObject> pair = new Pair<StoreGameObject, DataGameObject>
             {
                 Key = obj
             };
@@ -289,7 +289,7 @@ public class MenuHandlerController : MonoBehaviour
         bStore.onClick.AddListener(() => OpenMenu(centerTabMenu));
     }
 
-    private void OpenStoreEditPanel(Pair<StoreGameObject, FirebaseGameObject> pair, bool storage)
+    private void OpenStoreEditPanel(Pair<StoreGameObject, DataGameObject> pair, bool storage)
     {
         StoreGameObject obj = pair.Key;
 

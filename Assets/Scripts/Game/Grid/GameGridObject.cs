@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, IComparable<GameGridObject>
 {
     private Transform objectTransform;
-    private FirebaseGameObject firebaseGameObject;
+    private DataGameObject dataGameObject;
     private BaseObjectController baseObjectController;
     private List<GameObject> actionTiles;
     private List<SpriteRenderer> tiles;
@@ -84,7 +84,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     // For GamegridObject init
     public void SetStoreGameObject(StoreGameObject storeGameObject)
     {
-        firebaseGameObject = baseObjectController.GetFirebaseGameObject();
+        dataGameObject = baseObjectController.GetDataGameObject();
         // For setting the object sprite
         this.storeGameObject = storeGameObject;
         Type = storeGameObject.Type;
@@ -136,7 +136,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         try
         {
             GameLog.Log("TODO: UI message / notification banner: Storing item in Inventory " + Name);
-            firebaseGameObject.IS_STORED = true;
+            dataGameObject.IS_STORED = true;
             PlayerData.StoreItem(this);
 
             // Clear the Item from the current selected in the grid 
@@ -200,9 +200,9 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         BussGrid.UpdateObjectPosition(this);
 
         // it could be a preview object
-        if (firebaseGameObject != null)
+        if (dataGameObject != null)
         {
-            firebaseGameObject.POSITION = new int[] { GridPosition.x, GridPosition.y };
+            dataGameObject.POSITION = new int[] { GridPosition.x, GridPosition.y };
         }
     }
 
@@ -356,9 +356,9 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     public void UpdateRotation(ObjectRotation newPosition)
     {
         // it could be a preview object
-        if (firebaseGameObject != null)
+        if (dataGameObject != null)
         {
-            firebaseGameObject.ROTATION = (int)newPosition;
+            dataGameObject.ROTATION = (int)newPosition;
         }
 
         switch (newPosition)
@@ -648,18 +648,18 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         HideEditMenu();
 
         // We dont substract if the item is comming from the storage
-        if (!baseObjectController.GetIsStorageItem() && firebaseGameObject == null)
+        if (!baseObjectController.GetIsStorageItem() && dataGameObject == null)
         {
             PlayerData.Subtract(storeGameObject.Cost);
             // We set a new firebase object
-            PlayerData.AddFirebaseGameObject(this);
+            PlayerData.AddDataGameObject(this);
         }
         else
         {
             PlayerData.SubtractFromStorage(this);
             baseObjectController.SetStorage(false);
             isItemBought = true;
-            firebaseGameObject.IS_STORED = false;
+            dataGameObject.IS_STORED = false;
         }
 
         //SetAsCounter(); //If it is a counter we set if in the grid
@@ -702,9 +702,9 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         return active;
     }
 
-    public void SetFirebaseGameObject(FirebaseGameObject obj)
+    public void SetDataGameObject(DataGameObject obj)
     {
-        firebaseGameObject = obj;
+        dataGameObject = obj;
     }
 
     public ObjectRotation GetFacingPosition()

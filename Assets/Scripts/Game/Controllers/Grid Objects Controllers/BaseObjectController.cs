@@ -11,7 +11,7 @@ public class BaseObjectController : MonoBehaviour
     //Long click controller
     private float timeClicking;
     //Firebase obj reference and initial rotation
-    private FirebaseGameObject firebaseGameObject;
+    private DataGameObject dataGameObject;
     private ObjectRotation initialRotation;
     private StoreGameObject storeGameObject;
     private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled, isClicking;
@@ -300,9 +300,9 @@ public class BaseObjectController : MonoBehaviour
         isNewItemSetted = val;
     }
 
-    public void SetFirebaseGameObjectAndInitRotation(FirebaseGameObject obj)
+    public void SetDataGameObjectAndInitRotation(DataGameObject obj)
     {
-        firebaseGameObject = obj;
+        dataGameObject = obj;
         initialRotation = (ObjectRotation)obj.ROTATION; ;
     }
 
@@ -316,9 +316,9 @@ public class BaseObjectController : MonoBehaviour
         return initialRotation;
     }
 
-    public FirebaseGameObject GetFirebaseGameObject()
+    public DataGameObject GetDataGameObject()
     {
-        return firebaseGameObject;
+        return dataGameObject;
     }
 
     // If it is not from the store it is an active item
@@ -332,9 +332,9 @@ public class BaseObjectController : MonoBehaviour
         this.storeGameObject = storeGameObject;
     }
 
-    public void SetFirebaseGameObject(FirebaseGameObject firebaseGameObject)
+    public void SetFirebaseGameObject(DataGameObject firebaseGameObject)
     {
-        this.firebaseGameObject = firebaseGameObject;
+        this.dataGameObject = firebaseGameObject;
     }
 
     public bool GetIscurrentValidPos()

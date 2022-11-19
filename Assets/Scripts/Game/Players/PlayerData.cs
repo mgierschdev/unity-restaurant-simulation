@@ -85,7 +85,7 @@ public static class PlayerData
         {
             // TODO: Pop Up Level up
             // We save the data in case of app rewards
-            Firestore.SaveUser();
+            //Firestore.SaveUser();
         }
         levelText.text = GetLevel();
         expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(user.EXPERIENCE) / 100f;
@@ -136,79 +136,69 @@ public static class PlayerData
         return Guid.NewGuid().ToString() + "." + Guid.NewGuid().ToString().Substring(0, 5);
     }
 
-    public static async void InitUser(FirebaseAuth auth)
+    public static async void InitUser()
     {
-        string userId;
-        FirebaseUser firebaseUser = auth.CurrentUser;
+        // string userId;
+        //FirebaseUser firebaseUser = auth.CurrentUser;
         // Init user, worst case it will be replaced by a new user, to avoid any async exception
         SetEmptyUser();
 
-        // TODO: validation cloud functions
-        if (Settings.IsFirebaseEmulatorEnabled)
-        {
-            userId = Settings.TEST_USER;
-        }
-        else if (firebaseUser != null)
-        {
-            userId = firebaseUser.UserId;
-        }
-        else
-        {
-            //we set one temporal id
-            userId = GenerateID();
-        }
+        // TODO: Check if load file exist
+        // otherwise create one
+        //     //we set one temporal id
+        //     userId = GenerateID();
 
-        DocumentSnapshot snapshot = await Firestore.GetUserData(userId);
+        //  DocumentSnapshot snapshot = await Firestore.GetUserData(userId);
 
         // The player ID does not exist, we create a new one
-        if (snapshot == null)
-        {
-            user = new FirebaseGameUser
-            {
-                NAME = firebaseUser == null ? "undefined" : firebaseUser.DisplayName,
-                LANGUAGE_CODE = auth.LanguageCode,
-                INTERNAL_ID = GenerateID(),
-                GAME_MONEY = Settings.InitGameMoney,
-                GEMS = Settings.InitGems,
-                EXPERIENCE = Settings.InitExperience,
-                LEVEL = Settings.InitLevel,
-                FIREBASE_AUTH_ID = userId, // Is set to temp 213213123scsacsc.asdas2 if offline
-                EMAIL = firebaseUser == null ? "undefined@undefined.com" : firebaseUser.Email,
-                AUTH_TYPE = (int)(firebaseUser.IsAnonymous ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED),
-                LAST_LOGIN = FieldValue.ServerTimestamp,
-                CREATED_AT = FieldValue.ServerTimestamp,
-                GRID_SIZE = Settings.InitGridSize,
-                OBJECTS = new List<FirebaseGameObject>{
-                    new FirebaseGameObject{
-                        ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
-                        POSITION = new int[]{Settings.StartContainer[0], Settings.StartContainer[1]},
-                        IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT
-                    },
-                    new FirebaseGameObject{
-                        ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
-                        POSITION =  new int[]{Settings.StartTable[0], Settings.StartTable[1]},
-                        IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT
-                    },
-                }
-            };
+        // if (snapshot == null)
+        // {
+        //     user = new FirebaseGameUser
+        //     {
+        //         NAME = firebaseUser == null ? "undefined" : firebaseUser.DisplayName,
+        //         LANGUAGE_CODE = auth.LanguageCode,
+        //         INTERNAL_ID = GenerateID(),
+        //         GAME_MONEY = Settings.InitGameMoney,
+        //         GEMS = Settings.InitGems,
+        //         EXPERIENCE = Settings.InitExperience,
+        //         LEVEL = Settings.InitLevel,
+        //         FIREBASE_AUTH_ID = userId, // Is set to temp 213213123scsacsc.asdas2 if offline
+        //         EMAIL = firebaseUser == null ? "undefined@undefined.com" : firebaseUser.Email,
+        //         AUTH_TYPE = (int)(firebaseUser.IsAnonymous ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED),
+        //         LAST_LOGIN = FieldValue.ServerTimestamp,
+        //         CREATED_AT = FieldValue.ServerTimestamp,
+        //         GRID_SIZE = Settings.InitGridSize,
+        //         OBJECTS = new List<FirebaseGameObject>{
+        //             new FirebaseGameObject{
+        //                 ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
+        //                 POSITION = new int[]{Settings.StartContainer[0], Settings.StartContainer[1]},
+        //                 IS_STORED = false,
+        //                 ROTATION = (int) ObjectRotation.FRONT
+        //             },
+        //             new FirebaseGameObject{
+        //                 ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
+        //                 POSITION =  new int[]{Settings.StartTable[0], Settings.StartTable[1]},
+        //                 IS_STORED = false,
+        //                 ROTATION = (int) ObjectRotation.FRONT
+        //             },
+        //         }
+        //     };
 
-            await Firestore.SaveUser();
-        }
-        else
-        {
-            user = snapshot.ConvertTo<FirebaseGameUser>();
-            if (user.OBJECTS == null)
-            {
-                user.OBJECTS = new List<FirebaseGameObject>();
-            }
-        }
+        //     await Firestore.SaveUser();
+        // }
+        // else
+        // {
+        //     user = snapshot.ConvertTo<FirebaseGameUser>();
+        //     if (user.OBJECTS == null)
+        //     {
+        //         user.OBJECTS = new List<FirebaseGameObject>();
+        //     }
+        // }
     }
 
     public static void SetEmptyUser()
     {
-        user = new FirebaseGameUser
+        user = new DataGameUser
         {
             NAME = "undefined",
             LANGUAGE_CODE = "es_ES",
@@ -220,17 +210,17 @@ public static class PlayerData
             FIREBASE_AUTH_ID = GenerateID(),
             EMAIL = "undefined@undefined.com",
             AUTH_TYPE = (int)AuthSource.ANONYMOUS,
-            LAST_LOGIN = FieldValue.ServerTimestamp,
-            CREATED_AT = FieldValue.ServerTimestamp,
+            LAST_LOGIN = new DateTime(),
+            CREATED_AT = new DateTime(),
             GRID_SIZE = Settings.InitGridSize,
-            OBJECTS = new List<FirebaseGameObject>{
-                    new FirebaseGameObject{
+            OBJECTS = new List<DataGameObject>{
+                    new DataGameObject{
                         ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
                         POSITION = new int[]{Settings.StartContainer[0], Settings.StartContainer[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT
                     },
-                    new FirebaseGameObject{
+                    new DataGameObject{
                         ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
                         POSITION =  new int[]{Settings.StartTable[0], Settings.StartTable[1]},
                         IS_STORED = false,
@@ -245,8 +235,8 @@ public static class PlayerData
     // TODO: Saves every 10 minutes
     private async static void Quit()
     {
-        Task task = Firestore.SaveUser();
-        await task;
+       // Task task = Firestore.SaveUser();
+      //  await task;
     }
 
     [RuntimeInitializeOnLoadMethod]
@@ -255,7 +245,7 @@ public static class PlayerData
         Application.quitting += Quit;
     }
 
-    public static FirebaseGameUser GetFirebaseGameUser()
+    public static DataGameUser GetDataGameUser()
     {
         return user;
     }
@@ -282,16 +272,16 @@ public static class PlayerData
         return "";
     }
     // For new items, cannot be stored if it was recently added
-    public static void AddFirebaseGameObject(GameGridObject obj)
+    public static void AddDataGameObject(GameGridObject obj)
     {
-        FirebaseGameObject newObj = new FirebaseGameObject()
+        DataGameObject newObj = new DataGameObject()
         {
             ID = (int)obj.GetStoreGameObject().StoreItemType,
             POSITION = new int[] { obj.GridPosition.x, obj.GridPosition.y },
             IS_STORED = false,
             ROTATION = (int)obj.GetFacingPosition()
         };
-        obj.SetFirebaseGameObject(newObj);
+        obj.SetDataGameObject(newObj);
         user.OBJECTS.Add(newObj);
     }
 
