@@ -5,10 +5,8 @@ public static class UtilSaveFile
 {
     public static string[] GetSaveFiles()
     {
-        string path = Settings.DevEnv ? Settings.TestSaveDirectory + "/" : Application.persistentDataPath + "/";
-        string[] files = Directory.GetFiles(path, "*save.json");
-
-        Debug.Log("GetLatestSaveFile()");
+        string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" : Application.persistentDataPath + "/";
+        string[] files = Directory.GetFiles(path, "*" + Settings.SaveFileSuffix);
 
         foreach (string file in files)
         {

@@ -50,8 +50,8 @@ public class DataGameUser
     private async void SaveToJSONFile()
     {
         DateTime date = DateTime.Now;
-        string name = date + "save.json";
-        string path = Settings.DevEnv ? "Data/" + name : Application.persistentDataPath + "/" + name;
+        string name = date + Settings.SaveFileSuffix;
+        string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
         System.IO.File.WriteAllTextAsync(path, ToJSONString());
     }
 
