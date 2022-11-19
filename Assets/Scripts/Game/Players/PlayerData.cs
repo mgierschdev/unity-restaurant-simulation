@@ -137,6 +137,7 @@ public static class PlayerData
 
     public static async void InitUser()
     {
+        Debug.Log("Load init ");
         // if non-existent
         if (user.GetLatestSaveFile())
         {
@@ -144,6 +145,7 @@ public static class PlayerData
         }
         else
         {
+            Debug.Log("Setting empty user");
             SetEmptyUser();
             user.SaveToJSONFileAsync();
         }

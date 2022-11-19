@@ -8,15 +8,9 @@ using UnityEngine.UI;
 public class SceneLoadController : MonoBehaviour
 {
     private Slider slider;
-    // private FirebaseLoad firebase;
-    // private FirebaseAuth auth;
-    // Scene load
     private AsyncOperation operation;
     private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene;
-    // private DocumentSnapshot userData;
-    // private FirebaseUser newUser;
 
-    // Loads Auth and user data
     public async void Awake()
     {
         // We get the slider 
@@ -27,20 +21,8 @@ public class SceneLoadController : MonoBehaviour
         currentTimeAtScene = 0;
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
 
-        // Firebase Auth
         try
         {
-            // firebase = new FirebaseLoad();
-            // await firebase.InitFirebase();
-            // Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
-            // FirebaseAuth auth = FirebaseAuth.DefaultInstance;
-
-            // // If emulator is not enabled we init the anon auth, only if there is network connection
-            // if (!Settings.IsFirebaseEmulatorEnabled && Util.IsInternetReachable())
-            // {
-            //     // Critical exception in SignInAnonymouslyAsync if offline
-            //     await auth.SignInAnonymouslyAsync();
-            // }
             PlayerData.InitUser();
             operation = SceneManager.LoadSceneAsync(Settings.GameScene);
             // if not will load scene before filling the load animation
