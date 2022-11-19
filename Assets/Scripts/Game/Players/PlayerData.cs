@@ -139,18 +139,17 @@ public static class PlayerData
     {
         Debug.Log("Load init ");
         string[] filesaves = UtilJSONFile.GetSaveFiles();
-        // if non-existent
-        // if (.C)
-        // {
 
-        // }
-        // else
-        // {
-        Debug.Log("Setting empty user");
-        user = GetNewUser();
-        //Debug.Log("User " + user.ToJSONString());
-        user.SaveToJSONFileAsync();
-        // }
+        if (filesaves.Length > 0)
+        {
+            string json = UtilJSONFile.GetJsonFromFile(filesaves[0]);
+            user = DataGameUser.CreateFromJSON(json);
+        }
+        else
+        {
+            user = GetNewUser();
+            user.SaveToJSONFileAsync();
+        }
     }
 
     public static DataGameUser GetNewUser()
