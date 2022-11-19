@@ -138,17 +138,18 @@ public static class PlayerData
     public static void InitUser()
     {
         Debug.Log("Load init ");
+        string[] filesaves = user.GetSaveFiles();
         // if non-existent
-        if (user.GetSaveFiles())
-        {
+        // if (.C)
+        // {
 
-        }
-        else
-        {
+        // }
+        // else
+        // {
             Debug.Log("Setting empty user");
             SetEmptyUser();
             user.SaveToJSONFileAsync();
-        }
+       // }
     }
 
     public static void SetEmptyUser()
