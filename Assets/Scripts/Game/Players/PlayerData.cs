@@ -130,7 +130,7 @@ public static class PlayerData
         Inventory.Remove(obj);
     }
 
-    private static string GenerateID()
+    public static string GenerateID()
     {
         return Guid.NewGuid().ToString() + "." + Guid.NewGuid().ToString().Substring(0, 5);
     }
@@ -147,15 +147,15 @@ public static class PlayerData
         // else
         // {
         Debug.Log("Setting empty user");
-        SetEmptyUser();
+        user = GetNewUser();
         Debug.Log("User " + user.ToJSONString());
         user.SaveToJSONFileAsync();
         // }
     }
 
-    public static void SetEmptyUser()
+    public static DataGameUser GetNewUser()
     {
-        user = new DataGameUser
+        return new DataGameUser
         {
             NAME = "undefined",
             LANGUAGE_CODE = "es_ES",
