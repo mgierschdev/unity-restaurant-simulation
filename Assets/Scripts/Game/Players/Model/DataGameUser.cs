@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using IEnumerator = UnityEngine.Coroutine;
-// The same as [System.Serializable]
-[Serializable]
+[Serializable] // The same as [System.Serializable]
 public class DataGameUser
 {
     public string NAME { get; set; }
@@ -51,9 +49,6 @@ public class DataGameUser
     // Behaviour intended without await to the Task object
     private async void SaveToJSONFile()
     {
-        //Application persistent data Application.persistentDataPath
-        //System.IO.File.WriteAllText(Application.persistentDataPath + "/userData.json", ToJSONString());
-        //TODO: change user nada for the datta in which the save is taking place 
         DateTime date = DateTime.Now;
         string name = "save" + date + ".json";
         string path = Settings.DevEnv ? "Data/" + name : Application.persistentDataPath + "/" + name;
@@ -63,5 +58,13 @@ public class DataGameUser
     public void SaveToJSONFileAsync()
     {
         SaveToJSONFile();
+    }
+
+    public bool GetLatestSaveFile()
+    {
+        string path = Settings.DevEnv ? "Data/" : Application.persistentDataPath + "/";
+
+
+        return false;
     }
 }

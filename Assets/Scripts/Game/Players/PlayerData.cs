@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using IEnumerator = System.Collections.IEnumerator;
 
 public static class PlayerData
 {
@@ -140,65 +137,16 @@ public static class PlayerData
 
     public static async void InitUser()
     {
-        // string userId;
-        //FirebaseUser firebaseUser = auth.CurrentUser;
-        // Init user, worst case it will be replaced by a new user, to avoid any async exception
-
         // if non-existent
-        SetEmptyUser();
-        user.SaveToJSONFileAsync();
+        if (user.GetLatestSaveFile())
+        {
 
-        // TODO: Check if load file exist
-        // otherwise create one
-        //     //we set one temporal id
-        //     userId = GenerateID();
-
-        //  DocumentSnapshot snapshot = await Firestore.GetUserData(userId);
-
-        // The player ID does not exist, we create a new one
-        // if (snapshot == null)
-        // {
-        //     user = new FirebaseGameUser
-        //     {
-        //         NAME = firebaseUser == null ? "undefined" : firebaseUser.DisplayName,
-        //         LANGUAGE_CODE = auth.LanguageCode,
-        //         INTERNAL_ID = GenerateID(),
-        //         GAME_MONEY = Settings.InitGameMoney,
-        //         GEMS = Settings.InitGems,
-        //         EXPERIENCE = Settings.InitExperience,
-        //         LEVEL = Settings.InitLevel,
-        //         FIREBASE_AUTH_ID = userId, // Is set to temp 213213123scsacsc.asdas2 if offline
-        //         EMAIL = firebaseUser == null ? "undefined@undefined.com" : firebaseUser.Email,
-        //         AUTH_TYPE = (int)(firebaseUser.IsAnonymous ? AuthSource.ANONYMOUS : AuthSource.UNDEFINED),
-        //         LAST_LOGIN = FieldValue.ServerTimestamp,
-        //         CREATED_AT = FieldValue.ServerTimestamp,
-        //         GRID_SIZE = Settings.InitGridSize,
-        //         OBJECTS = new List<FirebaseGameObject>{
-        //             new FirebaseGameObject{
-        //                 ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
-        //                 POSITION = new int[]{Settings.StartContainer[0], Settings.StartContainer[1]},
-        //                 IS_STORED = false,
-        //                 ROTATION = (int) ObjectRotation.FRONT
-        //             },
-        //             new FirebaseGameObject{
-        //                 ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
-        //                 POSITION =  new int[]{Settings.StartTable[0], Settings.StartTable[1]},
-        //                 IS_STORED = false,
-        //                 ROTATION = (int) ObjectRotation.FRONT
-        //             },
-        //         }
-        //     };
-
-        //     await Firestore.SaveUser();
-        // }
-        // else
-        // {
-        //     user = snapshot.ConvertTo<FirebaseGameUser>();
-        //     if (user.OBJECTS == null)
-        //     {
-        //         user.OBJECTS = new List<FirebaseGameObject>();
-        //     }
-        // }
+        }
+        else
+        {
+            SetEmptyUser();
+            user.SaveToJSONFileAsync();
+        }
     }
 
     public static void SetEmptyUser()
@@ -241,8 +189,6 @@ public static class PlayerData
     private async static void Quit()
     {
         user.SaveToJSONFileAsync();
-        // Task task = Firestore.SaveUser();
-        // await task;
     }
 
     [RuntimeInitializeOnLoadMethod]
