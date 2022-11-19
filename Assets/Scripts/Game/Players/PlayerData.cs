@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using IEnumerator = System.Collections.IEnumerator;
 
 public static class PlayerData
 {
@@ -83,9 +85,9 @@ public static class PlayerData
         user.LEVEL = PlayerLevelCalculator.GetLevel(user.EXPERIENCE);
         if (PrevLevel < user.LEVEL)
         {
-            // TODO: Pop Up Level up
+            // TODO: Pop Up Level up, and add to a co-routine
             // We save the data in case of app rewards
-            //Firestore.SaveUser();
+            user.SaveToJSONFileAsync();
         }
         levelText.text = GetLevel();
         expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(user.EXPERIENCE) / 100f;
@@ -144,7 +146,7 @@ public static class PlayerData
 
         // if non-existent
         SetEmptyUser();
-        user.SaveToJSONFile();
+        user.SaveToJSONFileAsync();
 
         // TODO: Check if load file exist
         // otherwise create one
@@ -235,12 +237,12 @@ public static class PlayerData
 
     // Control times in which we save the game
     // Saves when the user closes the app
-    // TODO: Saves every 10 minutes
+    // TODO: Saves every 10 minutes, add to coroutine
     private async static void Quit()
     {
-        user.SaveToJSONFile();
-       // Task task = Firestore.SaveUser();
-      //  await task;
+        user.SaveToJSONFileAsync();
+        // Task task = Firestore.SaveUser();
+        // await task;
     }
 
     [RuntimeInitializeOnLoadMethod]

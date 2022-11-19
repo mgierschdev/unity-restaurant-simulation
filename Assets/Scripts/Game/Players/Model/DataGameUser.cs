@@ -1,7 +1,7 @@
 using System;
-using UnityEngine;
 using System.Collections.Generic;
-
+using UnityEngine;
+using IEnumerator = UnityEngine.Coroutine;
 // The same as [System.Serializable]
 [Serializable]
 public class DataGameUser
@@ -48,11 +48,17 @@ public class DataGameUser
     }
 
     // Saves to a json file 
-    public void SaveToJSONFile()
+    // Behaviour intended without await to the Task object
+    private async void SaveToJSONFile()
     {
         //Application persistent data Application.persistentDataPath
         //System.IO.File.WriteAllText(Application.persistentDataPath + "/userData.json", ToJSONString());
         //TODO: change user nada for the datta in which the save is taking place 
-        System.IO.File.WriteAllText("userData.json", ToJSONString());
+        System.IO.File.WriteAllTextAsync("userData.json", ToJSONString());
+    }
+
+    public void SaveToJSONFileAsync()
+    {
+        SaveToJSONFile();
     }
 }
