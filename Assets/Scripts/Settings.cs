@@ -63,6 +63,9 @@ public static class Settings
     public const int ConstDefaultCameraWidth = 1500,
     ConstDefaultCameraHeight = 1600;
 
+    // Save Data directory
+    public const string TestSaveDirectory = "UserData";
+
     //NPC Default
     public const float MinDistanceToTarget = 0.001f;
     public const int NpcDefaultEnergy = 100;
