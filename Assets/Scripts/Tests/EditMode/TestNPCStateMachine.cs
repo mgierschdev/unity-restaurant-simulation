@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
 
 public class TestNPCStateMachine
 {
@@ -18,7 +17,7 @@ public class TestNPCStateMachine
     {
         StateMachine<NpcState, NpcStateTransitions> stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine("ID");
         stateMachine.printStateMachine();
-        Assert.True(AssertStates(stateMachine.Map[NpcState.IDLE], 9));
+        Assert.True(AssertStates(stateMachine.Map[NpcState.IDLE], 17));
     }
 
     // connected states not necesarily all of them
