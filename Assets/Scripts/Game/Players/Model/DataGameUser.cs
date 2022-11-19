@@ -4,25 +4,39 @@ using UnityEngine;
 [Serializable] // The same as [System.Serializable]
 public class DataGameUser : MonoBehaviour
 {
+    [SerializeField]
     public string NAME;
+    [SerializeField]
     public Double GAME_MONEY;
+    [SerializeField]
     public Double GEMS;
+    [SerializeField]
     public Double EXPERIENCE;
+    [SerializeField]
     public int LEVEL;
+    [SerializeField]
     public int GRID_SIZE;
+    [SerializeField]
     public string LANGUAGE_CODE;
+    [SerializeField]
     public string INTERNAL_ID;
+    [SerializeField]
     public string FIREBASE_AUTH_ID;
+    [SerializeField]
     public string EMAIL;
+    [SerializeField]
     public int AUTH_TYPE;
+    [SerializeField]
     public DateTime LAST_LOGIN;
+    [SerializeField]
     public DateTime CREATED_AT;
+    [SerializeField]
     public List<DataGameObject> OBJECTS;
 
     // Convert to JSON string
     public string ToJSONString()
     {
-        return JsonUtility.ToJson(this);
+        return JsonUtility.ToJson(this, Settings.DevEnv);
     }
 
     // Create object from JSON
@@ -47,10 +61,9 @@ public class DataGameUser : MonoBehaviour
     // Saves to a json file 
     private async void SaveToJSONFile()
     {
-        Debug.Log("User " + NAME + " " + GAME_MONEY);
-
-        double date = DateTime.Now.ToOADate();
-        string name = date + Settings.SaveFileSuffix;
+        DateTime date = DateTime.Now;
+        string today = date.Day + "-" + date.Month + "-" + date.Year;
+        string name = today + Settings.SaveFileSuffix;
         string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
         await System.IO.File.WriteAllTextAsync(path, ToJSONString());
     }
