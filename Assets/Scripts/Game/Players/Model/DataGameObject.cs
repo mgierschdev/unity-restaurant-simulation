@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
-using System.Collections.Generic;
 
 [Serializable]
-public class DataGameObject
+public class DataGameObject : MonoBehaviour
 {
-    public int ID { get; set; } //StoreItemType
-    public int[] POSITION { get; set; }
-    public bool IS_STORED { get; set; }
-    public int ROTATION { get; set; }
+    public int ID;//StoreItemType
+    public int[] POSITION;
+    public bool IS_STORED;
+    public int ROTATION;
 
     public override string ToString()
     {

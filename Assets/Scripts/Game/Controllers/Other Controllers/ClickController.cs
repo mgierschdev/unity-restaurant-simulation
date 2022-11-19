@@ -4,8 +4,8 @@ using UnityEngine;
 // Controlled attached to Game scene and main Game Object.
 public class ClickController : MonoBehaviour
 {
-    private bool isClicking, isLongClick, isPressingButton, mouseOverUI;
-    private float clickingTime, LONG_CLICK_DURATION = 0.2f, lastClickTime;
+    private bool isPressingButton, mouseOverUI;
+    private float /*LONG_CLICK_DURATION = 0.2f,*/ lastClickTime;
     private Camera mainCamera;
     private GameObject clickedObject;
     private GameGridObject clickedGameGridObject;
@@ -14,9 +14,8 @@ public class ClickController : MonoBehaviour
     private void Start()
     {
         // Long Click
-        clickingTime = 0;
-        isClicking = false;
-        isLongClick = false;
+      //  clickingTime = 0;
+       //isClicking = false;
         mainCamera = Camera.main;
 
         // Time passed between clicks 
@@ -38,37 +37,36 @@ public class ClickController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             lastClickTime = Time.unscaledTime;
-            clickingTime = 0;
-            isClicking = true;
+          //  clickingTime = 0;
+           // isClicking = true;
         }
 
         // During Click
-        if (isClicking)
-        {
+        // if (isClicking)
+        // {
             // Continues counting even while the game is paused
-            if (Time.deltaTime == 0)
-            {
-                clickingTime += Time.unscaledDeltaTime;
-            }
-            else
-            {
-                clickingTime += Time.fixedDeltaTime;
-            }
-        }
+        //     if (Time.deltaTime == 0)
+        //     {
+        //         clickingTime += Time.unscaledDeltaTime;
+        //     }
+        //     else
+        //     {
+        //         clickingTime += Time.fixedDeltaTime;
+        //     }
+        // }
 
         // On release, the mouse
-        if (Input.GetMouseButtonUp(0))
-        {
-            clickingTime = 0;
-            isClicking = false;
-            isLongClick = false;
-        }
+        // if (Input.GetMouseButtonUp(0))
+        // {
+        //  //   clickingTime = 0;
+        //     isClicking = false;
+        // }
 
         // Resets isLongClick
-        if (clickingTime > LONG_CLICK_DURATION)
-        {
-            isLongClick = true;
-        }
+        // if (clickingTime > LONG_CLICK_DURATION)
+        // {
+        //     isLongClick = true;
+        // }
     }
 
     // The object must have a collider attached, used for when clicking individual NPCs or detecting long click for the player
