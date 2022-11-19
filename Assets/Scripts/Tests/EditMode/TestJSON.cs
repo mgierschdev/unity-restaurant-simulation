@@ -23,26 +23,29 @@ public class TestJSON
             GameLog.Log("Name " + loadUser.NAME);
         }
 
-        Assert.Equals(user.NAME, loadUser.NAME);
-        Assert.Equals(user.AUTH_TYPE, loadUser.AUTH_TYPE);
-        Assert.Equals(user.CREATED_AT, loadUser.CREATED_AT);
-        Assert.Equals(user.EMAIL, loadUser.EMAIL);
-        Assert.Equals(user.EXPERIENCE, loadUser.EXPERIENCE);
-        Assert.Equals(user.FIREBASE_AUTH_ID, loadUser.FIREBASE_AUTH_ID);
-        Assert.Equals(user.GAME_MONEY, loadUser.GAME_MONEY);
-        Assert.Equals(user.GEMS, loadUser.GEMS);
-        Assert.Equals(user.GRID_SIZE, loadUser.GRID_SIZE);
-        Assert.Equals(user.INTERNAL_ID, loadUser.INTERNAL_ID);
-        Assert.Equals(user.LANGUAGE_CODE, loadUser.LANGUAGE_CODE);
-        Assert.Equals(user.LAST_LOGIN, loadUser.LAST_LOGIN);
-        Assert.Equals(user.LEVEL, loadUser.LEVEL);
+
+        GameLog.Log(user.NAME + " " + loadUser.NAME);
+
+        Assert.AreEqual(user.NAME, loadUser.NAME);
+        Assert.AreEqual(user.AUTH_TYPE, loadUser.AUTH_TYPE);
+        Assert.AreEqual(user.CREATED_AT, loadUser.CREATED_AT);
+        Assert.AreEqual(user.EMAIL, loadUser.EMAIL);
+        Assert.AreEqual(user.EXPERIENCE, loadUser.EXPERIENCE);
+        Assert.AreEqual(user.FIREBASE_AUTH_ID, loadUser.FIREBASE_AUTH_ID);
+        Assert.AreEqual(user.GAME_MONEY, loadUser.GAME_MONEY);
+        Assert.AreEqual(user.GEMS, loadUser.GEMS);
+        Assert.AreEqual(user.GRID_SIZE, loadUser.GRID_SIZE);
+        Assert.AreEqual(user.INTERNAL_ID, loadUser.INTERNAL_ID);
+        Assert.AreEqual(user.LANGUAGE_CODE, loadUser.LANGUAGE_CODE);
+        Assert.AreEqual(user.LAST_LOGIN, loadUser.LAST_LOGIN);
+        Assert.AreEqual(user.LEVEL, loadUser.LEVEL);
 
         for (int i = 0; i < user.OBJECTS.Count; i++)
         {
-            Assert.Equals(user.OBJECTS[i].ID, loadUser.OBJECTS[i].ID);
-            Assert.Equals(user.OBJECTS[i].IS_STORED, loadUser.OBJECTS[i].IS_STORED);
-            Assert.Equals(user.OBJECTS[i].POSITION, loadUser.OBJECTS[i].POSITION);
-            Assert.Equals(user.OBJECTS[i].ROTATION, loadUser.OBJECTS[i].ROTATION);
+            Assert.AreEqual(user.OBJECTS[i].ID, loadUser.OBJECTS[i].ID);
+            Assert.AreEqual(user.OBJECTS[i].IS_STORED, loadUser.OBJECTS[i].IS_STORED);
+            Assert.AreEqual(user.OBJECTS[i].POSITION, loadUser.OBJECTS[i].POSITION);
+            Assert.AreEqual(user.OBJECTS[i].ROTATION, loadUser.OBJECTS[i].ROTATION);
         }
     }
 }
