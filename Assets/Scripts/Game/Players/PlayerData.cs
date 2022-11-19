@@ -135,11 +135,11 @@ public static class PlayerData
         return Guid.NewGuid().ToString() + "." + Guid.NewGuid().ToString().Substring(0, 5);
     }
 
-    public static async void InitUser()
+    public static void InitUser()
     {
         Debug.Log("Load init ");
         // if non-existent
-        if (user.GetLatestSaveFile())
+        if (user.GetSaveFiles())
         {
 
         }
