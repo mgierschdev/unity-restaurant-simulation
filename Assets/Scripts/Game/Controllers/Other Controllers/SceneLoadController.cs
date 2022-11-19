@@ -1,6 +1,4 @@
 using System;
-using Firebase.Auth;
-using Firebase.Firestore;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
