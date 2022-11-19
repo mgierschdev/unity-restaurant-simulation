@@ -1,12 +1,13 @@
+using System;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class TestJSON
 {
     [Test]
     public void TestSaveJSON()
     {
+        DataGameUser user = PlayerData.GetNewUser();
 
     }
 }
