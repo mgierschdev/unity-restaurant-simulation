@@ -146,10 +146,11 @@ public static class PlayerData
         // }
         // else
         // {
-            Debug.Log("Setting empty user");
-            SetEmptyUser();
-            user.SaveToJSONFileAsync();
-       // }
+        Debug.Log("Setting empty user");
+        SetEmptyUser();
+        Debug.Log("User " + user.ToJSONString());
+        user.SaveToJSONFileAsync();
+        // }
     }
 
     public static void SetEmptyUser()
@@ -189,7 +190,7 @@ public static class PlayerData
     // Control times in which we save the game
     // Saves when the user closes the app
     // TODO: Saves every 10 minutes, add to coroutine
-    private async static void Quit()
+    private static void Quit()
     {
         user.SaveToJSONFileAsync();
     }
