@@ -65,12 +65,7 @@ public class DataGameUser
         string today = date.Day + "-" + date.Month + "-" + date.Year;
         string name = today + Settings.SaveFileSuffix;
         string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
-        await System.IO.File.WriteAllTextAsync(path, ToJSONString(false));
-
-        if (Settings.DevEnv)
-        {
-            await System.IO.File.WriteAllTextAsync(path, ToJSONString(true));
-        }
+        await System.IO.File.WriteAllTextAsync(path, ToJSONString(Settings.DevEnv));
     }
 
     public void SaveToJSONFileAsync()

@@ -148,7 +148,7 @@ public static class PlayerData
         // {
         Debug.Log("Setting empty user");
         user = GetNewUser();
-        Debug.Log("User " + user.ToJSONString());
+        //Debug.Log("User " + user.ToJSONString());
         user.SaveToJSONFileAsync();
         // }
     }
