@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Directory = System.IO.Directory;
 [Serializable] // The same as [System.Serializable]
 public class DataGameUser
 {
@@ -59,20 +58,5 @@ public class DataGameUser
     public void SaveToJSONFileAsync()
     {
         SaveToJSONFile();
-    }
-
-    public string[] GetSaveFiles()
-    {
-        string path = Settings.DevEnv ? "Data/" : Application.persistentDataPath + "/";
-        string[] files = Directory.GetFiles(path, "*save.json");
-
-        Debug.Log("GetLatestSaveFile()");
-
-        foreach (string file in files)
-        {
-            Debug.Log(file);
-        }
-
-        return files;
     }
 }
