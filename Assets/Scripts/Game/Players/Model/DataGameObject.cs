@@ -1,15 +1,8 @@
-using Firebase.Firestore;
-
-[FirestoreData]
-public class FirebaseGameObject
+public class DataGameObject
 {
-    [FirestoreProperty]
     public int ID { get; set; } //StoreItemType
-    [FirestoreProperty]
     public int[] POSITION { get; set; }
-    [FirestoreProperty]
     public bool IS_STORED { get; set; }
-    [FirestoreProperty]
     public int ROTATION { get; set; }
 
     public override string ToString()

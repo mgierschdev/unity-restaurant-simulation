@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Firebase.Auth;
-using Firebase.Firestore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +11,7 @@ public static class PlayerData
     private static Slider expirienceSlider;
     private static List<GameGridObject> storedIventory, Inventory;
     private static HashSet<string> setStoredInventory; // Saved stored inventory by ID
-    private static FirebaseGameUser user;
+    private static DataGameUser user;
 
     // Recieves the reference to the UI Text
     public static void SetPlayerData(TextMeshProUGUI moneyText, TextMeshProUGUI levelText, TextMeshProUGUI gemsText, Slider expirienceSlider)
