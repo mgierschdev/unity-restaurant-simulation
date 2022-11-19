@@ -7,7 +7,7 @@ public static class Settings
     public const float NpcDefaultMovementSpeed = 3f;
 
 #if UNITY_EDITOR
-    public const bool devEnv = true;
+    public const bool DevEnv = true;
 #else
     public const bool devEnv = false;
 #endif

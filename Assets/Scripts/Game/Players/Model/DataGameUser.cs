@@ -54,7 +54,10 @@ public class DataGameUser
         //Application persistent data Application.persistentDataPath
         //System.IO.File.WriteAllText(Application.persistentDataPath + "/userData.json", ToJSONString());
         //TODO: change user nada for the datta in which the save is taking place 
-        System.IO.File.WriteAllTextAsync("userData.json", ToJSONString());
+        DateTime date = DateTime.Now;
+        string name = "save" + date + ".json";
+        string path = Settings.DevEnv ? "Data/" + name : Application.persistentDataPath + "/" + name;
+        System.IO.File.WriteAllTextAsync(path, ToJSONString());
     }
 
     public void SaveToJSONFileAsync()
