@@ -7,12 +7,6 @@ public static class UtilSaveFile
     {
         string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" : Application.persistentDataPath + "/";
         string[] files = Directory.GetFiles(path, "*" + Settings.SaveFileSuffix);
-
-        foreach (string file in files)
-        {
-            Debug.Log(file);
-        }
-
         return files;
     }
 }

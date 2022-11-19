@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class DataGameObject : MonoBehaviour
+public class DataGameObject
 {
     [SerializeField]
     public int ID;//StoreItemType

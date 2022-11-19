@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable] // The same as [System.Serializable]
-public class DataGameUser : MonoBehaviour
+public class DataGameUser
 {
     [SerializeField]
     public string NAME;
@@ -34,9 +34,9 @@ public class DataGameUser : MonoBehaviour
     public List<DataGameObject> OBJECTS;
 
     // Convert to JSON string
-    public string ToJSONString()
+    public string ToJSONString(Boolean pretty)
     {
-        return JsonUtility.ToJson(this, Settings.DevEnv);
+        return JsonUtility.ToJson(this, pretty);
     }
 
     // Create object from JSON
@@ -65,7 +65,12 @@ public class DataGameUser : MonoBehaviour
         string today = date.Day + "-" + date.Month + "-" + date.Year;
         string name = today + Settings.SaveFileSuffix;
         string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
-        await System.IO.File.WriteAllTextAsync(path, ToJSONString());
+        await System.IO.File.WriteAllTextAsync(path, ToJSONString(false));
+
+        if (Settings.DevEnv)
+        {
+            await System.IO.File.WriteAllTextAsync(path, ToJSONString(true));
+        }
     }
 
     public void SaveToJSONFileAsync()
