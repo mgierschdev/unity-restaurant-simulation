@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class SceneLoadController : MonoBehaviour
 {
     private Slider slider;
-    private FirebaseLoad firebase;
-    private FirebaseAuth auth;
+    // private FirebaseLoad firebase;
+    // private FirebaseAuth auth;
     // Scene load
     private AsyncOperation operation;
     private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene;
-    private DocumentSnapshot userData;
-    private FirebaseUser newUser;
+    // private DocumentSnapshot userData;
+    // private FirebaseUser newUser;
 
     // Loads Auth and user data
     public async void Awake()
@@ -30,19 +30,18 @@ public class SceneLoadController : MonoBehaviour
         // Firebase Auth
         try
         {
-            firebase = new FirebaseLoad();
-            await firebase.InitFirebase();
-            Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
-            FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+            // firebase = new FirebaseLoad();
+            // await firebase.InitFirebase();
+            // Firestore.Init(Settings.IsFirebaseEmulatorEnabled);
+            // FirebaseAuth auth = FirebaseAuth.DefaultInstance;
 
-            // If emulator is not enabled we init the anon auth, only if there is network connection
-            if (!Settings.IsFirebaseEmulatorEnabled && Util.IsInternetReachable())
-            {
-                // Critical exception in SignInAnonymouslyAsync if offline
-                await auth.SignInAnonymouslyAsync();
-            }
-
-            PlayerData.InitUser(auth);
+            // // If emulator is not enabled we init the anon auth, only if there is network connection
+            // if (!Settings.IsFirebaseEmulatorEnabled && Util.IsInternetReachable())
+            // {
+            //     // Critical exception in SignInAnonymouslyAsync if offline
+            //     await auth.SignInAnonymouslyAsync();
+            // }
+            PlayerData.InitUser();
             operation = SceneManager.LoadSceneAsync(Settings.GameScene);
             // if not will load scene before filling the load animation
             operation.allowSceneActivation = false;
@@ -61,7 +60,7 @@ public class SceneLoadController : MonoBehaviour
         if (operation != null
         && Mathf.Approximately(operation.progress, 0.9f)
         && currentTimeAtScene >= MIN_TIME_LOADING
-        && PlayerData.GetFirebaseGameUser() != null)
+        && PlayerData.GetDataGameUser() != null)
         {
             operation.allowSceneActivation = true;
         }

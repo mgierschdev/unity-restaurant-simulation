@@ -1,8 +1,7 @@
 public static class Settings
 {
     //DEBUG/DEV parameterss
-    public const bool IsFirebaseEmulatorEnabled = true,
-    CellDebug = false;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f;
 
@@ -63,12 +62,6 @@ public static class Settings
     public const string LoadSlider = "LoadSlider",
     TopPopUpObject = "InfoPopUp",
     NpcCharacter = "Character";
-
-    //FIREBASE TEST ENV 
-    public const string FIRESTORE_HOST = "localhost:8080",
-    CLOUD_FUNCTION_HOST = IsFirebaseEmulatorEnabled ? "localhost:5001" : "",
-    USER_PRED_PROD_COLLECTION = "PreProd",
-    TEST_USER = "TESTUSERID";
 
     //GAME TAGS
     public const string gameName = "Idle Tycoon - Business",

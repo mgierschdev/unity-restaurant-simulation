@@ -138,11 +138,11 @@ public static class MenuObjectList
         return "";
     }
 
-    public static List<FirebaseGameObject> LoadCurrentUserStorage()
+    public static List<DataGameObject> LoadCurrentUserStorage()
     {
-        List<FirebaseGameObject> storage = new List<FirebaseGameObject>();
+        List<DataGameObject> storage = new List<DataGameObject>();
 
-        foreach (FirebaseGameObject obj in PlayerData.GetFirebaseGameUser().OBJECTS)
+        foreach (DataGameObject obj in PlayerData.GetDataGameUser().OBJECTS)
         {
             if (obj.IS_STORED)
             {

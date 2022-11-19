@@ -14,7 +14,7 @@ public class DataGameUser
     public string FIREBASE_AUTH_ID { get; set; }
     public string EMAIL { get; set; }
     public int AUTH_TYPE { get; set; }
-    public object LAST_LOGIN { get; set; }
-    public object CREATED_AT { get; set; }
+    public DateTime LAST_LOGIN { get; set; }
+    public DateTime CREATED_AT { get; set; }
     public List<DataGameObject> OBJECTS { get; set; }
 }

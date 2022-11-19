@@ -249,8 +249,8 @@ public class GridDebugPanel : EditorWindow
 
         maps += " \n";
 
-        maps += "FirebaseObjects size: " + PlayerData.GetFirebaseGameUser().OBJECTS.Count + " \n";
-        foreach (FirebaseGameObject g in PlayerData.GetFirebaseGameUser().OBJECTS)
+        maps += "FirebaseObjects size: " + PlayerData.GetDataGameUser().OBJECTS.Count + " \n";
+        foreach (DataGameObject g in PlayerData.GetDataGameUser().OBJECTS)
         {
             maps += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
         }
