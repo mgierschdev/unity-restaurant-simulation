@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
+// The same as [System.Serializable]
+[Serializable]
 public class DataGameUser
 {
     public string NAME { get; set; }

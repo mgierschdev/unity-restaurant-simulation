@@ -141,7 +141,10 @@ public static class PlayerData
         // string userId;
         //FirebaseUser firebaseUser = auth.CurrentUser;
         // Init user, worst case it will be replaced by a new user, to avoid any async exception
+
+        // if non-existent
         SetEmptyUser();
+        user.SaveToJSONFile();
 
         // TODO: Check if load file exist
         // otherwise create one
@@ -235,6 +238,7 @@ public static class PlayerData
     // TODO: Saves every 10 minutes
     private async static void Quit()
     {
+        user.SaveToJSONFile();
        // Task task = Firestore.SaveUser();
       //  await task;
     }
