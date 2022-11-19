@@ -138,7 +138,7 @@ public static class PlayerData
     public static void InitUser()
     {
         Debug.Log("Load init ");
-        string[] filesaves = UtilSaveFile.GetSaveFiles();
+        string[] filesaves = UtilJSONFile.GetSaveFiles();
         // if non-existent
         // if (.C)
         // {

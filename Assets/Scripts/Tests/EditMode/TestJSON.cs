@@ -10,11 +10,11 @@ public class TestJSON
         DataGameUser user = PlayerData.GetNewUser();
         user.SaveToJSONFileAsync();
 
-        string[] files = UtilSaveFile.GetSaveFiles();
+        string[] files = UtilJSONFile.GetSaveFiles();
+        string json = UtilJSONFile.GetJsonFromFile(files[0]);
         GameLog.Log("Loading user from file " + files[0]);
-        DataGameUser loadUser = DataGameUser.CreateFromJSON(files[0]);
-        GameLog.Log("User created " + loadUser.NAME + " " + loadUser.INTERNAL_ID);
-
-        
+        GameLog.Log("Content of the json file " + json);
+        DataGameUser loadUser = DataGameUser.CreateFromJSON(json);
+        //GameLog.Log("User created " + loadUser.NAME + " " + loadUser.INTERNAL_ID);
     }
 }
