@@ -61,17 +61,18 @@ public class DataGameUser
         SaveToJSONFile();
     }
 
-    public bool GetLatestSaveFile()
+    public string[] GetSaveFiles()
     {
         string path = Settings.DevEnv ? "Data/" : Application.persistentDataPath + "/";
-
         string[] files = Directory.GetFiles(path, "*save.json");
+
+        Debug.Log("GetLatestSaveFile()");
 
         foreach (string file in files)
         {
             Debug.Log(file);
         }
-        
-        return false;
+
+        return files;
     }
 }
