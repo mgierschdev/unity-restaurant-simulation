@@ -64,7 +64,8 @@ public static class Settings
     ConstDefaultCameraHeight = 1600;
 
     // Save Data directory
-    public const string TestSaveDirectory = "UserData";
+    public const string DevSaveDirectory = "UserData";
+    public const string SaveFileSuffix = "save.json";
 
     //NPC Default
     public const float MinDistanceToTarget = 0.001f;
