@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class DataGameUser
@@ -17,4 +18,39 @@ public class DataGameUser
     public DateTime LAST_LOGIN { get; set; }
     public DateTime CREATED_AT { get; set; }
     public List<DataGameObject> OBJECTS { get; set; }
+
+
+    // Convert to JSON string
+    public string ToJSONString()
+    {
+        return JsonUtility.ToJson(this);
+    }
+
+    // Create object from JSON
+    public static DataGameUser CreateFromJSON(string jsonString)
+    {
+        return JsonUtility.FromJson<DataGameUser>(jsonString);
+    }
+
+    // load from JSON data
+    public void Load(string savedData)
+    {
+        JsonUtility.FromJsonOverwrite(savedData, this);
+    }
+
+    // Load object from json file inside the resource folder
+    public void LoadFromJSONFile(string file)
+    {
+        TextAsset jsonTextFile = Resources.Load<TextAsset>(file);
+        Load(jsonTextFile.text);
+    }
+
+    // Saves to a json file 
+    public void SaveToJSONFile()
+    {
+        //Application persistent data Application.persistentDataPath
+        //System.IO.File.WriteAllText(Application.persistentDataPath + "/userData.json", ToJSONString());
+        //TODO: change user nada for the datta in which the save is taking place 
+        System.IO.File.WriteAllText("userData.json", ToJSONString());
+    }
 }
