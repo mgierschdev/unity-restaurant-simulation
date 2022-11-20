@@ -7,10 +7,7 @@ public class TestJSON
     {
         DataGameUser user = PlayerData.GetNewUser();
         user.SaveToJSONFileAsync();
-
-        string[] files = UtilJSONFile.GetSaveFiles();
-        string json = UtilJSONFile.GetJsonFromFile(files[0]);
-        GameLog.Log("Loading user from file " + files[0]);
+        string json = UtilJSONFile.GetJsonFromFile(DataGameUser.GetSaveFileName());
         GameLog.Log("Content of the json file " + json);
         DataGameUser loadUser = DataGameUser.CreateFromJSON(json);
 

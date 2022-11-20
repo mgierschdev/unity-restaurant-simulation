@@ -61,15 +61,19 @@ public class DataGameUser
     // Saves to a json file 
     private async void SaveToJSONFile()
     {
-        DateTime date = DateTime.Now;
-        string today = date.Day + "-" + date.Month + "-" + date.Year;
-        string name = today + Settings.SaveFileSuffix;
-        string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
-        await System.IO.File.WriteAllTextAsync(path, ToJSONString(Settings.DevEnv));
+        await System.IO.File.WriteAllTextAsync(GetSaveFileName(), ToJSONString(Settings.DevEnv));
     }
 
     public void SaveToJSONFileAsync()
     {
         SaveToJSONFile();
+    }
+
+    public static string GetSaveFileName()
+    {
+        DateTime date = DateTime.Now;
+        string today = date.Day + "-" + date.Month + "-" + date.Year;
+        string name = today + Settings.SaveFileSuffix;
+        return Settings.DevEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
     }
 }
