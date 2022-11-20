@@ -107,6 +107,7 @@ public enum MenuTab
 {
     TABLES_TAB = 1,//COUNTER HERE
     DISPENSERS = 2,
+    RESEARCH = 3,
     // EMPLOYEE_TAB = 4,//YOU MOST HAVE A COUNTER
     // IN_GAME_STORE_TAB = 5,
     STORAGE_TAB = 6,

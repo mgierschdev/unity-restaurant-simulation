@@ -131,7 +131,7 @@ public static class MenuObjectList
         {
             case MenuTab.TABLES_TAB: return "Tables";
             case MenuTab.DISPENSERS: return "Dispensers";
-            // case MenuTab.IN_GAME_STORE_TAB: return "Store";
+            case MenuTab.RESEARCH: return "Research";
             case MenuTab.STORAGE_TAB: return "Storage";
             case MenuTab.SETTINGS_TAB: return "Settings";
         }
