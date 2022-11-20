@@ -137,12 +137,11 @@ public static class PlayerData
 
     public static void InitUser()
     {
-        Debug.Log("Load init ");
         string[] filesaves = UtilJSONFile.GetSaveFiles();
 
         if (filesaves.Length > 0)
         {
-            string json = UtilJSONFile.GetJsonFromFile(filesaves[0]);
+            string json = UtilJSONFile.GetJsonFromFile(filesaves[filesaves.Length - 1]);
             user = DataGameUser.CreateFromJSON(json);
         }
         else

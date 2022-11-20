@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Directory = System.IO.Directory;
 
@@ -7,6 +8,7 @@ public static class UtilJSONFile
     {
         string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" : Application.persistentDataPath + "/";
         string[] files = Directory.GetFiles(path, "*" + Settings.SaveFileSuffix);
+        Array.Sort(files);
         return files;
     }
 
