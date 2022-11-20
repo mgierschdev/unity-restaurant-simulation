@@ -3359,7 +3359,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Waist/Leg-Right/Knee-Right/Foot-Right/Foot-Right_1
+    path: Waist/Torso/Chest/Arm-Right/Elbow-Right
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3369,7 +3369,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Waist/Leg-Right/Knee-Right/Foot-Right/Foot-Right_1
+    path: Waist/Torso/Chest/Arm-Right/Elbow-Right
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3379,7 +3379,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Waist/Leg-Right/Knee-Right/Foot-Right/Foot-Right_1
+    path: Waist/Torso/Chest/Arm-Right/Elbow-Right
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3719,7 +3719,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Waist/Torso/Chest/Arm-Right/Elbow-Right
+    path: Waist/Leg-Right/Knee-Right/Foot-Right/Foot-Right_1
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3729,7 +3729,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Waist/Torso/Chest/Arm-Right/Elbow-Right
+    path: Waist/Leg-Right/Knee-Right/Foot-Right/Foot-Right_1
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3739,7 +3739,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Waist/Torso/Chest/Arm-Right/Elbow-Right
+    path: Waist/Leg-Right/Knee-Right/Foot-Right/Foot-Right_1
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
