@@ -2,7 +2,7 @@ public static class Settings
 {
 
     // General Config
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f;
 
@@ -12,7 +12,7 @@ public static class Settings
     public const bool devEnv = false;
 #endif
 
-    public const int MaxNpcNumber = 40; // 100 > fps 11-12
+    public const int MaxNpcNumber = 2; // 100 > fps 11-12
     public static int[] StartContainer = new int[] { 4, 13 },
     StartTable = new int[] { 4, 11 };
 
