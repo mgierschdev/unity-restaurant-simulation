@@ -177,10 +177,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         // Animates depending on the current state
         if (IsMoving() && prevState == currentState)
         {
-            Debug.Log(Name + " Current state " + stateMachine.Current.State + " " + type.ToString());
             if (type == ObjectType.EMPLOYEE && stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
             {
-                Debug.Log(Name + " Setting walking to table state ");
                 animationController.SetState(NpcState.WALKING_TO_TABLE);
             }
             else
