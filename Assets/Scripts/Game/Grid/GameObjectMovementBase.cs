@@ -188,16 +188,18 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-
-            if (type == ObjectType.EMPLOYEE)
-            {
-                Debug.Log("Current state " + stateMachine.Current.State);
-            }
-
+            // TODO: check cases in which this happenss
             // Could be walking to table but the NPC it is not actually moving anymore
-            if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE && type == ObjectType.CLIENT)
+            if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
             {
-                animationController.SetState(NpcState.IDLE);
+                if (type == ObjectType.CLIENT)
+                {
+                    animationController.SetState(NpcState.IDLE);
+                }
+                else
+                {
+                    animationController.SetState(NpcState.TAKING_ORDER);
+                }
             }
             else
             {
