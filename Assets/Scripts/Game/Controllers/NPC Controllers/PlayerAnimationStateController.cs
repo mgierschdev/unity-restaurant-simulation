@@ -36,7 +36,7 @@ public class PlayerAnimationStateController : MonoBehaviour
 
         if (state == NpcState.WALKING)
         {
-            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.ResetTrigger(NPCAnimatorState.WaitingToTable);
             animator.SetTrigger(NPCAnimatorState.Walking);
             animator.ResetTrigger(NPCAnimatorState.Idle);
             infoPopUpController.Disable();
@@ -44,7 +44,7 @@ public class PlayerAnimationStateController : MonoBehaviour
         else if (state != NpcState.WAITING_TO_BE_ATTENDED)
         {
             animator.ResetTrigger(NPCAnimatorState.Walking);
-            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.ResetTrigger(NPCAnimatorState.WaitingToTable);
             animator.SetTrigger(NPCAnimatorState.Idle);
             infoPopUpController.Disable();
         }
@@ -52,7 +52,7 @@ public class PlayerAnimationStateController : MonoBehaviour
         {
             animator.ResetTrigger(NPCAnimatorState.Idle);
             animator.ResetTrigger(NPCAnimatorState.Walking);
-            animator.SetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.SetTrigger(NPCAnimatorState.WaitingToTable);
             infoPopUpController.EnableWithoutAnimation();
         }
     }
