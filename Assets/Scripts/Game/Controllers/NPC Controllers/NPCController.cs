@@ -96,11 +96,6 @@ public class NPCController : GameObjectMovementBase
         }
     }
 
-    private void CheckWanderToIdle()
-    {
-
-    }
-
     private void Wander()
     {
         // Chance to no wander

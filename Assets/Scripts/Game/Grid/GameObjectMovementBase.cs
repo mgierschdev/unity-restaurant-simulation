@@ -148,10 +148,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void UpdateAStarMovement()
     {
-        Debug.Log(Name + " UpdateAStarMovement ");
-        
         if (IsInTargetPosition())
         {
+            Debug.Log(Name + " IsInTargetPosition " + IsInTargetPosition());
+
             if (pendingMovementQueue.Count != 0)
             {
                 AddMovement();
@@ -166,6 +166,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
+            Debug.Log(Name + " UpdateAStarMovement " + IsInTargetPosition());
+
             moveDirection = GetDirectionFromPositions(transform.position, currentLocalTargetPosition);
             UpdateObjectDirection(); // It flips the side of the object depending on direction
             transform.position = Vector3.MoveTowards(transform.position, currentLocalTargetPosition, speed * Time.fixedDeltaTime);
