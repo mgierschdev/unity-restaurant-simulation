@@ -4,7 +4,7 @@ public static class Settings
     // General Config
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
-    public const float NpcDefaultMovementSpeed = 3f;
+    public const float NpcDefaultMovementSpeed = 2f;
 
 #if UNITY_EDITOR
     public const bool DevEnv = true;

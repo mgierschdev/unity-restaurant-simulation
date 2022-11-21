@@ -22,7 +22,7 @@ public class PathFind
         arrayGrid = Util.CloneGrid(sourceGrid);
 
         //to explore all directions
-        int[,] directions = new int[,] { { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 }/*, { -1, -1 }, { 1, -1 }, { -1, 1 }, { 1, 1 } */};
+        int[,] directions = new int[,] { { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 }, { -1, -1 }, { 1, -1 }, { -1, 1 }, { 1, 1 }};
 
         MinBinaryHeap openList = new MinBinaryHeap(sourceGrid.GetLength(0) * sourceGrid.GetLength(1));
 
