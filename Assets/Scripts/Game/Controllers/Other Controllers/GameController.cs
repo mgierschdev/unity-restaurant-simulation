@@ -71,7 +71,6 @@ public class GameController : MonoBehaviour
                     {
                         // we match an available item  with a client order
                         NPCController clientNPC = tableToAttend.GetUsedBy();
-
                         if (GetAvailableItem(clientNPC.GetItemToAskFor()) != null)
                         {
                             employeeController.SetTableToAttend(tableToAttend);
@@ -90,11 +89,9 @@ public class GameController : MonoBehaviour
         GameGridObject objectFound = null;
         foreach (KeyValuePair<string, GameGridObject> g in BussGrid.BusinessObjects)
         {
-
             if (MenuObjectList.GetItemGivenDispenser(g.Value.GetStoreGameObject().StoreItemType) == item &&
             g.Value.GetIsItemReady())
             {
-                Debug.Log("Item ready found " + g.Value.Name);
                 g.Value.DiableTopInfoObject();
                 return objectFound = g.Value;
                 break;
