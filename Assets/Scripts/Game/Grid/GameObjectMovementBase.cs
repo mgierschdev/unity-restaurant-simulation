@@ -43,6 +43,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         currentLocalTargetPosition = transform.position;
         speed = Settings.NpcDefaultMovementSpeed;
         side = CharacterSide.RIGHT;
+        itemToAskFor = ItemType.LEMONADE;
         pendingMovementQueue = new Queue();
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
@@ -66,7 +67,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         prevState = currentState;
         isMoving = false;
         currentState = NpcState.IDLE;
-        itemToAskFor = ItemType.LEMONADE;
         animationController.SetInfoPopUItem(itemToAskFor);
         UpdatePosition();
     }
