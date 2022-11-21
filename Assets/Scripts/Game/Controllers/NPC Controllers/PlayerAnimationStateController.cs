@@ -36,24 +36,40 @@ public class PlayerAnimationStateController : MonoBehaviour
 
         if (state == NpcState.WALKING)
         {
-            animator.ResetTrigger(NPCAnimatorState.WaitingToTable);
-            animator.SetTrigger(NPCAnimatorState.Walking);
+            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.ResetTrigger(NPCAnimatorState.WalkingToTable);
             animator.ResetTrigger(NPCAnimatorState.Idle);
+            animator.SetTrigger(NPCAnimatorState.Walking);
+            tryItem.SetActive(false);
             infoPopUpController.Disable();
         }
         else if (state != NpcState.WAITING_TO_BE_ATTENDED)
         {
             animator.ResetTrigger(NPCAnimatorState.Walking);
-            animator.ResetTrigger(NPCAnimatorState.WaitingToTable);
+            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.ResetTrigger(NPCAnimatorState.WalkingToTable);
             animator.SetTrigger(NPCAnimatorState.Idle);
+            tryItem.SetActive(false);
             infoPopUpController.Disable();
         }
         else if (state == NpcState.WAITING_TO_BE_ATTENDED)
         {
             animator.ResetTrigger(NPCAnimatorState.Idle);
             animator.ResetTrigger(NPCAnimatorState.Walking);
-            animator.SetTrigger(NPCAnimatorState.WaitingToTable);
+            animator.ResetTrigger(NPCAnimatorState.WalkingToTable);
+            animator.SetTrigger(NPCAnimatorState.WaitingAtTable);
+            tryItem.SetActive(false);
             infoPopUpController.EnableWithoutAnimation();
+        }
+        else if (state == NpcState.WALKING_TO_TABLE)
+        {
+            Debug.Log("Settings walking to table");
+            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.ResetTrigger(NPCAnimatorState.Walking);
+            animator.ResetTrigger(NPCAnimatorState.Idle);
+            animator.SetTrigger(NPCAnimatorState.WalkingToTable);
+            tryItem.SetActive(true);
+            infoPopUpController.Disable();
         }
     }
 }
