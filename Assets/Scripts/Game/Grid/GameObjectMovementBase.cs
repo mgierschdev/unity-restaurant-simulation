@@ -19,8 +19,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private SortingGroup sortingLayer;
     [SerializeField]
     private NpcState currentState, prevState;
+    private ItemType ItemToAskFor; //Only in case of clients
     protected PlayerAnimationStateController animationController;
-    protected ObjectType type;
+    protected ItemType type;
 
     //A*
     // Attributes for saving the path of the NPC on the grid
@@ -47,6 +48,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
         EnergyBar = transform.Find(Settings.LoadSlider).GetComponent<LoadSliderController>();
+        ItemToAskFor = ItemType.LEMONADE;
 
         if (!Util.IsNull(EnergyBar, "GameObjectMovementBase/energyBar null"))
         {

@@ -46,8 +46,8 @@ public static class MenuObjectList
             // new StoreGameObject("Iron table", "SingleTable-9", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_9, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             // new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
-            
-            new StoreGameObject("Wooden container", "Dispenser-1", ObjectType.DISPENSER, StoreItemType.WOODEN_BASE_CONTAINER, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 40, false),      
+
+            new StoreGameObject("Wooden container", "Dispenser-1", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 40, false),
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
@@ -92,6 +92,24 @@ public static class MenuObjectList
         return StoreItemTypeDic[storeItem];
     }
 
+    public static ItemType GetItemGivenDispenser(StoreItemType type)
+    {
+        switch (type)
+        {
+            case StoreItemType.LEMONADE_DISPENSER: return ItemType.LEMONADE;
+        }
+        return ItemType.UNDEFINED;
+    }
+
+    public static string GetItemSprite(ItemType type)
+    {
+        switch (type)
+        {
+            case ItemType.LEMONADE: return "Dispenser-1";
+        }
+        return "";
+    }
+
     public static string GetPrefab(StoreItemType type)
     {
         StoreGameObject obj = GetStoreObject(type);
@@ -107,7 +125,7 @@ public static class MenuObjectList
             case StoreItemType.TABLE_SINGLE_8: return Settings.PrefabSingleTable;
             case StoreItemType.TABLE_SINGLE_9: return Settings.PrefabSingleTable;
             case StoreItemType.COUNTER: return Settings.PrefabCounter;
-            case StoreItemType.WOODEN_BASE_CONTAINER: return Settings.PrefabBaseDispenser;
+            case StoreItemType.LEMONADE_DISPENSER: return Settings.PrefabBaseDispenser;
         }
         return "";
     }
