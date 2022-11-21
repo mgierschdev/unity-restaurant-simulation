@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerAnimationStateController : MonoBehaviour
@@ -34,41 +35,46 @@ public class PlayerAnimationStateController : MonoBehaviour
             return;
         }
 
+        ResetAllTriggers();
+
         if (state == NpcState.WALKING_TO_TABLE)
         {
-            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
-            animator.ResetTrigger(NPCAnimatorState.Walking);
-            animator.ResetTrigger(NPCAnimatorState.Idle);
-            animator.SetTrigger(NPCAnimatorState.WalkingToTable);
+            animator.SetTrigger(NPCAnimatorState.WalkingToTable.ToString());
             tryItem.SetActive(true);
             infoPopUpController.Disable();
         }
         else if (state == NpcState.WALKING)
         {
-            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
-            animator.ResetTrigger(NPCAnimatorState.WalkingToTable);
-            animator.ResetTrigger(NPCAnimatorState.Idle);
-            animator.SetTrigger(NPCAnimatorState.Walking);
+            animator.SetTrigger(NPCAnimatorState.Walking.ToString());
             tryItem.SetActive(false);
             infoPopUpController.Disable();
         }
         else if (state == NpcState.WAITING_TO_BE_ATTENDED)
         {
-            animator.ResetTrigger(NPCAnimatorState.Idle);
-            animator.ResetTrigger(NPCAnimatorState.Walking);
-            animator.ResetTrigger(NPCAnimatorState.WalkingToTable);
-            animator.SetTrigger(NPCAnimatorState.WaitingAtTable);
+            animator.SetTrigger(NPCAnimatorState.WaitingAtTable.ToString());
             tryItem.SetActive(false);
             infoPopUpController.EnableWithoutAnimation();
         }
+        else if (state == NpcState.TAKING_ORDER)
+        {
+            animator.SetTrigger(NPCAnimatorState.IdleTry.ToString());
+            tryItem.SetActive(true);
+            infoPopUpController.Disable();
+        }
         else if (state != NpcState.WAITING_TO_BE_ATTENDED)
         {
-            animator.ResetTrigger(NPCAnimatorState.Walking);
-            animator.ResetTrigger(NPCAnimatorState.WaitingAtTable);
-            animator.ResetTrigger(NPCAnimatorState.WalkingToTable);
-            animator.SetTrigger(NPCAnimatorState.Idle);
+
+            animator.SetTrigger(NPCAnimatorState.Idle.ToString());
             tryItem.SetActive(false);
             infoPopUpController.Disable();
+        }
+    }
+
+    private void ResetAllTriggers()
+    {
+        foreach (NPCAnimatorState state in Enum.GetValues(typeof(NPCAnimatorState)))
+        {
+            animator.ResetTrigger(state.ToString());
         }
     }
 }

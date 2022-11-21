@@ -156,9 +156,9 @@ public static class Settings
     ConstEditStoreMenuRotateLeft = "ButtonRotateLeft",
     ConstEditStoreMenuButtonAccept = "ButtonAccept",
     ConstEditStoreMenuButtonCancel = "ButtonCancel";
-
     public const string ConstEditStoreMenuSave = "ButtonSave",
     ConstParentGameObject = "Game";
+    
     //UI: Menu
     public const string ConstLeftDownMenuStore = "Store";
 

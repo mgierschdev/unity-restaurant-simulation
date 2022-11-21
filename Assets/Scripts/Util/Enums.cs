@@ -168,3 +168,12 @@ public enum CellValue
     BUSY = 1,
     VISITED = 2 //For DFS operations,
 }
+
+public enum NPCAnimatorState
+{
+    Walking = 0,
+    Idle = 1,
+    IdleTry = 2,
+    WaitingAtTable = 3,
+    WalkingToTable = 4
+}
