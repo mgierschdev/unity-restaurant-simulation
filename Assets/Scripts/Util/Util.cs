@@ -366,7 +366,7 @@ public static class Util
     {
         return gameObject.tag switch
         {
-            Settings.NpcTag => ObjectType.NPC,
+            Settings.NpcTag => ObjectType.CLIENT,
             Settings.NpcEmployeeTag => ObjectType.EMPLOYEE,
             _ => ObjectType.UNDEFINED
         };

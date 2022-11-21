@@ -158,7 +158,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             }
             else
             {
-                //final target reached 
+                // Final target reached 
                 moveDirection = MoveDirection.IDLE;
                 BussGrid.GameController.RemoveEmployeePlannedTarget(currentTargetGridPosition);
                 isMoving = false;
@@ -188,9 +188,15 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-            if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
+
+            if (type == ObjectType.EMPLOYEE)
             {
-                //could be walking to table but the NPC it is not actually moving anymore
+                Debug.Log("Current state " + stateMachine.Current.State);
+            }
+
+            // Could be walking to table but the NPC it is not actually moving anymore
+            if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE && type == ObjectType.CLIENT)
+            {
                 animationController.SetState(NpcState.IDLE);
             }
             else
@@ -203,7 +209,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected void UpdateTimeInState()
     {
         currentState = stateMachine.Current.State;
-        // keeps the time in the current state
+        // Keeps the time in the current state
         if (prevState == currentState)
         {
             stateTime += Time.fixedDeltaTime;
