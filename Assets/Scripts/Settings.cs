@@ -69,7 +69,8 @@ public static class Settings
     public const int NpcDefaultEnergy = 100;
     public const string LoadSlider = "LoadSlider",
     TopPopUpObject = "InfoPopUp",
-    NpcCharacter = "Character";
+    NpcCharacter = "Character",
+    TryObject = "Character/Arm-Left-1/Try";
 
     //GAME TAGS
     public const string gameName = "Idle Tycoon - Business",

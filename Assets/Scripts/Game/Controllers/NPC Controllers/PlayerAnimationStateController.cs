@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerAnimationStateController : MonoBehaviour
 {
     private InfoPopUpController infoPopUpController;
+    private GameObject tryItem;
     private Animator animator;
     public void Start()
     {
@@ -11,6 +12,9 @@ public class PlayerAnimationStateController : MonoBehaviour
         //On top Info popup
         GameObject infoPopUpGameobject = transform.Find(Settings.TopPopUpObject).gameObject;
         infoPopUpController = infoPopUpGameobject.GetComponent<InfoPopUpController>();
+        // Left hand try object
+        tryItem = gameObject.transform.Find(Settings.TryObject).gameObject;
+        tryItem.SetActive(false);
 
         if (animator == null)
         {
