@@ -2,9 +2,9 @@ public static class Settings
 {
 
     // General Config
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
-    public const float NpcDefaultMovementSpeed = 2f;
+    public const float NpcDefaultMovementSpeed = 1f;
 
 #if UNITY_EDITOR
     public const bool DevEnv = true;
