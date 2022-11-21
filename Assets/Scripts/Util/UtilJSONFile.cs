@@ -14,7 +14,6 @@ public static class UtilJSONFile
 
     public static string GetJsonFromFile(string path)
     {
-        string json = System.IO.File.ReadAllText(path);
-        return json;
+        return System.IO.File.ReadAllText(path);
     }
 }
