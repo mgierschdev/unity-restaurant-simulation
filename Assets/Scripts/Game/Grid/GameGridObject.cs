@@ -560,7 +560,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         isItemReady = true;
         infoPopUpController.Enable();
     }
-
+    
     public bool GetIsItemReady()
     {
         return isItemReady;

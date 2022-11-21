@@ -69,14 +69,38 @@ public class GameController : MonoBehaviour
                 {
                     if (!employeeController.IsAttendingTable())
                     {
-                        employeeController.SetTableToAttend(tableToAttend);
-                        tableToAttend.SetAttendedBy(employeeController);
-                        break;
+                        // we match an available item  with a client order
+                        NPCController clientNPC = tableToAttend.GetUsedBy();
+
+                        if (GetAvailableItem(clientNPC.GetItemToAskFor()) != null)
+                        {
+                            employeeController.SetTableToAttend(tableToAttend);
+                            tableToAttend.SetAttendedBy(employeeController);
+                            break;
+                        }
                     }
                 }
             }
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    private GameGridObject GetAvailableItem(ItemType item)
+    {
+        GameGridObject objectFound = null;
+        foreach (KeyValuePair<string, GameGridObject> g in BussGrid.BusinessObjects)
+        {
+
+            if (MenuObjectList.GetItemGivenDispenser(g.Value.GetStoreGameObject().StoreItemType) == item &&
+            g.Value.GetIsItemReady())
+            {
+                Debug.Log("Item ready found " + g.Value.Name);
+                g.Value.DiableTopInfoObject();
+                return objectFound = g.Value;
+                break;
+            }
+        }
+        return objectFound;
     }
 
     private void LoadUserObjects()

@@ -19,10 +19,9 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     private SortingGroup sortingLayer;
     [SerializeField]
     private NpcState currentState, prevState;
-    private ItemType itemToAskFor; //Only in case of clients
     protected PlayerAnimationStateController animationController;
     protected ObjectType type;
-
+    private ItemType itemToAskFor;
     //A*
     // Attributes for saving the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
@@ -388,5 +387,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public StateMachine<NpcState, NpcStateTransitions> GetStateMachine()
     {
         return stateMachine;
+    }
+
+    public ItemType GetItemToAskFor()
+    {
+        return itemToAskFor;
     }
 }
