@@ -22,6 +22,11 @@ public class PlayerAnimationStateController : MonoBehaviour
         }
     }
 
+    public void SetInfoPopUItem(ItemType item)
+    {
+        infoPopUpController.SetInfoPopUItem(item);
+    }
+
     public void SetState(NpcState state)
     {
         if (!animator)
