@@ -188,7 +188,15 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-            animationController.SetState(stateMachine.Current.State);
+            if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
+            {
+                //could be walking to table but the NPC it is not actually moving anymore
+                animationController.SetState(NpcState.IDLE);
+            }
+            else
+            {
+                animationController.SetState(stateMachine.Current.State);
+            }
         }
     }
 

@@ -70,6 +70,5 @@ public class PlayerAnimationStateController : MonoBehaviour
             tryItem.SetActive(false);
             infoPopUpController.Disable();
         }
-
     }
 }
