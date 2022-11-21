@@ -148,6 +148,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
 
     private void UpdateAStarMovement()
     {
+        Debug.Log(Name + " UpdateAStarMovement ");
+        
         if (IsInTargetPosition())
         {
             if (pendingMovementQueue.Count != 0)
