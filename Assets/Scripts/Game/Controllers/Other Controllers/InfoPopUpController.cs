@@ -14,7 +14,7 @@ public class InfoPopUpController : MonoBehaviour
         Util.IsNull(topDispenserInfoPopUpImage, "InfoPopUpController/topDispenserInfoPopUpImage null");
         spriteResolverTopDispenser = topDispenserInfoPopUpImage.GetComponent<SpriteResolver>();
         animator = transform.GetComponent<Animator>();
-        spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Dispenser-1");//TODO: TMP
+        spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Dispenser-1");//Default Item
         DisableAnimation();
         topDispenserInfoPopUpImage.SetActive(false);
     }
@@ -58,6 +58,11 @@ public class InfoPopUpController : MonoBehaviour
     public bool IsEnable()
     {
         return gameObject.activeSelf;
+    }
+
+    public void SetInfoPopUItem(ItemType item)
+    {
+        spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, MenuObjectList.GetItemSprite(item));    
     }
 
     private void EnableAnimation()
