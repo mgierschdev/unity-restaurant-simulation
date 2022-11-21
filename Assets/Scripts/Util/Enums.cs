@@ -105,11 +105,9 @@ public enum NpcState
 // List of Menus
 public enum MenuTab
 {
-    TABLES_TAB = 1,//COUNTER HERE
+    TABLES_TAB = 1,
     DISPENSERS = 2,
     RESEARCH = 3,
-    // EMPLOYEE_TAB = 4,//YOU MOST HAVE A COUNTER
-    // IN_GAME_STORE_TAB = 5,
     STORAGE_TAB = 6,
     SETTINGS_TAB = 999
 }
@@ -136,7 +134,14 @@ public enum StoreItemType
     TABLE_SINGLE_9 = 9,
     TABLE_SINGLE_10 = 10,
     COUNTER = 11,
-    WOODEN_BASE_CONTAINER = 12,
+    LEMONADE_DISPENSER = 12,
+    UNDEFINED = 999
+}
+
+// Items given the type of dispenser
+public enum ItemType
+{
+    LEMONADE = 1,
     UNDEFINED = 999
 }
 

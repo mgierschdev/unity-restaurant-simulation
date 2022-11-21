@@ -5,15 +5,12 @@ using IEnumerator = System.Collections.IEnumerator;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private int NpcMaxNumber = Settings.MaxNpcNumber,
-    npcId;
-    private GameObject gameGridObject;
+    private int NpcMaxNumber = Settings.MaxNpcNumber, npcId;
+    private GameObject gameGridObject, NPCS;
     private GameTile tileSpawn;
-    private GameObject NPCS;
     private HashSet<NPCController> NpcSet;
     private HashSet<EmployeeController> EmployeeSet;
-    private HashSet<Vector3Int> playerPositionSet;
-    private HashSet<Vector3Int> employeePlannedTarget;
+    private HashSet<Vector3Int> playerPositionSet, employeePlannedTarget;
 
     private void Start()
     {
@@ -24,8 +21,9 @@ public class GameController : MonoBehaviour
         employeePlannedTarget = new HashSet<Vector3Int>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
         LoadUserObjects();
-        StartCoroutine(AssignTablesToNPCs());
         //Assign tables to attend to employees
+        StartCoroutine(AssignTablesToNPCs());
+        //Spam new NPC is there is missing npcs
         StartCoroutine(NPCSpam());
     }
 

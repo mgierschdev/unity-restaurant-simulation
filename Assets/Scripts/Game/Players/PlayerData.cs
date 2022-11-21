@@ -170,7 +170,7 @@ public static class PlayerData
             GRID_SIZE = Settings.InitGridSize,
             OBJECTS = new List<DataGameObject>{
                     new DataGameObject{
-                        ID = (int) StoreItemType.WOODEN_BASE_CONTAINER,
+                        ID = (int) StoreItemType.LEMONADE_DISPENSER,
                         POSITION = new int[]{Settings.StartContainer[0], Settings.StartContainer[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT
