@@ -14,7 +14,7 @@ public class NPCController : GameObjectMovementBase
 
     private void Start()
     {
-        type = ObjectType.NPC;
+        type = ObjectType.CLIENT;
         SetID();
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());

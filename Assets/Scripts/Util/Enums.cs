@@ -3,7 +3,7 @@
 public enum ObjectType
 {
     OBSTACLE = 1,
-    NPC = 2,
+    CLIENT = 2,
     PLAYER = 3,
     EMPLOYEE = 4,
     NPC_COUNTER = 5,
