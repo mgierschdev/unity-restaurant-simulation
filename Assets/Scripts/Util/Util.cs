@@ -410,7 +410,7 @@ public static class Util
 
     public static bool IsAtDistanceWithObject(Vector3 a, Vector3 b)
     {
-        return Vector3.Distance(new Vector3(a.x, a.y, 0), new Vector3(b.x, b.y, 0)) <= 0;
+        return Vector3.Distance(new Vector3(a.x, a.y, 0), new Vector3(b.x, b.y, 0)) <= 0.03f;// Needs less precision for diagonal movement
     }
 
     // Meassures the distance between a and b, and translate the transform position of the object to fix small precision problem, 0.01f
