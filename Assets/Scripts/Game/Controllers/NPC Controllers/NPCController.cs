@@ -57,6 +57,7 @@ public class NPCController : GameObjectMovementBase
             catch (Exception e)
             {
                 GameLog.LogWarning("Exception thrown, NPCController/UpdateTransitionStates()D: " + e);
+                stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
             }
             yield return new WaitForSeconds(2f);
         }
