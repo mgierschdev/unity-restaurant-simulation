@@ -90,8 +90,6 @@ public class NPCController : GameObjectMovementBase
             if(stateTime <= MaxTableWaitingTime){
                 return;
             }
-
-            Debug.Log(Name + "setting TABLE_MOVED CheckIfTableOrEmployeeMoved()");
             stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         }
     }
@@ -104,7 +102,6 @@ public class NPCController : GameObjectMovementBase
                 stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) ||
                 stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED))
             {
-                Debug.Log(Name + "Setting TABLE_MOVED CheckUnrespawn()");
                 stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
                 stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
             }
@@ -200,7 +197,6 @@ public class NPCController : GameObjectMovementBase
 
     public void SetTableMoved()
     {
-        Debug.Log(Name + " setting TABLE_MOVED SetTableMoved()");
         table = null;
         stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
