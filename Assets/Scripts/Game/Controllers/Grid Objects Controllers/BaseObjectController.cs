@@ -329,9 +329,9 @@ public class BaseObjectController : MonoBehaviour
         this.storeGameObject = storeGameObject;
     }
 
-    public void SetFirebaseGameObject(DataGameObject firebaseGameObject)
+    public void SetStoreGameObject(DataGameObject storeGameObject)
     {
-        this.dataGameObject = firebaseGameObject;
+        this.dataGameObject = storeGameObject;
     }
 
     public bool GetIscurrentValidPos()

@@ -325,7 +325,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             // we set the new rotation setted by the placeGameObject
             pair.Value.ROTATION = (int)baseObjectController.GetInitialRotation();
-            baseObjectController.SetFirebaseGameObject(pair.Value);
+            baseObjectController.SetStoreGameObject(pair.Value);
         }
 
         BussGrid.SetPreviewItem(baseObjectController);
