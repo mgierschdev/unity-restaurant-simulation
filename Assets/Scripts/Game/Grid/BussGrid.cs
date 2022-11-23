@@ -847,15 +847,15 @@ public static class BussGrid
                 continue;
             }
 
-            GameLog.Log("GetFreeTable(): " +
-            tmp.IsFree() + " " +
-            !tmp.GetIsObjectBeingDragged() + " " +
-            !tmp.GetBusy() + " " +
-            !PlayerData.IsItemStored(tmp.Name) + " " +
-            tmp.Name + " " +
-            PlayerData.IsItemInInventory(tmp) + " " +
-            tmp.GetIsItemBought() + " " +
-            tmp.GetActive());
+            // GameLog.Log("GetFreeTable(): " +
+            // tmp.IsFree() + " " +
+            // !tmp.GetIsObjectBeingDragged() + " " +
+            // !tmp.GetBusy() + " " +
+            // !PlayerData.IsItemStored(tmp.Name) + " " +
+            // tmp.Name + " " +
+            // PlayerData.IsItemInInventory(tmp) + " " +
+            // tmp.GetIsItemBought() + " " +
+            // tmp.GetActive());
 
             if (tmp.IsFree() &&
             !tmp.GetIsObjectBeingDragged() &&
