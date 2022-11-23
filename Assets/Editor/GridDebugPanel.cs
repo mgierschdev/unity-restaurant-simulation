@@ -241,10 +241,28 @@ public class GridDebugPanel : EditorWindow
 
         maps += " \n";
 
-        maps += "BusinessObjects size: " + BussGrid.GetBusinessObjects().Count + " \n";
+        maps += "Active: BusinessObjects Total: " + BussGrid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
         {
-            maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + "</b> \n";
+            if (!PlayerData.IsItemStored(g.Name))
+            {
+                continue;
+            }
+
+            maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client" + (g.GetUsedBy() != null) + " Emp: " + g.HasAttendedBy() + "</b> \n";
+        }
+
+        maps += " \n";
+
+        maps += "Stored: BusinessObjects Total: " + BussGrid.GetBusinessObjects().Count + " \n";
+        foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
+        {
+            if (PlayerData.IsItemStored(g.Name))
+            {
+                continue;
+            }
+
+            maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client" + (g.GetUsedBy() != null) + " Emp: " + g.HasAttendedBy() + "</b> \n";
         }
 
         maps += " \n";
