@@ -40,18 +40,24 @@ public class NPCController : GameObjectMovementBase
     {
         for (; ; )
         {
-            if (!IsMoving())
+            try
             {
-                CheckIfAtTarget();
-                CheckUnrespawn();
-                CheckIfTableHasBeenAssigned();
-                Wander();
-                CheckIfTableMoved();
-                state = stateMachine.Current.State;
-                stateMachine.CheckTransition();
-                MoveNPC();
+                if (!IsMoving())
+                {
+                    CheckIfAtTarget();
+                    CheckUnrespawn();
+                    CheckIfTableHasBeenAssigned();
+                    Wander();
+                    CheckIfTableMoved();
+                    state = stateMachine.Current.State;
+                    stateMachine.CheckTransition();
+                    MoveNPC();
+                }
             }
-
+            catch (Exception e)
+            {
+                GameLog.LogWarning("Exception thrown, NPCController/UpdateTransitionStates()D: " + e);
+            }
             yield return new WaitForSeconds(2f);
         }
     }
