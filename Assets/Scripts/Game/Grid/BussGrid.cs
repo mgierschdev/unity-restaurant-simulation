@@ -843,7 +843,16 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            //GameLog.Log(tmp.IsFree() + " " + !tmp.GetIsObjectBeingDragged() + " " + !tmp.GetBusy() + " " + !PlayerData.IsItemStored(tmp.Name) + " " + tmp.Name + " " + PlayerData.IsItemInInventory(tmp) + " " + tmp.GetIsItemBought() + " " + tmp.GetActive());
+            GameLog.Log("GetFreeTable(): " + 
+            tmp.IsFree() + " " + 
+            !tmp.GetIsObjectBeingDragged() + " " + 
+            !tmp.GetBusy() + " " + 
+            !PlayerData.IsItemStored(tmp.Name) + " " + 
+            tmp.Name + " " + 
+            PlayerData.IsItemInInventory(tmp) + " " + 
+            tmp.GetIsItemBought() + " " + 
+            tmp.GetActive());
+            
             if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.GetBusy() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought() && tmp.GetActive() && !tmp.GetIsObjectSelected())
             {
                 result = tmp;
@@ -861,10 +870,17 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            if (!tmp.HasEmployeeAssigned() &&    
-            tmp.HasClient() && 
-            !tmp.GetIsObjectBeingDragged() && 
-            !PlayerData.IsItemStored(tmp.Name) && 
+            GameLog.Log("GetTableWithClient(): " +
+            !tmp.HasEmployeeAssigned() + " " +
+            tmp.HasClient() + " " +
+            !tmp.GetIsObjectBeingDragged() + " " +
+            !PlayerData.IsItemStored(tmp.Name) + " " +
+            (tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED) + " ");
+
+            if (!tmp.HasEmployeeAssigned() &&
+            tmp.HasClient() &&
+            !tmp.GetIsObjectBeingDragged() &&
+            !PlayerData.IsItemStored(tmp.Name) &&
             tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
             {
                 result = tmp;
