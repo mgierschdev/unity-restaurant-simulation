@@ -249,9 +249,9 @@ public class GridDebugPanel : EditorWindow
                 continue;
             }
 
-            maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client" + (g.GetUsedBy() != null) + " Emp: " + g.HasAttendedBy() + "</b> \n";
+            maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client:" + (g.GetUsedBy() != null) + " Emp:" + g.HasAttendedBy() + "</b> \n";
         }
-        
+
         maps += " \n";
 
         maps += "Backend storage size: " + PlayerData.GetDataGameUser().OBJECTS.Count + " \n";
