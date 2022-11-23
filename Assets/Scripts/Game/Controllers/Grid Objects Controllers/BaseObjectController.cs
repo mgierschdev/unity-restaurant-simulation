@@ -137,9 +137,7 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject.GetIsObjectSelected() &&
         !IsClickingSelf() &&
         !IsClickingButton())
-        {
-            Debug.Log("Unselecting item ");
-            
+        {   
             gameGridObject.SetInactive();
             BussGrid.SetIsDraggingEnable(false);
 
