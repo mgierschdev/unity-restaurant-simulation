@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour
             {
                 foreach (EmployeeController employeeController in EmployeeSet)
                 {
-                    if (!employeeController.IsAttendingTable())
+                    if (!employeeController.IsAttendingTable() && employeeController.GetNpcState() == NpcState.AT_COUNTER)
                     {
                         // we match an available item  with a client order
                         NPCController clientNPC = tableToAttend.GetUsedBy();
