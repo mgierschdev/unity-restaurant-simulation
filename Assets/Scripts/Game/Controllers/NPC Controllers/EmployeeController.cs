@@ -62,6 +62,7 @@ public class EmployeeController : GameObjectMovementBase
             catch (Exception e)
             {
                 GameLog.LogWarning("Exception thrown, EmployeeController/UpdateTransitionStates()D: " + e);
+                stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
             }
             yield return new WaitForSeconds(1f);
         }
