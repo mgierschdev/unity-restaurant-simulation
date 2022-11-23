@@ -9,6 +9,7 @@ public class NPCController : GameObjectMovementBase
 {
     [SerializeField]
     private const float MaxStateTime = 120; // 2min
+    private const float MaxTableWaitingTime = 10;
     [SerializeField]
     private NpcState state;//TODO: for debug
 
@@ -83,9 +84,14 @@ public class NPCController : GameObjectMovementBase
 
     private void CheckIfTableOrEmployeeMoved()
     {
-        if ((stateMachine.Current.State == NpcState.WAITING_TO_BE_ATTENDED && table == null) || 
-        (table != null && !table.HasAttendedBy()))
+        if ((stateMachine.Current.State == NpcState.WAITING_TO_BE_ATTENDED && table == null) ||
+        (stateMachine.Current.State == NpcState.WAITING_TO_BE_ATTENDED && table != null && !table.HasAttendedBy()))
         {
+            if(stateTime <= MaxTableWaitingTime){
+                return;
+            }
+
+            Debug.Log(Name + "setting TABLE_MOVED CheckIfTableOrEmployeeMoved()");
             stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         }
     }
@@ -98,6 +104,7 @@ public class NPCController : GameObjectMovementBase
                 stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) ||
                 stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED))
             {
+                Debug.Log(Name + "Setting TABLE_MOVED CheckUnrespawn()");
                 stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
                 stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
             }
@@ -193,6 +200,7 @@ public class NPCController : GameObjectMovementBase
 
     public void SetTableMoved()
     {
+        Debug.Log(Name + " setting TABLE_MOVED SetTableMoved()");
         table = null;
         stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
