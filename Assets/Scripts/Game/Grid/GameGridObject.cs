@@ -181,6 +181,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         {
             attendedBy.SetTableToAttend(null);
             attendedBy.SetTableMoved();
+            attendedBy = null;
         }
     }
 
