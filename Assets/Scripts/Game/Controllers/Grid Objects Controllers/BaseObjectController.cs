@@ -138,6 +138,8 @@ public class BaseObjectController : MonoBehaviour
         !IsClickingSelf() &&
         !IsClickingButton())
         {
+            Debug.Log("Unselecting item ");
+            
             gameGridObject.SetInactive();
             BussGrid.SetIsDraggingEnable(false);
 
@@ -226,9 +228,6 @@ public class BaseObjectController : MonoBehaviour
         }
 
         gameGridObject.UpdateObjectCoords();
-
-        //We recalculate Paths once the object is placed
-        BussGrid.GameController.ReCalculateNpcStates(gameGridObject);
 
         // Re-evaluate all the objects currently in the grid in case of the Unity OnMouseUp failling to update
         // or updating in an inconsistent way
