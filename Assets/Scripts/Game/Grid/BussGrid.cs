@@ -843,6 +843,10 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
+            if(tmp == null){
+                continue;
+            }
+
             GameLog.Log("GetFreeTable(): " +
             tmp.IsFree() + " " +
             !tmp.GetIsObjectBeingDragged() + " " +
@@ -877,16 +881,20 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            GameLog.Log("GetTableWithClient(): " +
-             (tmp == null) + " " +
-            !tmp.HasEmployeeAssigned() + " " +
-            tmp.HasClient() + " " +
-            !tmp.GetIsObjectBeingDragged() + " " +
-            !PlayerData.IsItemStored(tmp.Name) + " " +
-            (tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED) + " ");
+            if(tmp == null){
+                continue;
+            }
 
-            if (tmp != null &&    
-            !tmp.HasEmployeeAssigned() &&
+            // GameLog.Log("GetTableWithClient(): " +
+            //  (tmp == null) + " " +
+            // !tmp.HasEmployeeAssigned() + " " +
+            // tmp.HasClient() + " " +
+            // !tmp.GetIsObjectBeingDragged() + " " +
+            // !PlayerData.IsItemStored(tmp.Name) + " " +
+            // (tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED) + " ");
+
+            if (
+            !tmp.HasAttendedBy() &&
             tmp.HasClient() &&
             !tmp.GetIsObjectBeingDragged() &&
             !PlayerData.IsItemStored(tmp.Name) &&

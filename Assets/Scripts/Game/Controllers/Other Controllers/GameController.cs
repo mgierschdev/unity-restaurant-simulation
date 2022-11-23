@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour
             }
             catch (Exception e)
             {
-                GameLog.LogWarning("Exception thrown, GameController/NPCSpam(): " + e);
+                GameLog.LogError("Exception thrown, GameController/NPCSpam(): " + e);
             }
             yield return new WaitForSeconds(1f);
         }
@@ -93,7 +93,7 @@ public class GameController : MonoBehaviour
             }
             catch (Exception e)
             {
-                GameLog.LogWarning("Exception thrown, GameController/AssignTablesToNPCs(): " + e);
+                GameLog.LogError("Exception thrown, GameController/AssignTablesToNPCs(): " + e);
             }
             yield return new WaitForSeconds(1f);
         }
