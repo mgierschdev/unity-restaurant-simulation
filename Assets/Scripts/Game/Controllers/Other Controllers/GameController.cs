@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using IEnumerator = System.Collections.IEnumerator;
@@ -31,16 +32,23 @@ public class GameController : MonoBehaviour
     {
         for (; ; )
         {
-            if (NpcSet.Count < NpcMaxNumber)
+            try
             {
-                SpamNpc();
+                if (NpcSet.Count < NpcMaxNumber)
+                {
+                    SpamNpc();
+                }
+
+                GameGridObject counter = BussGrid.GetFreeCounter();
+
+                if (counter != null)
+                {
+                    SpamEmployee(counter);
+                }
             }
-
-            GameGridObject counter = BussGrid.GetFreeCounter();
-
-            if (counter != null)
+            catch (Exception e)
             {
-                SpamEmployee(counter);
+                GameLog.LogWarning("Exception thrown, GameController/NPCSpam(): " + e);
             }
             yield return new WaitForSeconds(1f);
         }
@@ -50,35 +58,42 @@ public class GameController : MonoBehaviour
     {
         for (; ; )
         {
-            if (BussGrid.GetFreeTable(out GameGridObject table))
+            try
             {
-                foreach (NPCController npcController in NpcSet)
+                if (BussGrid.GetFreeTable(out GameGridObject table))
                 {
-                    if (!npcController.HasTable())
+                    foreach (NPCController npcController in NpcSet)
                     {
-                        table.SetUsedBy(npcController);
-                        npcController.SetTable(table);
-                        break;
-                    }
-                }
-            }
-
-            if (BussGrid.GetTableWithClient(out GameGridObject tableToAttend))
-            {
-                foreach (EmployeeController employeeController in EmployeeSet)
-                {
-                    if (!employeeController.IsAttendingTable() && employeeController.GetNpcState() == NpcState.AT_COUNTER)
-                    {
-                        // we match an available item  with a client order
-                        NPCController clientNPC = tableToAttend.GetUsedBy();
-                        if (GetAvailableItem(clientNPC.GetItemToAskFor()) != null)
+                        if (!npcController.HasTable())
                         {
-                            employeeController.SetTableToAttend(tableToAttend);
-                            tableToAttend.SetAttendedBy(employeeController);
+                            table.SetUsedBy(npcController);
+                            npcController.SetTable(table);
                             break;
                         }
                     }
                 }
+
+                if (BussGrid.GetTableWithClient(out GameGridObject tableToAttend))
+                {
+                    foreach (EmployeeController employeeController in EmployeeSet)
+                    {
+                        if (!employeeController.IsAttendingTable() && employeeController.GetNpcState() == NpcState.AT_COUNTER)
+                        {
+                            // we match an available item  with a client order
+                            NPCController clientNPC = tableToAttend.GetUsedBy();
+                            if (GetAvailableItem(clientNPC.GetItemToAskFor()) != null)
+                            {
+                                employeeController.SetTableToAttend(tableToAttend);
+                                tableToAttend.SetAttendedBy(employeeController);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                GameLog.LogWarning("Exception thrown, GameController/AssignTablesToNPCs(): " + e);
             }
             yield return new WaitForSeconds(1f);
         }
