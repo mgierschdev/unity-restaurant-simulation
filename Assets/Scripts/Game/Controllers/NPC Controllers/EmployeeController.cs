@@ -41,22 +41,28 @@ public class EmployeeController : GameObjectMovementBase
     {
         for (; ; )
         {
-            if (!counterAssigned || IsMoving() || EnergyBar.IsActive())
+            try
             {
+                if (!counterAssigned || IsMoving() || EnergyBar.IsActive())
+                {
 
+                }
+                else
+                {
+                    CheckIfAtTarget();
+                    TableWithCustomer();
+                    Unrespawn();
+                    CheckCounter();
+                    CheckAtCounter();
+                    CheckTableMoved();
+                    stateMachine.CheckTransition();
+                    MoveNPC();// Move/or not, depending on the state
+                }
             }
-            else
+            catch (Exception e)
             {
-                CheckIfAtTarget();
-                TableWithCustomer();
-                Unrespawn();
-                CheckCounter();
-                CheckAtCounter();
-                CheckTableMoved();
-                stateMachine.CheckTransition();
-                MoveNPC();// Move/or not, depending on the state
+                GameLog.LogWarning("Exception thrown, EmployeeController/UpdateTransitionStates()D: " + e);
             }
-
             yield return new WaitForSeconds(1f);
         }
     }
@@ -119,7 +125,8 @@ public class EmployeeController : GameObjectMovementBase
         // we clean the table pointer if assigned
         if (table != null)
         {
-            table.FreeObject();
+            table.SetAttendedBy(null);
+            // table.FreeObject();
             table = null;
         }
         stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
@@ -134,6 +141,7 @@ public class EmployeeController : GameObjectMovementBase
 
         if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
         {
+            if (counter == null) { return; }
             stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
             stateMachine.UnSetTransition(NpcStateTransitions.CASH_REGISTERED);
             StandTowards(counter.GridPosition);
