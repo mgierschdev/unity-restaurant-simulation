@@ -843,17 +843,24 @@ public static class BussGrid
         {
             GameGridObject tmp = keyPair.Key;
 
-            GameLog.Log("GetFreeTable(): " + 
-            tmp.IsFree() + " " + 
-            !tmp.GetIsObjectBeingDragged() + " " + 
-            !tmp.GetBusy() + " " + 
-            !PlayerData.IsItemStored(tmp.Name) + " " + 
-            tmp.Name + " " + 
-            PlayerData.IsItemInInventory(tmp) + " " + 
-            tmp.GetIsItemBought() + " " + 
+            GameLog.Log("GetFreeTable(): " +
+            tmp.IsFree() + " " +
+            !tmp.GetIsObjectBeingDragged() + " " +
+            !tmp.GetBusy() + " " +
+            !PlayerData.IsItemStored(tmp.Name) + " " +
+            tmp.Name + " " +
+            PlayerData.IsItemInInventory(tmp) + " " +
+            tmp.GetIsItemBought() + " " +
             tmp.GetActive());
-            
-            if (tmp.IsFree() && !tmp.GetIsObjectBeingDragged() && !tmp.GetBusy() && !PlayerData.IsItemStored(tmp.Name) && PlayerData.IsItemInInventory(tmp) && tmp.GetIsItemBought() && tmp.GetActive() && !tmp.GetIsObjectSelected())
+
+            if (tmp.IsFree() &&
+            !tmp.GetIsObjectBeingDragged() &&
+            !tmp.GetBusy() &&
+            !PlayerData.IsItemStored(tmp.Name) &&
+            PlayerData.IsItemInInventory(tmp) &&
+            tmp.GetIsItemBought() &&
+            tmp.GetActive() &&
+            !tmp.GetIsObjectSelected())
             {
                 result = tmp;
                 return true;
@@ -871,13 +878,15 @@ public static class BussGrid
             GameGridObject tmp = keyPair.Key;
 
             GameLog.Log("GetTableWithClient(): " +
+             (tmp == null) + " " +
             !tmp.HasEmployeeAssigned() + " " +
             tmp.HasClient() + " " +
             !tmp.GetIsObjectBeingDragged() + " " +
             !PlayerData.IsItemStored(tmp.Name) + " " +
             (tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED) + " ");
 
-            if (!tmp.HasEmployeeAssigned() &&
+            if (tmp != null &&    
+            !tmp.HasEmployeeAssigned() &&
             tmp.HasClient() &&
             !tmp.GetIsObjectBeingDragged() &&
             !PlayerData.IsItemStored(tmp.Name) &&
