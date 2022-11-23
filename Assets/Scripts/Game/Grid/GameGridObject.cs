@@ -512,6 +512,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
     public bool IsFree()
     {
+        Debug.Log(Name + " UsedBy " + (usedBy == null) + " " + (attendedBy == null));
         return usedBy == null && attendedBy == null;
     }
     public bool HasClient()
@@ -519,7 +520,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         return usedBy != null;
     }
 
-    public bool HasEmployeeAssigned()
+    public bool HasAttendedBy()
     {
         return attendedBy != null;
     }
@@ -560,7 +561,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         isItemReady = true;
         infoPopUpController.Enable();
     }
-    
+
     public bool GetIsItemReady()
     {
         return isItemReady;

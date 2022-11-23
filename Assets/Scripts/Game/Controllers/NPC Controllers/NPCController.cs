@@ -48,7 +48,7 @@ public class NPCController : GameObjectMovementBase
                     CheckUnrespawn();
                     CheckIfTableHasBeenAssigned();
                     Wander();
-                    CheckIfTableMoved();
+                    CheckIfTableOrEmployeeMoved();
                     state = stateMachine.Current.State;
                     stateMachine.CheckTransition();
                     MoveNPC();
@@ -81,9 +81,10 @@ public class NPCController : GameObjectMovementBase
         }
     }
 
-    private void CheckIfTableMoved()
+    private void CheckIfTableOrEmployeeMoved()
     {
-        if (stateMachine.Current.State == NpcState.WAITING_TO_BE_ATTENDED && table == null)
+        if ((stateMachine.Current.State == NpcState.WAITING_TO_BE_ATTENDED && table == null) || 
+        (table != null && !table.HasAttendedBy()))
         {
             stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         }
