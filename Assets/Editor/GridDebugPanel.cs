@@ -244,19 +244,6 @@ public class GridDebugPanel : EditorWindow
         maps += "Active: BusinessObjects Total: " + BussGrid.GetBusinessObjects().Count + " \n";
         foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
         {
-            if (!PlayerData.IsItemStored(g.Name))
-            {
-                continue;
-            }
-
-            maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client" + (g.GetUsedBy() != null) + " Emp: " + g.HasAttendedBy() + "</b> \n";
-        }
-
-        maps += " \n";
-
-        maps += "Stored: BusinessObjects Total: " + BussGrid.GetBusinessObjects().Count + " \n";
-        foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
-        {
             if (PlayerData.IsItemStored(g.Name))
             {
                 continue;
@@ -264,10 +251,10 @@ public class GridDebugPanel : EditorWindow
 
             maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client" + (g.GetUsedBy() != null) + " Emp: " + g.HasAttendedBy() + "</b> \n";
         }
-
+        
         maps += " \n";
 
-        maps += "FirebaseObjects size: " + PlayerData.GetDataGameUser().OBJECTS.Count + " \n";
+        maps += "Backend storage size: " + PlayerData.GetDataGameUser().OBJECTS.Count + " \n";
         foreach (DataGameObject g in PlayerData.GetDataGameUser().OBJECTS)
         {
             maps += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
