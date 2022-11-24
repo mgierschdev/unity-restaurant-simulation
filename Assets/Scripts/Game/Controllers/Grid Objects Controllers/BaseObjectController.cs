@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -39,24 +40,31 @@ public class BaseObjectController : MonoBehaviour
 
     private void Update()
     {
-        if (gameGridObject == null && storeGameObject != null)
+        try
         {
-            return;
-        }
+            if (gameGridObject == null && storeGameObject != null)
+            {
+                return;
+            }
 
-        UpdateInit(); // Init constructor
-        UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
-        UpdateMoveSelectionSlider(); // Checks for long pressed over the object and updates the slider
-        UpdateTopItemDispenserSlider();
-        UpdateIsValidPosition(); // Checks if the current position is a valid one 
-        UpdateOnMouseDown();// OnMouseDown implementation which takes into consideration the layer ordering
+            UpdateInit(); // Init constructor
+            UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
+            UpdateMoveSelectionSlider(); // Checks for long pressed over the object and updates the slider
+            UpdateTopItemDispenserSlider();
+            UpdateIsValidPosition(); // Checks if the current position is a valid one 
+            UpdateOnMouseDown();// OnMouseDown implementation which takes into consideration the layer ordering
+        }
+        catch (Exception e)
+        {
+            GameLog.LogWarning("Exception thrown, BaseObjectController/Update(): " + e);
+        }
     }
 
     private void UpdateOnMouseDown()
     {
         if (Input.GetMouseButtonDown(0) && BussGrid.ClickController.GetGameGridClickedObject() == gameGridObject)
         {
-           // Debug.Log("Clicking load item slider");
+            // Debug.Log("Clicking load item slider");
 
             isClicking = true;
 

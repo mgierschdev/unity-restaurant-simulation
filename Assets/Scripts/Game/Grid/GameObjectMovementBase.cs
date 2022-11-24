@@ -188,7 +188,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
         else
         {
-            // TODO: check cases in which this happenss
+            // TODO: check cases in which this happens
             // Could be walking to table but the NPC it is not actually moving anymore
             if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
             {
