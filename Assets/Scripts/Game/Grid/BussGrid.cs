@@ -77,7 +77,8 @@ public static class BussGrid
         // Object Dragging Handler
         ObjectDraggingHandler.Init();
         // Table Handler 
-
+        TableHandler.Init();
+        
         if (TilemapFloor == null || TilemapColliders == null || TilemapObjects == null || TilemapPathFinding == null ||
             TilemapWalkingPath == null || TilemapGameFloor == null)
         {
