@@ -691,7 +691,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
     public void CancelPurchase()
     {
-        BussGrid.gameGridObjectsDictionary.Remove(Name, out GameGridObject tmp);
+        BussGrid.GetGameGridObjectsDictionary().Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
         DisableIfCounter();
