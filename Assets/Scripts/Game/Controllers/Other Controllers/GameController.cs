@@ -102,7 +102,7 @@ public class GameController : MonoBehaviour
     private GameGridObject GetAvailableItem(ItemType item)
     {
         GameGridObject objectFound = null;
-        foreach (KeyValuePair<string, GameGridObject> g in BussGrid.BusinessObjects)
+        foreach (KeyValuePair<string, GameGridObject> g in BussGrid.gameGridObjectsDictionary)
         {
             if (MenuObjectList.GetItemGivenDispenser(g.Value.GetStoreGameObject().StoreItemType) == item &&
             g.Value.GetIsItemReady())

@@ -85,9 +85,9 @@ public class ClickController : MonoBehaviour
 
         foreach (Collider2D r in hits)
         {
-            if (BussGrid.GetBusinessObjects().ContainsKey(r.name))
+            if (BussGrid.GetGameGridObjectsDictionary().ContainsKey(r.name))
             {
-                GameGridObject selected = BussGrid.GetBusinessObjects()[r.name];
+                GameGridObject selected = BussGrid.GetGameGridObjectsDictionary()[r.name];
                 list.Add(selected, selected.GetSortingOrder());
             }
         }

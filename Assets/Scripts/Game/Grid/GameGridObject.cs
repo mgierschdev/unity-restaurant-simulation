@@ -149,7 +149,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
             ClearTableClient();
 
             BussGrid.GameController.ReCalculateNpcStates(this);
-            BussGrid.GetBusinessObjects().TryRemove(Name, out GameGridObject tmp);
+            BussGrid.GetGameGridObjectsDictionary().TryRemove(Name, out GameGridObject tmp);
             BussGrid.SetIsDraggingEnable(false);// it can be clicked independent 
 
             if (Type == ObjectType.NPC_SINGLE_TABLE)
@@ -691,7 +691,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
     public void CancelPurchase()
     {
-        BussGrid.BusinessObjects.Remove(Name, out GameGridObject tmp);
+        BussGrid.gameGridObjectsDictionary.Remove(Name, out GameGridObject tmp);
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
         DisableIfCounter();
