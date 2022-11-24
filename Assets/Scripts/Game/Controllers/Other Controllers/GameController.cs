@@ -60,7 +60,7 @@ public class GameController : MonoBehaviour
         {
             try
             {
-                if (BussGrid.GetFreeTable(out GameGridObject table))
+                if (GetFreeTable(out GameGridObject table))
                 {
                     foreach (NPCController npcController in NpcSet)
                     {
@@ -73,7 +73,7 @@ public class GameController : MonoBehaviour
                     }
                 }
 
-                if (BussGrid.GetTableWithClient(out GameGridObject tableToAttend))
+                if (GetTableWithClient(out GameGridObject tableToAttend))
                 {
                     foreach (EmployeeController employeeController in EmployeeSet)
                     {
@@ -331,5 +331,80 @@ public class GameController : MonoBehaviour
             }
         }
         return null;
+    }
+
+    // Returns a free table to the NPC, if there is one 
+    public bool GetFreeTable(out GameGridObject result)
+    {
+        result = null;
+        foreach (KeyValuePair<GameGridObject, byte> keyPair in BussGrid.GetBussQueueMap().ToArray())
+        {
+            GameGridObject tmp = keyPair.Key;
+
+            if (tmp == null)
+            {
+                continue;
+            }
+
+            // GameLog.Log("GetFreeTable(): " +
+            // tmp.IsFree() + " " +
+            // !tmp.GetIsObjectBeingDragged() + " " +
+            // !tmp.GetBusy() + " " +
+            // !PlayerData.IsItemStored(tmp.Name) + " " +
+            // tmp.Name + " " +
+            // PlayerData.IsItemInInventory(tmp) + " " +
+            // tmp.GetIsItemBought() + " " +
+            // tmp.GetActive());
+
+            if (tmp.IsFree() &&
+            !tmp.GetIsObjectBeingDragged() &&
+            !tmp.GetBusy() &&
+            !PlayerData.IsItemStored(tmp.Name) &&
+            PlayerData.IsItemInInventory(tmp) &&
+            tmp.GetIsItemBought() &&
+            tmp.GetActive() &&
+            !tmp.GetIsObjectSelected())
+            {
+                result = tmp;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Returns a table to the NPC Employee, if there is one 
+    public bool GetTableWithClient(out GameGridObject result)
+    {
+        result = null;
+        foreach (KeyValuePair<GameGridObject, byte> keyPair in BussGrid.GetBussQueueMap().ToArray())
+        {
+            GameGridObject tmp = keyPair.Key;
+
+            if (tmp == null)
+            {
+                continue;
+            }
+
+            // GameLog.Log("GetTableWithClient(): " +
+            //  (tmp == null) + " " +
+            // !tmp.HasEmployeeAssigned() + " " +
+            // tmp.HasClient() + " " +
+            // !tmp.GetIsObjectBeingDragged() + " " +
+            // !PlayerData.IsItemStored(tmp.Name) + " " +
+            // (tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED) + " ");
+
+            if (
+            !tmp.HasAttendedBy() &&
+            tmp.HasClient() &&
+            !tmp.GetIsObjectBeingDragged() &&
+            !PlayerData.IsItemStored(tmp.Name) &&
+            tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
+            {
+                result = tmp;
+                return true;
+            }
+        }
+
+        return false;
     }
 }

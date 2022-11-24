@@ -514,12 +514,6 @@ public static class BussGrid
         }
     }
 
-    public static void SetGridObject(GameGridObject obj)
-    {
-        // we add all the objects to the player inventory
-        PlayerData.AddItemToInventory(obj);
-    }
-
     // It gets the closest free coord next to the target
     // TODO: Improve so it will choose the closest path and the npc will stand towards the client
     // This should be calculating with Vector3 instead of vector3int
@@ -765,82 +759,6 @@ public static class BussGrid
     {
         return gameGridObjectsDictionary;
     }
-
-    // Returns a free table to the NPC, if there is one 
-    public static bool GetFreeTable(out GameGridObject result)
-    {
-        result = null;
-        foreach (KeyValuePair<GameGridObject, byte> keyPair in BussQueueMap.ToArray())
-        {
-            GameGridObject tmp = keyPair.Key;
-
-            if(tmp == null){
-                continue;
-            }
-
-            // GameLog.Log("GetFreeTable(): " +
-            // tmp.IsFree() + " " +
-            // !tmp.GetIsObjectBeingDragged() + " " +
-            // !tmp.GetBusy() + " " +
-            // !PlayerData.IsItemStored(tmp.Name) + " " +
-            // tmp.Name + " " +
-            // PlayerData.IsItemInInventory(tmp) + " " +
-            // tmp.GetIsItemBought() + " " +
-            // tmp.GetActive());
-
-            if (tmp.IsFree() &&
-            !tmp.GetIsObjectBeingDragged() &&
-            !tmp.GetBusy() &&
-            !PlayerData.IsItemStored(tmp.Name) &&
-            PlayerData.IsItemInInventory(tmp) &&
-            tmp.GetIsItemBought() &&
-            tmp.GetActive() &&
-            !tmp.GetIsObjectSelected())
-            {
-                result = tmp;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Returns a table to the NPC Employee, if there is one 
-    public static bool GetTableWithClient(out GameGridObject result)
-    {
-        result = null;
-        foreach (KeyValuePair<GameGridObject, byte> keyPair in BussQueueMap.ToArray())
-        {
-            GameGridObject tmp = keyPair.Key;
-
-            if(tmp == null){
-                continue;
-            }
-
-            // GameLog.Log("GetTableWithClient(): " +
-            //  (tmp == null) + " " +
-            // !tmp.HasEmployeeAssigned() + " " +
-            // tmp.HasClient() + " " +
-            // !tmp.GetIsObjectBeingDragged() + " " +
-            // !PlayerData.IsItemStored(tmp.Name) + " " +
-            // (tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED) + " ");
-
-            if (
-            !tmp.HasAttendedBy() &&
-            tmp.HasClient() &&
-            !tmp.GetIsObjectBeingDragged() &&
-            !PlayerData.IsItemStored(tmp.Name) &&
-            tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
-            {
-                result = tmp;
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-
 
     public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
     {

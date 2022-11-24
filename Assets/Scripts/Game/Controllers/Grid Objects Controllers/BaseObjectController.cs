@@ -100,7 +100,7 @@ public class BaseObjectController : MonoBehaviour
         {
             gameGridObject.SetStoreGameObject(storeGameObject);
             isSpriteSetted = true;
-            BussGrid.SetGridObject(gameGridObject);
+            PlayerData.AddItemToInventory(gameGridObject);
             gameGridObject.UpdateObjectCoords();
 
             // We set the coords on the Buss grid only if it is not an item from the store/storage
