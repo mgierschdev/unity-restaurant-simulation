@@ -43,7 +43,7 @@ public static class BussGrid
     private static ConcurrentDictionary<Vector3Int, GameTile> mapGameFloor;
     public static GameController GameController { get; set; }
     public static GameObject ControllerGameObject { get; set; }
-    //Buss Queues and map
+    // Grid object map
     private static ConcurrentDictionary<string, GameGridObject> gameGridObjectsDictionary;
 
     public static void Init()
