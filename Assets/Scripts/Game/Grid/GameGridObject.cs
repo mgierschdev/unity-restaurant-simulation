@@ -154,7 +154,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
             if (Type == ObjectType.NPC_SINGLE_TABLE)
             {
-                BussGrid.GetBussQueueMap().TryRemove(this, out byte tmp2);
+                TableHandler.GetBussQueueMap().TryRemove(this, out byte tmp2);
             }
 
             DisableIfCounter();
