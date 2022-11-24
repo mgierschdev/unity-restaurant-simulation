@@ -16,6 +16,7 @@ public class BaseObjectController : MonoBehaviour
     private ObjectRotation initialRotation;
     private StoreGameObject storeGameObject;
     private bool isCurrentValidPos, isNewItem, isStorageItem, isNewItemSetted, isSpriteSetted, isDraggDisabled, isClicking;
+    private ClickController clickController;
 
     private void Awake()
     {
@@ -28,6 +29,9 @@ public class BaseObjectController : MonoBehaviour
         timeClicking = 0;
         initialRotation = ObjectRotation.FRONT;
         currentPos = transform.position;
+        // Click controller
+        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
+        clickController = cController.GetComponent<ClickController>();
     }
 
     private void Start()
@@ -62,7 +66,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateOnMouseDown()
     {
-        if (Input.GetMouseButtonDown(0) && BussGrid.ClickController.GetGameGridClickedObject() == gameGridObject)
+        if (Input.GetMouseButtonDown(0) && clickController.GetGameGridClickedObject() == gameGridObject)
         {
             // Debug.Log("Clicking load item slider");
 
