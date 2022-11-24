@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClickController : MonoBehaviour
 {
     private bool isPressingButton, mouseOverUI;
-    private float /*LONG_CLICK_DURATION = 0.2f,*/ lastClickTime;
+    private float lastClickTime;
     private Camera mainCamera;
     private GameObject clickedObject;
     private GameGridObject clickedGameGridObject;
@@ -13,11 +13,7 @@ public class ClickController : MonoBehaviour
 
     private void Start()
     {
-        // Long Click
-      //  clickingTime = 0;
-       //isClicking = false;
         mainCamera = Camera.main;
-
         // Time passed between clicks 
         lastClickTime = 0;
     }
@@ -37,36 +33,7 @@ public class ClickController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             lastClickTime = Time.unscaledTime;
-          //  clickingTime = 0;
-           // isClicking = true;
         }
-
-        // During Click
-        // if (isClicking)
-        // {
-            // Continues counting even while the game is paused
-        //     if (Time.deltaTime == 0)
-        //     {
-        //         clickingTime += Time.unscaledDeltaTime;
-        //     }
-        //     else
-        //     {
-        //         clickingTime += Time.fixedDeltaTime;
-        //     }
-        // }
-
-        // On release, the mouse
-        // if (Input.GetMouseButtonUp(0))
-        // {
-        //  //   clickingTime = 0;
-        //     isClicking = false;
-        // }
-
-        // Resets isLongClick
-        // if (clickingTime > LONG_CLICK_DURATION)
-        // {
-        //     isLongClick = true;
-        // }
     }
 
     // The object must have a collider attached, used for when clicking individual NPCs or detecting long click for the player
@@ -95,7 +62,7 @@ public class ClickController : MonoBehaviour
         if (list.Count > 0)
         {
             clickedGameGridObject = list.Keys[0];
-            clickedObject = GameObject.Find(list.Keys[0].Name);
+
         }
         else
         {
@@ -106,34 +73,6 @@ public class ClickController : MonoBehaviour
         {
             clickedGameTile = tile;
         }
-    }
-
-    public double TimePassedSinceLastClick()
-    {
-        return 0 > (Time.unscaledTime - lastClickTime) ? 0 : Time.unscaledTime - lastClickTime;
-    }
-
-    public bool GetIsPressingButton()
-    {
-        return isPressingButton;
-    }
-
-    public GameObject GetClickedObject()
-    {
-        return clickedObject;
-    }
-
-    public GameTile GetClickedGameTile()
-    {
-        return clickedGameTile;
-    }
-    public void SetClickedGameTile(GameTile tile)
-    {
-        clickedGameTile = tile;
-    }
-    public void SetClickedObject(GameObject obj)
-    {
-        clickedObject = obj;
     }
 
     public GameGridObject GetGameGridClickedObject()

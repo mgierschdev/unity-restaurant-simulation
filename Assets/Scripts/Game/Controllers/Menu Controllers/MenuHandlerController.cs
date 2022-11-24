@@ -274,20 +274,8 @@ public class MenuHandlerController : MonoBehaviour
         CloseMenu();
         GameObject newObject;
 
-        // To automaticly choose the next available spot
-        // if (obj.HasActionPoint)
-        // {
-        //     newObject = placeGameObject(obj);
-        // }
-        // else
-        // {
-        //     newObject = PlaceSingleTileObject(obj);
-        // }
-
-        // if (newObject == null)
-        // {
+        // Auto place : placeGameObject(obj); /  PlaceSingleTileObject(obj);
         newObject = PlaceAtCameraSquare(obj);
-        // }
 
         BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
         baseObjectController.SetNewItem(true, storage);

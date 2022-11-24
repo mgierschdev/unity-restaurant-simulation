@@ -7,11 +7,8 @@ using Random = UnityEngine.Random;
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
 {
-    [SerializeField]
     private const float MaxStateTime = 20; // in seconds
     private const float MaxTableWaitingTime = 10;
-    [SerializeField]
-    private NpcState state;//TODO: for debug
 
     private void Start()
     {
@@ -50,7 +47,6 @@ public class NPCController : GameObjectMovementBase
                     CheckIfTableHasBeenAssigned();
                     Wander();
                     CheckIfTableOrEmployeeMoved();
-                    state = stateMachine.Current.State;
                     stateMachine.CheckTransition();
                     MoveNPC();
                 }

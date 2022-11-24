@@ -22,18 +22,14 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected PlayerAnimationStateController animationController;
     protected ObjectType type;
     private ItemType itemToAskFor;
-    //A*
     // Attributes for saving the path of the NPC on the grid
     // This will help to void placing objects on top of the NPC
     private Queue pendingMovementQueue;
     private Vector3 currentLocalTargetPosition; //step by step target to
     private int debugColorValue = 0;
-    //A*
-
     //Final target 
     protected Vector3 currentTargetWorldPosition;
     protected Vector3Int currentTargetGridPosition;
-
     //State machine
     protected GameGridObject table;
     protected StateMachine<NpcState, NpcStateTransitions> stateMachine;
@@ -249,24 +245,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     protected bool IsMoving()
     {
         return isMoving;
-    }
-
-    // Resets the planned Path
-    private void ResetMovementQueue()
-    {
-        currentLocalTargetPosition = Vector3.negativeInfinity;
-        pendingMovementQueue = new Queue();
-    }
-
-    protected void ResetMovement()
-    {
-        // we are already at target and not moving
-        currentLocalTargetPosition = transform.position;
-        pendingMovementQueue = new Queue();
-        if (EnergyBar.IsActive())
-        {
-            EnergyBar.SetInactive();
-        }
     }
 
     private List<Node> MergePath(List<Node> path)

@@ -55,11 +55,6 @@ public class InfoPopUpController : MonoBehaviour
         topDispenserInfoPopUpImage.SetActive(false);
     }
 
-    public bool IsEnable()
-    {
-        return gameObject.activeSelf;
-    }
-
     public void SetInfoPopUItem(ItemType item)
     {
         spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, MenuObjectList.GetItemSprite(item));    

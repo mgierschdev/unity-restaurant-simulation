@@ -253,7 +253,7 @@ public class GameController : MonoBehaviour
         return null;
     }
 
-    public static void PlaceGameObjectAt(DataGameObject obj)
+    public void PlaceGameObjectAt(DataGameObject obj)
     {
         StoreItemType type = (StoreItemType)obj.ID;
         Vector3Int position = new Vector3Int(obj.POSITION[0], obj.POSITION[1]);
@@ -319,18 +319,6 @@ public class GameController : MonoBehaviour
             debug += " " + pos + " ";
         }
         GameLog.Log(debug);
-    }
-
-    public static GameGridObject GetFreeCounter()
-    {
-        foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
-        {
-            if (g.Value.GetIsItemBought() && !ObjectDraggingHandler.IsThisSelectedObject(g.Key) && !g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NPC_COUNTER)
-            {
-                return g.Value;
-            }
-        }
-        return null;
     }
 
     // Returns a free table to the NPC, if there is one 
@@ -406,5 +394,17 @@ public class GameController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public static GameGridObject GetFreeCounter()
+    {
+        foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
+        {
+            if (g.Value.GetIsItemBought() && !ObjectDraggingHandler.IsThisSelectedObject(g.Key) && !g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NPC_COUNTER)
+            {
+                return g.Value;
+            }
+        }
+        return null;
     }
 }
