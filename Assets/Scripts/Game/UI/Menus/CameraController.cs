@@ -76,7 +76,7 @@ public class CameraController : MonoBehaviour
 
     private void PerspectiveHand()
     {
-        if (!Settings.CameraPerspectiveHand || BussGrid.GetIsDraggingEnabled() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
+        if (!Settings.CameraPerspectiveHand || ObjectDraggingHandler.GetIsDraggingEnabled() || menuHandlerController.IsMenuOpen() || IsPerspectiveHandTempDisabled)
         {
             pointerDownStart = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             return;

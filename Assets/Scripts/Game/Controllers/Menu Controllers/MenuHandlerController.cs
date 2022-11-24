@@ -149,9 +149,9 @@ public class MenuHandlerController : MonoBehaviour
         OpenCenterPanel();
 
         // If there is a selected object on the UI we un-unselect the object
-        if (BussGrid.GetIsDraggingEnabled())
+        if (ObjectDraggingHandler.GetIsDraggingEnabled())
         {
-            BussGrid.DisableDragging();
+            ObjectDraggingHandler.DisableDragging();
         }
 
         // we enable menu background
@@ -328,7 +328,7 @@ public class MenuHandlerController : MonoBehaviour
             baseObjectController.SetStoreGameObject(pair.Value);
         }
 
-        BussGrid.SetPreviewItem(baseObjectController);
+        ObjectDraggingHandler.SetPreviewItem(baseObjectController);
     }
 
     private IEnumerator TestPlacingObjects(StoreGameObject obj)
