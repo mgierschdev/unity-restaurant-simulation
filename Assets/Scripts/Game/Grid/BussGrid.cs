@@ -37,15 +37,15 @@ public static class BussGrid
     public static Tilemap TilemapObjects { get; set; }
     private static List<GameTile> listObjectsTileMap;
     private static ConcurrentDictionary<Vector3Int, GameTile> mapObjects;
-    //Business floors
-    public static Tilemap TilemapBusinessFloor { get; set; }
-    private static List<GameTile> listBusinessFloor;
-    private static ConcurrentDictionary<Vector3Int, GameTile> mapBusinessFloor;
+    //Game floor, which allows drag/drop
+    public static Tilemap TilemapGameFloor { get; set; }
+    private static List<GameTile> listGameFloor;
+    private static ConcurrentDictionary<Vector3Int, GameTile> mapGameFloor;
     private static string currentClickedActiveGameObject;
     public static GameController GameController { get; set; }
     public static GameObject ControllerGameObject { get; set; }
     //Buss Queues and map
-    public static ConcurrentDictionary<string, GameGridObject> BusinessObjects { get; set; }
+    private static ConcurrentDictionary<string, GameGridObject> gameGridObjectsDictionary;
     private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
     //Is dragging mode enabled and object selected?
     private static bool isDraggingEnabled; // Is amy object being dragged ?
@@ -73,13 +73,13 @@ public static class BussGrid
         mapObjects = new ConcurrentDictionary<Vector3Int, GameTile>();
         listObjectsTileMap = new List<GameTile>();
 
-        BusinessObjects = new ConcurrentDictionary<string, GameGridObject>();
+        gameGridObjectsDictionary = new ConcurrentDictionary<string, GameGridObject>();
 
         mapWalkingPath = new ConcurrentDictionary<Vector3Int, GameTile>();
         listWalkingPathTileMap = new List<GameTile>();
 
-        listBusinessFloor = new List<GameTile>();
-        mapBusinessFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
+        listGameFloor = new List<GameTile>();
+        mapGameFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
 
         // Click controller
         GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
@@ -94,7 +94,7 @@ public static class BussGrid
         BussQueueMap = new ConcurrentDictionary<GameGridObject, byte>();
 
         if (TilemapFloor == null || TilemapColliders == null || TilemapObjects == null || TilemapPathFinding == null ||
-            TilemapWalkingPath == null || TilemapBusinessFloor == null)
+            TilemapWalkingPath == null || TilemapGameFloor == null)
         {
             GameLog.LogWarning("GridController/tilemap");
             GameLog.LogWarning("tilemapFloor " + TilemapFloor);
@@ -102,7 +102,7 @@ public static class BussGrid
             GameLog.LogWarning("tilemapObjects " + TilemapObjects);
             GameLog.LogWarning("tilemapPathFinding " + TilemapPathFinding);
             GameLog.LogWarning("tilemapWalkingPath " + TilemapWalkingPath);
-            GameLog.LogWarning("tilemapBusinessFloor " + TilemapBusinessFloor);
+            GameLog.LogWarning("tilemapBusinessFloor " + TilemapGameFloor);
         }
 
         if (Settings.CellDebug)
@@ -110,18 +110,18 @@ public static class BussGrid
             TilemapPathFinding.color = new Color(1, 1, 1, 0.4f);
             TilemapColliders.color = new Color(1, 1, 1, 0.4f);
             TilemapWalkingPath.color = new Color(1, 1, 1, 0.4f);
-            TilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
+            TilemapGameFloor.color = new Color(1, 1, 1, 0.4f);
         }
         else
         {
             TilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
             TilemapColliders.color = new Color(1, 1, 1, 0.0f);
             TilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-            TilemapBusinessFloor.color = new Color(1, 1, 1, 0.0f);
+            TilemapGameFloor.color = new Color(1, 1, 1, 0.0f);
         }
 
         // TEMP, until we have floors
-        TilemapBusinessFloor.color = new Color(1, 1, 1, 0.4f);
+        TilemapGameFloor.color = new Color(1, 1, 1, 0.4f);
 
         pathFind = new PathFind();
         gridArray = new int[Settings.GridHeight, Settings.GridWidth];
@@ -133,7 +133,7 @@ public static class BussGrid
         LoadTileMap(listCollidersTileMap, TilemapColliders, mapColliders);
         LoadTileMap(listObjectsTileMap, TilemapObjects, mapObjects);
         LoadTileMap(listWalkingPathTileMap, TilemapWalkingPath, mapWalkingPath);
-        LoadTileMap(listBusinessFloor, TilemapBusinessFloor, mapBusinessFloor);
+        LoadTileMap(listGameFloor, TilemapGameFloor, mapGameFloor);
         LoadTileMap(listFloorTileMap, TilemapFloor, mapFloor);
     }
 
@@ -275,7 +275,7 @@ public static class BussGrid
     public static void SetObjectObstacle(GameGridObject obj)
     {
         Vector3Int actionGridPosition = obj.GetActionTileInGridPosition();
-        BusinessObjects.TryAdd(obj.Name, obj);
+        gameGridObjectsDictionary.TryAdd(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
             BussQueueMap.TryAdd(obj, 0);
@@ -350,14 +350,14 @@ public static class BussGrid
 
     public static bool IsValidBussCoord(Vector3Int pos)
     {
-        return mapBusinessFloor.ContainsKey(pos);
+        return mapGameFloor.ContainsKey(pos);
     }
 
     public static void HideHighlightedGridBussFloor()
     {
-        if (currentClickedActiveGameObject != "" && BusinessObjects.ContainsKey(currentClickedActiveGameObject))
+        if (currentClickedActiveGameObject != "" && gameGridObjectsDictionary.ContainsKey(currentClickedActiveGameObject))
         {
-            GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
+            GameGridObject gameGridObject = gameGridObjectsDictionary[currentClickedActiveGameObject];
             gameGridObject.HideEditMenu();
             currentClickedActiveGameObject = "";
         }
@@ -378,7 +378,7 @@ public static class BussGrid
     public static void HighlightGridBussFloor()
     {
         // If we Highlight we are in edit mode
-        TilemapBusinessFloor.color = new Color(1, 1, 1, 0.5f);
+        TilemapGameFloor.color = new Color(1, 1, 1, 0.5f);
     }
     // This snaps the object to the pathfinding grid position 
     public static Vector3 GetGridWorldPositionMapMouseDrag(Vector3 worldPos)
@@ -565,9 +565,9 @@ public static class BussGrid
     {
         isDraggingEnabled = true;
 
-        if (currentClickedActiveGameObject != "" && BusinessObjects.ContainsKey(currentClickedActiveGameObject))
+        if (currentClickedActiveGameObject != "" && gameGridObjectsDictionary.ContainsKey(currentClickedActiveGameObject))
         {
-            GameGridObject gameGridObject = BusinessObjects[currentClickedActiveGameObject];
+            GameGridObject gameGridObject = gameGridObjectsDictionary[currentClickedActiveGameObject];
             gameGridObject.HideEditMenu();
         }
 
@@ -580,14 +580,14 @@ public static class BussGrid
         GameGridObject gameGridObject = null;
         if (currentClickedActiveGameObject != "")
         {
-            if (!BusinessObjects.ContainsKey(currentClickedActiveGameObject) && previewGameGridObject != null)
+            if (!gameGridObjectsDictionary.ContainsKey(currentClickedActiveGameObject) && previewGameGridObject != null)
             {
                 //Meanning the item is on previoud but not inventory
                 return previewGameGridObject.GetGameGridObject();
             }
             else
             {
-                gameGridObject = BusinessObjects[currentClickedActiveGameObject];
+                gameGridObject = gameGridObjectsDictionary[currentClickedActiveGameObject];
             }
 
         }
@@ -615,7 +615,7 @@ public static class BussGrid
         int maxX = int.MinValue;
         int maxY = int.MinValue;
 
-        foreach (GameTile tile in listBusinessFloor)
+        foreach (GameTile tile in listGameFloor)
         {
             minX = Mathf.Min(minX, tile.GridPosition.x);
             minY = Mathf.Min(minY, tile.GridPosition.y);
@@ -642,7 +642,7 @@ public static class BussGrid
         {
             return false;
         }
-        return gridArray[pos.x, pos.y] == 0 && mapBusinessFloor.ContainsKey(pos);
+        return gridArray[pos.x, pos.y] == 0 && mapGameFloor.ContainsKey(pos);
     }
 
     //Gets the closest next tile to the object
@@ -756,7 +756,7 @@ public static class BussGrid
         HashSet<Vector3Int> positions = new HashSet<Vector3Int>();
         HashSet<Vector3Int> actionPositions = new HashSet<Vector3Int>();
 
-        foreach (GameGridObject gObj in BusinessObjects.Values)
+        foreach (GameGridObject gObj in gameGridObjectsDictionary.Values)
         {
             if (PlayerData.IsItemStored(gObj.Name) || gObj.GetIsObjectSelected())//Replacing
             {
@@ -779,7 +779,7 @@ public static class BussGrid
             }
         }
 
-        foreach (GameTile tile in listBusinessFloor)
+        foreach (GameTile tile in listGameFloor)
         {
             Vector3Int current = new Vector3Int(tile.GridPosition.x, tile.GridPosition.y);
 
@@ -795,7 +795,7 @@ public static class BussGrid
 
     public static int GetObjectCount()
     {
-        return BusinessObjects.Count;
+        return gameGridObjectsDictionary.Count;
     }
 
     // public static GameGridObject GetCounter()
@@ -810,7 +810,7 @@ public static class BussGrid
 
     public static List<GameTile> GetListBusinessFloor()
     {
-        return listBusinessFloor;
+        return listGameFloor;
     }
 
     public static KeyValuePair<GameGridObject, byte>[] GetFreeBusinessSpots()
@@ -818,14 +818,14 @@ public static class BussGrid
         return BussQueueMap.ToArray();
     }
 
-    public static ConcurrentDictionary<string, GameGridObject> GetBusinessObjects()
+    public static ConcurrentDictionary<string, GameGridObject> GetGameGridObjectsDictionary()
     {
-        return BusinessObjects;
+        return gameGridObjectsDictionary;
     }
 
     public static GameGridObject GetFreeCounter()
     {
-        foreach (KeyValuePair<string, GameGridObject> g in BusinessObjects)
+        foreach (KeyValuePair<string, GameGridObject> g in gameGridObjectsDictionary)
         {
             if (g.Value.GetIsItemBought() && !IsThisSelectedObject(g.Key) && !g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NPC_COUNTER)
             {
@@ -963,7 +963,7 @@ public static class BussGrid
     {
         List<Vector3Int> entranceTile = new List<Vector3Int>();
 
-        foreach (GameTile tile in listBusinessFloor)
+        foreach (GameTile tile in listGameFloor)
         {
 
             for (int i = 0; i < Util.ArroundPartialVectorPoints.GetLength(0); i++)

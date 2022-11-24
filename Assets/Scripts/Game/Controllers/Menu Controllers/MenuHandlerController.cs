@@ -383,13 +383,13 @@ public class MenuHandlerController : MonoBehaviour
         GameObject newObject;
         Vector3 spamPosition;
 
-        if (BussGrid.BusinessObjects.Count == 0)
+        if (BussGrid.gameGridObjectsDictionary.Count == 0)
         {
             spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextTileFromEmptyMap(obj));
             return spamPosition == Util.GetVector3IntNegativeInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
         }
 
-        foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.BusinessObjects)
+        foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.gameGridObjectsDictionary)
         {
             GameGridObject current = dic.Value;
             Vector3Int[] nextTile = BussGrid.GetNextFreeTileWithActionPoint(current);

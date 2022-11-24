@@ -241,8 +241,8 @@ public class GridDebugPanel : EditorWindow
 
         maps += " \n";
 
-        maps += "Active: BusinessObjects Total: " + BussGrid.GetBusinessObjects().Count + " \n";
-        foreach (GameGridObject g in BussGrid.GetBusinessObjects().Values)
+        maps += "Active: BusinessObjects Total: " + BussGrid.GetGameGridObjectsDictionary().Count + " \n";
+        foreach (GameGridObject g in BussGrid.GetGameGridObjectsDictionary().Values)
         {
             if (PlayerData.IsItemStored(g.Name))
             {
