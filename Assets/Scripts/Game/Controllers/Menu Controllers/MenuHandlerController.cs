@@ -22,8 +22,6 @@ public class MenuHandlerController : MonoBehaviour
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
     {
-
-
         // Setting up Top level UI
         GameObject topResourcePanelMoney = GameObject.Find(Settings.ConstTopMenuDisplayMoney);
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
@@ -99,32 +97,6 @@ public class MenuHandlerController : MonoBehaviour
             {
                 tableTabButton = bStore;
             }
-        }
-    }
-
-    private bool CanCloseOnClickOutside()
-    {
-        return openedTime > MIN_OPENED_TIME;
-    }
-
-    private void CheckCLickControl()
-    {
-        if (BussGrid.ClickController == null || !BussGrid.ClickController.GetClickedObject())
-        {
-            return;
-        }
-
-        Util.GetObjectType(BussGrid.ClickController.GetClickedObject());
-
-        if (BussGrid.ClickController.GetClickedObject().name.Contains(Settings.PrefabNpcEmployee))
-        {
-            return;
-        }
-        // We reset the clicked object after the action
-        BussGrid.ClickController.SetClickedObject(null);
-        if (BussGrid.ClickController.GetClickedGameTile() != null)
-        {
-            BussGrid.ClickController.SetClickedGameTile(null);
         }
     }
 

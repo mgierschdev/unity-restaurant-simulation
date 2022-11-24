@@ -12,7 +12,6 @@ public class GridComponentsController : MonoBehaviour
         BussGrid.TilemapColliders = GameObject.Find(Settings.TilemapColliders).GetComponent<Tilemap>();
         BussGrid.TilemapObjects = GameObject.Find(Settings.TilemapObjects).GetComponent<Tilemap>();
         BussGrid.TilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();
-        BussGrid.CameraController = GameObject.FindGameObjectWithTag(Settings.MainCamera).GetComponent<CameraController>();
         GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
         BussGrid.GameController = gameObj.GetComponent<GameController>();
         BussGrid.ControllerGameObject = gameObject;

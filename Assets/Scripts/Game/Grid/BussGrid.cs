@@ -46,11 +46,6 @@ public static class BussGrid
     //Buss Queues and map
     private static ConcurrentDictionary<string, GameGridObject> gameGridObjectsDictionary;
 
-    //Perspective hand
-    public static CameraController CameraController { get; set; }
-    //ClickController
-    public static ClickController ClickController { get; set; }
-
     public static void Init()
     {
         // TILEMAP DATA 
@@ -76,19 +71,12 @@ public static class BussGrid
         listGameFloor = new List<GameTile>();
         mapGameFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
 
-        // Click controller
-        GameObject cController = GameObject.FindGameObjectWithTag(Settings.ConstParentGameObject);
-        ClickController = cController.GetComponent<ClickController>();
-
         //ObjectListConfiguration
         MenuObjectList.Init();
 
         // Object Dragging Handler
         ObjectDraggingHandler.Init();
         // Table Handler 
-        
-
-
 
         if (TilemapFloor == null || TilemapColliders == null || TilemapObjects == null || TilemapPathFinding == null ||
             TilemapWalkingPath == null || TilemapGameFloor == null)
