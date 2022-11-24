@@ -337,7 +337,7 @@ public class GameController : MonoBehaviour
     public bool GetFreeTable(out GameGridObject result)
     {
         result = null;
-        foreach (KeyValuePair<GameGridObject, byte> keyPair in BussGrid.GetBussQueueMap().ToArray())
+        foreach (KeyValuePair<GameGridObject, byte> keyPair in TableHandler.GetBussQueueMap().ToArray())
         {
             GameGridObject tmp = keyPair.Key;
 
@@ -376,7 +376,7 @@ public class GameController : MonoBehaviour
     public bool GetTableWithClient(out GameGridObject result)
     {
         result = null;
-        foreach (KeyValuePair<GameGridObject, byte> keyPair in BussGrid.GetBussQueueMap().ToArray())
+        foreach (KeyValuePair<GameGridObject, byte> keyPair in TableHandler.GetBussQueueMap().ToArray())
         {
             GameGridObject tmp = keyPair.Key;
 

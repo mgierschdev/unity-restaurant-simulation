@@ -45,7 +45,6 @@ public static class BussGrid
     public static GameObject ControllerGameObject { get; set; }
     //Buss Queues and map
     private static ConcurrentDictionary<string, GameGridObject> gameGridObjectsDictionary;
-    private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
 
     //Perspective hand
     public static CameraController CameraController { get; set; }
@@ -84,11 +83,12 @@ public static class BussGrid
         //ObjectListConfiguration
         MenuObjectList.Init();
 
-        // TableHandler
+        // Object Dragging Handler
         ObjectDraggingHandler.Init();
+        // Table Handler 
+        
 
-        // BussObjectsMap 
-        BussQueueMap = new ConcurrentDictionary<GameGridObject, byte>();
+
 
         if (TilemapFloor == null || TilemapColliders == null || TilemapObjects == null || TilemapPathFinding == null ||
             TilemapWalkingPath == null || TilemapGameFloor == null)
@@ -274,7 +274,7 @@ public static class BussGrid
         gameGridObjectsDictionary.TryAdd(obj.Name, obj);
         if (obj.Type == ObjectType.NPC_SINGLE_TABLE)
         {
-            BussQueueMap.TryAdd(obj, 0);
+            TableHandler.GetBussQueueMap().TryAdd(obj, 0);
             gridArray[obj.GridPosition.x, obj.GridPosition.y] = (int)CellValue.BUSY;
             gridArray[actionGridPosition.x, actionGridPosition.y] = (int)CellValue.ACTION_POINT;
         }
@@ -456,7 +456,6 @@ public static class BussGrid
     //     }
     // }
 
-
     public static Vector3Int GetRandomWalkablePosition(Vector3Int currentPosition)
     {
         Vector3Int wanderPos = currentPosition;
@@ -539,7 +538,6 @@ public static class BussGrid
         }
         return result;
     }
-
 
     public static int[,] GetBussGrid(Vector3Int position)
     {
@@ -735,11 +733,6 @@ public static class BussGrid
         return gameGridObjectsDictionary.Count;
     }
 
-    // public static GameGridObject GetCounter()
-    // {
-    //     return counter;
-    // }
-
     public static int[,] GetGridArray()
     {
         return gridArray;
@@ -750,19 +743,10 @@ public static class BussGrid
         return listGameFloor;
     }
 
-    public static KeyValuePair<GameGridObject, byte>[] GetFreeBusinessSpots()
-    {
-        return BussQueueMap.ToArray();
-    }
 
     public static ConcurrentDictionary<string, GameGridObject> GetGameGridObjectsDictionary()
     {
         return gameGridObjectsDictionary;
-    }
-
-    public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
-    {
-        return BussQueueMap;
     }
 
     // Gets the world position from the grid position
