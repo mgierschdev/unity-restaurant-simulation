@@ -41,20 +41,16 @@ public static class BussGrid
     public static Tilemap TilemapGameFloor { get; set; }
     private static List<GameTile> listGameFloor;
     private static ConcurrentDictionary<Vector3Int, GameTile> mapGameFloor;
-    private static string currentClickedActiveGameObject;
     public static GameController GameController { get; set; }
     public static GameObject ControllerGameObject { get; set; }
     //Buss Queues and map
     private static ConcurrentDictionary<string, GameGridObject> gameGridObjectsDictionary;
     private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
-    //Is dragging mode enabled and object selected?
-    private static bool isDraggingEnabled; // Is amy object being dragged ?
+
     //Perspective hand
     public static CameraController CameraController { get; set; }
     //ClickController
     public static ClickController ClickController { get; set; }
-    //Preview object
-    private static BaseObjectController previewGameGridObject;
 
     public static void Init()
     {
@@ -88,7 +84,8 @@ public static class BussGrid
         //ObjectListConfiguration
         MenuObjectList.Init();
 
-        isDraggingEnabled = false;
+        // TableHandler
+        ObjectDraggingHandler.Init();
 
         // BussObjectsMap 
         BussQueueMap = new ConcurrentDictionary<GameGridObject, byte>();
@@ -126,7 +123,6 @@ public static class BussGrid
         pathFind = new PathFind();
         gridArray = new int[Settings.GridHeight, Settings.GridWidth];
         debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
-        currentClickedActiveGameObject = "";
 
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
@@ -353,16 +349,6 @@ public static class BussGrid
         return mapGameFloor.ContainsKey(pos);
     }
 
-    public static void HideHighlightedGridBussFloor()
-    {
-        if (currentClickedActiveGameObject != "" && gameGridObjectsDictionary.ContainsKey(currentClickedActiveGameObject))
-        {
-            GameGridObject gameGridObject = gameGridObjectsDictionary[currentClickedActiveGameObject];
-            gameGridObject.HideEditMenu();
-            currentClickedActiveGameObject = "";
-        }
-    }
-
     // Gets a GameTIle in Camera.main.ScreenToWorldPoint(Input.mousePosition))      
     public static GameTile GetGameTileFromClickInPathFindingGrid(Vector3Int position)
     {
@@ -560,49 +546,6 @@ public static class BussGrid
         return result;
     }
 
-    // Used to highlight the current object being edited
-    public static void SetActiveGameGridObject(GameGridObject obj)
-    {
-        isDraggingEnabled = true;
-
-        if (currentClickedActiveGameObject != "" && gameGridObjectsDictionary.ContainsKey(currentClickedActiveGameObject))
-        {
-            GameGridObject gameGridObject = gameGridObjectsDictionary[currentClickedActiveGameObject];
-            gameGridObject.HideEditMenu();
-        }
-
-        currentClickedActiveGameObject = obj.Name;
-        obj.ShowEditMenu();
-    }
-
-    private static GameGridObject GetActiveGameGridObject()
-    {
-        GameGridObject gameGridObject = null;
-        if (currentClickedActiveGameObject != "")
-        {
-            if (!gameGridObjectsDictionary.ContainsKey(currentClickedActiveGameObject) && previewGameGridObject != null)
-            {
-                //Meanning the item is on previoud but not inventory
-                return previewGameGridObject.GetGameGridObject();
-            }
-            else
-            {
-                gameGridObject = gameGridObjectsDictionary[currentClickedActiveGameObject];
-            }
-
-        }
-        return gameGridObject;
-    }
-
-    public static void ClearCurrentClickedActiveGameObject()
-    {
-        currentClickedActiveGameObject = "";
-    }
-
-    public static bool IsThisSelectedObject(string objName)
-    {
-        return currentClickedActiveGameObject == objName;
-    }
 
     public static int[,] GetBussGrid(Vector3Int position)
     {
@@ -823,18 +766,6 @@ public static class BussGrid
         return gameGridObjectsDictionary;
     }
 
-    public static GameGridObject GetFreeCounter()
-    {
-        foreach (KeyValuePair<string, GameGridObject> g in gameGridObjectsDictionary)
-        {
-            if (g.Value.GetIsItemBought() && !IsThisSelectedObject(g.Key) && !g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NPC_COUNTER)
-            {
-                return g.Value;
-            }
-        }
-        return null;
-    }
-
     // Returns a free table to the NPC, if there is one 
     public static bool GetFreeTable(out GameGridObject result)
     {
@@ -908,42 +839,8 @@ public static class BussGrid
         return false;
     }
 
-    public static bool IsDraggingEnabled(GameGridObject obj)
-    {
-        return isDraggingEnabled && IsThisSelectedObject(obj.Name);
-    }
-    // Is any object being dragged
-    public static void SetIsDraggingEnable(bool val)
-    {
-        isDraggingEnabled = val;
-    }
 
-    public static bool GetIsDraggingEnabled()
-    {
-        return isDraggingEnabled;
-    }
 
-    public static void DisableDragging()
-    {
-        GameGridObject obj = GetActiveGameGridObject();
-
-        if (obj == null)
-        {
-            return;
-        }
-
-        // Handling preview items
-        if (!obj.GetIsItemBought())
-        {
-            obj.CancelPurchase();
-        }
-        else
-        {
-            obj.SetInactive();
-        }
-
-        previewGameGridObject = null;
-    }
 
     public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
     {
@@ -1008,10 +905,5 @@ public static class BussGrid
         {
             gridArray[obj.GetActionTileInGridPosition().x, obj.GetActionTileInGridPosition().y] = 0;
         }
-    }
-
-    public static void SetPreviewItem(BaseObjectController obj)
-    {
-        previewGameGridObject = obj;
     }
 }

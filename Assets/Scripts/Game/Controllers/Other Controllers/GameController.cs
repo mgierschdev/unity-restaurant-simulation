@@ -39,7 +39,7 @@ public class GameController : MonoBehaviour
                     SpamNpc();
                 }
 
-                GameGridObject counter = BussGrid.GetFreeCounter();
+                GameGridObject counter = GetFreeCounter();
 
                 if (counter != null)
                 {
@@ -319,5 +319,17 @@ public class GameController : MonoBehaviour
             debug += " " + pos + " ";
         }
         GameLog.Log(debug);
+    }
+
+    public static GameGridObject GetFreeCounter()
+    {
+        foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
+        {
+            if (g.Value.GetIsItemBought() && !ObjectDraggingHandler.IsThisSelectedObject(g.Key) && !g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NPC_COUNTER)
+            {
+                return g.Value;
+            }
+        }
+        return null;
     }
 }

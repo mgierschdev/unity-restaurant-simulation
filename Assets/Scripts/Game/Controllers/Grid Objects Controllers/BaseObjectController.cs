@@ -73,7 +73,7 @@ public class BaseObjectController : MonoBehaviour
             !gameGridObject.GetStoreGameObject().HasActionPoint &&
             !gameGridObject.GetIsItemReady() &&
             !gameGridObject.GetIsObjectSelected() &&
-            !BussGrid.GetIsDraggingEnabled() &&
+            !ObjectDraggingHandler.GetIsDraggingEnabled() &&
             !gameGridObject.GetLoadItemSlider().IsActive()
             )
             {
@@ -126,7 +126,7 @@ public class BaseObjectController : MonoBehaviour
         // Selecting the item while pressing over it
         if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled &&
         !gameGridObject.GetIsObjectSelected() &&
-        !BussGrid.GetIsDraggingEnabled())
+        !ObjectDraggingHandler.GetIsDraggingEnabled())
         {
             gameGridObject.UpdateMoveSlider();
 
@@ -151,7 +151,7 @@ public class BaseObjectController : MonoBehaviour
         !IsClickingButton())
         {
             gameGridObject.SetInactive();
-            BussGrid.SetIsDraggingEnable(false);
+            ObjectDraggingHandler.SetIsDraggingEnable(false);
 
             // If it is a store item not bought we erase it 
             if (!gameGridObject.GetIsItemBought() && !PlayerData.IsItemStored(gameGridObject.Name))
@@ -232,7 +232,7 @@ public class BaseObjectController : MonoBehaviour
     // Called when the mouse is released 
     private void OnMouseUp()
     {
-        if (!Menu || !BussGrid.IsDraggingEnabled(gameGridObject))
+        if (!Menu || !ObjectDraggingHandler.IsDraggingEnabled(gameGridObject))
         {
             return;
         }
@@ -273,7 +273,7 @@ public class BaseObjectController : MonoBehaviour
 
     private bool IsDraggable()
     {
-        if (!Menu || gameGridObject == null || !BussGrid.IsDraggingEnabled(gameGridObject))
+        if (!Menu || gameGridObject == null || !ObjectDraggingHandler.IsDraggingEnabled(gameGridObject))
         {
             return false;
         }

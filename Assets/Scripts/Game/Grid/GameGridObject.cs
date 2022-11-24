@@ -140,7 +140,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
             PlayerData.StoreItem(this);
 
             // Clear the Item from the current selected in the grid 
-            BussGrid.ClearCurrentClickedActiveGameObject();
+            ObjectDraggingHandler.ClearCurrentClickedActiveGameObject();
 
             // we clean the table from the employer
             ClearTableEmployee();
@@ -150,7 +150,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
             BussGrid.GameController.ReCalculateNpcStates(this);
             BussGrid.GetGameGridObjectsDictionary().TryRemove(Name, out GameGridObject tmp);
-            BussGrid.SetIsDraggingEnable(false);// it can be clicked independent 
+            ObjectDraggingHandler.SetIsDraggingEnable(false);// it can be clicked independent 
 
             if (Type == ObjectType.NPC_SINGLE_TABLE)
             {
@@ -574,7 +574,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         baseObjectController.DisableDisableDraggingTemp();
         isObjectSelected = true;
         loadSliderMove.SetInactive();
-        BussGrid.SetActiveGameGridObject(this);
+        ObjectDraggingHandler.SetActiveGameGridObject(this);
         ClearTableClient();
         ClearTableEmployee();
         DisableIfCounter();
@@ -599,8 +599,8 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     {
         isObjectSelected = false;
         objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.ObjectZPosition);
-        BussGrid.SetIsDraggingEnable(false);
-        BussGrid.HideHighlightedGridBussFloor();
+        ObjectDraggingHandler.SetIsDraggingEnable(false);
+        ObjectDraggingHandler.HideHighlightedGridBussFloor();
     }
 
     public bool GetIsObjectSelected()
@@ -621,7 +621,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         // We show accept, cancel buttons and select the object
         isObjectSelected = true;
         isItemBought = false;
-        BussGrid.SetActiveGameGridObject(this);
+        ObjectDraggingHandler.SetActiveGameGridObject(this);
         SetNewObjectActiveButtons();
     }
 
