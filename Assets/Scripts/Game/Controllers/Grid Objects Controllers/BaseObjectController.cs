@@ -56,6 +56,8 @@ public class BaseObjectController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && BussGrid.ClickController.GetGameGridClickedObject() == gameGridObject)
         {
+           // Debug.Log("Clicking load item slider");
+
             isClicking = true;
 
             // For GetLoadItemSlider, dispenser items
@@ -63,7 +65,9 @@ public class BaseObjectController : MonoBehaviour
             !gameGridObject.GetStoreGameObject().HasActionPoint &&
             !gameGridObject.GetIsItemReady() &&
             !gameGridObject.GetIsObjectSelected() &&
-            !BussGrid.GetIsDraggingEnabled())
+            !BussGrid.GetIsDraggingEnabled() &&
+            !gameGridObject.GetLoadItemSlider().IsActive()
+            )
             {
                 SetLoadSliderActive();
             }
@@ -137,7 +141,7 @@ public class BaseObjectController : MonoBehaviour
         gameGridObject.GetIsObjectSelected() &&
         !IsClickingSelf() &&
         !IsClickingButton())
-        {   
+        {
             gameGridObject.SetInactive();
             BussGrid.SetIsDraggingEnable(false);
 
