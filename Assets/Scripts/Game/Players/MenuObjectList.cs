@@ -48,6 +48,10 @@ public static class MenuObjectList
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
 
             new StoreGameObject("Wooden container", "Dispenser-1", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 40, false),
+            new StoreGameObject("Wooden container 2", "Dispenser-2", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_2, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 50, false),
+            new StoreGameObject("Wooden container 3", "Dispenser-3", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_3, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 60, false),
+            new StoreGameObject("Wooden container 4", "Dispenser-4", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_4, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 70, false),
+            new StoreGameObject("Wooden container 5", "Dispenser-5", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_5, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 70, false),
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
