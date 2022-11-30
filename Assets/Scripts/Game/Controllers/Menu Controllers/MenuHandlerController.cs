@@ -48,7 +48,7 @@ public class MenuHandlerController : MonoBehaviour
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
         scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollView).gameObject; ;
         scrollViewContent = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
-        centerPanelSideMenu = centerPanel.transform.Find("ButtonMenuPanel").gameObject;
+        centerPanelSideMenu = centerPanel.transform.Find(Settings.ConstButtonMenuPanel).gameObject;
         GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
         visibleRects = new List<RectTransform>{
             centerPanelSideMenu.GetComponent<RectTransform>(),
@@ -81,7 +81,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-
+        // Set Menu buttons ButtonMenuPanel
         foreach (MenuTab tab in MenuTab.GetValues(typeof(MenuTab)))
         {
             GameObject button = Instantiate(Resources.Load(Settings.SideMenuButton, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;

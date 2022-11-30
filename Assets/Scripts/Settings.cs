@@ -148,6 +148,7 @@ public static class Settings
     ConstCenterTabMenu = "CenterPanel",
     ConstCenterScrollView = "ViewPanel/MainContent/ScrollView",
     ConstCenterScrollContent = "ViewPanel/MainContent/ScrollView/Viewport/Content",
+    ConstButtonMenuPanel = "ButtonMenuPanel",
     ConstLeftDownPanel = "LeftDownPanel",
     ConstEditItemMenuPanel = "EditPanelItem",
     ConstEditTopItemMenuPanel = "EditPanelTopItem",
