@@ -46,7 +46,7 @@ public class BaseObjectController : MonoBehaviour
     {
         try
         {
-            if (gameGridObject == null && storeGameObject != null)
+            if ((gameGridObject == null && storeGameObject != null) || Menu.IsMenuOpen())
             {
                 return;
             }
