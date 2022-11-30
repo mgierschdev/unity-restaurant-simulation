@@ -9,12 +9,12 @@ using UnityEngine.UI;
 public class MenuHandlerController : MonoBehaviour
 {
     //center panel scrollview
-    private GameObject centerPanel, scrollView, scrollViewContent, centerPanelSideMenu, leftDownPanel, storeButton;
+    private GameObject centerPanel, scrollView, scrollViewContent, centerPanelSideMenu, leftDownPanel, storeButton, centerPanelMenuTitleObject;
     //saves the latest reference to the npc if the menu was opened
     private MenuItem centerTabMenu;
     // Min amount of time the the menu has to be open before activating -> closing on click outside
     private float MIN_OPENED_TIME = 0.5f, openedTime;
-    private TextMeshProUGUI moneyText;
+    private TextMeshProUGUI moneyText, menuPanelTitle;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
     private Button tableTabButton;
@@ -46,9 +46,14 @@ public class MenuHandlerController : MonoBehaviour
 
         // Menu Body
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
-        scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollView).gameObject; ;
+        scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollView).gameObject;
         scrollViewContent = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
         centerPanelSideMenu = centerPanel.transform.Find(Settings.ConstButtonMenuPanel).gameObject;
+
+        // Menu title 
+        centerPanelMenuTitleObject = centerPanel.transform.Find(Settings.ConstCenterMenuPanelTitle).gameObject;
+        menuPanelTitle = centerPanelMenuTitleObject.GetComponent<TextMeshProUGUI>();
+
         GameObject CenterPanelViewPanel = centerPanel.transform.Find("ViewPanel").gameObject;
         visibleRects = new List<RectTransform>{
             centerPanelSideMenu.GetComponent<RectTransform>(),
@@ -69,7 +74,6 @@ public class MenuHandlerController : MonoBehaviour
         // Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
         LoadCenterPanelSideMenu();
-
         CloseCenterPanel();
         openedTime = 0;
     }
@@ -98,6 +102,11 @@ public class MenuHandlerController : MonoBehaviour
                 tableTabButton = bStore;
             }
         }
+    }
+
+    public void SetMainMenuTitle(string title)
+    {
+        menuPanelTitle.text = title;
     }
 
     public void CloseMenu()
@@ -154,6 +163,9 @@ public class MenuHandlerController : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
+        //Set top panel title
+        SetMainMenuTitle(MenuObjectList.GetButtonLabel(menu.GetMenuTab()));
 
         // Add items to scroll view depending on the tab
         switch (menu.GetMenuTab())
@@ -230,6 +242,7 @@ public class MenuHandlerController : MonoBehaviour
         GameObject item;
         InventoryItemController inventoryItemController;
         Button button;
+
         // Add new Items
         foreach (StoreGameObject obj in objects)
         {

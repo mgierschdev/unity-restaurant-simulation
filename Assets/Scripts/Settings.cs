@@ -147,6 +147,7 @@ public static class Settings
     ConstTopMenuExpSlider = "ExperienceSlider",
     ConstCenterTabMenu = "CenterPanel",
     ConstCenterScrollView = "ViewPanel/MainContent/ScrollView",
+    ConstCenterMenuPanelTitle = "ViewPanel/TitlePanel/ViewPanelTitleLabel",
     ConstCenterScrollContent = "ViewPanel/MainContent/ScrollView/Viewport/Content",
     ConstButtonMenuPanel = "ButtonMenuPanel",
     ConstLeftDownPanel = "LeftDownPanel",
