@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class MenuHandlerController : MonoBehaviour
 {
     //center panel scrollview
-    private GameObject centerPanel, scrollView, scrollViewContent, centerPanelSideMenu, leftDownPanel;
+    private GameObject centerPanel, scrollView, scrollViewContent, centerPanelSideMenu, leftDownPanel, storeButton;
     //saves the latest reference to the npc if the menu was opened
     private MenuItem centerTabMenu;
     // Min amount of time the the menu has to be open before activating -> closing on click outside
@@ -256,9 +256,20 @@ public class MenuHandlerController : MonoBehaviour
 
     private void SetLeftDownPanelClickListeners()
     {
-        GameObject store = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuStore).gameObject;
-        Button bStore = store.GetComponent<Button>();
+        storeButton = leftDownPanel.transform.Find(Settings.ConstLeftDownMenuStore).gameObject;
+        Button bStore = storeButton.GetComponent<Button>();
         bStore.onClick.AddListener(() => OpenMenu(centerTabMenu));
+    }
+
+    //ConstLeftDownMenuStore CenterPanel open button
+    private void HideMainMenuButton()
+    {
+        storeButton.SetActive(false);
+    }
+
+    private void ShowMainMenuButton()
+    {
+        storeButton.SetActive(true);
     }
 
     private void OpenStoreEditPanel(Pair<StoreGameObject, DataGameObject> pair, bool storage)
@@ -379,10 +390,12 @@ public class MenuHandlerController : MonoBehaviour
     private void CloseCenterPanel()
     {
         centerPanel.SetActive(false);
+        ShowMainMenuButton();
     }
 
     private void OpenCenterPanel()
     {
+        HideMainMenuButton();
         centerPanel.SetActive(true);
         // Selecting the button at the same time of opening the menu
         tableTabButton.Select();
