@@ -129,6 +129,8 @@ public static class Settings
     MenuBackground = "MenuBackground",
     MenuContainer = "MenuContainer",
     SideMenuButton = "Menu/CenterTabMenuBotton",
+    SettingsMenuSaveButton = "SaveItem/SaveButton",
+    SettingsMenuStatsText = "StatsContent/StatsText",
     PrefabInventoryItemImage = "Image",
     PrefabMenuInventoryItemImage = "Image/ItemImage",
     PrefabInventoryItemTextPrice = "Image/TextBackground/Price",
