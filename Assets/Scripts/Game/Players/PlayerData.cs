@@ -292,6 +292,10 @@ public static class PlayerData
 
     public static string GetStats()
     {
-        return "Money Earned: xxxxx \n Time Played: xxxxx \n Clients attended: xxxxx \n Items bought: xxxxx \n Other: xxxxx";
+        return "Money Earned: " + user.DATA_STATS.MONEY
+        + "Money spent: " + user.DATA_STATS.MONEY_SPENT
+        + " \n Time Played:" + user.DATA_STATS.TIME_PLAYED
+        + " \n Clients attended: " + user.DATA_STATS.CLIENTS_ATTENDED
+        + " \n Items bought: " + user.DATA_STATS.ITEMS_BOUGHT;
     }
 }
