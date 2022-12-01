@@ -172,7 +172,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             case MenuTab.TABLES_TAB: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
             case MenuTab.DISPENSERS: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
-            // case MenuTab.EMPLOYEE_TAB: /*TODO*/ return;
+            case MenuTab.UPGRADE: AddItemsToUpgradeScrollView(menu); StartCoroutine(ScrollToTop()); return;
             // case MenuTab.IN_GAME_STORE_TAB: /*TODO*/ return;
             case MenuTab.STORAGE_TAB: AddStorageItemsToScrollView(); StartCoroutine(ScrollToTop()); return;
             case MenuTab.SETTINGS_TAB: /*TODO*/ return;
@@ -236,6 +236,37 @@ public class MenuHandlerController : MonoBehaviour
         }
     }
 
+    private void AddItemsToUpgradeScrollView(MenuItem menu)
+    {
+        List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
+        GameObject item;
+        InventoryItemController inventoryItemController;
+        Button button;
+
+        // Add new Items
+        foreach (StoreGameObject obj in objects)
+        {
+            item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+            inventoryItemController = item.GetComponent<InventoryItemController>();
+            button = inventoryItemController.GetButton();
+            Pair<StoreGameObject, DataGameObject> pair = new Pair<StoreGameObject, DataGameObject>
+            {
+                Key = obj
+            };
+
+            // Adding click listener
+            // TODO: max employees we can define the number of counters here
+            if (obj.Cost <= PlayerData.GetMoneyDouble())
+            {
+                //button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
+            }
+
+            inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString());
+            item.transform.SetParent(scrollViewContent.transform);
+            item.transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
     private void AddItemsToScrollView(MenuItem menu)
     {
         List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
@@ -255,7 +286,7 @@ public class MenuHandlerController : MonoBehaviour
             };
 
             // Adding click listener
-            //TODO: max employees we can define the number of counters here
+            // TODO: max employees we can define the number of counters here
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
