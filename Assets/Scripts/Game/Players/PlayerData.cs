@@ -193,6 +193,12 @@ public static class PlayerData
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT
                     },
+                    new DataGameObject{
+                        ID = (int) StoreItemType.COUNTER,
+                        POSITION =  new int[]{Settings.StartCounter[0], Settings.StartCounter[1]},
+                        IS_STORED = false,
+                        ROTATION = (int) ObjectRotation.FRONT
+                    },
                 },
             DATA_STATS = new DataStatsGameObject()
             {

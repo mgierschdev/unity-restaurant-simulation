@@ -13,7 +13,8 @@ public static class Settings
 
     public const int MaxNpcNumber = 1; // 100 > fps 11-12
     public static int[] StartContainer = new int[] { 4, 13 },
-    StartTable = new int[] { 4, 11 };
+    StartTable = new int[] { 4, 11 },
+    StartCounter = new int[] { 5, 12 };
 
     //CAMERA ATTRIBUTES
     public static float CameraMovementSpeed = 25f,
