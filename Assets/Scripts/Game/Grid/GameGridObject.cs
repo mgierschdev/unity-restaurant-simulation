@@ -652,7 +652,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         // We dont substract if the item is comming from the storage
         if (!baseObjectController.GetIsStorageItem() && dataGameObject == null)
         {
-            PlayerData.Subtract(storeGameObject.Cost);
+            PlayerData.Subtract(storeGameObject.Cost, storeGameObject.Type);
             // We set a new firebase object
             PlayerData.AddDataGameObject(this);
         }
