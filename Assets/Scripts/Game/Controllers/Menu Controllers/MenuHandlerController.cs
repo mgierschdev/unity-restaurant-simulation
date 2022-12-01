@@ -171,7 +171,7 @@ public class MenuHandlerController : MonoBehaviour
         switch (menu.GetMenuTab())
         {
             case MenuTab.TABLES_TAB: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
-            case MenuTab.DISPENSERS: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
+            case MenuTab.STORE_ITEMS: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
             case MenuTab.UPGRADE: AddItemsToUpgradeScrollView(menu); StartCoroutine(ScrollToTop()); return;
             // case MenuTab.IN_GAME_STORE_TAB: /*TODO*/ return;
             case MenuTab.STORAGE_TAB: AddStorageItemsToScrollView(); StartCoroutine(ScrollToTop()); return;

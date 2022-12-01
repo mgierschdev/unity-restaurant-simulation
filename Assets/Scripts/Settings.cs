@@ -103,12 +103,12 @@ public static class Settings
     PathFindingGrid = "PathFindingGrid";
 
     //OBJECTS PREFIXES
-    public const string DiespenserPrefix = "DISPENSER",
+    public const string StoreItemsPrefix = "STORE",
     CounterPrefix = "COUNTER";
 
     //SPRITE LIBS CATEGORIES
     public const string SpriteLibCategoryTables = "Tables",
-    SpriteLibCategoryDispensers = "Dispensers",
+    SpriteLibCategoryStoreItems = "Dispensers",
     SpriteLibCategoryUpgradeItems = "Upgrade",
     SpriteLibCategoryStoreObjects = "StoreObjects";
 
@@ -117,7 +117,7 @@ public static class Settings
     PrefabGridTile = "Grid/GridTile",
     PrefabSingleTable = "Objects/SingleTable",
     PrefabCounter = "Objects/Counter",
-    PrefabBaseDispenser = "Objects/BaseDispenser",
+    PrefabBaseStoreItem = "Objects/BaseDispenser",
     ObjectRotationFrontInverted = "Inverted",
     ObjectRotationFront = "Front",
     PrefabPlayer = "Players/Player",

@@ -3,20 +3,20 @@ using UnityEngine.U2D.Animation;
 
 public class InfoPopUpController : MonoBehaviour
 {
-    private GameObject topDispenserInfoPopUpImage;
+    private GameObject topStoreItemInfoPopUpImage;
     private SpriteResolver spriteResolverTopDispenser;
     private Animator animator;
 
     // Start is called before the first frame update
     void Awake()
     {
-        topDispenserInfoPopUpImage = transform.Find("Image").gameObject;
-        Util.IsNull(topDispenserInfoPopUpImage, "InfoPopUpController/topDispenserInfoPopUpImage null");
-        spriteResolverTopDispenser = topDispenserInfoPopUpImage.GetComponent<SpriteResolver>();
+        topStoreItemInfoPopUpImage = transform.Find("Image").gameObject;
+        Util.IsNull(topStoreItemInfoPopUpImage, "InfoPopUpController/topDispenserInfoPopUpImage null");
+        spriteResolverTopDispenser = topStoreItemInfoPopUpImage.GetComponent<SpriteResolver>();
         animator = transform.GetComponent<Animator>();
         spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Dispenser-1");//Default Item
         DisableAnimation();
-        topDispenserInfoPopUpImage.SetActive(false);
+        topStoreItemInfoPopUpImage.SetActive(false);
     }
 
     public void SetSprite(string sprite)
@@ -28,7 +28,7 @@ public class InfoPopUpController : MonoBehaviour
     {
         EnableAnimation();
         gameObject.SetActive(true);
-        topDispenserInfoPopUpImage.SetActive(true);
+        topStoreItemInfoPopUpImage.SetActive(true);
     }
 
     public void EnableWithoutAnimation()
@@ -40,7 +40,7 @@ public class InfoPopUpController : MonoBehaviour
 
         DisableAnimation();
         gameObject.SetActive(true);
-        topDispenserInfoPopUpImage.SetActive(true);
+        topStoreItemInfoPopUpImage.SetActive(true);
     }
 
     public void Disable()
@@ -52,7 +52,7 @@ public class InfoPopUpController : MonoBehaviour
 
         DisableAnimation();
         gameObject.SetActive(false);
-        topDispenserInfoPopUpImage.SetActive(false);
+        topStoreItemInfoPopUpImage.SetActive(false);
     }
 
     public void SetInfoPopUItem(ItemType item)
