@@ -175,7 +175,7 @@ public class MenuHandlerController : MonoBehaviour
             case MenuTab.UPGRADE: AddItemsToUpgradeScrollView(menu); StartCoroutine(ScrollToTop()); return;
             // case MenuTab.IN_GAME_STORE_TAB: /*TODO*/ return;
             case MenuTab.STORAGE_TAB: AddStorageItemsToScrollView(); StartCoroutine(ScrollToTop()); return;
-            case MenuTab.SETTINGS_TAB: /*TODO*/ return;
+            case MenuTab.SETTINGS_TAB: AddSettingsItemsToScrollView(); StartCoroutine(ScrollToTop()); return;
         }
     }
 
@@ -185,6 +185,14 @@ public class MenuHandlerController : MonoBehaviour
         // We scroll to the top of the scroll view
         ScrollRect scroll = scrollView.GetComponent<ScrollRect>();
         scroll.verticalNormalizedPosition = 1f;
+    }
+
+    private void AddSettingsItemsToScrollView()
+    {
+        GameObject settings = Instantiate(Resources.Load(Settings.PrefabSettingsItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+        settings.transform.SetParent(scrollViewContent.transform);
+        settings.transform.localScale = new Vector3(1, 1, 1);
+
     }
 
     private void AddStorageItemsToScrollView()
