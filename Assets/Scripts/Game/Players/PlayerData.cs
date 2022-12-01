@@ -50,6 +50,7 @@ public static class PlayerData
 
     public static void AddMoney(double amount)
     {
+        AddStatData(PlayerStats.MONEY, amount);
         user.GAME_MONEY += amount;
         moneyText.text = GetMoney();
     }
@@ -66,6 +67,7 @@ public static class PlayerData
             return;
         }
         user.GAME_MONEY -= amount;
+        AddStatData(PlayerStats.MONEY_SPENT, amount);
         AddExperienve(PlayerLevelCalculator.GetExperienceFromMoneySpent(amount));
         SetLevel();
         moneyText.text = GetMoney();
@@ -182,13 +184,34 @@ public static class PlayerData
                         ROTATION = (int) ObjectRotation.FRONT
                     },
                 },
-            DATA_STATS = new DataStatsGameObject(){
+            DATA_STATS = new DataStatsGameObject()
+            {
                 MONEY = 0,
+                MONEY_SPENT = 0,
                 TIME_PLAYED = 0,
                 CLIENTS_ATTENDED = 0,
                 ITEMS_BOUGHT = 0
             }
         };
+    }
+
+    public static void AddStatData(PlayerStats stat, int val)
+    {
+        switch (stat)
+        {
+            case PlayerStats.MONEY: user.DATA_STATS.MONEY += val; return;
+            case PlayerStats.ITEMS_BOUGHT: user.DATA_STATS.ITEMS_BOUGHT += val; return;
+            case PlayerStats.CLIENTS_ATTENDED: user.DATA_STATS.CLIENTS_ATTENDED += val; return;
+        }
+    }
+
+    public static void AddStatData(PlayerStats stat, Double val)
+    {
+        switch (stat)
+        {
+            case PlayerStats.TIME_PLAYED: user.DATA_STATS.TIME_PLAYED += val; return;
+            case PlayerStats.MONEY_SPENT: user.DATA_STATS.MONEY_SPENT += val; return;
+        }
     }
 
     // Control times in which we save the game

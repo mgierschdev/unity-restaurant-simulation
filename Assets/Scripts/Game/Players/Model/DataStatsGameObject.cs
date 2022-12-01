@@ -7,7 +7,9 @@ public class DataStatsGameObject
     [SerializeField]
     public int MONEY;
     [SerializeField]
-    public float TIME_PLAYED;
+    public Double MONEY_SPENT;
+    [SerializeField]
+    public Double TIME_PLAYED;
     [SerializeField]
     public int CLIENTS_ATTENDED;
     [SerializeField]
