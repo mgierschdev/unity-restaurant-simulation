@@ -148,12 +148,13 @@ public enum StoreItemType
 public enum ResearchType
 {
     BUSS_SIZE = 0,
-    WAITER_SPEED = 1,
-    NUMBER_CLIENTS = 2,
-    CLIENT_SPEED = 3,
-    ORDER_COST = 4,
-    OFFLINE_MONEY_LIMIT = 5,
-    OFFLINE_MONEY_PERCENTAGE_INCREASE = 6
+    NUMBER_WAITERS = 1,
+    WAITER_SPEED = 2,
+    NUMBER_CLIENTS = 3,
+    CLIENT_SPEED = 4,
+    ORDER_COST = 5,
+    OFFLINE_MONEY_LIMIT = 6,
+    OFFLINE_MONEY_PERCENTAGE_INCREASE = 7
 }
 
 // Items given the type of dispenser
