@@ -123,6 +123,7 @@ public enum MenuType
 // it should preserve the number order since it is used on the Firestore database
 public enum StoreItemType
 {
+    RESEARCH_ITEM = 0,
     WOODEN_TABLE_SINGLE = 1,
     SQUARED_WOODEN_TABLE_SINGLE = 2,
     TABLE_SINGLE_3 = 3,
