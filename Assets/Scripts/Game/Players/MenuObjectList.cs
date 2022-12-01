@@ -35,8 +35,8 @@ public static class MenuObjectList
         StoreItemTypeDic = new Dictionary<StoreItemType, StoreGameObject>();
 
         AllStoreItems = new List<StoreGameObject>{
-            new StoreGameObject("Wooden table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 20, true),
-            new StoreGameObject("Wooden squared table", "SingleTable-2", ObjectType.NPC_SINGLE_TABLE, StoreItemType.SQUARED_WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 40, true),
+            new StoreGameObject("Wooden table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.WOODEN_TABLE_SINGLE, UpgradeType.UNDEFINED, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 20, true),
+            new StoreGameObject("Wooden squared table", "SingleTable-2", ObjectType.NPC_SINGLE_TABLE, StoreItemType.SQUARED_WOODEN_TABLE_SINGLE, UpgradeType.UNDEFINED,  Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 40, true),
             // new StoreGameObject("Wooden table", "SingleTable-3", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_3, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 50, true),
             // new StoreGameObject("Dark wood table", "SingleTable-4", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_4, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 60, true),
             // new StoreGameObject("Wooden table", "SingleTable-5", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_5, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 70, true),
@@ -45,17 +45,17 @@ public static class MenuObjectList
             // new StoreGameObject("Dark wood table", "SingleTable-8", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_8, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 100, true),
             // new StoreGameObject("Iron table", "SingleTable-9", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_9, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             // new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
-            new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
+            new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, UpgradeType.UNDEFINED,  Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
 
-            new StoreGameObject("Wooden container", "Dispenser-1", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 40, false),
-            new StoreGameObject("Wooden container 2", "Dispenser-2", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_2, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 50, false),
-            new StoreGameObject("Wooden container 3", "Dispenser-3", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_3, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 60, false),
-            new StoreGameObject("Wooden container 4", "Dispenser-4", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_4, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 70, false),
-            new StoreGameObject("Wooden container 5", "Dispenser-5", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_5, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 70, false),
+            new StoreGameObject("Wooden container", "Dispenser-1", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER, UpgradeType.UNDEFINED, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 40, false),
+            new StoreGameObject("Wooden container 2", "Dispenser-2", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_2, UpgradeType.UNDEFINED, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 50, false),
+            new StoreGameObject("Wooden container 3", "Dispenser-3", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_3, UpgradeType.UNDEFINED, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 60, false),
+            new StoreGameObject("Wooden container 4", "Dispenser-4", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_4, UpgradeType.UNDEFINED, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 70, false),
+            new StoreGameObject("Wooden container 5", "Dispenser-5", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_5, UpgradeType.UNDEFINED, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 70, false),
 
-            new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
+            new StoreGameObject("GRID SIZE", "Upgrade-1", ObjectType.UPGRADE_ITEM, StoreItemType.UNDEFINED, UpgradeType.BUSS_SIZE, Settings.SpriteLibCategoryUpgradeItems, "", 70, false),
 
-           // ObjectType.UNDEFINED, StoreItemType.RESEARCH_ITEM TODO: ADd research items
+            new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, UpgradeType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
 
         foreach (StoreGameObject storeItem in AllStoreItems)
@@ -155,7 +155,7 @@ public static class MenuObjectList
         {
             case MenuTab.TABLES_TAB: return "Tables";
             case MenuTab.DISPENSERS: return "Dispensers";
-            case MenuTab.RESEARCH: return "Research";
+            case MenuTab.UPGRADE: return "Upgrade";
             case MenuTab.STORAGE_TAB: return "Storage";
             case MenuTab.SETTINGS_TAB: return "Settings";
         }

@@ -10,6 +10,7 @@ public enum ObjectType
     FLOOR = 6,
     NPC_SINGLE_TABLE = 7,
     DISPENSER = 8,
+    UPGRADE_ITEM = 9,
     UNDEFINED = 999
 }
 
@@ -107,7 +108,7 @@ public enum MenuTab
 {
     TABLES_TAB = 1,
     DISPENSERS = 2,
-    RESEARCH = 3,
+    UPGRADE = 3,
     STORAGE_TAB = 6,
     SETTINGS_TAB = 999
 }
@@ -123,7 +124,7 @@ public enum MenuType
 // it should preserve the number order since it is used on the Firestore database
 public enum StoreItemType
 {
-    RESEARCH_ITEM = 0,
+    UPGRADE_ITEM = 0,
     WOODEN_TABLE_SINGLE = 1,
     SQUARED_WOODEN_TABLE_SINGLE = 2,
     TABLE_SINGLE_3 = 3,
@@ -146,7 +147,7 @@ public enum StoreItemType
 }
 
 // Research items
-public enum ResearchType
+public enum UpgradeType
 {
     BUSS_SIZE = 0,
     NUMBER_WAITERS = 1,
@@ -156,7 +157,8 @@ public enum ResearchType
     ORDER_COST = 5,
     OFFLINE_MONEY_LIMIT = 6,
     OFFLINE_MONEY_PERCENTAGE_INCREASE = 7,
-    CLIENT_MAX_WAITING_TIME = 8
+    CLIENT_MAX_WAITING_TIME = 8,
+    UNDEFINED = 999
 }
 
 // Items given the type of dispenser
