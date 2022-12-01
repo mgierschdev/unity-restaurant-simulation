@@ -51,10 +51,10 @@ public static class MenuObjectList
             new StoreGameObject("CLIENT_SPEED", "Upgrade-3", ObjectType.UPGRADE_ITEM, StoreItemType.CLIENT_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 3, false),
             new StoreGameObject("NUMBER_CLIENTS", "Upgrade-4", ObjectType.UPGRADE_ITEM, StoreItemType.NUMBER_CLIENTS, Settings.SpriteLibCategoryUpgradeItems, "", 4, false),
             new StoreGameObject("NUMBER_WAITERS", "Upgrade-5", ObjectType.UPGRADE_ITEM, StoreItemType.NUMBER_WAITERS, Settings.SpriteLibCategoryUpgradeItems, "", 5, false),
-            new StoreGameObject("OFFLINE_MONEY_LIMIT", "Upgrade-5", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_LIMIT, Settings.SpriteLibCategoryUpgradeItems, "", 6, false),
-            new StoreGameObject("OFFLINE_MONEY_PERCENTAGE_INCREASE", "Upgrade-5", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_PERCENTAGE_INCREASE, Settings.SpriteLibCategoryUpgradeItems, "", 7, false),
-            new StoreGameObject("ORDER_COST", "Upgrade-5", ObjectType.UPGRADE_ITEM, StoreItemType.ORDER_COST, Settings.SpriteLibCategoryUpgradeItems, "", 8, false),
-            new StoreGameObject("WAITER_SPEED", "Upgrade-5", ObjectType.UPGRADE_ITEM, StoreItemType.WAITER_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 9, false),
+            new StoreGameObject("OFFLINE_MONEY_LIMIT", "Upgrade-6", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_LIMIT, Settings.SpriteLibCategoryUpgradeItems, "", 6, false),
+            new StoreGameObject("OFFLINE_MONEY_PERCENTAGE_INCREASE", "Upgrade-7", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_PERCENTAGE_INCREASE, Settings.SpriteLibCategoryUpgradeItems, "", 7, false),
+            new StoreGameObject("ORDER_COST", "Upgrade-8", ObjectType.UPGRADE_ITEM, StoreItemType.ORDER_COST, Settings.SpriteLibCategoryUpgradeItems, "", 8, false),
+            new StoreGameObject("WAITER_SPEED", "Upgrade-9", ObjectType.UPGRADE_ITEM, StoreItemType.WAITER_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 9, false),
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
