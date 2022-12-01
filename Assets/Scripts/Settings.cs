@@ -124,6 +124,7 @@ public static class Settings
     PrefabNpcClient = "Players/Client",
     PrefabNpcEmployee = "Players/Employee",
     PrefabInventoryItem = "Menu/InventoryItem",
+    PrefabUpgradeInventoryItem = "Menu/UpgradeInventoryItem",
     MenuBackground = "MenuBackground",
     MenuContainer = "MenuContainer",
     SideMenuButton = "Menu/CenterTabMenuBotton",

@@ -246,7 +246,7 @@ public class MenuHandlerController : MonoBehaviour
         // Add new Items
         foreach (StoreGameObject obj in objects)
         {
-            item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+            item = Instantiate(Resources.Load(Settings.PrefabUpgradeInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             inventoryItemController = item.GetComponent<InventoryItemController>();
             button = inventoryItemController.GetButton();
             Pair<StoreGameObject, DataGameObject> pair = new Pair<StoreGameObject, DataGameObject>
