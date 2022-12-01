@@ -162,7 +162,7 @@ public enum UpgradeType
     UNDEFINED = 999
 }
 
-// Items given the type of dispenser
+// Items given the type of store item
 public enum ItemType
 {
     LEMONADE = 1,

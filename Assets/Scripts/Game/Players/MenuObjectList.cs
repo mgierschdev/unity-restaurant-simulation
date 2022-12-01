@@ -40,11 +40,11 @@ public static class MenuObjectList
             // new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
 
-            new StoreGameObject("Wooden container", "Dispenser-1", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 40, false),
-            new StoreGameObject("Wooden container 2", "Dispenser-2", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_2, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
-            new StoreGameObject("Wooden container 3", "Dispenser-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 60, false),
-            new StoreGameObject("Wooden container 4", "Dispenser-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
-            new StoreGameObject("Wooden container 5", "Dispenser-5", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_5,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
+            new StoreGameObject("Wooden container", "Store-1", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 40, false),
+            new StoreGameObject("Wooden container 2", "Store-2", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_2, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
+            new StoreGameObject("Wooden container 3", "Store-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 60, false),
+            new StoreGameObject("Wooden container 4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
+            new StoreGameObject("Wooden container 5", "Store-5", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_5,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
 
             new StoreGameObject("GRID SIZE", "Upgrade-1", ObjectType.UPGRADE_ITEM, StoreItemType.GRID_SIZE, Settings.SpriteLibCategoryUpgradeItems, "", 1, false),
             new StoreGameObject("CLIENT_MAX_WAITING_TIME", "Upgrade-2", ObjectType.UPGRADE_ITEM, StoreItemType.CLIENT_MAX_WAITING_TIME, Settings.SpriteLibCategoryUpgradeItems, "", 2, false),
@@ -105,7 +105,7 @@ public static class MenuObjectList
         return StoreItemTypeDic[storeItem];
     }
 
-    public static ItemType GetItemGivenDispenser(StoreItemType type)
+    public static ItemType GetItemGivenStoreItem(StoreItemType type)
     {
         switch (type)
         {
@@ -118,7 +118,7 @@ public static class MenuObjectList
     {
         switch (type)
         {
-            case ItemType.LEMONADE: return "Dispenser-1";
+            case ItemType.LEMONADE: return "Store-1";
         }
         return "";
     }
@@ -161,7 +161,7 @@ public static class MenuObjectList
         switch (tab)
         {
             case MenuTab.TABLES_TAB: return "Tables";
-            case MenuTab.STORE_ITEMS: return "Dispensers";
+            case MenuTab.STORE_ITEMS: return "Store";
             case MenuTab.UPGRADE: return "Upgrade";
             case MenuTab.STORAGE_TAB: return "Storage";
             case MenuTab.SETTINGS_TAB: return "Settings";

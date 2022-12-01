@@ -104,7 +104,7 @@ public class GameController : MonoBehaviour
         GameGridObject objectFound = null;
         foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
         {
-            if (MenuObjectList.GetItemGivenDispenser(g.Value.GetStoreGameObject().StoreItemType) == item &&
+            if (MenuObjectList.GetItemGivenStoreItem(g.Value.GetStoreGameObject().StoreItemType) == item &&
             g.Value.GetIsItemReady())
             {
                 g.Value.DiableTopInfoObject();

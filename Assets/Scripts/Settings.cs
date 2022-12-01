@@ -108,7 +108,7 @@ public static class Settings
 
     //SPRITE LIBS CATEGORIES
     public const string SpriteLibCategoryTables = "Tables",
-    SpriteLibCategoryStoreItems = "Dispensers",
+    SpriteLibCategoryStoreItems = "Store",
     SpriteLibCategoryUpgradeItems = "Upgrade",
     SpriteLibCategoryStoreObjects = "StoreObjects";
 
@@ -117,7 +117,7 @@ public static class Settings
     PrefabGridTile = "Grid/GridTile",
     PrefabSingleTable = "Objects/SingleTable",
     PrefabCounter = "Objects/Counter",
-    PrefabBaseStoreItem = "Objects/BaseDispenser",
+    PrefabBaseStoreItem = "Objects/BaseStore",
     ObjectRotationFrontInverted = "Inverted",
     ObjectRotationFront = "Front",
     PrefabPlayer = "Players/Player",
