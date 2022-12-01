@@ -54,6 +54,8 @@ public static class MenuObjectList
             new StoreGameObject("Wooden container 5", "Dispenser-5", ObjectType.DISPENSER, StoreItemType.LEMONADE_DISPENSER_TEST_5, Settings.SpriteLibCategoryDispensers, Settings.PrefabBaseDispenser, 70, false),
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
+
+           // ObjectType.UNDEFINED, StoreItemType.RESEARCH_ITEM TODO: ADd research items
         };
 
         foreach (StoreGameObject storeItem in AllStoreItems)
