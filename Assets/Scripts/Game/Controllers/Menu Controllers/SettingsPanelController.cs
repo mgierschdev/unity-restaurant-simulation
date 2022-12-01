@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class SettingsPanelController : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //TODO: we add the controller for displying the statistics and the click listener for saving the same
     }
 }
