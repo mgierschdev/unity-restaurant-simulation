@@ -181,7 +181,13 @@ public static class PlayerData
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT
                     },
-                }
+                },
+            DATA_STATS = new DataStatsGameObject(){
+                MONEY = 0,
+                TIME_PLAYED = 0,
+                CLIENTS_ATTENDED = 0,
+                ITEMS_BOUGHT = 0
+            }
         };
     }
 
