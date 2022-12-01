@@ -22,8 +22,9 @@ public class InventoryItemController : MonoBehaviour
     }
     // Sets the Item image on the tab Menu for the current item
     public void SetInventoryItem(string spReference, string botLeftLabelValue)
-    {   
+    {
         Sprite sp = Resources.Load<Sprite>(spReference);
+        Debug.Log("Loading sprite " + spReference);
         imgComponent.sprite = sp;
         textMesh.text = botLeftLabelValue;
     }

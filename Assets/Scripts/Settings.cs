@@ -117,7 +117,7 @@ public static class Settings
     PrefabGridTile = "Grid/GridTile",
     PrefabSingleTable = "Objects/SingleTable",
     PrefabCounter = "Objects/Counter",
-    PrefabBaseStoreItem = "Objects/BaseStore",
+    PrefabBaseStoreItem = "Objects/BaseStoreItem",
     ObjectRotationFrontInverted = "Inverted",
     ObjectRotationFront = "Front",
     PrefabPlayer = "Players/Player",

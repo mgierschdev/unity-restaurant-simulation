@@ -158,7 +158,6 @@ public enum StoreItemType
 // Research items
 public enum UpgradeType
 {
-
     UNDEFINED = 999
 }
 
