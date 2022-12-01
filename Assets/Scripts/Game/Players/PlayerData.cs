@@ -55,12 +55,17 @@ public static class PlayerData
         moneyText.text = GetMoney();
     }
 
+    public static void SetCustomerAttended()
+    {
+        AddStatData(PlayerStats.CLIENTS_ATTENDED, 1);
+    }
+
     public static void SubtractFromStorage(GameGridObject gameGridObject)
     {
         setStoredInventory.Remove(gameGridObject.Name);
     }
 
-    public static void Subtract(double amount)
+    public static void Subtract(double amount, ObjectType type)
     {
         if (!CanSubtract(amount))
         {
@@ -68,6 +73,11 @@ public static class PlayerData
         }
         user.GAME_MONEY -= amount;
         AddStatData(PlayerStats.MONEY_SPENT, amount);
+        if (type != ObjectType.UPGRADE_ITEM)
+        {
+            AddStatData(PlayerStats.ITEMS_BOUGHT, 1);
+        }
+
         AddExperienve(PlayerLevelCalculator.GetExperienceFromMoneySpent(amount));
         SetLevel();
         moneyText.text = GetMoney();
@@ -188,7 +198,6 @@ public static class PlayerData
             {
                 MONEY = 0,
                 MONEY_SPENT = 0,
-                TIME_PLAYED = 0,
                 CLIENTS_ATTENDED = 0,
                 ITEMS_BOUGHT = 0
             }
@@ -294,7 +303,6 @@ public static class PlayerData
     {
         return "Money Earned: " + user.DATA_STATS.MONEY
         + " \n Money spent: " + user.DATA_STATS.MONEY_SPENT
-        + " \n Time Played:" + user.DATA_STATS.TIME_PLAYED
         + " \n Clients attended: " + user.DATA_STATS.CLIENTS_ATTENDED
         + " \n Items bought: " + user.DATA_STATS.ITEMS_BOUGHT;
     }

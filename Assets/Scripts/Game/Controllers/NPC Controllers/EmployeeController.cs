@@ -179,6 +179,7 @@ public class EmployeeController : GameObjectMovementBase
             //TODO: register cost depending on the NPC order
             double orderCost = Random.Range(5, 10);
             PlayerData.AddMoney(orderCost);
+            PlayerData.SetCustomerAttended();
         }
         else if (stateMachine.Current.State == NpcState.AT_COUNTER_FINAL)
         {
