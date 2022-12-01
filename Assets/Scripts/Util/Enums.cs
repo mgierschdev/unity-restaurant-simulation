@@ -144,6 +144,18 @@ public enum StoreItemType
     UNDEFINED = 999
 }
 
+// Research items
+public enum ResearchType
+{
+    BUSS_SIZE = 0,
+    WAITER_SPEED = 1,
+    NUMBER_CLIENTS = 2,
+    CLIENT_SPEED = 3,
+    ORDER_COST = 4,
+    OFFLINE_MONEY_LIMIT = 5,
+    OFFLINE_MONEY_PERCENTAGE_INCREASE = 6
+}
+
 // Items given the type of dispenser
 public enum ItemType
 {
