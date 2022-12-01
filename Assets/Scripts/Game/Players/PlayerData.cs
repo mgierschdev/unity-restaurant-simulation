@@ -208,7 +208,6 @@ public static class PlayerData
     {
         switch (stat)
         {
-            case PlayerStats.MONEY: user.DATA_STATS.MONEY += val; return;
             case PlayerStats.ITEMS_BOUGHT: user.DATA_STATS.ITEMS_BOUGHT += val; return;
             case PlayerStats.CLIENTS_ATTENDED: user.DATA_STATS.CLIENTS_ATTENDED += val; return;
         }
@@ -219,6 +218,7 @@ public static class PlayerData
         switch (stat)
         {
             case PlayerStats.MONEY_SPENT: user.DATA_STATS.MONEY_SPENT += val; return;
+            case PlayerStats.MONEY: user.DATA_STATS.MONEY += val; return;
         }
     }
 
