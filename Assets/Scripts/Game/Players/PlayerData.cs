@@ -218,7 +218,6 @@ public static class PlayerData
     {
         switch (stat)
         {
-            case PlayerStats.TIME_PLAYED: user.DATA_STATS.TIME_PLAYED += val; return;
             case PlayerStats.MONEY_SPENT: user.DATA_STATS.MONEY_SPENT += val; return;
         }
     }
@@ -301,7 +300,7 @@ public static class PlayerData
 
     public static string GetStats()
     {
-        return "Money Earned: " + user.DATA_STATS.MONEY
+        return " Money Earned: " + user.DATA_STATS.MONEY
         + " \n Money spent: " + user.DATA_STATS.MONEY_SPENT
         + " \n Clients attended: " + user.DATA_STATS.CLIENTS_ATTENDED
         + " \n Items bought: " + user.DATA_STATS.ITEMS_BOUGHT;
