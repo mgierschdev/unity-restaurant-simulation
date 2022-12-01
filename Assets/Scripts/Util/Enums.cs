@@ -200,3 +200,12 @@ public enum NPCAnimatorState
     WaitingAtTable = 3,
     WalkingToTable = 4
 }
+
+public enum PlayerStats
+{
+    MONEY = 1,
+    MONEY_SPENT = 2,
+    TIME_PLAYED = 3,
+    CLIENTS_ATTENDED = 4,
+    ITEMS_BOUGHT = 5
+}
