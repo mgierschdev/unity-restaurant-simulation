@@ -54,7 +54,7 @@ public class BaseObjectController : MonoBehaviour
             UpdateInit(); // Init constructor
             UpdateFirstTimeSetupStoreItem(); // Constructor for bought items
             UpdateMoveSelectionSlider(); // Checks for long pressed over the object and updates the slider
-            UpdateTopItemDispenserSlider();
+            UpdateTopItemStoreSlider();
             UpdateIsValidPosition(); // Checks if the current position is a valid one 
             UpdateOnMouseDown();// OnMouseDown implementation which takes into consideration the layer ordering
         }
@@ -72,7 +72,7 @@ public class BaseObjectController : MonoBehaviour
 
             isClicking = true;
 
-            // For GetLoadItemSlider, dispenser items
+            // For GetLoadItemSlider, store item
             if (gameGridObject != null &&
             !gameGridObject.GetStoreGameObject().HasActionPoint &&
             !gameGridObject.GetIsItemReady() &&
@@ -115,7 +115,7 @@ public class BaseObjectController : MonoBehaviour
         }
     }
 
-    private void UpdateTopItemDispenserSlider()
+    private void UpdateTopItemStoreSlider()
     {
         if (gameGridObject.GetLoadItemSlider() &&
         !gameGridObject.GetIsObjectSelected()

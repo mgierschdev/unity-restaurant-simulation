@@ -4,24 +4,24 @@ using UnityEngine.U2D.Animation;
 public class InfoPopUpController : MonoBehaviour
 {
     private GameObject topStoreItemInfoPopUpImage;
-    private SpriteResolver spriteResolverTopDispenser;
+    private SpriteResolver spriteResolverTopStoreItem;
     private Animator animator;
 
     // Start is called before the first frame update
     void Awake()
     {
         topStoreItemInfoPopUpImage = transform.Find("Image").gameObject;
-        Util.IsNull(topStoreItemInfoPopUpImage, "InfoPopUpController/topDispenserInfoPopUpImage null");
-        spriteResolverTopDispenser = topStoreItemInfoPopUpImage.GetComponent<SpriteResolver>();
+        Util.IsNull(topStoreItemInfoPopUpImage, "InfoPopUpController/topStoreItemInfoPopUpImage null");
+        spriteResolverTopStoreItem = topStoreItemInfoPopUpImage.GetComponent<SpriteResolver>();
         animator = transform.GetComponent<Animator>();
-        spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Dispenser-1");//Default Item
+        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Store-1");//Default Item
         DisableAnimation();
         topStoreItemInfoPopUpImage.SetActive(false);
     }
 
     public void SetSprite(string sprite)
     {
-        spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, sprite);
+        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, sprite);
     }
 
     public void Enable()
@@ -57,7 +57,7 @@ public class InfoPopUpController : MonoBehaviour
 
     public void SetInfoPopUItem(ItemType item)
     {
-        spriteResolverTopDispenser.SetCategoryAndLabel(Settings.TopObjectInfoSprite, MenuObjectList.GetItemSprite(item));    
+        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, MenuObjectList.GetItemSprite(item));    
     }
 
     private void EnableAnimation()
