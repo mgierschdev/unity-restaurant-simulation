@@ -154,7 +154,8 @@ public enum ResearchType
     CLIENT_SPEED = 4,
     ORDER_COST = 5,
     OFFLINE_MONEY_LIMIT = 6,
-    OFFLINE_MONEY_PERCENTAGE_INCREASE = 7
+    OFFLINE_MONEY_PERCENTAGE_INCREASE = 7,
+    CLIENT_MAX_WAITING_TIME = 8
 }
 
 // Items given the type of dispenser

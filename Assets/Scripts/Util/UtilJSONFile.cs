@@ -6,7 +6,7 @@ public static class UtilJSONFile
 {
     public static string[] GetSaveFiles()
     {
-        string path = Settings.DevEnv ? Settings.DevSaveDirectory + "/" : Application.persistentDataPath + "/";
+        string path = Settings.devEnv ? Settings.DevSaveDirectory + "/" : Application.persistentDataPath + "/";
         string[] files = Directory.GetFiles(path, "*" + Settings.SaveFileSuffix);
         Array.Sort(files);
         return files;

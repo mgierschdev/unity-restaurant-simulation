@@ -1,13 +1,12 @@
 public static class Settings
 {
-
     // General Config
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 3f; //1 = Looks good with current animation
 
 #if UNITY_EDITOR
-    public const bool DevEnv = true;
+    public const bool devEnv = true;
 #else
     public const bool devEnv = false;
 #endif
@@ -34,7 +33,7 @@ public static class Settings
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f,
-    ItemLoadSliderMultiplayer = 0.05f,
+    ItemLoadSliderMultiplayer = 0.05f, // TODO: To be added to the object store properties
     ScreenLoadTime = 2f,
     TimeBeforeTheSliderIsEnabled = 0.2f;
 
@@ -160,7 +159,7 @@ public static class Settings
     ConstEditStoreMenuButtonCancel = "ButtonCancel";
     public const string ConstEditStoreMenuSave = "ButtonSave",
     ConstParentGameObject = "Game";
-    
+
     //UI: Menu
     public const string ConstLeftDownMenuStore = "Store";
 
@@ -174,7 +173,7 @@ public static class Settings
     EmployeeContainerGraphDebuger = "EmployeeContainerGraphDebuger",
     ComboBoxContainer = "ComboBoxContainer",
     GraphLevel = "GraphLevel",
-     NODE = "NODE",
+    NODE = "NODE",
     EMPLOYEE_PREFIX = "EMPLOYEE",
     IsometricWorldDebugUI = "Assets/Editor/IsometricWorldDebug.uxml",
     IsometricWorldDebugUIStyles = "Assets/Editor/IsometricWorldDebug.uss",
