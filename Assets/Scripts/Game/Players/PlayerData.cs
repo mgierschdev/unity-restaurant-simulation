@@ -84,7 +84,7 @@ public static class PlayerData
         {
             // TODO: Pop Up Level up, and add to a co-routine
             // We save the data in case of app rewards
-            user.SaveToJSONFileAsync();
+            SaveGame();
         }
         levelText.text = GetLevel();
         expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(user.EXPERIENCE) / 100f;
@@ -190,6 +190,11 @@ public static class PlayerData
     // TODO: Saves every 10 minutes, add to coroutine
     private static void Quit()
     {
+        SaveGame();
+    }
+
+    public static void SaveGame()
+    {
         user.SaveToJSONFileAsync();
     }
 
@@ -254,5 +259,10 @@ public static class PlayerData
             }
         }
         return null;
+    }
+
+    public static string GetStats()
+    {
+        return "Money Earned: xxxxx \n Time Played: xxxxx \n Clients attended: xxxxx \n Items bought: xxxxx \n Other: xxxxx";
     }
 }
