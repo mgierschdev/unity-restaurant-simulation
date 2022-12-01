@@ -14,6 +14,7 @@ public class SettingsPanelController : MonoBehaviour
         saveButton.onClick.AddListener(() => SaveGame());
         GameObject obj = transform.Find(Settings.SettingsMenuStatsText).gameObject;
         statsText = obj.GetComponent<TextMeshProUGUI>();
+        SetStatsText();
     }
 
     public void SaveGame()
