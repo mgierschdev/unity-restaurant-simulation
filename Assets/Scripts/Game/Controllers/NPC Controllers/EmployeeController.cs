@@ -33,11 +33,7 @@ public class EmployeeController : GameObjectMovementBase
         }
         catch (Exception e)
         {
-#if UNITY_EDITOR
             GameLog.LogError("Exception thrown, likely missing reference (FixedUpdate EmployeeController): " + e);
-#else
-            GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate EmployeeController): " + e);
-#endif
         }
     }
 
@@ -65,11 +61,7 @@ public class EmployeeController : GameObjectMovementBase
             }
             catch (Exception e)
             {
-#if UNITY_EDITOR
                 GameLog.LogError("Exception thrown, EmployeeController/UpdateTransitionStates()D: " + e);
-#else
-                GameLog.LogWarning("Exception thrown, EmployeeController/UpdateTransitionStates()D: " + e);
-#endif
                 stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
             }
             yield return new WaitForSeconds(1f);

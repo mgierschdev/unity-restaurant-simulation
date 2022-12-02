@@ -29,11 +29,7 @@ public class NPCController : GameObjectMovementBase
         }
         catch (Exception e)
         {
-#if UNITY_EDITOR
             GameLog.LogError("Exception thrown, likely missing reference (FixedUpdate NPCController): " + e);
-#else
-             GameLog.LogWarning("Exception thrown, likely missing reference (FixedUpdate NPCController): " + e);
-#endif
             stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
         }
     }
@@ -57,11 +53,7 @@ public class NPCController : GameObjectMovementBase
             }
             catch (Exception e)
             {
-#if UNITY_EDITOR
                 GameLog.LogError("Exception thrown, NPCController/UpdateTransitionStates(): " + e);
-#else
-                GameLog.LogWarning("Exception thrown, NPCController/UpdateTransitionStates(): " + e);
-#endif
                 stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
             }
             yield return new WaitForSeconds(2f);

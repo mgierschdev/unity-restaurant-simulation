@@ -166,11 +166,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         }
         catch (Exception e)
         {
-#if UNITY_EDITOR
             GameLog.LogError("Exception thrown, likely missing reference (StoreInInventory GameGridObject): " + e);
-#else
-            GameLog.LogWarning("Exception thrown, likely missing reference (StoreInInventory GameGridObject): " + e);
-#endif
         }
     }
 
