@@ -35,7 +35,7 @@ public class InventoryItemController : MonoBehaviour
         if (!sp)
         {
             GameLog.LogWarning("Sprite not found SetInventoryItem() " + spReference);
-            spReference = Settings.StoreSpritePath + "Sprite-" + Settings.DefaultSquareSprite;
+            spReference = Settings.StoreSpritePath + Settings.DefaultSquareSprite;
             sp = Resources.Load<Sprite>(spReference);
         }
         imgComponent.sprite = sp;
