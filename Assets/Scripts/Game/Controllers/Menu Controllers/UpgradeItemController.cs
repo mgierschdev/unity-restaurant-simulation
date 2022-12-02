@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +29,10 @@ public class UpgradeItemController : MonoBehaviour
     {
         this.storeItemType = storeItemType;
         Sprite sp = Resources.Load<Sprite>(spReference);
+        if (!sp)
+        {
+            throw new Exception("Sprite not found SetInventoryItem() " + spReference);
+        }
         imgComponent.sprite = sp;
         textMesh.text = botLeftLabelValue;
     }
