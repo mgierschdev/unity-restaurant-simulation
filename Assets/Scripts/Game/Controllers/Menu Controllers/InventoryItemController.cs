@@ -34,7 +34,9 @@ public class InventoryItemController : MonoBehaviour
         Sprite sp = Resources.Load<Sprite>(spReference);
         if (!sp)
         {
-            throw new Exception("Sprite not found SetInventoryItem() " + spReference);
+            GameLog.LogWarning("Sprite not found SetInventoryItem() " + spReference);
+            spReference = Settings.StoreSpritePath + "Sprite-" + Settings.DefaultSquareSprite;
+            sp = Resources.Load<Sprite>(spReference);
         }
         imgComponent.sprite = sp;
         textMesh.text = botLeftLabelValue;
