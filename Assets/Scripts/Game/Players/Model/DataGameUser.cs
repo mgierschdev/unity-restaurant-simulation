@@ -21,8 +21,6 @@ public class DataGameUser
     [SerializeField]
     public string INTERNAL_ID;
     [SerializeField]
-    public string FIREBASE_AUTH_ID;
-    [SerializeField]
     public string EMAIL;
     [SerializeField]
     public int AUTH_TYPE;

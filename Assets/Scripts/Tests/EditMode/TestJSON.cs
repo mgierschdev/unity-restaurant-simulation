@@ -2,12 +2,20 @@ using NUnit.Framework;
 
 public class TestJSON
 {
+
     [Test]
-    public void TestSaveLoadUserJSON()
+    public async void TestSaveUserJSON()
     {
         DataGameUser user = PlayerData.GetNewUser();
         user.SaveToJSONFileAsync();
+    }
+
+    [Test]
+    public async void TestLoadUserJSON()
+    {
+        DataGameUser user = PlayerData.GetNewUser();
         string json = UtilJSONFile.GetJsonFromFile(DataGameUser.GetSaveFileName());
+        GameLog.Log(DataGameUser.GetSaveFileName());
         GameLog.Log("Content of the json file " + json);
         DataGameUser loadUser = DataGameUser.CreateFromJSON(json);
 
@@ -20,7 +28,6 @@ public class TestJSON
             GameLog.Log("Name " + loadUser.NAME);
         }
 
-
         GameLog.Log(user.NAME + " " + loadUser.NAME);
 
         Assert.AreEqual(user.NAME, loadUser.NAME);
@@ -28,7 +35,6 @@ public class TestJSON
         Assert.AreEqual(user.CREATED_AT, loadUser.CREATED_AT);
         Assert.AreEqual(user.EMAIL, loadUser.EMAIL);
         Assert.AreEqual(user.EXPERIENCE, loadUser.EXPERIENCE);
-        Assert.AreEqual(user.FIREBASE_AUTH_ID, loadUser.FIREBASE_AUTH_ID);
         Assert.AreEqual(user.GAME_MONEY, loadUser.GAME_MONEY);
         Assert.AreEqual(user.GEMS, loadUser.GEMS);
         Assert.AreEqual(user.GRID_SIZE, loadUser.GRID_SIZE);
