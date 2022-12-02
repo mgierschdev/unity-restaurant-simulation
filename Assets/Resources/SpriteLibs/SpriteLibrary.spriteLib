@@ -164,22 +164,32 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: Store-1
       m_Hash: -94455786
-      m_Sprite: {fileID: 21300000, guid: c6e689860bf3e41f991013a98c8a39a2, type: 3}
+      m_Sprite: {fileID: 21300000, guid: 0562c09e8f4004888821907e937c58f4, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: c6e689860bf3e41f991013a98c8a39a2, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: 0562c09e8f4004888821907e937c58f4, type: 3}
+    - m_Name: Store-2
+      m_Hash: 1666705836
+      m_Sprite: {fileID: 21300000, guid: ddad399c38ec24229bd0de8cf3df7758, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: ddad399c38ec24229bd0de8cf3df7758, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 1
+    m_EntryOverrideCount: 2
   - m_Name: Store-Inverted
     m_Hash: -385001025
     m_CategoryList: []
     m_OverrideEntries:
     - m_Name: Store-1
       m_Hash: -94455786
-      m_Sprite: {fileID: 21300000, guid: e85205c1519484c6fa76f6235357a89b, type: 3}
+      m_Sprite: {fileID: 21300000, guid: 638067acf1b3040598f57da464ed67b6, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: e85205c1519484c6fa76f6235357a89b, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: 638067acf1b3040598f57da464ed67b6, type: 3}
+    - m_Name: Store-2
+      m_Hash: 1666705836
+      m_Sprite: {fileID: 21300000, guid: 498c185d835554ce9b132b4cfb711d2b, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 498c185d835554ce9b132b4cfb711d2b, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 1
+    m_EntryOverrideCount: 2
   - m_Name: Sprites
     m_Hash: -1020177061
     m_CategoryList: []
@@ -189,18 +199,18 @@ MonoBehaviour:
       m_Sprite: {fileID: 21300000, guid: 984e7dd9cb62746078556966a0cee794, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 21300000, guid: 984e7dd9cb62746078556966a0cee794, type: 3}
-    - m_Name: SingleTable-1
-      m_Hash: -1529734353
+    - m_Name: Store-2
+      m_Hash: 1666705836
       m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
-    - m_Name: Counter-1
-      m_Hash: -1571246328
+    - m_Name: Store-3
+      m_Hash: 340842810
       m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
-    - m_Name: SingleTable-2
-      m_Hash: 1037781653
+    - m_Name: Store-4
+      m_Hash: -1976284007
       m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
