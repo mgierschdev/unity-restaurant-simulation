@@ -133,6 +133,7 @@ public static class Settings
     SettingsMenuSaveButton = "SaveItem/SaveButton",
     SettingsMenuStatsText = "StatsContent/StatsText",
     PrefabInventoryItemImage = "Image",
+    PrefabUpgradeItemButton = "RightContainer/Button",
     PrefabMenuInventoryItemImage = "Image/ItemImage",
     PrefabInventoryItemTextPrice = "Image/TextBackground/Price",
     BaseObjectUnderTile = "Object/Tiles/UnderTile",
