@@ -163,6 +163,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.004000008
       objectReference: {fileID: 0}
+    - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Size.x
+      value: 0.75348836
+      objectReference: {fileID: 0}
+    - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Size.y
+      value: 0.9906977
+      objectReference: {fileID: 0}
+    - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 984e7dd9cb62746078556966a0cee794, type: 3}
+    - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6313366968590005356, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Name
       value: BaseStoreItem
@@ -190,6 +206,10 @@ PrefabInstance:
     - target: {fileID: 7923220502722152355, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9206159661534326175, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_SpriteKey
+      value: -1.326514e-25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 097e89233788541f1978222bf4874128, type: 3}
