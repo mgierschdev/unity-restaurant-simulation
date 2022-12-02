@@ -100,7 +100,7 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateInit()
     {
-        if (!isSpriteSetted)
+        if (storeGameObject != null && !isSpriteSetted)
         {
             gameGridObject.SetStoreGameObject(storeGameObject);
             isSpriteSetted = true;
