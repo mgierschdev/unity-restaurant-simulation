@@ -248,15 +248,15 @@ public class MenuHandlerController : MonoBehaviour
     {
         List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
         GameObject item;
-        InventoryItemController inventoryItemController;
+        UpgradeItemController upgradeItemController;
         Button button;
 
         // Add new Items
         foreach (StoreGameObject obj in objects)
         {
             item = Instantiate(Resources.Load(Settings.PrefabUpgradeInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
-            inventoryItemController = item.GetComponent<InventoryItemController>();
-            button = inventoryItemController.GetButton();
+            upgradeItemController = item.GetComponent<UpgradeItemController>();
+            button = upgradeItemController.GetButton();
             Pair<StoreGameObject, DataGameObject> pair = new Pair<StoreGameObject, DataGameObject>
             {
                 Key = obj
@@ -269,7 +269,7 @@ public class MenuHandlerController : MonoBehaviour
                 //button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
             }
 
-            inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString());
+            upgradeItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString(), obj.StoreItemType);
             item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
