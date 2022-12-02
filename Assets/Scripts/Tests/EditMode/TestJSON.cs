@@ -4,14 +4,14 @@ public class TestJSON
 {
 
     [Test]
-    public async void TestSaveUserJSON()
+    public void TestSaveUserJSON()
     {
         DataGameUser user = PlayerData.GetNewUser();
         user.SaveToJSONFileAsync();
     }
 
     [Test]
-    public async void TestLoadUserJSON()
+    public void TestLoadUserJSON()
     {
         DataGameUser user = PlayerData.GetNewUser();
         string json = UtilJSONFile.GetJsonFromFile(DataGameUser.GetSaveFileName());
