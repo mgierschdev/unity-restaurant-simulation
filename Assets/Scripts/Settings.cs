@@ -84,7 +84,8 @@ public static class Settings
     SliderProgress = "SliderProgress";
 
     //STORE SPRITES
-    public const string StoreSpritePath = "Objects/Sprites/";
+    public const string StoreSpritePath = "Objects/Sprites/",
+    DefaultSquareSprite = "Sprite-Default";
 
     // TILEMAPS
     public const string TilemapFloor0 = "TilemapFloor0",
