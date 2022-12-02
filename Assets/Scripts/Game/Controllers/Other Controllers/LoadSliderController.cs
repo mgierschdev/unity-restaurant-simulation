@@ -120,6 +120,7 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetSliderSprite(string spReference)
     {
+        spReference = Settings.StoreSpritePath + "Sprite-" + spReference;
         Sprite sp = Resources.Load<Sprite>(spReference);
 
         if (!sp)
