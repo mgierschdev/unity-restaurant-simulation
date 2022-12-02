@@ -9,6 +9,7 @@ public class InventoryItemController : MonoBehaviour
     private Image background, imgComponent;
     private GameObject text;
     private TextMeshProUGUI textMesh;
+    private StoreItemType storeItemType;
 
     void Awake()
     {
@@ -26,8 +27,9 @@ public class InventoryItemController : MonoBehaviour
         upgradeButton.onClick.AddListener(() => UpgradeItem());
     }
     // Sets the Item image on the tab Menu for the current item
-    public void SetInventoryItem(string spReference, string botLeftLabelValue)
+    public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreItemType storeItemType)
     {
+        this.storeItemType = storeItemType;
         Sprite sp = Resources.Load<Sprite>(spReference);
         imgComponent.sprite = sp;
         textMesh.text = botLeftLabelValue;
@@ -35,7 +37,7 @@ public class InventoryItemController : MonoBehaviour
 
     public void UpgradeItem()
     {
-        GameLog.Log("UpgradeItem");
+        GameLog.Log("UpgradeItem " + storeItemType);
     }
 
     public Button GetButton()

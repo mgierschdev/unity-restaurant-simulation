@@ -238,7 +238,7 @@ public class MenuHandlerController : MonoBehaviour
             //TODO: max employees we can define the number of counters here
             button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
 
-            inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString());
+            inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString(), entry.Key.StoreItemType);
             item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
@@ -300,7 +300,7 @@ public class MenuHandlerController : MonoBehaviour
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
             }
 
-            inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString());
+            inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString(), obj.StoreItemType);
             item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
