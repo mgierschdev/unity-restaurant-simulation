@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,13 +6,15 @@ public class LoadSliderController : MonoBehaviour
 {
     private Slider slider;
     private float currentEnergy, energyBarTime, seconds;
-    private Image sliderImage;
+    private Image sliderImage, backgroundImage;
     private bool finished;
 
     public void Awake()
     {
         slider = GetComponent<Slider>();
         GameObject fillAreaObject = transform.Find("FillArea/Fill").gameObject;
+        GameObject backgroundImageObject = transform.Find("Background").gameObject;
+        backgroundImage = backgroundImageObject.GetComponent<Image>();
         Util.IsNull(fillAreaObject, "LoadSliderController/fillAreaObject is null ");
         sliderImage = fillAreaObject.GetComponent<Image>();
         slider.value = 0;
@@ -113,5 +116,18 @@ public class LoadSliderController : MonoBehaviour
     public void SetSliderFillMethod(Image.FillMethod method)
     {
         sliderImage.fillMethod = method;
+    }
+
+    public void SetSliderSprite(string spReference)
+    {
+        Sprite sp = Resources.Load<Sprite>(spReference);
+
+        if (!sp)
+        {
+            throw new Exception("Sprite not found SetSliderSprite() " + spReference);
+        }
+
+        backgroundImage.sprite = sp;
+        sliderImage.sprite = sp;
     }
 }

@@ -91,8 +91,9 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
         spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
         infoPopUpController.SetSprite(storeGameObject.Identifier);
+        loadSlider.SetSliderSprite(storeGameObject.Identifier);
         UpdateInitRotation(baseObjectController.GetInitialRotation());
-        Init(); // StoreGameObject.Type requiredD
+        Init(); // StoreGameObject.Type required
     }
 
     private void SetID()
