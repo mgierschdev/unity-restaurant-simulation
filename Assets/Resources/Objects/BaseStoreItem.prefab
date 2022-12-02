@@ -147,6 +147,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3278698335598808857, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278698335598808857, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278698335598808857, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278698335598808857, guid: 097e89233788541f1978222bf4874128, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.004000008
+      objectReference: {fileID: 0}
     - target: {fileID: 6313366968590005356, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Name
       value: BaseStoreItem
