@@ -174,7 +174,6 @@ public static class PlayerData
             GEMS = Settings.InitGems,
             EXPERIENCE = Settings.InitExperience,
             LEVEL = Settings.InitLevel,
-            FIREBASE_AUTH_ID = GenerateID(),
             EMAIL = "undefined@undefined.com",
             AUTH_TYPE = (int)AuthSource.ANONYMOUS,
             LAST_LOGIN = new DateTime(),
