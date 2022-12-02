@@ -41,7 +41,7 @@ public static class MenuObjectList
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
 
             new StoreGameObject("Wooden container", "Store-1", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 40, false),
-            new StoreGameObject("Wooden container 2", "Store-2", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_2, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
+            new StoreGameObject("Wooden container 2", "Store-2", ObjectType.STORE_ITEM, StoreItemType.SODA_STORE_ITEM, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
             new StoreGameObject("Wooden container 3", "Store-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 60, false),
             new StoreGameObject("Wooden container 4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
             new StoreGameObject("Wooden container 5", "Store-5", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_5,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
