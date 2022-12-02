@@ -12,6 +12,4 @@ public class DataGameObject
     public bool IS_STORED;
     [SerializeField]
     public int ROTATION;
-    [SerializeField]
-    public int UPGRADE_NUMBER;
 }

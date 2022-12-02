@@ -673,14 +673,6 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         active = true;
     }
 
-    // private void SetAsCounter()
-    // {
-    //     if (Type == ObjectType.NPC_COUNTER)
-    //     {
-    //         BussGrid.SetCounter(this);
-    //     }
-    // }
-
     private void DisableIfCounter()
     {
         if (Type == ObjectType.NPC_COUNTER && assignedTo != null)
