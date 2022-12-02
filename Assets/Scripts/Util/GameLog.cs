@@ -44,7 +44,7 @@ public static class GameLog
     public static void LogError(string message)
     {
 #if UNITY_EDITOR
-        Debug.LogWarning(message);
+        Debug.LogError(message);
 #endif
     }
 }

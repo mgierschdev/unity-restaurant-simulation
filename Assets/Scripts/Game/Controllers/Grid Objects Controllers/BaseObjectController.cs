@@ -60,11 +60,7 @@ public class BaseObjectController : MonoBehaviour
         }
         catch (Exception e)
         {
-#if UNITY_EDITOR
             GameLog.LogError("Exception thrown, BaseObjectController/Update(): " + e);
-#else
-            GameLog.LogWarning("Exception thrown, BaseObjectController/Update(): " + e);
-#endif
         }
     }
 
