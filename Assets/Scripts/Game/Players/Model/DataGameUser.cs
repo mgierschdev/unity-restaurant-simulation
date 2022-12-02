@@ -32,6 +32,7 @@ public class DataGameUser
     public DateTime CREATED_AT;
     [SerializeField]
     public List<DataGameObject> OBJECTS;
+    public List<UpgradeGameObject> UPGRADES;
     public DataStatsGameObject DATA_STATS;
 
     // Convert to JSON string

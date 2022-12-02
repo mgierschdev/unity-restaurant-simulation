@@ -165,7 +165,7 @@ public static class PlayerData
 
     public static DataGameUser GetNewUser()
     {
-        return new DataGameUser
+        DataGameUser dataGameUser = new DataGameUser
         {
             NAME = "undefined",
             LANGUAGE_CODE = "es_ES",
@@ -186,23 +186,21 @@ public static class PlayerData
                         POSITION = new int[]{Settings.StartContainer[0], Settings.StartContainer[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT,
-                        UPGRADE_NUMBER = 0
                     },
                     new DataGameObject{
                         ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
                         POSITION =  new int[]{Settings.StartTable[0], Settings.StartTable[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT,
-                        UPGRADE_NUMBER = 0
                     },
                     new DataGameObject{
                         ID = (int) StoreItemType.COUNTER,
                         POSITION =  new int[]{Settings.StartCounter[0], Settings.StartCounter[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT,
-                        UPGRADE_NUMBER = 0
                     },
                 },
+            UPGRADES = new List<UpgradeGameObject> { },
             DATA_STATS = new DataStatsGameObject()
             {
                 MONEY = 0,
@@ -211,6 +209,22 @@ public static class PlayerData
                 ITEMS_BOUGHT = 0
             }
         };
+
+        foreach (StoreItemType storeItemType in Enum.GetValues(typeof(StoreItemType)))
+        {
+            if (storeItemType == StoreItemType.UPGRADE_ITEM || storeItemType == StoreItemType.UNDEFINED)
+            {
+                continue;
+            }
+
+            dataGameUser.UPGRADES.Add(new UpgradeGameObject
+            {
+                ID = (int)storeItemType,
+                UPGRADE_NUMBER = 0
+            });
+        }
+
+        return dataGameUser;
     }
 
     public static void AddStatData(PlayerStats stat, int val)
