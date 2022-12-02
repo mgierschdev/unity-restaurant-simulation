@@ -185,19 +185,22 @@ public static class PlayerData
                         ID = (int) StoreItemType.LEMONADE_STORE_ITEM,
                         POSITION = new int[]{Settings.StartContainer[0], Settings.StartContainer[1]},
                         IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT
+                        ROTATION = (int) ObjectRotation.FRONT,
+                        UPGRADE_NUMBER = 0
                     },
                     new DataGameObject{
                         ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
                         POSITION =  new int[]{Settings.StartTable[0], Settings.StartTable[1]},
                         IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT
+                        ROTATION = (int) ObjectRotation.FRONT,
+                        UPGRADE_NUMBER = 0
                     },
                     new DataGameObject{
                         ID = (int) StoreItemType.COUNTER,
                         POSITION =  new int[]{Settings.StartCounter[0], Settings.StartCounter[1]},
                         IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT
+                        ROTATION = (int) ObjectRotation.FRONT,
+                        UPGRADE_NUMBER = 0
                     },
                 },
             DATA_STATS = new DataStatsGameObject()
