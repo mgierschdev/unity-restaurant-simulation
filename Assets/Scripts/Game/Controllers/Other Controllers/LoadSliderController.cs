@@ -17,7 +17,6 @@ public class LoadSliderController : MonoBehaviour
         backgroundImage = backgroundImageObject.GetComponent<Image>();
         Util.IsNull(fillAreaObject, "LoadSliderController/fillAreaObject is null ");
         sliderImage = fillAreaObject.GetComponent<Image>();
-        SetSliderSprite("Circle");//Default load sprite
         slider.value = 0;
         seconds = 0;
         finished = false;
@@ -27,6 +26,7 @@ public class LoadSliderController : MonoBehaviour
             GameLog.LogWarning("EnergyBarController/Slider null");
         }
         SetMaxEnergy(Settings.NpcDefaultEnergy);
+        SetSliderSprite("Circle");//Default load sprite
     }
 
     public void Update()
