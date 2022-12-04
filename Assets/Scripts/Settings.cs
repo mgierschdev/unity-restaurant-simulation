@@ -29,7 +29,7 @@ public static class Settings
     public static int InitGameMoney = 20000,
     InitGems = 40,
     InitExperience = 0,
-    InitLevel = 0,
+    InitLevel = 10,
     InitGridSize = 10;
 
     //Sliders 
