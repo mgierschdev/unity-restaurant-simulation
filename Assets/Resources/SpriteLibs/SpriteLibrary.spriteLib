@@ -30,9 +30,9 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: SingleTable-1
       m_Hash: -1529734353
-      m_Sprite: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
+      m_Sprite: {fileID: 21300000, guid: 9234347dcfa9e4429bf05c8fe1729826, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 1cdefd258d9df4702a4924003a936cba, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: 9234347dcfa9e4429bf05c8fe1729826, type: 3}
     - m_Name: SingleTable-2
       m_Hash: 1037781653
       m_Sprite: {fileID: 21300000, guid: 301d1fcda3b0a425988a7aaf54bc42fe, type: 3}
@@ -86,9 +86,9 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: SingleTable-1
       m_Hash: -1529734353
-      m_Sprite: {fileID: 21300000, guid: bd484b00c6cd743a7a9b72c40efdab7d, type: 3}
+      m_Sprite: {fileID: 21300000, guid: b242cc6091a994b6c82b2cdcb8128f80, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd484b00c6cd743a7a9b72c40efdab7d, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: b242cc6091a994b6c82b2cdcb8128f80, type: 3}
     - m_Name: SingleTable-2
       m_Hash: 1037781653
       m_Sprite: {fileID: 21300000, guid: 809133bdfefa34e66af539db6b8ac640, type: 3}
