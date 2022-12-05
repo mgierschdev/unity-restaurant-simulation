@@ -18,6 +18,7 @@ public class MenuHandlerController : MonoBehaviour
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
     private Button tableTabButton;
+    private GridLayoutGroup gridLayoutGroup;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -48,6 +49,7 @@ public class MenuHandlerController : MonoBehaviour
         centerPanel = GameObject.Find(Settings.ConstCenterTabMenu);
         scrollView = centerPanel.transform.Find(Settings.ConstCenterScrollView).gameObject;
         scrollViewContent = centerPanel.transform.Find(Settings.ConstCenterScrollContent).gameObject;
+        gridLayoutGroup = scrollViewContent.GetComponent<GridLayoutGroup>();
         centerPanelSideMenu = centerPanel.transform.Find(Settings.ConstButtonMenuPanel).gameObject;
 
         // Menu title 
@@ -166,6 +168,7 @@ public class MenuHandlerController : MonoBehaviour
 
         //Set top panel title
         SetMainMenuTitle(MenuObjectList.GetButtonLabel(menu.GetMenuTab()));
+        SetCellSize(400, 400);
 
         // Add items to scroll view depending on the tab
         switch (menu.GetMenuTab())
@@ -191,6 +194,7 @@ public class MenuHandlerController : MonoBehaviour
         GameObject settings = Instantiate(Resources.Load(Settings.PrefabSettingsItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
         settings.transform.SetParent(scrollViewContent.transform);
         settings.transform.localScale = new Vector3(1, 1, 1);
+        SetCellSize(1000, 1000);
 
     }
 
@@ -450,5 +454,10 @@ public class MenuHandlerController : MonoBehaviour
         centerPanel.SetActive(true);
         // Selecting the button at the same time of opening the menu
         tableTabButton.Select();
+    }
+
+    private void SetCellSize(float sizeX, float sizeY)
+    {
+        gridLayoutGroup.cellSize = new Vector2(sizeX, sizeY);
     }
 }
