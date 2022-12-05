@@ -78,7 +78,7 @@ public static class BussGrid
         ObjectDraggingHandler.Init();
         // Table Handler 
         TableHandler.Init();
-        
+
         if (TilemapFloor == null || TilemapColliders == null || TilemapObjects == null || TilemapPathFinding == null ||
             TilemapWalkingPath == null || TilemapGameFloor == null)
         {
@@ -120,6 +120,28 @@ public static class BussGrid
         LoadTileMap(listWalkingPathTileMap, TilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listGameFloor, TilemapGameFloor, mapGameFloor);
         LoadTileMap(listFloorTileMap, TilemapFloor, mapFloor);
+        DrawTilemapBusinessDecoration();
+    }
+
+    public static void DrawTilemapBusinessDecoration()
+    {
+        Tilemap floorToDraw = GameObject.Find(Settings.TilemapBusinessFloor_Decoration).GetComponent<Tilemap>();
+        floorToDraw.ClearAllTiles();
+        TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesFloorBrown);
+
+        foreach (Vector3Int pos in TilemapGameFloor.cellBounds.allPositionsWithin)
+        {
+            if(!TilemapGameFloor.HasTile(pos)){
+                continue;
+            }
+            
+            TileBase tile = TilemapGameFloor.GetTile(pos);
+            TileType tileType = Util.GetTileType(tile.name);
+            if (tileType == TileType.BUS_FLOOR)
+            {
+                floorToDraw.SetTile(pos, gridTile);
+            }
+        }
     }
 
     private static void DrawCellCoords()
