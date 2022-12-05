@@ -102,6 +102,7 @@ public static class Settings
     TilemapBusinessFloor_8 = "TilemapBusinessFloor_8",
     TilemapBusinessFloor_9 = "TilemapBusinessFloor_9",
     TilemapBusinessFloor_10 = "TilemapBusinessFloor_10",
+    TilemapBusinessFloor_Decoration = "TilemapBusinessFloor_Decoration",
     PathFindingGrid = "PathFindingGrid";
 
     //OBJECTS PREFIXES
@@ -193,5 +194,6 @@ public static class Settings
 
     //Tiles
     public const string GridTilesSimple = "Grid/Tiles/GridTile",
+    GridTilesFloorBrown = "Objects/Sprites/Floor/Floor-Brown",
     GridTilesHighlightedFloor = "Grid/Tiles/HighlightedFloor@3x";
 }
