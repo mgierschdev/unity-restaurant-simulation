@@ -30,7 +30,7 @@ public static class Settings
     InitGems = 40,
     InitExperience = 0,
     InitLevel = 10,
-    InitGridSize = 10;
+    InitGridSize = 1;
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f,
