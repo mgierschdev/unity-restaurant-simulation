@@ -14,8 +14,7 @@ public class UpgradeItemController : MonoBehaviour
 
     void Awake()
     {
-        GameObject buttonObject = transform.Find(Settings.PrefabUpgradeItemButton).gameObject;
-        button = buttonObject.GetComponent<Button>();
+        button = transform.GetComponent<Button>();
         img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
         GameObject gameObject = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
         background = img.GetComponent<Image>();
