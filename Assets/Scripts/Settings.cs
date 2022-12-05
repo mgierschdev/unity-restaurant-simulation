@@ -1,7 +1,7 @@
 public static class Settings
 {
     // General Config
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 1f; //1 = Looks good with current animation
 
@@ -14,7 +14,7 @@ public static class Settings
     public const int MaxNpcNumber = 1; // 100 > fps 11-12
     public static int[] StartStoreItemDispenser = new int[] { 5, 14 },
     StartTable = new int[] { 5, 12 },
-    StartCounter = new int[] { 3, 14 };
+    StartCounter = new int[] { 3, 13 };
 
     //CAMERA ATTRIBUTES
     public static float CameraMovementSpeed = 25f,
