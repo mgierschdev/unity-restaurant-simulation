@@ -64,12 +64,7 @@ public static class MenuObjectList
             StoreItemDictionary.Add(storeItem.Identifier, storeItem);
             StoreItemTypeDic.Add(storeItem.StoreItemType, storeItem);
 
-            if (storeItem.HasActionPoint)
-            {
-                ActionPointItems.Add(storeItem);
-            }
-
-            if (storeItem.Type == ObjectType.STORE_ITEM)
+            if (storeItem.Type == ObjectType.STORE_ITEM || storeItem.HasActionPoint)
             {
                 BaseStoreItemList.Add(storeItem);
             }
