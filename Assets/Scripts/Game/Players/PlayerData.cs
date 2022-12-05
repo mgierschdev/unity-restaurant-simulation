@@ -182,7 +182,7 @@ public static class PlayerData
             OBJECTS = new List<DataGameObject>{
                     new DataGameObject{
                         ID = (int) StoreItemType.STORE_ITEM_ORANGE_JUICE,
-                        POSITION = new int[]{Settings.StartContainer[0], Settings.StartContainer[1]},
+                        POSITION = new int[]{Settings.StartStoreItemDispenser[0], Settings.StartStoreItemDispenser[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT,
                     },
