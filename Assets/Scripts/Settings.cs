@@ -11,7 +11,7 @@ public static class Settings
     public const bool devEnv = false;
 #endif
 
-    public const int MaxNpcNumber = 10; // 100 > fps 11-12
+    public const int MaxNpcNumber = 1; // 100 > fps 11-12
     public static int[] StartContainer = new int[] { 4, 13 },
     StartTable = new int[] { 4, 11 },
     StartCounter = new int[] { 5, 12 };

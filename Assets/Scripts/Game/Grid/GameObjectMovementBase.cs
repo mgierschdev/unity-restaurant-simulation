@@ -44,6 +44,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
         EnergyBar = transform.Find(Settings.LoadSlider).GetComponent<LoadSliderController>();
+        UpdatePosition();
 
         if (!Util.IsNull(EnergyBar, "GameObjectMovementBase/energyBar null"))
         {
@@ -64,7 +65,6 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         isMoving = false;
         currentState = NpcState.IDLE;
         animationController.SetInfoPopUItem(itemToAskFor);
-        UpdatePosition();
     }
 
     protected void SetID()
