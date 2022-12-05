@@ -135,7 +135,7 @@ public enum StoreItemType
     TABLE_SINGLE_9 = 9,
     TABLE_SINGLE_10 = 10,
     COUNTER = 11,
-    STORE_ITEM_LEMONADE = 12,
+    STORE_ITEM_ORANGE_JUICE = 12,
     STORE_ITEM_SODA = 13,
     LEMONADE_STORE_ITEM_TEST_3 = 14,
     LEMONADE_STORE_ITEM_TEST_4 = 15,
@@ -163,7 +163,7 @@ public enum UpgradeType
 // Items given the type of store item
 public enum ItemType
 {
-    LEMONADE = 1,
+    ORANGE_JUICE = 1,
     UNDEFINED = 999
 }
 

@@ -40,7 +40,7 @@ public static class MenuObjectList
             // new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
 
-            new StoreGameObject("LEMONADE_STORE_ITEM", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_LEMONADE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 40, false),
+            new StoreGameObject("LEMONADE_STORE_ITEM", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_ORANGE_JUICE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 40, false),
             //new StoreGameObject("SODA_STORE_ITEM", "Store-2", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_SODA, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_3", "Store-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 60, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
@@ -104,7 +104,7 @@ public static class MenuObjectList
     {
         switch (type)
         {
-            case StoreItemType.STORE_ITEM_LEMONADE: return ItemType.LEMONADE;
+            case StoreItemType.STORE_ITEM_ORANGE_JUICE: return ItemType.ORANGE_JUICE;
         }
         return ItemType.UNDEFINED;
     }
@@ -113,7 +113,7 @@ public static class MenuObjectList
     {
         switch (type)
         {
-            case ItemType.LEMONADE: return "Store-1";
+            case ItemType.ORANGE_JUICE: return "Store-1";
         }
         return "";
     }
@@ -133,7 +133,7 @@ public static class MenuObjectList
             case StoreItemType.TABLE_SINGLE_8: return Settings.PrefabSingleTable;
             case StoreItemType.TABLE_SINGLE_9: return Settings.PrefabSingleTable;
             case StoreItemType.COUNTER: return Settings.PrefabCounter;
-            case StoreItemType.STORE_ITEM_LEMONADE: return Settings.PrefabBaseStoreItem;
+            case StoreItemType.STORE_ITEM_ORANGE_JUICE: return Settings.PrefabBaseStoreItem;
             case StoreItemType.STORE_ITEM_SODA: return Settings.PrefabBaseStoreItem;
         }
         return "";
