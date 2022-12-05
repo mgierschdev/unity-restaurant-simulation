@@ -1,7 +1,7 @@
 public static class Settings
 {
     // General Config
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 1f; //1 = Looks good with current animation
 
@@ -12,9 +12,9 @@ public static class Settings
 #endif
 
     public const int MaxNpcNumber = 1; // 100 > fps 11-12
-    public static int[] StartContainer = new int[] { 4, 13 },
-    StartTable = new int[] { 4, 11 },
-    StartCounter = new int[] { 5, 12 };
+    public static int[] StartStoreItemDispenser = new int[] { 5, 14 },
+    StartTable = new int[] { 5, 12 },
+    StartCounter = new int[] { 3, 14 };
 
     //CAMERA ATTRIBUTES
     public static float CameraMovementSpeed = 25f,
@@ -26,10 +26,10 @@ public static class Settings
     public static int ConstDefaultCameraOrthographicsize = 7;
 
     //Init start attributes
-    public static int InitGameMoney = 20000,
-    InitGems = 40,
+    public static int InitGameMoney = 0,
+    InitGems = 10,
     InitExperience = 0,
-    InitLevel = 10,
+    InitLevel = 0,
     InitGridSize = 1;
 
     //Sliders 
