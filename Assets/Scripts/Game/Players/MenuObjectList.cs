@@ -29,7 +29,7 @@ public static class MenuObjectList
 
         AllStoreItems = new List<StoreGameObject>{
             new StoreGameObject("Wooden table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 20, true),
-            new StoreGameObject("Wooden squared table", "SingleTable-2", ObjectType.NPC_SINGLE_TABLE, StoreItemType.SQUARED_WOODEN_TABLE_SINGLE,  Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 40, true),
+            //new StoreGameObject("Wooden squared table", "SingleTable-2", ObjectType.NPC_SINGLE_TABLE, StoreItemType.SQUARED_WOODEN_TABLE_SINGLE,  Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 40, true),
             // new StoreGameObject("Wooden table", "SingleTable-3", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_3, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 50, true),
             // new StoreGameObject("Dark wood table", "SingleTable-4", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_4, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 60, true),
             // new StoreGameObject("Wooden table", "SingleTable-5", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_5, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 70, true),
@@ -41,7 +41,7 @@ public static class MenuObjectList
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
 
             new StoreGameObject("LEMONADE_STORE_ITEM", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_LEMONADE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 40, false),
-            new StoreGameObject("SODA_STORE_ITEM", "Store-2", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_SODA, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
+            //new StoreGameObject("SODA_STORE_ITEM", "Store-2", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_SODA, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_3", "Store-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 60, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_5", "Store-5", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_5,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
