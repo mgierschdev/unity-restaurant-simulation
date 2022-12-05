@@ -68,7 +68,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         //Center tab menus tabs
-        centerTabMenu = new MenuItem(MenuTab.TABLES_TAB, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
+        centerTabMenu = new MenuItem(MenuTab.STORE_ITEMS, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
 
         LoadCenterPanelSideMenu();
         // Setting Click Listeners to Left Down Panel
@@ -97,7 +97,7 @@ public class MenuHandlerController : MonoBehaviour
             bStore.onClick.AddListener(() => AddMenuItemsToScrollView(current));
 
             // We save the tables tab button, to select it as soon as we open the menu
-            if (MenuTab.TABLES_TAB == tab)
+            if (MenuTab.STORE_ITEMS == tab)
             {
                 tableTabButton = bStore;
             }
@@ -170,7 +170,6 @@ public class MenuHandlerController : MonoBehaviour
         // Add items to scroll view depending on the tab
         switch (menu.GetMenuTab())
         {
-            case MenuTab.TABLES_TAB: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
             case MenuTab.STORE_ITEMS: AddItemsToScrollView(menu); StartCoroutine(ScrollToTop()); return;
             case MenuTab.UPGRADE: AddItemsToUpgradeScrollView(menu); StartCoroutine(ScrollToTop()); return;
             // case MenuTab.IN_GAME_STORE_TAB: /*TODO*/ return;

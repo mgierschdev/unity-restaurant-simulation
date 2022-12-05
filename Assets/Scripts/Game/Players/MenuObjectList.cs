@@ -148,7 +148,6 @@ public static class MenuObjectList
     {
         switch (tab)
         {
-            case MenuTab.TABLES_TAB: return ActionPointItems;
             case MenuTab.STORE_ITEMS: return BaseStoreItemList;
             case MenuTab.UPGRADE: return UpgradeItems;
             case MenuTab.SETTINGS_TAB: return SettingsItems;
@@ -161,7 +160,6 @@ public static class MenuObjectList
     {
         switch (tab)
         {
-            case MenuTab.TABLES_TAB: return "Tables";
             case MenuTab.STORE_ITEMS: return "Store";
             case MenuTab.UPGRADE: return "Upgrade";
             case MenuTab.STORAGE_TAB: return "Storage";
