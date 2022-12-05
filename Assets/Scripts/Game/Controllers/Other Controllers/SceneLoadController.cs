@@ -24,9 +24,6 @@ public class SceneLoadController : MonoBehaviour
         try
         {
             PlayerData.InitUser();
-            operation = SceneManager.LoadSceneAsync(Settings.GameScene);
-            // if not will load scene before filling the load animation
-            operation.allowSceneActivation = false;
         }
         catch (SystemException e)
         {
@@ -45,6 +42,12 @@ public class SceneLoadController : MonoBehaviour
         && PlayerData.GetDataGameUser() != null)
         {
             operation.allowSceneActivation = true;
+        }
+        else if (operation == null)
+        {
+            operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+            // if not will load scene before filling the load animation
+            operation.allowSceneActivation = false;
         }
     }
 }
