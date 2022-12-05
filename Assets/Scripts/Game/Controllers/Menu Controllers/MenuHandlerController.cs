@@ -194,7 +194,7 @@ public class MenuHandlerController : MonoBehaviour
         GameObject settings = Instantiate(Resources.Load(Settings.PrefabSettingsItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
         settings.transform.SetParent(scrollViewContent.transform);
         settings.transform.localScale = new Vector3(1, 1, 1);
-        SetCellSize(1000, 1000);
+        SetCellSize(1000, 1200);
 
     }
 
