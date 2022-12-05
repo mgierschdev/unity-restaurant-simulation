@@ -106,10 +106,9 @@ public enum NpcState
 // List of Menus
 public enum MenuTab
 {
-    TABLES_TAB = 1,
-    STORE_ITEMS = 2,
-    UPGRADE = 3,
-    STORAGE_TAB = 6,
+    STORE_ITEMS = 1,
+    UPGRADE = 2,
+    STORAGE_TAB = 3,
     SETTINGS_TAB = 999
 }
 
