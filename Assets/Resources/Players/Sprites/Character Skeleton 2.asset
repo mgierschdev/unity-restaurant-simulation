@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec8da9418a6bf493e93ef4c7b7575847, type: 3}
-  m_Name: Character Skeleton-2
+  m_Name: Character Skeleton 2
   m_EditorClassIdentifier: 
   m_SpriteBones:
   - m_Name: Waist
