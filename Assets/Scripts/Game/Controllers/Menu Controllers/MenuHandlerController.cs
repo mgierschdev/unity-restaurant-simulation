@@ -19,6 +19,11 @@ public class MenuHandlerController : MonoBehaviour
     private MenuBackgroundController menuBackgroundController;
     private Button tableTabButton;
     private GridLayoutGroup gridLayoutGroup;
+    // Scroll view content
+    private List<UpgradeItemController> upgradeItemControllerList;
+    private List<InventoryItemController> storeInventoryItemControllerList;
+    // Current menu tab open
+    private MenuItem currentTab;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -37,6 +42,10 @@ public class MenuHandlerController : MonoBehaviour
 
         // Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;
+
+        // Scrollview content 
+        upgradeItemControllerList = new List<UpgradeItemController>();
+        storeInventoryItemControllerList = new List<InventoryItemController>();
 
         // Menu Background Controller 
         menuBackgroundController = GameObject.Find(Settings.MenuContainer).GetComponent<MenuBackgroundController>();
@@ -71,13 +80,67 @@ public class MenuHandlerController : MonoBehaviour
 
         //Center tab menus tabs
         centerTabMenu = new MenuItem(MenuTab.STORE_ITEMS, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
+        currentTab = centerTabMenu;
 
         LoadCenterPanelSideMenu();
         // Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
         LoadCenterPanelSideMenu();
         CloseCenterPanel();
+        StartCoroutine(UpdateUI());
         openedTime = 0;
+    }
+
+    private IEnumerator UpdateUI()
+    {
+        for (; ; )
+        {
+            if (!IsMenuOpen() || (storeInventoryItemControllerList.Count == 0 && upgradeItemControllerList.Count == 0))
+            {
+                yield return new WaitForSeconds(2);
+            }
+
+            if (currentTab.GetMenuTab() == MenuTab.STORE_ITEMS)
+            {
+                UpdateStoreItemsScrollView();
+            }else if(currentTab.GetMenuTab() == MenuTab.UPGRADE){
+                //TODO: UpdateUpgradeItemsTab
+            }else if(currentTab.GetMenuTab() == MenuTab.SETTINGS_TAB){
+                //TODO: Update stats page
+            }
+
+            yield return new WaitForSeconds(2);
+        }
+    }
+
+    private void UpdateStoreItemsScrollView()
+    {
+        if (storeInventoryItemControllerList.Count == 0)
+        {
+            return;
+        }
+
+        foreach (InventoryItemController inventoryItemController in storeInventoryItemControllerList)
+        {
+            Button button = inventoryItemController.GetButton();
+            button.onClick.RemoveAllListeners();
+            
+            Pair<StoreGameObject, DataGameObject> pair = new Pair<StoreGameObject, DataGameObject>
+            {
+                Key = inventoryItemController.GetStoreGameObject()
+            };
+
+            if (inventoryItemController.GetStoreGameObject().Cost <= PlayerData.GetMoneyDouble())
+            {
+                button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
+                inventoryItemController.SetAvailable();
+            }
+            else
+            {
+                button.onClick.AddListener(() => EmptyClickListener());
+                inventoryItemController.SetUnavailable();
+            }
+        }
     }
 
     private void LoadCenterPanelSideMenu()
@@ -123,6 +186,9 @@ public class MenuHandlerController : MonoBehaviour
         {
             CloseCenterPanel();
         }
+
+        upgradeItemControllerList.Clear();
+        storeInventoryItemControllerList.Clear();
     }
 
     private void OpenMenu(MenuItem menu)
@@ -130,6 +196,7 @@ public class MenuHandlerController : MonoBehaviour
         // Open all menus except settings and InGameStore
         AddMenuItemsToScrollView(menu);
         OpenCenterPanel();
+        currentTab = menu;
 
         // If there is a selected object on the UI we un-unselect the object
         if (ObjectDraggingHandler.GetIsDraggingEnabled())
@@ -170,6 +237,10 @@ public class MenuHandlerController : MonoBehaviour
         SetMainMenuTitle(MenuObjectList.GetButtonLabel(menu.GetMenuTab()));
         SetCellSize(400, 400);
 
+        //Clear scrollview content list
+        storeInventoryItemControllerList.Clear();
+        upgradeItemControllerList.Clear();
+
         // Add items to scroll view depending on the tab
         switch (menu.GetMenuTab())
         {
@@ -195,7 +266,6 @@ public class MenuHandlerController : MonoBehaviour
         settings.transform.SetParent(scrollViewContent.transform);
         settings.transform.localScale = new Vector3(1, 1, 1);
         SetCellSize(1000, 1200);
-
     }
 
     private void AddStorageItemsToScrollView()
@@ -241,7 +311,7 @@ public class MenuHandlerController : MonoBehaviour
             //TODO: max employees we can define the number of counters here
             button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
 
-            inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString(), entry.Key.StoreItemType);
+            inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString(), entry.Key);
             item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
@@ -275,6 +345,7 @@ public class MenuHandlerController : MonoBehaviour
             upgradeItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString(), obj.StoreItemType);
             item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
+            upgradeItemControllerList.Add(upgradeItemController);
         }
     }
 
@@ -301,13 +372,16 @@ public class MenuHandlerController : MonoBehaviour
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
-            }else{
+            }
+            else
+            {
                 inventoryItemController.SetUnavailable();
             }
 
-            inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString(), obj.StoreItemType);
+            inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString(), obj);
             item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
+            storeInventoryItemControllerList.Add(inventoryItemController);
         }
     }
 
@@ -442,6 +516,11 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void EmptyClickListener()
+    {
+        return;
     }
 
     private void CloseCenterPanel()
