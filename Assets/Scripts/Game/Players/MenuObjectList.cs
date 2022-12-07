@@ -40,7 +40,7 @@ public static class MenuObjectList
             // new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 3000, true),
 
-            new StoreGameObject("LEMONADE_STORE_ITEM", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_ORANGE_JUICE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 1000, false),
+            new StoreGameObject("STORE_ITEM_ORANGE_JUICE", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_ORANGE_JUICE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 1000, false),
             //new StoreGameObject("SODA_STORE_ITEM", "Store-2", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_SODA, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_3", "Store-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 6000, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 7000, false),
@@ -55,6 +55,7 @@ public static class MenuObjectList
             new StoreGameObject("OFFLINE_MONEY_PERCENTAGE_INCREASE", "Upgrade-7", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_PERCENTAGE_INCREASE, Settings.SpriteLibCategoryUpgradeItems, "", 7000, false),
             new StoreGameObject("ORDER_COST", "Upgrade-8", ObjectType.UPGRADE_ITEM, StoreItemType.ORDER_COST, Settings.SpriteLibCategoryUpgradeItems, "", 8000, false),
             new StoreGameObject("WAITER_SPEED", "Upgrade-9", ObjectType.UPGRADE_ITEM, StoreItemType.WAITER_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 9000, false),
+            new StoreGameObject("AUTO LOAD ORANGE JUICE", "Upgrade-10", ObjectType.UPGRADE_ITEM, StoreItemType.UPGRADE_ITEM_ORANGE_JUICE, Settings.SpriteLibCategoryUpgradeItems, "", 100, false),
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
