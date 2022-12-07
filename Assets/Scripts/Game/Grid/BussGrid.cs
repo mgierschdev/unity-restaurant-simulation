@@ -91,20 +91,10 @@ public static class BussGrid
             GameLog.LogWarning("tilemapBusinessFloor " + TilemapGameFloor);
         }
 
-        if (Settings.CellDebug)
-        {
-            TilemapPathFinding.color = new Color(1, 1, 1, 0.4f);
-            TilemapColliders.color = new Color(1, 1, 1, 0.4f);
-            TilemapWalkingPath.color = new Color(1, 1, 1, 0.4f);
-            TilemapGameFloor.color = new Color(1, 1, 1, 0.4f);
-        }
-        else
-        {
-            TilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
-            TilemapColliders.color = new Color(1, 1, 1, 0.0f);
-            TilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
-            TilemapGameFloor.color = new Color(1, 1, 1, 0.0f);
-        }
+        TilemapPathFinding.color = new Color(1, 1, 1, 0.0f);
+        TilemapColliders.color = new Color(1, 1, 1, 0.0f);
+        TilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
+        TilemapGameFloor.color = new Color(1, 1, 1, 0.0f);
 
         // TEMP, until we have floors
         TilemapGameFloor.color = new Color(1, 1, 1, 0.4f);
@@ -131,10 +121,11 @@ public static class BussGrid
 
         foreach (Vector3Int pos in TilemapGameFloor.cellBounds.allPositionsWithin)
         {
-            if(!TilemapGameFloor.HasTile(pos)){
+            if (!TilemapGameFloor.HasTile(pos))
+            {
                 continue;
             }
-            
+
             TileBase tile = TilemapGameFloor.GetTile(pos);
             TileType tileType = Util.GetTileType(tile.name);
             if (tileType == TileType.BUS_FLOOR)
@@ -204,10 +195,10 @@ public static class BussGrid
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
                 TilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
 
-                if (Settings.CellDebug)
-                {
-                    GameLog.Log("DEBUG: Setting GridCell map " + gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
-                }
+                // if (Settings.CellDebug)
+                // {
+                //     GameLog.Log("DEBUG: Setting GridCell map " + gameTile.WorldPosition + " " + gameTile.GridPosition + " " + gameTile.LocalGridPosition + " " + gameTile.GetWorldPositionWithOffset());
+                // }
             }
         }
 

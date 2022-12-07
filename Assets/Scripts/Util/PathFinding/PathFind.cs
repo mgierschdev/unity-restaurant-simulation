@@ -72,7 +72,7 @@ public class PathFind
                 // We add to the queue is valid to explore
                 
                 //Checking for player positions
-                Vector3Int currentEvaluatedPosition = new Vector3Int(x, y, 0);
+                //Vector3Int currentEvaluatedPosition = new Vector3Int(x, y, 0);
 
                 if (IsValid(x, y) && arrayGrid[x, y] != (int)ObjectType.OBSTACLE)//&& arrayGrid[x, y] != (int)ObjectType.PLAYER)
                 {

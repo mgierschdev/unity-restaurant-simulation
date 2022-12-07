@@ -13,8 +13,7 @@ public class MenuHandlerController : MonoBehaviour
     //saves the latest reference to the npc if the menu was opened
     private MenuItem centerTabMenu;
     // Min amount of time the the menu has to be open before activating -> closing on click outside
-    private float MIN_OPENED_TIME = 0.5f, openedTime;
-    private TextMeshProUGUI moneyText, menuPanelTitle;
+    private TextMeshProUGUI menuPanelTitle;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
     private Button tableTabButton;
@@ -23,7 +22,6 @@ public class MenuHandlerController : MonoBehaviour
     private List<UpgradeItemController> upgradeItemControllerList;
     private List<InventoryItemController> storeInventoryItemControllerList;
     private SettingsPanelController settingsPanelController;
-
     // Current menu tab open
     private MenuTab currentTab;
 
@@ -90,7 +88,6 @@ public class MenuHandlerController : MonoBehaviour
         LoadCenterPanelSideMenu();
         CloseCenterPanel();
         StartCoroutine(UpdateUI());
-        openedTime = 0;
     }
 
     private IEnumerator UpdateUI()

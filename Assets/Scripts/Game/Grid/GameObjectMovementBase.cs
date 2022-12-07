@@ -311,6 +311,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             if (Settings.CellDebug)
             {
+                // Draw path
                 Vector3 from = BussGrid.GetWorldFromPathFindingGridPosition(path[i - 1].GetVector3Int());
                 Vector3 to = BussGrid.GetWorldFromPathFindingGridPosition(path[i].GetVector3Int());
                 Debug.DrawLine(from, to, Util.GetRandomColor(debugColorValue % 10), 15f);

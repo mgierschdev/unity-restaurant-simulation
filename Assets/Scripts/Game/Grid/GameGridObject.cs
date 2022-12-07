@@ -274,8 +274,6 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         {
             return GridPosition + new Vector3Int(-1, 0);
         }
-
-        return new Vector3Int();
     }
 
     public void RotateObjectLeft()
@@ -688,6 +686,11 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     public void CancelPurchase()
     {
         BussGrid.GetGameGridObjectsDictionary().Remove(Name, out GameGridObject tmp);
+        if (tmp == null)
+        {
+            GameLog.Log("CancelPurchase() could not remove " + Name);
+        }
+
         PlayerData.RemoveFromInventory(this);
         Object.Destroy(objectTransform.gameObject);
         DisableIfCounter();

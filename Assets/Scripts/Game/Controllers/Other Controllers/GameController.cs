@@ -109,7 +109,6 @@ public class GameController : MonoBehaviour
             {
                 g.Value.DiableTopInfoObject();
                 return objectFound = g.Value;
-                break;
             }
         }
         return objectFound;
