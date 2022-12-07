@@ -22,8 +22,10 @@ public class MenuHandlerController : MonoBehaviour
     // Scroll view content
     private List<UpgradeItemController> upgradeItemControllerList;
     private List<InventoryItemController> storeInventoryItemControllerList;
+    private SettingsPanelController settingsPanelController;
+
     // Current menu tab open
-    private MenuItem currentTab;
+    private MenuTab currentTab;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -80,7 +82,7 @@ public class MenuHandlerController : MonoBehaviour
 
         //Center tab menus tabs
         centerTabMenu = new MenuItem(MenuTab.STORE_ITEMS, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
-        currentTab = centerTabMenu;
+        currentTab = MenuTab.STORE_ITEMS;
 
         LoadCenterPanelSideMenu();
         // Setting Click Listeners to Left Down Panel
@@ -100,13 +102,18 @@ public class MenuHandlerController : MonoBehaviour
                 yield return new WaitForSeconds(2);
             }
 
-            if (currentTab.GetMenuTab() == MenuTab.STORE_ITEMS)
+            if (currentTab == MenuTab.STORE_ITEMS)
             {
                 UpdateStoreItemsScrollView();
-            }else if(currentTab.GetMenuTab() == MenuTab.UPGRADE){
+            }
+            else if (currentTab == MenuTab.UPGRADE)
+            {
                 //TODO: UpdateUpgradeItemsTab
-            }else if(currentTab.GetMenuTab() == MenuTab.SETTINGS_TAB){
-                //TODO: Update stats page
+                //UpdateUpgradeScrollView();
+            }
+            else if (currentTab == MenuTab.SETTINGS_TAB)
+            {
+                UpdateSettingsPanel();
             }
 
             yield return new WaitForSeconds(2);
@@ -124,7 +131,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             Button button = inventoryItemController.GetButton();
             button.onClick.RemoveAllListeners();
-            
+
             Pair<StoreGameObject, DataGameObject> pair = new Pair<StoreGameObject, DataGameObject>
             {
                 Key = inventoryItemController.GetStoreGameObject()
@@ -141,6 +148,16 @@ public class MenuHandlerController : MonoBehaviour
                 inventoryItemController.SetUnavailable();
             }
         }
+    }
+
+    private void UpdateSettingsPanel()
+    {
+        if (settingsPanelController == null)
+        {
+            return;
+        }
+
+        settingsPanelController.SetStatsText();
     }
 
     private void LoadCenterPanelSideMenu()
@@ -196,7 +213,6 @@ public class MenuHandlerController : MonoBehaviour
         // Open all menus except settings and InGameStore
         AddMenuItemsToScrollView(menu);
         OpenCenterPanel();
-        currentTab = menu;
 
         // If there is a selected object on the UI we un-unselect the object
         if (ObjectDraggingHandler.GetIsDraggingEnabled())
@@ -240,6 +256,7 @@ public class MenuHandlerController : MonoBehaviour
         //Clear scrollview content list
         storeInventoryItemControllerList.Clear();
         upgradeItemControllerList.Clear();
+        currentTab = menu.GetMenuTab();
 
         // Add items to scroll view depending on the tab
         switch (menu.GetMenuTab())
@@ -263,6 +280,7 @@ public class MenuHandlerController : MonoBehaviour
     private void AddSettingsItemsToScrollView()
     {
         GameObject settings = Instantiate(Resources.Load(Settings.PrefabSettingsItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
+        settingsPanelController = settings.GetComponent<SettingsPanelController>();
         settings.transform.SetParent(scrollViewContent.transform);
         settings.transform.localScale = new Vector3(1, 1, 1);
         SetCellSize(1000, 1200);
