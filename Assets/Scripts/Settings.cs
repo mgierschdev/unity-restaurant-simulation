@@ -1,5 +1,15 @@
 public static class Settings
 {
+#if UNITY_EDITOR
+    public const bool devEnv = true;
+#else
+    public const bool devEnv = false;
+#endif
+
+    // Save Data directory
+    public const string DevSaveDirectory = "UserData";
+    public const string SaveFileSuffix = "save.json";
+
     // Player Config
     public const bool PLAYER_WALK_WITH_KEYBOARD = true;
     public const bool PLAYER_WALK_ON_CLICK = false;
@@ -28,7 +38,7 @@ public static class Settings
 
     // UI Constants
     public const string DEFAULT_LETTER_FONT = "Roboto-Regular";
-    public const string  CONST_CANVAS_PARENT_MENU = "CanvasMenu";
+    public const string CONST_CANVAS_PARENT_MENU = "CanvasMenu";
     public const string CONST_CENTER_TAB_MENU = "CenterTabMenu";
     public const string CONST_TOP_GAME_MENU = "TopGameMenu";
     public const int CONST_DEFAULT_CAMERA_ORTHOGRAPHICSIZE = 7;
