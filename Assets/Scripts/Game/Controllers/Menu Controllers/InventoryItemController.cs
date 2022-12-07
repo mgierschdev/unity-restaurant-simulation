@@ -45,4 +45,9 @@ public class InventoryItemController : MonoBehaviour
     {
         background.color = color;
     }
+
+    public void SetUnavailable()
+    {
+        imgComponent.color = Color.black;
+    }
 }

@@ -28,7 +28,7 @@ public static class MenuObjectList
         StoreItemTypeDic = new Dictionary<StoreItemType, StoreGameObject>();
 
         AllStoreItems = new List<StoreGameObject>{
-            new StoreGameObject("Wooden table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 20, true),
+            new StoreGameObject("Wooden table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 300, true),
             //new StoreGameObject("Wooden squared table", "SingleTable-2", ObjectType.NPC_SINGLE_TABLE, StoreItemType.SQUARED_WOODEN_TABLE_SINGLE,  Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 40, true),
             // new StoreGameObject("Wooden table", "SingleTable-3", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_3, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 50, true),
             // new StoreGameObject("Dark wood table", "SingleTable-4", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_4, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 60, true),
@@ -38,13 +38,13 @@ public static class MenuObjectList
             // new StoreGameObject("Dark wood table", "SingleTable-8", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_8, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 100, true),
             // new StoreGameObject("Iron table", "SingleTable-9", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_9, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             // new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
-            new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 50, true),
+            new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 3000, true),
 
-            new StoreGameObject("LEMONADE_STORE_ITEM", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_ORANGE_JUICE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 40, false),
+            new StoreGameObject("LEMONADE_STORE_ITEM", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_ORANGE_JUICE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 1000, false),
             //new StoreGameObject("SODA_STORE_ITEM", "Store-2", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_SODA, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
-            new StoreGameObject("LEMONADE_STORE_ITEM_TEST_3", "Store-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 60, false),
-            new StoreGameObject("LEMONADE_STORE_ITEM_TEST_4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
-            new StoreGameObject("LEMONADE_STORE_ITEM_TEST_5", "Store-5", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_5,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 70, false),
+            new StoreGameObject("LEMONADE_STORE_ITEM_TEST_3", "Store-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 6000, false),
+            new StoreGameObject("LEMONADE_STORE_ITEM_TEST_4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 7000, false),
+            new StoreGameObject("LEMONADE_STORE_ITEM_TEST_5", "Store-5", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_5,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 7000, false),
 
             new StoreGameObject("GRID SIZE", "Upgrade-1", ObjectType.UPGRADE_ITEM, StoreItemType.GRID_SIZE, Settings.SpriteLibCategoryUpgradeItems, "", 1, false),
             new StoreGameObject("CLIENT_MAX_WAITING_TIME", "Upgrade-2", ObjectType.UPGRADE_ITEM, StoreItemType.CLIENT_MAX_WAITING_TIME, Settings.SpriteLibCategoryUpgradeItems, "", 2, false),

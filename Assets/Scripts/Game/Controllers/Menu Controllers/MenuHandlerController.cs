@@ -301,6 +301,8 @@ public class MenuHandlerController : MonoBehaviour
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
+            }else{
+                inventoryItemController.SetUnavailable();
             }
 
             inventoryItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString(), obj.StoreItemType);
