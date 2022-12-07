@@ -46,15 +46,15 @@ public static class MenuObjectList
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 7000, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_5", "Store-5", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_5,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 7000, false),
 
-            new StoreGameObject("GRID SIZE", "Upgrade-1", ObjectType.UPGRADE_ITEM, StoreItemType.GRID_SIZE, Settings.SpriteLibCategoryUpgradeItems, "", 1, false),
-            new StoreGameObject("CLIENT_MAX_WAITING_TIME", "Upgrade-2", ObjectType.UPGRADE_ITEM, StoreItemType.CLIENT_MAX_WAITING_TIME, Settings.SpriteLibCategoryUpgradeItems, "", 2, false),
-            new StoreGameObject("CLIENT_SPEED", "Upgrade-3", ObjectType.UPGRADE_ITEM, StoreItemType.CLIENT_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 3, false),
-            new StoreGameObject("NUMBER_CLIENTS", "Upgrade-4", ObjectType.UPGRADE_ITEM, StoreItemType.NUMBER_CLIENTS, Settings.SpriteLibCategoryUpgradeItems, "", 4, false),
-            new StoreGameObject("NUMBER_WAITERS", "Upgrade-5", ObjectType.UPGRADE_ITEM, StoreItemType.NUMBER_WAITERS, Settings.SpriteLibCategoryUpgradeItems, "", 5, false),
-            new StoreGameObject("OFFLINE_MONEY_LIMIT", "Upgrade-6", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_LIMIT, Settings.SpriteLibCategoryUpgradeItems, "", 6, false),
-            new StoreGameObject("OFFLINE_MONEY_PERCENTAGE_INCREASE", "Upgrade-7", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_PERCENTAGE_INCREASE, Settings.SpriteLibCategoryUpgradeItems, "", 7, false),
-            new StoreGameObject("ORDER_COST", "Upgrade-8", ObjectType.UPGRADE_ITEM, StoreItemType.ORDER_COST, Settings.SpriteLibCategoryUpgradeItems, "", 8, false),
-            new StoreGameObject("WAITER_SPEED", "Upgrade-9", ObjectType.UPGRADE_ITEM, StoreItemType.WAITER_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 9, false),
+            new StoreGameObject("GRID SIZE", "Upgrade-1", ObjectType.UPGRADE_ITEM, StoreItemType.GRID_SIZE, Settings.SpriteLibCategoryUpgradeItems, "", 1000, false),
+            new StoreGameObject("CLIENT_MAX_WAITING_TIME", "Upgrade-2", ObjectType.UPGRADE_ITEM, StoreItemType.CLIENT_MAX_WAITING_TIME, Settings.SpriteLibCategoryUpgradeItems, "", 2000, false),
+            new StoreGameObject("CLIENT_SPEED", "Upgrade-3", ObjectType.UPGRADE_ITEM, StoreItemType.CLIENT_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 3000, false),
+            new StoreGameObject("NUMBER_CLIENTS", "Upgrade-4", ObjectType.UPGRADE_ITEM, StoreItemType.NUMBER_CLIENTS, Settings.SpriteLibCategoryUpgradeItems, "", 4000, false),
+            new StoreGameObject("NUMBER_WAITERS", "Upgrade-5", ObjectType.UPGRADE_ITEM, StoreItemType.NUMBER_WAITERS, Settings.SpriteLibCategoryUpgradeItems, "", 5000, false),
+            new StoreGameObject("OFFLINE_MONEY_LIMIT", "Upgrade-6", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_LIMIT, Settings.SpriteLibCategoryUpgradeItems, "", 6000, false),
+            new StoreGameObject("OFFLINE_MONEY_PERCENTAGE_INCREASE", "Upgrade-7", ObjectType.UPGRADE_ITEM, StoreItemType.OFFLINE_MONEY_PERCENTAGE_INCREASE, Settings.SpriteLibCategoryUpgradeItems, "", 7000, false),
+            new StoreGameObject("ORDER_COST", "Upgrade-8", ObjectType.UPGRADE_ITEM, StoreItemType.ORDER_COST, Settings.SpriteLibCategoryUpgradeItems, "", 8000, false),
+            new StoreGameObject("WAITER_SPEED", "Upgrade-9", ObjectType.UPGRADE_ITEM, StoreItemType.WAITER_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 9000, false),
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };

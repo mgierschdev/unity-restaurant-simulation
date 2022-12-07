@@ -9,8 +9,7 @@ public class UpgradeItemController : MonoBehaviour
     private Image background, imgComponent;
     private GameObject text;
     private TextMeshProUGUI textMesh;
-    private StoreItemType storeItemType;
-    private 
+    private StoreGameObject storeGameObject;
 
     void Awake()
     {
@@ -21,12 +20,11 @@ public class UpgradeItemController : MonoBehaviour
         text = transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
         textMesh = text.GetComponent<TextMeshProUGUI>();
         imgComponent = gameObject.GetComponent<Image>();
-        button.onClick.AddListener(() => UpgradeItem());
     }
     // Sets the Item image on the tab Menu for the current item
-    public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreItemType storeItemType)
+    public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreGameObject storeGameObject)
     {
-        this.storeItemType = storeItemType;
+        this.storeGameObject = storeGameObject;
         Sprite sp = Resources.Load<Sprite>(spReference);
         if (!sp)
         {
@@ -38,18 +36,28 @@ public class UpgradeItemController : MonoBehaviour
         textMesh.text = botLeftLabelValue;
     }
 
+    public StoreGameObject GetStoreGameObject()
+    {
+        return storeGameObject;
+    }
+
     public Button GetButton()
     {
         return button;
     }
 
-    public void UpgradeItem()
-    {
-        GameLog.Log("Clicking upgrade " + storeItemType);
-    }
-
     public void SetBackground(Color color)
     {
         background.color = color;
+    }
+
+    public void SetUnavailable()
+    {
+        imgComponent.color = Color.black;
+    }
+
+    public void SetAvailable()
+    {
+        imgComponent.color = Color.white;
     }
 }
