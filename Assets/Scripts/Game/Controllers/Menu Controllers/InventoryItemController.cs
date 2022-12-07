@@ -9,7 +9,7 @@ public class InventoryItemController : MonoBehaviour
     private Image background, imgComponent;
     private GameObject text;
     private TextMeshProUGUI textMesh;
-    private StoreItemType storeItemType;
+    private StoreGameObject storeGameObject;
 
     void Awake()
     {
@@ -22,9 +22,9 @@ public class InventoryItemController : MonoBehaviour
         imgComponent = gameObject.GetComponent<Image>();
     }
     // Sets the Item image on the tab Menu for the current item
-    public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreItemType storeItemType)
+    public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreGameObject storeGameObject)
     {
-        this.storeItemType = storeItemType;
+        this.storeGameObject = storeGameObject;
         Sprite sp = Resources.Load<Sprite>(spReference);
         if (!sp)
         {
@@ -34,6 +34,11 @@ public class InventoryItemController : MonoBehaviour
         }
         imgComponent.sprite = sp;
         textMesh.text = botLeftLabelValue;
+    }
+
+    public StoreGameObject GetStoreGameObject()
+    {
+        return storeGameObject;
     }
 
     public Button GetButton()
@@ -49,5 +54,10 @@ public class InventoryItemController : MonoBehaviour
     public void SetUnavailable()
     {
         imgComponent.color = Color.black;
+    }
+
+    public void SetAvailable()
+    {
+        imgComponent.color = Color.white;
     }
 }

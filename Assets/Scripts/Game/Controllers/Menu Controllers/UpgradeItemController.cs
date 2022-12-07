@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +10,7 @@ public class UpgradeItemController : MonoBehaviour
     private GameObject text;
     private TextMeshProUGUI textMesh;
     private StoreItemType storeItemType;
+    private 
 
     void Awake()
     {
