@@ -105,8 +105,7 @@ public class MenuHandlerController : MonoBehaviour
             }
             else if (currentTab == MenuTab.UPGRADE)
             {
-                //TODO: UpdateUpgradeItemsTab
-                //UpdateUpgradeScrollView();
+                UpdateUpgradeScrollView();
             }
             else if (currentTab == MenuTab.SETTINGS_TAB)
             {
@@ -114,6 +113,36 @@ public class MenuHandlerController : MonoBehaviour
             }
 
             yield return new WaitForSeconds(2);
+        }
+    }
+
+    private void UpdateUpgradeScrollView()
+    {
+        if (upgradeItemControllerList.Count == 0)
+        {
+            return;
+        }
+
+        foreach (UpgradeItemController upgradeItemController in upgradeItemControllerList)
+        {
+            Button button = upgradeItemController.GetButton();
+            button.onClick.RemoveAllListeners();
+
+            Pair<StoreGameObject, DataGameObject> pair = new Pair<StoreGameObject, DataGameObject>
+            {
+                Key = upgradeItemController.GetStoreGameObject()
+            };
+
+            if (upgradeItemController.GetStoreGameObject().Cost <= PlayerData.GetMoneyDouble())
+            {
+                button.onClick.AddListener(() => UpgradeItem(upgradeItemController.GetStoreGameObject()));
+                upgradeItemController.SetAvailable();
+            }
+            else
+            {
+                button.onClick.AddListener(() => EmptyClickListener());
+                upgradeItemController.SetUnavailable();
+            }
         }
     }
 
@@ -354,14 +383,23 @@ public class MenuHandlerController : MonoBehaviour
             // TODO: max employees we can define the number of counters here
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
-                //button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
+                button.onClick.AddListener(() => UpgradeItem(obj));
+            }
+            else
+            {
+                upgradeItemController.SetUnavailable();
             }
 
-            upgradeItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString(), obj.StoreItemType);
+            upgradeItemController.SetInventoryItem(obj.MenuItemSprite, obj.Cost.ToString(), obj);
             item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
             upgradeItemControllerList.Add(upgradeItemController);
         }
+    }
+
+    private void UpgradeItem(StoreGameObject storeGameObject)
+    {
+        Debug.Log("Upgrade " + storeGameObject.Identifier);
     }
 
     private void AddItemsToScrollView(MenuItem menu)
