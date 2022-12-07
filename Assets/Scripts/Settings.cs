@@ -1,7 +1,7 @@
 public static class Settings
 {
     // Player Config
-    public const bool PLAYER_WALK_WITH_KEYBOARD = false;
+    public const bool PLAYER_WALK_WITH_KEYBOARD = true;
     public const bool PLAYER_WALK_ON_CLICK = false;
     public const float PLAYER_MOVEMENT_SPEED = 1f;
 
