@@ -88,12 +88,12 @@ public static class Util
     }
     public static double EuclidianDistance(int[] coordA, int[] coordB)
     {
-        return System.Math.Sqrt(System.Math.Pow(coordA[0] - coordB[0], 2) + System.Math.Pow(coordA[1] - coordB[1], 2));
+        return Math.Sqrt(Math.Pow(coordA[0] - coordB[0], 2) + Math.Pow(coordA[1] - coordB[1], 2));
     }
 
     public static double EuclidianDistance(Vector3Int a, Vector3Int b)
     {
-        return System.Math.Sqrt(System.Math.Pow(a.x - b.x, 2) + System.Math.Pow(a.y - b.y, 2));
+        return Math.Sqrt(Math.Pow(a.x - b.x, 2) + Math.Pow(a.y - b.y, 2));
     }
 
     public static int[,] CloneGrid(int[,] grid)
