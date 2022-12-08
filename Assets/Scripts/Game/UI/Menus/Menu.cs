@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class MenuItem
@@ -6,12 +7,15 @@ public class MenuItem
     private MenuTab menuTab;
     private Button tabButton;
     public string name;
+    //Dictionary tabs and buttons, for main menus
+    public Dictionary<MenuTab, MenuItem> CenterMenuTabMap { get; set; }
 
     public MenuItem(MenuTab menuTab, MenuType type, string name)
     {
         this.menuTab = menuTab;
         this.name = name;
         this.type = type;
+        CenterMenuTabMap = new Dictionary<MenuTab, MenuItem>();
     }
 
     public MenuItem(MenuTab menuTab, MenuType type, string name, Button tabButton)
@@ -20,6 +24,7 @@ public class MenuItem
         this.menuTab = menuTab;
         this.name = name;
         this.type = type;
+        CenterMenuTabMap = new Dictionary<MenuTab, MenuItem>();
     }
 
     public MenuType GetMenuType()

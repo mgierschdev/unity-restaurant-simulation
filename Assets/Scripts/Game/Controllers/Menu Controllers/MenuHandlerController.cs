@@ -205,6 +205,11 @@ public class MenuHandlerController : MonoBehaviour
             Button bStore = controller.GetButton();
             MenuItem current = new MenuItem(tab, MenuType.TAB_MENU, tab.ToString(), bStore);
 
+            if (!centerTabMenu.CenterMenuTabMap.ContainsKey(tab))
+            {
+                centerTabMenu.CenterMenuTabMap.Add(tab, current);
+            }
+
             bStore.onClick.AddListener(() => AddMenuItemsToScrollView(current));
 
             // We save the tables tab button, to select it as soon as we open the menu
@@ -324,13 +329,6 @@ public class MenuHandlerController : MonoBehaviour
         Dictionary<StoreGameObject, int> objectDic = new Dictionary<StoreGameObject, int>();
         Dictionary<StoreGameObject, Pair<StoreGameObject, DataGameObject>> dicPair = new Dictionary<StoreGameObject, Pair<StoreGameObject, DataGameObject>>();
         List<DataGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
-
-        // if we dont have storage we disable the button
-        if (userStorage.Count == 0)
-        {
-            menu.GetTabButton().enabled = false;
-            return;
-        }
 
         foreach (DataGameObject fireObj in userStorage)
         {
@@ -596,8 +594,21 @@ public class MenuHandlerController : MonoBehaviour
     {
         HideMainMenuButton();
         centerPanel.SetActive(true);
+        CheckStorageButton();// check if we enable the storage button
         // Selecting the button at the same time of opening the menu
         tableTabButton.Select();
+    }
+
+
+    private void CheckStorageButton()
+    {
+        List<DataGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
+        // if we dont have storage we disable the button
+        if (userStorage.Count == 0)
+        {
+            centerTabMenu.CenterMenuTabMap[MenuTab.STORAGE_TAB].GetTabButton().interactable = false;
+            return;
+        }
     }
 
     private void SetCellSize(float sizeX, float sizeY)
