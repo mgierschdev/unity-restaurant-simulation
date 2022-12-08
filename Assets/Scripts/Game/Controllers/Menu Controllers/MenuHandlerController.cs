@@ -195,6 +195,8 @@ public class MenuHandlerController : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        List<DataGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
+
         // Set Menu buttons ButtonMenuPanel
         foreach (MenuTab tab in MenuTab.GetValues(typeof(MenuTab)))
         {
@@ -205,7 +207,16 @@ public class MenuHandlerController : MonoBehaviour
             Button bStore = controller.GetButton();
             MenuItem current = new MenuItem(tab, MenuType.TAB_MENU, tab.ToString(), bStore);
 
-            bStore.onClick.AddListener(() => AddMenuItemsToScrollView(current));
+
+            // if the storage is = 0 we disable the menu button
+            if (MenuTab.STORAGE_TAB == tab && userStorage.Count == 0)
+            {
+                bStore.enabled = false;
+            }
+            else
+            {
+                bStore.onClick.AddListener(() => AddMenuItemsToScrollView(current));
+            }
 
             // We save the tables tab button, to select it as soon as we open the menu
             if (MenuTab.STORE_ITEMS == tab)
@@ -324,13 +335,6 @@ public class MenuHandlerController : MonoBehaviour
         Dictionary<StoreGameObject, int> objectDic = new Dictionary<StoreGameObject, int>();
         Dictionary<StoreGameObject, Pair<StoreGameObject, DataGameObject>> dicPair = new Dictionary<StoreGameObject, Pair<StoreGameObject, DataGameObject>>();
         List<DataGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
-
-        // if we dont have storage we disable the button
-        if (userStorage.Count == 0)
-        {
-            menu.GetTabButton().enabled = false;
-            return;
-        }
 
         foreach (DataGameObject fireObj in userStorage)
         {
