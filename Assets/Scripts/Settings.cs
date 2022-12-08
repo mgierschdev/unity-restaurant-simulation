@@ -3,7 +3,7 @@ public static class Settings
     // General Config
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
-    public const float NpcDefaultMovementSpeed = 1f; //1 = Looks good with current animation
+    public const float NpcDefaultMovementSpeed = 5f; //1 = Looks good with current animation
 
 #if UNITY_EDITOR
     public const bool devEnv = true;

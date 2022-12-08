@@ -46,7 +46,8 @@ public class BaseObjectController : MonoBehaviour
     {
         try
         {
-            if ((gameGridObject == null && storeGameObject != null) || Menu.IsMenuOpen())
+            // TODO: Machines not loading while the menu is open, top item animation
+            if (gameGridObject == null && storeGameObject != null)
             {
                 return;
             }
@@ -67,8 +68,8 @@ public class BaseObjectController : MonoBehaviour
     private void UpdateOnMouseDown()
     {
 
-        //TODO: define autoload here: gameGridObject.GetIsItemReady
-        // For GetLoadItemSlider, store item
+        Debug.Log(!gameGridObject.GetIsObjectSelected() + " " + !ObjectDraggingHandler.GetIsDraggingEnabled() + " " + !gameGridObject.GetLoadItemSlider().IsActive());
+        //TODO: define autoload here, without object being clicked
         if (gameGridObject != null &&
         !gameGridObject.GetStoreGameObject().HasActionPoint &&
         !gameGridObject.GetIsItemReady() &&
@@ -140,6 +141,10 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateMoveSelectionSlider()
     {
+        if(Menu.IsMenuOpen()){
+            return;
+        }
+
         // Selecting the item while pressing over it
         if (timeClicking > Settings.TimeBeforeTheSliderIsEnabled &&
         !gameGridObject.GetIsObjectSelected() &&
