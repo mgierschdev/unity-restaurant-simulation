@@ -16,7 +16,6 @@ public class MenuHandlerController : MonoBehaviour
     private TextMeshProUGUI menuPanelTitle;
     private List<RectTransform> visibleRects;
     private MenuBackgroundController menuBackgroundController;
-    private Button tableTabButton;
     private GridLayoutGroup gridLayoutGroup;
     // Scroll view content
     private List<UpgradeItemController> upgradeItemControllerList;
@@ -24,6 +23,8 @@ public class MenuHandlerController : MonoBehaviour
     private SettingsPanelController settingsPanelController;
     // Current menu tab open
     private MenuTab currentTab;
+    //Dictionary tabs and buttons, for main menus
+    private Dictionary<MenuTab, Button> centerMenuTabMap;
 
     // MenuHandlerController Attached to CanvasMenu Parent of all Menus
     private void Awake()
@@ -80,13 +81,13 @@ public class MenuHandlerController : MonoBehaviour
 
         //Center tab menus tabs
         centerTabMenu = new MenuItem(MenuTab.STORE_ITEMS, MenuType.TAB_MENU, Settings.ConstCenterTabMenu);
+        centerMenuTabMap = new Dictionary<MenuTab, Button>();
         currentTab = MenuTab.STORE_ITEMS;
 
         // Loading left side buttons from the center panel
         LoadCenterPanelSideMenu();
         // Setting Click Listeners to Left Down Panel
         SetLeftDownPanelClickListeners();
-        LoadCenterPanelSideMenu();
         CloseCenterPanel();
         StartCoroutine(UpdateUI());
     }
@@ -203,20 +204,14 @@ public class MenuHandlerController : MonoBehaviour
             controller.SetText(MenuObjectList.GetButtonLabel(tab));
             button.transform.SetParent(centerPanelSideMenu.transform);
             Button bStore = controller.GetButton();
-            MenuItem current = new MenuItem(tab, MenuType.TAB_MENU, tab.ToString(), bStore);
+            MenuItem current = new MenuItem(tab, MenuType.TAB_MENU, tab.ToString());
 
-            if (!centerTabMenu.CenterMenuTabMap.ContainsKey(tab))
+            if (!centerMenuTabMap.ContainsKey(tab))
             {
-                centerTabMenu.CenterMenuTabMap.Add(tab, current);
+                centerMenuTabMap.Add(tab, bStore);
             }
 
             bStore.onClick.AddListener(() => AddMenuItemsToScrollView(current));
-
-            // We save the tables tab button, to select it as soon as we open the menu
-            if (MenuTab.STORE_ITEMS == tab)
-            {
-                tableTabButton = bStore;
-            }
         }
     }
 
@@ -596,18 +591,22 @@ public class MenuHandlerController : MonoBehaviour
         centerPanel.SetActive(true);
         CheckStorageButton();// check if we enable the storage button
         // Selecting the button at the same time of opening the menu
+        Button tableTabButton = centerMenuTabMap[MenuTab.STORE_ITEMS];
         tableTabButton.Select();
     }
-
 
     private void CheckStorageButton()
     {
         List<DataGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
+        Button button = centerMenuTabMap[MenuTab.STORAGE_TAB];
         // if we dont have storage we disable the button
         if (userStorage.Count == 0)
         {
-            centerTabMenu.CenterMenuTabMap[MenuTab.STORAGE_TAB].GetTabButton().interactable = false;
-            return;
+            button.interactable = false;
+        }
+        else
+        {
+            button.interactable = true;
         }
     }
 

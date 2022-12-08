@@ -23,4 +23,10 @@ public class CenterTabMenuBottonController : MonoBehaviour
     {
         return button;
     }
+
+    public Button LoadAndGetButton()
+    {
+        button = transform.GetComponent<Button>();
+        return button;
+    }
 }
