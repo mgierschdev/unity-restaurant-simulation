@@ -577,7 +577,7 @@ public static class Util
             {
                 prefix += ammountStr[i];
             }
-            return prefix + " K";
+            return prefix + "K";
         }
 
         return "";
