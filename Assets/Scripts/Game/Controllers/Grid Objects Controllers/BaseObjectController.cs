@@ -67,19 +67,18 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateOnMouseDown()
     {
-
-        Debug.Log(!gameGridObject.GetIsObjectSelected() + " " + !ObjectDraggingHandler.GetIsDraggingEnabled() + " " + !gameGridObject.GetLoadItemSlider().IsActive());
-        //TODO: define autoload here, without object being clicked
-        if (gameGridObject != null &&
-        !gameGridObject.GetStoreGameObject().HasActionPoint &&
-        !gameGridObject.GetIsItemReady() &&
-        !gameGridObject.GetIsObjectSelected() &&
-        !ObjectDraggingHandler.GetIsDraggingEnabled() &&
-        !gameGridObject.GetLoadItemSlider().IsActive()
-        )
-        {
-            SetLoadSliderActive();
-        }
+        // TODO: define autoload here, without object being clicked
+        // Debug.Log(!gameGridObject.GetIsObjectSelected() + " " + !ObjectDraggingHandler.GetIsDraggingEnabled() + " " + !gameGridObject.GetLoadItemSlider().IsActive());
+        // if (gameGridObject != null &&
+        // !gameGridObject.GetStoreGameObject().HasActionPoint &&
+        // !gameGridObject.GetIsItemReady() &&
+        // !gameGridObject.GetIsObjectSelected() &&
+        // !ObjectDraggingHandler.GetIsDraggingEnabled() &&
+        // !gameGridObject.GetLoadItemSlider().IsActive()
+        // )
+        // {
+        //     SetLoadSliderActive();
+        // }
 
         if (Input.GetMouseButtonDown(0) && clickController.GetGameGridClickedObject() == gameGridObject)
         {

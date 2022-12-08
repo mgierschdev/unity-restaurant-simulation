@@ -560,4 +560,26 @@ public static class Util
         BussGrid.DrawCell(leftTopCorner);
         BussGrid.DrawCell(rightTopCorner);
     }
+
+
+    public static string convertToTextAndReduceCurrency(Double ammount)
+    {
+        string ammountStr = ammount.ToString();
+
+        if (ammountStr.Length <= 4)
+        {
+            return ammount.ToString();
+        }
+        else if (ammountStr.Length > 4)
+        {
+            string prefix = "";
+            for (int i = 0; i < ammountStr.Length - 3; i++)
+            {
+                prefix += ammountStr[i];
+            }
+            return prefix + " K";
+        }
+
+        return "";
+    }
 }
