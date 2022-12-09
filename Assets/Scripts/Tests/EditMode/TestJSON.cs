@@ -8,7 +8,6 @@ public class TestJSON
     public void TestSaveUserJSON()
     {
         DataGameUser user = PlayerData.GetNewUser();
-
         GameLog.Log("Datetime " + user.LAST_SAVE);
         user.SaveToJSONFileAsync();
     }
