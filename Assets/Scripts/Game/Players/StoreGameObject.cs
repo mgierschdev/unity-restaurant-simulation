@@ -7,6 +7,7 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
     public int Cost { get; set; }
     public ObjectType Type { get; set; }
     public StoreItemType StoreItemType { get; set; }
+    public UpgradeType UpgradeType { get; set; }
     public string MenuItemSprite { get; set; }
     public string SpriteLibCategory { get; set; }
     public string PrefabLocation { get; set; }
@@ -19,6 +20,19 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
         Cost = cost;
         Type = type;
         StoreItemType = tableType;
+        MenuItemSprite = Settings.StoreSpritePath + identifier;
+        SpriteLibCategory = categorySprite;
+        PrefabLocation = prefabLocation;
+        HasActionPoint = hasActionPoint;
+    }
+
+    public StoreGameObject(string name, string identifier, ObjectType type, UpgradeType upgradeType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint)
+    {
+        Identifier = identifier;
+        Name = name;
+        Cost = cost;
+        Type = type;
+        UpgradeType = upgradeType;
         MenuItemSprite = Settings.StoreSpritePath + identifier;
         SpriteLibCategory = categorySprite;
         PrefabLocation = prefabLocation;

@@ -183,7 +183,6 @@ public static class PlayerData
             AUTH_TYPE = (int)AuthSource.ANONYMOUS,
             LAST_SAVE = DateTime.Now.ToFileTimeUtc(),
             CREATED_AT = DateTime.Now.ToFileTimeUtc(),
-            GRID_SIZE = Settings.InitGridSize,
             OBJECTS = new List<DataGameObject>{
                     new DataGameObject{
                         ID = (int) StoreItemType.STORE_ITEM_ORANGE_JUICE,
@@ -214,20 +213,16 @@ public static class PlayerData
             }
         };
 
-        foreach (StoreItemType storeItemType in Enum.GetValues(typeof(StoreItemType)))
+        foreach (UpgradeType upgradeType in Enum.GetValues(typeof(UpgradeType)))
         {
-            if (storeItemType == StoreItemType.UPGRADE_ITEM || storeItemType == StoreItemType.UNDEFINED)
-            {
-                continue;
-            }
-
             dataGameUser.UPGRADES.Add(new UpgradeGameObject
             {
-                ID = (int)storeItemType,
+                ID = (int)upgradeType,
                 UPGRADE_NUMBER = 0
             });
         }
 
+        dataGameUser.SetUpgrade(UpgradeType.GRID_SIZE, Settings.InitGridSize);
         return dataGameUser;
     }
 
@@ -277,7 +272,7 @@ public static class PlayerData
     // Return the buss floor depending on the grid size
     public static string GetTileBussFloor()
     {
-        int gridSize = user.GRID_SIZE;
+        int gridSize = user.GetUpgrade(UpgradeType.GRID_SIZE);
 
         switch (gridSize)
         {

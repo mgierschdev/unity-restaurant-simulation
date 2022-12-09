@@ -15,8 +15,6 @@ public class DataGameUser
     [SerializeField]
     public int LEVEL;
     [SerializeField]
-    public int GRID_SIZE;
-    [SerializeField]
     public string LANGUAGE_CODE;
     [SerializeField]
     public string INTERNAL_ID;
@@ -75,5 +73,15 @@ public class DataGameUser
         string today = date.Day + "-" + date.Month + "-" + date.Year;
         string name = today + Settings.SaveFileSuffix;
         return Settings.devEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
+    }
+
+    public void SetUpgrade(UpgradeType type, int value)
+    {
+        UPGRADES[(int)type].UPGRADE_NUMBER = value;
+    }
+
+    public int GetUpgrade(UpgradeType type)
+    {
+        return UPGRADES[(int)type].UPGRADE_NUMBER;
     }
 }
