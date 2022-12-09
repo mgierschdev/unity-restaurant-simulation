@@ -142,7 +142,6 @@ public class MenuHandlerController : MonoBehaviour
             }
             else
             {
-                button.onClick.AddListener(() => EmptyClickListener());
                 upgradeItemController.SetUnavailable();
             }
         }

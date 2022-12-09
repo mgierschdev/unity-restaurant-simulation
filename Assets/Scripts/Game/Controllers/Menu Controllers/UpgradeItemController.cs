@@ -37,7 +37,7 @@ public class UpgradeItemController : MonoBehaviour
         }
         imgComponent.sprite = sp;
         textMeshCost.text = botLeftLabelValue;
-        textMeshCurrentUpgrade.text = "Current: "+PlayerData.GetUgrade(storeGameObject.UpgradeType).ToString();
+        textMeshCurrentUpgrade.text = PlayerData.GetUgrade(storeGameObject.UpgradeType).ToString();
     }
 
     public StoreGameObject GetStoreGameObject()
