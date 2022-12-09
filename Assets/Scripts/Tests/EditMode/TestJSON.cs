@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 public class TestJSON
@@ -7,6 +8,8 @@ public class TestJSON
     public void TestSaveUserJSON()
     {
         DataGameUser user = PlayerData.GetNewUser();
+
+        GameLog.Log("Datetime " + user.LAST_SAVE);
         user.SaveToJSONFileAsync();
     }
 
@@ -28,18 +31,18 @@ public class TestJSON
             GameLog.Log("Name " + loadUser.NAME);
         }
 
+        GameLog.Log("loadUser.LAST_LOGIN " + new DateTime(loadUser.LAST_SAVE));
+        GameLog.Log("user.LAST_LOGIN " + new DateTime(user.LAST_SAVE));
         GameLog.Log(user.NAME + " " + loadUser.NAME);
 
         Assert.AreEqual(user.NAME, loadUser.NAME);
         Assert.AreEqual(user.AUTH_TYPE, loadUser.AUTH_TYPE);
-        Assert.AreEqual(user.CREATED_AT, loadUser.CREATED_AT);
         Assert.AreEqual(user.EMAIL, loadUser.EMAIL);
         Assert.AreEqual(user.EXPERIENCE, loadUser.EXPERIENCE);
         Assert.AreEqual(user.GAME_MONEY, loadUser.GAME_MONEY);
         Assert.AreEqual(user.GEMS, loadUser.GEMS);
         Assert.AreEqual(user.GRID_SIZE, loadUser.GRID_SIZE);
         Assert.AreEqual(user.LANGUAGE_CODE, loadUser.LANGUAGE_CODE);
-        Assert.AreEqual(user.LAST_LOGIN, loadUser.LAST_LOGIN);
         Assert.AreEqual(user.LEVEL, loadUser.LEVEL);
 
         for (int i = 0; i < user.OBJECTS.Count; i++)

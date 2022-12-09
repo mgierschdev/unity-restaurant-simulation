@@ -181,8 +181,8 @@ public static class PlayerData
             LEVEL = Settings.InitLevel,
             EMAIL = "undefined@undefined.com",
             AUTH_TYPE = (int)AuthSource.ANONYMOUS,
-            LAST_LOGIN = new DateTime(),
-            CREATED_AT = new DateTime(),
+            LAST_SAVE = DateTime.Now.ToFileTimeUtc(),
+            CREATED_AT = DateTime.Now.ToFileTimeUtc(),
             GRID_SIZE = Settings.InitGridSize,
             OBJECTS = new List<DataGameObject>{
                     new DataGameObject{
@@ -259,6 +259,7 @@ public static class PlayerData
 
     public static void SaveGame()
     {
+        user.LAST_SAVE = DateTime.Now.ToFileTimeUtc();
         user.SaveToJSONFileAsync();
     }
 

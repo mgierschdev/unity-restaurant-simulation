@@ -25,9 +25,9 @@ public class DataGameUser
     [SerializeField]
     public int AUTH_TYPE;
     [SerializeField]
-    public DateTime LAST_LOGIN;
+    public long LAST_SAVE;
     [SerializeField]
-    public DateTime CREATED_AT;
+    public long CREATED_AT;
     [SerializeField]
     public List<DataGameObject> OBJECTS;
     public List<UpgradeGameObject> UPGRADES;
