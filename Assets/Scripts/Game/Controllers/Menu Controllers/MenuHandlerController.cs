@@ -317,7 +317,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddStorageItemsToScrollView(MenuItem menu)
     {
-        List<StoreGameObject> objects = MenuObjectList.GetItemList(MenuTab.STORAGE_TAB);
+        List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
         GameObject item;
         InventoryItemController inventoryItemController;
         Button button;

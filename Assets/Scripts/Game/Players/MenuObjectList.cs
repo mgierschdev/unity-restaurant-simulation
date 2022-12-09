@@ -62,8 +62,8 @@ public static class MenuObjectList
 
         foreach (StoreGameObject storeItem in AllStoreItems)
         {
-            StoreItemDictionary.Add(storeItem.Identifier, storeItem);
-            StoreItemTypeDic.Add(storeItem.StoreItemType, storeItem);
+            StoreItemDictionary.TryAdd(storeItem.Identifier, storeItem);
+            StoreItemTypeDic.TryAdd(storeItem.StoreItemType, storeItem);
 
             if (storeItem.Type == ObjectType.STORE_ITEM || storeItem.HasActionPoint)
             {
