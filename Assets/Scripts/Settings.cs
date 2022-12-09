@@ -21,8 +21,8 @@ public static class Settings
     ZoomSpeed = 35,
     ZoomSpeedPinch = 8f,
     MinZoomSize = 0.5f, // the max zoom in
-    MaxZoomSize = 2f, // the max zoom out
-    MinTimeToEnablePerspectiveHand = 0.5f;
+    MaxZoomSize = 2f; // the max zoom out
+
     public static int ConstDefaultCameraOrthographicsize = 7;
 
     //Init start attributes
@@ -80,8 +80,7 @@ public static class Settings
 
     //SCENES
     public const string LoadScene = "LoadScene",
-    GameScene = "GameScene",
-    SliderProgress = "SliderProgress";
+    GameScene = "GameScene";
 
     //STORE SPRITES
     public const string StoreSpritePath = "Objects/Sprites/",
@@ -105,10 +104,6 @@ public static class Settings
     TilemapBusinessFloor_Decoration = "TilemapBusinessFloor_Decoration",
     PathFindingGrid = "PathFindingGrid";
 
-    //OBJECTS PREFIXES
-    public const string StoreItemsPrefix = "STORE",
-    CounterPrefix = "COUNTER";
-
     //SPRITE LIBS CATEGORIES
     public const string SpriteLibCategoryTables = "Tables",
     SpriteLibCategoryStoreItems = "Store",
@@ -121,8 +116,6 @@ public static class Settings
     PrefabSingleTable = "Objects/SingleTable",
     PrefabCounter = "Objects/Counter",
     PrefabBaseStoreItem = "Objects/BaseStoreItem",
-    ObjectRotationFrontInverted = "Inverted",
-    ObjectRotationFront = "Front",
     PrefabPlayer = "Players/Player",
     PrefabNpcClient = "Players/Client",
     PrefabNpcEmployee = "Players/Employee",
@@ -135,16 +128,13 @@ public static class Settings
     SettingsMenuSaveButton = "SaveItem/SaveButton",
     SettingsMenuStatsText = "StatsContent/StatsText",
     PrefabInventoryItemImage = "Image",
-    PrefabUpgradeItemButton = "RightContainer/Button",
     PrefabMenuInventoryItemImage = "Image/ItemImage",
     PrefabInventoryItemTextPrice = "Image/TextBackground/Price",
     BaseObjectUnderTile = "Object/Tiles/UnderTile",
     BaseObjectActionTile = "Object/Tiles/ActionTile",
     BaseObjectActionTile2 = "Object/Tiles/ActionTile2",
     BaseObjectSpriteRenderer = "Object",
-    BaseObjectTopObject = "TopObject",
-    TopObjectInfoSprite = "Sprites",
-    undefined = "undefined";
+    TopObjectInfoSprite = "Sprites";
 
     //UI Constants
     public const string ConstNpcProfileMenu = "NPCProfile",
@@ -160,9 +150,6 @@ public static class Settings
     ConstButtonMenuPanel = "ButtonMenuPanel",
     ConstLeftDownPanel = "LeftDownPanel",
     ConstEditItemMenuPanel = "EditPanelItem",
-    ConstEditTopItemMenuPanel = "EditPanelTopItem",
-    ConstEditStoreMenuCancel = "Cancel",
-    ConstEditStoreMenuAccept = "Accept",
     ConstEditStoreMenuRotateLeft = "ButtonRotateLeft",
     ConstEditStoreMenuButtonAccept = "ButtonAccept",
     ConstEditStoreMenuButtonCancel = "ButtonCancel";
@@ -181,19 +168,13 @@ public static class Settings
     ClientContainerGraphDebuger = "ClientContainerGraphDebuger",
     EmployeeContainerGraphDebuger = "EmployeeContainerGraphDebuger",
     ComboBoxContainer = "ComboBoxContainer",
-    GraphLevel = "GraphLevel",
-    NODE = "NODE",
     EMPLOYEE_PREFIX = "EMPLOYEE",
     IsometricWorldDebugUI = "Assets/Editor/IsometricWorldDebug.uxml",
     IsometricWorldDebugUIStyles = "Assets/Editor/IsometricWorldDebug.uss",
     IsometricWorldDebugUIStateMachine = "Assets/Editor/StatemachineWorldDebug.uxml",
     IsometricWorldDebugUIStylesStateMachine = "Assets/Editor/StatemachineWorldDebug.uss";
 
-    //SCENE
-    public const string MainCamera = "MainCamera";
-
     //Tiles
     public const string GridTilesSimple = "Grid/Tiles/GridTile",
-    GridTilesFloorBrown = "Objects/Sprites/Floor/Floor-Brown",
-    GridTilesHighlightedFloor = "Grid/Tiles/HighlightedFloor@3x";
+    GridTilesFloorBrown = "Objects/Sprites/Floor/Floor-Brown";
 }

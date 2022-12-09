@@ -69,9 +69,7 @@ public class DataGameUser
 
     public static string GetSaveFileName()
     {
-        DateTime date = DateTime.Now;
-        string today = date.Day + "-" + date.Month + "-" + date.Year;
-        string name = today + Settings.SaveFileSuffix;
+        string name = Settings.SaveFileSuffix;
         return Settings.devEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
     }
 
