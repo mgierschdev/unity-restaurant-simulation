@@ -37,6 +37,7 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
         SpriteLibCategory = categorySprite;
         PrefabLocation = prefabLocation;
         HasActionPoint = hasActionPoint;
+        StoreItemType = StoreItemType.UNDEFINED;
     }
 
     // Default comparer for StoreGameObject cost type.

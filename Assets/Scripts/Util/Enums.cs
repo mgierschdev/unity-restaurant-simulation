@@ -145,20 +145,19 @@ public enum StoreItemType
     UNDEFINED = 999
 }
 
-// Research items
+// Research items, intended to be 0 indexed, same as DB
 public enum UpgradeType
 {
-    GRID_SIZE = 1,
-    NUMBER_WAITERS = 2,
-    WAITER_SPEED = 3,
-    NUMBER_CLIENTS = 4,
-    CLIENT_SPEED = 5,
-    ORDER_COST = 6,
-    OFFLINE_MONEY_LIMIT = 7,
-    OFFLINE_MONEY_PERCENTAGE_INCREASE = 8,
-    CLIENT_MAX_WAITING_TIME = 9,
-    UPGRADE_ITEM_ORANGE_JUICE = 10,
-    UNDEFINED = 999
+    GRID_SIZE = 0,
+    NUMBER_WAITERS = 1,
+    WAITER_SPEED = 2,
+    NUMBER_CLIENTS = 3,
+    CLIENT_SPEED = 4,
+    ORDER_COST = 5,
+    OFFLINE_MONEY_LIMIT = 6,
+    OFFLINE_MONEY_PERCENTAGE_INCREASE = 7,
+    CLIENT_MAX_WAITING_TIME = 8,
+    UPGRADE_ITEM_ORANGE_JUICE = 9
 }
 
 // Items given the type of store item
