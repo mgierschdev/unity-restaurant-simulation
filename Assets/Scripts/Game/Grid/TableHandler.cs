@@ -7,7 +7,6 @@ public static class TableHandler
 
     public static void Init()
     {
-        // BussObjectsMap 
         BussQueueMap = new ConcurrentDictionary<GameGridObject, byte>();
     }
 

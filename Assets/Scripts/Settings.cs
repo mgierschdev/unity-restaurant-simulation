@@ -56,6 +56,7 @@ public static class Settings
     CameraPerspectiveHandClampY = { -20, 20f }; // X = -8, 1 || Y = Initial default -8, 1
     public const float CameraFollowInterpolation = 0.034f;
 
+
     //UI : Camera
     public const int ConstDefaultCameraWidth = 1500,
     ConstDefaultCameraHeight = 1600;
@@ -130,6 +131,8 @@ public static class Settings
     PrefabInventoryItemImage = "Image",
     PrefabMenuInventoryItemImage = "Image/ItemImage",
     PrefabInventoryItemTextPrice = "Image/TextBackground/Price",
+    PrefabUpgradeItemTextPrice = "Image/CostTextBackground/Price",
+    PrefabUpgradeLevelItemTextPrice = "Image/CurrentTextBackground/Level",
     BaseObjectUnderTile = "Object/Tiles/UnderTile",
     BaseObjectActionTile = "Object/Tiles/ActionTile",
     BaseObjectActionTile2 = "Object/Tiles/ActionTile2",

@@ -269,6 +269,11 @@ public static class PlayerData
         return user;
     }
 
+    public static int GetUgrade(UpgradeType upgradeType)
+    {
+        return user.GetUpgrade(upgradeType);
+    }
+
     // Return the buss floor depending on the grid size
     public static string GetTileBussFloor()
     {

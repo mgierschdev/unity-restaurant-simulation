@@ -7,8 +7,8 @@ public class UpgradeItemController : MonoBehaviour
     private Button button;
     private GameObject img;
     private Image background, imgComponent;
-    private GameObject text;
-    private TextMeshProUGUI textMesh;
+    private GameObject textCost, textCurrentUpgrade;
+    private TextMeshProUGUI textMeshCost, textMeshCurrentUpgrade;
     private StoreGameObject storeGameObject;
 
     void Awake()
@@ -17,10 +17,13 @@ public class UpgradeItemController : MonoBehaviour
         img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
         GameObject gameObject = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
         background = img.GetComponent<Image>();
-        text = transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
-        textMesh = text.GetComponent<TextMeshProUGUI>();
+        textCost = transform.Find(Settings.PrefabUpgradeItemTextPrice).gameObject;
+        textCurrentUpgrade = transform.Find(Settings.PrefabUpgradeLevelItemTextPrice).gameObject;
+        textMeshCost = textCost.GetComponent<TextMeshProUGUI>();
+        textMeshCurrentUpgrade = textCurrentUpgrade.GetComponent<TextMeshProUGUI>();
         imgComponent = gameObject.GetComponent<Image>();
     }
+
     // Sets the Item image on the tab Menu for the current item
     public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreGameObject storeGameObject)
     {
@@ -33,7 +36,8 @@ public class UpgradeItemController : MonoBehaviour
             sp = Resources.Load<Sprite>(spReference);
         }
         imgComponent.sprite = sp;
-        textMesh.text = botLeftLabelValue;
+        textMeshCost.text = botLeftLabelValue;
+        textMeshCurrentUpgrade.text = "Current: "+PlayerData.GetUgrade(storeGameObject.UpgradeType).ToString();
     }
 
     public StoreGameObject GetStoreGameObject()
