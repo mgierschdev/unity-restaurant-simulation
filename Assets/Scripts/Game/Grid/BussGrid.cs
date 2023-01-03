@@ -96,6 +96,14 @@ public static class BussGrid
         TilemapWalkingPath.color = new Color(1, 1, 1, 0.0f);
         TilemapGameFloor.color = new Color(1, 1, 1, 0.0f);
 
+        if (Settings.CellDebug)
+        {
+            TilemapPathFinding.color = new Color(1, 1, 1, 0.3f);
+            TilemapColliders.color = new Color(1, 1, 1, 0.3f);
+            TilemapWalkingPath.color = new Color(1, 1, 1, 0.3f);
+            TilemapGameFloor.color = new Color(1, 1, 1, 0.3f);
+        }
+
         // TEMP, until we have floors
         TilemapGameFloor.color = new Color(1, 1, 1, 0.4f);
 
