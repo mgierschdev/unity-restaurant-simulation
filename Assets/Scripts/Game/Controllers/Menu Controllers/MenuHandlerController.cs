@@ -358,6 +358,7 @@ public class MenuHandlerController : MonoBehaviour
             button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
 
             inventoryItemController.SetInventoryItem(entry.Key.MenuItemSprite, entry.Value.ToString(), entry.Key);
+            inventoryItemController.SetAvailable();
             item.transform.SetParent(scrollViewContent.transform);
             item.transform.localScale = new Vector3(1, 1, 1);
         }
@@ -386,6 +387,7 @@ public class MenuHandlerController : MonoBehaviour
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => UpgradeItem(obj));
+                upgradeItemController.SetAvailable();
             }
             else
             {
@@ -427,6 +429,7 @@ public class MenuHandlerController : MonoBehaviour
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
+                inventoryItemController.SetAvailable();
             }
             else
             {
