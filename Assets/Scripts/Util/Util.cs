@@ -582,4 +582,16 @@ public static class Util
 
         return "";
     }
+
+    public static Sprite LoadSpriteResource(string name)
+    {
+        Sprite sp = Resources.Load<Sprite>(name);
+        if (!sp)
+        {
+            GameLog.LogWarning("Sprite not found SetInventoryItem() " + name);
+            name = Settings.StoreSpritePath + Settings.DefaultSquareSprite;
+            sp = Resources.Load<Sprite>(name);
+        }
+        return sp;
+    }
 }
