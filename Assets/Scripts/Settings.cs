@@ -84,7 +84,7 @@ public static class Settings
     GameScene = "GameScene";
 
     //STORE SPRITES
-    public const string StoreSpritePath = "Objects/Sprites/",
+    public const string StoreSpritePath = "Sprites/",
     DefaultSquareSprite = "Sprite-Default";
 
     // TILEMAPS
@@ -178,6 +178,6 @@ public static class Settings
     IsometricWorldDebugUIStylesStateMachine = "Assets/Editor/StatemachineWorldDebug.uss";
 
     //Tiles
-    public const string GridTilesSimple = "Grid/Tiles/GridTile",
-    GridTilesFloorBrown = "Objects/Sprites/Floor/Floor-Brown";
+    public const string GridTilesSimple = "Sprites/Tiles/GridTile",
+    GridTilesFloorBrown = "Sprites/Floor-Brown";
 }
