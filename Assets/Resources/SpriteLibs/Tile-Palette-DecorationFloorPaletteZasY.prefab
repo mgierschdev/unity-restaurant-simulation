@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7265064285290482428}
   - component: {fileID: 1266873004336503412}
   m_Layer: 0
-  m_Name: DecorationFloorPaletteZasY
+  m_Name: Tile-Palette-DecorationFloorPaletteZasY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

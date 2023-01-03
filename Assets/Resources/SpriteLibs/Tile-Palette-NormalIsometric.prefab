@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 153271950321630873}
   - component: {fileID: 1163280869602670007}
   m_Layer: 0
-  m_Name: NormalIsometric
+  m_Name: Tile-Palette-NormalIsometric
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
