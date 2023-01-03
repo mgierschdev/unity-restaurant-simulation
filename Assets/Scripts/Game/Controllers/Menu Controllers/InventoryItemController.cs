@@ -25,6 +25,7 @@ public class InventoryItemController : MonoBehaviour
     public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreGameObject storeGameObject)
     {
         this.storeGameObject = storeGameObject;
+        transform.name = storeGameObject.StoreItemType.ToString();
         Sprite sp = Resources.Load<Sprite>(spReference);
         if (!sp)
         {
