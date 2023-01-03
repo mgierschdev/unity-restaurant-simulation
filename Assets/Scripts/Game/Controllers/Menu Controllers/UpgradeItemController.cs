@@ -29,13 +29,7 @@ public class UpgradeItemController : MonoBehaviour
     {
         this.storeGameObject = storeGameObject;
         transform.name = storeGameObject.UpgradeType.ToString();
-        Sprite sp = Resources.Load<Sprite>(spReference);
-        if (!sp)
-        {
-            GameLog.LogWarning("Sprite not found SetInventoryItem() " + spReference);
-            spReference = Settings.StoreSpritePath + Settings.DefaultSquareSprite;
-            sp = Resources.Load<Sprite>(spReference);
-        }
+        Sprite sp = MenuObjectList.ObjectSprites[spReference];
         imgComponent.sprite = sp;
         textMeshCost.text = botLeftLabelValue;
         textMeshCurrentUpgrade.text = PlayerData.GetUgrade(storeGameObject.UpgradeType).ToString();

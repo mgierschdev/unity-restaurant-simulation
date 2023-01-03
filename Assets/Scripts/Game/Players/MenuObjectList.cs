@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class MenuObjectList
 {
@@ -11,10 +12,12 @@ public static class MenuObjectList
     public static Dictionary<string, StoreGameObject> StoreItemDictionary;
     //Object Sprite Library Identifier / StoreObject
     public static Dictionary<StoreItemType, StoreGameObject> StoreItemTypeDic;
+    public static Dictionary<string, Sprite> ObjectSprites;
 
     public static void Init()
     {
         SetAllItems();
+        LoadItemsSprites();
     }
     public static void SetAllItems()
     {
@@ -26,6 +29,7 @@ public static class MenuObjectList
 
         StoreItemDictionary = new Dictionary<string, StoreGameObject>();
         StoreItemTypeDic = new Dictionary<StoreItemType, StoreGameObject>();
+        ObjectSprites = new Dictionary<string, Sprite>();
 
         AllStoreItems = new List<StoreGameObject>{
             new StoreGameObject("Wooden table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 320, true),
@@ -176,5 +180,16 @@ public static class MenuObjectList
             }
         }
         return storage;
+    }
+
+    public static void LoadItemsSprites()
+    {
+        foreach (StoreGameObject storeGameObject in AllStoreItems)
+        {
+            if (!ObjectSprites.ContainsKey(storeGameObject.MenuItemSprite) && !storeGameObject.MenuItemSprite.Contains("UNDEFINED"))
+            {
+                ObjectSprites.Add(storeGameObject.MenuItemSprite, Util.LoadSpriteResource(storeGameObject.MenuItemSprite));
+            }
+        }
     }
 }

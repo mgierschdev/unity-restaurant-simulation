@@ -26,13 +26,7 @@ public class InventoryItemController : MonoBehaviour
     {
         this.storeGameObject = storeGameObject;
         transform.name = storeGameObject.StoreItemType.ToString();
-        Sprite sp = Resources.Load<Sprite>(spReference);
-        if (!sp)
-        {
-            GameLog.LogWarning("Sprite not found SetInventoryItem() " + spReference);
-            spReference = Settings.StoreSpritePath + Settings.DefaultSquareSprite;
-            sp = Resources.Load<Sprite>(spReference);
-        }
+        Sprite sp = MenuObjectList.ObjectSprites[spReference];
         imgComponent.sprite = sp;
         textMesh.text = botLeftLabelValue;
     }
