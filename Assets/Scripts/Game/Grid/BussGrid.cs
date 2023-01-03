@@ -104,7 +104,7 @@ public static class BussGrid
             TilemapGameFloor.color = new Color(1, 1, 1, 0.3f);
         }
 
-        // TEMP, until we have floors
+        // TODO: TEMP, until we have floors
         TilemapGameFloor.color = new Color(1, 1, 1, 0.4f);
 
         pathFind = new PathFind();
