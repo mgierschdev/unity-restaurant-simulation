@@ -130,6 +130,7 @@ public static class Settings
     SettingsMenuStatsText = "StatsContent/StatsText",
     PrefabInventoryItemImage = "Image",
     PrefabMenuInventoryItemImage = "Image/ItemImage",
+    PrefabInventoryItemTextTitle = "Image/TextBackgroundTitle/Title",
     PrefabInventoryItemTextPrice = "Image/TextBackground/Price",
     PrefabUpgradeItemTextPrice = "Image/CostTextBackground/Price",
     PrefabUpgradeLevelItemTextPrice = "Image/CurrentTextBackground/Level",
