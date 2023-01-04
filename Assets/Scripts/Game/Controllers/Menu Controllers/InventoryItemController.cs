@@ -24,19 +24,23 @@ public class InventoryItemController : MonoBehaviour
         imgComponent = gameObject.GetComponent<Image>();
     }
     // Sets the Item image on the tab Menu for the current item
-    public void SetInventoryItem(string spReference, string priceLabel, string titleLabel, StoreGameObject storeGameObject)
+    public void SetInventoryItem(string spReference, string titleLabel, StoreGameObject storeGameObject)
     {
         this.storeGameObject = storeGameObject;
         transform.name = storeGameObject.StoreItemType.ToString();
         Sprite sp = MenuObjectList.ObjectSprites[spReference];
         imgComponent.sprite = sp;
-        SetPrice(priceLabel);
         SetTitle(titleLabel);
     }
 
     public void SetPrice(string value)
     {
-        priceText.text = "Price: " + value;
+        priceText.text = TextUI.Price + ":" + value;
+    }
+
+    public void SetAmmount(string ammount)
+    {
+        priceText.text = TextUI.Ammount + ":" + ammount;
     }
 
     public void SetTitle(string title)
