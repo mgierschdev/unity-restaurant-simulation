@@ -72,6 +72,11 @@ public static class Settings
     NpcCharacter = "Character",
     TryObject = "Character/Arm-Left-1/Try";
 
+    //Unity services project environments, as displayed on the unity service console
+    public const string prod = "production",
+    dev = "development",
+    preprod = "preproduction";
+
     //GAME TAGS
     public const string gameName = "Idle Tycoon - Business",
     NpcTag = "NPC",
