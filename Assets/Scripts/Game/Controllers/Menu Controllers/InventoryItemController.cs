@@ -28,7 +28,12 @@ public class InventoryItemController : MonoBehaviour
         transform.name = storeGameObject.StoreItemType.ToString();
         Sprite sp = MenuObjectList.ObjectSprites[spReference];
         imgComponent.sprite = sp;
-        textMesh.text = botLeftLabelValue;
+        SetPrice(botLeftLabelValue);
+    }
+
+    public void SetPrice(string value)
+    {
+        textMesh.text = "Price: " + value;
     }
 
     public StoreGameObject GetStoreGameObject()
