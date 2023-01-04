@@ -7,8 +7,8 @@ public class UpgradeItemController : MonoBehaviour
     private Button button;
     private GameObject img;
     private Image background, imgComponent;
-    private GameObject textCost, textCurrentUpgrade;
-    private TextMeshProUGUI textMeshCost, textMeshCurrentUpgrade;
+    private GameObject textCostGameObject, textCurrentUpgradeGameObject;
+    private TextMeshProUGUI textCost, textCurrentUpgrade;
     private StoreGameObject storeGameObject;
 
     void Awake()
@@ -17,10 +17,10 @@ public class UpgradeItemController : MonoBehaviour
         img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
         GameObject gameObject = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
         background = img.GetComponent<Image>();
-        textCost = transform.Find(Settings.PrefabUpgradeItemTextPrice).gameObject;
-        textCurrentUpgrade = transform.Find(Settings.PrefabUpgradeLevelItemTextPrice).gameObject;
-        textMeshCost = textCost.GetComponent<TextMeshProUGUI>();
-        textMeshCurrentUpgrade = textCurrentUpgrade.GetComponent<TextMeshProUGUI>();
+        textCostGameObject = transform.Find(Settings.PrefabUpgradeItemTextPrice).gameObject;
+        textCurrentUpgradeGameObject = transform.Find(Settings.PrefabUpgradeLevelItemTextPrice).gameObject;
+        textCost = textCostGameObject.GetComponent<TextMeshProUGUI>();
+        textCurrentUpgrade = textCurrentUpgradeGameObject.GetComponent<TextMeshProUGUI>();
         imgComponent = gameObject.GetComponent<Image>();
     }
 
@@ -31,8 +31,18 @@ public class UpgradeItemController : MonoBehaviour
         transform.name = storeGameObject.UpgradeType.ToString();
         Sprite sp = MenuObjectList.ObjectSprites[spReference];
         imgComponent.sprite = sp;
-        textMeshCost.text = botLeftLabelValue;
-        textMeshCurrentUpgrade.text = PlayerData.GetUgrade(storeGameObject.UpgradeType).ToString();
+        SetPrice(botLeftLabelValue);
+        SetCurrentLevel(PlayerData.GetUgrade(storeGameObject.UpgradeType).ToString());
+    }
+
+    public void SetCurrentLevel(string value)
+    {
+        textCurrentUpgrade.text = TextUI.CurrentLevel + ":" + value;
+    }
+
+    public void SetPrice(string value)
+    {
+        textCost.text = value;
     }
 
     public StoreGameObject GetStoreGameObject()
