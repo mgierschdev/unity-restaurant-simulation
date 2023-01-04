@@ -9,6 +9,8 @@ public static class UnityAuth
 {
     public static async void InitUnityServices()
     {
+        //TODO: current unity services env development
+        options.SetEnvironmentName(Settings.UnityServicesDev);
         await UnityServices.InitializeAsync();
         await SignInAnonymouslyAsync();
         GameLog.Log("Init Unity services state " + UnityServices.State);

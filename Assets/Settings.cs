@@ -73,9 +73,9 @@ public static class Settings
     TryObject = "Character/Arm-Left-1/Try";
 
     //Unity services project environments, as displayed on the unity service console
-    public const string prod = "production",
-    dev = "development",
-    preprod = "preproduction";
+    public const string UnityServicesProd = "production",
+    UnityServicesDev = "development",
+    UnityServicesPreProd = "preproduction";
 
     //GAME TAGS
     public const string gameName = "Idle Tycoon - Business",
