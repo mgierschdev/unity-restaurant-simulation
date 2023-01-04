@@ -3,5 +3,9 @@ public static class TextUI
 {
     public static string Price = "Price",
     Ammount = "Stored",
-    CurrentLevel = "Level";
+    CurrentLevel = "Level",
+    Store = "Store",
+    Upgrade = "Upgrade",
+    Storage = "Storage",
+    Settings = "Settings";
 }

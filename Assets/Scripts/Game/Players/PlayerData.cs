@@ -98,7 +98,7 @@ public static class PlayerData
             // We save the data in case of app rewards
             SaveGame();
         }
-        levelText.text = GetLevel();
+        levelText.text = TextUI.CurrentLevel + " " + GetLevel();
         expirienceSlider.value = PlayerLevelCalculator.GetExperienceToNextLevelPercentage(user.EXPERIENCE) / 100f;
     }
 
