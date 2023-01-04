@@ -279,7 +279,7 @@ public class MenuHandlerController : MonoBehaviour
 
         //Set top panel title
         SetMainMenuTitle(MenuObjectList.GetButtonLabel(menu.GetMenuTab()));
-        SetCellSize(400, 400);
+        SetCellSize(Settings.StoreCellSizeX, Settings.StoreCellSizeY);
 
         //Clear scrollview content list
         storeInventoryItemControllerList.Clear();
@@ -311,7 +311,7 @@ public class MenuHandlerController : MonoBehaviour
         settingsPanelController = settings.GetComponent<SettingsPanelController>();
         settings.transform.SetParent(scrollViewContent.transform);
         settings.transform.localScale = new Vector3(1, 1, 1);
-        SetCellSize(1000, 1200);
+        SetCellSize(Settings.SettingsCellSizeX, Settings.SettingsCellSizeY);
     }
 
     private void AddStorageItemsToScrollView(MenuItem menu)
