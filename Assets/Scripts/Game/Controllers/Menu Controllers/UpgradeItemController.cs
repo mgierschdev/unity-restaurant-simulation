@@ -7,8 +7,8 @@ public class UpgradeItemController : MonoBehaviour
     private Button button;
     private GameObject img;
     private Image background, imgComponent;
-    private GameObject textCostGameObject, textCurrentUpgradeGameObject;
-    private TextMeshProUGUI textCost, textCurrentUpgrade;
+    private GameObject textCostGameObject, textCurrentLevelGameObject, titleTextGameObject;
+    private TextMeshProUGUI textCost, textCurrentUpgrade, titleText;
     private StoreGameObject storeGameObject;
 
     void Awake()
@@ -18,21 +18,29 @@ public class UpgradeItemController : MonoBehaviour
         GameObject gameObject = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
         background = img.GetComponent<Image>();
         textCostGameObject = transform.Find(Settings.PrefabUpgradeItemTextPrice).gameObject;
-        textCurrentUpgradeGameObject = transform.Find(Settings.PrefabUpgradeLevelItemTextPrice).gameObject;
+        textCurrentLevelGameObject = transform.Find(Settings.PrefabUpgradeLevelItemTextPrice).gameObject;
+        titleTextGameObject = transform.Find(Settings.PrefabInventoryItemTextTitle).gameObject;
         textCost = textCostGameObject.GetComponent<TextMeshProUGUI>();
-        textCurrentUpgrade = textCurrentUpgradeGameObject.GetComponent<TextMeshProUGUI>();
+        textCurrentUpgrade = textCurrentLevelGameObject.GetComponent<TextMeshProUGUI>();
+        titleText = titleTextGameObject.GetComponent<TextMeshProUGUI>();
         imgComponent = gameObject.GetComponent<Image>();
     }
 
     // Sets the Item image on the tab Menu for the current item
-    public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreGameObject storeGameObject)
+    public void SetInventoryItem(StoreGameObject storeGameObject)
     {
         this.storeGameObject = storeGameObject;
         transform.name = storeGameObject.UpgradeType.ToString();
-        Sprite sp = MenuObjectList.ObjectSprites[spReference];
+        Sprite sp = MenuObjectList.ObjectSprites[storeGameObject.MenuItemSprite];
         imgComponent.sprite = sp;
-        SetPrice(botLeftLabelValue);
+        SetPrice(storeGameObject.Cost.ToString());
         SetCurrentLevel(PlayerData.GetUgrade(storeGameObject.UpgradeType).ToString());
+        SetTitle(storeGameObject.Name);
+    }
+
+    public void SetTitle(string value)
+    {
+        titleText.text = value;
     }
 
     public void SetCurrentLevel(string value)
