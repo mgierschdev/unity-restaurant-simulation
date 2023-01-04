@@ -11,7 +11,7 @@ public class SceneLoadController : MonoBehaviour
     private AsyncOperation operation;
     private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene;
 
-    public async void Awake()
+    public void Awake()
     {
         // We get the slider 
         GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
