@@ -1,4 +1,5 @@
 using System;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ public class SceneLoadController : MonoBehaviour
     private AsyncOperation operation;
     private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene;
 
-    public void Awake()
+    public async void Awake()
     {
         // We get the slider 
         GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
@@ -21,9 +22,13 @@ public class SceneLoadController : MonoBehaviour
         currentTimeAtScene = 0;
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
 
+
+        //we init Unity game services 
         try
         {
             PlayerData.InitUser();
+            await UnityServices.InitializeAsync();
+            Debug.Log("Init Unity services state " + UnityServices.State);
         }
         catch (SystemException e)
         {
@@ -39,7 +44,8 @@ public class SceneLoadController : MonoBehaviour
         if (operation != null
         && Mathf.Approximately(operation.progress, 0.9f)
         && currentTimeAtScene >= MIN_TIME_LOADING
-        && PlayerData.GetDataGameUser() != null)
+        && PlayerData.GetDataGameUser() != null
+        && UnityServices.State == ServicesInitializationState.Initialized)
         {
             operation.allowSceneActivation = true;
         }
