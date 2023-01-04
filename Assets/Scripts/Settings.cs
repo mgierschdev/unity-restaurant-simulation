@@ -161,6 +161,10 @@ public static class Settings
 
     //UI: Menu
     public const string ConstLeftDownMenuStore = "Store";
+    public const int StoreCellSizeX = 600,
+    StoreCellSizeY = 600,
+    SettingsCellSizeX = 1000,
+    SettingsCellSizeY = 1200;
 
     //UI: Buttons listeners
     //UI: Editor tools
