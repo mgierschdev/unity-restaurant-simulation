@@ -44,7 +44,7 @@ public static class MenuObjectList
             // new StoreGameObject("Iron table", "SingleTable-10", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_10, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 200, true),
             new StoreGameObject("Counter", "Counter-1", ObjectType.NPC_COUNTER, StoreItemType.COUNTER, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 3000, true),
 
-            new StoreGameObject("Orange Juice", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_ORANGE_JUICE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 1000, false),
+            new StoreGameObject("Orange juice", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_ORANGE_JUICE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 1000, false),
             //new StoreGameObject("SODA_STORE_ITEM", "Store-2", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_SODA, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 50, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_3", "Store-3", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 6000, false),
             new StoreGameObject("LEMONADE_STORE_ITEM_TEST_4", "Store-4", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_4, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 7000, false),
