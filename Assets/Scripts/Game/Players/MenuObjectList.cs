@@ -160,10 +160,10 @@ public static class MenuObjectList
     {
         switch (tab)
         {
-            case MenuTab.STORE_ITEMS: return "Store";
-            case MenuTab.UPGRADE: return "Upgrade";
-            case MenuTab.STORAGE_TAB: return "Storage";
-            case MenuTab.SETTINGS_TAB: return "Settings";
+            case MenuTab.STORE_ITEMS: return TextUI.Store;
+            case MenuTab.UPGRADE: return TextUI.Upgrade;
+            case MenuTab.STORAGE_TAB: return TextUI.Storage;
+            case MenuTab.SETTINGS_TAB: return TextUI.Settings;
         }
         return "";
     }

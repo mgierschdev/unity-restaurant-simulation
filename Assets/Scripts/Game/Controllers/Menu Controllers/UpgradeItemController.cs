@@ -42,7 +42,7 @@ public class UpgradeItemController : MonoBehaviour
 
     public void SetPrice(string value)
     {
-        textCost.text = value;
+        textCost.text = TextUI.Price + ":" + value;
     }
 
     public StoreGameObject GetStoreGameObject()
