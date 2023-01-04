@@ -7,8 +7,8 @@ public class InventoryItemController : MonoBehaviour
     private Button buyButton;
     private GameObject img;
     private Image background, imgComponent;
-    private GameObject text;
-    private TextMeshProUGUI textMesh;
+    private GameObject priceTextGameObject, titleTextGameObject;
+    private TextMeshProUGUI priceText, titleText;
     private StoreGameObject storeGameObject;
 
     void Awake()
@@ -17,23 +17,31 @@ public class InventoryItemController : MonoBehaviour
         img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
         GameObject gameObject = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
         background = img.GetComponent<Image>();
-        text = transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
-        textMesh = text.GetComponent<TextMeshProUGUI>();
+        priceTextGameObject = transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
+        titleTextGameObject = transform.Find(Settings.PrefabInventoryItemTextTitle).gameObject;
+        priceText = priceTextGameObject.GetComponent<TextMeshProUGUI>();
+        titleText = titleTextGameObject.GetComponent<TextMeshProUGUI>();
         imgComponent = gameObject.GetComponent<Image>();
     }
     // Sets the Item image on the tab Menu for the current item
-    public void SetInventoryItem(string spReference, string botLeftLabelValue, StoreGameObject storeGameObject)
+    public void SetInventoryItem(string spReference, string priceLabel, string titleLabel, StoreGameObject storeGameObject)
     {
         this.storeGameObject = storeGameObject;
         transform.name = storeGameObject.StoreItemType.ToString();
         Sprite sp = MenuObjectList.ObjectSprites[spReference];
         imgComponent.sprite = sp;
-        SetPrice(botLeftLabelValue);
+        SetPrice(priceLabel);
+        SetTitle(titleLabel);
     }
 
     public void SetPrice(string value)
     {
-        textMesh.text = "Price: " + value;
+        priceText.text = "Price: " + value;
+    }
+
+    public void SetTitle(string title)
+    {
+        titleText.text = title;
     }
 
     public StoreGameObject GetStoreGameObject()
