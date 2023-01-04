@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.2901961}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.37647063, g: 0.37647063, b: 0.37647063, a: 1}
+  m_Color: {r: 0.7019608, g: 0.6901961, b: 0.6431373, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26415092, g: 0.18565324, b: 0.18565324, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -527,7 +527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.31764707}
+  m_Color: {r: 0.28627452, g: 0.2784314, b: 0.23529412, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -620,8 +620,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -935,10 +935,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CenterTabMenuBotton (8)
       objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
 --- !u!224 &8044694240738529431 stripped
@@ -1040,10 +1036,6 @@ PrefabInstance:
     - target: {fileID: 9203516905725538923, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
       propertyPath: m_Name
       value: CenterTabMenuBotton (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
@@ -1249,10 +1241,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CenterTabMenuBotton (7)
       objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
 --- !u!224 &6382482447291141514 stripped
@@ -1456,10 +1444,6 @@ PrefabInstance:
     - target: {fileID: 9203516905725538923, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
       propertyPath: m_Name
       value: CenterTabMenuBotton
-      objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
@@ -1665,10 +1649,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CenterTabMenuBotton (9)
       objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
 --- !u!224 &4162919919135566214 stripped
@@ -1872,10 +1852,6 @@ PrefabInstance:
     - target: {fileID: 9203516905725538923, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
       propertyPath: m_Name
       value: CenterTabMenuBotton (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
@@ -2081,10 +2057,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CenterTabMenuBotton (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
 --- !u!224 &1685458283348090278 stripped
@@ -2187,10 +2159,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CenterTabMenuBotton (6)
       objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
 --- !u!224 &1447247165136036113 stripped
@@ -2292,10 +2260,6 @@ PrefabInstance:
     - target: {fileID: 9203516905725538923, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
       propertyPath: m_Name
       value: CenterTabMenuBotton (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
@@ -2500,10 +2464,6 @@ PrefabInstance:
     - target: {fileID: 9203516905725538923, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
       propertyPath: m_Name
       value: CenterTabMenuBotton (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9203516905970056125, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
-      propertyPath: m_fontSize
-      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8925f251d74764d7d8afecb8c4eef032, type: 3}
