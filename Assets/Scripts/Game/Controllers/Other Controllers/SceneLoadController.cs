@@ -1,8 +1,12 @@
 using System;
-using Unity.Services.Core;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+//Unity services
+using Unity.Services.Core;
+using Unity.Services.Authentication;
 
 // This controller is attached to the -LoadScene-  not to the main game scene -World-
 // Check the folder under Assets/Scenes
@@ -27,8 +31,7 @@ public class SceneLoadController : MonoBehaviour
         try
         {
             PlayerData.InitUser();
-            await UnityServices.InitializeAsync();
-            Debug.Log("Init Unity services state " + UnityServices.State);
+            initUnityServices();
         }
         catch (SystemException e)
         {
@@ -54,6 +57,38 @@ public class SceneLoadController : MonoBehaviour
             operation = SceneManager.LoadSceneAsync(Settings.GameScene);
             // if not will load scene before filling the load animation
             operation.allowSceneActivation = false;
+        }
+    }
+
+
+    private async void initUnityServices()
+    {
+        await UnityServices.InitializeAsync();
+        Debug.Log("Init Unity services state " + UnityServices.State);
+    }
+
+
+    private async Task SignInAnonymouslyAsync()
+    {
+        try
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            Debug.Log("Sign in anonymously succeeded!");
+            // Shows how to get the playerID
+            Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
+
+        }
+        catch (AuthenticationException ex)
+        {
+            // Compare error code to AuthenticationErrorCodes
+            // Notify the player with the proper error message
+            Debug.LogException(ex);
+        }
+        catch (RequestFailedException ex)
+        {
+            // Compare error code to CommonErrorCodes
+            // Notify the player with the proper error message
+            Debug.LogException(ex);
         }
     }
 }
