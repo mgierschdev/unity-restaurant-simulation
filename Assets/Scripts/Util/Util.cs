@@ -15,11 +15,8 @@ public static class Util
     public const int highlightObjectSortingPosition = 800,
     ConstDefaultBackgroundOrderingLevel = 200;
     // Colors
-    public static Color Unavailable = new Color(0.1f, 0.1f, 0.1f, 1);
-    public static Color Available = new Color(0, 1, 50, 1);
-    public static Color LightAvailable = new Color(0, 1, 50, 0.5f);
-    public static Color LightOccupied = new Color(1, 0, 0, 0.2f);
-    public static Color Occupied = new Color(1, 0, 0, 0.4f);
+    public static Color Available = new Color(0, 1, 0, 1);
+    public static Color Occupied = new Color(1, 0, 0, 1f);
     public static Color Free = new Color(1, 1, 1, 1);
     public static Color Hidden = new Color(0, 0, 0, 0);
     public static int[,] ArroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
