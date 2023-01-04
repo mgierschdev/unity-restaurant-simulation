@@ -164,7 +164,7 @@ public static class MenuObjectList
             case MenuTab.UPGRADE: return TextUI.Upgrade;
             case MenuTab.STORAGE_TAB: return TextUI.Storage;
             case MenuTab.SETTINGS_TAB: return TextUI.Settings;
-            case MenuTab.TUTORIAL_TAB: return TextUI.Tutorial;
+     //       case MenuTab.TUTORIAL_TAB: return TextUI.Tutorial;
         }
         return "";
     }
