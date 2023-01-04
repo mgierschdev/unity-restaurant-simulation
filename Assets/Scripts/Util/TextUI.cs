@@ -7,5 +7,6 @@ public static class TextUI
     Store = "Store",
     Upgrade = "Upgrade",
     Storage = "Storage",
-    Settings = "Settings";
+    Settings = "Settings",
+    Tutorial = "Tutorial";
 }
