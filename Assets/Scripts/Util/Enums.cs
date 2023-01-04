@@ -110,7 +110,7 @@ public enum MenuTab
     UPGRADE = 2,
     STORAGE_TAB = 3,
     SETTINGS_TAB = 4,
-    TUTORIAL_TAB = 5
+    //TUTORIAL_TAB = 5
 }
 
 //Menu Types
