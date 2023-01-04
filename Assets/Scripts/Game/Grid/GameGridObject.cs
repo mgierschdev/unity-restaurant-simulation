@@ -224,7 +224,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     public void ShowEditMenu()
     {
         SortingLayer.sortingOrder = Util.highlightObjectSortingPosition;
-        spriteRenderer.color = Util.LightAvailable;
+        spriteRenderer.color = Util.Available;
         editMenu.SetActive(true);
     }
 
