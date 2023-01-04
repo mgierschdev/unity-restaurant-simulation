@@ -104,9 +104,6 @@ public static class BussGrid
             TilemapGameFloor.color = new Color(1, 1, 1, 0.3f);
         }
 
-        // TODO: TEMP, until we have floors
-        TilemapGameFloor.color = new Color(1, 1, 1, 0.4f);
-
         pathFind = new PathFind();
         gridArray = new int[Settings.GridHeight, Settings.GridWidth];
         debugGrid = new TextMesh[Settings.GridHeight, Settings.GridWidth];
@@ -126,6 +123,8 @@ public static class BussGrid
         Tilemap floorToDraw = GameObject.Find(Settings.TilemapBusinessFloor_Decoration).GetComponent<Tilemap>();
         floorToDraw.ClearAllTiles();
         TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesFloorBrown);
+
+        Debug.Log("Drawing floor with " + gridTile.name);
 
         foreach (Vector3Int pos in TilemapGameFloor.cellBounds.allPositionsWithin)
         {
