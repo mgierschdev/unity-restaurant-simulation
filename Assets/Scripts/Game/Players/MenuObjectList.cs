@@ -59,7 +59,7 @@ public static class MenuObjectList
             new StoreGameObject("Offline income bonus", "Upgrade-7", ObjectType.UPGRADE_ITEM, UpgradeType.OFFLINE_MONEY_PERCENTAGE_INCREASE, Settings.SpriteLibCategoryUpgradeItems, "", 7000, false),
             new StoreGameObject("Total order cost", "Upgrade-8", ObjectType.UPGRADE_ITEM, UpgradeType.ORDER_COST, Settings.SpriteLibCategoryUpgradeItems, "", 8000, false),
             new StoreGameObject("Waiter speed", "Upgrade-9", ObjectType.UPGRADE_ITEM, UpgradeType.WAITER_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 9000, false),
-            new StoreGameObject("Machines auto load", "Upgrade-10", ObjectType.UPGRADE_ITEM, UpgradeType.UPGRADE_ITEM_ORANGE_JUICE, Settings.SpriteLibCategoryUpgradeItems, "", 100, false),
+            new StoreGameObject("Auto load", "Upgrade-10", ObjectType.UPGRADE_ITEM, UpgradeType.UPGRADE_ITEM_ORANGE_JUICE, Settings.SpriteLibCategoryUpgradeItems, "", 10000, false),
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
@@ -164,6 +164,7 @@ public static class MenuObjectList
             case MenuTab.UPGRADE: return TextUI.Upgrade;
             case MenuTab.STORAGE_TAB: return TextUI.Storage;
             case MenuTab.SETTINGS_TAB: return TextUI.Settings;
+            case MenuTab.TUTORIAL_TAB: return TextUI.Tutorial;
         }
         return "";
     }
