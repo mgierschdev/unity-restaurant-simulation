@@ -28,10 +28,10 @@ public static class UnityAuth
 
         CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.SavePlayerFunction, null);
         UnityAnalytics.PublishEvent(AnalyticsEvents.SavePlayerData, new System.Collections.Generic.Dictionary<string, object>(){
-            {AnalyticsEvents.SavePlayerData, SavePlayerDataResponse.NEW_PLAYER_SAVED}
+            {AnalyticsEvents.SavePlayerDataParameter, (int) SavePlayerDataResponse.NEW_PLAYER_SAVED}
         });
 
-       // GameLog.Log("Response result: " + response.ToString());
+        GameLog.Log("Response result: " + response.ToString());
     }
 
     public static async Task SignInAnonymouslyAsync()

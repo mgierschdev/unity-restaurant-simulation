@@ -1,8 +1,7 @@
-
-
 public static class AnalyticsEvents
 {
     public static string SavePlayerData = "SavePlayerData";
+    public static string SavePlayerDataResponse = "SavePlayerDataResponse";
 }
 public enum SavePlayerDataResponse
 {
