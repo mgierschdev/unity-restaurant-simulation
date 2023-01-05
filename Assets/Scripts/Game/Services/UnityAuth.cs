@@ -1,18 +1,34 @@
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
+using Unity.Services.CloudCode;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
+
 
 // Source: https://docs.unity.com/authentication/PlatformSignInGoogle.html
 public static class UnityAuth
 {
+    // CloudCodeResult structure is the serialized response from the RollDice script in Cloud Code
+    private class CloudCodeResult
+    {
+        public string key;
+        public string value;
+    }
+
     public static async void InitUnityServices()
     {
         //TODO: current unity services env development
         var options = new InitializationOptions();
         options.SetEnvironmentName(Settings.UnityServicesDev);
         await UnityServices.InitializeAsync(options);
-        await SignInAnonymouslyAsync();
+
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await SignInAnonymouslyAsync();
+        }
+
+        CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>("SavePlayerData", null);
+        GameLog.Log(response.ToString());
         GameLog.Log("Init Unity services state " + UnityServices.State);
     }
 
@@ -24,7 +40,6 @@ public static class UnityAuth
             GameLog.Log("Sign in anonymously succeeded!");
             // Shows how to get the playerID
             GameLog.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
-
         }
         catch (AuthenticationException ex)
         {
