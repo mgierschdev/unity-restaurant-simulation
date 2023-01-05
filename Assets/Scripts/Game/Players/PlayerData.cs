@@ -207,7 +207,7 @@ public static class PlayerData
             UPGRADES = new List<UpgradeGameObject> { },
             DATA_STATS = new DataStatsGameObject()
             {
-                MONEY = 0,
+                MONEY_EARNED = 0,
                 MONEY_SPENT = 0,
                 CLIENTS_ATTENDED = 0,
                 ITEMS_BOUGHT = 0
@@ -241,7 +241,7 @@ public static class PlayerData
         switch (stat)
         {
             case PlayerStats.MONEY_SPENT: user.DATA_STATS.MONEY_SPENT += val; return;
-            case PlayerStats.MONEY: user.DATA_STATS.MONEY += val; return;
+            case PlayerStats.MONEY: user.DATA_STATS.MONEY_EARNED += val; return;
         }
     }
 
@@ -329,7 +329,7 @@ public static class PlayerData
 
     public static string GetStats()
     {
-        return " Money Earned: " + user.DATA_STATS.MONEY
+        return " Money Earned: " + user.DATA_STATS.MONEY_EARNED
         + " \n Money spent: " + user.DATA_STATS.MONEY_SPENT
         + " \n Clients attended: " + user.DATA_STATS.CLIENTS_ATTENDED
         + " \n Items bought: " + user.DATA_STATS.ITEMS_BOUGHT;

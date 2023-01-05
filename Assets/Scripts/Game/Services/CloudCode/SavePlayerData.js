@@ -16,6 +16,9 @@ module.exports = async ({ params, context, logger }) => {
         const remoteConfig = new SettingsApi(context);
         const cloudSave = new DataApi(context);
 
+
+        //Check if the cloud save exists 
+
         const resultRemoteConfig = await getRemoteConfigData(remoteConfig, projectId, playerId, environmentId);
         //logger.debug(resultRemoteConfig);
 
@@ -42,7 +45,6 @@ module.exports = async ({ params, context, logger }) => {
         return result;
     }
 };
-
 
 async function getRemoteConfigData(remoteConfig, projectId, playerId, environmentId) {
     const getRemoteConfigDataSettingsResponse = await remoteConfig.assignSettings({
