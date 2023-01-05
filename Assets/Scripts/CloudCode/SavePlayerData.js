@@ -1,21 +1,22 @@
 const _ = require("lodash-4.17");
 const {
-    CloudSave
+    DataApi
 } = require("@unity-services/cloud-save-1.2");
 
 module.exports = async ({ params, context, logger }) => {
+    
     const {
         projectId,
         playerId
     } = context;
 
-    const cloudSave = new CloudSave(context);
+    const api = new DataApi(context);
 
-    const setResult = await cloudSave.setItem(projectId, playerId, {
-        key: "TestSave",
-        value: "TesteSaveValue"
+    const setResult = await api.setItem(projectId, playerId, {
+        key: "test",
+        value: "testValue"
     });
-    
+
     logger.debug(JSON.stringify(setResult.data));
 
     const result = {
