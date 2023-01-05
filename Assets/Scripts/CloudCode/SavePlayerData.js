@@ -4,7 +4,7 @@ const {
 } = require("@unity-services/cloud-save-1.2");
 
 module.exports = async ({ params, context, logger }) => {
-    
+
     const {
         projectId,
         playerId
@@ -14,7 +14,16 @@ module.exports = async ({ params, context, logger }) => {
 
     const setResult = await api.setItem(projectId, playerId, {
         key: "test",
-        value: "testValue"
+        value:
+        {
+            key1: "test",
+            key2: "test",
+            key3: {
+                key1: 5,
+                key2: 10,
+                key3: "test"
+            }
+        }
     });
 
     logger.debug(JSON.stringify(setResult.data));
