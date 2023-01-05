@@ -172,8 +172,9 @@ public static class PlayerData
     {
         DataGameUser dataGameUser = new DataGameUser
         {
+            VERSION = "1.0.0",
             NAME = "undefined",
-            LANGUAGE_CODE = "es_ES",
+            LANGUAGE_CODE = "en_US",
             INTERNAL_ID = GenerateID(),
             GAME_MONEY = Settings.InitGameMoney,
             GEMS = Settings.InitGems,
