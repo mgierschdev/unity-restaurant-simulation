@@ -26,9 +26,12 @@ public static class UnityAuth
             await SignInAnonymouslyAsync();
         }
 
-        CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>("SavePlayerData", null);
-        GameLog.Log(response.ToString());
-        GameLog.Log("Init Unity services state " + UnityServices.State);
+        CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.SavePlayerFunction, null);
+        UnityAnalytics.PublishEvent(AnalyticsEvents.SavePlayerData, new System.Collections.Generic.Dictionary<string, object>(){
+            {AnalyticsEvents.SavePlayerData, SavePlayerDataResponse.NEW_PLAYER_SAVED}
+        });
+
+       // GameLog.Log("Response result: " + response.ToString());
     }
 
     public static async Task SignInAnonymouslyAsync()

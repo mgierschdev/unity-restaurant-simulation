@@ -5,7 +5,7 @@ using UnityEngine;
 public class DataGameUser
 {
     [SerializeField]
-    public string VERSION;
+    public string VERSION = "1.0.1"; //most be changed on every new edit to the model
     [SerializeField]
     public string NAME;
     [SerializeField]
