@@ -5,56 +5,42 @@ const { SettingsApi } = require("@unity-services/remote-config-1.1");
 const userVersion = "defaultuser.1.0.0";
 
 module.exports = async ({ params, context, logger }) => {
-    // try {
+    try {
 
-    const {
-        projectId,
-        environmentId,
-        playerId
-    } = context;
+        const {
+            projectId,
+            environmentId,
+            playerId
+        } = context;
 
-    // remote config 
-    const remoteConfig = new SettingsApi(context);
-    const resultRemoteConfig = await getRemoteConfigData(remoteConfig, projectId, playerId, environmentId);
-    logger.debug(projectId + " " + " " + environmentId + " ");
-    logger.debug(resultRemoteConfig.data);
+        const remoteConfig = new SettingsApi(context);
+        const cloudSave = new DataApi(context);
 
+        const resultRemoteConfig = await getRemoteConfigData(remoteConfig, projectId, playerId, environmentId);
+        //logger.debug(resultRemoteConfig);
 
-    // // Cloud save
-    // const api = new DataApi(context);
-    // const setResult = await api.setItem(projectId, playerId, {
-    //     key: "test",
-    //     value:
-    //     {
-    //         key1: "test",
-    //         key2: "test",
-    //         key3: {
-    //             key1: 5,
-    //             key2: 10,
-    //             key3: "test"
-    //         }
-    //     }
-    // });
-    // logger.debug(JSON.stringify(setResult.data));
+        const saveUserResult = await cloudSave.setItem(projectId, playerId, {
+            key: "userData",
+            value: resultRemoteConfig
+        });
+        //logger.debug(saveUserResult);
 
-    const result = {
-        key: "Key response",
-        value: "Value response"
-    };
+        const result = {
+            key: "Key response",
+            value: "Value response"
+        };
 
-    return result;
+        return result;
 
-
-    // } catch (error) {
-
-    //     logger.debug(error);
-
-    //     const result = {
-    //         key: "Key error response",
-    //         value: "Value error response"
-    //     };
-    //     return result;
-    // }
+    } catch (error) {
+        // TODO: add to analytics events
+        //logger.debug(error);
+        const result = {
+            key: "Error",
+            value: "During execution"
+        };
+        return result;
+    }
 };
 
 
@@ -68,22 +54,19 @@ async function getRemoteConfigData(remoteConfig, projectId, playerId, environmen
             "unity": {},
             "app": {},
             "user": {
-                "timestampMinutes": _.now()//current server time
+                "timestampMinutes": _.now() //current server time
             },
         },
         "key": [userVersion]
     });
 
+    if (getRemoteConfigDataSettingsResponse.data &&
+        getRemoteConfigDataSettingsResponse.data.configs &&
+        getRemoteConfigDataSettingsResponse.data.configs.settings) {
+        return getRemoteConfigDataSettingsResponse.data.configs.settings[userVersion];
+    }
 
-    return getRemoteConfigDataSettingsResponse;
-
-    // if (getRemoteConfigDataSettingsResponse.data.configs &&
-    //   getRemoteConfigDataSettingsResponse.data.configs.settings
-    // ) {
-    //   return getRemoteConfigDataSettingsResponse;
-    // }
-
-    // throw new CloudCodeError("could not load cloud config");
+    throw new CloudCodeError("could not load cloud config");
 }
 
 class CloudCodeError extends Error {
