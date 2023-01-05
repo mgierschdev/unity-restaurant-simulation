@@ -5,7 +5,7 @@ using UnityEngine;
 public class DataStatsGameObject
 {
     [SerializeField]
-    public Double MONEY;
+    public Double MONEY_EARNED;
     [SerializeField]
     public Double MONEY_SPENT;
     [SerializeField]
