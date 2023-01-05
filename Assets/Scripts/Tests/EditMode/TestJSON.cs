@@ -3,19 +3,11 @@ using NUnit.Framework;
 
 public class TestJSON
 {
-
-    [Test]
-    public void TestSaveUserJSON()
-    {
-        DataGameUser user = PlayerData.GetNewUser();
-        GameLog.Log("Datetime " + user.LAST_SAVE);
-        user.SaveToJSONFileAsync();
-    }
-
     [Test]
     public void TestLoadUserJSON()
     {
         DataGameUser user = PlayerData.GetNewUser();
+        user.SaveToJSONFileAsync();
         string json = UtilJSONFile.GetJsonFromFile(DataGameUser.GetSaveFileName());
         GameLog.Log(DataGameUser.GetSaveFileName());
         GameLog.Log("Content of the json file " + json);
@@ -50,5 +42,13 @@ public class TestJSON
             Assert.AreEqual(user.OBJECTS[i].POSITION, loadUser.OBJECTS[i].POSITION);
             Assert.AreEqual(user.OBJECTS[i].ROTATION, loadUser.OBJECTS[i].ROTATION);
         }
+    }
+
+    [Test]
+    // This saves the default user model e.g: default.v.1.0.0.json
+    public void TestSaveDefaultUser()
+    {
+        DataGameUser user = PlayerData.GetNewUser();
+        user.SaveToJSONFileAsync("default.user."+user.VERSION);
     }
 }

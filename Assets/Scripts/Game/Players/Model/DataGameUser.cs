@@ -5,6 +5,8 @@ using UnityEngine;
 public class DataGameUser
 {
     [SerializeField]
+    public string VERSION;
+    [SerializeField]
     public string NAME;
     [SerializeField]
     public Double GAME_MONEY;
@@ -57,20 +59,32 @@ public class DataGameUser
     }
 
     // Saves to a json file 
-    private async void SaveToJSONFile()
+    private async void SaveToJSONFile(string filename)
     {
-        await System.IO.File.WriteAllTextAsync(GetSaveFileName(), ToJSONString(Settings.devEnv));
+        filename = filename == "" ? GetSaveFileName() : GetSaveFileName(filename);
+
+        await System.IO.File.WriteAllTextAsync(filename, ToJSONString(Settings.devEnv));
+    }
+
+    public void SaveToJSONFileAsync(string filename)
+    {
+        SaveToJSONFile(filename);
     }
 
     public void SaveToJSONFileAsync()
     {
-        SaveToJSONFile();
+        SaveToJSONFile("");
+    }
+
+    public static string GetSaveFileName(string filename)
+    {
+        filename += ".json";
+        return Settings.devEnv ? Settings.DevSaveDirectory + "/" + filename : Application.persistentDataPath + "/" + filename;
     }
 
     public static string GetSaveFileName()
     {
-        string name = Settings.SaveFileSuffix;
-        return Settings.devEnv ? Settings.DevSaveDirectory + "/" + name : Application.persistentDataPath + "/" + name;
+        return Settings.devEnv ? Settings.DevSaveDirectory + "/" + Settings.SaveFileSuffix : Application.persistentDataPath + "/" + Settings.SaveFileSuffix;
     }
 
     public void SetUpgrade(UpgradeType type, int value)
