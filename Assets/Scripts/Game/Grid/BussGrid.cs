@@ -124,8 +124,6 @@ public static class BussGrid
         floorToDraw.ClearAllTiles();
         TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesFloorBrown);
 
-        Debug.Log("Drawing floor with " + gridTile.name);
-
         foreach (Vector3Int pos in TilemapGameFloor.cellBounds.allPositionsWithin)
         {
             if (!TilemapGameFloor.HasTile(pos))

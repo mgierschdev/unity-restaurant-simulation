@@ -35,7 +35,7 @@ public static class UnityAuth
 
         UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
 
-        GameLog.Log("Response result: " + response.ToString());
+        GameLog.Log("Response result: " + response.key + " " + response.value);
     }
 
     public static async Task SignInAnonymouslyAsync()
@@ -43,9 +43,8 @@ public static class UnityAuth
         try
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            GameLog.Log("Sign in anonymously succeeded!");
             // Shows how to get the playerID
-            GameLog.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
+            // GameLog.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
         }
         catch (AuthenticationException ex)
         {
