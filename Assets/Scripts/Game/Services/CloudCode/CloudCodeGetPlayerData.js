@@ -15,29 +15,50 @@ module.exports = async ({ params, context, logger }) => {
 
         const remoteConfig = new SettingsApi(context);
         const cloudSave = new DataApi(context);
-
+        var responseValue = 2;
 
         //Check if the cloud save exists 
+        const resultUserData = await getCloudSaveUserData(cloudSave, projectId, playerId);
 
-        const resultRemoteConfig = await getRemoteConfigData(remoteConfig, projectId, playerId, environmentId);
-        //logger.debug(resultRemoteConfig);
+        if (resultUserData == "") {
 
-        const saveUserResult = await cloudSave.setItem(projectId, playerId, {
-            key: "userData",
-            value: resultRemoteConfig
-        });
-        //logger.debug(saveUserResult);
+            logger.debug("create new player");
+            const resultRemoteConfig = await getRemoteConfigData(remoteConfig, projectId, playerId, environmentId);
+            //logger.debug(resultRemoteConfig);
 
+            for (var localKey in resultRemoteConfig) {
+                // logger.debug(key +" "+resultRemoteConfig[key]);
+                await cloudSave.setItem(projectId, playerId,
+                    {
+                        key: localKey,
+                        value: resultRemoteConfig[localKey]
+                    });
+            }
+
+            logger.debug(dataBatch);
+
+
+
+            responseValue = 1;
+
+            logger.debug(saveUserResult.data);
+        } else {
+            response = 3;
+        }
+
+
+        // response values from CloudCodeGetPlayerDataResponse()
         const result = {
-            key: "Key response",
-            value: "Value response"
+            key: "Response",
+            value: responseValue
         };
 
         return result;
 
     } catch (error) {
-        // TODO: add to analytics events
-        //logger.debug(error);
+
+        logger.debug(error);
+
         const result = {
             key: "Error",
             value: "During execution"
@@ -45,6 +66,19 @@ module.exports = async ({ params, context, logger }) => {
         return result;
     }
 };
+
+async function getCloudSaveUserData(cloudSave, projectId, playerId) {
+    const getCloudSaveUserDataResponse = await cloudSave.getItems(
+        projectId,
+        playerId,
+        [
+            "NAME",
+            "VERSION"
+        ]
+    );
+
+    return getCloudSaveUserDataResponse.data.results;
+}
 
 async function getRemoteConfigData(remoteConfig, projectId, playerId, environmentId) {
     const getRemoteConfigDataSettingsResponse = await remoteConfig.assignSettings({
