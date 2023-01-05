@@ -1,5 +1,5 @@
 public static class CloudFunctions
 {
     // The value has to be the same as the cloud function name
-    public static string CloudCodeSavePlayerData = "CloudCodeSavePlayerData";
+    public static string CloudCodeGetPlayerData = "CloudCodeGetPlayerData";
 }

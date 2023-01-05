@@ -27,13 +27,13 @@ public static class UnityAuth
             await SignInAnonymouslyAsync();
         }
 
-        CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.CloudCodeSavePlayerData, null);
+        CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.CloudCodeGetPlayerData, null);
 
         Dictionary<string, object> parameters = new Dictionary<string, object>(){
-            {AnalyticsEvents.CloudCodeSavePlayerDataResponse, (int) CloudCodeSavePlayerDataResponse.NEW_PLAYER_SAVED}
+            {AnalyticsEvents.CloudCodeGetPlayerDataResponse, (int) CloudCodeGetPlayerDataResponse.NEW_PLAYER_SAVED}
         };
 
-        UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeSavePlayerData, parameters);
+        UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
 
         GameLog.Log("Response result: " + response.ToString());
     }
