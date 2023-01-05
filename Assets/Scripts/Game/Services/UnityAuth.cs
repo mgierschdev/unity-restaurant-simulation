@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.CloudCode;
@@ -26,10 +27,13 @@ public static class UnityAuth
             await SignInAnonymouslyAsync();
         }
 
-        CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.SavePlayerFunction, null);
-        UnityAnalytics.PublishEvent(AnalyticsEvents.SavePlayerData, new System.Collections.Generic.Dictionary<string, object>(){
-            {AnalyticsEvents.SavePlayerDataParameter, (int) SavePlayerDataResponse.NEW_PLAYER_SAVED}
-        });
+        CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.CloudCodeSavePlayerData, null);
+
+        Dictionary<string, object> parameters = new Dictionary<string, object>(){
+            {AnalyticsEvents.CloudCodeSavePlayerDataResponse, (int) CloudCodeSavePlayerDataResponse.NEW_PLAYER_SAVED}
+        };
+
+        UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeSavePlayerData, parameters);
 
         GameLog.Log("Response result: " + response.ToString());
     }
