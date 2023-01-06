@@ -215,12 +215,12 @@ public class BaseObjectController : MonoBehaviour
         if (BussGrid.IsValidBussPosition(gameGridObject))
         {
             isCurrentValidPos = true;
-            gameGridObject.GetSpriteRenderer().color = Util.Available;
+            gameGridObject.GetSpriteRenderer().color = Util.AvailableColor;
         }
         else
         {
             isCurrentValidPos = false;
-            gameGridObject.GetSpriteRenderer().color = Util.Occupied;
+            gameGridObject.GetSpriteRenderer().color = Util.OccupiedColor;
         }
     }
 
