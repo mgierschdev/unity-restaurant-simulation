@@ -86,7 +86,24 @@ public static class PlayerData
             BussGrid.GameController.UpdateClientNumber();
         }
 
+        //UPGRADE: UPGRADE_LOAD_SPEED
+        if (upgrade.UpgradeType == UpgradeType.UPGRADE_LOAD_SPEED)
+        {
+            UpdateObjectLoadSpeed();
+        }
+
         return true;
+    }
+
+    private static void UpdateObjectLoadSpeed()
+    {
+        foreach (GameGridObject obj in Inventory)
+        {
+            if (!IsItemStored(obj.Name))
+            {
+                obj.UpdateLoadItemSlider();
+            }
+        }
     }
 
     public static void SubtractFromStorage(GameGridObject gameGridObject)

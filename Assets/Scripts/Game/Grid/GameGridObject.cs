@@ -59,13 +59,13 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         Util.IsNull(moveObjectSlider, "MoveSlider is null");
         loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
         loadSliderMove.SetSliderFillMethod(Image.FillMethod.Vertical);
-        loadSliderMove.SetDefaultFillTime(Settings.DefultItemLoadSpeed);
+        loadSliderMove.SetDefaultFillTime(Settings.SpeedToMoveObjects);
         loadSliderMove.SetInactive();
 
         //On top load slider
         GameObject loadObjectSlider = transform.Find("Slider/LoadSlider").gameObject;
         loadSlider = loadObjectSlider.GetComponent<LoadSliderController>();
-        loadSlider.SetDefaultFillTime(1f);
+        loadSlider.SetDefaultFillTime(Settings.DefultItemLoadSpeed);
         loadSlider.SetInactive();
 
         //On top Info popup
@@ -97,6 +97,11 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         }
         UpdateInitRotation(baseObjectController.GetInitialRotation());
         Init(); // StoreGameObject.Type required
+    }
+
+    public void DecreaseFillTime()
+    {
+        loadSlider.SetDefaultFillTime(Settings.DefultItemLoadSpeed - PlayerData.GetUgrade(UpgradeType.WAITER_SPEED) * Settings.ItemLoadSliderMultiplayer);
     }
 
     private void SetID()
