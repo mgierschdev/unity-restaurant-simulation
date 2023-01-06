@@ -8,5 +8,6 @@ public static class TextUI
     Upgrade = "Upgrade",
     Storage = "Storage",
     Settings = "Settings",
-    Tutorial = "Tutorial";
+    Tutorial = "Tutorial",
+    Max = "Max";
 }
