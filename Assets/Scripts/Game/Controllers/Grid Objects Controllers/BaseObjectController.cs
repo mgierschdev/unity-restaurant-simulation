@@ -67,18 +67,23 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateOnMouseDown()
     {
-        // TODO: define autoload here, without object being clicked
-        // Debug.Log(!gameGridObject.GetIsObjectSelected() + " " + !ObjectDraggingHandler.GetIsDraggingEnabled() + " " + !gameGridObject.GetLoadItemSlider().IsActive());
-        // if (gameGridObject != null &&
-        // !gameGridObject.GetStoreGameObject().HasActionPoint &&
-        // !gameGridObject.GetIsItemReady() &&
-        // !gameGridObject.GetIsObjectSelected() &&
-        // !ObjectDraggingHandler.GetIsDraggingEnabled() &&
-        // !gameGridObject.GetLoadItemSlider().IsActive()
-        // )
-        // {
-        //     SetLoadSliderActive();
-        // }
+        if (Menu.IsMenuOpen())
+        {
+            return;
+        }
+
+        // UPGRADE: UPGRADE_AUTO_LOAD
+        if (gameGridObject.GetStoreGameObject().GetIdentifierNumber() <= PlayerData.GetUgrade(UpgradeType.UPGRADE_AUTO_LOAD) &&
+        gameGridObject != null &&
+        !gameGridObject.GetStoreGameObject().HasActionPoint &&
+        !gameGridObject.GetIsItemReady() &&
+        !gameGridObject.GetIsObjectSelected() &&
+        !ObjectDraggingHandler.GetIsDraggingEnabled() &&
+        !gameGridObject.GetLoadItemSlider().IsActive()
+        )
+        {
+            SetLoadSliderActive();
+        }
 
         if (Input.GetMouseButtonDown(0) && clickController.GetGameGridClickedObject() == gameGridObject)
         {
@@ -140,7 +145,8 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateMoveSelectionSlider()
     {
-        if(Menu.IsMenuOpen()){
+        if (Menu.IsMenuOpen())
+        {
             return;
         }
 

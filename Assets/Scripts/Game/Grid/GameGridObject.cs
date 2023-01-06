@@ -467,7 +467,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     //     //     tiles[actionTile + 1].color = Util.LightAvailable;
     //     // }
     // }
-
+    
     public StoreGameObject GetStoreGameObject()
     {
         return storeGameObject;
