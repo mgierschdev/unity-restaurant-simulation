@@ -221,7 +221,7 @@ public static class PlayerData
                         ROTATION = (int) ObjectRotation.FRONT,
                     },
                     new DataGameObject{
-                        ID = (int) StoreItemType.WOODEN_TABLE_SINGLE,
+                        ID = (int) StoreItemType.TABLE_SINGLE_1,
                         POSITION =  new int[]{Settings.StartTable[0], Settings.StartTable[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT,
@@ -276,7 +276,6 @@ public static class PlayerData
 
     // Control times in which we save the game
     // Saves when the user closes the app
-    // TODO: Saves every 10 minutes, add to coroutine
     private static void Quit()
     {
         SaveGame();
@@ -302,6 +301,17 @@ public static class PlayerData
     public static int GetUgrade(UpgradeType upgradeType)
     {
         return user.GetUpgrade(upgradeType);
+    }
+
+    public static int GetNumberCounters()
+    {
+        int count = 0;
+
+        foreach (DataGameObject obj in user.OBJECTS)
+        {
+            count += obj.IsCounter() ? 1 : 0;
+        }
+        return count;
     }
 
     // Return the buss floor depending on the grid size

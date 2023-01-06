@@ -32,7 +32,7 @@ public static class MenuObjectList
         ObjectSprites = new Dictionary<string, Sprite>();
 
         AllStoreItems = new List<StoreGameObject>{
-            new StoreGameObject("Single blue table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.WOODEN_TABLE_SINGLE, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 320, true),
+            new StoreGameObject("Single blue table", "SingleTable-1", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_1, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 320, true),
             //new StoreGameObject("Wooden squared table", "SingleTable-2", ObjectType.NPC_SINGLE_TABLE, StoreItemType.SQUARED_WOODEN_TABLE_SINGLE,  Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 40, true),
             // new StoreGameObject("Wooden table", "SingleTable-3", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_3, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 50, true),
             // new StoreGameObject("Dark wood table", "SingleTable-4", ObjectType.NPC_SINGLE_TABLE, StoreItemType.TABLE_SINGLE_4, Settings.SpriteLibCategoryTables, Settings.PrefabSingleTable, 60, true),
@@ -128,8 +128,8 @@ public static class MenuObjectList
         StoreGameObject obj = GetStoreObject(type);
         switch (obj.StoreItemType)
         {
-            case StoreItemType.WOODEN_TABLE_SINGLE: return Settings.PrefabSingleTable;
-            case StoreItemType.SQUARED_WOODEN_TABLE_SINGLE: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_1: return Settings.PrefabSingleTable;
+            case StoreItemType.TABLE_SINGLE_2: return Settings.PrefabSingleTable;
             case StoreItemType.TABLE_SINGLE_3: return Settings.PrefabSingleTable;
             case StoreItemType.TABLE_SINGLE_4: return Settings.PrefabSingleTable;
             case StoreItemType.TABLE_SINGLE_5: return Settings.PrefabSingleTable;

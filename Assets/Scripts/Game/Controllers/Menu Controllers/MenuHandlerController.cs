@@ -428,7 +428,10 @@ public class MenuHandlerController : MonoBehaviour
 
             // Adding click listener
             // TODO: max employees we can define the number of counters here
-            if (obj.Cost <= PlayerData.GetMoneyDouble())
+            if (obj.Cost <= PlayerData.GetMoneyDouble() && 
+            (obj.Type == ObjectType.NPC_COUNTER && PlayerData.GetUgrade(UpgradeType.NUMBER_WAITERS))
+            
+            )
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
                 inventoryItemController.SetAvailable();
@@ -470,7 +473,7 @@ public class MenuHandlerController : MonoBehaviour
 
         if (!PlayerData.CanSubtract(obj.Cost) && !storage)
         {
-            GameLog.Log("TODO: UI message: Insufficient funds " + PlayerData.GetMoney());
+            // GameLog.Log("UI message: Insufficient funds " + PlayerData.GetMoney());
             return;
         }
 
