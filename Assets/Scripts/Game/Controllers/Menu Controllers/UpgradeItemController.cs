@@ -85,7 +85,7 @@ public class UpgradeItemController : MonoBehaviour
 
     public void SetUnavailable()
     {
-        imgComponent.color = Util.Disable;
+        imgComponent.color = Util.DisableColor;
     }
 
     public void SetAvailable()

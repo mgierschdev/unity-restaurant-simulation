@@ -15,11 +15,11 @@ public static class Util
     public const int highlightObjectSortingPosition = 800,
     ConstDefaultBackgroundOrderingLevel = 200;
     // Colors
-    public static Color Disable = new Color(0.7f, 0.7f, 0.7f, 1);
-    public static Color Available = new Color(0, 1, 0, 1);
-    public static Color Occupied = new Color(1, 0, 0, 1f);
-    public static Color Free = new Color(1, 1, 1, 1);
-    public static Color Hidden = new Color(0, 0, 0, 0);
+    public static Color DisableColor = new Color(0.7f, 0.7f, 0.7f, 1);
+    public static Color AvailableColor = new Color(0, 1, 0, 1);
+    public static Color OccupiedColor = new Color(1, 0, 0, 1f);
+    public static Color FreeColor = new Color(1, 1, 1, 1);
+    public static Color HiddenColor = new Color(0, 0, 0, 0);
     public static int[,] ArroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
     public static int[,] ArroundPartialVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
     public static int[,] AroundVectorPointsPlusTwo = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 2, 2 }, { 0, -2 }, { -2, 0 }, { 0, 2 }, { 2, 0 } };
