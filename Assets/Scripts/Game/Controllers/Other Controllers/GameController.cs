@@ -6,7 +6,7 @@ using IEnumerator = System.Collections.IEnumerator;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 public class GameController : MonoBehaviour
 {
-    private int NpcMaxNumber = Settings.MaxNpcNumber, npcId;
+    private int NpcMaxNumber = Settings.NpcMultiplayer, npcId;
     private GameObject gameGridObject, NPCS;
     private GameTile tileSpawn;
     private HashSet<NPCController> NpcSet;
@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
         playerPositionSet = new HashSet<Vector3Int>();
         employeePlannedTarget = new HashSet<Vector3Int>();
         NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
+        UpdateClientNumber();
         LoadUserObjects();
         //Assign tables to attend to employees
         StartCoroutine(AssignTablesToNPCs());
@@ -405,5 +406,10 @@ public class GameController : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void UpdateClientNumber()
+    {
+        NpcMaxNumber *= PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS);
     }
 }
