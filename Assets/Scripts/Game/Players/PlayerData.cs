@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public static class PlayerData
@@ -70,6 +71,16 @@ public static class PlayerData
 
         Subtract(upgrade.Cost, ObjectType.UPGRADE_ITEM);
         user.IncreaseUpgrade(upgrade.UpgradeType);
+
+        // if the upgrade requires to increase the game floor 
+        if (upgrade.UpgradeType == UpgradeType.GRID_SIZE)
+        {
+            //we pause the game while reloading
+            Time.timeScale = 0;
+            BussGrid.ReloadTilemapGameFloor(GameObject.Find(GetTileBussFloor()).GetComponent<Tilemap>());
+            Time.timeScale = 1;
+        }
+
         return true;
     }
 
