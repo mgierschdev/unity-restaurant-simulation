@@ -12,6 +12,7 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
     public string SpriteLibCategory { get; set; }
     public string PrefabLocation { get; set; }
     public bool HasActionPoint { get; set; }
+    public int MaxLevel { get; set; }
 
     public StoreGameObject(string name, string identifier, ObjectType type, StoreItemType tableType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint)
     {
@@ -26,18 +27,26 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
         HasActionPoint = hasActionPoint;
     }
 
-    public StoreGameObject(string name, string identifier, ObjectType type, UpgradeType upgradeType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint)
+    public StoreGameObject(string name, string identifier, ObjectType type, UpgradeType upgradeType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint, int maxLevel)
     {
         Identifier = identifier;
         Name = name;
         Cost = cost;
         Type = type;
+        MaxLevel = maxLevel;
         UpgradeType = upgradeType;
         MenuItemSprite = Settings.StoreSpritePath + identifier;
         SpriteLibCategory = categorySprite;
         PrefabLocation = prefabLocation;
         HasActionPoint = hasActionPoint;
         StoreItemType = StoreItemType.UNDEFINED;
+    }
+
+    public int GetIdentifierNumber()
+    {
+        string strNumber = Identifier.ToString().Split("-")[1];
+        int value = Int32.Parse(strNumber);
+        return value >= 0 ? value : 0;
     }
 
     // Default comparer for StoreGameObject cost type.

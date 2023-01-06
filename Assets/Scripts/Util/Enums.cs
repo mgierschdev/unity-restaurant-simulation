@@ -158,7 +158,7 @@ public enum UpgradeType
     OFFLINE_MONEY_LIMIT = 6,
     OFFLINE_MONEY_PERCENTAGE_INCREASE = 7,
     CLIENT_MAX_WAITING_TIME = 8,
-    UPGRADE_ITEM_ORANGE_JUICE = 9
+    UPGRADE_AUTO_LOAD = 9
 }
 
 // Items given the type of store item

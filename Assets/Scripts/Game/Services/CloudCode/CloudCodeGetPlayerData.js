@@ -43,7 +43,7 @@ module.exports = async ({ params, context, logger }) => {
 
             logger.debug(saveUserResult.data);
         } else {
-            response = 3;
+            responseValue = 3;
         }
 
 
