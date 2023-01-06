@@ -92,6 +92,11 @@ public class DataGameUser
         UPGRADES[(int)type].UPGRADE_NUMBER = value;
     }
 
+    public void IncreaseUpgrade(UpgradeType type)
+    {
+        UPGRADES[(int)type].UPGRADE_NUMBER ++;
+    }
+
     public int GetUpgrade(UpgradeType type)
     {
         return UPGRADES[(int)type].UPGRADE_NUMBER;
