@@ -73,14 +73,7 @@ public class BaseObjectController : MonoBehaviour
         }
 
         // UPGRADE: UPGRADE_AUTO_LOAD
-        if (gameGridObject.GetStoreGameObject().GetIdentifierNumber() <= PlayerData.GetUgrade(UpgradeType.UPGRADE_AUTO_LOAD) &&
-        gameGridObject != null &&
-        !gameGridObject.GetStoreGameObject().HasActionPoint &&
-        !gameGridObject.GetIsItemReady() &&
-        !gameGridObject.GetIsObjectSelected() &&
-        !ObjectDraggingHandler.GetIsDraggingEnabled() &&
-        !gameGridObject.GetLoadItemSlider().IsActive()
-        )
+        if (IsItemLoadEnableAndValid() && gameGridObject.GetStoreGameObject().GetIdentifierNumber() <= PlayerData.GetUgrade(UpgradeType.UPGRADE_AUTO_LOAD))
         {
             SetLoadSliderActive();
         }
@@ -91,13 +84,7 @@ public class BaseObjectController : MonoBehaviour
 
             //TODO: define autoload here: gameGridObject.GetIsItemReady
             // For GetLoadItemSlider, store item
-            if (gameGridObject != null &&
-            !gameGridObject.GetStoreGameObject().HasActionPoint &&
-            !gameGridObject.GetIsItemReady() &&
-            !gameGridObject.GetIsObjectSelected() &&
-            !ObjectDraggingHandler.GetIsDraggingEnabled() &&
-            !gameGridObject.GetLoadItemSlider().IsActive()
-            )
+            if (IsItemLoadEnableAndValid())
             {
                 SetLoadSliderActive();
             }
@@ -114,6 +101,17 @@ public class BaseObjectController : MonoBehaviour
             timeClicking = 0;
             isClicking = false;
         }
+    }
+
+    private bool IsItemLoadEnableAndValid()
+    {
+        return
+            gameGridObject != null &&
+            gameGridObject.GetStoreGameObject().Type == ObjectType.STORE_ITEM &&
+            !gameGridObject.GetIsItemReady() &&
+            !gameGridObject.GetIsObjectSelected() &&
+            !ObjectDraggingHandler.GetIsDraggingEnabled() &&
+            !gameGridObject.GetLoadItemSlider().IsActive();
     }
 
     private void UpdateInit()
