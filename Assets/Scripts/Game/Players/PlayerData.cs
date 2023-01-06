@@ -60,17 +60,17 @@ public static class PlayerData
         AddStatData(PlayerStats.CLIENTS_ATTENDED, 1);
     }
 
-    public static void IncreaseUpgrade(StoreGameObject upgrade)
+    public static bool IncreaseUpgrade(StoreGameObject upgrade)
     {
-        Debug.Log("Increasing upgrade " + upgrade.Name);
         // or max level reached we return
         if (!CanSubtract(upgrade.Cost) || user.GetUpgrade(upgrade.UpgradeType) >= upgrade.MaxLevel)
         {
-            return;
+            return false;
         }
 
         Subtract(upgrade.Cost, ObjectType.UPGRADE_ITEM);
-        user.IncreaseUpgrade(UpgradeType.GRID_SIZE);
+        user.IncreaseUpgrade(upgrade.UpgradeType);
+        return true;
     }
 
     public static void SubtractFromStorage(GameGridObject gameGridObject)
