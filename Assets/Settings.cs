@@ -6,6 +6,7 @@ public static class Settings
     public const float NpcDefaultMovementSpeed = 1.3f; //1 = Looks good with current animation
     public const float UpgradePercentageMultiplayer = 0.08f;
     public const float DefultItemLoadSpeed = 5f; // in seconds
+    public const float ItemLoadSliderMultiplayer = 0.05f;
     public const float SpeedToMoveObjects = 1.3f; // in seconds
 
 #if UNITY_EDITOR
@@ -37,7 +38,6 @@ public static class Settings
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f,
-    ItemLoadSliderMultiplayer = 0.05f, // TODO: To be added to the object store properties
     ScreenLoadTime = 2f,
     TimeBeforeTheSliderIsEnabled = 0.2f;
 

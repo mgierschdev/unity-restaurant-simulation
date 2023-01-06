@@ -31,6 +31,7 @@ public class LoadSliderController : MonoBehaviour
 
     public void Update()
     {
+        Debug.Log("Enery bar time " + energyBarTime);
         // EnergyBar controller, only if it is active
         if (gameObject.activeSelf)
         {

@@ -65,7 +65,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         //On top load slider
         GameObject loadObjectSlider = transform.Find("Slider/LoadSlider").gameObject;
         loadSlider = loadObjectSlider.GetComponent<LoadSliderController>();
-        loadSlider.SetDefaultFillTime(Settings.DefultItemLoadSpeed);
+        loadSlider.SetDefaultFillTime(Settings.DefultItemLoadSpeed - (PlayerData.GetUgrade(UpgradeType.UPGRADE_LOAD_SPEED) * PlayerData.GetUgrade(UpgradeType.WAITER_SPEED) * Settings.ItemLoadSliderMultiplayer));
         loadSlider.SetInactive();
 
         //On top Info popup
