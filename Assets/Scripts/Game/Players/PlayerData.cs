@@ -60,6 +60,18 @@ public static class PlayerData
         AddStatData(PlayerStats.CLIENTS_ATTENDED, 1);
     }
 
+    public static void IncreaseUpgrade(StoreGameObject upgrade)
+    {
+        // or max level reached we return
+        if (!CanSubtract(upgrade.Cost) || user.GetUpgrade(upgrade.UpgradeType) >= upgrade.MaxLevel)
+        {
+            return;
+        }
+
+        user.GAME_MONEY -= upgrade.Cost;
+        user.IncreaseUpgrade(UpgradeType.GRID_SIZE);
+    }
+
     public static void SubtractFromStorage(GameGridObject gameGridObject)
     {
         setStoredInventory.Remove(gameGridObject.Name);

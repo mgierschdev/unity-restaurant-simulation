@@ -384,7 +384,6 @@ public class MenuHandlerController : MonoBehaviour
             };
 
             // Adding click listener
-            // TODO: max employees we can define the number of counters here
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
                 button.onClick.AddListener(() => UpgradeItem(obj));
@@ -404,7 +403,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void UpgradeItem(StoreGameObject storeGameObject)
     {
-        Debug.Log("Upgrade " + storeGameObject.Identifier);
+        PlayerData.IncreaseUpgrade(storeGameObject);
     }
 
     private void AddItemsToScrollView(MenuItem menu)
