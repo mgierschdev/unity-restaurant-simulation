@@ -10,6 +10,7 @@ public class UpgradeItemController : MonoBehaviour
     private GameObject textCostGameObject, textCurrentLevelGameObject, titleTextGameObject;
     private TextMeshProUGUI textCost, textCurrentUpgrade, titleText;
     private StoreGameObject storeGameObject;
+    private int upgradeValue;
 
     void Awake()
     {
@@ -34,7 +35,8 @@ public class UpgradeItemController : MonoBehaviour
         Sprite sp = MenuObjectList.ObjectSprites[storeGameObject.MenuItemSprite];
         imgComponent.sprite = sp;
         SetPrice(storeGameObject.Cost.ToString());
-        SetCurrentLevel(PlayerData.GetUgrade(storeGameObject.UpgradeType).ToString());
+        upgradeValue = PlayerData.GetUgrade(storeGameObject.UpgradeType);
+        SetCurrentLevel();
         SetTitle(storeGameObject.Name);
     }
 
@@ -43,14 +45,27 @@ public class UpgradeItemController : MonoBehaviour
         titleText.text = value;
     }
 
-    public void SetCurrentLevel(string value)
+    public void SetCurrentLevel()
     {
-        textCurrentUpgrade.text = TextUI.CurrentLevel + ":" + value;
+        textCurrentUpgrade.text = TextUI.CurrentLevel + ":" + upgradeValue.ToString();
     }
 
     public void SetPrice(string value)
     {
         textCost.text = TextUI.Price + ":" + value;
+    }
+
+    public void IncreaseUpgrade()
+    {
+        if (storeGameObject.Cost <= PlayerData.GetMoneyDouble())
+        {
+            upgradeValue++;
+            SetCurrentLevel();
+        }
+        else
+        {
+            SetUnavailable();
+        }
     }
 
     public StoreGameObject GetStoreGameObject()

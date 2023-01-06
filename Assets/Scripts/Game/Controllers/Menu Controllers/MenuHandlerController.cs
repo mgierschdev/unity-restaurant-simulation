@@ -137,7 +137,7 @@ public class MenuHandlerController : MonoBehaviour
 
             if (upgradeItemController.GetStoreGameObject().Cost <= PlayerData.GetMoneyDouble())
             {
-                button.onClick.AddListener(() => UpgradeItem(upgradeItemController.GetStoreGameObject()));
+                button.onClick.AddListener(() => UpgradeItem(upgradeItemController.GetStoreGameObject(), upgradeItemController));
                 upgradeItemController.SetAvailable();
             }
             else
@@ -386,7 +386,7 @@ public class MenuHandlerController : MonoBehaviour
             // Adding click listener
             if (obj.Cost <= PlayerData.GetMoneyDouble())
             {
-                button.onClick.AddListener(() => UpgradeItem(obj));
+                button.onClick.AddListener(() => UpgradeItem(obj, upgradeItemController));
                 upgradeItemController.SetAvailable();
             }
             else
@@ -401,9 +401,11 @@ public class MenuHandlerController : MonoBehaviour
         }
     }
 
-    private void UpgradeItem(StoreGameObject storeGameObject)
+    private void UpgradeItem(StoreGameObject storeGameObject, UpgradeItemController upgradeItemController)
     {
-        PlayerData.IncreaseUpgrade(storeGameObject);
+        if(PlayerData.IncreaseUpgrade(storeGameObject)){
+            upgradeItemController.IncreaseUpgrade();
+        }
     }
 
     private void AddItemsToScrollView(MenuItem menu)
