@@ -410,6 +410,6 @@ public class GameController : MonoBehaviour
 
     public void UpdateClientNumber()
     {
-        NpcMaxNumber *= PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS);
+        NpcMaxNumber *= PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS);
     }
 }

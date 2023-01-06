@@ -451,7 +451,7 @@ public class MenuHandlerController : MonoBehaviour
         return obj.Cost <= PlayerData.GetMoneyDouble() &&
                 ( //UPGRADE: max number of counters
                 (obj.Type == ObjectType.NPC_COUNTER &&
-                PlayerData.GetNumberCounters() <= PlayerData.GetUgrade(UpgradeType.NUMBER_WAITERS) + 1) ||
+                PlayerData.GetNumberCounters() <= PlayerData.GetUgrade(UpgradeType.NUMBER_WAITERS)) ||
                 (obj.Type != ObjectType.NPC_COUNTER));
     }
 
