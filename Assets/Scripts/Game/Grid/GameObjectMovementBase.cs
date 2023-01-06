@@ -164,6 +164,12 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             moveDirection = GetDirectionFromPositions(transform.position, currentLocalTargetPosition);
             UpdateObjectDirection(); // It flips the side of the object depending on direction
+
+            //Upgrade: NPC/Waiter speed
+            speed *= ObjectType.EMPLOYEE == type ? 
+            (PlayerData.GetUgrade(UpgradeType.WAITER_SPEED) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.WAITER_SPEED)) :
+            (PlayerData.GetUgrade(UpgradeType.CLIENT_SPEED) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.CLIENT_SPEED));
+
             transform.position = Vector3.MoveTowards(transform.position, currentLocalTargetPosition, speed * Time.fixedDeltaTime);
         }
     }
