@@ -81,6 +81,11 @@ public static class PlayerData
             Time.timeScale = 1;
         }
 
+        if (upgrade.UpgradeType == UpgradeType.NUMBER_CLIENTS)
+        {
+            BussGrid.GameController.UpdateClientNumber();
+        }
+
         return true;
     }
 
@@ -97,6 +102,7 @@ public static class PlayerData
         }
         user.GAME_MONEY -= amount;
         AddStatData(PlayerStats.MONEY_SPENT, amount);
+
         if (type != ObjectType.UPGRADE_ITEM)
         {
             AddStatData(PlayerStats.ITEMS_BOUGHT, 1);
