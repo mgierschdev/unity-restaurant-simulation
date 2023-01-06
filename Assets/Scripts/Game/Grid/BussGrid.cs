@@ -118,6 +118,15 @@ public static class BussGrid
         DrawTilemapBusinessDecoration();
     }
 
+    // Increases the tilemap buss floor for the upgrade
+    public static void ReloadTilemapGameFloor(Tilemap floor)
+    {
+        TilemapGameFloor = floor;
+        LoadTileMap(listGameFloor, TilemapGameFloor, mapGameFloor);
+        //Re-draws floor
+        DrawTilemapBusinessDecoration();
+    }
+
     public static void DrawTilemapBusinessDecoration()
     {
         Tilemap floorToDraw = GameObject.Find(Settings.TilemapBusinessFloor_Decoration).GetComponent<Tilemap>();
