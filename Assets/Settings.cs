@@ -5,7 +5,8 @@ public static class Settings
     public const int DebugTextSize = 9;
     public const float NpcDefaultMovementSpeed = 1.3f; //1 = Looks good with current animation
     public const float UpgradePercentageMultiplayer = 0.08f;
-    public const float DefultItemLoadSpeed = 0.3f;
+    public const float DefultItemLoadSpeed = 5f; // in seconds
+    public const float SpeedToMoveObjects = 1.3f; // in seconds
 
 #if UNITY_EDITOR
     public const bool devEnv = true;
