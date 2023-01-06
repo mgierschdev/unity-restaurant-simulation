@@ -20,6 +20,8 @@ public static class Util
     public static Color OccupiedColor = new Color(1, 0, 0, 1f);
     public static Color FreeColor = new Color(1, 1, 1, 1);
     public static Color HiddenColor = new Color(0, 0, 0, 0);
+    public static Color UnderTilesColor = new Color32(200, 200, 200, 130);
+
     public static int[,] ArroundVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
     public static int[,] ArroundPartialVectorPoints = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
     public static int[,] AroundVectorPointsPlusTwo = new int[,] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 2, 2 }, { 0, -2 }, { -2, 0 }, { 0, 2 }, { 2, 0 } };
