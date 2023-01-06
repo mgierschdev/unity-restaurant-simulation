@@ -62,13 +62,14 @@ public static class PlayerData
 
     public static void IncreaseUpgrade(StoreGameObject upgrade)
     {
+        Debug.Log("Increasing upgrade " + upgrade.Name);
         // or max level reached we return
         if (!CanSubtract(upgrade.Cost) || user.GetUpgrade(upgrade.UpgradeType) >= upgrade.MaxLevel)
         {
             return;
         }
 
-        user.GAME_MONEY -= upgrade.Cost;
+        Subtract(upgrade.Cost, ObjectType.UPGRADE_ITEM);
         user.IncreaseUpgrade(UpgradeType.GRID_SIZE);
     }
 
