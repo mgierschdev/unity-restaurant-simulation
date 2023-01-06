@@ -372,8 +372,8 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.FRONT);
-                    tiles[0].color = Util.AvailableColor;
-                    tiles[1].color = Util.AvailableColor;
+                    tiles[0].color = Util.UnderTilesColor;
+                    tiles[1].color = Util.UnderTilesColor;
                     tiles[2].color = Util.HiddenColor;
                 }
                 return;
@@ -384,8 +384,8 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
-                    tiles[0].color = Util.AvailableColor;
-                    tiles[1].color = Util.AvailableColor;
+                    tiles[0].color = Util.UnderTilesColor;
+                    tiles[1].color = Util.UnderTilesColor;
                     tiles[2].color = Util.HiddenColor;
                 }
                 return;
@@ -395,9 +395,9 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.BACK);
-                    tiles[0].color = Util.AvailableColor;
+                    tiles[0].color = Util.UnderTilesColor;
                     tiles[1].color = Util.HiddenColor;
-                    tiles[2].color = Util.AvailableColor;
+                    tiles[2].color = Util.UnderTilesColor;
                 }
                 return;
             case ObjectRotation.BACK_INVERTED:
@@ -406,9 +406,9 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
-                    tiles[0].color = Util.AvailableColor;
+                    tiles[0].color = Util.UnderTilesColor;
                     tiles[1].color = Util.HiddenColor;
-                    tiles[2].color = Util.AvailableColor;
+                    tiles[2].color = Util.UnderTilesColor;
 
                 }
                 return;
@@ -455,20 +455,20 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
     public void ShowOccupiedUnderTiles()
     {
-        tiles[0].color = Util.AvailableColor;
+        tiles[0].color = Util.UnderTilesColor;
 
         if (storeGameObject.HasActionPoint)
         {
-            tiles[actionTile + 1].color = Util.AvailableColor;
+            tiles[actionTile + 1].color = Util.UnderTilesColor;
         }
     }
 
     public void ShowAvailableUnderTiles()
     {
-        tiles[0].color = Util.AvailableColor;
+        tiles[0].color = Util.UnderTilesColor;
         if (storeGameObject.HasActionPoint)
         {
-            tiles[actionTile + 1].color = Util.AvailableColor;
+            tiles[actionTile + 1].color = Util.UnderTilesColor;
         }
     }
 
