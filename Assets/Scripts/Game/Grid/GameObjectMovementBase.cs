@@ -166,7 +166,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             UpdateObjectDirection(); // It flips the side of the object depending on direction
 
             //Upgrade: NPC/Waiter speed
-            speed = Settings.NpcDefaultMovementSpeed * (ObjectType.EMPLOYEE == type ? 
+            speed = Settings.NpcDefaultMovementSpeed + Settings.UpgradePercentageMultiplayer * (ObjectType.EMPLOYEE == type ? 
             (PlayerData.GetUgrade(UpgradeType.WAITER_SPEED) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.WAITER_SPEED)) :
             (PlayerData.GetUgrade(UpgradeType.CLIENT_SPEED) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.CLIENT_SPEED)));
 
