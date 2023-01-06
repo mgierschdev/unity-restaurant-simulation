@@ -44,7 +44,8 @@ public static class ObjectDraggingHandler
             GameGridObject gameGridObject = BussGrid.GetGameGridObjectsDictionary()[currentClickedActiveGameObject];
             gameGridObject.HideEditMenu();
         }
-
+        // we highlight the floor for the object
+        obj.ShowAvailableUnderTiles();
         currentClickedActiveGameObject = obj.Name;
         obj.ShowEditMenu();
     }
