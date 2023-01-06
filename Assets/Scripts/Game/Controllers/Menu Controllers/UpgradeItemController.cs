@@ -47,7 +47,7 @@ public class UpgradeItemController : MonoBehaviour
 
     public void SetCurrentLevel()
     {
-        textCurrentUpgrade.text = TextUI.CurrentLevel + ":" + upgradeValue.ToString();
+        textCurrentUpgrade.text = TextUI.CurrentLevel + ":" + (storeGameObject.MaxLevel >= upgradeValue ? TextUI.Max : upgradeValue.ToString());
     }
 
     public void SetPrice(string value)

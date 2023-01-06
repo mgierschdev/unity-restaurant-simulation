@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
             {
                 if (NpcSet.Count < NpcMaxNumber)
                 {
+                    Debug.Log("Max Number NPC " + NpcMaxNumber);
                     SpamNpc();
                 }
 
