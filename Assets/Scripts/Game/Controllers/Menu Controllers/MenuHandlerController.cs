@@ -164,7 +164,7 @@ public class MenuHandlerController : MonoBehaviour
                 Key = inventoryItemController.GetStoreGameObject()
             };
 
-            if (inventoryItemController.GetStoreGameObject().Cost <= PlayerData.GetMoneyDouble())
+            if (CanObjectBeBought(inventoryItemController.GetStoreGameObject()))
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
                 inventoryItemController.SetAvailable();
@@ -403,7 +403,8 @@ public class MenuHandlerController : MonoBehaviour
 
     private void UpgradeItem(StoreGameObject storeGameObject, UpgradeItemController upgradeItemController)
     {
-        if(PlayerData.IncreaseUpgrade(storeGameObject)){
+        if (PlayerData.IncreaseUpgrade(storeGameObject))
+        {
             upgradeItemController.IncreaseUpgrade();
         }
     }
@@ -427,11 +428,7 @@ public class MenuHandlerController : MonoBehaviour
             };
 
             // Adding click listener
-            // TODO: max employees we can define the number of counters here
-            if (obj.Cost <= PlayerData.GetMoneyDouble() && 
-            (obj.Type == ObjectType.NPC_COUNTER && PlayerData.GetUgrade(UpgradeType.NUMBER_WAITERS))
-            
-            )
+            if (CanObjectBeBought(obj))
             {
                 button.onClick.AddListener(() => OpenStoreEditPanel(pair, false));
                 inventoryItemController.SetAvailable();
@@ -447,6 +444,15 @@ public class MenuHandlerController : MonoBehaviour
             item.transform.localScale = new Vector3(1, 1, 1);
             storeInventoryItemControllerList.Add(inventoryItemController);
         }
+    }
+
+    public bool CanObjectBeBought(StoreGameObject obj)
+    {
+        return obj.Cost <= PlayerData.GetMoneyDouble() &&
+                ( //UPGRADE: max number of counters
+                (obj.Type == ObjectType.NPC_COUNTER &&
+                PlayerData.GetNumberCounters() <= PlayerData.GetUgrade(UpgradeType.NUMBER_WAITERS) + 1) ||
+                (obj.Type != ObjectType.NPC_COUNTER));
     }
 
     private void SetLeftDownPanelClickListeners()
