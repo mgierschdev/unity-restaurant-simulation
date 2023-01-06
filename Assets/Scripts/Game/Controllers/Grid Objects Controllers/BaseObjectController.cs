@@ -67,15 +67,15 @@ public class BaseObjectController : MonoBehaviour
 
     private void UpdateOnMouseDown()
     {
-        if (Menu.IsMenuOpen())
-        {
-            return;
-        }
-
         // UPGRADE: UPGRADE_AUTO_LOAD
         if (IsItemLoadEnableAndValid() && gameGridObject.GetStoreGameObject().GetIdentifierNumber() <= PlayerData.GetUgrade(UpgradeType.UPGRADE_AUTO_LOAD))
         {
             SetLoadSliderActive();
+        }
+
+        if (Menu.IsMenuOpen())
+        {
+            return;
         }
 
         if (Input.GetMouseButtonDown(0) && clickController.GetGameGridClickedObject() == gameGridObject)
