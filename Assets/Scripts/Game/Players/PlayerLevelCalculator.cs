@@ -73,6 +73,10 @@ public static class PlayerLevelCalculator
             return (int)(experience * 100 / ExpLevelMap[1]);
         }
 
+        if(index == 100){
+            return 0;
+        }
+
         // General cases
         // total (100 next level - previous) ----- 100
         // current level - current exp
@@ -118,6 +122,6 @@ public static class PlayerLevelCalculator
                 return i == 0 ? 1 : i;
             }
         }
-        return -1;
+        return 100;
     }
 }
