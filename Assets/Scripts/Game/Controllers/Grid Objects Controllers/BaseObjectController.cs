@@ -78,12 +78,11 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
+        // Loads the item once its clicked
         if (Input.GetMouseButtonDown(0) && clickController.GetGameGridClickedObject() == gameGridObject)
         {
             isClicking = true;
 
-            //TODO: define autoload here: gameGridObject.GetIsItemReady
-            // For GetLoadItemSlider, store item
             if (IsItemLoadEnableAndValid())
             {
                 SetLoadSliderActive();
