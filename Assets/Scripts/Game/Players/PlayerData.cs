@@ -306,6 +306,11 @@ public static class PlayerData
             case 10: return Settings.TilemapBusinessFloor_10;
         }
 
+        if (gridSize >= 10)
+        {
+            return Settings.TilemapBusinessFloor_10;
+        }
+
         return "";
     }
     // For new items, cannot be stored if it was recently added
