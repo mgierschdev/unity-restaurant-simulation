@@ -122,11 +122,12 @@ public enum MenuType
 
 // Object deifnition in in MenuObjectList.cs
 // it should preserve the number order since it is used on the Firestore database
+// Counters:  we need to update the model IsCounter() on DataGameObject
 public enum StoreItemType
 {
     UPGRADE_ITEM = 0,
-    WOODEN_TABLE_SINGLE = 1,
-    SQUARED_WOODEN_TABLE_SINGLE = 2,
+    TABLE_SINGLE_1 = 1,
+    TABLE_SINGLE_2 = 2,
     TABLE_SINGLE_3 = 3,
     TABLE_SINGLE_4 = 4,
     TABLE_SINGLE_5 = 5,

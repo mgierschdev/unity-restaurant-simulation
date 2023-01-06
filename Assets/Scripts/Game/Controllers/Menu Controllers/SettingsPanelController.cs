@@ -20,7 +20,6 @@ public class SettingsPanelController : MonoBehaviour
     public void SaveGame()
     {
         PlayerData.SaveGame();
-        GameLog.Log("TODO: popup Game saved");
     }
 
     public void SetStatsText()
