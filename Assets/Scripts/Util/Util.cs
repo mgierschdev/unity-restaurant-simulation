@@ -15,6 +15,7 @@ public static class Util
     public const int highlightObjectSortingPosition = 800,
     ConstDefaultBackgroundOrderingLevel = 200;
     // Colors
+    public static Color Disable = new Color(0.9f, 0.9f, 0.9f, 1);
     public static Color Available = new Color(0, 1, 0, 1);
     public static Color Occupied = new Color(1, 0, 0, 1f);
     public static Color Free = new Color(1, 1, 1, 1);

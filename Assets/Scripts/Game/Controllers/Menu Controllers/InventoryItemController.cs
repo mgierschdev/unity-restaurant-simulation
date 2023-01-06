@@ -65,7 +65,7 @@ public class InventoryItemController : MonoBehaviour
 
     public void SetUnavailable()
     {
-        imgComponent.color = Color.black;
+        imgComponent.color = Util.Disable;
     }
 
     public void SetAvailable()
