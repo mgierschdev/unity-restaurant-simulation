@@ -78,7 +78,7 @@ public class BaseObjectController : MonoBehaviour
             return;
         }
 
-        // Loads the item once its clicked
+        // Loads the item once is clicked
         if (Input.GetMouseButtonDown(0) && clickController.GetGameGridClickedObject() == gameGridObject)
         {
             isClicking = true;
@@ -107,6 +107,7 @@ public class BaseObjectController : MonoBehaviour
         return
             gameGridObject != null &&
             gameGridObject.GetStoreGameObject().Type == ObjectType.STORE_ITEM &&
+            !gameGridObject.GetMoveSlider().IsActive() && // move slider should not be active
             !gameGridObject.GetIsItemReady() &&
             !gameGridObject.GetIsObjectSelected() &&
             !ObjectDraggingHandler.GetIsDraggingEnabled() &&
