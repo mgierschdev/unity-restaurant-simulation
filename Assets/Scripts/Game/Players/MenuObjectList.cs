@@ -55,8 +55,6 @@ public static class MenuObjectList
             new StoreGameObject("Faster Clients", "Upgrade-3", ObjectType.UPGRADE_ITEM, UpgradeType.CLIENT_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 3000, false, 3),
             new StoreGameObject("More Clients", "Upgrade-4", ObjectType.UPGRADE_ITEM, UpgradeType.NUMBER_CLIENTS, Settings.SpriteLibCategoryUpgradeItems, "", 4000, false, 5),
             new StoreGameObject("More Waiters", "Upgrade-5", ObjectType.UPGRADE_ITEM, UpgradeType.NUMBER_WAITERS, Settings.SpriteLibCategoryUpgradeItems, "", 5000, false, 10),
-           // new StoreGameObject("Offline income max limit", "Upgrade-6", ObjectType.UPGRADE_ITEM, UpgradeType.OFFLINE_MONEY_LIMIT, Settings.SpriteLibCategoryUpgradeItems, "", 6000, false, 5),
-           // new StoreGameObject("Offline income bonus", "Upgrade-7", ObjectType.UPGRADE_ITEM, UpgradeType.OFFLINE_MONEY_PERCENTAGE_INCREASE, Settings.SpriteLibCategoryUpgradeItems, "", 7000, false, 3),
             new StoreGameObject("More profit (%)", "Upgrade-8", ObjectType.UPGRADE_ITEM, UpgradeType.ORDER_COST_PERCENTAGE, Settings.SpriteLibCategoryUpgradeItems, "", 8000, false, 5),
             new StoreGameObject("Waiter speed", "Upgrade-9", ObjectType.UPGRADE_ITEM, UpgradeType.WAITER_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 9000, false, 5),
             new StoreGameObject("Store Auto load", "Upgrade-10", ObjectType.UPGRADE_ITEM, UpgradeType.UPGRADE_AUTO_LOAD, Settings.SpriteLibCategoryUpgradeItems, "", 10000, false, 5),

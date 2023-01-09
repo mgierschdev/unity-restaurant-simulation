@@ -177,8 +177,10 @@ public class EmployeeController : GameObjectMovementBase
         {
             stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
             //TODO: register cost depending on the NPC order
-            double orderCost = Random.Range(5, 10);
-            PlayerData.AddMoney(orderCost);
+            double orderValue = Random.Range(5, 10);
+            double totalOrderCost = orderValue + PlayerData.GetUgrade(UpgradeType.ORDER_COST_PERCENTAGE) * (orderValue * Settings.OrderIncreaseCostPercentage
+             / 100);
+            PlayerData.AddMoney(totalOrderCost);
             PlayerData.SetCustomerAttended();
         }
         else if (stateMachine.Current.State == NpcState.AT_COUNTER_FINAL)

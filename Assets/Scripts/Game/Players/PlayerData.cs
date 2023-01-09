@@ -72,6 +72,8 @@ public static class PlayerData
         Subtract(upgrade.Cost, ObjectType.UPGRADE_ITEM);
         user.IncreaseUpgrade(upgrade.UpgradeType);
 
+        Debug.Log("Increasing: " + upgrade.UpgradeType);
+
         // if the upgrade requires to increase the game floor 
         if (upgrade.UpgradeType == UpgradeType.GRID_SIZE)
         {
