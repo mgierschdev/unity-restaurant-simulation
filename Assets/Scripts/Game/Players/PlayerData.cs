@@ -206,6 +206,17 @@ public static class PlayerData
 
     public static void InitUser()
     {
+        // We start Unity service to laod the user
+        UnityAuth.InitUnityServices();
+
+        // if the user is not logged we return
+        if (!UnityAuth.GetIsUserLogged())
+        {
+            return;
+        }
+
+        // check && PlayerData.GetDataGameUser() != null
+
         string[] filesaves = UtilJSONFile.GetSaveFiles();
 
         if (filesaves.Length > 0)
@@ -399,5 +410,10 @@ public static class PlayerData
         + " \n Money spent: " + user.DATA_STATS.MONEY_SPENT
         + " \n Clients attended: " + user.DATA_STATS.CLIENTS_ATTENDED
         + " \n Items bought: " + user.DATA_STATS.ITEMS_BOUGHT;
+    }
+
+    public static bool IsUserLogged()
+    {
+        return UnityAuth.GetIsUserLogged();
     }
 }

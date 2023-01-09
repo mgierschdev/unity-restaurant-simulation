@@ -14,6 +14,9 @@ public static class Settings
     OrderIncreaseCostPercentage = 2;// Max value 5, total increase more 10%  
     public const int NpcMultiplayer = 3; // multiplayer * upgrade = Npc number (8), more clients limit (4)
 
+    // Time to retry internet connection
+    public const float TimeToRetryConnection = 10;
+
     // Message controller 
     public const string 
     CanvasMessageObject = "Canvas/Background/Message",
