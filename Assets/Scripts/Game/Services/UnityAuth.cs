@@ -8,6 +8,7 @@ using Unity.Services.Core.Environments;
 // Source: https://docs.unity.com/authentication/PlatformSignInGoogle.html
 public static class UnityAuth
 {
+    private static bool logged;
     // CloudCodeResult structure is the serialized response from the RollDice script in Cloud Code
     private class CloudCodeResult
     {
@@ -18,6 +19,7 @@ public static class UnityAuth
     public static async void InitUnityServices()
     {
         //TODO: current unity services env development
+        logged = false;
         var options = new InitializationOptions();
         options.SetEnvironmentName(Settings.UnityServicesDev);
         await UnityServices.InitializeAsync(options);
@@ -43,20 +45,21 @@ public static class UnityAuth
         try
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            // Shows how to get the playerID
-            // GameLog.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
+            logged = true;
         }
         catch (AuthenticationException ex)
         {
             // Compare error code to AuthenticationErrorCodes
             // Notify the player with the proper error message
             GameLog.LogWarning(ex.ToString());
+            logged = false;
         }
         catch (RequestFailedException ex)
         {
             // Compare error code to CommonErrorCodes
             // Notify the player with the proper error message
             GameLog.LogWarning(ex.ToString());
+            logged = false;
         }
     }
 
@@ -112,5 +115,10 @@ public static class UnityAuth
     public static bool IsUnityServiceInitialized()
     {
         return UnityServices.State == ServicesInitializationState.Initialized;
+    }
+
+    public static bool GetIsUserLogged()
+    {
+        return logged;
     }
 }

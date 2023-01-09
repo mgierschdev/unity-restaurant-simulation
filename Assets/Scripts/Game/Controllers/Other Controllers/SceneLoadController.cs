@@ -36,7 +36,10 @@ public class SceneLoadController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!Util.IsInternetReachable()){
+        Debug.Log("Network connection: " + Util.IsInternetReachable());
+
+        if (!Util.IsInternetReachable())
+        {
             // TODO: show popup
             return;
         }
@@ -48,7 +51,8 @@ public class SceneLoadController : MonoBehaviour
         && Mathf.Approximately(operation.progress, 0.9f)
         && currentTimeAtScene >= MIN_TIME_LOADING
         && PlayerData.GetDataGameUser() != null
-        && UnityAuth.IsUnityServiceInitialized())
+        && UnityAuth.IsUnityServiceInitialized()
+        && UnityAuth.GetIsUserLogged())//TODO: re-try connection after an interval of seconds
         {
             operation.allowSceneActivation = true;
         }
