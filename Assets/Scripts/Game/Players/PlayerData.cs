@@ -204,10 +204,9 @@ public static class PlayerData
         return Guid.NewGuid().ToString() + "." + Guid.NewGuid().ToString().Substring(0, 5);
     }
 
+    // Called at the end of Unity Auth service to load the user with the response of the cloud code function
     public static void InitUser()
-    {
-        UnityAuth.InitUnityServices();
-        
+    {        
         string[] filesaves = UtilJSONFile.GetSaveFiles();
 
         if (filesaves.Length > 0)
