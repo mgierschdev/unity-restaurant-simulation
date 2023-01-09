@@ -13,6 +13,12 @@ public static class Settings
     InitClientWaitTime = 10, // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
     OrderIncreaseCostPercentage = 2;// Max value 5, total increase more 10%  
     public const int NpcMultiplayer = 3; // multiplayer * upgrade = Npc number (8), more clients limit (4)
+
+    // Message controller 
+    public const string 
+    CanvasMessageObject = "Canvas/Background/Message",
+    MessageTextObject = "Body/Message",
+    MessageImageObject = "Body/Image";
     
 
 #if UNITY_EDITOR
