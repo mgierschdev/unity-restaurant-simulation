@@ -31,7 +31,7 @@ public class SceneLoadController : MonoBehaviour
         //we init Unity game services 
         try
         {
-            PlayerData.InitUser();
+            UnityAuth.InitUnityServices();
         }
         catch (SystemException e)
         {

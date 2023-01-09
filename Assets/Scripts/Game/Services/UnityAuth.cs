@@ -54,64 +54,64 @@ public static class UnityAuth
         {
             // Compare error code to AuthenticationErrorCodes
             // Notify the player with the proper error message
-            GameLog.LogWarning(ex.ToString());
+            GameLog.Log(ex.ToString()); //Internet connection failed or other
         }
         catch (RequestFailedException ex)
         {
             // Compare error code to CommonErrorCodes
             // Notify the player with the proper error message
-            GameLog.LogWarning(ex.ToString());
+            GameLog.Log(ex.ToString());
         }
     }
 
-    public static async Task SignInWithGoogleAsync(string idToken)
-    {
-        try
-        {
-            await AuthenticationService.Instance.SignInWithGoogleAsync(idToken);
-            // GameLog.Log("SignIn is successful.");
-        }
-        catch (AuthenticationException ex)
-        {
-            // Compare error code to AuthenticationErrorCodes
-            // Notify the player with the proper error message
-            GameLog.LogWarning(ex.ToString());
-        }
-        catch (RequestFailedException ex)
-        {
-            // Compare error code to CommonErrorCodes
-            // Notify the player with the proper error message
-            GameLog.LogWarning(ex.ToString());
-        }
-    }
+    // public static async Task SignInWithGoogleAsync(string idToken)
+    // {
+    //     try
+    //     {
+    //         await AuthenticationService.Instance.SignInWithGoogleAsync(idToken);
+    //         // GameLog.Log("SignIn is successful.");
+    //     }
+    //     catch (AuthenticationException ex)
+    //     {
+    //         // Compare error code to AuthenticationErrorCodes
+    //         // Notify the player with the proper error message
+    //         GameLog.LogWarning(ex.ToString());
+    //     }
+    //     catch (RequestFailedException ex)
+    //     {
+    //         // Compare error code to CommonErrorCodes
+    //         // Notify the player with the proper error message
+    //         GameLog.LogWarning(ex.ToString());
+    //     }
+    // }
 
-    //In order to link an anon user to a google account
-    public static async Task LinkWithGoogleAsync(string idToken)
-    {
-        try
-        {
-            await AuthenticationService.Instance.LinkWithGoogleAsync(idToken);
-            GameLog.Log("Link is successful.");
-        }
-        catch (AuthenticationException ex) when (ex.ErrorCode == AuthenticationErrorCodes.AccountAlreadyLinked)
-        {
-            // Prompt the player with an error message.
-            GameLog.Log("This user is already linked with another account. Log in instead.");
-        }
+    // //In order to link an anon user to a google account
+    // public static async Task LinkWithGoogleAsync(string idToken)
+    // {
+    //     try
+    //     {
+    //         await AuthenticationService.Instance.LinkWithGoogleAsync(idToken);
+    //         GameLog.Log("Link is successful.");
+    //     }
+    //     catch (AuthenticationException ex) when (ex.ErrorCode == AuthenticationErrorCodes.AccountAlreadyLinked)
+    //     {
+    //         // Prompt the player with an error message.
+    //         GameLog.Log("This user is already linked with another account. Log in instead.");
+    //     }
 
-        catch (AuthenticationException ex)
-        {
-            // Compare error code to AuthenticationErrorCodes
-            // Notify the player with the proper error message
-            GameLog.LogWarning(ex.ToString());
-        }
-        catch (RequestFailedException ex)
-        {
-            // Compare error code to CommonErrorCodes
-            // Notify the player with the proper error message
-            GameLog.LogWarning(ex.ToString());
-        }
-    }
+    //     catch (AuthenticationException ex)
+    //     {
+    //         // Compare error code to AuthenticationErrorCodes
+    //         // Notify the player with the proper error message
+    //         GameLog.LogWarning(ex.ToString());
+    //     }
+    //     catch (RequestFailedException ex)
+    //     {
+    //         // Compare error code to CommonErrorCodes
+    //         // Notify the player with the proper error message
+    //         GameLog.LogWarning(ex.ToString());
+    //     }
+    // }
 
     public static bool GetIsUserLogged()
     {
