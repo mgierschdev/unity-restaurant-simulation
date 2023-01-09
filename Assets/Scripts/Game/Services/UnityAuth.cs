@@ -29,6 +29,12 @@ public static class UnityAuth
             await SignInAnonymouslyAsync();
         }
 
+        // In case we could not connect 
+        if (!logged)
+        {
+            return;
+        }
+
         CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.CloudCodeGetPlayerData, null);
 
         Dictionary<string, object> parameters = new Dictionary<string, object>(){
@@ -112,13 +118,13 @@ public static class UnityAuth
         }
     }
 
-    public static bool IsUnityServiceInitialized()
+    private static bool IsUnityServiceInitialized()
     {
         return UnityServices.State == ServicesInitializationState.Initialized;
     }
 
     public static bool GetIsUserLogged()
     {
-        return logged;
+        return logged && IsUnityServiceInitialized();
     }
 }

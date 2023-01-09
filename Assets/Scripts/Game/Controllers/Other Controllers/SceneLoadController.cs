@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using IEnumerator = System.Collections.IEnumerator;
 
 // This controller is attached to the -LoadScene-  not to the main game scene -World-
 // Check the folder under Assets/Scenes
@@ -9,7 +10,7 @@ public class SceneLoadController : MonoBehaviour
 {
     private Slider slider;
     private AsyncOperation operation;
-    private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene;
+    private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene, timeRetryingConnection;
     private MessageController messageController;
 
     public void Awake()
@@ -32,7 +33,8 @@ public class SceneLoadController : MonoBehaviour
         try
         {
             PlayerData.InitUser();
-            UnityAuth.InitUnityServices();
+            //Spam new NPC is there is missing npcs
+            StartCoroutine(LoadScene());
         }
         catch (SystemException e)
         {
@@ -40,38 +42,54 @@ public class SceneLoadController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+
+    private IEnumerator LoadScene()
     {
-        Debug.Log("Network connection: " + Util.IsInternetReachable());
-
-        if (!Util.IsInternetReachable())
+        for (; ; )
         {
-            // TODO: show popup
-            messageController.Enable();
-            return;
-        }
+            try
+            {
+                timeRetryingConnection++;
 
-        currentTimeAtScene += Time.fixedDeltaTime;
-        slider.value = currentTimeAtScene / MIN_TIME_LOADING;
+                if (Util.IsInternetReachable() && PlayerData.IsUserLogged())
+                {
+                    currentTimeAtScene++;
+                    slider.value = currentTimeAtScene / MIN_TIME_LOADING;
 
-        if (operation != null
-        && Mathf.Approximately(operation.progress, 0.9f)
-        && currentTimeAtScene >= MIN_TIME_LOADING
-        && PlayerData.GetDataGameUser() != null
-        && UnityAuth.IsUnityServiceInitialized()
-        && UnityAuth.GetIsUserLogged())//TODO: re-try connection after an interval of seconds
-        {
-            operation.allowSceneActivation = true;
-        }
-        else if (operation == null)
-        {
-            operation = SceneManager.LoadSceneAsync(Settings.GameScene);
-            // if not will load scene before filling the load animation
-            operation.allowSceneActivation = false;
+                    if (operation != null
+                    && Mathf.Approximately(operation.progress, 0.9f)
+                    && currentTimeAtScene >= MIN_TIME_LOADING)
+                    {
+                        operation.allowSceneActivation = true;
+                    }
+                    else if (operation == null)
+                    {
+                        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+                        // if not will load scene before filling the load animation
+                        operation.allowSceneActivation = false;
+                    }
+                }
+                else
+                {
+                    Debug.Log(timeRetryingConnection);
+                    float currentTime = Settings.TimeToRetryConnection - timeRetryingConnection;
+                    messageController.Enable();
+                    messageController.SetTextMessage(TextUI.ConnectionProblem + currentTime);
+
+                    if (currentTime <= 0)
+                    {
+                        timeRetryingConnection = 0;
+                        messageController.SetTextMessage(TextUI.ConnectionProblem );
+                        PlayerData.InitUser();
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                GameLog.LogError("Exception thrown, SceneLoadController/LoadScene(): " + e);
+            }
+            yield return new WaitForSeconds(1f);
         }
     }
-
-
-
-
 }

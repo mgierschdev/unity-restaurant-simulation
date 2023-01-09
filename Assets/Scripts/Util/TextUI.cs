@@ -10,6 +10,5 @@ public static class TextUI
     Settings = "Settings",
     Tutorial = "Tutorial",
     Max = "Max",
-    ConnectionProblem = "Could not connect.",
-    Retrying  = "Retrying... ";
+    ConnectionProblem = "Could not connect. Retrying. ";
 }
