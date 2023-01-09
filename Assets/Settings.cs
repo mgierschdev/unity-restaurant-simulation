@@ -5,14 +5,15 @@ public static class Settings
     public const int DebugTextSize = 9;
 
     // Upgrades
-    public const float NpcDefaultMovementSpeed = 1.3f; //1 = Looks good with current animation
-    public const float UpgradePercentageMultiplayer = 0.08f;
-    public const float DefultItemLoadSpeed = 5f; // in seconds
-    public const float ItemLoadSliderMultiplayer = 0.05f;
-    public const float SpeedToMoveObjects = 1.3f; // in seconds
+    public const float NpcDefaultMovementSpeed = 1.3f, //1 = Looks good with current animation
+    UpgradePercentageMultiplayer = 0.08f,
+    DefultItemLoadSpeed = 5f, // in seconds
+    ItemLoadSliderMultiplayer = 0.05f,
+    SpeedToMoveObjects = 1.3f, // in seconds
+    InitClientWaitTime = 10, // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
+    OrderIncreaseCostPercentage = 2;// Max value 5, total increase more 10%  
     public const int NpcMultiplayer = 3; // multiplayer * upgrade = Npc number (8), more clients limit (4)
-    // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
-    public const int InitClientWaitTime = 10;
+    
 
 #if UNITY_EDITOR
     public const bool devEnv = true;
