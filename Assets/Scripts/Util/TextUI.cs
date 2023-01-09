@@ -9,5 +9,7 @@ public static class TextUI
     Storage = "Storage",
     Settings = "Settings",
     Tutorial = "Tutorial",
-    Max = "Max";
+    Max = "Max",
+    ConnectionProblem = "Could not connect.",
+    Retrying  = "Retrying... ";
 }

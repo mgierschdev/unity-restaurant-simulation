@@ -10,9 +10,15 @@ public class SceneLoadController : MonoBehaviour
     private Slider slider;
     private AsyncOperation operation;
     private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene;
+    private MessageController messageController;
 
     public void Awake()
     {
+        // We get the message controller for the init message
+        GameObject initMessage = transform.Find(Settings.CanvasMessageObject).gameObject;
+        messageController = initMessage.GetComponent<MessageController>();
+        messageController.Disable();
+
         // We get the slider 
         GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
         slider = sliderGameObject.GetComponent<Slider>();
@@ -41,6 +47,7 @@ public class SceneLoadController : MonoBehaviour
         if (!Util.IsInternetReachable())
         {
             // TODO: show popup
+            messageController.Enable();
             return;
         }
 
