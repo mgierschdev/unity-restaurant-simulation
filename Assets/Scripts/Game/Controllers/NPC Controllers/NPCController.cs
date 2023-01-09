@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class NPCController : GameObjectMovementBase
 {
     private const float MaxStateTime = 20; // in seconds
-    private const float MaxTableWaitingTime = 10;
+    private float MaxTableWaitingTime;
 
     private void Start()
     {
@@ -16,6 +16,7 @@ public class NPCController : GameObjectMovementBase
         SetID();
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());
+        UpdateMaxTableWaitingTime();
     }
 
     private void FixedUpdate()
@@ -208,5 +209,10 @@ public class NPCController : GameObjectMovementBase
     public void SetBeingAttended()
     {
         stateMachine.SetTransition(NpcStateTransitions.BEING_ATTENDED);
+    }
+
+    public void UpdateMaxTableWaitingTime()
+    {
+        MaxTableWaitingTime = Settings.InitClientWaitTime + PlayerData.GetUgrade(UpgradeType.CLIENT_MAX_WAITING_TIME) * (10 * Settings.InitClientWaitTime / 100);
     }
 }

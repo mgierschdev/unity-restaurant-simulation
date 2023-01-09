@@ -524,7 +524,6 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
     public bool IsFree()
     {
-        //Debug.Log(Name + " UsedBy " + (usedBy == null) + " " + (attendedBy == null));
         return usedBy == null && attendedBy == null;
     }
     public bool HasClient()

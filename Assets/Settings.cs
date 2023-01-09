@@ -10,7 +10,9 @@ public static class Settings
     public const float DefultItemLoadSpeed = 5f; // in seconds
     public const float ItemLoadSliderMultiplayer = 0.05f;
     public const float SpeedToMoveObjects = 1.3f; // in seconds
-    public const int NpcMultiplayer = 3; // multiplayer * upgrade = Npc number (8), more clients limit (5)
+    public const int NpcMultiplayer = 3; // multiplayer * upgrade = Npc number (8), more clients limit (4)
+    // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
+    public const int InitClientWaitTime = 10;
 
 #if UNITY_EDITOR
     public const bool devEnv = true;
