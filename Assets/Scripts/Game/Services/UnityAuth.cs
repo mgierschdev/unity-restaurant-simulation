@@ -8,7 +8,6 @@ using Unity.Services.Core.Environments;
 // Source: https://docs.unity.com/authentication/PlatformSignInGoogle.html
 public static class UnityAuth
 {
-    private static bool logged;
     // CloudCodeResult structure is the serialized response from the RollDice script in Cloud Code
     private class CloudCodeResult
     {
@@ -18,10 +17,8 @@ public static class UnityAuth
 
     public static async void InitUnityServices()
     {
-        //TODO: current unity services env development
-        logged = false;
         var options = new InitializationOptions();
-        options.SetEnvironmentName(Settings.UnityServicesDev);
+        options.SetEnvironmentName(Settings.UnityServicesDev); //TODO: current unity services env development
         await UnityServices.InitializeAsync(options);
 
         if (!AuthenticationService.Instance.IsSignedIn)
@@ -29,8 +26,8 @@ public static class UnityAuth
             await SignInAnonymouslyAsync();
         }
 
-        // In case we could not connect 
-        if (!logged)
+        // In case we could not connect or do auth
+        if (!AuthenticationService.Instance.IsSignedIn)
         {
             return;
         }
@@ -44,6 +41,7 @@ public static class UnityAuth
         UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
         GameLog.LogService("Auth user id: " + AuthenticationService.Instance.PlayerId);
         GameLog.LogService("CloudCodeGetPlayerData: " + response.key + " " + response.value);
+        PlayerData.InitUser();
     }
 
     public static async Task SignInAnonymouslyAsync()
@@ -51,21 +49,18 @@ public static class UnityAuth
         try
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            logged = true;
         }
         catch (AuthenticationException ex)
         {
             // Compare error code to AuthenticationErrorCodes
             // Notify the player with the proper error message
             GameLog.LogWarning(ex.ToString());
-            logged = false;
         }
         catch (RequestFailedException ex)
         {
             // Compare error code to CommonErrorCodes
             // Notify the player with the proper error message
             GameLog.LogWarning(ex.ToString());
-            logged = false;
         }
     }
 
@@ -118,13 +113,8 @@ public static class UnityAuth
         }
     }
 
-    private static bool IsUnityServiceInitialized()
-    {
-        return UnityServices.State == ServicesInitializationState.Initialized;
-    }
-
     public static bool GetIsUserLogged()
     {
-        return logged && IsUnityServiceInitialized();
+        return UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn;
     }
 }

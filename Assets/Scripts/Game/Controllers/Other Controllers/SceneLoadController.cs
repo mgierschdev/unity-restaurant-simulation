@@ -28,13 +28,11 @@ public class SceneLoadController : MonoBehaviour
         currentTimeAtScene = 0;
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
 
-
         //we init Unity game services 
         try
         {
             PlayerData.InitUser();
-            //Spam new NPC is there is missing npcs
-            StartCoroutine(LoadScene());
+            StartCoroutine(CheckInternet());
         }
         catch (SystemException e)
         {
@@ -42,8 +40,7 @@ public class SceneLoadController : MonoBehaviour
         }
     }
 
-
-    private IEnumerator LoadScene()
+    private IEnumerator CheckInternet()
     {
         for (; ; )
         {
@@ -51,45 +48,59 @@ public class SceneLoadController : MonoBehaviour
             {
                 timeRetryingConnection++;
 
-                if (Util.IsInternetReachable() && PlayerData.IsUserLogged())
+                if (!PlayerData.IsUserLogged() && !Util.IsInternetReachable() && timeRetryingConnection >= Settings.TimeToRetryConnection)
                 {
-                    currentTimeAtScene++;
-                    slider.value = currentTimeAtScene / MIN_TIME_LOADING;
+                    PlayerData.InitUser();
+                    timeRetryingConnection = 0;
 
-                    if (operation != null
-                    && Mathf.Approximately(operation.progress, 0.9f)
-                    && currentTimeAtScene >= MIN_TIME_LOADING)
+                    if (messageController.GetIsActive())
                     {
-                        operation.allowSceneActivation = true;
-                    }
-                    else if (operation == null)
-                    {
-                        operation = SceneManager.LoadSceneAsync(Settings.GameScene);
-                        // if not will load scene before filling the load animation
-                        operation.allowSceneActivation = false;
+                        messageController.SetTextMessage(TextUI.ConnectionProblem + " " + (Settings.TimeToRetryConnection - timeRetryingConnection));
                     }
                 }
                 else
                 {
-                    Debug.Log(timeRetryingConnection);
-                    float currentTime = Settings.TimeToRetryConnection - timeRetryingConnection;
-                    messageController.Enable();
-                    messageController.SetTextMessage(TextUI.ConnectionProblem + currentTime);
-
-                    if (currentTime <= 0)
-                    {
-                        timeRetryingConnection = 0;
-                        messageController.SetTextMessage(TextUI.ConnectionProblem );
-                        PlayerData.InitUser();
-                    }
+                    messageController.Disable();
                 }
-
             }
             catch (Exception e)
             {
-                GameLog.LogError("Exception thrown, SceneLoadController/LoadScene(): " + e);
+                throw new Exception(e.ToString());
+                GameLog.LogError("Exception thrown, GameController/CheckInternet(): " + e);
             }
             yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!Util.IsInternetReachable())
+        {
+            messageController.Enable();
+            return;
+        }
+
+        if (!PlayerData.IsUserLogged())
+        {
+            return;
+        }
+
+        currentTimeAtScene += Time.fixedDeltaTime;
+        slider.value = currentTimeAtScene / MIN_TIME_LOADING;
+
+        GameLog.Log("Loading: " + (operation != null ? operation.progress : "null") + " " + (currentTimeAtScene >= MIN_TIME_LOADING) + " " + PlayerData.IsUserLogged());
+
+        if (operation != null
+        && Mathf.Approximately(operation.progress, 0.9f)
+        && currentTimeAtScene >= MIN_TIME_LOADING)
+        {
+            operation.allowSceneActivation = true;
+        }
+        else if (operation == null)
+        {
+            operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+            // if not will load scene before filling the load animation
+            operation.allowSceneActivation = false;
         }
     }
 }

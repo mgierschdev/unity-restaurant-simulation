@@ -27,4 +27,9 @@ public class MessageController : MonoBehaviour
     {
         transform.gameObject.SetActive(false);
     }
+
+    public bool GetIsActive()
+    {
+        return transform.gameObject.activeSelf;
+    }
 }
