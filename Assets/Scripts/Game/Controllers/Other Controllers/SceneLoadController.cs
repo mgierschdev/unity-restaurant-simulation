@@ -36,6 +36,11 @@ public class SceneLoadController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(!Util.IsInternetReachable()){
+            // TODO: show popup
+            return;
+        }
+
         currentTimeAtScene += Time.fixedDeltaTime;
         slider.value = currentTimeAtScene / MIN_TIME_LOADING;
 
