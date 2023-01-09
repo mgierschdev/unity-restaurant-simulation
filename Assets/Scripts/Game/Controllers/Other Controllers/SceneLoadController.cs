@@ -32,43 +32,10 @@ public class SceneLoadController : MonoBehaviour
         try
         {
             PlayerData.InitUser();
-            StartCoroutine(CheckInternet());
         }
         catch (SystemException e)
         {
             GameLog.LogWarning(e.ToString());
-        }
-    }
-
-    private IEnumerator CheckInternet()
-    {
-        for (; ; )
-        {
-            try
-            {
-                timeRetryingConnection++;
-
-                if (!PlayerData.IsUserLogged() && !Util.IsInternetReachable() && timeRetryingConnection >= Settings.TimeToRetryConnection)
-                {
-                    PlayerData.InitUser();
-                    timeRetryingConnection = 0;
-
-                    if (messageController.GetIsActive())
-                    {
-                        messageController.SetTextMessage(TextUI.ConnectionProblem + " " + (Settings.TimeToRetryConnection - timeRetryingConnection));
-                    }
-                }
-                else
-                {
-                    messageController.Disable();
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.ToString());
-                GameLog.LogError("Exception thrown, GameController/CheckInternet(): " + e);
-            }
-            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -77,11 +44,7 @@ public class SceneLoadController : MonoBehaviour
         if (!Util.IsInternetReachable())
         {
             messageController.Enable();
-            return;
-        }
-
-        if (!PlayerData.IsUserLogged())
-        {
+            messageController.SetTextMessage(TextUI.ConnectionProblem);
             return;
         }
 
