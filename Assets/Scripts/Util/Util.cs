@@ -511,9 +511,7 @@ public static class Util
         //Check if the device cannot reach the internet
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            //Change the Text
-            // m_ReachabilityText = "Not Reachable.";
-            count++;
+            return false;
         }
         //Check if the device can reach the internet via a carrier data network
         else if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
