@@ -34,8 +34,8 @@ public static class UnityAuth
         };
 
         UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
-
-        GameLog.Log("Response result: " + response.key + " " + response.value);
+        GameLog.LogService("Auth user id: " + AuthenticationService.Instance.PlayerId);
+        GameLog.LogService("CloudCodeGetPlayerData: " + response.key + " " + response.value);
     }
 
     public static async Task SignInAnonymouslyAsync()
