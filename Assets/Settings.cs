@@ -3,22 +3,20 @@ public static class Settings
     // General Config
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
+
+    // Upgrades
     public const float NpcDefaultMovementSpeed = 1.3f; //1 = Looks good with current animation
     public const float UpgradePercentageMultiplayer = 0.08f;
     public const float DefultItemLoadSpeed = 5f; // in seconds
     public const float ItemLoadSliderMultiplayer = 0.05f;
     public const float SpeedToMoveObjects = 1.3f; // in seconds
+    public const int NpcMultiplayer = 3; // multiplayer * upgrade = Npc number (8), more clients limit (5)
 
 #if UNITY_EDITOR
     public const bool devEnv = true;
 #else
     public const bool devEnv = false;
 #endif
-
-    public const int NpcMultiplayer = 8; // 100 > fps 11-12, multiplayer * upgrade
-    public static int[] StartStoreItemDispenser = new int[] { 5, 14 },
-    StartTable = new int[] { 5, 12 },
-    StartCounter = new int[] { 3, 13 };
 
     //CAMERA ATTRIBUTES
     public static float CameraMovementSpeed = 25f,
@@ -35,6 +33,10 @@ public static class Settings
     InitExperience = 0,
     InitLevel = 0,
     InitGridSize = 1;
+    // Init Objects
+    public static int[] StartStoreItemDispenser = new int[] { 5, 14 },
+    StartTable = new int[] { 5, 12 },
+    StartCounter = new int[] { 3, 13 };
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f,
