@@ -92,6 +92,11 @@ public static class PlayerData
             UpdateObjectLoadSpeed();
         }
 
+        if (upgrade.UpgradeType == UpgradeType.CLIENT_MAX_WAITING_TIME)
+        {
+            BussGrid.GameController.UpgradeClientMaxWaitTime();
+        }
+
         return true;
     }
 

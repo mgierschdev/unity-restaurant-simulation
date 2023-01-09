@@ -9,14 +9,14 @@ public class GameController : MonoBehaviour
     private int NpcMaxNumber = Settings.NpcMultiplayer, npcId;
     private GameObject gameGridObject, NPCS;
     private GameTile tileSpawn;
-    private HashSet<NPCController> NpcSet;
+    private HashSet<NPCController> ClientSet;
     private HashSet<EmployeeController> EmployeeSet;
     private HashSet<Vector3Int> playerPositionSet, employeePlannedTarget;
 
     private void Start()
     {
         npcId = 0;
-        NpcSet = new HashSet<NPCController>();
+        ClientSet = new HashSet<NPCController>();
         EmployeeSet = new HashSet<EmployeeController>();
         playerPositionSet = new HashSet<Vector3Int>();
         employeePlannedTarget = new HashSet<Vector3Int>();
@@ -35,9 +35,8 @@ public class GameController : MonoBehaviour
         {
             try
             {
-                if (NpcSet.Count < NpcMaxNumber)
+                if (ClientSet.Count < NpcMaxNumber)
                 {
-                    Debug.Log("Max Number NPC " + NpcMaxNumber);
                     SpamNpc();
                 }
 
@@ -64,7 +63,7 @@ public class GameController : MonoBehaviour
             {
                 if (GetFreeTable(out GameGridObject table))
                 {
-                    foreach (NPCController npcController in NpcSet)
+                    foreach (NPCController npcController in ClientSet)
                     {
                         if (!npcController.HasTable())
                         {
@@ -142,7 +141,7 @@ public class GameController : MonoBehaviour
         npcObject.transform.SetParent(NPCS.transform);
         npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
         NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
-        NpcSet.Add(isometricNPCController);
+        ClientSet.Add(isometricNPCController);
         npcId++;
     }
 
@@ -168,9 +167,9 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        if (NpcSet.Contains(controller))
+        if (ClientSet.Contains(controller))
         {
-            NpcSet.Remove(controller);
+            ClientSet.Remove(controller);
         }
         else
         {
@@ -193,7 +192,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        foreach (NPCController npcController in NpcSet)
+        foreach (NPCController npcController in ClientSet)
         {
             Vector3Int npcPosition = BussGrid.GetPathFindingGridFromWorldPosition(npcController.transform.position);
             if (npcPosition == position)
@@ -213,7 +212,7 @@ public class GameController : MonoBehaviour
             employeeController.RecalculateGoTo();
         }
 
-        foreach (NPCController npcController in NpcSet)
+        foreach (NPCController npcController in ClientSet)
         {
             npcController.RecalculateGoTo();
         }
@@ -221,7 +220,7 @@ public class GameController : MonoBehaviour
 
     public HashSet<NPCController> GetNpcSet()
     {
-        return NpcSet;
+        return ClientSet;
     }
 
     public HashSet<EmployeeController> GetEmployeeSet()
@@ -232,7 +231,7 @@ public class GameController : MonoBehaviour
     // Used for debug
     public NPCController GetNPC(string ID)
     {
-        foreach (NPCController npc in NpcSet)
+        foreach (NPCController npc in ClientSet)
         {
             if (npc.Name == ID)
             {
@@ -409,8 +408,18 @@ public class GameController : MonoBehaviour
         return null;
     }
 
+
+    // Upgrades
     public void UpdateClientNumber()
     {
         NpcMaxNumber = Settings.NpcMultiplayer * (PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS));
+    }
+
+    public void UpgradeClientMaxWaitTime()
+    {
+        foreach (NPCController client in ClientSet)
+        {
+            client.UpdateMaxTableWaitingTime();
+        }
     }
 }
