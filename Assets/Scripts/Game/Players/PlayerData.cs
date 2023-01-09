@@ -401,10 +401,4 @@ public static class PlayerData
         + " \n Clients attended: " + user.DATA_STATS.CLIENTS_ATTENDED
         + " \n Items bought: " + user.DATA_STATS.ITEMS_BOUGHT;
     }
-
-    public static bool IsUserLogged()
-    {
-        GameLog.Log("Is user logged: UnityAuth.GetIsUserLogged(): " + UnityAuth.GetIsUserLogged() + " GetDataGameUser(): " + GetDataGameUser());
-        return UnityAuth.GetIsUserLogged() && GetDataGameUser() != null;
-    }
 }
