@@ -51,13 +51,13 @@ public class SceneLoadController : MonoBehaviour
         currentTimeAtScene += Time.fixedDeltaTime;
         slider.value = currentTimeAtScene / MIN_TIME_LOADING;
 
-        GameLog.Log("Loading: " + (operation != null ? operation.progress : "null") + " " + (currentTimeAtScene >= MIN_TIME_LOADING) + " ");
+        GameLog.Log("Loading: " + (operation != null ? operation.progress : "null") + " " + (currentTimeAtScene >= MIN_TIME_LOADING) + " " + PlayerData.GetDataGameUser() + " " + UnityAuth.GetIsUserLogged());
 
         // The user is loaded, the Service is init, the user is auth complete and 2 seconds passed
         if (operation != null
         && Mathf.Approximately(operation.progress, 0.9f)
         && currentTimeAtScene >= MIN_TIME_LOADING
-        && PlayerData.GetDataGameUser() != null 
+        && PlayerData.GetDataGameUser() != null
         && UnityAuth.GetIsUserLogged())
         {
             operation.allowSceneActivation = true;
