@@ -4,6 +4,12 @@ public static class Settings
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
 
+#if UNITY_EDITOR
+    public const bool devEnv = true;
+#else
+    public const bool devEnv = false;
+#endif
+
     // Upgrades
     public const float NpcDefaultMovementSpeed = 1.3f, //1 = Looks good with current animation
     UpgradePercentageMultiplayer = 0.08f,
@@ -18,17 +24,10 @@ public static class Settings
     public const float TimeToRetryConnection = 10;
 
     // Message controller 
-    public const string 
+    public const string
     CanvasMessageObject = "Canvas/Background/Message",
     MessageTextObject = "Body/Message",
     MessageImageObject = "Body/Image";
-    
-
-#if UNITY_EDITOR
-    public const bool devEnv = true;
-#else
-    public const bool devEnv = false;
-#endif
 
     //CAMERA ATTRIBUTES
     public static float CameraMovementSpeed = 25f,
@@ -124,6 +123,7 @@ public static class Settings
     TilemapBusinessFloor_9 = "TilemapBusinessFloor_9",
     TilemapBusinessFloor_10 = "TilemapBusinessFloor_10",
     TilemapBusinessFloor_Decoration = "TilemapBusinessFloor_Decoration",
+    TilemapBusinessWall_Decoration = "TilemapBusinessWalls_Decoration",
     PathFindingGrid = "PathFindingGrid";
 
     //SPRITE LIBS CATEGORIES
@@ -207,9 +207,9 @@ public static class Settings
     public const string GridTilesSimple = "Sprites/Tiles/GridTile",
     GridTilesFloorBrown = "Sprites/Tiles/Floor-Brown";
     public static string[] BussWalls = new string[]{
-        "Sprites/Tiles/Wall-Brown/Wall-Front-Brown", 
-        "Sprites/Tiles/Wall-Brown/Wall-Front-Brown-End", 
-        "Sprites/Tiles/Wall-Brown/Wall-Corner-Brown", 
-        "Sprites/Tiles/Wall-Brown/Wall-Rotated-Brown", 
+        "Sprites/Tiles/Wall-Brown/Wall-Front-Brown",
+        "Sprites/Tiles/Wall-Brown/Wall-Front-Brown-End",
+        "Sprites/Tiles/Wall-Brown/Wall-Corner-Brown",
+        "Sprites/Tiles/Wall-Brown/Wall-Rotated-Brown",
         "Sprites/Tiles/Wall-Brown/Wall-Rotated-Brown-End"};
 }

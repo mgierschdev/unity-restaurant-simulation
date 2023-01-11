@@ -52,6 +52,7 @@ public static class BussGrid
         mapWorldPositionToTile = new ConcurrentDictionary<Vector3, GameTile>();
         mapGridPositionToTile = new ConcurrentDictionary<Vector3Int, GameTile>();
         mapPathFindingGrid = new ConcurrentDictionary<Vector3Int, GameTile>();
+
         spamPoints = new List<GameTile>();
 
         mapFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
@@ -73,7 +74,6 @@ public static class BussGrid
 
         //ObjectListConfiguration
         MenuObjectList.Init();
-
         // Object Dragging Handler
         ObjectDraggingHandler.Init();
         // Table Handler 
@@ -115,19 +115,20 @@ public static class BussGrid
         LoadTileMap(listWalkingPathTileMap, TilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listGameFloor, TilemapGameFloor, mapGameFloor);
         LoadTileMap(listFloorTileMap, TilemapFloor, mapFloor);
-        DrawTilemapBusinessDecoration();
+        DrawBuss();
     }
 
-    // Increases the tilemap buss floor for the upgrade
+    // Increases the tilemap buss floor/Walls for the upgrade
     public static void ReloadTilemapGameFloor(Tilemap floor)
     {
         TilemapGameFloor = floor;
         LoadTileMap(listGameFloor, TilemapGameFloor, mapGameFloor);
-        //Re-draws floor
-        DrawTilemapBusinessDecoration();
+        // Re-draws floor
+        DrawBuss();
     }
 
-    private static void DrawTilemapBusinessDecoration()
+    // Draws buss floor/walls
+    private static void DrawBuss()
     {
         Tilemap floorToDraw = GameObject.Find(Settings.TilemapBusinessFloor_Decoration).GetComponent<Tilemap>();
         floorToDraw.ClearAllTiles();
@@ -142,13 +143,33 @@ public static class BussGrid
 
             TileBase tile = TilemapGameFloor.GetTile(pos);
             TileType tileType = Util.GetTileType(tile.name);
+
+            Debug.Log("pos: " + pos + " ");
+
             if (tileType == TileType.BUS_FLOOR)
             {
                 floorToDraw.SetTile(pos, gridTile);
             }
         }
+
+        DrawBussWalls();
     }
-    
+
+    private static void DrawBussWalls()
+    {
+        //Buss walls
+        TileBase startWall = Resources.Load<Tile>(Settings.BussWalls[0]),
+        frontWall = Resources.Load<Tile>(Settings.BussWalls[1]),
+        cornerWall = Resources.Load<Tile>(Settings.BussWalls[2]),
+        frontRotated = Resources.Load<Tile>(Settings.BussWalls[3]),
+        endFrontRotated = Resources.Load<Tile>(Settings.BussWalls[4]);
+        Tilemap WallToDraw = GameObject.Find(Settings.TilemapBusinessWall_Decoration).GetComponent<Tilemap>();
+
+        List<List<Vector3Int>> grid = GetBussGridGrid();
+
+        WallToDraw.SetTile(grid[0][0], startWall);
+    }
+
     private static void DrawCellCoords()
     {
         foreach (GameTile tile in mapPathFindingGrid.Values)
@@ -823,5 +844,44 @@ public static class BussGrid
         {
             gridArray[obj.GetActionTileInGridPosition().x, obj.GetActionTileInGridPosition().y] = 0;
         }
+    }
+
+    public static int[,] GetBussGridWithinGrid()
+    {
+        int[,] bussGrid = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
+
+        foreach (GameTile tile in listGameFloor)
+        {
+            bussGrid[tile.GridPosition.x, tile.GridPosition.y] = gridArray[tile.GridPosition.x, tile.GridPosition.y];
+        }
+
+        return bussGrid;
+    }
+
+    public static List<List<Vector3Int>> GetBussGridGrid()
+    {
+        int[,] bussGrid = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
+        List<List<Vector3Int>> bussGridList = new List<List<Vector3Int>>();
+
+        foreach (GameTile tile in listGameFloor)
+        {
+            bussGrid[tile.GridPosition.x, tile.GridPosition.y] = 1;
+        }
+
+        for (int i = 0; i < bussGrid.GetLength(0); i++)
+        {
+            List<Vector3Int> level = new List<Vector3Int>();
+
+            for (int j = 0; j < bussGrid.GetLength(1); j++)
+            {
+                if (bussGrid[i, j] == 1)
+                {
+                    level.Add(new Vector3Int(i, j));
+                }
+            }
+            bussGridList.Add(level);
+        }
+
+        return bussGridList;
     }
 }
