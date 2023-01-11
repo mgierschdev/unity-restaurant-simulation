@@ -13,7 +13,7 @@ public class DataGameObject
     [SerializeField]
     public int ROTATION;
 
-    public StoreItemType GetType()
+    public StoreItemType GetStoreItemType()
     {
         return (StoreItemType)ID;
     }
@@ -21,6 +21,6 @@ public class DataGameObject
     // We need to update everytime we add a new counter to the model
     public bool IsCounter()
     {
-        return GetType() == StoreItemType.COUNTER;
+        return GetStoreItemType() == StoreItemType.COUNTER;
     }
 }
