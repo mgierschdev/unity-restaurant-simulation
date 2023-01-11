@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.Services.Analytics;
 using Unity.Services.Authentication;
 using Unity.Services.CloudCode;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
+using Unity.Services.Analytics;
 
 // Source: https://docs.unity.com/authentication/PlatformSignInGoogle.html
 public static class UnityAuth
@@ -21,7 +21,7 @@ public static class UnityAuth
         var options = new InitializationOptions();
         options.SetEnvironmentName(Settings.UnityServicesDev); //TODO: current unity services env development
         await UnityServices.InitializeAsync(options);
-        InitAnalytics();
+        // InitAnalytics();
 
         if (!AuthenticationService.Instance.IsSignedIn)
         {
@@ -40,24 +40,24 @@ public static class UnityAuth
             {AnalyticsEvents.CloudCodeGetPlayerDataResponse, (int) CloudCodeGetPlayerDataResponse.NEW_PLAYER_SAVED}
         };
 
-        UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
+        //UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
+
         GameLog.LogService("Auth user id: " + AuthenticationService.Instance.PlayerId);
         GameLog.LogService("CloudCodeGetPlayerData: " + response.key + " " + response.value);
         PlayerData.InitUser();
     }
 
-    public static async void InitAnalytics()
-    {
-        try
-        {
-            await UnityServices.InitializeAsync();
-            List<string> consentIdentifiers = await AnalyticsService.Instance.CheckForRequiredConsents();
-        }
-        catch (ConsentCheckException e)
-        {
-            // Something went wrong when checking the GeoIP, check the e.Reason and handle appropriately.
-        }
-    }
+    // public static async void InitAnalytics()
+    // {
+    //     try
+    //     {
+    //         List<string> consentIdentifiers = await AnalyticsService.Instance.CheckForRequiredConsents();
+    //     }
+    //     catch (ConsentCheckException e)
+    //     {
+    //         // Something went wrong when checking the GeoIP, check the e.Reason and handle appropriately.
+    //     }
+    // }
 
     public static async Task SignInAnonymouslyAsync()
     {
