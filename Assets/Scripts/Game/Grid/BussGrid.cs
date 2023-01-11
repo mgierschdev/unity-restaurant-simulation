@@ -130,6 +130,12 @@ public static class BussGrid
     // Draws buss floor/walls
     private static void DrawBuss()
     {
+        DrawFloor();
+        DrawBussWalls();
+    }
+
+    private static void DrawFloor()
+    {
         Tilemap floorToDraw = GameObject.Find(Settings.TilemapBusinessFloor_Decoration).GetComponent<Tilemap>();
         floorToDraw.ClearAllTiles();
         TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesFloorBrown);
@@ -144,15 +150,11 @@ public static class BussGrid
             TileBase tile = TilemapGameFloor.GetTile(pos);
             TileType tileType = Util.GetTileType(tile.name);
 
-            Debug.Log("pos: " + pos + " ");
-
             if (tileType == TileType.BUS_FLOOR)
             {
                 floorToDraw.SetTile(pos, gridTile);
             }
         }
-
-        DrawBussWalls();
     }
 
     private static void DrawBussWalls()
@@ -164,10 +166,30 @@ public static class BussGrid
         frontRotated = Resources.Load<Tile>(Settings.BussWalls[3]),
         endFrontRotated = Resources.Load<Tile>(Settings.BussWalls[4]);
         Tilemap WallToDraw = GameObject.Find(Settings.TilemapBusinessWall_Decoration).GetComponent<Tilemap>();
+        WallToDraw.ClearAllTiles();
 
         List<List<Vector3Int>> grid = GetBussGridGrid();
 
-        WallToDraw.SetTile(grid[0][0], startWall);
+        // Drawing beginning
+        WallToDraw.SetTile(grid[0][grid[0].Count - 1], startWall);
+
+        // Drawing front
+        for (int i = 1; i < grid[0].Count - 2; i++)
+        {
+            WallToDraw.SetTile(grid[i][grid[0].Count - 1], frontWall);
+        }
+
+        //Corner
+        WallToDraw.SetTile(grid[grid.Count - 1][grid[0].Count - 1], cornerWall);
+
+        // Drawing rotated front
+        for (int i = grid[0].Count - 2; i >= 1; i--)
+        {
+            WallToDraw.SetTile(grid[grid.Count - 1][i], frontRotated);
+        }
+
+        //Drawing end
+        WallToDraw.SetTile(grid[grid.Count - 1][0], endFrontRotated);
     }
 
     private static void DrawCellCoords()
@@ -879,7 +901,11 @@ public static class BussGrid
                     level.Add(new Vector3Int(i, j));
                 }
             }
-            bussGridList.Add(level);
+
+            if (level.Count > 0)
+            {
+                bussGridList.Add(level);
+            }
         }
 
         return bussGridList;
