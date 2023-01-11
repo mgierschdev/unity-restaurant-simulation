@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Services.Analytics;
 using Unity.Services.Authentication;
 using Unity.Services.CloudCode;
 using Unity.Services.Core;
@@ -20,6 +21,7 @@ public static class UnityAuth
         var options = new InitializationOptions();
         options.SetEnvironmentName(Settings.UnityServicesDev); //TODO: current unity services env development
         await UnityServices.InitializeAsync(options);
+        InitAnalytics();
 
         if (!AuthenticationService.Instance.IsSignedIn)
         {
@@ -42,6 +44,19 @@ public static class UnityAuth
         GameLog.LogService("Auth user id: " + AuthenticationService.Instance.PlayerId);
         GameLog.LogService("CloudCodeGetPlayerData: " + response.key + " " + response.value);
         PlayerData.InitUser();
+    }
+
+    public static async void InitAnalytics()
+    {
+        try
+        {
+            await UnityServices.InitializeAsync();
+            List<string> consentIdentifiers = await AnalyticsService.Instance.CheckForRequiredConsents();
+        }
+        catch (ConsentCheckException e)
+        {
+            // Something went wrong when checking the GeoIP, check the e.Reason and handle appropriately.
+        }
     }
 
     public static async Task SignInAnonymouslyAsync()
