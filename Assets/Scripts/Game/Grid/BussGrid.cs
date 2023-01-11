@@ -127,7 +127,7 @@ public static class BussGrid
         DrawTilemapBusinessDecoration();
     }
 
-    public static void DrawTilemapBusinessDecoration()
+    private static void DrawTilemapBusinessDecoration()
     {
         Tilemap floorToDraw = GameObject.Find(Settings.TilemapBusinessFloor_Decoration).GetComponent<Tilemap>();
         floorToDraw.ClearAllTiles();
@@ -148,7 +148,6 @@ public static class BussGrid
             }
         }
     }
-
     private static void DrawCellCoords()
     {
         foreach (GameTile tile in mapPathFindingGrid.Values)
@@ -360,7 +359,7 @@ public static class BussGrid
                !GameController.IsPathPlannedByEmployee(gridPosition);
     }
 
-    public static bool IsValidBussCoord(Vector3Int pos)
+    private static bool IsValidBussCoord(Vector3Int pos)
     {
         return mapGameFloor.ContainsKey(pos);
     }
@@ -555,7 +554,7 @@ public static class BussGrid
         return result;
     }
 
-    public static int[,] GetBussGrid(Vector3Int position)
+    private static int[,] GetBussGrid(Vector3Int position)
     {
         int[,] busGrid = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
         int[,] gridClone = (int[,])gridArray.Clone();
@@ -794,7 +793,7 @@ public static class BussGrid
         return entranceTile;
     }
 
-    public static bool IsGridPositionBlockingEntrance(Vector3Int pos)
+    private static bool IsGridPositionBlockingEntrance(Vector3Int pos)
     {
         List<Vector3Int> list = GetBussEntrance();
 
