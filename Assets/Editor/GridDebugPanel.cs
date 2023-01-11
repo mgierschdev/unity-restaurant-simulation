@@ -143,22 +143,7 @@ public class GridDebugPanel : EditorWindow
     private void SetBussGrid()
     {
         int[,] grid = BussGrid.GetGridArray();
-        List<GameTile> listBusinessFloor = BussGrid.GetListBusinessFloor();
-
-        int[,] busGrid = new int[grid.GetLength(0), grid.GetLength(1)];
-        int minX = int.MaxValue;
-        int minY = int.MaxValue;
-        int maxX = int.MinValue;
-        int maxY = int.MinValue;
-
-        foreach (GameTile tile in listBusinessFloor)
-        {
-            minX = Mathf.Min(minX, tile.GridPosition.x);
-            minY = Mathf.Min(minY, tile.GridPosition.y);
-            maxX = Mathf.Max(maxX, tile.GridPosition.x);
-            maxY = Mathf.Max(maxY, tile.GridPosition.y);
-            busGrid[tile.GridPosition.x, tile.GridPosition.y] = grid[tile.GridPosition.x, tile.GridPosition.y];
-        }
+        int[,] busGrid = BussGrid.GetBussGridWithinGrid();
 
         // Traspose
         for (int i = 0; i < busGrid.GetLength(0); i++)
