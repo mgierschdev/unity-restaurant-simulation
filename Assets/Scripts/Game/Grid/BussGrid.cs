@@ -174,7 +174,7 @@ public static class BussGrid
         WallToDraw.SetTile(grid[0][grid[0].Count - 1], startWall);
 
         // Drawing front
-        for (int i = 1; i < grid[0].Count - 2; i++)
+        for (int i = 1; i < grid.Count; i++)
         {
             WallToDraw.SetTile(grid[i][grid[0].Count - 1], frontWall);
         }
