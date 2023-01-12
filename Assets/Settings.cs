@@ -18,7 +18,7 @@ public static class Settings
     SpeedToMoveObjects = 1.3f, // in seconds
     InitClientWaitTime = 10, // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
     OrderIncreaseCostPercentage = 2;// Max value 5, total increase more 10%  
-    public const int NpcMultiplayer = 3; // multiplayer * upgrade = Npc number (8), more clients limit (4)
+    public const int NpcMultiplayer = 5; // multiplayer * upgrade = Npc number (3), more clients limit (4)
 
     // Time to retry internet connection
     public const float TimeToRetryConnection = 10;
@@ -207,9 +207,9 @@ public static class Settings
     public const string GridTilesSimple = "Sprites/Tiles/GridTile",
     GridTilesFloorBrown = "Sprites/Tiles/Floor-Brown";
     public static string[] BussWalls = new string[]{
-        "Sprites/Tiles/Wall-Brown/Wall-Front-Brown-End",
-        "Sprites/Tiles/Wall-Brown/Wall-Front-Brown",
-        "Sprites/Tiles/Wall-Brown/Wall-Corner-Brown",
-        "Sprites/Tiles/Wall-Brown/Wall-Rotated-Brown",
-        "Sprites/Tiles/Wall-Brown/Wall-Rotated-Brown-End"};
+        "Sprites/Tiles/Wall-Front-Brown-End",
+        "Sprites/Tiles/Wall-Front-Brown",
+        "Sprites/Tiles/Wall-Corner-Brown",
+        "Sprites/Tiles/Wall-Rotated-Brown",
+        "Sprites/Tiles/Wall-Rotated-Brown-End"};
 }
