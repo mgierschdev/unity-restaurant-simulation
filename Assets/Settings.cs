@@ -205,7 +205,7 @@ public static class Settings
 
     //Tiles
     public const string GridTilesSimple = "Sprites/GridTile",
-    GridTilesFloorBrown = "Sprites/Floor-Brown";
+    GridTilesFloorBrown = "Sprites/Floor-Brown-Tile";
     public static string[] BussWalls = new string[]{
         "Sprites/Wall-Front-Brown-End",
         "Sprites/Wall-Front-Brown",
