@@ -1,7 +1,7 @@
 public static class Settings
 {
     // General Config
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
 
 #if UNITY_EDITOR
@@ -61,15 +61,15 @@ public static class Settings
 
     // Grid Config
     public const float GridCellSize = 0.25f; // 0.25f default
-    public const int GridWidth = 40, // Number of cell per Grid CellSize
+    public const int GridWidth = 30, // Number of cell per Grid CellSize
     GridHeight = 20,
     GridStartX = 0,
     GrtGridStartY = 0;
 
     //UI: Camera
     public const bool CameraPerspectiveHand = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public static float[] CameraPerspectiveHandClampX = { -20f, 20 },
-    CameraPerspectiveHandClampY = { -20, 20f }; // X = -8, 1 || Y = Initial default -8, 1
+    public static float[] CameraPerspectiveHandClampX = { -7, 2 },// left / right
+    CameraPerspectiveHandClampY = { 4, 8 }; // down / up
     public const float CameraFollowInterpolation = 0.034f;
 
     //UI : Camera

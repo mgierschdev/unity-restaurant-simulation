@@ -467,7 +467,7 @@ public static class BussGrid
             return tile.GridPosition;
         }
 
-        GameLog.LogError("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " + position + "/" + TilemapPathFinding.WorldToCell(position));
+        GameLog.LogWarning("GetPathFindingGridFromWorldPosition/ mapGridPositionToTile does not contain the key " + position + "/" + TilemapPathFinding.WorldToCell(position));
         return Util.GetVector3IntNegativeInfinity();
     }
 
