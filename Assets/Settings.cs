@@ -33,7 +33,7 @@ public static class Settings
     public static float CameraMovementSpeed = 25f,
     ZoomSpeed = 35,
     ZoomSpeedPinch = 8f,
-    MinZoomSize = 0.5f, // the max zoom in
+    MinZoomSize = 1.3f, // the max zoom in
     MaxZoomSize = 2f; // the max zoom out
 
     public static int ConstDefaultCameraOrthographicsize = 7;
