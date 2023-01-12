@@ -204,12 +204,12 @@ public static class Settings
     IsometricWorldDebugUIStylesStateMachine = "Assets/Editor/StatemachineWorldDebug.uss";
 
     //Tiles
-    public const string GridTilesSimple = "Sprites/Tiles/GridTile",
-    GridTilesFloorBrown = "Sprites/Tiles/Floor-Brown";
+    public const string GridTilesSimple = "Sprites/GridTile",
+    GridTilesFloorBrown = "Sprites/Floor-Brown";
     public static string[] BussWalls = new string[]{
-        "Sprites/Tiles/Wall-Front-Brown-End",
-        "Sprites/Tiles/Wall-Front-Brown",
-        "Sprites/Tiles/Wall-Corner-Brown",
-        "Sprites/Tiles/Wall-Rotated-Brown",
-        "Sprites/Tiles/Wall-Rotated-Brown-End"};
+        "Sprites/Wall-Front-Brown-End",
+        "Sprites/Wall-Front-Brown",
+        "Sprites/Wall-Corner-Brown",
+        "Sprites/Wall-Rotated-Brown",
+        "Sprites/Wall-Rotated-Brown-End"};
 }
