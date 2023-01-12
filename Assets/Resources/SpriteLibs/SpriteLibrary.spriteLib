@@ -21,7 +21,7 @@ MonoBehaviour:
       m_Hash: -1219768714
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     m_FromMain: 0
     m_EntryOverrideCount: 1
   - m_Name: Tables
@@ -42,37 +42,37 @@ MonoBehaviour:
       m_Hash: 1213503154
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-4
       m_Hash: -701496559
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-5
       m_Hash: -1590217849
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-6
       m_Hash: 943612477
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-7
       m_Hash: 1329156779
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-8
       m_Hash: -544846022
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-9
       m_Hash: -1467908180
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-10
       m_Hash: -473285739
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
@@ -98,37 +98,37 @@ MonoBehaviour:
       m_Hash: 1213503154
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-4
       m_Hash: -701496559
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-5
       m_Hash: -1590217849
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-6
       m_Hash: 943612477
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-7
       m_Hash: 1329156779
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-8
       m_Hash: -544846022
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-9
       m_Hash: -1467908180
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     - m_Name: SingleTable-squared-10
       m_Hash: -473285739
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
