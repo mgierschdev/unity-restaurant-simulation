@@ -265,7 +265,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, Util.ObjectZPosition), Quaternion.identity, BussGrid.TilemapObjects.transform) as GameObject;
+        GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, Util.ObjectZPosition), Quaternion.identity, BussGrid.TilemapGameFloor.transform) as GameObject;
         BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
         controller.SetDataGameObjectAndInitRotation(obj);
         controller.SetStoreGameObject(MenuObjectList.GetStoreObject((StoreItemType)obj.ID));

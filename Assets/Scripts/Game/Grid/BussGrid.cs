@@ -34,9 +34,9 @@ public static class BussGrid
     private static List<GameTile> listCollidersTileMap;
     private static ConcurrentDictionary<Vector3Int, GameTile> mapColliders;
     //Objects
-    public static Tilemap TilemapObjects { get; set; }
-    private static List<GameTile> listObjectsTileMap;
-    private static ConcurrentDictionary<Vector3Int, GameTile> mapObjects;
+    //public static Tilemap TilemapObjects { get; set; }
+    //private static List<GameTile> listObjectsTileMap;
+    //private static ConcurrentDictionary<Vector3Int, GameTile> mapObjects;
     //Game floor, which allows drag/drop
     public static Tilemap TilemapGameFloor { get; set; }
     private static List<GameTile> listGameFloor;
@@ -61,8 +61,8 @@ public static class BussGrid
         mapColliders = new ConcurrentDictionary<Vector3Int, GameTile>();
         listCollidersTileMap = new List<GameTile>();
 
-        mapObjects = new ConcurrentDictionary<Vector3Int, GameTile>();
-        listObjectsTileMap = new List<GameTile>();
+        // mapObjects = new ConcurrentDictionary<Vector3Int, GameTile>();
+        // listObjectsTileMap = new List<GameTile>();
 
         gameGridObjectsDictionary = new ConcurrentDictionary<string, GameGridObject>();
 
@@ -79,13 +79,13 @@ public static class BussGrid
         // Table Handler 
         TableHandler.Init();
 
-        if (TilemapFloor == null || TilemapColliders == null || TilemapObjects == null || TilemapPathFinding == null ||
+        if (TilemapFloor == null || TilemapColliders == null || TilemapPathFinding == null ||
             TilemapWalkingPath == null || TilemapGameFloor == null)
         {
             GameLog.LogWarning("GridController/tilemap");
             GameLog.LogWarning("tilemapFloor " + TilemapFloor);
             GameLog.LogWarning("tilemapColliders " + TilemapColliders);
-            GameLog.LogWarning("tilemapObjects " + TilemapObjects);
+            // GameLog.LogWarning("tilemapObjects " + TilemapObjects);
             GameLog.LogWarning("tilemapPathFinding " + TilemapPathFinding);
             GameLog.LogWarning("tilemapWalkingPath " + TilemapWalkingPath);
             GameLog.LogWarning("tilemapBusinessFloor " + TilemapGameFloor);
@@ -111,7 +111,7 @@ public static class BussGrid
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listCollidersTileMap, TilemapColliders, mapColliders);
-        LoadTileMap(listObjectsTileMap, TilemapObjects, mapObjects);
+        // LoadTileMap(listObjectsTileMap, TilemapObjects, mapObjects);
         LoadTileMap(listWalkingPathTileMap, TilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listGameFloor, TilemapGameFloor, mapGameFloor);
         LoadTileMap(listFloorTileMap, TilemapFloor, mapFloor);
