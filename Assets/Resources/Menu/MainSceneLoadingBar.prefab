@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 892453044894493477}
   - component: {fileID: 892453044894493478}
   m_Layer: 0
-  m_Name: LoadingBar
+  m_Name: MainSceneLoadingBar
   m_TagString: Slider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
