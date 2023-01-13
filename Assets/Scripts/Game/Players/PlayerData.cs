@@ -206,7 +206,7 @@ public static class PlayerData
 
     // Called at the end of Unity Auth service to load the user with the response of the cloud code function
     public static void InitUser()
-    {        
+    {
         string[] filesaves = UtilJSONFile.GetSaveFiles();
 
         if (filesaves.Length > 0)
@@ -301,7 +301,11 @@ public static class PlayerData
     // Saves when the user closes the app
     private static void Quit()
     {
-        SaveGame();
+        // In case the user is not logged in
+        if (user != null)
+        {
+            SaveGame();
+        }
     }
 
     public static void SaveGame()

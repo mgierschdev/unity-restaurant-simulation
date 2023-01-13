@@ -14,6 +14,7 @@ public class MessageController : MonoBehaviour
         imageObj = transform.Find(Settings.MessageImageObject).gameObject;
         retryButtonObj = transform.Find(Settings.MessageRetryButton).gameObject;
         retryButton = retryButtonObj.GetComponent<Button>();
+        Debug.Log("retryButton " + retryButton.name + " " + retryButtonObj);
         textMessage = messageObj.GetComponent<TextMeshProUGUI>();
     }
 
@@ -24,12 +25,18 @@ public class MessageController : MonoBehaviour
 
     public void Enable()
     {
-        transform.gameObject.SetActive(true);
+        if (!transform.gameObject.activeSelf)
+        {
+            transform.gameObject.SetActive(true);
+        }
     }
 
     public void Disable()
     {
-        transform.gameObject.SetActive(false);
+        if (transform.gameObject.activeSelf)
+        {
+            transform.gameObject.SetActive(false);
+        }
     }
 
     public bool GetIsActive()
