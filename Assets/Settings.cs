@@ -27,7 +27,8 @@ public static class Settings
     public const string
     CanvasMessageObject = "Canvas/Background/Message",
     MessageTextObject = "Body/Message",
-    MessageImageObject = "Body/Image";
+    MessageImageObject = "Body/Image",
+    MessageRetryButton = "Body/Button";
 
     //CAMERA ATTRIBUTES
     public static float CameraMovementSpeed = 25f,

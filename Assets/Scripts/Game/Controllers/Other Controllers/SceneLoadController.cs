@@ -18,6 +18,9 @@ public class SceneLoadController : MonoBehaviour
         // We get the message controller for the init message
         GameObject initMessage = transform.Find(Settings.CanvasMessageObject).gameObject;
         messageController = initMessage.GetComponent<MessageController>();
+
+        Button retryButton = messageController.GetRetryButton();
+        retryButton.onClick.AddListener(() => UnityAuth.InitUnityServices());
         messageController.Disable();
 
         // We get the slider 
