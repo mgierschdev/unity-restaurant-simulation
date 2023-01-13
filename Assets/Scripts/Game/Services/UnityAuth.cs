@@ -1,14 +1,19 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Services.Analytics;
 using Unity.Services.Authentication;
 using Unity.Services.CloudCode;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
-using Unity.Services.Analytics;
+using UnityEngine;
 
 // Source: https://docs.unity.com/authentication/PlatformSignInGoogle.html
 public static class UnityAuth
 {
+    public static bool AuthFailed = false;
+    public static bool Retrying = false;
+
     // CloudCodeResult structure is the serialized response from the RollDice script in Cloud Code
     private class CloudCodeResult
     {
@@ -18,33 +23,53 @@ public static class UnityAuth
 
     public static async void InitUnityServices()
     {
-        var options = new InitializationOptions();
-        options.SetEnvironmentName(Settings.UnityServicesDev); //TODO: current unity services env development
-        await UnityServices.InitializeAsync(options);
-        // InitAnalytics();
+        GameLog.Log("Connecting ");
 
-        if (!AuthenticationService.Instance.IsSignedIn)
-        {
-            await SignInAnonymouslyAsync();
-        }
-
-        // In case we could not connect or do auth
-        if (!AuthenticationService.Instance.IsSignedIn)
+        if (Retrying)
         {
             return;
         }
 
-        CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.CloudCodeGetPlayerData, null);
+        try
+        {
+            Retrying = true;
+            var options = new InitializationOptions();
+            options.SetEnvironmentName(Settings.UnityServicesDev); //TODO: current unity services env development
+            await UnityServices.InitializeAsync(options);
+            // InitAnalytics();
 
-        Dictionary<string, object> parameters = new Dictionary<string, object>(){
+            if (!AuthenticationService.Instance.IsSignedIn)
+            {
+                await SignInAnonymouslyAsync();
+            }
+
+            // In case we could not connect or do auth
+            if (!AuthenticationService.Instance.IsSignedIn || AuthFailed)
+            {
+                return;
+            }
+
+            CloudCodeResult response = await CloudCodeService.Instance.CallEndpointAsync<CloudCodeResult>(CloudFunctions.CloudCodeGetPlayerData, null);
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>(){
             {AnalyticsEvents.CloudCodeGetPlayerDataResponse, (int) CloudCodeGetPlayerDataResponse.NEW_PLAYER_SAVED}
         };
 
-        //UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
+            //UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
 
-        GameLog.LogService("Auth user id: " + AuthenticationService.Instance.PlayerId);
-        GameLog.LogService("CloudCodeGetPlayerData: " + response.key + " " + response.value);
-        PlayerData.InitUser();
+            GameLog.LogService("Auth user id: " + AuthenticationService.Instance.PlayerId);
+            GameLog.LogService("CloudCodeGetPlayerData: " + response.key + " " + response.value);
+            PlayerData.InitUser();
+            AuthFailed = false;
+            Retrying = false;
+
+        }
+        catch (Exception e)
+        {
+            GameLog.LogWarning(e.ToString());
+            AuthFailed = true;
+            Retrying = false;
+        }
     }
 
     // public static async void InitAnalytics()
@@ -65,17 +90,13 @@ public static class UnityAuth
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
-        catch (AuthenticationException ex)
-        {
-            // Compare error code to AuthenticationErrorCodes
-            // Notify the player with the proper error message
-            GameLog.Log(ex.ToString()); //Internet connection failed or other
-        }
-        catch (RequestFailedException ex)
+        catch (Exception e)
         {
             // Compare error code to CommonErrorCodes
             // Notify the player with the proper error message
-            GameLog.Log(ex.ToString());
+            GameLog.Log(e.ToString());
+            AuthFailed = true;
+            Retrying = false;
         }
     }
 
