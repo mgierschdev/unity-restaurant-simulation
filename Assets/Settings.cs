@@ -35,7 +35,7 @@ public static class Settings
     ZoomSpeed = 35,
     ZoomSpeedPinch = 8f,
     MinZoomSize = 1.3f, // the max zoom in
-    MaxZoomSize = 2f; // the max zoom out
+    MaxZoomSize = 3f; // the max zoom out
 
     public static int ConstDefaultCameraOrthographicsize = 7;
 
