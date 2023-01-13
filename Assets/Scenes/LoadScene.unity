@@ -1161,14 +1161,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 656481693}
     m_Modifications:
-    - target: {fileID: 892453043524957886, guid: 1884e80776ea54b10ac2dbd410d0f295, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 892453043524957886, guid: 1884e80776ea54b10ac2dbd410d0f295, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 892453044894493476, guid: 1884e80776ea54b10ac2dbd410d0f295, type: 3}
       propertyPath: m_Name
       value: MainSceneLoadingBar
@@ -1296,11 +1288,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7930091757436521937, guid: ce02b069eba5f4497adc2a92236bafda, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -600
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7930091757436521937, guid: ce02b069eba5f4497adc2a92236bafda, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -600
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7930091757436521937, guid: ce02b069eba5f4497adc2a92236bafda, type: 3}
       propertyPath: m_LocalPosition.x
