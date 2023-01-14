@@ -36,7 +36,7 @@ public static class Settings
     ZoomSpeed = 35,
     ZoomSpeedPinch = 8f,
     MinZoomSize = 1.3f, // the max zoom in
-    MaxZoomSize = 3f; // the max zoom out
+    MaxZoomSize = 2f; // the max zoom out
 
     public static int ConstDefaultCameraOrthographicsize = 7;
 
@@ -67,8 +67,8 @@ public static class Settings
 
     //UI: Camera
     public const bool CameraPerspectiveHand = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
-    public static float[] CameraPerspectiveHandClampX = { -7, 2 },// left / right
-    CameraPerspectiveHandClampY = { 4, 8 }; // down / up
+    public static float[] CameraPerspectiveHandClampX = { -4.5f, 10f },// left / right
+    CameraPerspectiveHandClampY = { 4.5f, 13f }; // up / down
     public const float CameraFollowInterpolation = 0.034f;
 
     //UI : Camera

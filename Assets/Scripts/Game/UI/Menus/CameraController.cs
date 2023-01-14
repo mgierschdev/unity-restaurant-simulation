@@ -100,6 +100,8 @@ public class CameraController : MonoBehaviour
             float clampX = Mathf.Clamp(transformPosition.x, Settings.CameraPerspectiveHandClampX[0], Settings.CameraPerspectiveHandClampX[1]); // left and right
             float clampY = Mathf.Clamp(transformPosition.y, Settings.CameraPerspectiveHandClampY[0], Settings.CameraPerspectiveHandClampY[1]); // units down, and up
             transform.position = new Vector3(clampX, clampY, transformPosition.z);
+            // Debug.Log("ClampX " + transformPosition.x + " " + Settings.CameraPerspectiveHandClampX[0] + "," + Settings.CameraPerspectiveHandClampX[0] + " Clamped: " + clampX);
+            // Debug.Log("ClampY " + transformPosition.y + " " + Settings.CameraPerspectiveHandClampY[0] + "," + Settings.CameraPerspectiveHandClampY[0] + " Clamped: " + clampY);
         }
 
         // 2 finger, Mobile pinch, ZOOM in/out
