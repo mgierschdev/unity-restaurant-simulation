@@ -31,7 +31,6 @@ public class TestJSON
         Assert.AreEqual(user.EMAIL, loadUser.EMAIL);
         Assert.AreEqual(user.EXPERIENCE, loadUser.EXPERIENCE);
         Assert.AreEqual(user.GAME_MONEY, loadUser.GAME_MONEY);
-        Assert.AreEqual(user.GEMS, loadUser.GEMS);
         Assert.AreEqual(user.LANGUAGE_CODE, loadUser.LANGUAGE_CODE);
         Assert.AreEqual(user.LEVEL, loadUser.LEVEL);
 

@@ -24,7 +24,6 @@ public static class PlayerData
         SetLevel();
 
         moneyText.text = GetMoney();
-        gemsText.text = GetGems();
         Inventory = new List<GameGridObject>();
         storedIventory = new List<GameGridObject>();
         setStoredInventory = new HashSet<string>();
@@ -34,19 +33,12 @@ public static class PlayerData
     {
         SetLevel();
         moneyText.text = GetMoney();
-        gemsText.text = GetGems();
     }
 
     public static void AddExperienve(double amount)
     {
         user.EXPERIENCE += amount;
         SetLevel();
-    }
-
-    public static void AddGems(double amount)
-    {
-        user.GEMS += amount;
-        gemsText.text = GetGems();
     }
 
     public static void AddMoney(double amount)
@@ -159,11 +151,6 @@ public static class PlayerData
         return Util.convertToTextAndReduceCurrency(user.GAME_MONEY) + "$";
     }
 
-    public static string GetGems()
-    {
-        return Util.convertToTextAndReduceCurrency(user.GEMS);
-    }
-
     public static string GetLevel()
     {
         return user.LEVEL.ToString();
@@ -229,7 +216,6 @@ public static class PlayerData
             LANGUAGE_CODE = "en_US",
             INTERNAL_ID = "",
             GAME_MONEY = Settings.InitGameMoney,
-            GEMS = Settings.InitGems,
             EXPERIENCE = Settings.InitExperience,
             LEVEL = Settings.InitLevel,
             EMAIL = "undefined@undefined.com",
