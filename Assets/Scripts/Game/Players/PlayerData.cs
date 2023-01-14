@@ -7,17 +7,16 @@ using UnityEngine.UI;
 
 public static class PlayerData
 {
-    private static TextMeshProUGUI moneyText, levelText, gemsText;
+    private static TextMeshProUGUI moneyText, levelText;
     private static Slider expirienceSlider;
     private static List<GameGridObject> storedIventory, Inventory;
     private static HashSet<string> setStoredInventory; // Saved stored inventory by ID
     private static DataGameUser user;
 
     // Recieves the reference to the UI Text
-    public static void SetPlayerData(TextMeshProUGUI moneyText, TextMeshProUGUI levelText, TextMeshProUGUI gemsText, Slider expirienceSlider)
+    public static void SetPlayerData(TextMeshProUGUI moneyText, TextMeshProUGUI levelText, Slider expirienceSlider)
     {
         PlayerData.moneyText = moneyText;
-        PlayerData.gemsText = gemsText;
         PlayerData.levelText = levelText;
         PlayerData.expirienceSlider = expirienceSlider;
 
@@ -382,6 +381,19 @@ public static class PlayerData
             }
         }
         return null;
+    }
+
+    public static string ToString()
+    {
+        return "NAME: " + user.NAME +
+        " EMAIL: " + user.EMAIL +
+        " EXPERIENCE: " + user.EXPERIENCE +
+        " GAME_MONEY: " + user.GAME_MONEY +
+        " INTERNAL_ID: " + user.INTERNAL_ID +
+        " LANGUAGE_CODE: " + user.LANGUAGE_CODE +
+        " LAST_SAVE: " + user.LAST_SAVE +
+        " LEVEL: " + user.LEVEL +
+        " OBJECTS.Count: " + user.OBJECTS.Count;
     }
 
     public static string GetStats()

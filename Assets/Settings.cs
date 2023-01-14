@@ -1,7 +1,7 @@
 public static class Settings
 {
     // General Config
-    public const bool CellDebug = false;
+    public const bool CellDebug = true;
     public const int DebugTextSize = 9;
     public const bool DisableNetwork = true;
 
@@ -46,9 +46,9 @@ public static class Settings
     InitLevel = 0,
     InitGridSize = 1;
     // Init Objects
-    public static int[] StartStoreItemDispenser = new int[] { 5, 14 },
-    StartTable = new int[] { 5, 12 },
-    StartCounter = new int[] { 3, 13 };
+    public static int[] StartStoreItemDispenser = new int[] { 12, 14 },
+    StartTable = new int[] { 12, 12 },
+    StartCounter = new int[] { 10, 13 };
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f,
@@ -62,9 +62,9 @@ public static class Settings
 
     // Grid Config
     public const float GridCellSize = 0.25f; // 0.25f default
-    public const int GridWidth = 30, // Number of cell per Grid CellSize
-    GridHeight = 20,
-    GridStartX = 0,
+    public const int GridWidth = 40, // Number of cell per Grid CellSize
+    GridHeight = 40,
+    GridStartX = -7,
     GrtGridStartY = 0;
 
     //UI: Camera
@@ -109,7 +109,7 @@ public static class Settings
     DefaultSquareSprite = "Sprite-Default";
 
     // TILEMAPS
-    public const string TilemapFloor0 = "TilemapFloor0",
+    public const string TilemapSpamFloor = "TilemapSpamFloor",
     TilemapColliders = "TilemapColliders",
     TilemapObjects = "TilemapObjects",
     TilemapWalkingPath = "TilemapWalkingPath",
@@ -166,7 +166,6 @@ public static class Settings
     public const string ConstNpcProfileMenu = "NPCProfile",
     ConstCanvasParentMenu = "CanvasMenu",
     ConstTopMenuDisplayMoney = "MoneyLabel",
-    ConstTopMenuDisplayGems = "GemMoneyLabel",
     ConstTopMenuLevel = "LevelLabel",
     ConstTopMenuExpSlider = "ExperienceSlider",
     ConstCenterTabMenu = "CenterPanel",
