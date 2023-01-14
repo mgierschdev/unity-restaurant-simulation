@@ -1,7 +1,7 @@
 public static class Settings
 {
     // General Config
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const bool DisableNetwork = true;
 
@@ -46,9 +46,9 @@ public static class Settings
     InitLevel = 0,
     InitGridSize = 1;
     // Init Objects
-    public static int[] StartStoreItemDispenser = new int[] { 5, 14 },
-    StartTable = new int[] { 5, 12 },
-    StartCounter = new int[] { 3, 13 };
+    public static int[] StartStoreItemDispenser = new int[] { 15, 14 },
+    StartTable = new int[] { 15, 12 },
+    StartCounter = new int[] { 13, 13 };
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f,
@@ -133,7 +133,6 @@ public static class Settings
 
     //PREFABS AND OBJECTS
     public const string Button = "Button",
-    PrefabGridTile = "Grid/GridTile",
     PrefabSingleTable = "Objects/SingleTable",
     PrefabCounter = "Objects/Counter",
     PrefabBaseStoreItem = "Objects/BaseStoreItem",

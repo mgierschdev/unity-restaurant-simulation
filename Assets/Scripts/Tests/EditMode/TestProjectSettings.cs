@@ -49,13 +49,6 @@ public class TestProjectSettings
     }
 
     [Test]
-    public void TestPrefabLoadGridTile()
-    {
-        Object obj = Resources.Load(Settings.PrefabGridTile, typeof(GameObject));
-        Assert.NotNull(obj);
-    }
-
-    [Test]
     public void TestPrefabLoadInventoryItem()
     {
         Object obj = Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject));
