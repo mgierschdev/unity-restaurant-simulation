@@ -9,7 +9,6 @@ public static class BussGrid
     //Tilemap 
     private static int WIDTH = Settings.GridWidth; // Down -> Up
     private static int HEIGHT = Settings.GridHeight; // along side from left to right x = -20, y= -22 ||  x along side left to right
-    private static Vector3Int gridOriginPosition = new Vector3Int(Settings.GridStartX, Settings.GrtGridStartY, Util.ConstDefaultBackgroundOrderingLevel);
     // Isometric Grid with pathfinding
     public static Tilemap TilemapPathFinding { get; set; }
     private static ConcurrentDictionary<Vector3, GameTile> mapWorldPositionToTile; // World Position to tile
@@ -242,7 +241,7 @@ public static class BussGrid
         {
             for (int y = 0; y <= WIDTH; y++)
             {
-                Vector3Int positionInGrid = new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0);
+                Vector3Int positionInGrid = new Vector3Int(x, y, 0);
                 Vector3 positionInWorld = TilemapPathFinding.CellToWorld(positionInGrid);
                 Vector3Int positionLocalGrid = TilemapPathFinding.WorldToCell(positionInWorld);
                 GameTile gameTile = new GameTile(positionInWorld, new Vector3Int(x, y), positionLocalGrid,
@@ -250,7 +249,7 @@ public static class BussGrid
                 mapWorldPositionToTile.TryAdd(gameTile.WorldPosition, gameTile);
                 mapPathFindingGrid.TryAdd(gameTile.GridPosition, gameTile);
                 mapGridPositionToTile.TryAdd(gameTile.LocalGridPosition, gameTile);
-                TilemapPathFinding.SetTile(new Vector3Int(x + gridOriginPosition.x, y + gridOriginPosition.y, 0), gridTile);
+                TilemapPathFinding.SetTile(new Vector3Int(x, y, 0), gridTile);
 
                 // if (Settings.CellDebug)
                 // {

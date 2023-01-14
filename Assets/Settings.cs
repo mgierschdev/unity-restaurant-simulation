@@ -46,9 +46,9 @@ public static class Settings
     InitLevel = 0,
     InitGridSize = 1;
     // Init Objects
-    public static int[] StartStoreItemDispenser = new int[] { 12, 14 },
-    StartTable = new int[] { 12, 12 },
-    StartCounter = new int[] { 10, 13 };
+    public static int[] StartStoreItemDispenser = new int[] { 5, 14 },
+    StartTable = new int[] { 5, 12 },
+    StartCounter = new int[] { 3, 13 };
 
     //Sliders 
     public const float ObjectMoveSliderMultiplayer = 0.8f,
@@ -63,9 +63,7 @@ public static class Settings
     // Grid Config
     public const float GridCellSize = 0.25f; // 0.25f default
     public const int GridWidth = 40, // Number of cell per Grid CellSize
-    GridHeight = 40,
-    GridStartX = -7,
-    GrtGridStartY = 0;
+    GridHeight = 40;
 
     //UI: Camera
     public const bool CameraPerspectiveHand = true; //CAMERA_PERSPECTIVE_HAND or CAMERA_FOLLOW_PLAYER
