@@ -5,13 +5,11 @@ using UnityEngine;
 public class DataGameUser
 {
     [SerializeField]
-    public string VERSION = "1.0.1"; //most be changed on every new edit to the model
+    public string VERSION = "1.0.2"; //most be changed on every new edit to the model
     [SerializeField]
     public string NAME;
     [SerializeField]
     public Double GAME_MONEY;
-    [SerializeField]
-    public Double GEMS;
     [SerializeField]
     public Double EXPERIENCE;
     [SerializeField]

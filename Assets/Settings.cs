@@ -41,7 +41,6 @@ public static class Settings
 
     //Init start attributes
     public static int InitGameMoney = 0,
-    InitGems = 10,
     InitExperience = 0,
     InitLevel = 0,
     InitGridSize = 1;
