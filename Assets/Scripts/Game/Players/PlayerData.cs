@@ -227,15 +227,15 @@ public static class PlayerData
         {
             NAME = "undefined",
             LANGUAGE_CODE = "en_US",
-            INTERNAL_ID = GenerateID(),
+            INTERNAL_ID = "",
             GAME_MONEY = Settings.InitGameMoney,
             GEMS = Settings.InitGems,
             EXPERIENCE = Settings.InitExperience,
             LEVEL = Settings.InitLevel,
             EMAIL = "undefined@undefined.com",
             AUTH_TYPE = (int)AuthSource.ANONYMOUS,
-            LAST_SAVE = DateTime.Now.ToFileTimeUtc(),
-            CREATED_AT = DateTime.Now.ToFileTimeUtc(),
+            LAST_SAVE = 0,
+            CREATED_AT = 0,
             OBJECTS = new List<DataGameObject>{
                     new DataGameObject{
                         ID = (int) StoreItemType.STORE_ITEM_ORANGE_JUICE,
