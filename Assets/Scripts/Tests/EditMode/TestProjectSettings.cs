@@ -23,7 +23,7 @@ public class TestProjectSettings
     [Test]
     public void TestTileFloor0()
     {
-        GameObject tilemap = GameObject.Find(Settings.TilemapFloor0);
+        GameObject tilemap = GameObject.Find(Settings.TilemapSpamFloor);
         Assert.NotNull(tilemap);
     }
 

@@ -34,12 +34,10 @@ public class MenuHandlerController : MonoBehaviour
         TextMeshProUGUI moneyText = topResourcePanelMoney.GetComponent<TextMeshProUGUI>();
         GameObject topResourcePanelLevel = GameObject.Find(Settings.ConstTopMenuLevel);
         TextMeshProUGUI levelText = topResourcePanelLevel.GetComponent<TextMeshProUGUI>();
-        GameObject topResourcePanelGems = GameObject.Find(Settings.ConstTopMenuDisplayGems);
-        TextMeshProUGUI gemsText = topResourcePanelGems.GetComponent<TextMeshProUGUI>();
         GameObject topExpSlider = GameObject.Find(Settings.ConstTopMenuExpSlider);
         Slider expSlider = topExpSlider.GetComponent<Slider>();
 
-        PlayerData.SetPlayerData(moneyText, levelText, gemsText, expSlider);
+        PlayerData.SetPlayerData(moneyText, levelText, expSlider);
 
         // Left down panel and Edit store panel
         leftDownPanel = GameObject.Find(Settings.ConstLeftDownPanel).gameObject;

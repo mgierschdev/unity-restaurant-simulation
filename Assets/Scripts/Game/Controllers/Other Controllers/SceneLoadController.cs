@@ -17,10 +17,10 @@ public class SceneLoadController : MonoBehaviour
         // We get the message controller for the init message
         GameObject initMessage = transform.Find(Settings.CanvasMessageObject).gameObject;
         messageController = initMessage.GetComponent<MessageController>();
+        messageController.Disable();
 
         Button retryButton = messageController.GetRetryButton();
-        retryButton.onClick.AddListener(InitUnity);
-        //messageController.Disable();
+        retryButton.onClick.AddListener(() => UnityAuth.InitUnityServices());
 
         // We get the slider 
         GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
@@ -29,32 +29,21 @@ public class SceneLoadController : MonoBehaviour
         Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
 
         // Init unity
-        InitUnity();
-
-        messageController.Enable();
-
-        //This will avoid destroying the current scene including the event system while a new scene is being loaded
-        //DontDestroyOnLoad(this.gameObject);
+        UnityAuth.InitUnityServices();
     }
 
-    private void InitUnity()
+    private void FixedUpdate()
     {
-        //we init Unity game services 
-        try
+        if (!Util.IsInternetReachable() && !Settings.DisableNetwork)
         {
-            if (!Util.IsInternetReachable())
-            {
-                messageController.Enable();
-                messageController.SetTextMessage(TextUI.ConnectionProblem);
-            }
-            else
-            {
-                UnityAuth.InitUnityServices();
-            }
+            messageController.Enable();
+            messageController.SetTextMessage(TextUI.ConnectionProblem);
+            SetInitValues();
+            return;
         }
-        catch (SystemException e)
+        else
         {
-            GameLog.LogWarning(e.ToString());
+            LoadGame();
         }
     }
 
@@ -65,15 +54,19 @@ public class SceneLoadController : MonoBehaviour
             currentTimeAtScene += Time.fixedDeltaTime;
             slider.value = currentTimeAtScene / MIN_TIME_LOADING;
 
-            GameLog.Log("Loading: " + (operation != null ? operation.progress : "null") + " " + (currentTimeAtScene >= MIN_TIME_LOADING) + " " + PlayerData.GetDataGameUser() + " " + UnityAuth.GetIsUserLogged());
+            GameLog.Log("Loading: " + (operation != null ? Mathf.Approximately(operation.progress, 0.9f) : "null") + " " +
+            (currentTimeAtScene >= MIN_TIME_LOADING) + " " +
+            (PlayerData.GetDataGameUser() != null) + " ");
 
             // The user is loaded, the Service is init, the user is auth complete and 2 seconds passed
             if (operation != null
             && Mathf.Approximately(operation.progress, 0.9f)
             && currentTimeAtScene >= MIN_TIME_LOADING
-            && PlayerData.GetDataGameUser() != null
-            && (UnityAuth.GetIsUserLogged() || Settings.DisableNetwork))
+            && PlayerData.GetDataGameUser() != null)
             {
+                GameLog.Log("Enabling scene");
+                Debug.Log("User name " + PlayerData.ToString());
+
                 operation.allowSceneActivation = true;
             }
             else if (operation == null)
@@ -86,19 +79,6 @@ public class SceneLoadController : MonoBehaviour
         catch (Exception e)
         {
             GameLog.LogWarning(e.ToString());
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if ((!Util.IsInternetReachable() || UnityAuth.Retrying || UnityAuth.AuthFailed) && !Settings.DisableNetwork)
-        {
-            SetInitValues();
-            return;
-        }
-        else
-        {
-            LoadGame();
         }
     }
 

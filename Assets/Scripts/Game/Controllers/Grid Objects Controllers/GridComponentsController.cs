@@ -8,7 +8,7 @@ public class GridComponentsController : MonoBehaviour
     {
         //Grid Components
         BussGrid.TilemapPathFinding = GameObject.Find(Settings.PathFindingGrid).GetComponent<Tilemap>();
-        BussGrid.TilemapFloor = GameObject.Find(Settings.TilemapFloor0).GetComponent<Tilemap>();
+        BussGrid.TilemapFloor = GameObject.Find(Settings.TilemapSpamFloor).GetComponent<Tilemap>();
         BussGrid.TilemapColliders = GameObject.Find(Settings.TilemapColliders).GetComponent<Tilemap>();
         //BussGrid.TilemapObjects = GameObject.Find(Settings.TilemapObjects).GetComponent<Tilemap>();
         BussGrid.TilemapWalkingPath = GameObject.Find(Settings.TilemapWalkingPath).GetComponent<Tilemap>();

@@ -11,8 +11,8 @@ using UnityEngine;
 // Source: https://docs.unity.com/authentication/PlatformSignInGoogle.html
 public static class UnityAuth
 {
-    public static bool AuthFailed = false;
-    public static bool Retrying = false;
+    private static bool AuthFailed = false;
+    private static bool Retrying = false;
 
     // CloudCodeResult structure is the serialized response from the RollDice script in Cloud Code
     private class CloudCodeResult
@@ -25,7 +25,13 @@ public static class UnityAuth
     {
         GameLog.Log("Connecting ");
 
-        if (Retrying)
+        if (Settings.DisableNetwork)
+        {
+            PlayerData.InitUser();
+            return;
+        }
+
+        if (!Util.IsInternetReachable() || Retrying)
         {
             return;
         }
@@ -59,7 +65,12 @@ public static class UnityAuth
 
             GameLog.LogService("Auth user id: " + AuthenticationService.Instance.PlayerId);
             GameLog.LogService("CloudCodeGetPlayerData: " + response.key + " " + response.value);
-            PlayerData.InitUser();
+
+            if (AreUnityServicesLoaded())
+            {
+                PlayerData.InitUser();
+            }
+
             AuthFailed = false;
             Retrying = false;
 
@@ -84,7 +95,7 @@ public static class UnityAuth
     //     }
     // }
 
-    public static async Task SignInAnonymouslyAsync()
+    private static async Task SignInAnonymouslyAsync()
     {
         try
         {
@@ -149,8 +160,13 @@ public static class UnityAuth
     //     }
     // }
 
-    public static bool GetIsUserLogged()
+    private static bool AreUnityServicesLoaded()
     {
-        return UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn;
+        return Settings.DisableNetwork || (
+            !Util.IsInternetReachable() &&
+            UnityServices.State == ServicesInitializationState.Initialized &&
+            AuthenticationService.Instance.IsSignedIn &&
+            !AuthFailed &&
+            !Retrying);
     }
 }
