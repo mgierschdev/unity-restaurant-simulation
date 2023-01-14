@@ -72,7 +72,7 @@ public class SceneLoadController : MonoBehaviour
             && Mathf.Approximately(operation.progress, 0.9f)
             && currentTimeAtScene >= MIN_TIME_LOADING
             && PlayerData.GetDataGameUser() != null
-            && UnityAuth.GetIsUserLogged())
+            && (UnityAuth.GetIsUserLogged() || Settings.DisableNetwork))
             {
                 operation.allowSceneActivation = true;
             }
@@ -91,7 +91,7 @@ public class SceneLoadController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!Util.IsInternetReachable() || UnityAuth.Retrying || UnityAuth.AuthFailed)
+        if ((!Util.IsInternetReachable() || UnityAuth.Retrying || UnityAuth.AuthFailed) && !Settings.DisableNetwork)
         {
             SetInitValues();
             return;

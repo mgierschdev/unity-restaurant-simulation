@@ -3,6 +3,7 @@ public static class Settings
     // General Config
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
+    public const bool DisableNetwork = true;
 
 #if UNITY_EDITOR
     public const bool devEnv = true;
