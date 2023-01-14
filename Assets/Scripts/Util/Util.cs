@@ -137,8 +137,8 @@ public static class Util
     public static Vector2Int GetXYInGameMap(Vector3 position)
     {
         return new Vector2Int(
-            (int)Math.Round((position.x - Settings.GridStartX) * 1 / Settings.GridCellSize, MidpointRounding.AwayFromZero),
-            (int)Math.Round((position.y - Settings.GrtGridStartY) * 1 / Settings.GridCellSize, MidpointRounding.AwayFromZero));
+            (int)Math.Round((position.x) * 1 / Settings.GridCellSize, MidpointRounding.AwayFromZero),
+            (int)Math.Round((position.y) * 1 / Settings.GridCellSize, MidpointRounding.AwayFromZero));
     }
 
     public static MoveDirection GetDirectionFromVector(Vector3 vector)
@@ -239,22 +239,6 @@ public static class Util
             dir = new Vector3(1, 1, 0) * Settings.GridCellSize;
         }
         return new Vector3(dir.x, dir.y);
-    }
-
-    // Gets the GRID cell position in a non-isometric grid
-    public static Vector3 GetCellPosition(int x, int y)
-    {
-        Vector3 gridOriginPosition = new Vector3(Settings.GridStartX, Settings.GrtGridStartY, ConstDefaultBackgroundOrderingLevel);
-        Vector3 cellPosition = new Vector3(x, y) * Settings.GridCellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
-        return new Vector3(cellPosition.x, cellPosition.y);
-    }
-
-    // Gets the cell position in a non-isometric grid
-    public static Vector3 GetCellPosition(Vector3 position)
-    {
-        Vector3 gridOriginPosition = new Vector3(Settings.GridStartX, Settings.GrtGridStartY, ConstDefaultBackgroundOrderingLevel);
-        Vector3 cellPosition = position * Settings.GridCellSize + new Vector3(gridOriginPosition.x, gridOriginPosition.y, 0);
-        return new Vector3(cellPosition.x, cellPosition.y);
     }
 
     // Translates a normalized angle to a direction from 0 - 360
