@@ -786,7 +786,7 @@ public static class BussGrid
         }
     }
 
-    public static int GetObjectCount()
+    private static int GetObjectCount()
     {
         return gameGridObjectsDictionary.Count;
     }
@@ -909,4 +909,11 @@ public static class BussGrid
 
         return bussGridList;
     }
+
+    public static string GetObjectID(ObjectType type)
+    {
+        string id = GetObjectCount() + 1 + "-" + Time.frameCount;
+        return type + "." + id;
+    }
+
 }
