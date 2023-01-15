@@ -63,14 +63,27 @@ public class GameController : MonoBehaviour
             {
                 if (GetFreeTable(out GameGridObject table))
                 {
+                    double minDistance = double.MaxValue;
+                    NPCController minDistanceNPC = null;
+
                     foreach (NPCController npcController in ClientSet)
                     {
                         if (!npcController.HasTable())
                         {
-                            table.SetUsedBy(npcController);
-                            npcController.SetTable(table);
-                            break;
+                            double localMin = Util.EuclidianDistance(table.GridPosition, npcController.Position);
+
+                            if (localMin < minDistance)
+                            {
+                                minDistanceNPC = npcController;
+                                minDistance = localMin;
+                            }
                         }
+                    }
+
+                    if (minDistanceNPC != null)
+                    {
+                        table.SetUsedBy(minDistanceNPC);
+                        minDistanceNPC.SetTable(table);
                     }
                 }
 
