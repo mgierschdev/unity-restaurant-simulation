@@ -26,6 +26,7 @@ public static class MathExtended
     public static Vector2 EaseTest(float t, Vector3 start, Vector3 end)
     {
         Debug.Log("Calculating Bazier from " + start + " " + " " + end);
-        return CubicBezier(t, start, new Vector3(0, 1), new Vector3(1, 0), end);
+        // return CubicBezier(t, start, new Vector3(0, 1), new Vector3(1, 0), end);
+        return CubicBezier(t, start, start + new Vector3(1, 0), end + new Vector3(0, 1), end);
     }
 }

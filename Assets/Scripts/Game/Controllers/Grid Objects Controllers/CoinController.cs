@@ -8,6 +8,9 @@ public class CoinController : MonoBehaviour
     private Vector3 startPoint;
     private float interpolationTime;
 
+    [SerializeField]
+    private Vector3 tangent1 = new Vector3(0, 1), tangent2 = new Vector3(1, 0);
+
     //Debug
     private Vector3 prevPosition = Vector3.zero;
 
@@ -24,7 +27,12 @@ public class CoinController : MonoBehaviour
         if (consume)
         {
             interpolationTime += Time.deltaTime * 0.1f;
-            transform.position = MathExtended.EaseTest(interpolationTime, startPoint, targetPosition);
+            transform.position = MathExtended.CubicBezier(interpolationTime,
+            startPoint,
+            startPoint + tangent1,
+            targetPosition + tangent2,
+            targetPosition);
+
             Vector3 a = new Vector3(transform.position.x, transform.position.y, 0);
             Vector3 b = new Vector3(targetPosition.x, targetPosition.y, 0);
 
