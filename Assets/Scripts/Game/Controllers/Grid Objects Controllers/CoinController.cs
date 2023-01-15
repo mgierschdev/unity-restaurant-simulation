@@ -8,13 +8,15 @@ public class CoinController : MonoBehaviour
     private Vector3 startPoint;
     private float interpolationTime;
 
+    //Debug
+    private Vector3 prevPosition = Vector3.zero;
+
     private void Awake()
     {
         consume = false;
         transform.name = BussGrid.GetObjectID(ObjectType.COIN);
         startPoint = transform.position;
         interpolationTime = 0;
-
     }
 
     private void Update()
@@ -25,7 +27,11 @@ public class CoinController : MonoBehaviour
             transform.position = MathExtended.EaseTest(interpolationTime, startPoint, targetPosition);
             Vector3 a = new Vector3(transform.position.x, transform.position.y, 0);
             Vector3 b = new Vector3(targetPosition.x, targetPosition.y, 0);
-            Debug.Log(transform.name + " Target Distance+ " + Vector3.Distance(a, b));
+
+            Debug.Log(transform.name + " Target Distance " + Vector3.Distance(a, b));
+
+            Debug.DrawLine(prevPosition, transform.position, Color.cyan, 15f);
+            prevPosition = transform.position;
 
             //Vector3.Lerp(transform.position, targetPosition, coinSpeed * Time.fixedDeltaTime);
             CheckIfAtTarget();
