@@ -45,7 +45,7 @@ public class CoinController : MonoBehaviour
         Vector3 a = new Vector3(transform.position.x, transform.position.y, 0);
         Vector3 b = new Vector3(targetPosition.x, targetPosition.y, 0);
 
-        if (Vector3.Distance(a, b) <= 0.3)
+        if (Vector3.Distance(a, b) <= 0.1)
         {
             //We call here the increase coin method PlayerData
             Destroy(gameObject);

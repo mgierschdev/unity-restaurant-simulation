@@ -20,6 +20,7 @@ public static class Settings
     InitClientWaitTime = 10, // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
     OrderIncreaseCostPercentage = 2;// Max value 5, total increase more 10%  
     public const int NpcMultiplayer = 5; // multiplayer * upgrade = Npc number (3), more clients limit (4)
+    public const double PlayerMoneyLimit = 1000000;
 
     // Time to retry internet connection
     public const float TimeToRetryConnection = 10;
