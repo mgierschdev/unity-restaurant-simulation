@@ -147,7 +147,7 @@ public static class PlayerData
 
     public static string GetMoney()
     {
-        return Util.convertToTextAndReduceCurrency(user.GAME_MONEY) + "$";
+        return Util.convertToTextAndReduceCurrency(user.GAME_MONEY);
     }
 
     public static string GetLevel()
