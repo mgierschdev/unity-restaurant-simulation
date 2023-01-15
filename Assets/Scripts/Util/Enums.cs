@@ -11,6 +11,7 @@ public enum ObjectType
     NPC_SINGLE_TABLE = 7,
     STORE_ITEM = 8,
     UPGRADE_ITEM = 9,
+    COIN = 10,
     UNDEFINED = 999
 }
 

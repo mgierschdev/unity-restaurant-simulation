@@ -1,23 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinController : MonoBehaviour
 {
     private bool consume;
     private Vector3 targetPosition;
-    private float coinSpeed = 100f;
+    [SerializeField]
+    private float coinSpeed = 4f;
 
     private void Awake()
     {
         consume = false;
+        transform.name = BussGrid.GetObjectID(ObjectType.COIN);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (consume)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, coinSpeed * Time.fixedDeltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, coinSpeed * Time.fixedDeltaTime);
             CheckIfAtTarget();
         }
         else if (Input.GetMouseButtonDown(0) && IsClickingSelf())
@@ -25,6 +25,7 @@ public class CoinController : MonoBehaviour
             Vector3 target = Camera.main.ScreenToWorldPoint(PlayerData.GetMoneyTextPosition());
             SetTargetPosition(target);
             // TODO: Make it follow the reference of the actual gameObject rather than the coord in that way it will follow the coord even is the player moves with the perspective hand
+            // Use some kind of lerp or curve easing 
             consume = true;
         }
     }

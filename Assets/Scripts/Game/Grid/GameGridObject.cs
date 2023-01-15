@@ -104,16 +104,10 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         loadSlider.SetDefaultFillTime(Settings.DefultItemLoadSpeed - PlayerData.GetUgrade(UpgradeType.WAITER_SPEED) * Settings.ItemLoadSliderMultiplayer);
     }
 
-    private void SetID()
-    {
-        string id = BussGrid.GetObjectCount() + 1 + "-" + Time.frameCount;
-        objectTransform.name = storeGameObject.Type + "." + id;
-        Name = objectTransform.name;
-    }
-
     public void Init()
     {
-        SetID();
+        objectTransform.name = BussGrid.GetObjectID(storeGameObject.Type);
+        Name = objectTransform.name;
         HideEditMenu();
     }
 
