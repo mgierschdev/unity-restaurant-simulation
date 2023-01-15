@@ -23,6 +23,9 @@ public class CoinController : MonoBehaviour
         {
             interpolationTime += Time.deltaTime * 0.1f;
             transform.position = MathExtended.EaseTest(interpolationTime, startPoint, targetPosition);
+            Vector3 a = new Vector3(transform.position.x, transform.position.y, 0);
+            Vector3 b = new Vector3(targetPosition.x, targetPosition.y, 0);
+            Debug.Log(transform.name + " Target Distance+ " + Vector3.Distance(a, b));
 
             //Vector3.Lerp(transform.position, targetPosition, coinSpeed * Time.fixedDeltaTime);
             CheckIfAtTarget();
@@ -39,7 +42,10 @@ public class CoinController : MonoBehaviour
 
     private void CheckIfAtTarget()
     {
-        if (Util.IsAtDistanceWithObject(transform.position, targetPosition))
+        Vector3 a = new Vector3(transform.position.x, transform.position.y, 0);
+        Vector3 b = new Vector3(targetPosition.x, targetPosition.y, 0);
+
+        if (Vector3.Distance(a, b) <= 0.3)
         {
             //We call here the increase coin method PlayerData
             Destroy(gameObject);
