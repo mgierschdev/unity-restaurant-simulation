@@ -147,7 +147,7 @@ public static class PlayerData
 
     public static string GetMoney()
     {
-        return Util.convertToTextAndReduceCurrency(user.GAME_MONEY);
+        return Util.convertToTextAndReduceCurrency(Math.Clamp(user.GAME_MONEY, 0, Settings.PlayerMoneyLimit));
     }
 
     public static string GetLevel()
