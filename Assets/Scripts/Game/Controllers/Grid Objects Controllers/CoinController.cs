@@ -6,7 +6,7 @@ public class CoinController : MonoBehaviour
 {
     private bool consume;
     private Vector3 targetPosition;
-    private float coinSpeed = 3f;
+    private float coinSpeed = 100f;
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class CoinController : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(0) && IsClickingSelf())
         {
-            Vector3 target = Camera.main.WorldToScreenPoint(PlayerData.GetMoneyTextPosition());
+            Vector3 target = Camera.main.ScreenToWorldPoint(PlayerData.GetMoneyTextPosition());
             SetTargetPosition(target);
             consume = true;
         }
