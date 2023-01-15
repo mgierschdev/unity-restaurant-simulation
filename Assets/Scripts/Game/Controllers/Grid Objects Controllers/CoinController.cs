@@ -3,16 +3,14 @@ using UnityEngine;
 public class CoinController : MonoBehaviour
 {
     private bool consume;
-    private Vector3 targetPosition;
-    private float coinSpeed = 0.1f;
-    private Vector3 startPoint;
-    private float interpolationTime;
-
-    [SerializeField]
+    private Transform target;
+    private float coinSpeed = 0.5f;
+    private Vector3 startPoint, targetPosition;
     private Vector3 tangent1 = new Vector3(0, 1), tangent2 = new Vector3(1, 0);
-
+    private float interpolationTime;
+    // Helper to build the graph: https://cubic-bezier.com/
     //Debug
-    private Vector3 prevPosition = Vector3.zero;
+    //private Vector3 prevPosition = Vector3.zero;
 
     private void Awake()
     {
@@ -26,28 +24,27 @@ public class CoinController : MonoBehaviour
     {
         if (consume)
         {
-            interpolationTime += Time.deltaTime * 0.1f;
+            targetPosition = Camera.main.ScreenToWorldPoint(target.transform.position);
+
+            interpolationTime += Time.deltaTime * coinSpeed;
             transform.position = MathExtended.CubicBezier(interpolationTime,
             startPoint,
             startPoint + tangent1,
             targetPosition + tangent2,
             targetPosition);
 
-            Vector3 a = new Vector3(transform.position.x, transform.position.y, 0);
-            Vector3 b = new Vector3(targetPosition.x, targetPosition.y, 0);
-
-            Debug.Log(transform.name + " Target Distance " + Vector3.Distance(a, b));
-
-            Debug.DrawLine(prevPosition, transform.position, Color.cyan, 15f);
-            prevPosition = transform.position;
-
+            // Vector3 a = new Vector3(transform.position.x, transform.position.y, 0);
+            // Vector3 b = new Vector3(targetPosition.x, targetPosition.y, 0);
+            //Debug.Log(transform.name + " Target Distance " + Vector3.Distance(a, b));
+            // Debug.DrawLine(prevPosition, transform.position, Color.cyan, 15f);
+            //prevPosition = transform.position;
             //Vector3.Lerp(transform.position, targetPosition, coinSpeed * Time.fixedDeltaTime);
+
             CheckIfAtTarget();
         }
         else if (Input.GetMouseButtonDown(0) && IsClickingSelf())
         {
-            Vector3 target = Camera.main.ScreenToWorldPoint(PlayerData.GetMoneyTextPosition());
-            targetPosition = target;
+            target = PlayerData.GetMoneyTextTransform();
             // TODO: Make it follow the reference of the actual gameObject rather than the coord in that way it will follow the coord even is the player moves with the perspective hand
             // Use some kind of lerp or curve easing 
             consume = true;
