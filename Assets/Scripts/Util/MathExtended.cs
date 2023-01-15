@@ -1,5 +1,5 @@
 using UnityEngine;
-public static class Math
+public static class MathExtended
 {
 
 
