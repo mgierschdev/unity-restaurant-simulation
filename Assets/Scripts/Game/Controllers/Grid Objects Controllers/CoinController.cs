@@ -24,6 +24,7 @@ public class CoinController : MonoBehaviour
         {
             Vector3 target = Camera.main.ScreenToWorldPoint(PlayerData.GetMoneyTextPosition());
             SetTargetPosition(target);
+            // TODO: Make it follow the reference of the actual gameObject rather than the coord in that way it will follow the coord even is the player moves with the perspective hand
             consume = true;
         }
     }
