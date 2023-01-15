@@ -46,7 +46,6 @@ public class BaseObjectController : MonoBehaviour
     {
         try
         {
-            // TODO: Machines not loading while the menu is open, top item animation
             if (gameGridObject == null && storeGameObject != null)
             {
                 return;

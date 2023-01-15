@@ -74,6 +74,12 @@ public static class NPCStateMachineFactory
         adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
 
+        // TODO:
+        
+        // ATTENDED -> EATING FOOD
+
+        // EATING FOOD -> WALK TO UNRESPAWN
+
         //ATTENDED -> Other
         nodeTransition[(int)NpcStateTransitions.ORDER_SERVED] = true;
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;

@@ -383,6 +383,11 @@ public static class PlayerData
         return null;
     }
 
+    public static Vector3 GetMoneyTextPosition()
+    {
+        return moneyText.transform.position;
+    }
+
     public static string ToString()
     {
         return "NAME: " + user.NAME +

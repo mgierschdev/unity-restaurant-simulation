@@ -180,6 +180,7 @@ public class EmployeeController : GameObjectMovementBase
             double orderValue = Random.Range(5, 10);
             double totalOrderCost = orderValue + PlayerData.GetUgrade(UpgradeType.ORDER_COST_PERCENTAGE) * (orderValue * Settings.OrderIncreaseCostPercentage
              / 100);
+            CreateCoin();//TODO: remove
             PlayerData.AddMoney(totalOrderCost);
             PlayerData.SetCustomerAttended();
         }
@@ -269,5 +270,11 @@ public class EmployeeController : GameObjectMovementBase
     public bool IsAttendingTable()
     {
         return table != null;
+    }
+
+    private void CreateCoin()
+    {
+        Vector3 initPosition = transform.position;
+        GameObject coin = Instantiate(Resources.Load("Objects/Coin", typeof(GameObject)), initPosition, Quaternion.identity) as GameObject;
     }
 }
