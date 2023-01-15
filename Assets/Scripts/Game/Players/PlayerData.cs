@@ -383,9 +383,9 @@ public static class PlayerData
         return null;
     }
 
-    public static Vector3 GetMoneyTextPosition()
+    public static Transform GetMoneyTextTransform()
     {
-        return moneyText.transform.position;
+        return moneyText.transform;
     }
 
     public static string ToString()
