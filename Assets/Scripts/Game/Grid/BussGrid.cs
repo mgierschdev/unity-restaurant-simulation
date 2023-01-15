@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
@@ -912,7 +913,7 @@ public static class BussGrid
 
     public static string GetObjectID(ObjectType type)
     {
-        string id = GetObjectCount() + 1 + "-" + Time.frameCount;
+        string id = GetObjectCount() + 1 + "-" + Time.frameCount + "-" + Guid.NewGuid().ToString().Substring(0, 5);
         return type + "." + id;
     }
 
