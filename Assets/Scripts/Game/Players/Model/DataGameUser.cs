@@ -32,9 +32,14 @@ public class DataGameUser
     public DataStatsGameObject DATA_STATS;
 
     // Convert to JSON string
-    public string ToJSONString(Boolean pretty)
+    public string ToJSONString()
     {
-        return JsonUtility.ToJson(this, pretty);
+
+#if UNITY_EDITOR
+        return JsonUtility.ToJson(this, true);
+#else
+        return JsonUtility.ToJson(this, false);
+#endif
     }
 
     // Create object from JSON
@@ -61,7 +66,7 @@ public class DataGameUser
     {
         filename = filename == "" ? GetSaveFileName() : GetSaveFileName(filename);
 
-        await System.IO.File.WriteAllTextAsync(filename, ToJSONString(Settings.devEnv));
+        await System.IO.File.WriteAllTextAsync(filename, ToJSONString());
     }
 
     public void SaveToJSONFileAsync(string filename)
@@ -77,12 +82,20 @@ public class DataGameUser
     public static string GetSaveFileName(string filename)
     {
         filename += ".json";
-        return Settings.devEnv ? Settings.DevSaveDirectory + "/" + filename : Application.persistentDataPath + "/" + filename;
+#if UNITY_EDITOR
+        return Settings.DevSaveDirectory + "/" + filename;
+#else
+        return Application.persistentDataPath + "/" + filename;
+#endif
     }
 
     public static string GetSaveFileName()
     {
-        return Settings.devEnv ? Settings.DevSaveDirectory + "/" + Settings.SaveFileSuffix : Application.persistentDataPath + "/" + Settings.SaveFileSuffix;
+#if UNITY_EDITOR
+        return Settings.DevSaveDirectory + "/" + Settings.SaveFileSuffix;
+#else
+        return Application.persistentDataPath + "/" + Settings.SaveFileSuffix;
+#endif
     }
 
     public void SetUpgrade(UpgradeType type, int value)
@@ -92,7 +105,7 @@ public class DataGameUser
 
     public void IncreaseUpgrade(UpgradeType type)
     {
-        UPGRADES[(int)type].UPGRADE_NUMBER ++;
+        UPGRADES[(int)type].UPGRADE_NUMBER++;
     }
 
     public int GetUpgrade(UpgradeType type)
