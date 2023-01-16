@@ -493,3 +493,5 @@ Assets/StreamingAssets.meta
 .gitignore
 Assets/StreamingAssets/UnityServicesProjectConfiguration.json.meta
 Packages/packages-lock.json
+Assets/StreamingAssets/UnityServicesProjectConfiguration.json
+Assets/StreamingAssets.meta
