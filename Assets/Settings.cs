@@ -5,12 +5,6 @@ public static class Settings
     public const int DebugTextSize = 9;
     public const bool DisableNetwork = true;
 
-#if UNITY_EDITOR
-    public const bool devEnv = true;
-#else
-    public const bool devEnv = false;
-#endif
-
     // Upgrades
     public const float NpcDefaultMovementSpeed = 1.3f, //1 = Looks good with current animation
     UpgradePercentageMultiplayer = 0.08f,
