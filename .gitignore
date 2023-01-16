@@ -494,3 +494,6 @@ InitTest*
 
 ProjectSettings/GvhProjectSettings.xml
 UserData/*save.json
+Assets/StreamingAssets.meta
+.gitignore
+Assets/StreamingAssets/UnityServicesProjectConfiguration.json.meta
