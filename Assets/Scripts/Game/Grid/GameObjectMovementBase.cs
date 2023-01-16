@@ -181,11 +181,11 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             if (type == ObjectType.EMPLOYEE && stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
             {
-                animationController.SetState(NpcState.WALKING_TO_TABLE);
+               animationController.SetState(NpcState.WALKING_TO_TABLE);
             }
             else
             {
-                animationController.SetState(NpcState.WALKING);
+               animationController.SetState(NpcState.WALKING);
             }
         }
         else
