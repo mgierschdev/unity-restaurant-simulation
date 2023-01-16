@@ -63,13 +63,9 @@ public static class UnityAuth
 
             //UnityAnalytics.PublishEvent(AnalyticsEvents.CloudCodeGetPlayerData, parameters);
 
-            GameLog.LogService("Auth user id: " + AuthenticationService.Instance.PlayerId);
-            GameLog.LogService("CloudCodeGetPlayerData: " + response.key + " " + response.value);
-
-            if (AreUnityServicesLoaded())
-            {
-                PlayerData.InitUser();
-            }
+            GameLog.Log("Auth user id: " + AuthenticationService.Instance.PlayerId);
+            GameLog.Log("CloudCodeGetPlayerData: " + response.key + " " + response.value);
+            PlayerData.InitUser();
 
             AuthFailed = false;
             Retrying = false;
