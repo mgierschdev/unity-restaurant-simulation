@@ -15,7 +15,10 @@ public class LoadSliderController : MonoBehaviour
         GameObject fillAreaObject = transform.Find("FillArea/Fill").gameObject;
         GameObject backgroundImageObject = transform.Find("Background").gameObject;
         backgroundImage = backgroundImageObject.GetComponent<Image>();
-        Util.IsNull(fillAreaObject, "LoadSliderController/fillAreaObject is null ");
+
+        Util.IsNull(fillAreaObject, "LoadSliderController/fillAreaObject is null");
+        Util.IsNull(backgroundImageObject, "LoadSliderController/backgroundImageObject is null");
+
         sliderImage = fillAreaObject.GetComponent<Image>();
         slider.value = 0;
         seconds = 0;

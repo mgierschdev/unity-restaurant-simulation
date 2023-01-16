@@ -12,28 +12,29 @@ public class SceneLoadController : MonoBehaviour
     private float currentProgress, MIN_TIME_LOADING = Settings.ScreenLoadTime, currentTimeAtScene, timeRetryingConnection;
     private MessageController messageController;
 
-    public void Awake()
+    public void Start()
     {
+        try
+        {
+            // We get the message controller for the init message
+            GameObject initMessage = transform.Find(Settings.CanvasMessageObject).gameObject;
+            messageController = initMessage.GetComponent<MessageController>();
+            messageController.Disable();
 
-        //
-        Debug.Log("Init unity");
+            Button retryButton = messageController.GetRetryButton();
+            retryButton.onClick.AddListener(() => UnityAuth.InitUnityServices());
 
-        // We get the message controller for the init message
-        GameObject initMessage = transform.Find(Settings.CanvasMessageObject).gameObject;
-        messageController = initMessage.GetComponent<MessageController>();
-        messageController.Disable();
-
-        Button retryButton = messageController.GetRetryButton();
-        retryButton.onClick.AddListener(() => UnityAuth.InitUnityServices());
-
-        // We get the slider 
-        GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
-        slider = sliderGameObject.GetComponent<Slider>();
-        SetInitValues();
-        Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
-
-        // Init unity
-        UnityAuth.InitUnityServices();
+            // // We get the slider 
+            GameObject sliderGameObject = GameObject.FindGameObjectWithTag(Settings.SliderTag);
+            slider = sliderGameObject.GetComponent<Slider>();
+            SetInitValues();
+            Util.IsNull(sliderGameObject, "SceneLoadController/Start Slider is null");
+            UnityAuth.InitUnityServices();
+        }
+        catch (Exception e)
+        {
+            GameLog.LogError(e.ToString());
+        }
     }
 
     private void FixedUpdate()
@@ -58,7 +59,7 @@ public class SceneLoadController : MonoBehaviour
             currentTimeAtScene += Time.fixedDeltaTime;
             slider.value = currentTimeAtScene / MIN_TIME_LOADING;
 
-            Debug.Log("Loading-game: " + (operation != null ? Mathf.Approximately(operation.progress, 0.9f) : "null") + " " +
+            GameLog.Log("Loading-game: " + (operation != null ? Mathf.Approximately(operation.progress, 0.9f) : "null") + " " +
             (currentTimeAtScene >= MIN_TIME_LOADING) + " " +
             (PlayerData.GetDataGameUser() != null) + " ");
 
@@ -68,9 +69,7 @@ public class SceneLoadController : MonoBehaviour
             && currentTimeAtScene >= MIN_TIME_LOADING
             && PlayerData.GetDataGameUser() != null)
             {
-                GameLog.Log("Enabling scene");
-                Debug.Log("User name " + PlayerData.ToStringDebug());
-
+                GameLog.Log("User name " + PlayerData.ToStringDebug());
                 operation.allowSceneActivation = true;
             }
             else if (operation == null)

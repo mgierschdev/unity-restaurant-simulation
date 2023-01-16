@@ -13,17 +13,6 @@ public static class GameLog
 #endif
     }
 
-    public static void LogService(string message)
-    {
-#if UNITY_EDITOR
-        Debug.Log("GAMELOG SERVICE: " + message);
-#endif
-
-#if DEVELOPMENT_BUILD
-        Debug.Log("GAMELOG UNITY: " + message);
-#endif
-    }
-
     public static void Log(int message)
     {
 #if UNITY_EDITOR

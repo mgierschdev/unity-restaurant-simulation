@@ -14,7 +14,6 @@ public class MessageController : MonoBehaviour
         imageObj = transform.Find(Settings.MessageImageObject).gameObject;
         retryButtonObj = transform.Find(Settings.MessageRetryButton).gameObject;
         retryButton = retryButtonObj.GetComponent<Button>();
-        Debug.Log("retryButton " + retryButton.name + " " + retryButtonObj);
         textMessage = messageObj.GetComponent<TextMeshProUGUI>();
     }
 
