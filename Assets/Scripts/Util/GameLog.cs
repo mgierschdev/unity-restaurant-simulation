@@ -4,7 +4,11 @@ public static class GameLog
 {
     public static void Log(string message)
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR 
+        Debug.Log("GAMELOG UNITY: " + message);
+#endif
+
+#if DEVELOPMENT_BUILD
         Debug.Log("GAMELOG UNITY: " + message);
 #endif
     }
@@ -14,6 +18,10 @@ public static class GameLog
 #if UNITY_EDITOR
         Debug.Log("GAMELOG SERVICE: " + message);
 #endif
+
+#if DEVELOPMENT_BUILD
+        Debug.Log("GAMELOG UNITY: " + message);
+#endif
     }
 
     public static void Log(int message)
@@ -21,11 +29,19 @@ public static class GameLog
 #if UNITY_EDITOR
         Debug.Log("GAMELOG UNITY: " + message);
 #endif
+
+#if DEVELOPMENT_BUILD
+        Debug.Log("GAMELOG UNITY: " + message);
+#endif
     }
 
     public static void Log(float message)
     {
 #if UNITY_EDITOR
+        Debug.Log("GAMELOG UNITY: " + message);
+#endif
+
+#if DEVELOPMENT_BUILD
         Debug.Log("GAMELOG UNITY: " + message);
 #endif
     }
@@ -40,6 +56,10 @@ public static class GameLog
 #if UNITY_EDITOR
         Debug.Log("GAMELOG UNITY: " + message);
 #endif
+
+#if DEVELOPMENT_BUILD
+        Debug.Log("GAMELOG UNITY: " + message);
+#endif
     }
 
     public static void LogWarning(string message)
@@ -47,11 +67,19 @@ public static class GameLog
 #if UNITY_EDITOR
         Debug.LogWarning("GAMELOG UNITY: " + message);
 #endif
+
+#if DEVELOPMENT_BUILD
+        Debug.Log("GAMELOG UNITY: " + message);
+#endif
     }
     public static void LogError(string message)
     {
 #if UNITY_EDITOR
         Debug.LogError(message);
+#endif
+
+#if DEVELOPMENT_BUILD
+        Debug.Log("GAMELOG UNITY: " + message);
 #endif
     }
 }

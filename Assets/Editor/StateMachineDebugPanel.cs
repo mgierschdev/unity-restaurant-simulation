@@ -1,3 +1,5 @@
+#if (UNITY_EDITOR) 
+
 using System.Collections.Generic;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
@@ -392,3 +394,5 @@ public class StateMachineDebugPanel : EditorWindow
         return visualElement;
     }
 }
+
+#endif

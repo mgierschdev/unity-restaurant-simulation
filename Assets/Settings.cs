@@ -19,7 +19,7 @@ public static class Settings
     SpeedToMoveObjects = 1.3f, // in seconds
     InitClientWaitTime = 10, // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
     OrderIncreaseCostPercentage = 2;// Max value 5, total increase more 10%  
-    public const int NpcMultiplayer = 2; // multiplayer * upgrade = Npc number (3), more clients limit (4)
+    public const int NpcMultiplayer = 4; // multiplayer * upgrade = Npc number (3), more clients limit (4)
     public const double PlayerMoneyLimit = 1000000;
 
     // Time to retry internet connection
@@ -41,8 +41,8 @@ public static class Settings
 
     public static int ConstDefaultCameraOrthographicsize = 7;
 
-    //Init start attributes
-    public static int InitGameMoney = 0,
+    //Init start attributes: Devlopment
+    public static int InitGameMoney = 1000000,
     InitExperience = 0,
     InitLevel = 0,
     InitGridSize = 1;

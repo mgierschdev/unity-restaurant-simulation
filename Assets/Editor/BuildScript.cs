@@ -1,15 +1,17 @@
+#if (UNITY_EDITOR) 
+
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 
-// Script used for the Jenkins Build
+// Script used for the Jenkins/local Build
 class BuildScript
 {
     public static void PerformAndroidBuild()
     {
 
         string[] defaultScene = {
-            "Assets/LoadScene.unity",
-            "Assets/GameScene.unity"
+            "Assets/Scenes/LoadScene.unity",
+            "Assets/Scenes/GameScene.unity"
             };
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
@@ -26,7 +28,7 @@ class BuildScript
         if (summary.result == BuildResult.Succeeded)
         {
             GameLog.Log("Build succeeded: " + summary.totalSize + " bytes");
-        }
+        }       
 
         if (summary.result == BuildResult.Failed)
         {
@@ -37,8 +39,8 @@ class BuildScript
     public static void PerformIOSBuild()
     {
         string[] defaultScene = {
-            "Assets/LoadScene.unity",
-            "Assets/GameScene.unity"
+            "Assets/Scenes/LoadScene.unity",
+            "Assets/Scenes/GameScene.unity"
             };
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
@@ -62,3 +64,5 @@ class BuildScript
         }
     }
 }
+
+#endif

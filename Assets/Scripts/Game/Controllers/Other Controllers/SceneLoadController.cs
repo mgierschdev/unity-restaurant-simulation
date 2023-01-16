@@ -14,6 +14,10 @@ public class SceneLoadController : MonoBehaviour
 
     public void Awake()
     {
+
+        //
+        Debug.Log("Init unity");
+
         // We get the message controller for the init message
         GameObject initMessage = transform.Find(Settings.CanvasMessageObject).gameObject;
         messageController = initMessage.GetComponent<MessageController>();
@@ -54,7 +58,7 @@ public class SceneLoadController : MonoBehaviour
             currentTimeAtScene += Time.fixedDeltaTime;
             slider.value = currentTimeAtScene / MIN_TIME_LOADING;
 
-            GameLog.Log("Loading: " + (operation != null ? Mathf.Approximately(operation.progress, 0.9f) : "null") + " " +
+            Debug.Log("Loading-game: " + (operation != null ? Mathf.Approximately(operation.progress, 0.9f) : "null") + " " +
             (currentTimeAtScene >= MIN_TIME_LOADING) + " " +
             (PlayerData.GetDataGameUser() != null) + " ");
 
@@ -71,7 +75,7 @@ public class SceneLoadController : MonoBehaviour
             }
             else if (operation == null)
             {
-                operation = SceneManager.LoadSceneAsync(Settings.GameScene);
+                operation = SceneManager.LoadSceneAsync(Settings.GameScene, LoadSceneMode.Single);
                 // if not will load scene before filling the load animation
                 operation.allowSceneActivation = false;
             }

@@ -247,11 +247,11 @@ PlayerSettings:
   templateDefaultScene: Assets/Scenes/SampleScene.unity
   useCustomMainManifest: 0
   useCustomLauncherManifest: 0
-  useCustomMainGradleTemplate: 1
+  useCustomMainGradleTemplate: 0
   useCustomLauncherGradleManifest: 0
   useCustomBaseGradleTemplate: 0
-  useCustomGradlePropertiesTemplate: 1
-  useCustomProguardFile: 1
+  useCustomGradlePropertiesTemplate: 0
+  useCustomProguardFile: 0
   AndroidTargetArchitectures: 15
   AndroidTargetDevices: 1
   AndroidSplashScreenScale: 0
@@ -272,8 +272,8 @@ PlayerSettings:
   androidGamepadSupportLevel: 0
   chromeosInputEmulation: 1
   AndroidMinifyWithR8: 0
-  AndroidMinifyRelease: 1
-  AndroidMinifyDebug: 1
+  AndroidMinifyRelease: 0
+  AndroidMinifyDebug: 0
   AndroidValidateAppBundleSize: 1
   AndroidAppBundleSizeToValidate: 150
   m_BuildTargetIcons:
