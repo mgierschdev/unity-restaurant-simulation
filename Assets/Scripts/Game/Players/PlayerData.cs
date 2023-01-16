@@ -388,7 +388,7 @@ public static class PlayerData
         return moneyText.transform;
     }
 
-    public static string ToString()
+    public static string ToStringDebug()
     {
         return "NAME: " + user.NAME +
         " EMAIL: " + user.EMAIL +

@@ -69,7 +69,7 @@ public class SceneLoadController : MonoBehaviour
             && PlayerData.GetDataGameUser() != null)
             {
                 GameLog.Log("Enabling scene");
-                Debug.Log("User name " + PlayerData.ToString());
+                Debug.Log("User name " + PlayerData.ToStringDebug());
 
                 operation.allowSceneActivation = true;
             }
