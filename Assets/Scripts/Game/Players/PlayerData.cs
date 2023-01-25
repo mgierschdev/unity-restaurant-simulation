@@ -300,9 +300,14 @@ public static class PlayerData
         Application.quitting += Quit;
     }
 
-    public static DataGameUser GetDataGameUser()
+    public static bool IsUserSetted()
     {
-        return user;
+        return user != null;
+    }
+
+    public static List<DataGameObject> GerUserObjects()
+    {
+        return user.OBJECTS;
     }
 
     public static int GetUgrade(UpgradeType upgradeType)

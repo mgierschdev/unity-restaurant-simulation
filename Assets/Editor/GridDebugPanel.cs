@@ -241,8 +241,8 @@ public class GridDebugPanel : EditorWindow
 
         maps += " \n";
 
-        maps += "Backend storage size: " + PlayerData.GetDataGameUser().OBJECTS.Count + " \n";
-        foreach (DataGameObject g in PlayerData.GetDataGameUser().OBJECTS)
+        maps += "Backend storage size: " + PlayerData.GerUserObjects().Count + " \n";
+        foreach (DataGameObject g in PlayerData.GerUserObjects())
         {
             maps += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
         }

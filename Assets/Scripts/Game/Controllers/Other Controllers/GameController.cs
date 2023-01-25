@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
         {
 
             Debug.Log("Number NPCs " + ClientSet.Count);
-            
+
             try
             {
                 if (ClientSet.Count < NpcMaxNumber)
@@ -134,12 +134,12 @@ public class GameController : MonoBehaviour
     private void LoadUserObjects()
     {
         // The user can store all the inventory 
-        if (PlayerData.GetDataGameUser().OBJECTS == null)
+        if (PlayerData.GerUserObjects() == null)
         {
             return;
         }
 
-        foreach (DataGameObject obj in PlayerData.GetDataGameUser().OBJECTS)
+        foreach (DataGameObject obj in PlayerData.GerUserObjects())
         {
             if (!obj.IS_STORED)
             {
