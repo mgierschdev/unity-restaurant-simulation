@@ -606,7 +606,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7444181978888355380}
   - component: {fileID: 7513736735678383767}
-  - component: {fileID: 2962024432630426327}
   - component: {fileID: 5075699132121997877}
   - component: {fileID: 6414089864778020525}
   - component: {fileID: 5710297941852229808}
@@ -662,51 +661,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2962024432630426327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7444181978888355381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 00000000
-  m_ShapePath:
-  - {x: -0.18774414, y: 1.1165771, z: 0}
-  - {x: -0.18334961, y: 1.1834717, z: 0}
-  - {x: -0.14819336, y: 1.4910889, z: 0}
-  - {x: -0.1965332, y: 1.7728271, z: 0}
-  - {x: -0.21435547, y: 1.9532471, z: 0}
-  - {x: 0.0715332, y: 1.982666, z: 0}
-  - {x: 0.17089844, y: 1.9644775, z: 0}
-  - {x: 0.22875977, y: 1.248169, z: 0}
-  - {x: 0.25317383, y: 0.9310303, z: 0}
-  - {x: 0.2524414, y: 0.7363281, z: 0}
-  - {x: 0.25439453, y: 0.57751465, z: 0}
-  - {x: 0.19140625, y: 0.099365234, z: 0}
-  - {x: 0.2861328, y: 0.0057373047, z: 0}
-  - {x: 0.40283203, y: -0.048217773, z: 0}
-  - {x: 0.26098633, y: -0.07348633, z: 0}
-  - {x: 0.076416016, y: -0.064819336, z: 0}
-  - {x: -0.0637207, y: -0.061523438, z: 0}
-  - {x: -0.18554688, y: -0.061401367, z: 0}
-  - {x: -0.17822266, y: 0.07800293, z: 0}
-  - {x: -0.18066406, y: 0.12756348, z: 0}
-  - {x: -0.1796875, y: 0.47277832, z: 0}
-  - {x: -0.1875, y: 0.89367676, z: 0}
-  m_ShapePathHash: -547645219
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 80890
 --- !u!114 &5075699132121997877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,11 +822,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033337462871835706, guid: c2949b2209d2e4f5185213a7576d1a62, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1033337462871835706, guid: c2949b2209d2e4f5185213a7576d1a62, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1033337462871835706, guid: c2949b2209d2e4f5185213a7576d1a62, type: 3}
       propertyPath: m_RootOrder
