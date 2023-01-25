@@ -124,7 +124,8 @@ public static class Settings
     public const string SpriteLibCategoryTables = "Tables",
     SpriteLibCategoryStoreItems = "Store",
     SpriteLibCategoryUpgradeItems = "Upgrade",
-    SpriteLibCategoryStoreObjects = "StoreObjects";
+    SpriteLibCategoryStoreObjects = "StoreObjects",
+    SpriteLibCategoryKitchenObjects = "kitchens";
 
     //PREFABS AND OBJECTS
     public const string Button = "Button",
