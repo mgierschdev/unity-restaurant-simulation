@@ -196,14 +196,14 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: Store-1
       m_Hash: -94455786
-      m_Sprite: {fileID: 21300000, guid: 984e7dd9cb62746078556966a0cee794, type: 3}
+      m_Sprite: {fileID: 21300000, guid: 313573a51d51d491e9d2781129f79396, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 984e7dd9cb62746078556966a0cee794, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: 313573a51d51d491e9d2781129f79396, type: 3}
     - m_Name: Store-2
       m_Hash: 1666705836
-      m_Sprite: {fileID: 21300000, guid: 977aac601c4ed467f8dff920fc227ea2, type: 3}
+      m_Sprite: {fileID: 21300000, guid: 59332b23878f44c02bf01e460c342962, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 977aac601c4ed467f8dff920fc227ea2, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: 59332b23878f44c02bf01e460c342962, type: 3}
     - m_Name: Store-3
       m_Hash: 340842810
       m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
