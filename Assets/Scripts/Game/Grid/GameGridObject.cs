@@ -375,7 +375,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         switch (newPosition)
         {
             case ObjectRotation.FRONT:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
                 if (storeGameObject.HasActionPoint)
                 {
@@ -386,7 +386,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 }
                 return;
             case ObjectRotation.FRONT_INVERTED:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
 
                 if (storeGameObject.HasActionPoint)
@@ -398,7 +398,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 }
                 return;
             case ObjectRotation.BACK:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
                 if (storeGameObject.HasActionPoint)
                 {
@@ -409,7 +409,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
                 }
                 return;
             case ObjectRotation.BACK_INVERTED:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
                 if (storeGameObject.HasActionPoint)
                 {
