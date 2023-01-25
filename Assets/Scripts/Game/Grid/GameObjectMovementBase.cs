@@ -6,9 +6,9 @@ using UnityEngine.Rendering;
 
 public class GameObjectMovementBase : MonoBehaviour
 {
-    public string Name { get; set; }
-    public Vector3Int Position { get; set; } //PathFindingGrid Position
-    public Vector3Int PrevGridPosition { get; set; }
+    public string Name { get; private set; }
+    public Vector3Int Position { get; private set; } //PathFindingGrid Position
+    public Vector3Int PrevGridPosition { get; private set; }
     private MoveDirection moveDirection;
     private CharacterSide side; // false right, true left
     //Energy Bars

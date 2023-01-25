@@ -7,10 +7,10 @@ using System.Collections.Generic;
 public class StateMachine<T, S> where T : Enum where S : Enum
 {
     public string ID;
-    public StateNodeTransition[,] AdjacencyMatrix { get; set; }
-    public Dictionary<T, StateMachineNode<T>> Map { get; set; }
-    public StateMachineNode<T> Current { get; set; }
-    public Int32 TransitionStates { get; set; } // State machine current states
+    public StateNodeTransition[,] AdjacencyMatrix { get; private set; }
+    public Dictionary<T, StateMachineNode<T>> Map { get; private set; }
+    public StateMachineNode<T> Current { get; private set; }
+    public Int32 TransitionStates { get; private set; } // State machine current states
     private T startState;
 
     public StateMachine(StateNodeTransition[,] adjacencyMatrix, T startState, string ID)
