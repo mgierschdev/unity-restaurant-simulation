@@ -8,7 +8,7 @@ public class BaseObjectController : MonoBehaviour
     [SerializeField]
     private Vector3 currentPos; // Current position of the object including while dragging
     protected GameGridObject gameGridObject;
-    protected MenuHandlerController Menu { get; set; }
+    private MenuHandlerController Menu;
     //Long click controller
     private float timeClicking;
     //Firebase obj reference and initial rotation

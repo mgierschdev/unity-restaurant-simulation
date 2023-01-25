@@ -3,7 +3,7 @@ using System;
 public class StateNodeTransition
 {
     // Same size as NpcStateTransitions
-    public bool[] StateTransitions { get; set; } //single 32 bit int
+    private bool[] StateTransitions { get; set; } //single 32 bit int
 
     public Int32 StateTransitionsEncoded { get; set; }
 
