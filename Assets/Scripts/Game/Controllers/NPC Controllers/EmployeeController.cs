@@ -185,7 +185,7 @@ public class EmployeeController : GameObjectMovementBase
             double orderValue = Random.Range(5, 10);
             double totalOrderCost = orderValue + PlayerData.GetUgrade(UpgradeType.ORDER_COST_PERCENTAGE) * (orderValue * Settings.OrderIncreaseCostPercentage
              / 100);
-            CreateCoin();//TODO: remove
+            //CreateCoin();//TODO: remove
             PlayerData.AddMoney(totalOrderCost);
             PlayerData.SetCustomerAttended();
         }

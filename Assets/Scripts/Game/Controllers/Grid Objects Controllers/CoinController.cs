@@ -45,8 +45,7 @@ public class CoinController : MonoBehaviour
         else if (Input.GetMouseButtonDown(0) && IsClickingSelf())
         {
             target = PlayerData.GetMoneyTextTransform();
-            // TODO: Make it follow the reference of the actual gameObject rather than the coord in that way it will follow the coord even is the player moves with the perspective hand
-            // Use some kind of lerp or curve easing 
+           // Use some kind of lerp or curve easing 
             consume = true;
         }
     }
