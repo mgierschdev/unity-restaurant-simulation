@@ -1,7 +1,7 @@
 public static class Settings
 {
     // General Config
-    public const bool CellDebug = true;
+    public const bool CellDebug = false;
     public const int DebugTextSize = 9;
     public const bool DisableNetwork = true; // for dev backend
 
@@ -11,9 +11,9 @@ public static class Settings
     DefultItemLoadSpeed = 5f, // in seconds
     ItemLoadSliderMultiplayer = 0.05f,
     SpeedToMoveObjects = 1.3f, // in seconds
-    InitClientWaitTime = 10, // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
+    MaxStateTime = 300, // Increases 10% per upgrade InitClientWaitTime += 10 * InitClientWaitTime / 100;
     OrderIncreaseCostPercentage = 2;// Max value 5, total increase more 10%  
-    public const int NpcMultiplayer = 50; // multiplayer * upgrade = Npc number (3), more clients limit (4)
+    public const int NpcMultiplayer = 2; // multiplayer * upgrade = Npc number (3), more clients limit (4)
     public const double PlayerMoneyLimit = 1000000;
 
     // Time to retry internet connection
@@ -80,7 +80,7 @@ public static class Settings
     public const string LoadSlider = "LoadSlider",
     TopPopUpObject = "InfoPopUp",
     NpcCharacter = "Character",
-    TryObject = "Character/Arm-Left-1/Try";
+    TryObject = "Try";
 
     //Unity services project environments, as displayed on the unity service console
     public const string UnityServicesProd = "production",
