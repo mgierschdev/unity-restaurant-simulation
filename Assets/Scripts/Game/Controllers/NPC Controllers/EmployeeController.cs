@@ -26,6 +26,11 @@ public class EmployeeController : GameObjectMovementBase
     {
         try
         {
+            if (!IsMovementBaseActive())
+            {
+                return;
+            }
+
             UpdatePosition();
             UpdateTimeInState();
             UpdateTargetMovement();
