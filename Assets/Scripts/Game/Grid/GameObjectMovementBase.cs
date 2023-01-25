@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public abstract class GameObjectMovementBase : MonoBehaviour
+public class GameObjectMovementBase : MonoBehaviour
 {
     public string Name { get; set; }
     public Vector3Int Position { get; set; } //PathFindingGrid Position
@@ -44,7 +44,8 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         animationController = GetComponent<PlayerAnimationStateController>();
         sortingLayer = transform.GetComponent<SortingGroup>();
         EnergyBar = transform.Find(Settings.LoadSlider).GetComponent<LoadSliderController>();
-        UpdatePosition();
+
+        Debug.Log("Setting gameObjectBase");
 
         if (!Util.IsNull(EnergyBar, "GameObjectMovementBase/energyBar null"))
         {
@@ -55,6 +56,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         {
             GameLog.LogWarning("NPCController/animationController-gameObj null");
         }
+
+        if (sortingLayer == null)
+        {
+            GameLog.LogWarning("NPCController/sortingLayer null");
+        }
+
+        UpdatePosition();
     }
 
     private void Start()
@@ -65,6 +73,13 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         isMoving = false;
         currentState = NpcState.IDLE;
         animationController.SetInfoPopUItem(itemToAskFor);
+    }
+
+    private void FixedUpdate()
+    {
+        Debug.Log("Current state " + stateMachine.Current.State);
+        UpdatePosition();
+        UpdateAnimation();
     }
 
     protected void SetID()
@@ -88,7 +103,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    protected void UpdatePosition()
+    public void UpdatePosition()
     {
         Position = BussGrid.GetPathFindingGridFromWorldPosition(transform.position);
         Position = new Vector3Int(Position.x, Position.y);
@@ -166,7 +181,7 @@ public abstract class GameObjectMovementBase : MonoBehaviour
             UpdateObjectDirection(); // It flips the side of the object depending on direction
 
             //Upgrade: NPC/Waiter speed
-            speed = Settings.NpcDefaultMovementSpeed + Settings.UpgradePercentageMultiplayer * (ObjectType.EMPLOYEE == type ? 
+            speed = Settings.NpcDefaultMovementSpeed + Settings.UpgradePercentageMultiplayer * (ObjectType.EMPLOYEE == type ?
             (PlayerData.GetUgrade(UpgradeType.WAITER_SPEED) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.WAITER_SPEED)) :
             (PlayerData.GetUgrade(UpgradeType.CLIENT_SPEED) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.CLIENT_SPEED)));
 
@@ -174,18 +189,18 @@ public abstract class GameObjectMovementBase : MonoBehaviour
         }
     }
 
-    protected void UpdateAnimation()
+    public void UpdateAnimation()
     {
         // Animates depending on the current state
         if (IsMoving() && prevState == currentState)
         {
             if (type == ObjectType.EMPLOYEE && stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
             {
-               animationController.SetState(NpcState.WALKING_TO_TABLE);
+                animationController.SetState(NpcState.WALKING_TO_TABLE);
             }
             else
             {
-               animationController.SetState(NpcState.WALKING);
+                animationController.SetState(NpcState.WALKING);
             }
         }
         else
@@ -399,5 +414,10 @@ public abstract class GameObjectMovementBase : MonoBehaviour
     public ItemType GetItemToAskFor()
     {
         return itemToAskFor;
+    }
+
+    public bool IsMovementBaseActive()
+    {
+        return EnergyBar != null && animationController != null && sortingLayer != null;
     }
 }

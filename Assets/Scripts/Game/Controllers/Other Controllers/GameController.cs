@@ -430,12 +430,4 @@ public class GameController : MonoBehaviour
     {
         NpcMaxNumber = Settings.NpcMultiplayer * (PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS));
     }
-
-    public void UpgradeClientMaxWaitTime()
-    {
-        foreach (NPCController client in ClientSet)
-        {
-            client.UpdateMaxTableWaitingTime();
-        }
-    }
 }

@@ -22,6 +22,13 @@ public class NPCController : GameObjectMovementBase
     {
         try
         {
+            if (!IsMovementBaseActive())
+            {
+                // The Children overrides the FixedUpdate of the parent class expecte behaivior
+                // we wait until the parent has all the object references
+                return;
+            }
+
             UpdatePosition();
             UpdateTimeInState();
             UpdateTargetMovement();
