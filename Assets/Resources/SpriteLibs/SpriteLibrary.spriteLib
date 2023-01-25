@@ -77,7 +77,7 @@ MonoBehaviour:
       m_Hash: -473285739
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     m_FromMain: 0
     m_EntryOverrideCount: 10
   - m_Name: Tables-Inverted
@@ -133,7 +133,7 @@ MonoBehaviour:
       m_Hash: -473285739
       m_Sprite: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: bd9a552d04fd044abbf5145d570763a0, type: 3}
+      m_SpriteOverride: {fileID: 0}
     m_FromMain: 0
     m_EntryOverrideCount: 10
   - m_Name: StoreObjects
@@ -196,19 +196,19 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: Store-1
       m_Hash: -94455786
-      m_Sprite: {fileID: 21300000, guid: 313573a51d51d491e9d2781129f79396, type: 3}
+      m_Sprite: {fileID: 21300000, guid: 2a1cf656c4c844a3e9472c93c74dbd54, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 313573a51d51d491e9d2781129f79396, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: 2a1cf656c4c844a3e9472c93c74dbd54, type: 3}
     - m_Name: Store-2
       m_Hash: 1666705836
-      m_Sprite: {fileID: 21300000, guid: 59332b23878f44c02bf01e460c342962, type: 3}
+      m_Sprite: {fileID: 21300000, guid: 2a1cf656c4c844a3e9472c93c74dbd54, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 21300000, guid: 59332b23878f44c02bf01e460c342962, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: 2a1cf656c4c844a3e9472c93c74dbd54, type: 3}
     - m_Name: Store-3
       m_Hash: 340842810
-      m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
+      m_Sprite: {fileID: 21300000, guid: b0c29fbed069340ec89e4ee888795412, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}
+      m_SpriteOverride: {fileID: 21300000, guid: b0c29fbed069340ec89e4ee888795412, type: 3}
     - m_Name: Store-4
       m_Hash: -1976284007
       m_Sprite: {fileID: -2413806693520163455, guid: c8189e896eac946e5b1836d4b69871be, type: 3}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGameObject>
 {
@@ -13,6 +14,7 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
     public string PrefabLocation { get; private set; }
     public bool HasActionPoint { get; private set; }
     public int MaxLevel { get; private set; }
+    public List<StoreGameObjectItem> items;
 
     public StoreGameObject(string name, string identifier, ObjectType type, StoreItemType tableType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint)
     {
@@ -40,6 +42,20 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
         PrefabLocation = prefabLocation;
         HasActionPoint = hasActionPoint;
         StoreItemType = StoreItemType.UNDEFINED;
+    }
+
+    public StoreGameObject(string name, string identifier, ObjectType type, StoreItemType tableType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint, List<StoreGameObjectItem> objects)
+    {
+        Identifier = identifier;
+        Name = name;
+        Cost = cost;
+        Type = type;
+        StoreItemType = tableType;
+        MenuItemSprite = Settings.StoreSpritePath + identifier;
+        SpriteLibCategory = categorySprite;
+        PrefabLocation = prefabLocation;
+        HasActionPoint = hasActionPoint;
+        items = objects;
     }
 
     public int GetIdentifierNumber()
