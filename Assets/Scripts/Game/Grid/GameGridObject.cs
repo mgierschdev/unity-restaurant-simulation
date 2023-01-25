@@ -93,7 +93,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
 
         // Counter/Chair or store
-        if (!storeGameObject.HasActionPoint)
+        if (storeGameObject.Type == ObjectType.STORE_ITEM)
         {
             infoPopUpController.SetSprite(storeGameObject.GetCurrentSelectedObject().Identifier);
             loadSlider.SetSliderSprite(storeGameObject.GetCurrentSelectedObject().Identifier);
