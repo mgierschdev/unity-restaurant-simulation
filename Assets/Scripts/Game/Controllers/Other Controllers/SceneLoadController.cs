@@ -61,13 +61,13 @@ public class SceneLoadController : MonoBehaviour
 
             GameLog.Log("Loading-game: " + (operation != null ? Mathf.Approximately(operation.progress, 0.9f) : "null") + " " +
             (currentTimeAtScene >= MIN_TIME_LOADING) + " " +
-            (PlayerData.GetDataGameUser() != null) + " ");
+            PlayerData.IsUserSetted() + " ");
 
             // The user is loaded, the Service is init, the user is auth complete and 2 seconds passed
             if (operation != null
             && Mathf.Approximately(operation.progress, 0.9f)
             && currentTimeAtScene >= MIN_TIME_LOADING
-            && PlayerData.GetDataGameUser() != null)
+            && PlayerData.IsUserSetted())
             {
                 GameLog.Log("User name " + PlayerData.ToStringDebug());
                 operation.allowSceneActivation = true;
