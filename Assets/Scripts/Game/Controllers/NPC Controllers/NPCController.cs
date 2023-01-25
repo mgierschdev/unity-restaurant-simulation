@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 // Attached to: NPC Objects
 public class NPCController : GameObjectMovementBase
 {
-    private float MaxStateTime;
+    private float MaxStateTime = Settings.MaxStateTime;
 
     private void Start()
     {
@@ -15,7 +15,6 @@ public class NPCController : GameObjectMovementBase
         SetID();
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());
-        UpdateMaxTableWaitingTime();
     }
 
     private void FixedUpdate()
@@ -24,7 +23,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (!IsMovementBaseActive())
             {
-                // The Children overrides the FixedUpdate of the parent class expecte behaivior
+                // The Children overrides the FixedUpdate of the parent class expected behaivior
                 // we wait until the parent has all the object references
                 return;
             }
@@ -215,10 +214,5 @@ public class NPCController : GameObjectMovementBase
     public void SetBeingAttended()
     {
         stateMachine.SetTransition(NpcStateTransitions.BEING_ATTENDED);
-    }
-
-    public void UpdateMaxTableWaitingTime()
-    {
-        MaxStateTime = Settings.MaxStateTime;
     }
 }
