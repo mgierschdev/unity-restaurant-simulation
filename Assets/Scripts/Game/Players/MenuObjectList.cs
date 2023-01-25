@@ -46,9 +46,10 @@ public static class MenuObjectList
 
             new StoreGameObject("Soda Dispenser", "Store-1", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_ORANGE_JUICE,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 1000, false,
             new List<StoreGameObjectItem>{
-                new StoreGameObjectItem("","", 10),
-                new StoreGameObjectItem("","", 10),
-                new StoreGameObjectItem("","", 10),
+                new StoreGameObjectItem("Store-1-Item-1","Store-1-Item-1", 10),
+                new StoreGameObjectItem("Store-1-Item-2","Store-1-Item-2", 10),
+                new StoreGameObjectItem("Store-1-Item-3","Store-1-Item-3", 10),
+                new StoreGameObjectItem("Store-1-Item-4","Store-1-Item-4", 10),
             }),
             
             new StoreGameObject("SODA_STORE_ITEM", "Store-2", ObjectType.STORE_ITEM, StoreItemType.STORE_ITEM_SODA, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 2000, false),
