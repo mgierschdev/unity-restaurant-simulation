@@ -352,9 +352,7 @@ public class MenuHandlerController : MonoBehaviour
             item = Instantiate(Resources.Load(Settings.PrefabInventoryItem, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             inventoryItemController = item.GetComponent<InventoryItemController>();
             button = inventoryItemController.GetButton();
-            //TODO: max employees we can define the number of counters here
             button.onClick.AddListener(() => OpenStoreEditPanel(dicPair[entry.Key], true));
-
             inventoryItemController.SetInventoryItem(entry.Key);
             inventoryItemController.SetAmmount(entry.Value.ToString());
             inventoryItemController.SetAvailable();

@@ -73,8 +73,6 @@ public static class NPCStateMachineFactory
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
         adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
-
-        // TODO:
         
         // ATTENDED -> EATING FOOD
 
