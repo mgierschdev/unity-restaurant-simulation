@@ -29,7 +29,7 @@ public class LoadSliderController : MonoBehaviour
             GameLog.LogWarning("EnergyBarController/Slider null");
         }
         SetMaxEnergy(Settings.NpcDefaultEnergy);
-        SetSliderSprite("Circle");//Default load sprite
+        SetSliderSprite("Sprite-Circle");//Default load sprite
     }
 
     public void Update()
@@ -124,7 +124,7 @@ public class LoadSliderController : MonoBehaviour
 
     public void SetSliderSprite(string spReference)
     {
-        spReference = Settings.StoreSpritePath + "Sprite-" + spReference;
+        spReference = Settings.StoreSpritePath + spReference;
         Sprite sp = Resources.Load<Sprite>(spReference);
 
         if (!sp)

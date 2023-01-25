@@ -14,7 +14,7 @@ public class InfoPopUpController : MonoBehaviour
         Util.IsNull(topStoreItemInfoPopUpImage, "InfoPopUpController/topStoreItemInfoPopUpImage null");
         spriteResolverTopStoreItem = topStoreItemInfoPopUpImage.GetComponent<SpriteResolver>();
         animator = transform.GetComponent<Animator>();
-        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Store-1");//Default Item
+        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Store-1-Item-1");//Default Item
         DisableAnimation();
         topStoreItemInfoPopUpImage.SetActive(false);
     }

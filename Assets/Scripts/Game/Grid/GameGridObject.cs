@@ -90,11 +90,20 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         Type = storeGameObject.Type;
         spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
         spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
-        infoPopUpController.SetSprite(storeGameObject.Identifier);
+
+
+        // Counter/Chair or store
         if (!storeGameObject.HasActionPoint)
         {
+            infoPopUpController.SetSprite(storeGameObject.GetCurrentSelectedObject().Identifier);
+            loadSlider.SetSliderSprite(storeGameObject.GetCurrentSelectedObject().Identifier);
+        }
+        else
+        {
+            infoPopUpController.SetSprite(storeGameObject.Identifier);
             loadSlider.SetSliderSprite(storeGameObject.Identifier);
         }
+
         UpdateInitRotation(baseObjectController.GetInitialRotation());
         Init(); // StoreGameObject.Type required
     }

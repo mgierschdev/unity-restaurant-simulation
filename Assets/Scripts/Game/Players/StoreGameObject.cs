@@ -14,7 +14,8 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
     public string PrefabLocation { get; private set; }
     public bool HasActionPoint { get; private set; }
     public int MaxLevel { get; private set; }
-    public List<StoreGameObjectItem> items;
+    private List<StoreGameObjectItem> items;
+    private StoreGameObjectItem currentSelected;
 
     public StoreGameObject(string name, string identifier, ObjectType type, StoreItemType tableType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint)
     {
@@ -56,6 +57,7 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
         PrefabLocation = prefabLocation;
         HasActionPoint = hasActionPoint;
         items = objects;
+        currentSelected = objects[0];
     }
 
     public int GetIdentifierNumber()
@@ -93,5 +95,10 @@ public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGam
     public override string ToString()
     {
         return Identifier + "-" + Name + "-" + Cost + "-" + Type + "-" + StoreItemType + "-" + SpriteLibCategory + "-" + MenuItemSprite + "-" + PrefabLocation + "-" + HasActionPoint;
+    }
+
+    public StoreGameObjectItem GetCurrentSelectedObject()
+    {
+        return currentSelected;
     }
 }
