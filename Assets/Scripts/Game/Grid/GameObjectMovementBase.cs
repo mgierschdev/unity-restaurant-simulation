@@ -45,8 +45,6 @@ public class GameObjectMovementBase : MonoBehaviour
         sortingLayer = transform.GetComponent<SortingGroup>();
         EnergyBar = transform.Find(Settings.LoadSlider).GetComponent<LoadSliderController>();
 
-        Debug.Log("Setting gameObjectBase");
-
         if (!Util.IsNull(EnergyBar, "GameObjectMovementBase/energyBar null"))
         {
             EnergyBar.SetInactive();
@@ -77,7 +75,6 @@ public class GameObjectMovementBase : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("Current state " + stateMachine.Current.State);
         UpdatePosition();
         UpdateAnimation();
     }

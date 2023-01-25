@@ -33,9 +33,6 @@ public class GameController : MonoBehaviour
     {
         for (; ; )
         {
-
-            Debug.Log("Number NPCs " + ClientSet.Count);
-
             try
             {
                 if (ClientSet.Count < NpcMaxNumber)
