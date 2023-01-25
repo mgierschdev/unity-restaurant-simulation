@@ -221,7 +221,7 @@ public static class PlayerData
                         ID = (int) StoreItemType.STORE_ITEM_ORANGE_JUICE,
                         POSITION = new int[]{Settings.StartStoreItemDispenser[0], Settings.StartStoreItemDispenser[1]},
                         IS_STORED = false,
-                        ROTATION = (int) ObjectRotation.FRONT,
+                        ROTATION = (int) ObjectRotation.BACK,
                     },
                     new DataGameObject{
                         ID = (int) StoreItemType.TABLE_SINGLE_1,

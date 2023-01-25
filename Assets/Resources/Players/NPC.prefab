@@ -698,10 +698,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1, y: 0}
-      - {x: 0, y: -0.5}
-      - {x: -1, y: 0}
-      - {x: 0, y: 0.5}
+    - - {x: 0.5, y: 0}
+      - {x: 0, y: -0.25}
+      - {x: -0.5, y: 0}
+      - {x: 0, y: 0.25}
 --- !u!210 &5710297941852229808
 SortingGroup:
   m_ObjectHideFlags: 0

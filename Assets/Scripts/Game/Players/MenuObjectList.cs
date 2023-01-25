@@ -68,7 +68,6 @@ public static class MenuObjectList
         };
 
         //Max number of waiters 3, max number of clients  20, max numbers of machines/kitchens working 10
-
         foreach (StoreGameObject storeItem in AllStoreItems)
         {
             StoreItemDictionary.TryAdd(storeItem.Identifier, storeItem);
