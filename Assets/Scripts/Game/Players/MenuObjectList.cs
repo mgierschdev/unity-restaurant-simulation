@@ -51,10 +51,9 @@ public static class MenuObjectList
             new StoreGameObject("TODO_STORE_ITEM_TEST_5", "Store-5", ObjectType.STORE_ITEM, StoreItemType.LEMONADE_STORE_ITEM_TEST_5,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 7000, false),
 
             new StoreGameObject("Bigger Bussiness", "Upgrade-1", ObjectType.UPGRADE_ITEM, UpgradeType.GRID_SIZE, Settings.SpriteLibCategoryUpgradeItems, "", 1000, false, 10),
-            new StoreGameObject("Client Patience", "Upgrade-2", ObjectType.UPGRADE_ITEM, UpgradeType.CLIENT_MAX_WAITING_TIME, Settings.SpriteLibCategoryUpgradeItems, "", 2000, false, 4),
             new StoreGameObject("Faster Clients", "Upgrade-3", ObjectType.UPGRADE_ITEM, UpgradeType.CLIENT_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 3000, false, 3),
-            new StoreGameObject("More Clients", "Upgrade-4", ObjectType.UPGRADE_ITEM, UpgradeType.NUMBER_CLIENTS, Settings.SpriteLibCategoryUpgradeItems, "", 4000, false, 5),
-            new StoreGameObject("More Waiters", "Upgrade-5", ObjectType.UPGRADE_ITEM, UpgradeType.NUMBER_WAITERS, Settings.SpriteLibCategoryUpgradeItems, "", 5000, false, 10),
+            new StoreGameObject("More Clients", "Upgrade-4", ObjectType.UPGRADE_ITEM, UpgradeType.NUMBER_CLIENTS, Settings.SpriteLibCategoryUpgradeItems, "", 4000, false, 10),
+            new StoreGameObject("More Waiters", "Upgrade-5", ObjectType.UPGRADE_ITEM, UpgradeType.NUMBER_WAITERS, Settings.SpriteLibCategoryUpgradeItems, "", 5000, false, 3),
             new StoreGameObject("More profit (%)", "Upgrade-8", ObjectType.UPGRADE_ITEM, UpgradeType.ORDER_COST_PERCENTAGE, Settings.SpriteLibCategoryUpgradeItems, "", 8000, false, 5),
             new StoreGameObject("Waiter speed", "Upgrade-9", ObjectType.UPGRADE_ITEM, UpgradeType.WAITER_SPEED, Settings.SpriteLibCategoryUpgradeItems, "", 9000, false, 5),
             new StoreGameObject("Store Auto load", "Upgrade-10", ObjectType.UPGRADE_ITEM, UpgradeType.UPGRADE_AUTO_LOAD, Settings.SpriteLibCategoryUpgradeItems, "", 10000, false, 5),
@@ -62,6 +61,8 @@ public static class MenuObjectList
 
             new StoreGameObject("UNDEFINED", "UNDEFINED", ObjectType.UNDEFINED, StoreItemType.UNDEFINED, "UNDEFINED", "UNDEFINED", 999, false)
         };
+
+        //Max number of waiters 3, max number of clients  20, max numbers of machines/kitchens working 10
 
         foreach (StoreGameObject storeItem in AllStoreItems)
         {

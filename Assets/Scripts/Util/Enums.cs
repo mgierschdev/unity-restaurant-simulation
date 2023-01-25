@@ -157,9 +157,8 @@ public enum UpgradeType
     NUMBER_CLIENTS = 3,
     CLIENT_SPEED = 4,
     ORDER_COST_PERCENTAGE = 5,
-    CLIENT_MAX_WAITING_TIME = 6,
-    UPGRADE_AUTO_LOAD = 7,
-    UPGRADE_LOAD_SPEED = 8
+    UPGRADE_AUTO_LOAD = 6,
+    UPGRADE_LOAD_SPEED = 7
 }
 
 // Items given the type of store item
