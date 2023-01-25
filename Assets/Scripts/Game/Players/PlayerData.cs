@@ -218,7 +218,7 @@ public static class PlayerData
             CREATED_AT = 0,
             OBJECTS = new List<DataGameObject>{
                     new DataGameObject{
-                        ID = (int) StoreItemType.STORE_ITEM_ORANGE_JUICE,
+                        ID = (int) StoreItemType.STORE_ITEM_SODAS,
                         POSITION = new int[]{Settings.StartStoreItemDispenser[0], Settings.StartStoreItemDispenser[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.BACK,
