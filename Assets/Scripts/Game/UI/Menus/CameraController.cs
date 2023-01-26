@@ -104,7 +104,22 @@ public class CameraController : MonoBehaviour
             // Debug.Log("ClampY " + transformPosition.y + " " + Settings.CameraPerspectiveHandClampY[0] + "," + Settings.CameraPerspectiveHandClampY[0] + " Clamped: " + clampY);
         }
 
-        // 2 finger, Mobile pinch, ZOOM in/out
+        // TwoFingerZoom();
+
+        //DEV: Camera zoom with mouse scroll wheel, only on desktop
+        if (Input.mouseScrollDelta != Vector2.zero)
+        {
+            // Camera zoom
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            targetPosition -= scroll * ZOOM_SPEED;
+            targetPosition = Mathf.Clamp(targetPosition, MIN_ZOOM_SIZE, MAX_ZOOM_SIZE);
+            mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetPosition, ZOOM_SPEED * Time.fixedDeltaTime);
+        }
+    }
+
+    // 2 finger, Mobile zoom in/out
+    public void TwoFingerZoom()
+    {
         if (Input.touchCount > 1)
         {
             Touch firstFinger = Input.GetTouch(0);
@@ -128,16 +143,6 @@ public class CameraController : MonoBehaviour
                 targetPosition = Mathf.Clamp(targetPosition, MIN_ZOOM_SIZE, MAX_ZOOM_SIZE);
                 mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetPosition, ZOOM_SPEED_PINCH * Time.fixedDeltaTime);
             }
-        }
-
-        //DEV: Camera zoom with mouse scroll wheel, only on desktop
-        if (Input.mouseScrollDelta != Vector2.zero)
-        {
-            // Camera zoom
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            targetPosition -= scroll * ZOOM_SPEED;
-            targetPosition = Mathf.Clamp(targetPosition, MIN_ZOOM_SIZE, MAX_ZOOM_SIZE);
-            mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetPosition, ZOOM_SPEED * Time.fixedDeltaTime);
         }
     }
 }
