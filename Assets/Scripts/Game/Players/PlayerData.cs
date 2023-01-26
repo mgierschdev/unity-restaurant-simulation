@@ -214,8 +214,6 @@ public static class PlayerData
             LEVEL = Settings.InitLevel,
             EMAIL = "undefined@undefined.com",
             AUTH_TYPE = (int)AuthSource.ANONYMOUS,
-            LAST_SAVE = 0,
-            CREATED_AT = 0,
             OBJECTS = new List<DataGameObject>{
                     new DataGameObject{
                         ID = (int) StoreItemType.SNACK_MACHINE_1,
@@ -290,7 +288,6 @@ public static class PlayerData
 
     public static void SaveGame()
     {
-        user.LAST_SAVE = DateTime.Now.ToFileTimeUtc();
         user.SaveToJSONFileAsync();
     }
 
@@ -396,7 +393,6 @@ public static class PlayerData
         " GAME_MONEY: " + user.GAME_MONEY +
         " INTERNAL_ID: " + user.INTERNAL_ID +
         " LANGUAGE_CODE: " + user.LANGUAGE_CODE +
-        " LAST_SAVE: " + user.LAST_SAVE +
         " LEVEL: " + user.LEVEL +
         " OBJECTS.Count: " + user.OBJECTS.Count;
     }
