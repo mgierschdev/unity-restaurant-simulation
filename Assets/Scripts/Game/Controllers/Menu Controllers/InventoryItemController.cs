@@ -28,7 +28,7 @@ public class InventoryItemController : MonoBehaviour
     {
         this.storeGameObject = storeGameObject;
         transform.name = storeGameObject.StoreItemType.ToString();
-        Sprite sp = MenuObjectList.ObjectSprites[storeGameObject.MenuItemSprite];
+        Sprite sp = GameObjectList.ObjectSprites[storeGameObject.MenuItemSprite];
         imgComponent.sprite = sp;
         SetTitle(storeGameObject.Name);
     }
