@@ -51,17 +51,17 @@ public static class GameObjectList
 
             new StoreGameObject("Snacks", "Store-2", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_2, Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 2000, true,
             new List<StoreGameObjectItem>{
-                new StoreGameObjectItem("Store-2-Item-1","Store-1-Item-1", 10),
-                new StoreGameObjectItem("Store-2-Item-2","Store-1-Item-2", 10),
-                new StoreGameObjectItem("Store-2-Item-3","Store-1-Item-3", 10),
+                new StoreGameObjectItem("Store-2-Item-1","Store-2-Item-1", 10),
+                new StoreGameObjectItem("Store-2-Item-2","Store-2-Item-2", 10),
+                new StoreGameObjectItem("Store-2-Item-3","Store-2-Item-3", 10),
             }),
 
             new StoreGameObject("Coffee", "Store-3", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 6000, true,
              new List<StoreGameObjectItem>{
-                new StoreGameObjectItem("Store-3-Item-1","Store-1-Item-1", 10),
-                new StoreGameObjectItem("Store-3-Item-2","Store-1-Item-2", 10),
-                new StoreGameObjectItem("Store-3-Item-3","Store-1-Item-3", 10),
-                new StoreGameObjectItem("Store-3-Item-4","Store-1-Item-3", 10),
+                new StoreGameObjectItem("Store-3-Item-1","Store-3-Item-1", 10),
+                new StoreGameObjectItem("Store-3-Item-2","Store-3-Item-2", 10),
+                new StoreGameObjectItem("Store-3-Item-3","Store-3-Item-3", 10),
+                new StoreGameObjectItem("Store-3-Item-4","Store-3-Item-3", 10),
              }),
 
             new StoreGameObject("Bigger Bussiness", "Upgrade-1", ObjectType.UPGRADE_ITEM, UpgradeType.GRID_SIZE, Settings.SpriteLibCategoryUpgradeItems, "", 1000, false, 10),
