@@ -90,7 +90,6 @@ public static class NPCStateMachineFactory
 
         // EATING FOOD -> Other
         nodeTransition[(int)NpcStateTransitions.ORDER_SERVED] = true;
-        nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
         adjMatrix[(int)NpcState.EATING_FOOD, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);

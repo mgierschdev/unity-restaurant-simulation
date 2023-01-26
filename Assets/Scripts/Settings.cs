@@ -32,7 +32,6 @@ public static class Settings
     ZoomSpeedPinch = 8f,
     MinZoomSize = 1.3f, // the max zoom in
     MaxZoomSize = 2f; // the max zoom out
-
     public static int ConstDefaultCameraOrthographicsize = 7;
 
     //Init start attributes: Devlopment
@@ -53,7 +52,9 @@ public static class Settings
     //Waiting times
     public const float NPCMaxWaitingTime = 10f,
     NPCMaxTimeInState = 10f,
-    MinEuclidianDistanceRandomWalk = 10; // Performance relevant
+    MinEuclidianDistanceRandomWalk = 10,
+    minTimeEating = 5f,
+    maxTimeEating = 8f; // Performance relevant
 
     // Grid Config
     public const float GridCellSize = 0.25f; // 0.25f default

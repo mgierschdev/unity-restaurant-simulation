@@ -8,10 +8,12 @@ using Random = UnityEngine.Random;
 public class NPCController : GameObjectMovementBase
 {
     private float MaxStateTime = Settings.MaxStateTime;
+    private float currentEatingTime;
 
     private void Start()
     {
         type = ObjectType.CLIENT;
+        currentEatingTime = Random.Range(Settings.minTimeEating, Settings.maxTimeEating);
         SetID();
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());
@@ -103,7 +105,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (stateTime >= MaxStateTime ||
                 stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) ||
-                stateMachine.GetTransitionState(NpcStateTransitions.FINISHED_EATING))
+                stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
             {
                 stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
                 stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
@@ -154,17 +156,23 @@ public class NPCController : GameObjectMovementBase
         if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN)
         {
             BussGrid.GameController.RemoveNpc(this);
-
-            if (table != null)
-            {
-                table.FreeObject();
-                table = null;
-            }
             Destroy(gameObject);
         }
         else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
         {
             stateMachine.SetTransition(NpcStateTransitions.WAITING_AT_TABLE);
+        }
+        else if (stateMachine.Current.State == NpcState.ATTENDED)
+        {
+            if (base.table == null) { return; }
+            StandTowards(table.GridPosition); // stand towards the table
+            //table.showFood(); // shows the food on the table 
+        }
+        else if (stateMachine.Current.State == NpcState.EATING_FOOD && stateTime >= currentEatingTime)
+        {
+            stateMachine.UnSetAll();
+            FreeTable(); // finished eating we free the table 
+            stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
         }
     }
 
@@ -214,5 +222,14 @@ public class NPCController : GameObjectMovementBase
     public void SetBeingAttended()
     {
         stateMachine.SetTransition(NpcStateTransitions.BEING_ATTENDED);
+    }
+
+    public void FreeTable()
+    {
+        if (table != null)
+        {
+            table.FreeObject();
+            table = null;
+        }
     }
 }
