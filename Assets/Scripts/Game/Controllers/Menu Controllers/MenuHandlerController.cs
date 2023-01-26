@@ -198,7 +198,7 @@ public class MenuHandlerController : MonoBehaviour
         {
             GameObject button = Instantiate(Resources.Load(Settings.SideMenuButton, typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
             CenterTabMenuBottonController controller = button.GetComponent<CenterTabMenuBottonController>();
-            controller.SetText(MenuObjectList.GetButtonLabel(tab));
+            controller.SetText(GameObjectList.GetButtonLabel(tab));
             button.transform.SetParent(centerPanelSideMenu.transform);
             Button bStore = controller.GetButton();
             MenuItem current = new MenuItem(tab, MenuType.TAB_MENU, tab.ToString());
@@ -276,7 +276,7 @@ public class MenuHandlerController : MonoBehaviour
         }
 
         //Set top panel title
-        SetMainMenuTitle(MenuObjectList.GetButtonLabel(menu.GetMenuTab()));
+        SetMainMenuTitle(GameObjectList.GetButtonLabel(menu.GetMenuTab()));
         SetCellSize(Settings.StoreCellSizeX, Settings.StoreCellSizeY);
 
         //Clear scrollview content list
@@ -314,17 +314,17 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddStorageItemsToScrollView(MenuItem menu)
     {
-        List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
+        List<StoreGameObject> objects = GameObjectList.GetItemList(menu.GetMenuTab());
         GameObject item;
         InventoryItemController inventoryItemController;
         Button button;
         Dictionary<StoreGameObject, int> objectDic = new Dictionary<StoreGameObject, int>();
         Dictionary<StoreGameObject, Pair<StoreGameObject, DataGameObject>> dicPair = new Dictionary<StoreGameObject, Pair<StoreGameObject, DataGameObject>>();
-        List<DataGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
+        List<DataGameObject> userStorage = GameObjectList.LoadCurrentUserStorage();
 
         foreach (DataGameObject fireObj in userStorage)
         {
-            StoreGameObject obj = MenuObjectList.GetStoreObject((StoreItemType)fireObj.ID);
+            StoreGameObject obj = GameObjectList.GetStoreObject((StoreItemType)fireObj.ID);
 
             int count = objectDic.GetValueOrDefault(obj, 0) + 1;
             if (objectDic.ContainsKey(obj))
@@ -363,7 +363,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddItemsToUpgradeScrollView(MenuItem menu)
     {
-        List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
+        List<StoreGameObject> objects = GameObjectList.GetItemList(menu.GetMenuTab());
         GameObject item;
         UpgradeItemController upgradeItemController;
         Button button;
@@ -407,7 +407,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void AddItemsToScrollView(MenuItem menu)
     {
-        List<StoreGameObject> objects = MenuObjectList.GetItemList(menu.GetMenuTab());
+        List<StoreGameObject> objects = GameObjectList.GetItemList(menu.GetMenuTab());
         GameObject item;
         InventoryItemController inventoryItemController;
         Button button;
@@ -523,7 +523,7 @@ public class MenuHandlerController : MonoBehaviour
         Vector3 spamPosition = BussGrid.GetGridWorldPositionMapMouseDrag(Util.GetCameraPoisiton());
         GameObject newObject;
 
-        newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
+        newObject = Instantiate(Resources.Load(GameObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
         return newObject;
     }
 
@@ -539,7 +539,7 @@ public class MenuHandlerController : MonoBehaviour
         }
         else
         {
-            newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
+            newObject = Instantiate(Resources.Load(GameObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
         }
 
         return newObject;
@@ -554,7 +554,7 @@ public class MenuHandlerController : MonoBehaviour
         if (BussGrid.GetGameGridObjectsDictionary().Count == 0)
         {
             spamPosition = BussGrid.GetWorldFromPathFindingGridPosition(BussGrid.GetNextTileFromEmptyMap(obj));
-            return spamPosition == Util.GetVector3IntNegativeInfinity() ? null : Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
+            return spamPosition == Util.GetVector3IntNegativeInfinity() ? null : Instantiate(Resources.Load(GameObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
         }
 
         foreach (KeyValuePair<string, GameGridObject> dic in BussGrid.GetGameGridObjectsDictionary())
@@ -573,7 +573,7 @@ public class MenuHandlerController : MonoBehaviour
                     inverted = false;
                 }
 
-                newObject = Instantiate(Resources.Load(MenuObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
+                newObject = Instantiate(Resources.Load(GameObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
                 // There can be only one counter at the tinme
                 BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
                 baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.FRONT);
@@ -607,7 +607,7 @@ public class MenuHandlerController : MonoBehaviour
 
     private void CheckStorageButton()
     {
-        List<DataGameObject> userStorage = MenuObjectList.LoadCurrentUserStorage();
+        List<DataGameObject> userStorage = GameObjectList.LoadCurrentUserStorage();
         Button button = centerMenuTabMap[MenuTab.STORAGE_TAB];
         // if we dont have storage we disable the button
         if (userStorage.Count == 0)

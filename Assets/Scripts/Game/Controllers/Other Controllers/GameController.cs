@@ -118,7 +118,7 @@ public class GameController : MonoBehaviour
         GameGridObject objectFound = null;
         foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
         {
-            if (MenuObjectList.GetItemGivenStoreItem(g.Value.GetStoreGameObject().StoreItemType) == item &&
+            if (GameObjectList.GetItemGivenStoreItem(g.Value.GetStoreGameObject().StoreItemType) == item &&
             g.Value.GetIsItemReady())
             {
                 g.Value.DiableTopInfoObject();
@@ -271,7 +271,7 @@ public class GameController : MonoBehaviour
         StoreItemType type = (StoreItemType)obj.ID;
         Vector3Int position = new Vector3Int(obj.POSITION[0], obj.POSITION[1]);
         Vector3 worldPosition = BussGrid.GetWorldFromPathFindingGridPosition(position);
-        string prefab = MenuObjectList.GetPrefab(type);
+        string prefab = GameObjectList.GetPrefab(type);
 
         if (prefab == "")
         {
@@ -281,7 +281,7 @@ public class GameController : MonoBehaviour
         GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, Util.ObjectZPosition), Quaternion.identity, BussGrid.TilemapGameFloor.transform) as GameObject;
         BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
         controller.SetDataGameObjectAndInitRotation(obj);
-        controller.SetStoreGameObject(MenuObjectList.GetStoreObject((StoreItemType)obj.ID));
+        controller.SetStoreGameObject(GameObjectList.GetStoreObject((StoreItemType)obj.ID));
     }
 
     public void AddPlayerPositions(Vector3Int position)

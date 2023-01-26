@@ -218,7 +218,7 @@ public static class PlayerData
             CREATED_AT = 0,
             OBJECTS = new List<DataGameObject>{
                     new DataGameObject{
-                        ID = (int) StoreItemType.STORE_ITEM_SODAS,
+                        ID = (int) StoreItemType.SNACK_MACHINE_1,
                         POSITION = new int[]{Settings.StartStoreItemDispenser[0], Settings.StartStoreItemDispenser[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.BACK,
@@ -230,7 +230,7 @@ public static class PlayerData
                         ROTATION = (int) ObjectRotation.FRONT,
                     },
                     new DataGameObject{
-                        ID = (int) StoreItemType.COUNTER,
+                        ID = (int) StoreItemType.COUNTER_1,
                         POSITION =  new int[]{Settings.StartCounter[0], Settings.StartCounter[1]},
                         IS_STORED = false,
                         ROTATION = (int) ObjectRotation.FRONT,
@@ -321,7 +321,7 @@ public static class PlayerData
 
         foreach (DataGameObject obj in user.OBJECTS)
         {
-            count += obj.IsCounter() ? 1 : 0;
+            count += GameObjectList.IsCounter(obj.GetStoreItemType()) ? 1 : 0;
         }
         return count;
     }

@@ -73,7 +73,7 @@ public static class BussGrid
         mapGameFloor = new ConcurrentDictionary<Vector3Int, GameTile>();
 
         //ObjectListConfiguration
-        MenuObjectList.Init();
+        GameObjectList.Init();
         // Object Dragging Handler
         ObjectDraggingHandler.Init();
         // Table Handler 

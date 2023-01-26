@@ -57,7 +57,7 @@ public class InfoPopUpController : MonoBehaviour
 
     public void SetInfoPopUItem(ItemType item)
     {
-        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, MenuObjectList.GetItemSprite(item));    
+        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, GameObjectList.GetItemSprite(item));    
     }
 
     private void EnableAnimation()
