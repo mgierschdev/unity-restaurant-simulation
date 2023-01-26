@@ -3,7 +3,7 @@ public static class Settings
     // General Config
     public const bool CellDebug = false;
     public const int DebugTextSize = 9;
-    public const bool DisableNetwork = true; // for dev backend
+    public const bool DisableNetwork = false; // for dev backend
 
     // Upgrades
     public const float NpcDefaultMovementSpeed = 1.3f, //1 = Looks good with current animation

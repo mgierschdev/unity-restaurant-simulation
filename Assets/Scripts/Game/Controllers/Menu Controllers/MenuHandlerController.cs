@@ -506,7 +506,7 @@ public class MenuHandlerController : MonoBehaviour
         for (int i = 0; i < 100; i++)
         {
             yield return new WaitForSeconds(0.15f); // 0.15f
-            placeGameObject(obj);
+            PlaceGameObject(obj);
         }
         // After we have waited 5 seconds print the time again.
         yield return new WaitForSeconds(0);
@@ -545,7 +545,7 @@ public class MenuHandlerController : MonoBehaviour
         return newObject;
     }
 
-    private static GameObject placeGameObject(StoreGameObject obj)
+    private static GameObject PlaceGameObject(StoreGameObject obj)
     {
         GameObject parent = GameObject.Find(Settings.TilemapObjects);
         GameObject newObject;
