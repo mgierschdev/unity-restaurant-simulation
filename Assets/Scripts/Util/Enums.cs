@@ -15,13 +15,15 @@ public enum ObjectType
     UNDEFINED = 999
 }
 
-// it should preserve the number order since it is used on the Firestore database
+// it should preserve the number order since it is used on the backend database
+// Front = Facing Unity camera
+// Back = Opposite side from the camera
 public enum ObjectRotation
 {
-    FRONT = 1,
-    FRONT_INVERTED = 2,
-    BACK = 3,
-    BACK_INVERTED = 4,
+    BACK = 1,
+    BACK_INVERTED = 2,
+    FRONT = 3,
+    FRONT_INVERTED = 4,
     UNDEFINED = 999
 }
 

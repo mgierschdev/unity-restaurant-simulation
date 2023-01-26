@@ -41,7 +41,7 @@ public static class GameObjectList
             new StoreGameObject("Dark Wood Counter", "Counter-3", ObjectType.NPC_COUNTER, StoreItemType.COUNTER_3, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 3000, true),
 
 
-            new StoreGameObject("Sodas", "Store-1", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_1,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 1000, true,
+            new StoreGameObject("Soda Machine", "Store-1", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_1,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 1000, true,
             new List<StoreGameObjectItem>{
                 new StoreGameObjectItem("Store-1-Item-1","Store-1-Item-1", 10),
                 new StoreGameObjectItem("Store-1-Item-2","Store-1-Item-2", 10),
@@ -49,14 +49,14 @@ public static class GameObjectList
                 new StoreGameObjectItem("Store-1-Item-4","Store-1-Item-4", 10),
             }),
 
-            new StoreGameObject("Snacks", "Store-2", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_2, Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 2000, true,
+            new StoreGameObject("Snack Machine", "Store-2", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_2, Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 2000, true,
             new List<StoreGameObjectItem>{
                 new StoreGameObjectItem("Store-2-Item-1","Store-2-Item-1", 10),
                 new StoreGameObjectItem("Store-2-Item-2","Store-2-Item-2", 10),
                 new StoreGameObjectItem("Store-2-Item-3","Store-2-Item-3", 10),
             }),
 
-            new StoreGameObject("Coffee", "Store-3", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 6000, true,
+            new StoreGameObject("Coffee Machine", "Store-3", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 6000, true,
              new List<StoreGameObjectItem>{
                 new StoreGameObjectItem("Store-3-Item-1","Store-3-Item-1", 10),
                 new StoreGameObjectItem("Store-3-Item-2","Store-3-Item-2", 10),

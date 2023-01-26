@@ -576,7 +576,7 @@ public class MenuHandlerController : MonoBehaviour
                 newObject = Instantiate(Resources.Load(GameObjectList.GetPrefab(obj.StoreItemType), typeof(GameObject)), new Vector3(spamPosition.x, spamPosition.y, Util.SelectedObjectZPosition), Quaternion.identity, parent.transform) as GameObject;
                 // There can be only one counter at the tinme
                 BaseObjectController baseObjectController = newObject.GetComponent<BaseObjectController>();
-                baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.FRONT_INVERTED : ObjectRotation.FRONT);
+                baseObjectController.SetInitialObjectRotation(inverted ? ObjectRotation.BACK_INVERTED : ObjectRotation.BACK);
                 return newObject;
             }
         }
