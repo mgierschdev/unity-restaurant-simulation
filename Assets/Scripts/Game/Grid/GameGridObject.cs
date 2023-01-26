@@ -266,15 +266,15 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         }
 
         // Gets the orientation and then + 1 ...
-        if (facingPosition == ObjectRotation.FRONT)
+        if (facingPosition == ObjectRotation.BACK)
         {
             return GridPosition + new Vector3Int(0, 1);
         }
-        else if (facingPosition == ObjectRotation.FRONT_INVERTED)
+        else if (facingPosition == ObjectRotation.BACK_INVERTED)
         {
             return GridPosition + new Vector3Int(1, 0);
         }
-        else if (facingPosition == ObjectRotation.BACK)
+        else if (facingPosition == ObjectRotation.FRONT)
         {
             return GridPosition + new Vector3Int(0, -1);
         }
@@ -293,7 +293,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
         if ((int)facingPosition <= 0)
         {
-            facingPosition = ObjectRotation.BACK_INVERTED;
+            facingPosition = ObjectRotation.FRONT_INVERTED;
         }
 
         UpdateRotation(facingPosition);
@@ -335,11 +335,11 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
         if ((int)tmp >= 5)
         {
-            tmp = ObjectRotation.FRONT;
+            tmp = ObjectRotation.BACK;
         }
         else if ((int)tmp <= 0)
         {
-            tmp = ObjectRotation.BACK_INVERTED;
+            tmp = ObjectRotation.FRONT_INVERTED;
         }
 
         // we flip the object temporaly to check the new action tile position
@@ -374,46 +374,46 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
 
         switch (newPosition)
         {
-            case ObjectRotation.FRONT:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
-                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
-                if (storeGameObject.HasActionPoint)
-                {
-                    actionTile = GetRotationActionTile(ObjectRotation.FRONT);
-                    tiles[0].color = Util.UnderTilesColor;
-                    tiles[1].color = Util.UnderTilesColor;
-                    tiles[2].color = Util.HiddenColor;
-                }
-                return;
-            case ObjectRotation.FRONT_INVERTED:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
-                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
-
-                if (storeGameObject.HasActionPoint)
-                {
-                    actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
-                    tiles[0].color = Util.UnderTilesColor;
-                    tiles[1].color = Util.UnderTilesColor;
-                    tiles[2].color = Util.HiddenColor;
-                }
-                return;
             case ObjectRotation.BACK:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
                 objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
                 if (storeGameObject.HasActionPoint)
                 {
                     actionTile = GetRotationActionTile(ObjectRotation.BACK);
                     tiles[0].color = Util.UnderTilesColor;
+                    tiles[1].color = Util.UnderTilesColor;
+                    tiles[2].color = Util.HiddenColor;
+                }
+                return;
+            case ObjectRotation.BACK_INVERTED:
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
+                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
+
+                if (storeGameObject.HasActionPoint)
+                {
+                    actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
+                    tiles[0].color = Util.UnderTilesColor;
+                    tiles[1].color = Util.UnderTilesColor;
+                    tiles[2].color = Util.HiddenColor;
+                }
+                return;
+            case ObjectRotation.FRONT:
+                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
+                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
+                if (storeGameObject.HasActionPoint)
+                {
+                    actionTile = GetRotationActionTile(ObjectRotation.FRONT);
+                    tiles[0].color = Util.UnderTilesColor;
                     tiles[1].color = Util.HiddenColor;
                     tiles[2].color = Util.UnderTilesColor;
                 }
                 return;
-            case ObjectRotation.BACK_INVERTED:
+            case ObjectRotation.FRONT_INVERTED:
                 spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
-                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
+                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
                 if (storeGameObject.HasActionPoint)
                 {
-                    actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
+                    actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
                     tiles[0].color = Util.UnderTilesColor;
                     tiles[1].color = Util.HiddenColor;
                     tiles[2].color = Util.UnderTilesColor;
@@ -427,13 +427,13 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     {
         switch (objectRotation)
         {
-            case ObjectRotation.FRONT:
-                return new Vector3(1, 1, 1);
             case ObjectRotation.BACK:
                 return new Vector3(1, 1, 1);
-            case ObjectRotation.FRONT_INVERTED:
-                return new Vector3(-1, 1, 1);
+            case ObjectRotation.FRONT:
+                return new Vector3(1, 1, 1);
             case ObjectRotation.BACK_INVERTED:
+                return new Vector3(-1, 1, 1);
+            case ObjectRotation.FRONT_INVERTED:
                 return new Vector3(-1, 1, 1);
         }
         return Vector3.negativeInfinity;
@@ -443,13 +443,13 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     {
         switch (objectRotation)
         {
-            case ObjectRotation.FRONT:
-                return 0;
             case ObjectRotation.BACK:
-                return 1;
-            case ObjectRotation.FRONT_INVERTED:
                 return 0;
+            case ObjectRotation.FRONT:
+                return 1;
             case ObjectRotation.BACK_INVERTED:
+                return 0;
+            case ObjectRotation.FRONT_INVERTED:
                 return 1;
         }
         return int.MaxValue;
