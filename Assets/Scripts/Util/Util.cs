@@ -546,7 +546,7 @@ public static class Util
 
     public static string convertToTextAndReduceCurrency(Double ammount)
     {
-        string ammountStr = ammount.ToString();
+        string ammountStr = Math.Round(ammount).ToString();
 
         if (ammountStr.Length <= 4)
         {
