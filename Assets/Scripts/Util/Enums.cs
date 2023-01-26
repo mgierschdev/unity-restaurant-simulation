@@ -80,7 +80,9 @@ public enum NpcStateTransitions
     CASH_REGISTERED = 13,
     MOVING_TO_UNSRESPAWN = 14,
     AT_COUNTER_FINAL = 15,
-    WANDER_TO_IDLE = 16
+    WANDER_TO_IDLE = 16,
+    EATING_FOOD = 17,
+    FINISHED_EATING = 18
 }
 
 //Players and NPCs, to set the NPC to wander or other states
@@ -103,7 +105,8 @@ public enum NpcState
     WAITING_FOR_ENERGY_BAR_REGISTERING_CASH = 14,
     WALKING = 15,
     BEING_ATTENDED = 16,
-    ATTENDED = 17
+    ATTENDED = 17,
+    EATING_FOOD = 18
 }
 
 // List of Menus
@@ -242,7 +245,8 @@ public enum NPCAnimatorState
     Idle = 1,
     IdleTry = 2,
     WaitingAtTable = 3,
-    WalkingToTable = 4
+    WalkingToTable = 4,
+    EatingAtTable = 5
 }
 
 public enum PlayerStats

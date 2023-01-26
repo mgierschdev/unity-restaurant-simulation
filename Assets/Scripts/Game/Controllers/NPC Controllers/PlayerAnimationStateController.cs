@@ -61,6 +61,10 @@ public class PlayerAnimationStateController : MonoBehaviour
             tryItem.SetActive(true);
             infoPopUpController.Disable();
         }
+        else if (state == NpcState.EATING_FOOD)
+        {
+            animator.SetTrigger(NPCAnimatorState.EatingAtTable.ToString());
+        }
         else if (state != NpcState.WAITING_TO_BE_ATTENDED)
         {
 
