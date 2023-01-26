@@ -5,7 +5,7 @@ using UnityEngine;
 public class DataGameUser
 {
     [SerializeField]
-    public string VERSION = "1.0.2"; //most be changed on every new edit to the model
+    public string VERSION = "1.0.3"; //most be changed on every new edit to the model
     [SerializeField]
     public string NAME;
     [SerializeField]
@@ -22,10 +22,6 @@ public class DataGameUser
     public string EMAIL;
     [SerializeField]
     public int AUTH_TYPE;
-    [SerializeField]
-    public long LAST_SAVE;
-    [SerializeField]
-    public long CREATED_AT;
     [SerializeField]
     public List<DataGameObject> OBJECTS;
     public List<UpgradeGameObject> UPGRADES;

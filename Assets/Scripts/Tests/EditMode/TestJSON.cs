@@ -22,8 +22,6 @@ public class TestJSON
             GameLog.Log("Name " + loadUser.NAME);
         }
 
-        GameLog.Log("loadUser.LAST_LOGIN " + new DateTime(loadUser.LAST_SAVE));
-        GameLog.Log("user.LAST_LOGIN " + new DateTime(user.LAST_SAVE));
         GameLog.Log(user.NAME + " " + loadUser.NAME);
 
         Assert.AreEqual(user.NAME, loadUser.NAME);
