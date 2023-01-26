@@ -4,7 +4,7 @@ using UnityEngine;
 public static class GameObjectList
 {
     public static List<StoreGameObject> ActionPointItems;
-    public static List<StoreGameObject> BaseStoreItemList;
+    public static List<StoreGameObject> SnackMachineList;
     public static List<StoreGameObject> AllStoreItems;
     public static List<StoreGameObject> UpgradeItems;
     public static List<StoreGameObject> SettingsItems;
@@ -22,7 +22,7 @@ public static class GameObjectList
     public static void SetAllItems()
     {
         ActionPointItems = new List<StoreGameObject>();
-        BaseStoreItemList = new List<StoreGameObject>();
+        SnackMachineList = new List<StoreGameObject>();
         UpgradeItems = new List<StoreGameObject>();
         SettingsItems = new List<StoreGameObject>();
 
@@ -41,7 +41,7 @@ public static class GameObjectList
             new StoreGameObject("Dark Wood Counter", "Counter-3", ObjectType.NPC_COUNTER, StoreItemType.COUNTER_3, Settings.SpriteLibCategoryStoreObjects, Settings.PrefabCounter, 3000, true),
 
 
-            new StoreGameObject("Sodas", "Store-1", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_1,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 1000, true,
+            new StoreGameObject("Sodas", "Store-1", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_1,  Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 1000, true,
             new List<StoreGameObjectItem>{
                 new StoreGameObjectItem("Store-1-Item-1","Store-1-Item-1", 10),
                 new StoreGameObjectItem("Store-1-Item-2","Store-1-Item-2", 10),
@@ -49,14 +49,14 @@ public static class GameObjectList
                 new StoreGameObjectItem("Store-1-Item-4","Store-1-Item-4", 10),
             }),
 
-            new StoreGameObject("Snacks", "Store-2", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_2, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 2000, true,
+            new StoreGameObject("Snacks", "Store-2", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_2, Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 2000, true,
             new List<StoreGameObjectItem>{
                 new StoreGameObjectItem("Store-2-Item-1","Store-1-Item-1", 10),
                 new StoreGameObjectItem("Store-2-Item-2","Store-1-Item-2", 10),
                 new StoreGameObjectItem("Store-2-Item-3","Store-1-Item-3", 10),
             }),
 
-            new StoreGameObject("Coffee", "Store-3", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabBaseStoreItem, 6000, true,
+            new StoreGameObject("Coffee", "Store-3", ObjectType.STORE_ITEM, StoreItemType.SNACK_MACHINE_3, Settings.SpriteLibCategoryStoreItems, Settings.PrefabSnackMachine, 6000, true,
              new List<StoreGameObjectItem>{
                 new StoreGameObjectItem("Store-3-Item-1","Store-1-Item-1", 10),
                 new StoreGameObjectItem("Store-3-Item-2","Store-1-Item-2", 10),
@@ -84,7 +84,7 @@ public static class GameObjectList
 
             if (storeItem.Type == ObjectType.STORE_ITEM || storeItem.HasActionPoint)
             {
-                BaseStoreItemList.Add(storeItem);
+                SnackMachineList.Add(storeItem);
             }
 
             if (storeItem.Type == ObjectType.UPGRADE_ITEM)
@@ -95,7 +95,7 @@ public static class GameObjectList
 
         UpgradeItems.Sort();
         ActionPointItems.Sort();
-        BaseStoreItemList.Sort();
+        SnackMachineList.Sort();
     }
     // The id = StoreGameObject.Identifier
     public static StoreGameObject GetStoreObject(string id)
@@ -150,7 +150,7 @@ public static class GameObjectList
         }
         else if (IsSnackMachine(obj.StoreItemType))
         {
-            return Settings.PrefabBaseStoreItem;
+            return Settings.PrefabSnackMachine;
         }
         else if (IsKitchen(obj.StoreItemType))
         {
@@ -164,7 +164,7 @@ public static class GameObjectList
     {
         switch (tab)
         {
-            case MenuTab.STORE_ITEMS: return BaseStoreItemList;
+            case MenuTab.STORE_ITEMS: return SnackMachineList;
             case MenuTab.UPGRADE: return UpgradeItems;
             case MenuTab.SETTINGS_TAB: return SettingsItems;
         }

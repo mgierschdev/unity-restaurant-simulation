@@ -131,7 +131,7 @@ public static class Settings
     public const string Button = "Button",
     PrefabSingleTable = "Objects/SingleTable",
     PrefabCounter = "Objects/Counter",
-    PrefabBaseStoreItem = "Objects/BaseStoreItem",
+    PrefabSnackMachine = "Objects/SnackMachine",
     PrefabPlayer = "Players/Player",
     PrefabNpcClient = "Players/Client",
     PrefabNpcEmployee = "Players/Employee",
