@@ -103,7 +103,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (stateTime >= MaxStateTime ||
                 stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED) ||
-                stateMachine.GetTransitionState(NpcStateTransitions.ATTENDED))
+                stateMachine.GetTransitionState(NpcStateTransitions.FINISHED_EATING))
             {
                 stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
                 stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
@@ -208,7 +208,7 @@ public class NPCController : GameObjectMovementBase
     public void SetAttended()
     {
         stateMachine.SetTransition(NpcStateTransitions.ATTENDED);
-        stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
+        stateMachine.SetTransition(NpcStateTransitions.EATING_FOOD);
     }
 
     public void SetBeingAttended()

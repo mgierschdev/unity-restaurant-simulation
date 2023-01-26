@@ -3,6 +3,10 @@ using System;
 
 // Returns a state machine for npcs
 // Order of the transitions is relevant
+// NPCState represents the NPC current state which is used for selecting the correct animation eating/waiting for food 
+// NPCStateTransition are the states that are required to move from one state to another, represented by an OR
+// Example: TABLE_MOVED OR WALK_TO_UNRESPAWN pass from adjMatrix[WANDER to, IDLE]
+
 public static class NPCStateMachineFactory
 {
     public static StateMachine<NpcState, NpcStateTransitions> GetClientStateMachine(string ID)
@@ -73,17 +77,24 @@ public static class NPCStateMachineFactory
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
         adjMatrix[(int)NpcState.BEING_ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
-        
-        // ATTENDED -> EATING FOOD
-
-        // EATING FOOD -> WALK TO UNRESPAWN
 
         //ATTENDED -> Other
-        nodeTransition[(int)NpcStateTransitions.ORDER_SERVED] = true;
+        nodeTransition[(int)NpcStateTransitions.EATING_FOOD] = true;
+        adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.EATING_FOOD] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
         nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
         adjMatrix[(int)NpcState.ATTENDED, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
         Array.Fill(nodeTransition, false);
+
+        // EATING FOOD -> Other
+        nodeTransition[(int)NpcStateTransitions.ORDER_SERVED] = true;
+        nodeTransition[(int)NpcStateTransitions.TABLE_MOVED] = true;
+        nodeTransition[(int)NpcStateTransitions.WALK_TO_UNRESPAWN] = true;
+        adjMatrix[(int)NpcState.EATING_FOOD, (int)NpcState.WALKING_UNRESPAWN] = new StateNodeTransition((bool[])nodeTransition.Clone());
+        Array.Fill(nodeTransition, false);
+
         return new StateMachine<NpcState, NpcStateTransitions>(adjMatrix, NpcState.IDLE, ID);
     }
 
