@@ -214,10 +214,10 @@ PrefabInstance:
     - target: {fileID: 5993935396757246650, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0562c09e8f4004888821907e937c58f4, type: 3}
+      objectReference: {fileID: 21300000, guid: ddad399c38ec24229bd0de8cf3df7758, type: 3}
     - target: {fileID: 6313366968590005356, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_Name
-      value: BaseStoreItem
+      value: SnackMachine
       objectReference: {fileID: 0}
     - target: {fileID: 7435947337176034185, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_AnchorMax.y
@@ -245,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9206159661534326175, guid: 097e89233788541f1978222bf4874128, type: 3}
       propertyPath: m_SpriteKey
-      value: 1.1329343e+10
+      value: 1.9441615e-33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 097e89233788541f1978222bf4874128, type: 3}
