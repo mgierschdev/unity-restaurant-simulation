@@ -53,8 +53,8 @@ public static class Settings
     public const float NPCMaxWaitingTime = 10f,
     NPCMaxTimeInState = 10f,
     MinEuclidianDistanceRandomWalk = 10,
-    minTimeEating = 5f,
-    maxTimeEating = 8f; // Performance relevant
+    minTimeEating = 1f,
+    maxTimeEating = 2f; // Performance relevant
 
     // Grid Config
     public const float GridCellSize = 0.25f; // 0.25f default
