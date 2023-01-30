@@ -17,7 +17,7 @@ public static class ObjectDraggingHandler
         {
             if (!BussGrid.GetGameGridObjectsDictionary().ContainsKey(currentClickedActiveGameObject) && previewGameGridObject != null)
             {
-                //Meanning the item is on previoud but not inventory
+                //Meanning the item is on preview but not in inventory
                 return previewGameGridObject.GetGameGridObject();
             }
             else

@@ -33,10 +33,6 @@ public static class BussGrid
     public static Tilemap TilemapColliders { get; set; }
     private static List<GameTile> listCollidersTileMap;
     private static ConcurrentDictionary<Vector3Int, GameTile> mapColliders;
-    //Objects
-    //public static Tilemap TilemapObjects { get; set; }
-    //private static List<GameTile> listObjectsTileMap;
-    //private static ConcurrentDictionary<Vector3Int, GameTile> mapObjects;
     //Game floor, which allows drag/drop
     public static Tilemap TilemapGameFloor { get; set; }
     private static List<GameTile> listGameFloor;
@@ -60,9 +56,6 @@ public static class BussGrid
 
         mapColliders = new ConcurrentDictionary<Vector3Int, GameTile>();
         listCollidersTileMap = new List<GameTile>();
-
-        // mapObjects = new ConcurrentDictionary<Vector3Int, GameTile>();
-        // listObjectsTileMap = new List<GameTile>();
 
         gameGridObjectsDictionary = new ConcurrentDictionary<string, GameGridObject>();
 
@@ -111,7 +104,6 @@ public static class BussGrid
         InitGrid();
         BuildGrid(); // We need to load the gridTile.UnityTileBase to build first. Which is on the FloorTileMap.
         LoadTileMap(listCollidersTileMap, TilemapColliders, mapColliders);
-        // LoadTileMap(listObjectsTileMap, TilemapObjects, mapObjects);
         LoadTileMap(listWalkingPathTileMap, TilemapWalkingPath, mapWalkingPath);
         LoadTileMap(listGameFloor, TilemapGameFloor, mapGameFloor);
         LoadTileMap(listFloorTileMap, TilemapFloor, mapFloor);
@@ -573,7 +565,7 @@ public static class BussGrid
     }
 
     // It gets the closest free coord next to the target
-    // TODO: Improve so it will choose the closest path and the npc will stand towards the client
+    // TODO: Improve so it will choose the closest cell and the npc will stand towards the client
     // This should be calculating with Vector3 instead of vector3int
     public static Vector3Int GetClosestPathGridPoint(Vector3Int currentPosition, Vector3Int target)
     {
