@@ -57,7 +57,6 @@ public class StateMachineDebugPanel : EditorWindow
         buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
         buttonStartDebug.text = "In order to start, enter in Play mode. GameScene.";
         gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
-        //gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
         mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
 
         ClientContainerGraphDebuger = templateContainer.Q<VisualElement>(Settings.ClientContainerGraphDebuger); // Place to show the graph

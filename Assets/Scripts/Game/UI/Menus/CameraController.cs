@@ -4,7 +4,7 @@ using UnityEngine;
 // Attached to: MainCamera Object
 public class CameraController : MonoBehaviour
 {
-    private Vector3 pointerDownStart, direction, GO_TO_OFFSET = new Vector3(0, 0.5f, 0), targetVectorPosition;
+    private Vector3 pointerDownStart, direction, cameraGoToOffset = new Vector3(0, 0.5f, 0), targetVectorPosition;
     private float targetPosition,
     targetOrthographicSize,
     CAMERA_MOVEMENT_SPEED = Settings.CameraMovementSpeed,
@@ -61,7 +61,7 @@ public class CameraController : MonoBehaviour
     // Move the camera to the target Position
     public void GoTo(Vector3 position)
     {
-        targetVectorPosition = new Vector3(position.x, position.y, -1) + GO_TO_OFFSET;
+        targetVectorPosition = new Vector3(position.x, position.y, -1) + cameraGoToOffset;
     }
 
     private void FollowTarget()

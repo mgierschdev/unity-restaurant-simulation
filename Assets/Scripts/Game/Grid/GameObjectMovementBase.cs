@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+// Parent class for all moving npcs on the scene
 public class GameObjectMovementBase : MonoBehaviour
 {
     public string Name { get; private set; }

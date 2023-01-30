@@ -166,7 +166,7 @@ public class NPCController : GameObjectMovementBase
         {
             if (base.table == null) { return; }
             StandTowards(table.GridPosition); // stand towards the table
-            //table.showFood(); // shows the food on the table 
+            //table.showFood(); //TODO: shows the food on the table 
         }
         else if (stateMachine.Current.State == NpcState.EATING_FOOD && stateTime >= currentEatingTime)
         {

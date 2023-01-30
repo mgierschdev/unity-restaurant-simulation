@@ -147,6 +147,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     {
         try
         {
+            //TODO: same as the one fading message with the coins reward
             GameLog.Log("TODO: UI message / notification banner: Storing item in Inventory " + Name);
             dataGameObject.IS_STORED = true;
             PlayerData.StoreItem(this);

@@ -6,10 +6,10 @@ public class ClickController : MonoBehaviour
 {
     private bool isPressingButton, mouseOverUI;
     private float lastClickTime;
+    private GameTile clickedGameTile;
     private Camera mainCamera;
     private GameObject clickedObject;
     private GameGridObject clickedGameGridObject;
-    private GameTile clickedGameTile;
 
     private void Start()
     {

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.Services.Analytics;
 using Unity.Services.Authentication;
 using Unity.Services.CloudCode;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
-using UnityEngine;
 
 // Source: https://docs.unity.com/authentication/PlatformSignInGoogle.html
 public static class UnityAuth
