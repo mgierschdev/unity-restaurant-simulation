@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1421399344761949286}
   - component: {fileID: 2844026784052663799}
   m_Layer: 0
-  m_Name: New LimbSolver2D (3)
+  m_Name: Left-Leg-LimbSolver2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 7309749192485553975}
   - component: {fileID: 3119292957846050961}
   m_Layer: 0
-  m_Name: New LimbSolver2D (2)
+  m_Name: Right-Leg-LimbSolver2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
