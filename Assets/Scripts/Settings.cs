@@ -156,6 +156,15 @@ public static class Settings
     BaseObjectSpriteRenderer = "Object",
     TopObjectInfoSprite = "Sprites";
 
+    // Character spritelib categories parts
+    public const string CharacterObjectName = "Character";
+    public const string CategoryHeads = "Heads",
+    CategoryBodies = "Bodies",
+    CategoryLegs = "Legs",
+    CategoryShoes = "Shoes",
+    CategoryWaist = "Waist",
+    CategoryArms = "Arms";
+
     //UI Constants
     public const string ConstNpcProfileMenu = "NPCProfile",
     ConstCanvasParentMenu = "CanvasMenu",
