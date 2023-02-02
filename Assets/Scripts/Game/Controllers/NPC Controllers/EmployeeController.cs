@@ -13,6 +13,7 @@ public class EmployeeController : GameObjectMovementBase
     SPEED_TIME_TAKING_ORDER = 1.5f;
     private GameGridObject counter;
     private bool counterAssigned;
+    private SkinSelectorController skinSelectorController;
 
     private void Start()
     {
@@ -20,6 +21,10 @@ public class EmployeeController : GameObjectMovementBase
         SetID();
         stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());
+
+        // We select the skin of the employee
+        skinSelectorController = transform.GetComponent<SkinSelectorController>();
+        skinSelectorController.SetCharacter(CharacterType.EMPLOYEE);
     }
 
     private void FixedUpdate()
@@ -157,7 +162,7 @@ public class EmployeeController : GameObjectMovementBase
             stateMachine.SetTransition(NpcStateTransitions.AT_TABLE);
             stateMachine.UnSetTransition(NpcStateTransitions.AT_COUNTER);
             if (base.table == null) { return; }
-            NPCController controller = base.table.GetUsedBy();
+            ClientController controller = base.table.GetUsedBy();
             if (controller == null) { return; }
             StandTowards(controller.Position);//We flip the Employee -> CLient
             controller.FlipTowards(Position); // We flip client -> employee
@@ -167,7 +172,7 @@ public class EmployeeController : GameObjectMovementBase
         {
             stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
             if (base.table == null) { return; }
-            NPCController controller = base.table.GetUsedBy();
+            ClientController controller = base.table.GetUsedBy();
             if (controller == null) { return; }
             controller.SetAttended();
         }

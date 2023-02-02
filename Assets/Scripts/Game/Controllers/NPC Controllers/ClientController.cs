@@ -5,10 +5,11 @@ using Random = UnityEngine.Random;
 
 // Controls NPCs players
 // Attached to: NPC Objects
-public class NPCController : GameObjectMovementBase
+public class ClientController : GameObjectMovementBase
 {
     private float MaxStateTime = Settings.MaxStateTime;
     private float currentEatingTime;
+    private SkinSelectorController skinSelectorController;
 
     private void Start()
     {
@@ -17,6 +18,10 @@ public class NPCController : GameObjectMovementBase
         SetID();
         stateMachine = NPCStateMachineFactory.GetClientStateMachine(Name);
         StartCoroutine(UpdateTransitionStates());
+        // We select the skin of the client
+        skinSelectorController = transform.GetComponent<SkinSelectorController>();
+        int val = Random.Range(2, 5); // We get a random value for the character skin
+        skinSelectorController.SetCharacter((CharacterType)val);
     }
 
     private void FixedUpdate()
