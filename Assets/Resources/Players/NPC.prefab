@@ -609,6 +609,7 @@ GameObject:
   - component: {fileID: 5075699132121997877}
   - component: {fileID: 6414089864778020525}
   - component: {fileID: 5710297941852229808}
+  - component: {fileID: -3030319851685980491}
   m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
@@ -713,6 +714,18 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &-3030319851685980491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7444181978888355381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e7134f9853d4eba9bd731a3c006e60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8227480961295555125
 GameObject:
   m_ObjectHideFlags: 0
