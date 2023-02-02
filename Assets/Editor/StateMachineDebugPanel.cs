@@ -165,7 +165,7 @@ public class StateMachineDebugPanel : EditorWindow
             output += " Time:" + employeeController.GetNpcStateTime() + " \n";
         }
 
-        foreach (NPCController current in gameController.GetNpcSet())
+        foreach (ClientController current in gameController.GetNpcSet())
         {
             AddToggle(current.Name);
             output += current.Name + " State: " + current.GetNpcState() + "(" + (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";

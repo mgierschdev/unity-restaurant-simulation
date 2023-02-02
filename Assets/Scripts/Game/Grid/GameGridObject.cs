@@ -18,7 +18,7 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
     private StoreGameObject storeGameObject;
     private SpriteRenderer spriteRenderer;
     private ObjectRotation facingPosition; // Facing position
-    private NPCController usedBy;
+    private ClientController usedBy;
     private EmployeeController attendedBy, assignedTo;
     // Buttons/ Sprites and edit menus
     private GameObject saveObjButton, rotateObjLeftButton, cancelButton, acceptButton, editMenu, objectWithSprite;
@@ -496,12 +496,12 @@ public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, ICompa
         return usedBy != null;
     }
 
-    public void SetUsedBy(NPCController controller)
+    public void SetUsedBy(ClientController controller)
     {
         usedBy = controller;
     }
 
-    public NPCController GetUsedBy()
+    public ClientController GetUsedBy()
     {
         return usedBy;
     }

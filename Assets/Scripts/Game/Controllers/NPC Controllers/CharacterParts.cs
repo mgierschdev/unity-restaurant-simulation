@@ -13,9 +13,9 @@ public static class CharacterParts
 
 public enum CharacterType
 {
-    employee = 1,
-    client_1 = 2,
-    client_2 = 3,
-    client_3 = 4,
-    client_4 = 5
+    EMPLOYEE = 1,
+    CLIENT_1 = 2,
+    CLIENT_2 = 3,
+    CLIENT_3 = 4,
+    CLIENT_4 = 5
 }

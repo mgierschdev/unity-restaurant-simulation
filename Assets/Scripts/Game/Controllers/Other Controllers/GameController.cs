@@ -9,14 +9,14 @@ public class GameController : MonoBehaviour
     private int NpcMaxNumber = Settings.NpcMultiplayer, npcId;
     private GameObject gameGridObject, NPCS;
     private GameTile tileSpawn;
-    private HashSet<NPCController> ClientSet;
+    private HashSet<ClientController> ClientSet;
     private HashSet<EmployeeController> EmployeeSet;
     private HashSet<Vector3Int> playerPositionSet, employeePlannedTarget;
 
     private void Start()
     {
         npcId = 0;
-        ClientSet = new HashSet<NPCController>();
+        ClientSet = new HashSet<ClientController>();
         EmployeeSet = new HashSet<EmployeeController>();
         playerPositionSet = new HashSet<Vector3Int>();
         employeePlannedTarget = new HashSet<Vector3Int>();
@@ -64,9 +64,9 @@ public class GameController : MonoBehaviour
                 if (GetFreeTable(out GameGridObject table))
                 {
                     double minDistance = double.MaxValue;
-                    NPCController minDistanceNPC = null;
+                    ClientController minDistanceNPC = null;
 
-                    foreach (NPCController npcController in ClientSet)
+                    foreach (ClientController npcController in ClientSet)
                     {
                         if (!npcController.HasTable())
                         {
@@ -94,7 +94,7 @@ public class GameController : MonoBehaviour
                         if (!employeeController.IsAttendingTable() && employeeController.GetNpcState() == NpcState.AT_COUNTER)
                         {
                             // we match an available item  with a client order
-                            NPCController clientNPC = tableToAttend.GetUsedBy();
+                            ClientController clientNPC = tableToAttend.GetUsedBy();
                             if (GetAvailableItem(clientNPC.GetItemToAskFor()) != null)
                             {
                                 employeeController.SetTableToAttend(tableToAttend);
@@ -153,7 +153,7 @@ public class GameController : MonoBehaviour
         GameObject npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), spamPosition, Quaternion.identity) as GameObject;
         npcObject.transform.SetParent(NPCS.transform);
         npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
-        NPCController isometricNPCController = npcObject.GetComponent<NPCController>();
+        ClientController isometricNPCController = npcObject.GetComponent<ClientController>();
         ClientSet.Add(isometricNPCController);
         npcId++;
     }
@@ -173,7 +173,7 @@ public class GameController : MonoBehaviour
         npcId++;
     }
 
-    public void RemoveNpc(NPCController controller)
+    public void RemoveNpc(ClientController controller)
     {
         if (controller == null)
         {
@@ -205,7 +205,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        foreach (NPCController npcController in ClientSet)
+        foreach (ClientController npcController in ClientSet)
         {
             Vector3Int npcPosition = BussGrid.GetPathFindingGridFromWorldPosition(npcController.transform.position);
             if (npcPosition == position)
@@ -225,13 +225,13 @@ public class GameController : MonoBehaviour
             employeeController.RecalculateGoTo();
         }
 
-        foreach (NPCController npcController in ClientSet)
+        foreach (ClientController npcController in ClientSet)
         {
             npcController.RecalculateGoTo();
         }
     }
 
-    public HashSet<NPCController> GetNpcSet()
+    public HashSet<ClientController> GetNpcSet()
     {
         return ClientSet;
     }
@@ -242,9 +242,9 @@ public class GameController : MonoBehaviour
     }
 
     // Used for debug
-    public NPCController GetNPC(string ID)
+    public ClientController GetNPC(string ID)
     {
-        foreach (NPCController npc in ClientSet)
+        foreach (ClientController npc in ClientSet)
         {
             if (npc.Name == ID)
             {

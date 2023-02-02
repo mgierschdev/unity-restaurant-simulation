@@ -4,7 +4,7 @@ public class Character
 
     public Character(CharacterType type)
     {
-        if (type == CharacterType.employee)
+        if (type == CharacterType.EMPLOYEE)
         {
             Head = "Head-1";
             Body = "Body-1";
@@ -16,7 +16,7 @@ public class Character
             LegRight = "Leg-Right-1";
             LegLeft = "Left-Left-1";
         }
-        else if (type == CharacterType.client_1)
+        else if (type == CharacterType.CLIENT_1)
         {
             Head = "Head-1";
             Body = "Body-2";
@@ -28,7 +28,7 @@ public class Character
             LegRight = "Leg-Right-1";
             LegLeft = "Left-Left-1";
         }
-        else if (type == CharacterType.client_2)
+        else if (type == CharacterType.CLIENT_2)
         {
             Head = "Head-2";
             Body = "Body-2";
@@ -40,7 +40,7 @@ public class Character
             LegRight = "Leg-Right-1";
             LegLeft = "Left-Left-1";
         }
-        else if (type == CharacterType.client_3)
+        else if (type == CharacterType.CLIENT_3)
         {
             Head = "Head-3";
             Body = "Body-2";
@@ -52,7 +52,7 @@ public class Character
             LegRight = "Leg-Right-1";
             LegLeft = "Left-Left-1";
         }
-        else if (type == CharacterType.client_4)
+        else if (type == CharacterType.CLIENT_4)
         {
             Head = "Head-4";
             Body = "Body-2";
