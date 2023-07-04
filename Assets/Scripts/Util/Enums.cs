@@ -116,6 +116,8 @@ public enum MenuTab
     UPGRADE = 2,
     STORAGE_TAB = 3,
     SETTINGS_TAB = 4,
+    TABLES_TAB = 5,
+    SNACKS_TAB = 6
     //TUTORIAL_TAB = 5
 }
 
