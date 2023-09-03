@@ -1,111 +1,126 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-[Serializable] // The same as [System.Serializable]
-public class DataGameUser
+using UnityEngine.Serialization;
+using Util;
+
+namespace Game.Players.Model
 {
-    [SerializeField]
-    public string VERSION = "1.0.3"; //most be changed on every new edit to the model
-    [SerializeField]
-    public string NAME;
-    [SerializeField]
-    public Double GAME_MONEY;
-    [SerializeField]
-    public Double EXPERIENCE;
-    [SerializeField]
-    public int LEVEL;
-    [SerializeField]
-    public string LANGUAGE_CODE;
-    [SerializeField]
-    public string INTERNAL_ID;
-    [SerializeField]
-    public string EMAIL;
-    [SerializeField]
-    public int AUTH_TYPE;
-    [SerializeField]
-    public List<DataGameObject> OBJECTS;
-    public List<UpgradeGameObject> UPGRADES;
-    public DataStatsGameObject DATA_STATS;
-
-    // Convert to JSON string
-    public string ToJSONString()
+    [Serializable] // The same as [System.Serializable]
+    public class DataGameUser
     {
+        [FormerlySerializedAs("VERSION")] [SerializeField]
+        public string version = "1.0.3"; //most be changed on every new edit to the model
 
+        [FormerlySerializedAs("NAME")] [SerializeField]
+        public string name;
+
+        [FormerlySerializedAs("GAME_MONEY")] [SerializeField]
+        public Double gameMoney;
+
+        [FormerlySerializedAs("EXPERIENCE")] [SerializeField]
+        public Double experience;
+
+        [FormerlySerializedAs("LEVEL")] [SerializeField]
+        public int level;
+
+        [FormerlySerializedAs("LANGUAGE_CODE")] [SerializeField]
+        public string languageCode;
+
+        [FormerlySerializedAs("INTERNAL_ID")] [SerializeField]
+        public string internalID;
+
+        [FormerlySerializedAs("EMAIL")] [SerializeField]
+        public string email;
+
+        [FormerlySerializedAs("AUTH_TYPE")] [SerializeField]
+        public int authType;
+
+        [FormerlySerializedAs("OBJECTS")] [SerializeField]
+        public List<DataGameObject> objects;
+
+        [FormerlySerializedAs("UPGRADES")] public List<UpgradeGameObject> upgrades;
+        [FormerlySerializedAs("DATA_STATS")] public DataStatsGameObject dataStats;
+
+        // Convert to JSON string
+        public string ToJsonString()
+        {
 #if UNITY_EDITOR
-        return JsonUtility.ToJson(this, true);
+            return JsonUtility.ToJson(this, true);
 #else
         return JsonUtility.ToJson(this, false);
 #endif
-    }
+        }
 
-    // Create object from JSON
-    public static DataGameUser CreateFromJSON(string jsonString)
-    {
-        return JsonUtility.FromJson<DataGameUser>(jsonString);
-    }
+        // Create object from JSON
+        public static DataGameUser CreateFromJson(string jsonString)
+        {
+            return JsonUtility.FromJson<DataGameUser>(jsonString);
+        }
 
-    // load from JSON data
-    public void Load(string savedData)
-    {
-        JsonUtility.FromJsonOverwrite(savedData, this);
-    }
+        // load from JSON data
+        public void Load(string savedData)
+        {
+            JsonUtility.FromJsonOverwrite(savedData, this);
+        }
 
-    // Load object from json file inside the resource folder
-    public void LoadFromJSONFile(string file)
-    {
-        TextAsset jsonTextFile = Resources.Load<TextAsset>(file);
-        Load(jsonTextFile.text);
-    }
+        // Load object from json file inside the resource folder
+        public void LoadFromJsonFile(string file)
+        {
+            TextAsset jsonTextFile = Resources.Load<TextAsset>(file);
+            Load(jsonTextFile.text);
+        }
 
-    // Saves to a json file 
-    private async void SaveToJSONFile(string filename)
-    {
-        filename = filename == "" ? GetSaveFileName() : GetSaveFileName(filename);
+        // Saves to a json file 
+        private async void SaveToJsonFile(string filename)
+        {
+            filename = filename == "" ? GetSaveFileName() : GetSaveFileName(filename);
 
-        await System.IO.File.WriteAllTextAsync(filename, ToJSONString());
-    }
+            await System.IO.File.WriteAllTextAsync(filename, ToJsonString());
+        }
 
-    public void SaveToJSONFileAsync(string filename)
-    {
-        SaveToJSONFile(filename);
-    }
+        public void SaveToJsonFileAsync(string filename)
+        {
+            SaveToJsonFile(filename);
+        }
 
-    public void SaveToJSONFileAsync()
-    {
-        SaveToJSONFile("");
-    }
+        public void SaveToJsonFileAsync()
+        {
+            SaveToJsonFile("");
+        }
 
-    public static string GetSaveFileName(string filename)
-    {
-        filename += ".json";
+        public static string GetSaveFileName(string filename)
+        {
+            filename += ".json";
 #if UNITY_EDITOR
-        return Settings.DevSaveDirectory + "/" + filename;
+            return Settings.DevSaveDirectory + "/" + filename;
 #else
         return Application.persistentDataPath + "/" + filename;
 #endif
-    }
+        }
 
-    public static string GetSaveFileName()
-    {
+        public static string GetSaveFileName()
+        {
 #if UNITY_EDITOR
-        return Settings.DevSaveDirectory + "/" + Settings.SaveFileSuffix;
+            return Settings.DevSaveDirectory + "/" + Settings.SaveFileSuffix;
 #else
         return Application.persistentDataPath + "/" + Settings.SaveFileSuffix;
 #endif
-    }
+        }
 
-    public void SetUpgrade(UpgradeType type, int value)
-    {
-        UPGRADES[(int)type].UPGRADE_NUMBER = value;
-    }
+        public void SetUpgrade(UpgradeType type, int value)
+        {
+            upgrades[(int)type].upgradeNumber = value;
+        }
 
-    public void IncreaseUpgrade(UpgradeType type)
-    {
-        UPGRADES[(int)type].UPGRADE_NUMBER++;
-    }
+        public void IncreaseUpgrade(UpgradeType type)
+        {
+            upgrades[(int)type].upgradeNumber++;
+        }
 
-    public int GetUpgrade(UpgradeType type)
-    {
-        return UPGRADES[(int)type].UPGRADE_NUMBER;
+        public int GetUpgrade(UpgradeType type)
+        {
+            return upgrades[(int)type].upgradeNumber;
+        }
     }
 }

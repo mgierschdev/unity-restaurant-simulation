@@ -1,11 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[Serializable]
-public class UpgradeGameObject
+namespace Game.Players.Model
 {
-    [SerializeField]
-    public int ID; // UPGRADE ID
-    [SerializeField]
-    public int UPGRADE_NUMBER;
+    [Serializable]
+    public class UpgradeGameObject
+    {
+        [FormerlySerializedAs("ID")] [SerializeField]
+        public int id; // UPGRADE ID
+
+        [FormerlySerializedAs("UPGRADE_NUMBER")] [SerializeField]
+        public int upgradeNumber;
+    }
 }

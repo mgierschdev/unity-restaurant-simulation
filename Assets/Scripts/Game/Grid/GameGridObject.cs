@@ -1,766 +1,816 @@
 using System;
 using System.Collections.Generic;
+using Game.Controllers.Grid_Objects_Controllers;
+using Game.Controllers.NPC_Controllers;
+using Game.Controllers.Other_Controllers;
+using Game.Players;
+using Game.Players.Model;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
+using Util;
 using Object = UnityEngine.Object;
 
-public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, IComparable<GameGridObject>
+namespace Game.Grid
 {
-    private Transform objectTransform;
-    private DataGameObject dataGameObject;
-    private BaseObjectController baseObjectController;
-    private List<GameObject> actionTiles;
-    private List<SpriteRenderer> tiles;
-    private SpriteResolver spriteResolver;
-    private int actionTile;
-    private StoreGameObject storeGameObject;
-    private SpriteRenderer spriteRenderer;
-    private ObjectRotation facingPosition; // Facing position
-    private ClientController usedBy;
-    private EmployeeController attendedBy, assignedTo;
-    // Buttons/ Sprites and edit menus
-    private GameObject saveObjButton, rotateObjLeftButton, cancelButton, acceptButton, editMenu, objectWithSprite;
-    private InfoPopUpController infoPopUpController;
-    private LoadSliderController loadSlider, loadSliderMove;
-    // Store - To be bought Item, Is Item active, before purchase, (isItemReady, isItemLoading) item on top of the objects, (isObjectSelected) current under preview
-    private bool isItemBought, active, isItemReady, isObjectSelected, isObjectBeingDragged;
-    public GameGridObject(Transform transform)
+    public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, IComparable<GameGridObject>
     {
-        objectTransform = transform;
-        Name = transform.name;
-        WorldPosition = transform.position; // World position on Unity coords
-        GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(transform.position); // Grid position, first position = 0, 0
-        LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(transform.position);
-        objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
-        spriteRenderer = objectWithSprite.GetComponent<SpriteRenderer>();
-        SortingLayer = transform.GetComponent<SortingGroup>();
-        SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
-        isObjectSelected = false;
-        isItemBought = true;
+        private readonly Transform _objectTransform;
+        private DataGameObject _dataGameObject;
+        private readonly BaseObjectController _baseObjectController;
+        private readonly List<GameObject> _actionTiles;
+        private List<SpriteRenderer> _tiles;
+        private SpriteResolver _spriteResolver;
+        private int _actionTile;
+        private StoreGameObject _storeGameObject;
+        private SpriteRenderer _spriteRenderer;
+        private ObjectRotation _facingPosition; // Facing position
+        private ClientController _usedBy;
 
-        GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
-        Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
-        Transform objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2);
-        SpriteRenderer tileUnder = objectTileUnder.GetComponent<SpriteRenderer>();
-        SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
-        SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
+        private EmployeeController _attendedBy, _assignedTo;
 
-        // Setting base controller
-        baseObjectController = objectTransform.GetComponent<BaseObjectController>();
+        // Buttons/ Sprites and edit menus
+        private GameObject _saveObjButton,
+            _rotateObjLeftButton,
+            _cancelButton,
+            _acceptButton,
+            _editMenu,
+            _objectWithSprite;
 
-        //Edit Panel Disable
-        editMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
-        editMenu.SetActive(false);
+        private InfoPopUpController _infoPopUpController;
 
-        // On top Move slider
-        GameObject moveObjectSlider = transform.Find("Slider/LoadSliderMove").gameObject;
-        Util.IsNull(moveObjectSlider, "MoveSlider is null");
-        loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
-        loadSliderMove.SetSliderFillMethod(Image.FillMethod.Vertical);
-        loadSliderMove.SetDefaultFillTime(Settings.SpeedToMoveObjects);
-        loadSliderMove.SetInactive();
+        private LoadSliderController _loadSlider, _loadSliderMove;
 
-        //On top load slider
-        GameObject loadObjectSlider = transform.Find("Slider/LoadSlider").gameObject;
-        loadSlider = loadObjectSlider.GetComponent<LoadSliderController>();
-        loadSlider.SetDefaultFillTime(Settings.DefultItemLoadSpeed - (PlayerData.GetUgrade(UpgradeType.UPGRADE_LOAD_SPEED) * PlayerData.GetUgrade(UpgradeType.WAITER_SPEED) * Settings.ItemLoadSliderMultiplayer));
-        loadSlider.SetInactive();
+        // Store - To be bought Item, Is Item active, before purchase, (isItemReady, isItemLoading) item on top of the objects, (isObjectSelected) current under preview
+        private bool _isItemBought, _active, _isItemReady, _isObjectSelected, _isObjectBeingDragged;
 
-        //On top Info popup
-        GameObject infoPopUpGameobject = transform.Find("Slider/" + Settings.TopPopUpObject).gameObject;
-        infoPopUpController = infoPopUpGameobject.GetComponent<InfoPopUpController>();
-
-        actionTiles = new List<GameObject>() { objectActionTile.gameObject, objectSecondActionTile.gameObject };
-        tiles = new List<SpriteRenderer>() { tileUnder, actionTileSpriteRenderer, secondActionTileSprite };
-
-        active = baseObjectController.GetInitIsActive();
-        // Object rotation
-        facingPosition = baseObjectController.GetInitialRotation();
-        SetEditPanelButtonClickListeners();
-    }
-
-    // For GamegridObject init
-    public void SetStoreGameObject(StoreGameObject storeGameObject)
-    {
-        dataGameObject = baseObjectController.GetDataGameObject();
-        // For setting the object sprite
-        this.storeGameObject = storeGameObject;
-        Type = storeGameObject.Type;
-        spriteResolver = objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
-        spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
-
-
-        // Counter/Chair or store
-        if (storeGameObject.Type == ObjectType.STORE_ITEM)
+        public GameGridObject(Transform transform)
         {
-            infoPopUpController.SetSprite(storeGameObject.GetCurrentSelectedObject().Identifier);
-            loadSlider.SetSliderSprite(storeGameObject.GetCurrentSelectedObject().Identifier);
-        }
-        else
-        {
-            infoPopUpController.SetSprite(storeGameObject.Identifier);
-            loadSlider.SetSliderSprite(storeGameObject.Identifier);
+            _objectTransform = transform;
+            Name = transform.name;
+            WorldPosition = transform.position; // World position on Unity coords
+            GridPosition =
+                BussGrid.GetPathFindingGridFromWorldPosition(_objectTransform
+                    .position); // Grid position, first position = 0, 0
+            LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(WorldPosition);
+            _objectWithSprite = transform.Find(Settings.BaseObjectSpriteRenderer).gameObject;
+            _spriteRenderer = _objectWithSprite.GetComponent<SpriteRenderer>();
+            SortingLayer = transform.GetComponent<SortingGroup>();
+            SortingLayer.sortingOrder = Util.Util.GetSorting(GridPosition);
+            _isObjectSelected = false;
+            _isItemBought = true;
+
+            GameObject objectTileUnder = transform.Find(Settings.BaseObjectUnderTile).gameObject;
+            Transform objectActionTile = transform.Find(Settings.BaseObjectActionTile);
+            Transform objectSecondActionTile = transform.Find(Settings.BaseObjectActionTile2);
+            SpriteRenderer tileUnder = objectTileUnder.GetComponent<SpriteRenderer>();
+            SpriteRenderer actionTileSpriteRenderer = objectActionTile.GetComponent<SpriteRenderer>();
+            SpriteRenderer secondActionTileSprite = objectSecondActionTile.GetComponent<SpriteRenderer>();
+
+            // Setting base controller
+            _baseObjectController = _objectTransform.GetComponent<BaseObjectController>();
+
+            //Edit Panel Disable
+            _editMenu = transform.Find(Settings.ConstEditItemMenuPanel).gameObject;
+            _editMenu.SetActive(false);
+
+            // On top Move slider
+            GameObject moveObjectSlider = transform.Find("Slider/LoadSliderMove").gameObject;
+            Util.Util.IsNull(moveObjectSlider, "MoveSlider is null");
+            _loadSliderMove = moveObjectSlider.GetComponent<LoadSliderController>();
+            _loadSliderMove.SetSliderFillMethod(Image.FillMethod.Vertical);
+            _loadSliderMove.SetDefaultFillTime(Settings.SpeedToMoveObjects);
+            _loadSliderMove.SetInactive();
+
+            //On top load slider
+            GameObject loadObjectSlider = transform.Find("Slider/LoadSlider").gameObject;
+            _loadSlider = loadObjectSlider.GetComponent<LoadSliderController>();
+            _loadSlider.SetDefaultFillTime(Settings.DefaultItemLoadSpeed -
+                                           (PlayerData.GetUgrade(UpgradeType.UpgradeLoadSpeed) *
+                                            PlayerData.GetUgrade(UpgradeType.WaiterSpeed) *
+                                            Settings.ItemLoadSliderMultiplayer));
+            _loadSlider.SetInactive();
+
+            //On top Info popup
+            GameObject infoPopUpGameobject = transform.Find("Slider/" + Settings.TopPopUpObject).gameObject;
+            _infoPopUpController = infoPopUpGameobject.GetComponent<InfoPopUpController>();
+
+            _actionTiles = new List<GameObject>() { objectActionTile.gameObject, objectSecondActionTile.gameObject };
+            _tiles = new List<SpriteRenderer>() { tileUnder, actionTileSpriteRenderer, secondActionTileSprite };
+
+            _active = _baseObjectController.GetInitIsActive();
+            // Object rotation
+            _facingPosition = _baseObjectController.GetInitialRotation();
+            SetEditPanelButtonClickListeners();
         }
 
-        UpdateInitRotation(baseObjectController.GetInitialRotation());
-        Init(); // StoreGameObject.Type required
-    }
-
-    public void DecreaseFillTime()
-    {
-        loadSlider.SetDefaultFillTime(Settings.DefultItemLoadSpeed - PlayerData.GetUgrade(UpgradeType.WAITER_SPEED) * Settings.ItemLoadSliderMultiplayer);
-    }
-
-    public void Init()
-    {
-        objectTransform.name = BussGrid.GetObjectID(storeGameObject.Type);
-        Name = objectTransform.name;
-        HideEditMenu();
-    }
-
-    private void SetEditPanelButtonClickListeners()
-    {
-        saveObjButton = editMenu.transform.Find("" + Settings.ConstEditStoreMenuSave).gameObject;
-        Button save = saveObjButton.GetComponent<Button>();
-        save.onClick.AddListener(StoreInInventory);
-
-        rotateObjLeftButton = editMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
-        Button rotateLeft = rotateObjLeftButton.GetComponent<Button>();
-        rotateLeft.onClick.AddListener(RotateObjectLeft);
-
-        acceptButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
-        Button accept = acceptButton.GetComponent<Button>();
-        accept.onClick.AddListener(AcceptPurchase);
-
-        cancelButton = editMenu.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
-        Button cancel = cancelButton.GetComponent<Button>();
-        cancel.onClick.AddListener(CancelPurchase);
-
-        acceptButton.SetActive(false);
-        cancelButton.SetActive(false);
-    }
-
-    // Store Item in inventory, store object
-    public void StoreInInventory()
-    {
-        try
+        // For GamegridObject init
+        public void SetStoreGameObject(StoreGameObject storeGameObject)
         {
-            //TODO: same as the one fading message with the coins reward
-            GameLog.Log("TODO: UI message / notification banner: Storing item in Inventory " + Name);
-            dataGameObject.IS_STORED = true;
-            PlayerData.StoreItem(this);
+            _dataGameObject = _baseObjectController.GetDataGameObject();
+            // For setting the object sprite
+            this._storeGameObject = storeGameObject;
+            Type = storeGameObject.Type;
+            _spriteResolver = _objectTransform.Find(Settings.BaseObjectSpriteRenderer).GetComponent<SpriteResolver>();
+            _spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
 
-            // Clear the Item from the current selected in the grid 
-            ObjectDraggingHandler.ClearCurrentClickedActiveGameObject();
 
-            // we clean the table from the employer
-            ClearTableEmployee();
-
-            // we clear the table from the client
-            ClearTableClient();
-
-            BussGrid.GameController.ReCalculateNpcStates(this);
-            BussGrid.GetGameGridObjectsDictionary().TryRemove(Name, out GameGridObject tmp);
-            ObjectDraggingHandler.SetIsDraggingEnable(false);// it can be clicked independent 
-
-            if (Type == ObjectType.NPC_SINGLE_TABLE)
+            // Counter/Chair or store
+            if (storeGameObject.Type == ObjectType.StoreItem)
             {
-                TableHandler.GetBussQueueMap().TryRemove(this, out byte tmp2);
+                _infoPopUpController.SetSprite(storeGameObject.GetCurrentSelectedObject().Identifier);
+                _loadSlider.SetSliderSprite(storeGameObject.GetCurrentSelectedObject().Identifier);
+            }
+            else
+            {
+                _infoPopUpController.SetSprite(storeGameObject.Identifier);
+                _loadSlider.SetSliderSprite(storeGameObject.Identifier);
             }
 
-            DisableIfCounter();
-            Object.Destroy(objectTransform.gameObject);
+            UpdateInitRotation(_baseObjectController.GetInitialRotation());
+            Init(); // StoreGameObject.Type required
         }
-        catch (Exception e)
+
+        public void DecreaseFillTime()
         {
-            GameLog.LogError("Exception thrown, likely missing reference (StoreInInventory GameGridObject): " + e);
+            _loadSlider.SetDefaultFillTime(Settings.DefaultItemLoadSpeed -
+                                           PlayerData.GetUgrade(UpgradeType.WaiterSpeed) *
+                                           Settings.ItemLoadSliderMultiplayer);
         }
-    }
 
-    private void ClearTableClient()
-    {
-        if (usedBy != null)
+        public void Init()
         {
-            usedBy.SetTableMoved();
-            usedBy = null;
+            _objectTransform.name = BussGrid.GetObjectID(_storeGameObject.Type);
+            Name = _objectTransform.name;
+            HideEditMenu();
         }
-    }
 
-    private void ClearTableEmployee()
-    {
-        if (attendedBy != null)
+        private void SetEditPanelButtonClickListeners()
         {
-            attendedBy.SetTableToAttend(null);
-            attendedBy.SetTableMoved();
-            attendedBy = null;
+            _saveObjButton = _editMenu.transform.Find("" + Settings.ConstEditStoreMenuSave).gameObject;
+            Button save = _saveObjButton.GetComponent<Button>();
+            save.onClick.AddListener(StoreInInventory);
+
+            _rotateObjLeftButton = _editMenu.transform.Find(Settings.ConstEditStoreMenuRotateLeft).gameObject;
+            Button rotateLeft = _rotateObjLeftButton.GetComponent<Button>();
+            rotateLeft.onClick.AddListener(RotateObjectLeft);
+
+            _acceptButton = _editMenu.transform.Find(Settings.ConstEditStoreMenuButtonAccept).gameObject;
+            Button accept = _acceptButton.GetComponent<Button>();
+            accept.onClick.AddListener(AcceptPurchase);
+
+            _cancelButton = _editMenu.transform.Find(Settings.ConstEditStoreMenuButtonCancel).gameObject;
+            Button cancel = _cancelButton.GetComponent<Button>();
+            cancel.onClick.AddListener(CancelPurchase);
+
+            _acceptButton.SetActive(false);
+            _cancelButton.SetActive(false);
         }
-    }
 
-    public void UpdateObjectCoords()
-    {
-        GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(objectTransform.position);
-        LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(objectTransform.position);
-        WorldPosition = objectTransform.position;
-    }
-
-    // This is call everytime the object changes position
-    public void UpdateCoordsAndSetObstacle()
-    {
-        GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(objectTransform.position);
-        LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(objectTransform.position);
-        WorldPosition = objectTransform.position;
-        BussGrid.UpdateObjectPosition(this);
-
-        // it could be a preview object
-        if (dataGameObject != null)
+        // Store Item in inventory, store object
+        public void StoreInInventory()
         {
-            dataGameObject.POSITION = new int[] { GridPosition.x, GridPosition.y };
+            try
+            {
+                GameLog.Log("TODO: UI message / notification banner: Storing item in Inventory " + Name);
+                _dataGameObject.isStored = true;
+                PlayerData.StoreItem(this);
+
+                // Clear the Item from the current selected in the grid 
+                ObjectDraggingHandler.ClearCurrentClickedActiveGameObject();
+
+                // we clean the table from the employer
+                ClearTableEmployee();
+
+                // we clear the table from the client
+                ClearTableClient();
+
+                BussGrid.GameController.ReCalculateNpcStates(this);
+                BussGrid.GetGameGridObjectsDictionary().TryRemove(Name, out GameGridObject tmp);
+                ObjectDraggingHandler.SetIsDraggingEnable(false); // it can be clicked independent 
+
+                if (Type == ObjectType.NpcSingleTable)
+                {
+                    TableHandler.GetBussQueueMap().TryRemove(this, out byte tmp2);
+                }
+
+                DisableIfCounter();
+                Object.Destroy(_objectTransform.gameObject);
+            }
+            catch (Exception e)
+            {
+                GameLog.LogError("Exception thrown, likely missing reference (StoreInInventory GameGridObject): " + e);
+            }
         }
-    }
 
-    // Changes the sprite renderer of the selected object
-    public void HideEditMenu()
-    {
-        SortingLayer.sortingOrder = Util.GetSorting(GridPosition);
-        HideUnderTiles();
-        spriteRenderer.color = Util.FreeColor;
-        editMenu.SetActive(false);
-    }
-
-    // Changes the sprite renderer of the selected object
-    public void ShowEditMenu()
-    {
-        SortingLayer.sortingOrder = Util.highlightObjectSortingPosition;
-        spriteRenderer.color = Util.AvailableColor;
-        editMenu.SetActive(true);
-    }
-
-    public void FreeObject()
-    {
-        usedBy = null;
-        attendedBy = null;
-    }
-
-    public Vector3 GetActionTile()
-    {
-        if (objectTransform == null)
+        private void ClearTableClient()
         {
+            if (_usedBy != null)
+            {
+                _usedBy.SetTableMoved();
+                _usedBy = null;
+            }
+        }
+
+        private void ClearTableEmployee()
+        {
+            if (_attendedBy != null)
+            {
+                _attendedBy.SetTableToAttend(null);
+                _attendedBy.SetTableMoved();
+                _attendedBy = null;
+            }
+        }
+
+        public void UpdateObjectCoords()
+        {
+            var position = _objectTransform.transform.position;
+            GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(position);
+            LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(position);
+            WorldPosition = position;
+        }
+
+        // This is call everytime the object changes position
+        public void UpdateCoordsAndSetObstacle()
+        {
+            var position = _objectTransform.transform.position;
+            GridPosition = BussGrid.GetPathFindingGridFromWorldPosition(position);
+            LocalGridPosition = BussGrid.GetLocalGridFromWorldPosition(position);
+            WorldPosition = position;
+            BussGrid.UpdateObjectPosition(this);
+
+            // it could be a preview object
+            if (_dataGameObject != null)
+            {
+                _dataGameObject.position = new[] { GridPosition.x, GridPosition.y };
+            }
+        }
+
+        // Changes the sprite renderer of the selected object
+        public void HideEditMenu()
+        {
+            SortingLayer.sortingOrder = Util.Util.GetSorting(GridPosition);
+            HideUnderTiles();
+            _spriteRenderer.color = Util.Util.FreeColor;
+            _editMenu.SetActive(false);
+        }
+
+        // Changes the sprite renderer of the selected object
+        public void ShowEditMenu()
+        {
+            SortingLayer.sortingOrder = Util.Util.HighlightObjectSortingPosition;
+            _spriteRenderer.color = Util.Util.AvailableColor;
+            _editMenu.SetActive(true);
+        }
+
+        public void FreeObject()
+        {
+            _usedBy = null;
+            _attendedBy = null;
+        }
+
+        public Vector3 GetActionTile()
+        {
+            if (_objectTransform == null)
+            {
+                return Vector3.negativeInfinity;
+            }
+
+            // if doesnt have action point returns the object actual position
+            if (!_storeGameObject.HasActionPoint)
+            {
+                return _tiles[0].transform.position;
+            }
+
+            return _actionTiles != null ? _actionTiles[_actionTile].transform.position : Vector3.negativeInfinity;
+        }
+
+        public Vector3Int GetActionTileInGridPosition()
+        {
+            if (_objectTransform == null)
+            {
+                return Util.Util.GetVector3IntNegativeInfinity();
+            }
+
+            // Gets the orientation and then + 1 ...
+            if (_facingPosition == ObjectRotation.Back)
+            {
+                return GridPosition + new Vector3Int(0, 1);
+            }
+            else if (_facingPosition == ObjectRotation.BackInverted)
+            {
+                return GridPosition + new Vector3Int(1, 0);
+            }
+            else if (_facingPosition == ObjectRotation.Front)
+            {
+                return GridPosition + new Vector3Int(0, -1);
+            }
+            else
+            {
+                return GridPosition + new Vector3Int(-1, 0);
+            }
+        }
+
+        public void RotateObjectLeft()
+        {
+            // If there is any NPC we send it to the final state
+            ResetNpcStates();
+            FreeObject();
+            _facingPosition--;
+
+            if ((int)_facingPosition <= 0)
+            {
+                _facingPosition = ObjectRotation.FrontInverted;
+            }
+
+            UpdateRotation(_facingPosition);
+        }
+
+        // If we rotate the table no one can attend the table or go to the table
+        private void ResetNpcStates()
+        {
+            if (_attendedBy != null)
+            {
+                _attendedBy.SetTableToAttend(null);
+                _attendedBy = null;
+            }
+
+            if (_usedBy != null)
+            {
+                _usedBy.SetTable(null);
+                _usedBy.SetTableMoved();
+                _usedBy = null;
+            }
+        }
+
+        private bool IsValidRotation(int side)
+        {
+            if (!_storeGameObject.HasActionPoint)
+            {
+                return true;
+            }
+
+            ObjectRotation tmp = _facingPosition;
+            if (side == 0)
+            {
+                tmp--;
+            }
+            else
+            {
+                tmp++;
+            }
+
+            if ((int)tmp >= 5)
+            {
+                tmp = ObjectRotation.Back;
+            }
+            else if ((int)tmp <= 0)
+            {
+                tmp = ObjectRotation.FrontInverted;
+            }
+
+            // we flip the object temporaly to check the new action tile position
+            var rotatedPosition = BussGrid.GetPathFindingGridFromWorldPosition(_objectTransform.position);
+            var rotatedActionTile =
+                BussGrid.GetPathFindingGridFromWorldPosition(
+                    _actionTiles[GetRotationActionTile(tmp)].transform.position);
+            // we flip the object back 
+            var localScale = GetRotationVector(_facingPosition);
+            _objectWithSprite.transform.localScale = localScale;
+            if (BussGrid.IsFreeBussCoord(rotatedPosition) || BussGrid.IsFreeBussCoord(rotatedActionTile))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        // Update the initial object roation at the time of object creation
+        public void UpdateInitRotation(ObjectRotation rotation)
+        {
+            // We dont check if the rotation is valid since we assume that the data is valid already
+            ResetNpcStates();
+            UpdateRotation(rotation);
+        }
+
+        public void UpdateRotation(ObjectRotation newPosition)
+        {
+            // it could be a preview object
+            if (_dataGameObject != null)
+            {
+                _dataGameObject.rotation = (int)newPosition;
+            }
+
+            switch (newPosition)
+            {
+                case ObjectRotation.Back:
+                    _spriteResolver.SetCategoryAndLabel(_storeGameObject.SpriteLibCategory + "-Inverted",
+                        _storeGameObject.Identifier);
+                    _objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.Back);
+                    if (_storeGameObject.HasActionPoint)
+                    {
+                        _actionTile = GetRotationActionTile(ObjectRotation.Back);
+                        _tiles[0].color = Util.Util.UnderTilesColor;
+                        _tiles[1].color = Util.Util.UnderTilesColor;
+                        _tiles[2].color = Util.Util.HiddenColor;
+                    }
+
+                    return;
+                case ObjectRotation.BackInverted:
+                    _spriteResolver.SetCategoryAndLabel(_storeGameObject.SpriteLibCategory + "-Inverted",
+                        _storeGameObject.Identifier);
+                    _objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BackInverted);
+
+                    if (_storeGameObject.HasActionPoint)
+                    {
+                        _actionTile = GetRotationActionTile(ObjectRotation.BackInverted);
+                        _tiles[0].color = Util.Util.UnderTilesColor;
+                        _tiles[1].color = Util.Util.UnderTilesColor;
+                        _tiles[2].color = Util.Util.HiddenColor;
+                    }
+
+                    return;
+                case ObjectRotation.Front:
+                    _spriteResolver.SetCategoryAndLabel(_storeGameObject.SpriteLibCategory,
+                        _storeGameObject.Identifier);
+                    _objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.Front);
+                    if (_storeGameObject.HasActionPoint)
+                    {
+                        _actionTile = GetRotationActionTile(ObjectRotation.Front);
+                        _tiles[0].color = Util.Util.UnderTilesColor;
+                        _tiles[1].color = Util.Util.HiddenColor;
+                        _tiles[2].color = Util.Util.UnderTilesColor;
+                    }
+
+                    return;
+                case ObjectRotation.FrontInverted:
+                    _spriteResolver.SetCategoryAndLabel(_storeGameObject.SpriteLibCategory,
+                        _storeGameObject.Identifier);
+                    _objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FrontInverted);
+                    if (_storeGameObject.HasActionPoint)
+                    {
+                        _actionTile = GetRotationActionTile(ObjectRotation.FrontInverted);
+                        _tiles[0].color = Util.Util.UnderTilesColor;
+                        _tiles[1].color = Util.Util.HiddenColor;
+                        _tiles[2].color = Util.Util.UnderTilesColor;
+                    }
+
+                    return;
+            }
+        }
+
+        private Vector3 GetRotationVector(ObjectRotation objectRotation)
+        {
+            switch (objectRotation)
+            {
+                case ObjectRotation.Back:
+                    return new Vector3(1, 1, 1);
+                case ObjectRotation.Front:
+                    return new Vector3(1, 1, 1);
+                case ObjectRotation.BackInverted:
+                    return new Vector3(-1, 1, 1);
+                case ObjectRotation.FrontInverted:
+                    return new Vector3(-1, 1, 1);
+            }
+
             return Vector3.negativeInfinity;
         }
 
-        // if doesnt have action point returns the object actual position
-        if (!storeGameObject.HasActionPoint)
+        private int GetRotationActionTile(ObjectRotation objectRotation)
         {
-            return tiles[0].transform.position;
+            switch (objectRotation)
+            {
+                case ObjectRotation.Back:
+                    return 0;
+                case ObjectRotation.Front:
+                    return 1;
+                case ObjectRotation.BackInverted:
+                    return 0;
+                case ObjectRotation.FrontInverted:
+                    return 1;
+            }
+
+            return int.MaxValue;
         }
 
-        return actionTiles != null ? actionTiles[actionTile].transform.position : Vector3.negativeInfinity;
-    }
-
-    public Vector3Int GetActionTileInGridPosition()
-    {
-        if (objectTransform == null)
+        public void HideUnderTiles()
         {
-            return Util.GetVector3IntNegativeInfinity();
+            _tiles[0].color = Util.Util.HiddenColor;
+            _tiles[_actionTile + 1].color = Util.Util.HiddenColor;
         }
 
-        // Gets the orientation and then + 1 ...
-        if (facingPosition == ObjectRotation.BACK)
+        public void ShowOccupiedUnderTiles()
         {
-            return GridPosition + new Vector3Int(0, 1);
-        }
-        else if (facingPosition == ObjectRotation.BACK_INVERTED)
-        {
-            return GridPosition + new Vector3Int(1, 0);
-        }
-        else if (facingPosition == ObjectRotation.FRONT)
-        {
-            return GridPosition + new Vector3Int(0, -1);
-        }
-        else
-        {
-            return GridPosition + new Vector3Int(-1, 0);
-        }
-    }
+            _tiles[0].color = Util.Util.UnderTilesColor;
 
-    public void RotateObjectLeft()
-    {
-        // If there is any NPC we send it to the final state
-        ResetNPCStates();
-        FreeObject();
-        facingPosition--;
-
-        if ((int)facingPosition <= 0)
-        {
-            facingPosition = ObjectRotation.FRONT_INVERTED;
+            if (_storeGameObject.HasActionPoint)
+            {
+                _tiles[_actionTile + 1].color = Util.Util.UnderTilesColor;
+            }
         }
 
-        UpdateRotation(facingPosition);
-    }
-
-    // If we rotate the table no one can attend the table or go to the table
-    private void ResetNPCStates()
-    {
-        if (attendedBy != null)
+        public void ShowAvailableUnderTiles()
         {
-            attendedBy.SetTableToAttend(null);
-            attendedBy = null;
+            _tiles[0].color = Util.Util.UnderTilesColor;
+            if (_storeGameObject.HasActionPoint)
+            {
+                _tiles[_actionTile + 1].color = Util.Util.UnderTilesColor;
+            }
         }
 
-        if (usedBy != null)
+        public StoreGameObject GetStoreGameObject()
         {
-            usedBy.SetTable(null);
-            usedBy.SetTableMoved();
-            usedBy = null;
-        }
-    }
-
-    private bool IsValidRotation(int side)
-    {
-        if (!storeGameObject.HasActionPoint)
-        {
-            return true;
+            return _storeGameObject;
         }
 
-        ObjectRotation tmp = facingPosition;
-        if (side == 0)
+        public SpriteRenderer GetSpriteRenderer()
         {
-            tmp--;
-        }
-        else
-        {
-            tmp++;
+            return _spriteRenderer;
         }
 
-        if ((int)tmp >= 5)
+        public bool GetBusy()
         {
-            tmp = ObjectRotation.BACK;
-        }
-        else if ((int)tmp <= 0)
-        {
-            tmp = ObjectRotation.FRONT_INVERTED;
+            return _usedBy != null;
         }
 
-        // we flip the object temporaly to check the new action tile position
-        objectWithSprite.transform.localScale = GetRotationVector(tmp);
-        Vector3Int rotatedPosition = BussGrid.GetPathFindingGridFromWorldPosition(objectTransform.position);
-        Vector3Int rotatedActionTile = BussGrid.GetPathFindingGridFromWorldPosition(actionTiles[GetRotationActionTile(tmp)].transform.position);
-        // we flip the object back 
-        objectWithSprite.transform.localScale = GetRotationVector(facingPosition);
-        if (BussGrid.IsFreeBussCoord(rotatedPosition) || BussGrid.IsFreeBussCoord(rotatedActionTile))
+        public void SetUsedBy(ClientController controller)
         {
-            return true;
+            _usedBy = controller;
         }
 
-        return false;
-    }
-
-    // Update the initial object roation at the time of object creation
-    public void UpdateInitRotation(ObjectRotation rotation)
-    {
-        // We dont check if the rotation is valid since we assume that the data is valid already
-        ResetNPCStates();
-        UpdateRotation(rotation);
-    }
-
-    public void UpdateRotation(ObjectRotation newPosition)
-    {
-        // it could be a preview object
-        if (dataGameObject != null)
+        public ClientController GetUsedBy()
         {
-            dataGameObject.ROTATION = (int)newPosition;
+            return _usedBy;
         }
 
-        switch (newPosition)
+        public void SetAttendedBy(EmployeeController controller)
         {
-            case ObjectRotation.BACK:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
-                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK);
-                if (storeGameObject.HasActionPoint)
-                {
-                    actionTile = GetRotationActionTile(ObjectRotation.BACK);
-                    tiles[0].color = Util.UnderTilesColor;
-                    tiles[1].color = Util.UnderTilesColor;
-                    tiles[2].color = Util.HiddenColor;
-                }
+            _attendedBy = controller;
+        }
+
+        public void SetAssignedTo(EmployeeController controller)
+        {
+            _assignedTo = controller;
+        }
+
+        public bool IsItemAssignedTo()
+        {
+            return _assignedTo != null;
+        }
+
+        public bool GetIsObjectBeingDragged()
+        {
+            return _isObjectBeingDragged;
+        }
+
+        public bool IsFree()
+        {
+            return _usedBy == null && _attendedBy == null;
+        }
+
+        public bool HasClient()
+        {
+            return _usedBy != null;
+        }
+
+        public bool HasAttendedBy()
+        {
+            return _attendedBy != null;
+        }
+
+        public void UpdateMoveSlider()
+        {
+            if (_isObjectSelected)
+            {
                 return;
-            case ObjectRotation.BACK_INVERTED:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory + "-Inverted", storeGameObject.Identifier);
-                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.BACK_INVERTED);
+            }
 
-                if (storeGameObject.HasActionPoint)
-                {
-                    actionTile = GetRotationActionTile(ObjectRotation.BACK_INVERTED);
-                    tiles[0].color = Util.UnderTilesColor;
-                    tiles[1].color = Util.UnderTilesColor;
-                    tiles[2].color = Util.HiddenColor;
-                }
-                return;
-            case ObjectRotation.FRONT:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
-                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT);
-                if (storeGameObject.HasActionPoint)
-                {
-                    actionTile = GetRotationActionTile(ObjectRotation.FRONT);
-                    tiles[0].color = Util.UnderTilesColor;
-                    tiles[1].color = Util.HiddenColor;
-                    tiles[2].color = Util.UnderTilesColor;
-                }
-                return;
-            case ObjectRotation.FRONT_INVERTED:
-                spriteResolver.SetCategoryAndLabel(storeGameObject.SpriteLibCategory, storeGameObject.Identifier);
-                objectWithSprite.transform.localScale = GetRotationVector(ObjectRotation.FRONT_INVERTED);
-                if (storeGameObject.HasActionPoint)
-                {
-                    actionTile = GetRotationActionTile(ObjectRotation.FRONT_INVERTED);
-                    tiles[0].color = Util.UnderTilesColor;
-                    tiles[1].color = Util.HiddenColor;
-                    tiles[2].color = Util.UnderTilesColor;
+            if (_loadSliderMove.IsFinished())
+            {
+                SetObjectSelected();
+            }
 
-                }
-                return;
-        }
-    }
-
-    private Vector3 GetRotationVector(ObjectRotation objectRotation)
-    {
-        switch (objectRotation)
-        {
-            case ObjectRotation.BACK:
-                return new Vector3(1, 1, 1);
-            case ObjectRotation.FRONT:
-                return new Vector3(1, 1, 1);
-            case ObjectRotation.BACK_INVERTED:
-                return new Vector3(-1, 1, 1);
-            case ObjectRotation.FRONT_INVERTED:
-                return new Vector3(-1, 1, 1);
-        }
-        return Vector3.negativeInfinity;
-    }
-
-    private int GetRotationActionTile(ObjectRotation objectRotation)
-    {
-        switch (objectRotation)
-        {
-            case ObjectRotation.BACK:
-                return 0;
-            case ObjectRotation.FRONT:
-                return 1;
-            case ObjectRotation.BACK_INVERTED:
-                return 0;
-            case ObjectRotation.FRONT_INVERTED:
-                return 1;
-        }
-        return int.MaxValue;
-    }
-
-    public void HideUnderTiles()
-    {
-        tiles[0].color = Util.HiddenColor;
-        tiles[actionTile + 1].color = Util.HiddenColor;
-    }
-
-    public void ShowOccupiedUnderTiles()
-    {
-        tiles[0].color = Util.UnderTilesColor;
-
-        if (storeGameObject.HasActionPoint)
-        {
-            tiles[actionTile + 1].color = Util.UnderTilesColor;
-        }
-    }
-
-    public void ShowAvailableUnderTiles()
-    {
-        tiles[0].color = Util.UnderTilesColor;
-        if (storeGameObject.HasActionPoint)
-        {
-            tiles[actionTile + 1].color = Util.UnderTilesColor;
-        }
-    }
-
-    public StoreGameObject GetStoreGameObject()
-    {
-        return storeGameObject;
-    }
-
-    public SpriteRenderer GetSpriteRenderer()
-    {
-        return spriteRenderer;
-    }
-
-    public bool GetBusy()
-    {
-        return usedBy != null;
-    }
-
-    public void SetUsedBy(ClientController controller)
-    {
-        usedBy = controller;
-    }
-
-    public ClientController GetUsedBy()
-    {
-        return usedBy;
-    }
-
-    public void SetAttendedBy(EmployeeController controller)
-    {
-        attendedBy = controller;
-    }
-
-    public void SetAssignedTo(EmployeeController controller)
-    {
-        assignedTo = controller;
-    }
-
-    public bool IsItemAssignedTo()
-    {
-        return assignedTo != null;
-    }
-
-    public bool GetIsObjectBeingDragged()
-    {
-        return isObjectBeingDragged;
-    }
-
-    public bool IsFree()
-    {
-        return usedBy == null && attendedBy == null;
-    }
-    public bool HasClient()
-    {
-        return usedBy != null;
-    }
-
-    public bool HasAttendedBy()
-    {
-        return attendedBy != null;
-    }
-
-    public void UpdateMoveSlider()
-    {
-        if (isObjectSelected)
-        {
-            return;
-        }
-
-        if (loadSliderMove.IsFinished())
-        {
-            SetObjectSelected();
-        }
-
-        DiableTopInfoObject();
-        loadSliderMove.SetActive();
-    }
-
-    // This loads the top Item
-    public void UpdateLoadItemSlider()
-    {
-        if (isObjectSelected)
-        {
-            return;
-        }
-
-        if (loadSlider.IsFinished())
-        {
-            loadSlider.RestartState();
-            SetItemsReady();
-        }
-    }
-
-    public void SetItemsReady()
-    {
-        isItemReady = true;
-        infoPopUpController.Enable();
-    }
-
-    public bool GetIsItemReady()
-    {
-        return isItemReady;
-    }
-
-    private void SetObjectSelected()
-    {
-        // Disables dragging for a second 
-        baseObjectController.DisableDisableDraggingTemp();
-        isObjectSelected = true;
-        loadSliderMove.SetInactive();
-        ObjectDraggingHandler.SetActiveGameGridObject(this);
-        ClearTableClient();
-        ClearTableEmployee();
-        DisableIfCounter();
-        //We clean grid position
-        BussGrid.FreeObject(this);
-        objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.SelectedObjectZPosition);
-        // We clean in case the item is loaded on top
-        if (storeGameObject.HasActionPoint && isItemReady)
-        {
             DiableTopInfoObject();
+            _loadSliderMove.SetActive();
         }
-    }
 
-    public void DiableTopInfoObject()
-    {
-        isItemReady = false;
-        infoPopUpController.Disable();
-        loadSlider.SetInactive();
-    }
-
-    public void SetInactive()
-    {
-        isObjectSelected = false;
-        objectTransform.position = new Vector3(objectTransform.position.x, objectTransform.position.y, Util.ObjectZPosition);
-        ObjectDraggingHandler.SetIsDraggingEnable(false);
-        ObjectDraggingHandler.HideHighlightedGridBussFloor();
-    }
-
-    public bool GetIsObjectSelected()
-    {
-        return isObjectSelected;
-    }
-
-    public void SetNewObjectActiveButtons()
-    {
-        acceptButton.SetActive(true);
-        cancelButton.SetActive(true);
-        rotateObjLeftButton.SetActive(true);
-        saveObjButton.SetActive(false);
-    }
-
-    public void SetStoreObject()
-    {
-        // We show accept, cancel buttons and select the object
-        isObjectSelected = true;
-        isItemBought = false;
-        ObjectDraggingHandler.SetActiveGameGridObject(this);
-        SetNewObjectActiveButtons();
-    }
-
-    // Used in the case the player cancels or clicks outside the object
-    public bool GetIsItemBought()
-    {
-        return isItemBought;
-    }
-
-    public void AcceptPurchase()
-    {
-        if (!baseObjectController.GetIscurrentValidPos())
+        // This loads the top Item
+        public void UpdateLoadItemSlider()
         {
-            return;
+            if (_isObjectSelected)
+            {
+                return;
+            }
+
+            if (_loadSlider.IsFinished())
+            {
+                _loadSlider.RestartState();
+                SetItemsReady();
+            }
         }
 
-        isItemBought = true;
-        baseObjectController.SetNewItem(false, baseObjectController.GetIsStorageItem());
-        baseObjectController.SetIsNewItemSetted(true);
-
-        // We set the new state for the edit panel buttons
-        acceptButton.SetActive(false);
-        cancelButton.SetActive(false);
-        rotateObjLeftButton.SetActive(true);
-        saveObjButton.SetActive(true);
-        HideEditMenu();
-
-        // We dont substract if the item is comming from the storage
-        if (!baseObjectController.GetIsStorageItem() && dataGameObject == null)
+        public void SetItemsReady()
         {
-            PlayerData.Subtract(storeGameObject.Cost, storeGameObject.Type);
-            // We set a new firebase object
-            PlayerData.AddDataGameObject(this);
+            _isItemReady = true;
+            _infoPopUpController.Enable();
         }
-        else
+
+        public bool GetIsItemReady()
         {
-            PlayerData.SubtractFromStorage(this);
-            baseObjectController.SetStorage(false);
-            isItemBought = true;
-            dataGameObject.IS_STORED = false;
+            return _isItemReady;
         }
 
-        //SetAsCounter(); //If it is a counter we set if in the grid
-        BussGrid.SetObjectObstacle(this);
-        UpdateCoordsAndSetObstacle();
-        SetInactive();
-        HideUnderTiles();
-        // Now it can be used by NPCs
-        active = true;
-    }
-
-    private void DisableIfCounter()
-    {
-        if (Type == ObjectType.NPC_COUNTER && assignedTo != null)
+        private void SetObjectSelected()
         {
-            assignedTo.SetCounter(null);
+            // Disables dragging for a second 
+            _baseObjectController.DisableDisableDraggingTemp();
+            _isObjectSelected = true;
+            _loadSliderMove.SetInactive();
+            ObjectDraggingHandler.SetActiveGameGridObject(this);
+            ClearTableClient();
+            ClearTableEmployee();
+            DisableIfCounter();
+            //We clean grid position
+            BussGrid.FreeObject(this);
+            var position = _objectTransform.position;
+            position = new Vector3(position.x, position.y,
+                Util.Util.SelectedObjectZPosition);
+            _objectTransform.position = position;
+            // We clean in case the item is loaded on top
+            if (_storeGameObject.HasActionPoint && _isItemReady)
+            {
+                DiableTopInfoObject();
+            }
         }
-    }
 
-    public void CancelPurchase()
-    {
-        BussGrid.GetGameGridObjectsDictionary().Remove(Name, out GameGridObject tmp);
-        if (tmp == null)
+        public void DiableTopInfoObject()
         {
-            GameLog.Log("CancelPurchase() could not remove " + Name);
+            _isItemReady = false;
+            _infoPopUpController.Disable();
+            _loadSlider.SetInactive();
         }
 
-        PlayerData.RemoveFromInventory(this);
-        Object.Destroy(objectTransform.gameObject);
-        DisableIfCounter();
-        SetInactive();
-        BussGrid.RecalculateBussGrid();
-    }
-
-    public bool GetActive()
-    {
-        return active;
-    }
-
-    public void SetDataGameObject(DataGameObject obj)
-    {
-        dataGameObject = obj;
-    }
-
-    public ObjectRotation GetFacingPosition()
-    {
-        return facingPosition;
-    }
-
-    public LoadSliderController GetLoadItemSlider()
-    {
-        return loadSlider;
-    }
-
-    public LoadSliderController GetMoveSlider()
-    {
-        return loadSliderMove;
-    }
-
-    public override string ToString()
-    {
-        return "isItemBought: " + isItemBought + " active: " + active + " isItemReady: " + isItemReady + " isObjectSelected: " +
-        isObjectSelected + " isObjectBeingDragged: " + isObjectBeingDragged;
-    }
-
-    public int GetSortingOrder()
-    {
-        return SortingLayer.sortingOrder;
-    }
-
-    public int CompareTo(GameGridObject obj2)
-    {
-        if (obj2 == null)
+        public void SetInactive()
         {
-            return 1;
+            _isObjectSelected = false;
+            var objectTransform = _objectTransform.position;
+            _objectTransform.position =
+                new Vector3(objectTransform.x, objectTransform.y, Util.Util.ObjectZPosition);
+            ObjectDraggingHandler.SetIsDraggingEnable(false);
+            ObjectDraggingHandler.HideHighlightedGridBussFloor();
         }
-        else
-        {
-            return obj2.GetSortingOrder() - SortingLayer.sortingOrder;
-        }
-    }
 
-    public bool Equals(GameGridObject obj2)
-    {
-        if (obj2 == null || SortingLayer == null) { return false; }
-        return SortingLayer.sortingOrder == obj2.GetSortingOrder();
+        public bool GetIsObjectSelected()
+        {
+            return _isObjectSelected;
+        }
+
+        public void SetNewObjectActiveButtons()
+        {
+            _acceptButton.SetActive(true);
+            _cancelButton.SetActive(true);
+            _rotateObjLeftButton.SetActive(true);
+            _saveObjButton.SetActive(false);
+        }
+
+        public void SetStoreObject()
+        {
+            // We show accept, cancel buttons and select the object
+            _isObjectSelected = true;
+            _isItemBought = false;
+            ObjectDraggingHandler.SetActiveGameGridObject(this);
+            SetNewObjectActiveButtons();
+        }
+
+        // Used in the case the player cancels or clicks outside the object
+        public bool GetIsItemBought()
+        {
+            return _isItemBought;
+        }
+
+        public void AcceptPurchase()
+        {
+            if (!_baseObjectController.GetIscurrentValidPos())
+            {
+                return;
+            }
+
+            _isItemBought = true;
+            _baseObjectController.SetNewItem(false, _baseObjectController.GetIsStorageItem());
+            _baseObjectController.SetIsNewItemSetted(true);
+
+            // We set the new state for the edit panel buttons
+            _acceptButton.SetActive(false);
+            _cancelButton.SetActive(false);
+            _rotateObjLeftButton.SetActive(true);
+            _saveObjButton.SetActive(true);
+            HideEditMenu();
+
+            // We dont substract if the item is comming from the storage
+            if (!_baseObjectController.GetIsStorageItem() && _dataGameObject == null)
+            {
+                PlayerData.Subtract(_storeGameObject.Cost, _storeGameObject.Type);
+                // We set a new firebase object
+                PlayerData.AddDataGameObject(this);
+            }
+            else
+            {
+                PlayerData.SubtractFromStorage(this);
+                _baseObjectController.SetStorage(false);
+                _isItemBought = true;
+                _dataGameObject.isStored = false;
+            }
+
+            //SetAsCounter(); //If it is a counter we set if in the grid
+            BussGrid.SetObjectObstacle(this);
+            UpdateCoordsAndSetObstacle();
+            SetInactive();
+            HideUnderTiles();
+            // Now it can be used by NPCs
+            _active = true;
+        }
+
+        private void DisableIfCounter()
+        {
+            if (Type == ObjectType.NpcCounter && _assignedTo != null)
+            {
+                _assignedTo.SetCounter(null);
+            }
+        }
+
+        public void CancelPurchase()
+        {
+            BussGrid.GetGameGridObjectsDictionary().Remove(Name, out GameGridObject tmp);
+            if (tmp == null)
+            {
+                GameLog.Log("CancelPurchase() could not remove " + Name);
+            }
+
+            PlayerData.RemoveFromInventory(this);
+            Object.Destroy(_objectTransform.gameObject);
+            DisableIfCounter();
+            SetInactive();
+            BussGrid.RecalculateBussGrid();
+        }
+
+        public bool GetActive()
+        {
+            return _active;
+        }
+
+        public void SetDataGameObject(DataGameObject obj)
+        {
+            _dataGameObject = obj;
+        }
+
+        public ObjectRotation GetFacingPosition()
+        {
+            return _facingPosition;
+        }
+
+        public LoadSliderController GetLoadItemSlider()
+        {
+            return _loadSlider;
+        }
+
+        public LoadSliderController GetMoveSlider()
+        {
+            return _loadSliderMove;
+        }
+
+        public override string ToString()
+        {
+            return "isItemBought: " + _isItemBought + " active: " + _active + " isItemReady: " + _isItemReady +
+                   " isObjectSelected: " +
+                   _isObjectSelected + " isObjectBeingDragged: " + _isObjectBeingDragged;
+        }
+
+        public int GetSortingOrder()
+        {
+            return SortingLayer.sortingOrder;
+        }
+
+        public int CompareTo(GameGridObject obj2)
+        {
+            if (obj2 == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return obj2.GetSortingOrder() - SortingLayer.sortingOrder;
+            }
+        }
+
+        public bool Equals(GameGridObject obj2)
+        {
+            if (obj2 == null || SortingLayer == null)
+            {
+                return false;
+            }
+
+            return SortingLayer.sortingOrder == obj2.GetSortingOrder();
+        }
     }
 }

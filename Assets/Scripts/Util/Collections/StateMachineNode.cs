@@ -1,25 +1,28 @@
 using System;
 using System.Collections.Generic;
 
-public class StateMachineNode<T> where T : Enum
+namespace Util.Collections
 {
-    public List<StateMachineNode<T>> TransitionStates { get; set; }
-    public T State { get; set; }
-
-    public StateMachineNode(T state)
+    public class StateMachineNode<T> where T : Enum
     {
-        State = state;
-        TransitionStates = new List<StateMachineNode<T>>();
-    }
+        public List<StateMachineNode<T>> TransitionStates { get; set; }
+        public T State { get; set; }
 
-    public string GetNextStates()
-    {
-        string states = "";
-        foreach (StateMachineNode<T> n in TransitionStates)
+        public StateMachineNode(T state)
         {
-            states += n.State.ToString() + "\n";
-
+            State = state;
+            TransitionStates = new List<StateMachineNode<T>>();
         }
-        return states;
+
+        public string GetNextStates()
+        {
+            string states = "";
+            foreach (StateMachineNode<T> n in TransitionStates)
+            {
+                states += n.State.ToString() + "\n";
+
+            }
+            return states;
+        }
     }
 }

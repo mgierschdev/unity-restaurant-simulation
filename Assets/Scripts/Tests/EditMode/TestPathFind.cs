@@ -1,147 +1,152 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using Util.Collections;
+using Util.PathFinding;
 
-public class TestPathFind
+namespace Tests.EditMode
 {
-    private int[] start, target;
-    private int[,] grid;
-    private PathFind pathFind;
-    private List<Node> path, expected;
-
-    [SetUp]
-    public void Setup()
+    public class TestPathFind
     {
-        pathFind = new PathFind();
-        expected = new List<Node>();
-        path = new List<Node>();
-    }
+        private int[] _start, _target;
+        private int[,] _grid;
+        private PathFind _pathFind;
+        private List<Node> _path, _expected;
 
-    [Test]
-    public void TestEdgePath()
-    {
-        grid = new int[5, 5];
-        start = new int[2] { 0, 0 };
-        target = new int[2] { 0, 4 };
-        expected.Clear();
-        path.Clear();
-
-        expected.Add(new Node(new int[] { 0, 0 }));
-        expected.Add(new Node(new int[] { 0, 1 }));
-        expected.Add(new Node(new int[] { 0, 2 }));
-        expected.Add(new Node(new int[] { 0, 3 }));
-        expected.Add(new Node(new int[] { 0, 4 }));
-
-        for (int i = 0; i < path.Count; i++)
+        [SetUp]
+        public void Setup()
         {
-            Assert.True(expected[i].Compare(path[i]));
+            _pathFind = new PathFind();
+            _expected = new List<Node>();
+            _path = new List<Node>();
         }
-    }
 
-    [Test]
-    public void TestPathWithObstacles()
-    {
-        grid = new int[5, 5];
-        start = new int[2] { 0, 0 };
-        target = new int[2] { 4, 4 };
-        FillGrid(2, 0, 3, grid);
-        grid[3, 4] = 1;
-        grid[1, 2] = 1;
-        expected.Clear();
-        path.Clear();
-
-        expected.Add(new Node(new int[] { 0, 0 }));
-        expected.Add(new Node(new int[] { 0, 1 }));
-        expected.Add(new Node(new int[] { 0, 2 }));
-        expected.Add(new Node(new int[] { 1, 3 }));
-        expected.Add(new Node(new int[] { 2, 4 }));
-        expected.Add(new Node(new int[] { 3, 3 }));
-        expected.Add(new Node(new int[] { 4, 4 }));
-
-        path = pathFind.Find(start, target, grid);
-        for (int i = 0; i < path.Count; i++)
+        [Test]
+        public void TestEdgePath()
         {
-            Assert.True(expected[i].Compare(path[i]));
+            _grid = new int[5, 5];
+            _start = new[] { 0, 0 };
+            _target = new[] { 0, 4 };
+            _expected.Clear();
+            _path.Clear();
+
+            _expected.Add(new Node(new[] { 0, 0 }));
+            _expected.Add(new Node(new[] { 0, 1 }));
+            _expected.Add(new Node(new[] { 0, 2 }));
+            _expected.Add(new Node(new[] { 0, 3 }));
+            _expected.Add(new Node(new[] { 0, 4 }));
+
+            for (int i = 0; i < _path.Count; i++)
+            {
+                Assert.True(_expected[i].Compare(_path[i]));
+            }
         }
-    }
 
-
-    [Test]
-    public void TestHardPathWithManyObstacles()
-    {
-        grid = new int[5, 5];
-        start = new int[2] { 0, 0 };
-        target = new int[2] { 4, 4 };
-        FillGrid(3, 1, 4, grid);
-        expected.Clear();
-        path.Clear();
-
-        expected.Add(new Node(new int[] { 0, 0 }));
-        expected.Add(new Node(new int[] { 1, 0 }));
-        expected.Add(new Node(new int[] { 2, 0 }));
-        expected.Add(new Node(new int[] { 3, 0 }));
-        expected.Add(new Node(new int[] { 4, 0 }));
-        expected.Add(new Node(new int[] { 4, 1 }));
-        expected.Add(new Node(new int[] { 4, 2 }));
-        expected.Add(new Node(new int[] { 4, 3 }));
-        expected.Add(new Node(new int[] { 4, 4 }));
-
-        Util.PrintGrid(grid);
-        path = pathFind.Find(start, target, grid);
-        Util.PrintPath(path);
-
-        for (int i = 0; i < path.Count; i++)
+        [Test]
+        public void TestPathWithObstacles()
         {
-            Assert.True(expected[i].Compare(path[i]));
+            _grid = new int[5, 5];
+            _start = new[] { 0, 0 };
+            _target = new[] { 4, 4 };
+            FillGrid(2, 0, 3, _grid);
+            _grid[3, 4] = 1;
+            _grid[1, 2] = 1;
+            _expected.Clear();
+            _path.Clear();
+
+            _expected.Add(new Node(new[] { 0, 0 }));
+            _expected.Add(new Node(new[] { 0, 1 }));
+            _expected.Add(new Node(new[] { 0, 2 }));
+            _expected.Add(new Node(new[] { 1, 3 }));
+            _expected.Add(new Node(new[] { 2, 4 }));
+            _expected.Add(new Node(new[] { 3, 3 }));
+            _expected.Add(new Node(new[] { 4, 4 }));
+
+            _path = _pathFind.Find(_start, _target, _grid);
+            for (int i = 0; i < _path.Count; i++)
+            {
+                Assert.True(_expected[i].Compare(_path[i]));
+            }
         }
-    }
 
-    [Test]
-    public void TestInvalidPath()
-    {
-        grid = new int[5, 5];
-        start = new int[2] { 0, -1 };
-        target = new int[2] { 0, 14 };
 
-        expected.Clear();
-        path.Clear();
-        path = pathFind.Find(start, target, grid);
-
-        Assert.AreEqual(path, expected);
-    }
-
-    [Test]
-    public void TestOneNodePath()
-    {
-        grid = new int[4, 4];
-        start = new int[2] { 0, 1 };
-        target = new int[2] { 2, 1 };
-        expected.Clear();
-        path.Clear();
-
-        expected.Add(new Node(new int[] { 0, 1 }));
-        expected.Add(new Node(new int[] { 0, 2 }));
-        expected.Add(new Node(new int[] { 1, 2 }));
-        expected.Add(new Node(new int[] { 2, 2 }));
-        expected.Add(new Node(new int[] { 2, 1 }));
-
-        grid[1, 1] = 1;
-
-        Util.PrintGrid(grid);
-        path = pathFind.Find(start, target, grid);
-        Util.PrintPath(path);
-
-        for (int i = 0; i < path.Count; i++)
+        [Test]
+        public void TestHardPathWithManyObstacles()
         {
-            Assert.True(expected[i].Compare(path[i]));
+            _grid = new int[5, 5];
+            _start = new[] { 0, 0 };
+            _target = new[] { 4, 4 };
+            FillGrid(3, 1, 4, _grid);
+            _expected.Clear();
+            _path.Clear();
+
+            _expected.Add(new Node(new[] { 0, 0 }));
+            _expected.Add(new Node(new[] { 1, 0 }));
+            _expected.Add(new Node(new[] { 2, 0 }));
+            _expected.Add(new Node(new[] { 3, 0 }));
+            _expected.Add(new Node(new[] { 4, 0 }));
+            _expected.Add(new Node(new[] { 4, 1 }));
+            _expected.Add(new Node(new[] { 4, 2 }));
+            _expected.Add(new Node(new[] { 4, 3 }));
+            _expected.Add(new Node(new[] { 4, 4 }));
+
+            Util.Util.PrintGrid(_grid);
+            _path = _pathFind.Find(_start, _target, _grid);
+            Util.Util.PrintPath(_path);
+
+            for (int i = 0; i < _path.Count; i++)
+            {
+                Assert.True(_expected[i].Compare(_path[i]));
+            }
         }
-    }
 
-    private void FillGrid(int row, int i, int j, int[,] grid)
-    {
-        while (i <= j)
+        [Test]
+        public void TestInvalidPath()
         {
-            grid[row, i++] = 1;
-            grid[row, j--] = 1;
+            _grid = new int[5, 5];
+            _start = new[] { 0, -1 };
+            _target = new[] { 0, 14 };
+
+            _expected.Clear();
+            _path.Clear();
+            _path = _pathFind.Find(_start, _target, _grid);
+
+            Assert.AreEqual(_path, _expected);
+        }
+
+        [Test]
+        public void TestOneNodePath()
+        {
+            _grid = new int[4, 4];
+            _start = new[] { 0, 1 };
+            _target = new[] { 2, 1 };
+            _expected.Clear();
+            _path.Clear();
+
+            _expected.Add(new Node(new[] { 0, 1 }));
+            _expected.Add(new Node(new[] { 0, 2 }));
+            _expected.Add(new Node(new[] { 1, 2 }));
+            _expected.Add(new Node(new[] { 2, 2 }));
+            _expected.Add(new Node(new[] { 2, 1 }));
+
+            _grid[1, 1] = 1;
+
+            Util.Util.PrintGrid(_grid);
+            _path = _pathFind.Find(_start, _target, _grid);
+            Util.Util.PrintPath(_path);
+
+            for (int i = 0; i < _path.Count; i++)
+            {
+                Assert.True(_expected[i].Compare(_path[i]));
+            }
+        }
+
+        private void FillGrid(int row, int i, int j, int[,] grid)
+        {
+            while (i <= j)
+            {
+                grid[row, i++] = 1;
+                grid[row, j--] = 1;
+            }
         }
     }
 }

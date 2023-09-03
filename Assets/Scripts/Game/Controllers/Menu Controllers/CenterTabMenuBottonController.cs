@@ -2,31 +2,34 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CenterTabMenuBottonController : MonoBehaviour
+namespace Game.Controllers.Menu_Controllers
 {
-    private TextMeshProUGUI buttonText;
-    private Button button;
-
-    private void Awake()
+    public class CenterTabMenuBottonController : MonoBehaviour
     {
-        GameObject obj = transform.Find("Text").gameObject;
-        buttonText = obj.GetComponent<TextMeshProUGUI>();
-        button = transform.GetComponent<Button>();
-    }
+        private TextMeshProUGUI _buttonText;
+        private Button _button;
 
-    public void SetText(string text)
-    {
-        buttonText.text = text;
-    }
+        private void Awake()
+        {
+            GameObject obj = transform.Find("Text").gameObject;
+            _buttonText = obj.GetComponent<TextMeshProUGUI>();
+            _button = transform.GetComponent<Button>();
+        }
 
-    public Button GetButton()
-    {
-        return button;
-    }
+        public void SetText(string text)
+        {
+            _buttonText.text = text;
+        }
 
-    public Button LoadAndGetButton()
-    {
-        button = transform.GetComponent<Button>();
-        return button;
+        public Button GetButton()
+        {
+            return _button;
+        }
+
+        public Button LoadAndGetButton()
+        {
+            _button = transform.GetComponent<Button>();
+            return _button;
+        }
     }
 }

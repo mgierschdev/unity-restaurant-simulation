@@ -1,48 +1,52 @@
 using UnityEngine;
 
-public class Node
+namespace Util.Collections
 {
-    private int x, y;
-
-    public Node(int x, int y)
+    public class Node
     {
-        this.x = x;
-        this.y = y;
-    }
+        private readonly int _x;
+        private readonly int _y;
 
-    public Node(int[] a)
-    {
-        x = a[0];
-        y = a[1];
-    }
+        public Node(int x, int y)
+        {
+            _x = x;
+            _y = y;
+        }
 
-    public override string ToString()
-    {
-        return "[" + x + "," + y + "]";
-    }
+        public Node(int[] a)
+        {
+            _x = a[0];
+            _y = a[1];
+        }
 
-    public bool Compare(Node n)
-    {
-        return x == n.GetX() && y == n.GetY();
-    }
+        public override string ToString()
+        {
+            return "[" + _x + "," + _y + "]";
+        }
 
-    public float GetX()
-    {
-        return x;
-    }
+        public bool Compare(Node n)
+        {
+            return _x == n.GetX() && _y == n.GetY();
+        }
 
-    public float GetY()
-    {
-        return y;
-    }
+        public Vector3 GetVector3()
+        {
+            return new Vector3(_x, _y);
+        }
 
-    public Vector3 GetVector3()
-    {
-        return new Vector3(x, y);
-    }
+        public Vector3Int GetVector3Int()
+        {
+            return new Vector3Int(_x, _y);
+        }
+    
+        private int GetX()
+        {
+            return _x;
+        }
 
-    public Vector3Int GetVector3Int()
-    {
-        return new Vector3Int(x, y);
+        private int GetY()
+        {
+            return _y;
+        }
     }
 }

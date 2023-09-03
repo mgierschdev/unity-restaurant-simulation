@@ -1,104 +1,118 @@
 using System;
 using System.Collections.Generic;
+using Util;
 
-public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGameObject>
+namespace Game.Players
 {
-    public string Name { get; private set; }
-    public string Identifier { get; private set; }
-    public int Cost { get; set; }
-    public ObjectType Type { get; private set; }
-    public StoreItemType StoreItemType { get; private set; }
-    public UpgradeType UpgradeType { get; private set; }
-    public string MenuItemSprite { get; private set; }
-    public string SpriteLibCategory { get; private set; }
-    public string PrefabLocation { get; private set; }
-    public bool HasActionPoint { get; private set; }
-    public int MaxLevel { get; private set; }
-    private List<StoreGameObjectItem> items;
-    private StoreGameObjectItem currentSelected;
-
-    public StoreGameObject(string name, string identifier, ObjectType type, StoreItemType tableType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint)
+    public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGameObject>
     {
-        Identifier = identifier;
-        Name = name;
-        Cost = cost;
-        Type = type;
-        StoreItemType = tableType;
-        MenuItemSprite = Settings.StoreSpritePath + identifier;
-        SpriteLibCategory = categorySprite;
-        PrefabLocation = prefabLocation;
-        HasActionPoint = hasActionPoint;
-    }
+        public string Name { get; private set; }
+        public string Identifier { get; private set; }
+        public int Cost { get; }
+        public ObjectType Type { get; private set; }
+        public StoreItemType StoreItemType { get; private set; }
+        public UpgradeType UpgradeType { get; private set; }
+        public string MenuItemSprite { get; private set; }
+        public string SpriteLibCategory { get; private set; }
+        public string PrefabLocation { get; private set; }
+        public bool HasActionPoint { get; private set; }
+        public int MaxLevel { get; private set; }
+        public List<StoreGameObjectItem> Items { get; }
 
-    public StoreGameObject(string name, string identifier, ObjectType type, UpgradeType upgradeType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint, int maxLevel)
-    {
-        Identifier = identifier;
-        Name = name;
-        Cost = cost;
-        Type = type;
-        MaxLevel = maxLevel;
-        UpgradeType = upgradeType;
-        MenuItemSprite = Settings.StoreSpritePath + identifier;
-        SpriteLibCategory = categorySprite;
-        PrefabLocation = prefabLocation;
-        HasActionPoint = hasActionPoint;
-        StoreItemType = StoreItemType.UNDEFINED;
-    }
+        private readonly StoreGameObjectItem _currentSelected;
 
-    public StoreGameObject(string name, string identifier, ObjectType type, StoreItemType tableType, string categorySprite, string prefabLocation, int cost, bool hasActionPoint, List<StoreGameObjectItem> objects)
-    {
-        Identifier = identifier;
-        Name = name;
-        Cost = cost;
-        Type = type;
-        StoreItemType = tableType;
-        MenuItemSprite = Settings.StoreSpritePath + identifier;
-        SpriteLibCategory = categorySprite;
-        PrefabLocation = prefabLocation;
-        HasActionPoint = hasActionPoint;
-        items = objects;
-        currentSelected = objects[0];
-    }
-
-    public int GetIdentifierNumber()
-    {
-        string strNumber = Identifier.ToString().Split("-")[1];
-        int value = Int32.Parse(strNumber);
-        return value >= 0 ? value : 0;
-    }
-
-    // Default comparer for StoreGameObject cost type.
-    public int CompareTo(StoreGameObject obj2)
-    {
-        // A null value means that this object is greater.
-        if (obj2 == null)
+        public StoreGameObject(string name, string identifier, ObjectType type, StoreItemType tableType,
+            string categorySprite, string prefabLocation, int cost, bool hasActionPoint)
         {
-            return 1;
+            Identifier = identifier;
+            Name = name;
+            Cost = cost;
+            Type = type;
+            StoreItemType = tableType;
+            MenuItemSprite = Settings.StoreSpritePath + identifier;
+            SpriteLibCategory = categorySprite;
+            PrefabLocation = prefabLocation;
+            HasActionPoint = hasActionPoint;
         }
-        else
+
+        public StoreGameObject(string name, string identifier, ObjectType type, UpgradeType upgradeType,
+            string categorySprite, string prefabLocation, int cost, bool hasActionPoint, int maxLevel)
         {
-            return Cost - obj2.Cost;
+            Identifier = identifier;
+            Name = name;
+            Cost = cost;
+            Type = type;
+            MaxLevel = maxLevel;
+            UpgradeType = upgradeType;
+            MenuItemSprite = Settings.StoreSpritePath + identifier;
+            SpriteLibCategory = categorySprite;
+            PrefabLocation = prefabLocation;
+            HasActionPoint = hasActionPoint;
+            StoreItemType = StoreItemType.Undefined;
         }
-    }
 
-    public override int GetHashCode()
-    {
-        return Cost;
-    }
+        public StoreGameObject(string name, string identifier, ObjectType type, StoreItemType tableType,
+            string categorySprite, string prefabLocation, int cost, bool hasActionPoint,
+            List<StoreGameObjectItem> objects)
+        {
+            Identifier = identifier;
+            Name = name;
+            Cost = cost;
+            Type = type;
+            StoreItemType = tableType;
+            MenuItemSprite = Settings.StoreSpritePath + identifier;
+            SpriteLibCategory = categorySprite;
+            PrefabLocation = prefabLocation;
+            HasActionPoint = hasActionPoint;
+            Items = objects;
+            _currentSelected = objects[0];
+        }
 
-    public bool Equals(StoreGameObject obj2)
-    {
-        if (obj2 == null) { return false; }
-        return Cost == obj2.Cost;
-    }
+        public int GetIdentifierNumber()
+        {
+            var strNumber = Identifier.Split("-")[1];
+            var value = int.Parse(strNumber);
+            return value >= 0 ? value : 0;
+        }
 
-    public override string ToString()
-    {
-        return Identifier + "-" + Name + "-" + Cost + "-" + Type + "-" + StoreItemType + "-" + SpriteLibCategory + "-" + MenuItemSprite + "-" + PrefabLocation + "-" + HasActionPoint;
-    }
+        // Default comparer for StoreGameObject cost type.
+        public int CompareTo(StoreGameObject obj2)
+        {
+            // A null value means that this object is greater.
+            if (obj2 == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return Cost - obj2.Cost;
+            }
+        }
 
-    public StoreGameObjectItem GetCurrentSelectedObject()
-    {
-        return currentSelected;
+        public override int GetHashCode()
+        {
+            return Cost;
+        }
+
+        public bool Equals(StoreGameObject obj2)
+        {
+            if (obj2 == null)
+            {
+                return false;
+            }
+
+            return Cost == obj2.Cost;
+        }
+
+        public override string ToString()
+        {
+            return Identifier + "-" + Name + "-" + Cost + "-" + Type + "-" + StoreItemType + "-" + SpriteLibCategory +
+                   "-" + MenuItemSprite + "-" + PrefabLocation + "-" + HasActionPoint;
+        }
+
+        public StoreGameObjectItem GetCurrentSelectedObject()
+        {
+            return _currentSelected;
+        }
     }
 }

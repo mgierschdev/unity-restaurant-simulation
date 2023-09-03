@@ -1,430 +1,460 @@
 using System;
 using System.Collections.Generic;
+using Game.Controllers.Grid_Objects_Controllers;
+using Game.Controllers.NPC_Controllers;
+using Game.Grid;
+using Game.Players;
+using Game.Players.Model;
 using UnityEngine;
+using Util;
 using IEnumerator = System.Collections.IEnumerator;
+
 // This class in charge of loading the game and prefabs
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
-public class GameController : MonoBehaviour
+namespace Game.Controllers.Other_Controllers
 {
-    private int NpcMaxNumber = Settings.NpcMultiplayer, npcId;
-    private GameObject gameGridObject, NPCS;
-    private GameTile tileSpawn;
-    private HashSet<ClientController> ClientSet;
-    private HashSet<EmployeeController> EmployeeSet;
-    private HashSet<Vector3Int> playerPositionSet, employeePlannedTarget;
-
-    private void Start()
+    public class GameController : MonoBehaviour
     {
-        npcId = 0;
-        ClientSet = new HashSet<ClientController>();
-        EmployeeSet = new HashSet<EmployeeController>();
-        playerPositionSet = new HashSet<Vector3Int>();
-        employeePlannedTarget = new HashSet<Vector3Int>();
-        NPCS = GameObject.Find(Settings.TilemapObjects).gameObject;
-        UpdateClientNumber();
-        LoadUserObjects();
-        //Assign tables to attend to employees
-        StartCoroutine(AssignTablesToNPCs());
-        //Spam new NPC is there is missing npcs
-        StartCoroutine(NPCSpam());
-    }
+        private int _npcMaxNumber = Settings.NpcMultiplayer, _npcId;
+        private GameObject _gameGridObject, _npcs;
+        private GameTile _tileSpawn;
+        private HashSet<ClientController> _clientSet;
+        private HashSet<EmployeeController> _employeeSet;
+        private HashSet<Vector3Int> _playerPositionSet, _employeePlannedTarget;
 
-    private IEnumerator NPCSpam()
-    {
-        for (; ; )
+        private void Start()
         {
-            try
-            {
-                if (ClientSet.Count < NpcMaxNumber)
-                {
-                    SpamNpc();
-                }
-
-                GameGridObject counter = GetFreeCounter();
-
-                if (counter != null)
-                {
-                    SpamEmployee(counter);
-                }
-            }
-            catch (Exception e)
-            {
-                GameLog.LogError("Exception thrown, GameController/NPCSpam(): " + e);
-            }
-            yield return new WaitForSeconds(1f);
+            _npcId = 0;
+            _clientSet = new HashSet<ClientController>();
+            _employeeSet = new HashSet<EmployeeController>();
+            _playerPositionSet = new HashSet<Vector3Int>();
+            _employeePlannedTarget = new HashSet<Vector3Int>();
+            _npcs = GameObject.Find(Settings.TilemapObjects).gameObject;
+            UpdateClientNumber();
+            LoadUserObjects();
+            //Assign tables to attend to employees
+            StartCoroutine(AssignTablesToNpCs());
+            //Spam new NPC is there is missing npcs
+            StartCoroutine(NpcSpam());
         }
-    }
 
-    private IEnumerator AssignTablesToNPCs()
-    {
-        for (; ; )
+        private IEnumerator NpcSpam()
         {
-            try
+            for (;;)
             {
-                if (GetFreeTable(out GameGridObject table))
+                try
                 {
-                    double minDistance = double.MaxValue;
-                    ClientController minDistanceNPC = null;
-
-                    foreach (ClientController npcController in ClientSet)
+                    if (_clientSet.Count < _npcMaxNumber)
                     {
-                        if (!npcController.HasTable())
-                        {
-                            double localMin = Util.EuclidianDistance(table.GridPosition, npcController.Position);
+                        SpamNpc();
+                    }
 
-                            if (localMin < minDistance)
+                    GameGridObject counter = GetFreeCounter();
+
+                    if (counter != null)
+                    {
+                        SpamEmployee(counter);
+                    }
+                }
+                catch (Exception e)
+                {
+                    GameLog.LogError("Exception thrown, GameController/NPCSpam(): " + e);
+                }
+
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        private IEnumerator AssignTablesToNpCs()
+        {
+            for (;;)
+            {
+                try
+                {
+                    if (GetFreeTable(out GameGridObject table))
+                    {
+                        var minDistance = double.MaxValue;
+                        ClientController minDistanceNpc = null;
+
+                        foreach (ClientController npcController in _clientSet)
+                        {
+                            if (!npcController.HasTable())
                             {
-                                minDistanceNPC = npcController;
-                                minDistance = localMin;
+                                var localMin = Util.Util.EuclideanDistance(table.GridPosition, npcController.Position);
+
+                                if (localMin < minDistance)
+                                {
+                                    minDistanceNpc = npcController;
+                                    minDistance = localMin;
+                                }
                             }
+                        }
+
+                        if (minDistanceNpc != null)
+                        {
+                            table.SetUsedBy(minDistanceNpc);
+                            minDistanceNpc.SetTable(table);
                         }
                     }
 
-                    if (minDistanceNPC != null)
+                    if (GetTableWithClient(out GameGridObject tableToAttend))
                     {
-                        table.SetUsedBy(minDistanceNPC);
-                        minDistanceNPC.SetTable(table);
-                    }
-                }
-
-                if (GetTableWithClient(out GameGridObject tableToAttend))
-                {
-                    foreach (EmployeeController employeeController in EmployeeSet)
-                    {
-                        if (!employeeController.IsAttendingTable() && employeeController.GetNpcState() == NpcState.AT_COUNTER)
+                        foreach (EmployeeController employeeController in _employeeSet)
                         {
-                            // we match an available item  with a client order
-                            ClientController clientNPC = tableToAttend.GetUsedBy();
-                            if (GetAvailableItem(clientNPC.GetItemToAskFor()) != null)
+                            if (!employeeController.IsAttendingTable() &&
+                                employeeController.GetNpcState() == NpcState.AtCounter)
                             {
-                                employeeController.SetTableToAttend(tableToAttend);
-                                tableToAttend.SetAttendedBy(employeeController);
-                                break;
+                                // we match an available item  with a client order
+                                var clientNpc = tableToAttend.GetUsedBy();
+
+                                if (GetAvailableItem(clientNpc.GetItemToAskFor()) != null)
+                                {
+                                    employeeController.SetTableToAttend(tableToAttend);
+                                    tableToAttend.SetAttendedBy(employeeController);
+                                    break;
+                                }
                             }
                         }
                     }
                 }
+                catch (Exception e)
+                {
+                    GameLog.LogError("Exception thrown, GameController/AssignTablesToNPCs(): " + e);
+                }
+
+                yield return new WaitForSeconds(1f);
             }
-            catch (Exception e)
+        }
+
+        private GameGridObject GetAvailableItem(ItemType item)
+        {
+            foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
             {
-                GameLog.LogError("Exception thrown, GameController/AssignTablesToNPCs(): " + e);
+                if (GameObjectList.GetItemGivenStoreItem(g.Value.GetStoreGameObject().StoreItemType) == item &&
+                    g.Value.GetIsItemReady())
+                {
+                    g.Value.DiableTopInfoObject();
+                    return g.Value;
+                }
             }
-            yield return new WaitForSeconds(1f);
-        }
-    }
 
-    private GameGridObject GetAvailableItem(ItemType item)
-    {
-        GameGridObject objectFound = null;
-        foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
+            return null;
+        }
+
+        private void LoadUserObjects()
         {
-            if (GameObjectList.GetItemGivenStoreItem(g.Value.GetStoreGameObject().StoreItemType) == item &&
-            g.Value.GetIsItemReady())
+            // The user can store all the inventory 
+            if (PlayerData.GerUserObjects() == null)
             {
-                g.Value.DiableTopInfoObject();
-                return objectFound = g.Value;
+                return;
             }
-        }
-        return objectFound;
-    }
 
-    private void LoadUserObjects()
-    {
-        // The user can store all the inventory 
-        if (PlayerData.GerUserObjects() == null)
-        {
-            return;
-        }
-
-        foreach (DataGameObject obj in PlayerData.GerUserObjects())
-        {
-            if (!obj.IS_STORED)
+            foreach (DataGameObject obj in PlayerData.GerUserObjects())
             {
-                PlaceGameObjectAt(obj);
+                if (!obj.isStored)
+                {
+                    PlaceGameObjectAt(obj);
+                }
             }
         }
-    }
 
-    private void SpamNpc()
-    {
-        tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
-        Vector3 spamPosition = tileSpawn.GetWorldPositionWithOffset();
-        spamPosition.z = Util.NPCZPosition;
-        GameObject npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), spamPosition, Quaternion.identity) as GameObject;
-        npcObject.transform.SetParent(NPCS.transform);
-        npcObject.name = npcId + "-" + Settings.PrefabNpcClient;
-        ClientController isometricNPCController = npcObject.GetComponent<ClientController>();
-        ClientSet.Add(isometricNPCController);
-        npcId++;
-    }
-
-    private void SpamEmployee(GameGridObject counter)
-    {
-        tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
-        Vector3 spamPosition = tileSpawn.GetWorldPositionWithOffset();
-        spamPosition.z = Util.NPCZPosition;
-        GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)), spamPosition, Quaternion.identity) as GameObject;
-        employeeObject.transform.SetParent(NPCS.transform);
-        employeeObject.name = npcId + "-" + Settings.PrefabNpcEmployee;
-        EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
-        employeeController.SetCounter(counter);
-        counter.SetAssignedTo(employeeController);
-        EmployeeSet.Add(employeeController);
-        npcId++;
-    }
-
-    public void RemoveNpc(ClientController controller)
-    {
-        if (controller == null)
+        private void SpamNpc()
         {
-            return;
+            _tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
+            var spamPosition = _tileSpawn.GetWorldPositionWithOffset();
+            spamPosition.z = Util.Util.NpcPositionZ;
+            var npcObject = Instantiate(Resources.Load(Settings.PrefabNpcClient, typeof(GameObject)), spamPosition,
+                Quaternion.identity) as GameObject;
+            npcObject.transform.SetParent(_npcs.transform);
+            npcObject.name = _npcId + "-" + Settings.PrefabNpcClient;
+            var isometricNpcController = npcObject.GetComponent<ClientController>();
+            _clientSet.Add(isometricNpcController);
+            _npcId++;
         }
 
-        if (ClientSet.Contains(controller))
+        private void SpamEmployee(GameGridObject counter)
         {
-            ClientSet.Remove(controller);
+            _tileSpawn = BussGrid.GetRandomSpamPointWorldPosition();
+            Vector3 spamPosition = _tileSpawn.GetWorldPositionWithOffset();
+            spamPosition.z = Util.Util.NpcPositionZ;
+            GameObject employeeObject = Instantiate(Resources.Load(Settings.PrefabNpcEmployee, typeof(GameObject)),
+                spamPosition, Quaternion.identity) as GameObject;
+            employeeObject.transform.SetParent(_npcs.transform);
+            employeeObject.name = _npcId + "-" + Settings.PrefabNpcEmployee;
+            EmployeeController employeeController = employeeObject.GetComponent<EmployeeController>();
+            employeeController.SetCounter(counter);
+            counter.SetAssignedTo(employeeController);
+            _employeeSet.Add(employeeController);
+            _npcId++;
         }
-        else
-        {
-            GameLog.LogWarning("GameController/RemoveNPC NPC Controller does not exist");
-        }
-    }
 
-    public void RemoveEmployee(EmployeeController employeeController)
-    {
-        EmployeeSet.Remove(employeeController);
-    }
-
-    public bool PositionOverlapsNPC(Vector3Int position)
-    {
-        foreach (EmployeeController employeeController in EmployeeSet)
+        public void RemoveNpc(ClientController controller)
         {
-            if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) || position == employeeController.GetCoordOfTableToBeAttended())
+            if (controller == null)
             {
-                return true;
+                return;
             }
-        }
 
-        foreach (ClientController npcController in ClientSet)
-        {
-            Vector3Int npcPosition = BussGrid.GetPathFindingGridFromWorldPosition(npcController.transform.position);
-            if (npcPosition == position)
+            if (_clientSet.Contains(controller))
             {
-                return true;
+                _clientSet.Remove(controller);
             }
-        }
-        return false;
-    }
-
-    //Called when we click an object when we edit or when we store an object
-    //Recalculates the paths of moving NPCs or they current state depending on whether the grid changed
-    public void ReCalculateNpcStates(GameGridObject obj)
-    {
-        foreach (EmployeeController employeeController in EmployeeSet)
-        {
-            employeeController.RecalculateGoTo();
-        }
-
-        foreach (ClientController npcController in ClientSet)
-        {
-            npcController.RecalculateGoTo();
-        }
-    }
-
-    public HashSet<ClientController> GetNpcSet()
-    {
-        return ClientSet;
-    }
-
-    public HashSet<EmployeeController> GetEmployeeSet()
-    {
-        return EmployeeSet;
-    }
-
-    // Used for debug
-    public ClientController GetNPC(string ID)
-    {
-        foreach (ClientController npc in ClientSet)
-        {
-            if (npc.Name == ID)
+            else
             {
-                return npc;
+                GameLog.LogWarning("GameController/RemoveNPC NPC Controller does not exist");
             }
         }
-        return null;
-    }
-    // Used for debug
-    public EmployeeController GetEmployee(string ID)
-    {
-        foreach (EmployeeController npc in EmployeeSet)
+
+        public void RemoveEmployee(EmployeeController employeeController)
         {
-            if (npc.Name == ID)
+            _employeeSet.Remove(employeeController);
+        }
+
+        public bool PositionOverlapsNpc(Vector3Int position)
+        {
+            foreach (EmployeeController employeeController in _employeeSet)
             {
-                return npc;
+                if (position == BussGrid.GetPathFindingGridFromWorldPosition(employeeController.transform.position) ||
+                    position == employeeController.GetCoordOfTableToBeAttended())
+                {
+                    return true;
+                }
             }
-        }
-        return null;
-    }
 
-    public void PlaceGameObjectAt(DataGameObject obj)
-    {
-        StoreItemType type = (StoreItemType)obj.ID;
-        Vector3Int position = new Vector3Int(obj.POSITION[0], obj.POSITION[1]);
-        Vector3 worldPosition = BussGrid.GetWorldFromPathFindingGridPosition(position);
-        string prefab = GameObjectList.GetPrefab(type);
-
-        if (prefab == "")
-        {
-            return;
-        }
-
-        GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)), new Vector3(worldPosition.x, worldPosition.y, Util.ObjectZPosition), Quaternion.identity, BussGrid.TilemapGameFloor.transform) as GameObject;
-        BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
-        controller.SetDataGameObjectAndInitRotation(obj);
-        controller.SetStoreGameObject(GameObjectList.GetStoreObject((StoreItemType)obj.ID));
-    }
-
-    public void AddPlayerPositions(Vector3Int position)
-    {
-        playerPositionSet.Add(position);
-    }
-
-    public void RemovePlayerPosition(Vector3Int position)
-    {
-        playerPositionSet.Remove(position);
-    }
-
-    public HashSet<Vector3Int> GetPlayerPositionSet()
-    {
-        return playerPositionSet;
-    }
-
-    public void AddEmployeePlannedTarget(Vector3Int position)
-    {
-        employeePlannedTarget.Add(position);
-    }
-
-    public void RemoveEmployeePlannedTarget(Vector3Int position)
-    {
-        employeePlannedTarget.Remove(position);
-    }
-
-    public bool IsPathPlannedByEmployee(Vector3Int position)
-    {
-        return employeePlannedTarget.Contains(position);
-    }
-
-    public void PrintDebugEmployeePlannedPaths()
-    {
-        string debug = "PrintDebugEmployeePlannedPaths: " + employeePlannedTarget.Count;
-        foreach (Vector3Int pos in employeePlannedTarget)
-        {
-            debug += " " + pos + " ";
-        }
-        GameLog.Log(debug);
-    }
-
-    public void PrintDebugPlayerPositionsSet()
-    {
-        string debug = "PrintDebugPlayerPositionsSet: " + playerPositionSet.Count;
-        foreach (Vector3Int pos in playerPositionSet)
-        {
-            debug += " " + pos + " ";
-        }
-        GameLog.Log(debug);
-    }
-
-    // Returns a free table to the NPC, if there is one 
-    public bool GetFreeTable(out GameGridObject result)
-    {
-        result = null;
-        foreach (KeyValuePair<GameGridObject, byte> keyPair in TableHandler.GetBussQueueMap().ToArray())
-        {
-            GameGridObject tmp = keyPair.Key;
-
-            if (tmp == null)
+            foreach (ClientController npcController in _clientSet)
             {
-                continue;
+                Vector3Int npcPosition = BussGrid.GetPathFindingGridFromWorldPosition(npcController.transform.position);
+                if (npcPosition == position)
+                {
+                    return true;
+                }
             }
 
-            // GameLog.Log("GetFreeTable(): " +
-            // tmp.IsFree() + " " +
-            // !tmp.GetIsObjectBeingDragged() + " " +
-            // !tmp.GetBusy() + " " +
-            // !PlayerData.IsItemStored(tmp.Name) + " " +
-            // tmp.Name + " " +
-            // PlayerData.IsItemInInventory(tmp) + " " +
-            // tmp.GetIsItemBought() + " " +
-            // tmp.GetActive());
-
-            if (tmp.IsFree() &&
-            !tmp.GetIsObjectBeingDragged() &&
-            !tmp.GetBusy() &&
-            !PlayerData.IsItemStored(tmp.Name) &&
-            PlayerData.IsItemInInventory(tmp) &&
-            tmp.GetIsItemBought() &&
-            tmp.GetActive() &&
-            !tmp.GetIsObjectSelected())
-            {
-                result = tmp;
-                return true;
-            }
+            return false;
         }
-        return false;
-    }
 
-    // Returns a table to the NPC Employee, if there is one 
-    public bool GetTableWithClient(out GameGridObject result)
-    {
-        result = null;
-        foreach (KeyValuePair<GameGridObject, byte> keyPair in TableHandler.GetBussQueueMap().ToArray())
+        //Called when we click an object when we edit or when we store an object
+        //Recalculates the paths of moving NPCs or they current state depending on whether the grid changed
+        public void ReCalculateNpcStates(GameGridObject obj)
         {
-            GameGridObject tmp = keyPair.Key;
-
-            if (tmp == null)
+            foreach (EmployeeController employeeController in _employeeSet)
             {
-                continue;
+                employeeController.RecalculateGoTo();
             }
 
-            // GameLog.Log("GetTableWithClient(): " +
-            //  (tmp == null) + " " +
-            // !tmp.HasEmployeeAssigned() + " " +
-            // tmp.HasClient() + " " +
-            // !tmp.GetIsObjectBeingDragged() + " " +
-            // !PlayerData.IsItemStored(tmp.Name) + " " +
-            // (tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED) + " ");
-
-            if (
-            !tmp.HasAttendedBy() &&
-            tmp.HasClient() &&
-            !tmp.GetIsObjectBeingDragged() &&
-            !PlayerData.IsItemStored(tmp.Name) &&
-            tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED)
+            foreach (ClientController npcController in _clientSet)
             {
-                result = tmp;
-                return true;
+                npcController.RecalculateGoTo();
             }
         }
 
-        return false;
-    }
-
-    public static GameGridObject GetFreeCounter()
-    {
-        foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
+        public HashSet<ClientController> GetNpcSet()
         {
-            if (g.Value.GetIsItemBought() && !ObjectDraggingHandler.IsThisSelectedObject(g.Key) && !g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NPC_COUNTER)
-            {
-                return g.Value;
-            }
+            return _clientSet;
         }
-        return null;
-    }
+
+        public HashSet<EmployeeController> GetEmployeeSet()
+        {
+            return _employeeSet;
+        }
+
+        // Used for debug
+        public ClientController GetNpc(string id)
+        {
+            foreach (ClientController npc in _clientSet)
+            {
+                if (npc.Name == id)
+                {
+                    return npc;
+                }
+            }
+
+            return null;
+        }
+
+        // Used for debug
+        public EmployeeController GetEmployee(string id)
+        {
+            foreach (EmployeeController npc in _employeeSet)
+            {
+                if (npc.Name == id)
+                {
+                    return npc;
+                }
+            }
+
+            return null;
+        }
+
+        public void PlaceGameObjectAt(DataGameObject obj)
+        {
+            StoreItemType type = (StoreItemType)obj.id;
+            Vector3Int position = new Vector3Int(obj.position[0], obj.position[1]);
+            Vector3 worldPosition = BussGrid.GetWorldFromPathFindingGridPosition(position);
+            string prefab = GameObjectList.GetPrefab(type);
+
+            if (prefab == "")
+            {
+                return;
+            }
+
+            GameObject newObj = Instantiate(Resources.Load(prefab, typeof(GameObject)),
+                new Vector3(worldPosition.x, worldPosition.y, Util.Util.ObjectZPosition), Quaternion.identity,
+                BussGrid.TilemapGameFloor.transform) as GameObject;
+            BaseObjectController controller = newObj.GetComponent<BaseObjectController>();
+            controller.SetDataGameObjectAndInitRotation(obj);
+            controller.SetStoreGameObject(GameObjectList.GetStoreObject((StoreItemType)obj.id));
+        }
+
+        public void AddPlayerPositions(Vector3Int position)
+        {
+            _playerPositionSet.Add(position);
+        }
+
+        public void RemovePlayerPosition(Vector3Int position)
+        {
+            _playerPositionSet.Remove(position);
+        }
+
+        public HashSet<Vector3Int> GetPlayerPositionSet()
+        {
+            return _playerPositionSet;
+        }
+
+        public void AddEmployeePlannedTarget(Vector3Int position)
+        {
+            _employeePlannedTarget.Add(position);
+        }
+
+        public void RemoveEmployeePlannedTarget(Vector3Int position)
+        {
+            _employeePlannedTarget.Remove(position);
+        }
+
+        public bool IsPathPlannedByEmployee(Vector3Int position)
+        {
+            return _employeePlannedTarget.Contains(position);
+        }
+
+        public void PrintDebugEmployeePlannedPaths()
+        {
+            string debug = "PrintDebugEmployeePlannedPaths: " + _employeePlannedTarget.Count;
+            foreach (Vector3Int pos in _employeePlannedTarget)
+            {
+                debug += " " + pos + " ";
+            }
+
+            GameLog.Log(debug);
+        }
+
+        public void PrintDebugPlayerPositionsSet()
+        {
+            string debug = "PrintDebugPlayerPositionsSet: " + _playerPositionSet.Count;
+            foreach (Vector3Int pos in _playerPositionSet)
+            {
+                debug += " " + pos + " ";
+            }
+
+            GameLog.Log(debug);
+        }
+
+        // Returns a free table to the NPC, if there is one 
+        public bool GetFreeTable(out GameGridObject result)
+        {
+            result = null;
+            foreach (KeyValuePair<GameGridObject, byte> keyPair in TableHandler.GetBussQueueMap().ToArray())
+            {
+                GameGridObject tmp = keyPair.Key;
+
+                if (tmp == null)
+                {
+                    continue;
+                }
+
+                // GameLog.Log("GetFreeTable(): " +
+                // tmp.IsFree() + " " +
+                // !tmp.GetIsObjectBeingDragged() + " " +
+                // !tmp.GetBusy() + " " +
+                // !PlayerData.IsItemStored(tmp.Name) + " " +
+                // tmp.Name + " " +
+                // PlayerData.IsItemInInventory(tmp) + " " +
+                // tmp.GetIsItemBought() + " " +
+                // tmp.GetActive());
+
+                if (tmp.IsFree() &&
+                    !tmp.GetIsObjectBeingDragged() &&
+                    !tmp.GetBusy() &&
+                    !PlayerData.IsItemStored(tmp.Name) &&
+                    PlayerData.IsItemInInventory(tmp) &&
+                    tmp.GetIsItemBought() &&
+                    tmp.GetActive() &&
+                    !tmp.GetIsObjectSelected())
+                {
+                    result = tmp;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // Returns a table to the NPC Employee, if there is one 
+        public bool GetTableWithClient(out GameGridObject result)
+        {
+            result = null;
+            foreach (KeyValuePair<GameGridObject, byte> keyPair in TableHandler.GetBussQueueMap().ToArray())
+            {
+                GameGridObject tmp = keyPair.Key;
+
+                if (tmp == null)
+                {
+                    continue;
+                }
+
+                // GameLog.Log("GetTableWithClient(): " +
+                //  (tmp == null) + " " +
+                // !tmp.HasEmployeeAssigned() + " " +
+                // tmp.HasClient() + " " +
+                // !tmp.GetIsObjectBeingDragged() + " " +
+                // !PlayerData.IsItemStored(tmp.Name) + " " +
+                // (tmp.GetUsedBy().GetNpcState() == NpcState.WAITING_TO_BE_ATTENDED) + " ");
+
+                if (
+                    !tmp.HasAttendedBy() &&
+                    tmp.HasClient() &&
+                    !tmp.GetIsObjectBeingDragged() &&
+                    !PlayerData.IsItemStored(tmp.Name) &&
+                    tmp.GetUsedBy().GetNpcState() == NpcState.WaitingToBeAttended)
+                {
+                    result = tmp;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static GameGridObject GetFreeCounter()
+        {
+            foreach (KeyValuePair<string, GameGridObject> g in BussGrid.GetGameGridObjectsDictionary())
+            {
+                if (g.Value.GetIsItemBought() && !ObjectDraggingHandler.IsThisSelectedObject(g.Key) &&
+                    !g.Value.IsItemAssignedTo() && g.Value.Type == ObjectType.NpcCounter)
+                {
+                    return g.Value;
+                }
+            }
+
+            return null;
+        }
 
 
-    // Upgrades
-    public void UpdateClientNumber()
-    {
-        NpcMaxNumber = Settings.NpcMultiplayer * (PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS) == 0 ? 1 : PlayerData.GetUgrade(UpgradeType.NUMBER_CLIENTS));
+        // Upgrades
+        public void UpdateClientNumber()
+        {
+            _npcMaxNumber = Settings.NpcMultiplayer * (PlayerData.GetUgrade(UpgradeType.NumberClients) == 0
+                ? 1
+                : PlayerData.GetUgrade(UpgradeType.NumberClients));
+        }
     }
 }

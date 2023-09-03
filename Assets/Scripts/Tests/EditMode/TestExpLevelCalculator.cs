@@ -1,102 +1,109 @@
 using System;
+using Game.Players;
 using NUnit.Framework;
+using Util;
 
-public class TestExpLevelCalculator
+namespace Tests.EditMode
 {
-    [Test]
-    public void TestGetCurrentLevel()
+    public class TestExpLevelCalculator
     {
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(-1), 1);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(0), 1);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(1), 1);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(20), 1);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(21), 1);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(22), 1);
+        [Test]
+        public void TestGetCurrentLevel()
+        {
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(-1), 1);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(0), 1);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(1), 1);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(20), 1);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(21), 1);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(22), 1);
 
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(23), 2);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(30), 2);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(31), 2);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(23), 2);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(30), 2);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(31), 2);
 
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(32), 3);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(33), 3);
-        Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(34), 3);
-    }
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(32), 3);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(33), 3);
+            Assert.AreEqual(PlayerLevelCalculator.CurrentLevel(34), 3);
+        }
 
-    [Test]
-    public void TestGetExperienceFromGems()
-    {
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(0), 0.0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(-1), 0.0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(Double.MinValue), 0.0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(Double.MaxValue), 0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(Double.MaxValue / 8), 0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(Double.MaxValue / 8), 0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(1234124), 1234124 * 8);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(2), 2 * 8);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(1232), 1232 * 8);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(33), 33 * 8);
-    }
+        [Test]
+        public void TestGetExperienceFromGems()
+        {
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(0), 0.0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(-1), 0.0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(Double.MinValue), 0.0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(Double.MaxValue), 0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(Double.MaxValue / 8), 0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(Double.MaxValue / 8), 0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(1234124), 1234124 * 8);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(2), 2 * 8);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(1232), 1232 * 8);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromGemsSpent(33), 33 * 8);
+        }
 
-    [Test]
-    public void TestGetExperienceFromMoney()
-    {
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(0), 0.0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(-1), 0.0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(Double.MinValue), 0.0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(Double.MaxValue), 0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(Double.MaxValue / 2), 0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(Double.MaxValue / 2), 0);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(1234124), 1234124 * 2);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(2), 2 * 2);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(1232), 1232 * 2);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(33), 33 * 2);
-    }
+        [Test]
+        public void TestGetExperienceFromMoney()
+        {
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(0), 0.0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(-1), 0.0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(Double.MinValue), 0.0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(Double.MaxValue), 0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(Double.MaxValue / 2), 0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(Double.MaxValue / 2), 0);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(1234124), 1234124 * 2);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(2), 2 * 2);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(1232), 1232 * 2);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceFromMoneySpent(33), 33 * 2);
+        }
 
-    [Test]
-    public void TestGetExpToNextLevel()
-    {
-        Assert.AreEqual(PlayerLevelCalculator.GetExpToLevel(0), 20);
-        Assert.AreEqual(PlayerLevelCalculator.GetExpToLevel(int.MaxValue), PlayerLevelCalculator.GetExpToLevel(100));
+        [Test]
+        public void TestGetExpToNextLevel()
+        {
+            Assert.AreEqual(PlayerLevelCalculator.GetExpToLevel(0), 20);
+            Assert.AreEqual(PlayerLevelCalculator.GetExpToLevel(int.MaxValue),
+                PlayerLevelCalculator.GetExpToLevel(100));
 
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(Double.MaxValue), 0); // since not feseable we return 0
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(103936), 1); // level 48 =103937, 1 exp to 48
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(Double.MaxValue),
+                0); // since not feseable we return 0
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(103936), 1); // level 48 =103937, 1 exp to 48
 
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(343150), 10);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(342160), 1000);
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(333160), 10000);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(343150), 10);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(342160), 1000);
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevel(333160), 10000);
 
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(-23123), 0);
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(0), 0);
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(-23123), 0);
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(0), 0);
 
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(22), 1);
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(31), 2);
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(32), 3);
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(247), 6);
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(255), 7);
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(857584), 95);
-        Assert.AreEqual(PlayerLevelCalculator.GetLevel(857585), 96);
-    }
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(22), 1);
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(31), 2);
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(32), 3);
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(247), 6);
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(255), 7);
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(857584), 95);
+            Assert.AreEqual(PlayerLevelCalculator.GetLevel(857585), 96);
+        }
 
-    [Test]
-    public void TestGetExperiencePercentage()
-    {
-        //Base cases 0-22
-        GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19));
-        Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19) == 82);
-        GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21));
-        Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21) == 91);
+        [Test]
+        public void TestGetExperiencePercentage()
+        {
+            //Base cases 0-22
+            GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19));
+            Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(19) == 82);
+            GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21));
+            Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(21) == 91);
 
-        //Edge cases
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MinValue), 100); // 100%
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(-100), 100); // 100%
-        Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MaxValue), 100);
+            //Edge cases
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MinValue), 100); // 100%
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(-100), 100); // 100%
+            Assert.AreEqual(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(double.MaxValue), 100);
 
-        //General cases
-        GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851));
-        Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851) == 99); // 0.99f
+            //General cases
+            GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851));
+            Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(32851) == 99); // 0.99f
 
-        GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168));
-        Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168) == 57); // 0.99f
+            GameLog.Log(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168));
+            Assert.IsTrue(PlayerLevelCalculator.GetExperienceToNextLevelPercentage(53168) == 57); // 0.99f
+        }
     }
 }
 

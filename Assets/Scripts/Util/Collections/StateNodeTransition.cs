@@ -1,33 +1,36 @@
 using System;
 
-public class StateNodeTransition
+namespace Util.Collections
 {
-    // Same size as NpcStateTransitions
-    private bool[] StateTransitions { get; set; } //single 32 bit int
-
-    public Int32 StateTransitionsEncoded { get; set; }
-
-    public StateNodeTransition(bool[] nodeTransition)
+    public class StateNodeTransition
     {
-        StateTransitions = nodeTransition;
-        EncodeTransitions();
-    }
+        // Same size as NpcStateTransitions
+        private bool[] StateTransitions { get; set; } //single 32 bit int
 
-    private void EncodeTransitions()
-    {
-        StateTransitionsEncoded = 0;
+        public Int32 StateTransitionsEncoded { get; set; }
 
-        for (int i = 0; i < StateTransitions.Length; i++)
+        public StateNodeTransition(bool[] nodeTransition)
         {
-            if (StateTransitions[i])
+            StateTransitions = nodeTransition;
+            EncodeTransitions();
+        }
+
+        private void EncodeTransitions()
+        {
+            StateTransitionsEncoded = 0;
+
+            for (int i = 0; i < StateTransitions.Length; i++)
             {
-                StateTransitionsEncoded = BitUtil.SetBit(StateTransitionsEncoded, i);
+                if (StateTransitions[i])
+                {
+                    StateTransitionsEncoded = BitUtil.SetBit(StateTransitionsEncoded, i);
+                }
             }
         }
-    }
 
-    public void printBinaryRepresentation()
-    {
-        GameLog.Log("Binary representation: " + BitUtil.GetBinaryString(StateTransitionsEncoded));
+        public void PrintBinaryRepresentation()
+        {
+            GameLog.Log("Binary representation: " + BitUtil.GetBinaryString(StateTransitionsEncoded));
+        }
     }
 }

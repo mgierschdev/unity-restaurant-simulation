@@ -1,22 +1,25 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-public static class TableHandler
+namespace Game.Grid
 {
-    private static ConcurrentDictionary<GameGridObject, byte> BussQueueMap;
-
-    public static void Init()
+    public static class TableHandler
     {
-        BussQueueMap = new ConcurrentDictionary<GameGridObject, byte>();
-    }
+        private static ConcurrentDictionary<GameGridObject, byte> _bussQueueMap;
 
-    public static KeyValuePair<GameGridObject, byte>[] GetFreeBusinessSpots()
-    {
-        return BussQueueMap.ToArray();
-    }
+        public static void Init()
+        {
+            _bussQueueMap = new ConcurrentDictionary<GameGridObject, byte>();
+        }
 
-    public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
-    {
-        return BussQueueMap;
+        public static KeyValuePair<GameGridObject, byte>[] GetFreeBusinessSpots()
+        {
+            return _bussQueueMap.ToArray();
+        }
+
+        public static ConcurrentDictionary<GameGridObject, byte> GetBussQueueMap()
+        {
+            return _bussQueueMap;
+        }
     }
 }

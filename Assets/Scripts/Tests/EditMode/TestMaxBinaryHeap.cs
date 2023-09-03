@@ -1,60 +1,66 @@
 using NUnit.Framework;
+using Util;
+using Util.PathFinding;
 
-public class TestBinaryHeap
+namespace Tests.EditMode
 {
-    private MaxBinaryHeap heap;
-
-    [Test]
-    public void TestInsertElements()
+    public class TestBinaryHeap
     {
-        heap = new MaxBinaryHeap(100);
-        heap.Add(new PathNode(new int[] { 0, 1 }, 45));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 5));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 44));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 4));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 35));
-        Assert.AreEqual(heap.GetSize(), 5);
-    }
+        private MaxBinaryHeap _heap;
 
-    [Test]
-    public void TestPeekElements()
-    {
-        heap = new MaxBinaryHeap(100);
-        heap.Add(new PathNode(new int[] { 0, 1 }, 10));
-        Assert.AreEqual(heap.Peek().GetFCost(), 10);
-        heap.Add(new PathNode(new int[] { 0, 1 }, 20));
-        Assert.AreEqual(heap.Peek().GetFCost(), 20);
-        heap.Add(new PathNode(new int[] { 0, 1 }, 30));
-        Assert.AreEqual(heap.Peek().GetFCost(), 30);
-    }
-
-    [Test]
-    public void TestPeekExtractAndInsert()
-    {
-        heap = new MaxBinaryHeap(100);
-        heap.Add(new PathNode(new int[] { 0, 1 }, 45));
-        Assert.AreEqual(heap.GetSize(), 1);
-        heap.Add(new PathNode(new int[] { 0, 1 }, 555));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 44));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 4));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 35));
-        Assert.AreEqual(heap.Poll().GetFCost(), 555);
-        Assert.AreEqual(heap.Poll().GetFCost(), 45);
-        heap.Add(new PathNode(new int[] { 0, 1 }, 100));
-        heap.Add(new PathNode(new int[] { 0, 1 }, -5));
-        Assert.AreEqual(heap.Peek().GetFCost(), 100);
-        heap.Add(new PathNode(new int[] { 0, 1 }, 100));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 10));
-        heap.Add(new PathNode(new int[] { 0, 1 }, 104));
-        heap.Add(new PathNode(new int[] { 0, 1 }, -10));
-
-        PathNode node = heap.Poll();
-        for (int i = 0; i < heap.GetSize(); i++)
+        [Test]
+        public void TestInsertElements()
         {
-            PathNode p = heap.Poll();
-            GameLog.Log(p.GetFCost() + " > " + node.GetFCost());
-            Assert.GreaterOrEqual(node.GetFCost(), p.GetFCost());
-            node = p;
+            _heap = new MaxBinaryHeap(100);
+            _heap.Add(new PathNode(new[] { 0, 1 }, 45));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 5));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 44));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 4));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 35));
+            Assert.AreEqual(_heap.GetSize(), 5);
+        }
+
+        [Test]
+        public void TestPeekElements()
+        {
+            _heap = new MaxBinaryHeap(100);
+            _heap.Add(new PathNode(new[] { 0, 1 }, 10));
+            Assert.AreEqual(_heap.Peek().GetFCost(), 10);
+            _heap.Add(new PathNode(new[] { 0, 1 }, 20));
+            Assert.AreEqual(_heap.Peek().GetFCost(), 20);
+            _heap.Add(new PathNode(new[] { 0, 1 }, 30));
+            Assert.AreEqual(_heap.Peek().GetFCost(), 30);
+        }
+
+        [Test]
+        public void TestPeekExtractAndInsert()
+        {
+            _heap = new MaxBinaryHeap(100);
+            _heap.Add(new PathNode(new[] { 0, 1 }, 45));
+            Assert.AreEqual(_heap.GetSize(), 1);
+            _heap.Add(new PathNode(new[] { 0, 1 }, 555));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 44));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 4));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 35));
+            Assert.AreEqual(_heap.Poll().GetFCost(), 555);
+            Assert.AreEqual(_heap.Poll().GetFCost(), 45);
+            _heap.Add(new PathNode(new[] { 0, 1 }, 100));
+            _heap.Add(new PathNode(new[] { 0, 1 }, -5));
+            Assert.AreEqual(_heap.Peek().GetFCost(), 100);
+            _heap.Add(new PathNode(new[] { 0, 1 }, 100));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 10));
+            _heap.Add(new PathNode(new[] { 0, 1 }, 104));
+            _heap.Add(new PathNode(new[] { 0, 1 }, -10));
+
+            var node = _heap.Poll();
+
+            for (var i = 0; i < _heap.GetSize(); i++)
+            {
+                var p = _heap.Poll();
+                GameLog.Log(p.GetFCost() + " > " + node.GetFCost());
+                Assert.GreaterOrEqual(node.GetFCost(), p.GetFCost());
+                node = p;
+            }
         }
     }
 }

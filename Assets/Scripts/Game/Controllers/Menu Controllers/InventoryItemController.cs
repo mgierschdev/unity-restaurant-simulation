@@ -1,75 +1,81 @@
+using Game.Players;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Util;
 
-public class InventoryItemController : MonoBehaviour
+namespace Game.Controllers.Menu_Controllers
 {
-    private Button buyButton;
-    private GameObject img;
-    private Image background, imgComponent;
-    private GameObject priceTextGameObject, titleTextGameObject;
-    private TextMeshProUGUI priceText, titleText;
-    private StoreGameObject storeGameObject;
+    public class InventoryItemController : MonoBehaviour
+    {
+        private Button _buyButton;
+        private GameObject _img;
+        private Image _background, _imgComponent;
+        private GameObject _priceTextGameObject, _titleTextGameObject;
+        private TextMeshProUGUI _priceText, _titleText;
+        private StoreGameObject _storeGameObject;
 
-    void Awake()
-    {
-        buyButton = transform.GetComponent<Button>();
-        img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
-        GameObject gameObject = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
-        background = img.GetComponent<Image>();
-        priceTextGameObject = transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
-        titleTextGameObject = transform.Find(Settings.PrefabInventoryItemTextTitle).gameObject;
-        priceText = priceTextGameObject.GetComponent<TextMeshProUGUI>();
-        titleText = titleTextGameObject.GetComponent<TextMeshProUGUI>();
-        imgComponent = gameObject.GetComponent<Image>();
-    }
-    // Sets the Item image on the tab Menu for the current item
-    public void SetInventoryItem(StoreGameObject storeGameObject)
-    {
-        this.storeGameObject = storeGameObject;
-        transform.name = storeGameObject.StoreItemType.ToString();
-        Sprite sp = GameObjectList.ObjectSprites[storeGameObject.MenuItemSprite];
-        imgComponent.sprite = sp;
-        SetTitle(storeGameObject.Name);
-    }
+        void Awake()
+        {
+            _buyButton = transform.GetComponent<Button>();
+            _img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
+            var gameObjectItemImage = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
+            _background = _img.GetComponent<Image>();
+            _priceTextGameObject = transform.Find(Settings.PrefabInventoryItemTextPrice).gameObject;
+            _titleTextGameObject = transform.Find(Settings.PrefabInventoryItemTextTitle).gameObject;
+            _priceText = _priceTextGameObject.GetComponent<TextMeshProUGUI>();
+            _titleText = _titleTextGameObject.GetComponent<TextMeshProUGUI>();
+            _imgComponent = gameObjectItemImage.GetComponent<Image>();
+        }
 
-    public void SetPrice(string value)
-    {
-        priceText.text = TextUI.Price + ":" + value;
-    }
+        // Sets the Item image on the tab Menu for the current item
+        public void SetInventoryItem(StoreGameObject storeGameObject)
+        {
+            this._storeGameObject = storeGameObject;
+            transform.name = storeGameObject.StoreItemType.ToString();
+            Sprite sp = GameObjectList.ObjectSprites[storeGameObject.MenuItemSprite];
+            _imgComponent.sprite = sp;
+            SetTitle(storeGameObject.Name);
+        }
 
-    public void SetAmmount(string ammount)
-    {
-        priceText.text = TextUI.Ammount + ":" + ammount;
-    }
+        public void SetPrice(string value)
+        {
+            _priceText.text = TextUI.Price + ":" + value;
+        }
 
-    public void SetTitle(string title)
-    {
-        titleText.text = title;
-    }
+        public void SetAmmount(string ammount)
+        {
+            _priceText.text = TextUI.Amount + ":" + ammount;
+        }
 
-    public StoreGameObject GetStoreGameObject()
-    {
-        return storeGameObject;
-    }
+        public void SetTitle(string title)
+        {
+            _titleText.text = title;
+        }
 
-    public Button GetButton()
-    {
-        return buyButton;
-    }
+        public StoreGameObject GetStoreGameObject()
+        {
+            return _storeGameObject;
+        }
 
-    public void SetBackground(Color color)
-    {
-        background.color = color;
-    }
+        public Button GetButton()
+        {
+            return _buyButton;
+        }
 
-    public void SetUnavailable()
-    {
-        imgComponent.color = Util.DisableColor;
-    }
+        public void SetBackground(Color color)
+        {
+            _background.color = color;
+        }
 
-    public void SetAvailable()
-    {
-        imgComponent.color = Color.white;
+        public void SetUnavailable()
+        {
+            _imgComponent.color = Util.Util.DisableColor;
+        }
+
+        public void SetAvailable()
+        {
+            _imgComponent.color = Color.white;
+        }
     }
 }

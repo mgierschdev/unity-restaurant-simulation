@@ -1,15 +1,18 @@
-public class Pair<T, S>
+namespace Util.Collections
 {
-    public T Key { get; set; }
-    public S Value { get; set; }
-
-    public Pair()
+    public class Pair<T, TS>
     {
-    }
+        public T Key { get; set; }
+        public TS Value { get; set; }
 
-    public Pair(T Key, S Value)
-    {
-        this.Key = Key;
-        this.Value = Value;
+        public Pair()
+        {
+        }
+
+        public Pair(T key, TS value)
+        {
+            Key = key;
+            Value = value;
+        }
     }
 }

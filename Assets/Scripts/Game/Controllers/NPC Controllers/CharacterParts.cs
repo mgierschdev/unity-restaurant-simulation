@@ -1,21 +1,24 @@
-public static class CharacterParts
+namespace Game.Controllers.NPC_Controllers
 {
-    public static string Head = "Head-1";
-    public static string Body = "Body-1";
-    public static string ArmRight = "Arm-Right-1";
-    public static string ArmLeft = "Arm-Left-1";
-    public static string Waist = "Waist-1";
-    public static string FootLeft = "Foot-Left-1";
-    public static string FootRight = "Foot-Right-1";
-    public static string LegRight = "Leg-Right-1";
-    public static string LegLeft = "Leg-Left-1";
-}
+    public static class CharacterParts
+    {
+        public static readonly string Head = "Head-1";
+        public static readonly string Body = "Body-1";
+        public static readonly string ArmRight = "Arm-Right-1";
+        public static readonly string ArmLeft = "Arm-Left-1";
+        public static readonly string Waist = "Waist-1";
+        public static readonly string FootLeft = "Foot-Left-1";
+        public static readonly string FootRight = "Foot-Right-1";
+        public static readonly string LegRight = "Leg-Right-1";
+        public static readonly string LegLeft = "Leg-Left-1";
+    }
 
-public enum CharacterType
-{
-    EMPLOYEE = 1,
-    CLIENT_1 = 2,
-    CLIENT_2 = 3,
-    CLIENT_3 = 4,
-    CLIENT_4 = 5
+    public enum CharacterType
+    {
+        Employee = 1,
+        Client1 = 2,
+        Client2 = 3,
+        Client3 = 4,
+        Client4 = 5
+    }
 }

@@ -1,8 +1,13 @@
-interface IBaseGameCollections
+using Util.PathFinding;
+
+namespace Util.Collections
 {
-    int GetSize();
-    bool IsEmpty();
-    PathNode Peek();
-    PathNode Poll();
-    void Add(PathNode node);
+    interface IBaseGameCollections
+    {
+        int GetSize();
+        bool IsEmpty();
+        PathNode Peek();
+        PathNode Poll();
+        void Add(PathNode node);
+    }
 }

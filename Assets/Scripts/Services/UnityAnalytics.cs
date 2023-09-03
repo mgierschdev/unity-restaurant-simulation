@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using Unity.Services.Analytics;
 
-public static class UnityAnalytics
+namespace Services
 {
-    public static void PublishEvent(string eventName, Dictionary<string, object> dictionary)
+    public static class UnityAnalytics
     {
-        AnalyticsService.Instance.CustomData(eventName, dictionary);
-        AnalyticsService.Instance.Flush();
+        public static void PublishEvent(string eventName, Dictionary<string, object> dictionary)
+        {
+            AnalyticsService.Instance.CustomData(eventName, dictionary);
+            AnalyticsService.Instance.Flush();
+        }
     }
 }

@@ -1,261 +1,265 @@
 //Item types
 // to reference the type of object, each with different properties
-public enum ObjectType
+
+namespace Util
 {
-    OBSTACLE = 1,
-    CLIENT = 2,
-    PLAYER = 3,
-    EMPLOYEE = 4,
-    NPC_COUNTER = 5,
-    FLOOR = 6,
-    NPC_SINGLE_TABLE = 7,
-    STORE_ITEM = 8,
-    UPGRADE_ITEM = 9,
-    COIN = 10,
-    UNDEFINED = 999
-}
+    public enum ObjectType
+    {
+        Obstacle = 1,
+        Client = 2,
+        Player = 3,
+        Employee = 4,
+        NpcCounter = 5,
+        Floor = 6,
+        NpcSingleTable = 7,
+        StoreItem = 8,
+        UpgradeItem = 9,
+        Coin = 10,
+        Undefined = 999
+    }
 
 // it should preserve the number order since it is used on the backend database
 // Front = Facing Unity camera
 // Back = Opposite side from the camera
-public enum ObjectRotation
-{
-    BACK = 1,
-    BACK_INVERTED = 2,
-    FRONT = 3,
-    FRONT_INVERTED = 4,
-    UNDEFINED = 999
-}
+    public enum ObjectRotation
+    {
+        Back = 1,
+        BackInverted = 2,
+        Front = 3,
+        FrontInverted = 4,
+        Undefined = 999
+    }
 
 // To reference from fileNames to object names
-public enum TileType
-{
-    SPAM_POINT = 1,
-    WALKABLE_PATH = 2,
-    FLOOR_3 = 3,
-    BUS_FLOOR = 4,
-    FLOOR_OBSTACLE = 5,
-    FLOOR_MEDIUM_HORIZONTAL_OBSTACLE = 6,
-    FLOOR_MEDIUM_VERTICAL_OBSTACLE = 7,
-    FLOOR_SHORT_HORIZONTAL_OBSTACLE = 8,
-    FLOOR_SHORT_VERTICAL_OBSTACLE = 9,
-    ISOMETRIC_GRID_TILE = 10,
-    ISOMETRIC_SINGLE_SQUARE_OBJECT = 11,
-    ISOMETRIC_FOUR_SQUARE_OBJECT = 12,
-    WALL = 13,
-    FLOOR_EDIT = 14,
-    UNDEFINED = 999
-}
+    public enum TileType
+    {
+        SpamPoint = 1,
+        WalkablePath = 2,
+        Floor3 = 3,
+        BusFloor = 4,
+        FloorObstacle = 5,
+        FloorMediumHorizontalObstacle = 6,
+        FloorMediumVerticalObstacle = 7,
+        FloorShortHorizontalObstacle = 8,
+        FloorShortVerticalObstacle = 9,
+        IsometricGridTile = 10,
+        IsometricSingleSquareObject = 11,
+        IsometricFourSquareObject = 12,
+        Wall = 13,
+        FloorEdit = 14,
+        Undefined = 999
+    }
 
 //Players and NPCs move directions
-public enum MoveDirection
-{
-    IDLE = 0,
-    UP = 1,
-    DOWN = 2,
-    LEFT = 3,
-    RIGHT = 4,
-    UPLEFT = 5,
-    UPRIGHT = 6,
-    DOWNLEFT = 7,
-    DOWNRIGHT = 8
-}
+    public enum MoveDirection
+    {
+        Idle = 0,
+        Up = 1,
+        Down = 2,
+        Left = 3,
+        Right = 4,
+        UpLeft = 5,
+        Upright = 6,
+        DownLeft = 7,
+        Downright = 8
+    }
 
 // NPC transition attributes
-public enum NpcStateTransitions
-{
-    TABLE_AVAILABLE = 0,
-    TABLE_MOVED = 1,
-    WALK_TO_UNRESPAWN = 2,
-    WAITING_AT_TABLE = 3,
-    COUNTER_AVAILABLE = 4,
-    ORDER_SERVED = 5,
-    AT_COUNTER = 6,
-    AT_TABLE = 7,
-    COUNTER_MOVED = 8,
-    WANDER = 9,
-    REGISTERING_CASH = 10,
-    ATTENDED = 11,
-    BEING_ATTENDED = 12,
-    CASH_REGISTERED = 13,
-    MOVING_TO_UNSRESPAWN = 14,
-    AT_COUNTER_FINAL = 15,
-    WANDER_TO_IDLE = 16,
-    EATING_FOOD = 17,
-    FINISHED_EATING = 18
-}
+    public enum NpcStateTransitions
+    {
+        TableAvailable = 0,
+        TableMoved = 1,
+        WalkToUnRespawn = 2,
+        WaitingAtTable = 3,
+        CounterAvailable = 4,
+        OrderServed = 5,
+        AtCounter = 6,
+        AtTable = 7,
+        CounterMoved = 8,
+        Wander = 9,
+        RegisteringCash = 10,
+        Attended = 11,
+        BeingAttended = 12,
+        CashRegistered = 13,
+        MovingToUnsRespawn = 14,
+        AtCounterFinal = 15,
+        WanderToIdle = 16,
+        EatingFood = 17,
+        FinishedEating = 18
+    }
 
 //Players and NPCs, to set the NPC to wander or other states
-public enum NpcState
-{
-    IDLE = 0,
-    WALKING_TO_TABLE = 1,
-    AT_TABLE = 2,
-    WALKING_TO_COUNTER = 3,
-    AT_COUNTER = 4,
-    AT_COUNTER_FINAL = 5,
-    TAKING_ORDER = 6,
-    WAITING_TO_BE_ATTENDED = 7,
-    WALKING_UNRESPAWN = 8,
-    WALKING_TO_COUNTER_AFTER_ORDER = 9,
-    REGISTERING_CASH = 10,
-    WAITING_TO_BE_ATTENDED_ANIMATION = 11,
-    WANDER = 12,
-    WAITING_FOR_ENERGY_BAR_TAKING_ORDER = 13,
-    WAITING_FOR_ENERGY_BAR_REGISTERING_CASH = 14,
-    WALKING = 15,
-    BEING_ATTENDED = 16,
-    ATTENDED = 17,
-    EATING_FOOD = 18
-}
+    public enum NpcState
+    {
+        Idle = 0,
+        WalkingToTable = 1,
+        AtTable = 2,
+        WalkingToCounter = 3,
+        AtCounter = 4,
+        AtCounterFinal = 5,
+        TakingOrder = 6,
+        WaitingToBeAttended = 7,
+        WalkingUnRespawn = 8,
+        WalkingToCounterAfterOrder = 9,
+        RegisteringCash = 10,
+        WaitingToBeAttendedAnimation = 11,
+        Wander = 12,
+        WaitingForEnergyBarTakingOrder = 13,
+        WaitingForEnergyBarRegisteringCash = 14,
+        Walking = 15,
+        BeingAttended = 16,
+        Attended = 17,
+        EatingFood = 18
+    }
 
 // List of Menus
-public enum MenuTab
-{
-    STORE_ITEMS = 1,
-    UPGRADE = 2,
-    STORAGE_TAB = 3,
-    SETTINGS_TAB = 4,
-    TABLES_TAB = 5,
-    SNACKS_TAB = 6
-    //TUTORIAL_TAB = 5
-}
+    public enum MenuTab
+    {
+        StoreItems = 1,
+        Upgrade = 2,
+        StorageTab = 3,
+        SettingsTab = 4,
+        TablesTab = 5,
+        SnacksTab = 6
+        //TUTORIAL_TAB = 5
+    }
 
 //Menu Types
-public enum MenuType
-{
-    TAB_MENU,
-    DIALOG
-}
+    public enum MenuType
+    {
+        TabMenu,
+        Dialog
+    }
 
 // Object deifnition in in MenuObjectList.cs
 // it should preserve the number order since it is used on the BACKEND database
 // If adding more than the reserved number update the methods on the GameObjectList, IsCounter, IsTable, IsSnack..
-public enum StoreItemType
-{
-    UPGRADE_ITEM = 0,
-    TABLE_SINGLE_1 = 1,
-    TABLE_SINGLE_2 = 2,
-    TABLE_SINGLE_3 = 3,
-    TABLE_SINGLE_4 = 4,
-    TABLE_SINGLE_5 = 5,
-    TABLE_SINGLE_6 = 6,
-    TABLE_SINGLE_7 = 7,
-    TABLE_SINGLE_8 = 8,
-    TABLE_SINGLE_9 = 9,
-    TABLE_SINGLE_10 = 10,
-    COUNTER_1 = 11,
-    COUNTER_2 = 12,
-    COUNTER_3 = 13,
-    COUNTER_4 = 14,
-    COUNTER_5 = 15,
-    COUNTER_6 = 16,
-    COUNTER_7 = 17,
-    COUNTER_8 = 18,
-    COUNTER_9 = 19,
-    COUNTER_10 = 20,
-    SNACK_MACHINE_1 = 21,
-    SNACK_MACHINE_2 = 22,
-    SNACK_MACHINE_3 = 23,
-    SNACK_MACHINE_4 = 24,
-    SNACK_MACHINE_5 = 25,
-    SNACK_MACHINE_6 = 26,
-    SNACK_MACHINE_7 = 27,
-    SNACK_MACHINE_8 = 28,
-    SNACK_MACHINE_9 = 29,
-    SNACK_MACHINE_10 = 30,
-    KITCHEN_1 = 31,
-    KITCHEN_2 = 32,
-    KITCHEN_3 = 33,
-    KITCHEN_4 = 34,
-    KITCHEN_5 = 35,
-    KITCHEN_6 = 36,
-    KITCHEN_7 = 37,
-    KITCHEN_8 = 38,
-    KITCHEN_9 = 39,
-    KITCHEN_10 = 40,
-    DECORATION_1 = 41,
-    DECORATION_2 = 42,
-    DECORATION_3 = 43,
-    DECORATION_4 = 44,
-    DECORATION_5 = 45,
-    DECORATION_6 = 46,
-    DECORATION_7 = 47,
-    DECORATION_8 = 48,
-    DECORATION_9 = 49,
-    DECORATION_10 = 50,
-    OTHER_1 = 51,
-    OTHER_2 = 52,
-    OTHER_3 = 53,
-    OTHER_4 = 54,
-    OTHER_5 = 55,
-    OTHER_6 = 56,
-    OTHER_7 = 57,
-    OTHER_8 = 58,
-    OTHER_9 = 59,
-    OTHER_10 = 60,
-    UNDEFINED = 999
-}
+    public enum StoreItemType
+    {
+        UpgradeItem = 0,
+        TableSingle1 = 1,
+        TableSingle2 = 2,
+        TableSingle3 = 3,
+        TableSingle4 = 4,
+        TableSingle5 = 5,
+        TableSingle6 = 6,
+        TableSingle7 = 7,
+        TableSingle8 = 8,
+        TableSingle9 = 9,
+        TableSingle10 = 10,
+        Counter1 = 11,
+        Counter2 = 12,
+        Counter3 = 13,
+        Counter4 = 14,
+        Counter5 = 15,
+        Counter6 = 16,
+        Counter7 = 17,
+        Counter8 = 18,
+        Counter9 = 19,
+        Counter10 = 20,
+        SnackMachine1 = 21,
+        SnackMachine2 = 22,
+        SnackMachine3 = 23,
+        SnackMachine4 = 24,
+        SnackMachine5 = 25,
+        SnackMachine6 = 26,
+        SnackMachine7 = 27,
+        SnackMachine8 = 28,
+        SnackMachine9 = 29,
+        SnackMachine10 = 30,
+        Kitchen1 = 31,
+        Kitchen2 = 32,
+        Kitchen3 = 33,
+        Kitchen4 = 34,
+        Kitchen5 = 35,
+        Kitchen6 = 36,
+        Kitchen7 = 37,
+        Kitchen8 = 38,
+        Kitchen9 = 39,
+        Kitchen10 = 40,
+        Decoration1 = 41,
+        Decoration2 = 42,
+        Decoration3 = 43,
+        Decoration4 = 44,
+        Decoration5 = 45,
+        Decoration6 = 46,
+        Decoration7 = 47,
+        Decoration8 = 48,
+        Decoration9 = 49,
+        Decoration10 = 50,
+        Other1 = 51,
+        Other2 = 52,
+        Other3 = 53,
+        Other4 = 54,
+        Other5 = 55,
+        Other6 = 56,
+        Other7 = 57,
+        Other8 = 58,
+        Other9 = 59,
+        Other10 = 60,
+        Undefined = 999
+    }
 
 // Research items, intended to be 0 indexed, same as DB
-public enum UpgradeType
-{
-    GRID_SIZE = 0,
-    NUMBER_WAITERS = 1,
-    WAITER_SPEED = 2,
-    NUMBER_CLIENTS = 3,
-    CLIENT_SPEED = 4,
-    ORDER_COST_PERCENTAGE = 5,
-    UPGRADE_AUTO_LOAD = 6,
-    UPGRADE_LOAD_SPEED = 7
-}
+    public enum UpgradeType
+    {
+        GridSize = 0,
+        NumberWaiters = 1,
+        WaiterSpeed = 2,
+        NumberClients = 3,
+        ClientSpeed = 4,
+        OrderCostPercentage = 5,
+        UpgradeAutoLoad = 6,
+        UpgradeLoadSpeed = 7
+    }
 
 // Items given the type of store item
-public enum ItemType
-{
-    ORANGE_JUICE = 1,
-    UNDEFINED = 999
-}
+    public enum ItemType
+    {
+        OrangeJuice = 1,
+        Undefined = 999
+    }
 
 // Auth source
 // it should preserve the number order since it is used on the Firestore database
-public enum AuthSource
-{
-    GOOGLE_PLAY = 1,
-    ANONYMOUS = 2,
-    UNDEFINED = 999
-}
+    public enum AuthSource
+    {
+        GooglePlay = 1,
+        Anonymous = 2,
+        Undefined = 999
+    }
 
-public enum CharacterSide
-{
-    LEFT = 0,
-    RIGHT = 1
-}
+    public enum CharacterSide
+    {
+        Left = 0,
+        Right = 1
+    }
 
-public enum CellValue
-{
-    NPC_POSITION = -2,
-    ACTION_POINT = -1,
-    EMPTY = 0,
-    BUSY = 1,
-    VISITED = 2 //For DFS operations,
-}
+    public enum CellValue
+    {
+        NpcPosition = -2,
+        ActionPoint = -1,
+        Empty = 0,
+        Busy = 1,
+        Visited = 2 //For DFS operations,
+    }
 
-public enum NPCAnimatorState
-{
-    Walking = 0,
-    Idle = 1,
-    IdleTry = 2,
-    WaitingAtTable = 3,
-    WalkingToTable = 4,
-    EatingAtTable = 5
-}
+    public enum NpcAnimatorState
+    {
+        Walking = 0,
+        Idle = 1,
+        IdleTry = 2,
+        WaitingAtTable = 3,
+        WalkingToTable = 4,
+        EatingAtTable = 5
+    }
 
-public enum PlayerStats
-{
-    MONEY = 1,
-    MONEY_SPENT = 2,
-    TIME_PLAYED = 3,
-    CLIENTS_ATTENDED = 4,
-    ITEMS_BOUGHT = 5
+    public enum PlayerStats
+    {
+        Money = 1,
+        MoneySpent = 2,
+        TimePlayed = 3,
+        ClientsAttended = 4,
+        ItemsBought = 5
+    }
 }

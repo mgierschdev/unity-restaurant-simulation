@@ -1,15 +1,22 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[Serializable]
-public class DataStatsGameObject
+namespace Game.Players.Model
 {
-    [SerializeField]
-    public Double MONEY_EARNED;
-    [SerializeField]
-    public Double MONEY_SPENT;
-    [SerializeField]
-    public int CLIENTS_ATTENDED;
-    [SerializeField]
-    public int ITEMS_BOUGHT;
+    [Serializable]
+    public class DataStatsGameObject
+    {
+        [FormerlySerializedAs("MONEY_EARNED")] [SerializeField]
+        public Double moneyEarned;
+
+        [FormerlySerializedAs("MONEY_SPENT")] [SerializeField]
+        public Double moneySpent;
+
+        [FormerlySerializedAs("CLIENTS_ATTENDED")] [SerializeField]
+        public int clientsAttended;
+
+        [FormerlySerializedAs("ITEMS_BOUGHT")] [SerializeField]
+        public int itemsBought;
+    }
 }

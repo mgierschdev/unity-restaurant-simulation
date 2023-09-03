@@ -1,8 +1,8 @@
 // using GooglePlayGames;
 // using GooglePlayGames.BasicApi;
 // using UnityEngine;
-
-
+//
+//
 // // Google play auth
 // public class AuthController : MonoBehaviour
 // {
@@ -12,7 +12,7 @@
 //         PlayGamesPlatform.Activate();
 //         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
 //     }
-
+//
 //     internal void ProcessAuthentication(SignInStatus status)
 //     {
 //         if (status == SignInStatus.Success)
