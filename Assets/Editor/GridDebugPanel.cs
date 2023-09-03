@@ -1,4 +1,4 @@
-#if (UNITY_EDITOR) 
+#if (UNITY_EDITOR)
 
 using System.Collections.Generic;
 using Unity.EditorCoroutines.Editor;
@@ -8,288 +8,291 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using IEnumerator = System.Collections.IEnumerator;
 
-public class GridDebugPanel : EditorWindow
+namespace Editor
 {
-    [SerializeField]
-    private bool isGameSceneLoaded, gridDebugEnabled;
-    private Label gridDebugContent;
-    private VisualElement gridDisplay, mainContainer, ClientContainerGraphDebuger, EmployeeContainerGraphDebuger;
-    private TemplateContainer templateContainer;
-    private Button buttonStartDebug;
-    private GameController gameController;
-    private const string EMPTY_CELL_STYLE = "grid-cell-empty",
-    BUSY_CELL_STYLE = "grid-cell-busy",
-    ACTION_CELL_STYLE = "grid-cell-action",
-    NPC_BUSY_CELL_STYLE = "grid-cell-npc";
-
-    [UnityEditor.MenuItem(Settings.gameName + "/Play: First Scene")]
-    public static void RunMainScene()
+    public class GridDebugPanel : EditorWindow
     {
-        EditorSceneManager.OpenScene("Assets/Scenes/" + Settings.LoadScene + ".unity");
-        EditorApplication.isPlaying = true;
-    }
+        [SerializeField]
+        private bool isGameSceneLoaded, gridDebugEnabled;
+        private Label _gridDebugContent;
+        private VisualElement _gridDisplay, _mainContainer, _clientContainerGraphDebugger, _employeeContainerGraphDebugger;
+        private TemplateContainer _templateContainer;
+        private Button _buttonStartDebug;
+        private GameController _gameController;
+        private const string EmptyCellStyle = "grid-cell-empty",
+            BusyCellStyle = "grid-cell-busy",
+            ActionCellStyle = "grid-cell-action",
+            NpcBusyCellStyle = "grid-cell-npc";
 
-    [UnityEditor.MenuItem(Settings.gameName + "/Debug: Grid Panel")]
-    public static void ShowExample()
-    {
-        GridDebugPanel wnd = GetWindow<GridDebugPanel>();
-        wnd.titleContent = new GUIContent("Grid Debug Panel");
-    }
-
-    public void CreateGUI()
-    {
-        gridDebugEnabled = false;
-        isGameSceneLoaded = false;
-
-        // Setting up: Editor window UI parameters
-        // Each editor window contains a root VisualElement object
-        VisualElement root = rootVisualElement;
-        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(Settings.IsometricWorldDebugUI);
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(Settings.IsometricWorldDebugUIStyles);
-        templateContainer = visualTree.Instantiate();
-        root.Add(templateContainer);
-        templateContainer.styleSheets.Add(styleSheet);
-        buttonStartDebug = templateContainer.Q<Button>(Settings.DebugStartButton);
-        buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
-        buttonStartDebug.text = "In order to start, enter in Play mode. GameScene.";
-        gridDebugContent = templateContainer.Q<Label>(Settings.GridDebugContent);
-        gridDisplay = templateContainer.Q<VisualElement>(Settings.GridDisplay);
-        mainContainer = templateContainer.Q<VisualElement>(Settings.MainContainer);
-        EditorCoroutineUtility.StartCoroutine(UpdateUICoroutine(), this);
-        mainContainer.SetEnabled(false);
-    }
-
-    // IEnumerator to not refresh the UI on the Update which is computational expensive 
-    private IEnumerator UpdateUICoroutine()
-    {
-        for (; ; )
+        [UnityEditor.MenuItem(Settings.gameName + "/Play: First Scene")]
+        public static void RunMainScene()
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            EditorSceneManager.OpenScene("Assets/Scenes/" + Settings.LoadScene + ".unity");
+            EditorApplication.isPlaying = true;
+        }
+
+        [UnityEditor.MenuItem(Settings.gameName + "/Debug: Grid Panel")]
+        public static void ShowExample()
+        {
+            GridDebugPanel wnd = GetWindow<GridDebugPanel>();
+            wnd.titleContent = new GUIContent("Grid Debug Panel");
+        }
+
+        public void CreateGUI()
+        {
+            gridDebugEnabled = false;
+            isGameSceneLoaded = false;
+
+            // Setting up: Editor window UI parameters
+            // Each editor window contains a root VisualElement object
+            VisualElement root = rootVisualElement;
+            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(Settings.IsometricWorldDebugUI);
+            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(Settings.IsometricWorldDebugUIStyles);
+            _templateContainer = visualTree.Instantiate();
+            root.Add(_templateContainer);
+            _templateContainer.styleSheets.Add(styleSheet);
+            _buttonStartDebug = _templateContainer.Q<Button>(Settings.DebugStartButton);
+            _buttonStartDebug.RegisterCallback<ClickEvent>(SetButtonBehaviour);
+            _buttonStartDebug.text = "In order to start, enter in Play mode. GameScene.";
+            _gridDebugContent = _templateContainer.Q<Label>(Settings.GridDebugContent);
+            _gridDisplay = _templateContainer.Q<VisualElement>(Settings.GridDisplay);
+            _mainContainer = _templateContainer.Q<VisualElement>(Settings.MainContainer);
+            EditorCoroutineUtility.StartCoroutine(UpdateUICoroutine(), this);
+            _mainContainer.SetEnabled(false);
+        }
+
+        // IEnumerator to not refresh the UI on the Update which is computational expensive 
+        private IEnumerator UpdateUICoroutine()
+        {
+            for (; ; )
             {
-                // TODO: and scene is the game scene
-                if (gridDebugEnabled)
+                if (EditorApplication.isPlayingOrWillChangePlaymode)
                 {
-                    if (gameController == null)
+                    // TODO: and scene is the game scene
+                    if (gridDebugEnabled)
                     {
-                        GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
-                        gameController = gameObj.GetComponent<GameController>();
+                        if (_gameController == null)
+                        {
+                            GameObject gameObj = GameObject.Find(Settings.ConstParentGameObject);
+                            _gameController = gameObj.GetComponent<GameController>();
+                        }
+
+                        SetBussGrid();
+                        string debugText = " ";
+                        debugText += DebugBussData();
+                        debugText += SetPlayerData();
+                        _gridDebugContent.text = debugText;
+                    }
+                    else
+                    {
+                        _gridDebugContent.text = "";
+                        _gridDisplay.Clear();
+                    }
+                }
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        // This iterates all buttons 
+        private void SetupButtonHandler()
+        {
+            var buttons = rootVisualElement.Query<Button>();
+            buttons.ForEach(RegisterHandler);
+        }
+
+        private void RegisterHandler(Button button)
+        {
+            button.RegisterCallback<ClickEvent>(SetButtonBehaviour);
+        }
+
+        private void SetButtonBehaviour(ClickEvent evt)
+        {
+            if (!EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                return;
+            }
+
+            Button button = evt.currentTarget as Button;
+
+            if (gridDebugEnabled)
+            {
+                button.text = "Start Debug";
+                gridDebugEnabled = false;
+                _mainContainer.SetEnabled(false);
+                _gridDisplay.Clear();
+                _gridDebugContent.text = "";
+            }
+            else
+            {
+                button.text = "Stop Debug";
+                gridDebugEnabled = true;
+                _mainContainer.SetEnabled(true);
+            }
+        }
+        private void Update()
+        {
+            if (EditorSceneManager.GetActiveScene().name != Settings.GameScene)
+            {
+                return;
+            }
+
+            if (!isGameSceneLoaded)
+            {
+                //Loading grid controller
+                gridDebugEnabled = false;
+                isGameSceneLoaded = true;
+            }
+        }
+
+        private void SetBussGrid()
+        {
+            int[,] grid = BussGrid.GetGridArray();
+            int[,] busGrid = BussGrid.GetBussGridWithinGrid();
+
+            // Traspose
+            for (int i = 0; i < busGrid.GetLength(0); i++)
+            {
+                for (int j = 0; j < busGrid.GetLength(1); j++)
+                {
+                    if (BussGrid.GameController.GetPlayerPositionSet().Contains(new Vector3Int(i, j, 0)))
+                    {
+                        busGrid[i, j] = -2;
+                    }
+                    else
+                    {
+                        busGrid[i, j] = grid[i, j];
+                    }
+                }
+            }
+
+            int[,] newGrid = Util.TransposeGridForDebugging(busGrid);
+
+            // We set the Display
+            // We set the max size of the editor display
+            _gridDisplay.style.width = grid.GetLength(0) * 30;
+            // We clean prev childs
+            _gridDisplay.Clear();
+
+            for (int i = 10; i < newGrid.GetLength(0) - 5; i++)
+            {
+                for (int j = 0; j < newGrid.GetLength(1); j++)
+                {
+                    VisualElement cell = new VisualElement();
+                    _gridDisplay.Add(cell);
+
+                    if (newGrid[i, j] == (int)CellValue.NPC_POSITION)
+                    {
+                        cell.AddToClassList(NpcBusyCellStyle);
+                        continue;
                     }
 
-                    SetBussGrid();
-                    string debugText = " ";
-                    debugText += DebugBussData();
-                    debugText += SetPlayerData();
-                    gridDebugContent.text = debugText;
-                }
-                else
-                {
-                    gridDebugContent.text = "";
-                    gridDisplay.Clear();
-                }
-            }
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
-    // This iterates all buttons 
-    private void SetupButtonHandler()
-    {
-        var buttons = rootVisualElement.Query<Button>();
-        buttons.ForEach(RegisterHandler);
-    }
-
-    private void RegisterHandler(Button button)
-    {
-        button.RegisterCallback<ClickEvent>(SetButtonBehaviour);
-    }
-
-    private void SetButtonBehaviour(ClickEvent evt)
-    {
-        if (!EditorApplication.isPlayingOrWillChangePlaymode)
-        {
-            return;
-        }
-
-        Button button = evt.currentTarget as Button;
-
-        if (gridDebugEnabled)
-        {
-            button.text = "Start Debug";
-            gridDebugEnabled = false;
-            mainContainer.SetEnabled(false);
-            gridDisplay.Clear();
-            gridDebugContent.text = "";
-        }
-        else
-        {
-            button.text = "Stop Debug";
-            gridDebugEnabled = true;
-            mainContainer.SetEnabled(true);
-        }
-    }
-    private void Update()
-    {
-        if (EditorSceneManager.GetActiveScene().name != Settings.GameScene)
-        {
-            return;
-        }
-
-        if (!isGameSceneLoaded)
-        {
-            //Loading grid controller
-            gridDebugEnabled = false;
-            isGameSceneLoaded = true;
-        }
-    }
-
-    private void SetBussGrid()
-    {
-        int[,] grid = BussGrid.GetGridArray();
-        int[,] busGrid = BussGrid.GetBussGridWithinGrid();
-
-        // Traspose
-        for (int i = 0; i < busGrid.GetLength(0); i++)
-        {
-            for (int j = 0; j < busGrid.GetLength(1); j++)
-            {
-                if (BussGrid.GameController.GetPlayerPositionSet().Contains(new Vector3Int(i, j, 0)))
-                {
-                    busGrid[i, j] = -2;
-                }
-                else
-                {
-                    busGrid[i, j] = grid[i, j];
+                    if (newGrid[i, j] == (int)CellValue.EMPTY)
+                    {
+                        cell.AddToClassList(EmptyCellStyle);
+                    }
+                    else if (newGrid[i, j] == (int)CellValue.BUSY)
+                    {
+                        cell.AddToClassList(BusyCellStyle);
+                    }
+                    else
+                    {
+                        cell.AddToClassList(ActionCellStyle);
+                    }
                 }
             }
         }
 
-        int[,] newGrid = Util.TransposeGridForDebugging(busGrid);
-
-        // We set the Display
-        // We set the max size of the editor display
-        gridDisplay.style.width = grid.GetLength(0) * 30;
-        // We clean prev childs
-        gridDisplay.Clear();
-
-        for (int i = 10; i < newGrid.GetLength(0) - 5; i++)
+        private string DebugBussData()
         {
-            for (int j = 0; j < newGrid.GetLength(1); j++)
-            {
-                VisualElement cell = new VisualElement();
-                gridDisplay.Add(cell);
+            string maps = "";
 
-                if (newGrid[i, j] == (int)CellValue.NPC_POSITION)
+            maps += "Queue FreeBusinessSpots size: " + TableHandler.GetFreeBusinessSpots().Length + "\n";
+            foreach (KeyValuePair<GameGridObject, byte> g in TableHandler.GetFreeBusinessSpots())
+            {
+                if (!g.Key.IsFree())
                 {
-                    cell.AddToClassList(NPC_BUSY_CELL_STYLE);
+                    continue;
+                }
+                maps += "<b>" + g.Key.Name + "</b> \n";
+            }
+
+            maps += " \n";
+
+            maps += "Queue TablesWithClient size: " + TableHandler.GetFreeBusinessSpots().Length + "\n";
+            foreach (KeyValuePair<GameGridObject, byte> g in TableHandler.GetFreeBusinessSpots())
+            {
+                if (!g.Key.HasClient())
+                {
+                    continue;
+                }
+                maps += "<b>" + g.Key.Name + "</b> \n";
+            }
+
+            maps += " \n";
+
+            maps += "Active: BusinessObjects Total: " + BussGrid.GetGameGridObjectsDictionary().Count + " \n";
+            foreach (GameGridObject g in BussGrid.GetGameGridObjectsDictionary().Values)
+            {
+                if (PlayerData.IsItemStored(g.Name))
+                {
                     continue;
                 }
 
-                if (newGrid[i, j] == (int)CellValue.EMPTY)
-                {
-                    cell.AddToClassList(EMPTY_CELL_STYLE);
-                }
-                else if (newGrid[i, j] == (int)CellValue.BUSY)
-                {
-                    cell.AddToClassList(BUSY_CELL_STYLE);
-                }
-                else
-                {
-                    cell.AddToClassList(ACTION_CELL_STYLE);
-                }
+                maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client:" + (g.GetUsedBy() != null) + " Emp:" + g.HasAttendedBy() + "</b> \n";
             }
-        }
-    }
 
-    private string DebugBussData()
-    {
-        string maps = "";
+            maps += " \n";
 
-        maps += "Queue FreeBusinessSpots size: " + TableHandler.GetFreeBusinessSpots().Length + "\n";
-        foreach (KeyValuePair<GameGridObject, byte> g in TableHandler.GetFreeBusinessSpots())
-        {
-            if (!g.Key.IsFree())
+            maps += "Backend storage size: " + PlayerData.GerUserObjects().Count + " \n";
+            foreach (DataGameObject g in PlayerData.GerUserObjects())
             {
-                continue;
-            }
-            maps += "<b>" + g.Key.Name + "</b> \n";
-        }
-
-        maps += " \n";
-
-        maps += "Queue TablesWithClient size: " + TableHandler.GetFreeBusinessSpots().Length + "\n";
-        foreach (KeyValuePair<GameGridObject, byte> g in TableHandler.GetFreeBusinessSpots())
-        {
-            if (!g.Key.HasClient())
-            {
-                continue;
-            }
-            maps += "<b>" + g.Key.Name + "</b> \n";
-        }
-
-        maps += " \n";
-
-        maps += "Active: BusinessObjects Total: " + BussGrid.GetGameGridObjectsDictionary().Count + " \n";
-        foreach (GameGridObject g in BussGrid.GetGameGridObjectsDictionary().Values)
-        {
-            if (PlayerData.IsItemStored(g.Name))
-            {
-                continue;
+                maps += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
             }
 
-            maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client:" + (g.GetUsedBy() != null) + " Emp:" + g.HasAttendedBy() + "</b> \n";
+            maps += "\n";
+
+            return maps;
         }
 
-        maps += " \n";
-
-        maps += "Backend storage size: " + PlayerData.GerUserObjects().Count + " \n";
-        foreach (DataGameObject g in PlayerData.GerUserObjects())
+        private string EntireGridToText()
         {
-            maps += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
-        }
-
-        maps += "\n";
-
-        return maps;
-    }
-
-    private string EntireGridToText()
-    {
-        string output = " ";
-        int[,] grid = BussGrid.GetGridArray();
-        for (int i = 0; i < grid.GetLength(0); i++)
-        {
-            for (int j = 0; j < grid.GetLength(1); j++)
+            string output = " ";
+            int[,] grid = BussGrid.GetGridArray();
+            for (int i = 0; i < grid.GetLength(0); i++)
             {
-                if (grid[i, j] == -1)
+                for (int j = 0; j < grid.GetLength(1); j++)
                 {
-                    output += " 0";
+                    if (grid[i, j] == -1)
+                    {
+                        output += " 0";
+                    }
+                    else
+                    {
+                        output += " " + grid[i, j];
+                    }
                 }
-                else
-                {
-                    output += " " + grid[i, j];
-                }
+                output += "\n";
             }
-            output += "\n";
+            return output;
         }
-        return output;
-    }
 
-    private string SetPlayerData()
-    {
-        string output = "Employe and Client states: \n";
-
-        foreach (EmployeeController employeeController in gameController.GetEmployeeSet())
+        private string SetPlayerData()
         {
-            output += employeeController.Name + " State: " + employeeController.GetNpcState();
-            output += " Time:" + employeeController.GetNpcStateTime() + " \n";
-        }
+            string output = "Employe and Client states: \n";
 
-        foreach (ClientController current in gameController.GetNpcSet())
-        {
-            output += current.Name + " State: " + current.GetNpcState() + "(" + (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
-        }
+            foreach (EmployeeController employeeController in _gameController.GetEmployeeSet())
+            {
+                output += employeeController.Name + " State: " + employeeController.GetNpcState();
+                output += " Time:" + employeeController.GetNpcStateTime() + " \n";
+            }
 
-        return output;
+            foreach (ClientController current in _gameController.GetNpcSet())
+            {
+                output += current.Name + " State: " + current.GetNpcState() + "(" + (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
+            }
+
+            return output;
+        }
     }
 }
 
