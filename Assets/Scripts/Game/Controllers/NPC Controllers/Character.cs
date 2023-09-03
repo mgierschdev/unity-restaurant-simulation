@@ -1,6 +1,14 @@
 public class Character
 {
-    public string Head, Body, ArmLeft, ArmRight, Waist, ShoeLeft, ShoeRight, LegRight, LegLeft;
+    public readonly string Head;
+    public readonly string Body;
+    public readonly string ArmLeft;
+    public readonly string ArmRight;
+    public readonly string Waist;
+    public readonly string ShoeLeft;
+    public readonly string ShoeRight;
+    public readonly string LegRight;
+    public readonly string LegLeft;
 
     public Character(CharacterType type)
     {

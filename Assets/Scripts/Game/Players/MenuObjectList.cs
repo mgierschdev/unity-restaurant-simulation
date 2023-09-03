@@ -160,7 +160,7 @@ public static class MenuObjectList
     {
         List<DataGameObject> storage = new List<DataGameObject>();
 
-        foreach (DataGameObject obj in PlayerData.GetDataGameUser().OBJECTS)
+        foreach (DataGameObject obj in PlayerData.GerUserObjects())
         {
             if (obj.IS_STORED)
             {
