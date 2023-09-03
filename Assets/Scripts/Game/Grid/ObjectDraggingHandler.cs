@@ -1,112 +1,125 @@
 // Handlers object selection and dragging
-public static class ObjectDraggingHandler
+
+using Game.Controllers.Grid_Objects_Controllers;
+
+namespace Game.Grid
 {
-    private static string currentClickedActiveGameObject;
-    private static BaseObjectController previewGameGridObject;
-
-    public static void Init()
+    public static class ObjectDraggingHandler
     {
-        isDraggingEnabled = false;
-        currentClickedActiveGameObject = "";
-    }
+        private static string _currentClickedActiveGameObject;
+        private static BaseObjectController _previewGameGridObject;
 
-    private static GameGridObject GetActiveGameGridObject()
-    {
-        GameGridObject gameGridObject = null;
-        if (currentClickedActiveGameObject != "")
+        public static void Init()
         {
-            if (!BussGrid.GetGameGridObjectsDictionary().ContainsKey(currentClickedActiveGameObject) && previewGameGridObject != null)
+            _isDraggingEnabled = false;
+            _currentClickedActiveGameObject = "";
+        }
+
+        private static GameGridObject GetActiveGameGridObject()
+        {
+            GameGridObject gameGridObject = null;
+            if (_currentClickedActiveGameObject != "")
             {
-                //Meanning the item is on preview but not in inventory
-                return previewGameGridObject.GetGameGridObject();
+                if (!BussGrid.GetGameGridObjectsDictionary().ContainsKey(_currentClickedActiveGameObject) &&
+                    _previewGameGridObject != null)
+                {
+                    //Meanning the item is on preview but not in inventory
+                    return _previewGameGridObject.GetGameGridObject();
+                }
+                else
+                {
+                    gameGridObject = BussGrid.GetGameGridObjectsDictionary()[_currentClickedActiveGameObject];
+                }
+            }
+
+            return gameGridObject;
+        }
+
+        public static void ClearCurrentClickedActiveGameObject()
+        {
+            _currentClickedActiveGameObject = "";
+        }
+
+        // Used to highlight the current object being edited
+        public static void SetActiveGameGridObject(GameGridObject obj)
+        {
+            _isDraggingEnabled = true;
+
+            if (_currentClickedActiveGameObject != "" &&
+                BussGrid.GetGameGridObjectsDictionary().ContainsKey(_currentClickedActiveGameObject))
+            {
+                GameGridObject gameGridObject =
+                    BussGrid.GetGameGridObjectsDictionary()[_currentClickedActiveGameObject];
+                gameGridObject.HideEditMenu();
+            }
+
+            // we highlight the floor for the object
+            obj.ShowAvailableUnderTiles();
+            _currentClickedActiveGameObject = obj.Name;
+            obj.ShowEditMenu();
+        }
+
+        public static void HideHighlightedGridBussFloor()
+        {
+            if (_currentClickedActiveGameObject != "" &&
+                BussGrid.GetGameGridObjectsDictionary().ContainsKey(_currentClickedActiveGameObject))
+            {
+                GameGridObject gameGridObject =
+                    BussGrid.GetGameGridObjectsDictionary()[_currentClickedActiveGameObject];
+                gameGridObject.HideEditMenu();
+                _currentClickedActiveGameObject = "";
+            }
+        }
+
+        //Is dragging mode enabled and object selected?
+        private static bool _isDraggingEnabled; // Is any object being dragged
+
+        public static bool IsDraggingEnabled(GameGridObject obj)
+        {
+            return _isDraggingEnabled && IsThisSelectedObject(obj.Name);
+        }
+
+        // Is any object being dragged
+        public static void SetIsDraggingEnable(bool val)
+        {
+            _isDraggingEnabled = val;
+        }
+
+        public static bool GetIsDraggingEnabled()
+        {
+            return _isDraggingEnabled;
+        }
+
+        public static bool IsThisSelectedObject(string objName)
+        {
+            return _currentClickedActiveGameObject == objName;
+        }
+
+        public static void DisableDragging()
+        {
+            GameGridObject obj = GetActiveGameGridObject();
+
+            if (obj == null)
+            {
+                return;
+            }
+
+            // Handling preview items
+            if (!obj.GetIsItemBought())
+            {
+                obj.CancelPurchase();
             }
             else
             {
-                gameGridObject = BussGrid.GetGameGridObjectsDictionary()[currentClickedActiveGameObject];
+                obj.SetInactive();
             }
 
+            _previewGameGridObject = null;
         }
-        return gameGridObject;
-    }
 
-    public static void ClearCurrentClickedActiveGameObject()
-    {
-        currentClickedActiveGameObject = "";
-    }
-
-    // Used to highlight the current object being edited
-    public static void SetActiveGameGridObject(GameGridObject obj)
-    {
-        isDraggingEnabled = true;
-
-        if (currentClickedActiveGameObject != "" && BussGrid.GetGameGridObjectsDictionary().ContainsKey(currentClickedActiveGameObject))
+        public static void SetPreviewItem(BaseObjectController obj)
         {
-            GameGridObject gameGridObject = BussGrid.GetGameGridObjectsDictionary()[currentClickedActiveGameObject];
-            gameGridObject.HideEditMenu();
+            _previewGameGridObject = obj;
         }
-        // we highlight the floor for the object
-        obj.ShowAvailableUnderTiles();
-        currentClickedActiveGameObject = obj.Name;
-        obj.ShowEditMenu();
-    }
-
-    public static void HideHighlightedGridBussFloor()
-    {
-        if (currentClickedActiveGameObject != "" && BussGrid.GetGameGridObjectsDictionary().ContainsKey(currentClickedActiveGameObject))
-        {
-            GameGridObject gameGridObject = BussGrid.GetGameGridObjectsDictionary()[currentClickedActiveGameObject];
-            gameGridObject.HideEditMenu();
-            currentClickedActiveGameObject = "";
-        }
-    }
-
-    //Is dragging mode enabled and object selected?
-    private static bool isDraggingEnabled; // Is any object being dragged
-
-    public static bool IsDraggingEnabled(GameGridObject obj)
-    {
-        return isDraggingEnabled && IsThisSelectedObject(obj.Name);
-    }
-    // Is any object being dragged
-    public static void SetIsDraggingEnable(bool val)
-    {
-        isDraggingEnabled = val;
-    }
-
-    public static bool GetIsDraggingEnabled()
-    {
-        return isDraggingEnabled;
-    }
-
-    public static bool IsThisSelectedObject(string objName)
-    {
-        return currentClickedActiveGameObject == objName;
-    }
-
-    public static void DisableDragging()
-    {
-        GameGridObject obj = GetActiveGameGridObject();
-
-        if (obj == null)
-        {
-            return;
-        }
-
-        // Handling preview items
-        if (!obj.GetIsItemBought())
-        {
-            obj.CancelPurchase();
-        }
-        else
-        {
-            obj.SetInactive();
-        }
-
-        previewGameGridObject = null;
-    }
-
-    public static void SetPreviewItem(BaseObjectController obj)
-    {
-        previewGameGridObject = obj;
     }
 }

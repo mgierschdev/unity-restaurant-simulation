@@ -1,87 +1,90 @@
 using System;
 using System.Collections.Generic;
+using Util.Collections;
 
 // Only requirement is a node.next in the PathNode and the FCost setted for prioritizing
-public class PriorityQueue : IBaseGameCollections
+namespace Util.PathFinding
 {
-    private HashSet<PathNode> nodes;
-    private PathNode rootNode;
-    private int size;
-
-    public PriorityQueue()
+    public class PriorityQueue : IBaseGameCollections
     {
-        nodes = new HashSet<PathNode>();
-        rootNode = new PathNode(new int[] { int.MinValue, int.MinValue }, int.MaxValue); // The head is the max Value
-        size = 0;
-    }
+        private readonly HashSet<PathNode> _nodes;
+        private readonly PathNode _rootNode;
+        private int _size;
 
-    // Peeks the head Node
-    public PathNode Peek()
-    {
-        if (rootNode.next == null)
+        public PriorityQueue()
         {
-            return null;
+            _nodes = new HashSet<PathNode>();
+            _rootNode = new PathNode(new int[] { int.MinValue, int.MinValue }, int.MaxValue); // The head is the max Value
+            _size = 0;
         }
 
-        return rootNode.next;
-    }
-
-    public PathNode Poll()
-    {
-        if (rootNode.next == null)
+        // Peeks the head Node
+        public PathNode Peek()
         {
-            GameLog.LogWarning("The Queue is empty");
-            return null;
-        }
-        size--;
-        PathNode n = rootNode.next;
-        nodes.Remove(n);
-        rootNode.next = rootNode.next.next;
-        return n;
-    }
+            if (_rootNode.Next == null)
+            {
+                return null;
+            }
 
-    public bool IsEmpty()
-    {
-        return size == 0;
-    }
-
-    // In O(n)
-    public void Add(PathNode node)
-    {
-        nodes.Add(node);
-        size++;
-        PathNode runner = rootNode;
-
-        while (runner.next != null && runner.next.GetFCost() < node.GetFCost())
-        {
-            runner = runner.next;
+            return _rootNode.Next;
         }
 
-        PathNode tmp = runner.next;
-        runner.next = node;
-        node.next = tmp;
-    }
-
-    public bool Contains(PathNode n)
-    {
-        return nodes.Contains(n);
-    }
-
-    // DEBUG
-    private void PrintNodeList()
-    {
-        PathNode q = rootNode;
-        String s = "";
-        while (q != null)
+        public PathNode Poll()
         {
-            s += q.GetFCost() + " -> ";
-            q = q.next;
+            if (_rootNode.Next == null)
+            {
+                GameLog.LogWarning("The Queue is empty");
+                return null;
+            }
+            _size--;
+            PathNode n = _rootNode.Next;
+            _nodes.Remove(n);
+            _rootNode.Next = _rootNode.Next.Next;
+            return n;
         }
-        GameLog.Log(s);
-    }
 
-    public int GetSize()
-    {
-        return this.size;
+        public bool IsEmpty()
+        {
+            return _size == 0;
+        }
+
+        // In O(n)
+        public void Add(PathNode node)
+        {
+            _nodes.Add(node);
+            _size++;
+            PathNode runner = _rootNode;
+
+            while (runner.Next != null && runner.Next.GetFCost() < node.GetFCost())
+            {
+                runner = runner.Next;
+            }
+
+            PathNode tmp = runner.Next;
+            runner.Next = node;
+            node.Next = tmp;
+        }
+
+        public bool Contains(PathNode n)
+        {
+            return _nodes.Contains(n);
+        }
+    
+        private void PrintNodeList()
+        {
+            PathNode q = _rootNode;
+            String s = "";
+            while (q != null)
+            {
+                s += q.GetFCost() + " -> ";
+                q = q.Next;
+            }
+            GameLog.Log(s);
+        }
+
+        public int GetSize()
+        {
+            return this._size;
+        }
     }
 }

@@ -1,82 +1,86 @@
 using System.Collections.Generic;
+using Game.Grid;
 using UnityEngine;
 
 // Controlled attached to Game scene and main Game Object.
-public class ClickController : MonoBehaviour
+namespace Game.Controllers.Other_Controllers
 {
-    private bool isPressingButton, mouseOverUI;
-    private float lastClickTime;
-    private GameTile clickedGameTile;
-    private Camera mainCamera;
-    private GameObject clickedObject;
-    private GameGridObject clickedGameGridObject;
-
-    private void Start()
+    public class ClickController : MonoBehaviour
     {
-        mainCamera = Camera.main;
-        // Time passed between clicks 
-        lastClickTime = 0;
-    }
+        private bool _isPressingButton, _mouseOverUI;
+        private float _lastClickTime;
+        private GameTile _clickedGameTile;
+        private Camera _mainCamera;
+        private GameObject _clickedObject;
+        private GameGridObject _clickedGameGridObject;
 
-    private void Update()
-    {
-        // Controls the state of the first and long click
-        ClickControl();
-
-        //Object Clicked Control, sets the last ClickedObject
-        ObjectClickedControl();
-    }
-
-    private void ClickControl()
-    {
-        // first click 
-        if (Input.GetMouseButtonDown(0))
+        private void Start()
         {
-            lastClickTime = Time.unscaledTime;
-        }
-    }
-
-    // The object must have a collider attached, used for when clicking individual NPCs or detecting long click for the player
-    private void ObjectClickedControl()
-    {
-        if (!Input.GetMouseButtonDown(0) || mouseOverUI)
-        {
-            return;
+            _mainCamera = Camera.main;
+            // Time passed between clicks 
+            _lastClickTime = 0;
         }
 
-        Vector3Int clickPosition = BussGrid.GetPathFindingGridFromWorldPosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-        GameTile tile = BussGrid.GetGameTileFromClickInPathFindingGrid(clickPosition);
-        Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
-        SortedList<GameGridObject, int> list = new SortedList<GameGridObject, int>();
-
-        foreach (Collider2D r in hits)
+        private void Update()
         {
-            if (BussGrid.GetGameGridObjectsDictionary().ContainsKey(r.name))
+            // Controls the state of the first and long click
+            ClickControl();
+
+            //Object Clicked Control, sets the last ClickedObject
+            ObjectClickedControl();
+        }
+
+        private void ClickControl()
+        {
+            // first click 
+            if (Input.GetMouseButtonDown(0))
             {
-                GameGridObject selected = BussGrid.GetGameGridObjectsDictionary()[r.name];
-                list.Add(selected, selected.GetSortingOrder());
+                _lastClickTime = Time.unscaledTime;
             }
         }
 
-        if (list.Count > 0)
+        // The object must have a collider attached, used for when clicking individual NPCs or detecting long click for the player
+        private void ObjectClickedControl()
         {
-            clickedGameGridObject = list.Keys[0];
+            if (!Input.GetMouseButtonDown(0) || _mouseOverUI)
+            {
+                return;
+            }
 
+            Vector3Int clickPosition =
+                BussGrid.GetPathFindingGridFromWorldPosition(_mainCamera.ScreenToWorldPoint(Input.mousePosition));
+            GameTile tile = BussGrid.GetGameTileFromClickInPathFindingGrid(clickPosition);
+            Vector2 worldPoint = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
+            SortedList<GameGridObject, int> list = new SortedList<GameGridObject, int>();
+
+            foreach (Collider2D r in hits)
+            {
+                if (BussGrid.GetGameGridObjectsDictionary().ContainsKey(r.name))
+                {
+                    GameGridObject selected = BussGrid.GetGameGridObjectsDictionary()[r.name];
+                    list.Add(selected, selected.GetSortingOrder());
+                }
+            }
+
+            if (list.Count > 0)
+            {
+                _clickedGameGridObject = list.Keys[0];
+            }
+            else
+            {
+                _clickedGameGridObject = null;
+            }
+
+            if (tile != null)
+            {
+                _clickedGameTile = tile;
+            }
         }
-        else
+
+        public GameGridObject GetGameGridClickedObject()
         {
-            clickedGameGridObject = null;
+            return _clickedGameGridObject;
         }
-
-        if (tile != null)
-        {
-            clickedGameTile = tile;
-        }
-    }
-
-    public GameGridObject GetGameGridClickedObject()
-    {
-        return clickedGameGridObject;
     }
 }

@@ -1,29 +1,33 @@
+using Game.Players;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsPanelController : MonoBehaviour
+namespace Game.Controllers.Menu_Controllers
 {
-    private Button saveButton;
-    private TextMeshProUGUI statsText;
-
-    private void Start()
+    public class SettingsPanelController : MonoBehaviour
     {
-        GameObject saveButtonObject = transform.Find(Settings.SettingsMenuSaveButton).gameObject;
-        saveButton = saveButtonObject.GetComponent<Button>();
-        saveButton.onClick.AddListener(() => SaveGame());
-        GameObject obj = transform.Find(Settings.SettingsMenuStatsText).gameObject;
-        statsText = obj.GetComponent<TextMeshProUGUI>();
-        SetStatsText();
-    }
+        private Button _saveButton;
+        private TextMeshProUGUI _statsText;
 
-    public void SaveGame()
-    {
-        PlayerData.SaveGame();
-    }
+        private void Start()
+        {
+            GameObject saveButtonObject = transform.Find(Settings.SettingsMenuSaveButton).gameObject;
+            _saveButton = saveButtonObject.GetComponent<Button>();
+            _saveButton.onClick.AddListener(() => SaveGame());
+            GameObject obj = transform.Find(Settings.SettingsMenuStatsText).gameObject;
+            _statsText = obj.GetComponent<TextMeshProUGUI>();
+            SetStatsText();
+        }
 
-    public void SetStatsText()
-    {
-        statsText.text = PlayerData.GetStats();
+        public void SaveGame()
+        {
+            PlayerData.SaveGame();
+        }
+
+        public void SetStatsText()
+        {
+            _statsText.text = PlayerData.GetStats();
+        }
     }
 }

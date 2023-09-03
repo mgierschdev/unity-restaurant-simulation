@@ -2,6 +2,7 @@
 
 using UnityEditor;
 using UnityEditor.Build.Reporting;
+using Util;
 
 // Script used for the Jenkins/local Build
 namespace Editor
@@ -19,7 +20,7 @@ namespace Editor
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
             {
                 scenes = defaultScene,
-                locationPathName = "~/Unity/Android/android" + Util.GetUnixTimeNow() + ".apk",
+                locationPathName = "~/Unity/Android/android" + Util.Util.GetUnixTimeNow() + ".apk",
                 target = BuildTarget.Android,
                 options = BuildOptions.None
             };
@@ -48,7 +49,7 @@ namespace Editor
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
             {
                 scenes = defaultScene,
-                locationPathName = "~/Unity/IOS/" + Util.GetUnixTimeNow() + "/",
+                locationPathName = "~/Unity/IOS/" + Util.Util.GetUnixTimeNow() + "/",
                 target = BuildTarget.iOS,
                 options = BuildOptions.None
             };

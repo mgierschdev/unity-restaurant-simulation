@@ -1,50 +1,59 @@
+using System;
+using Game.Players;
+using Game.Players.Model;
 using NUnit.Framework;
+using Util;
 
-public class TestJSON
+namespace Tests.EditMode
 {
-    [Test]
-    public void TestLoadUserJSON()
+    public class TestJson
     {
-        DataGameUser user = PlayerData.GetNewUser();
-        user.SaveToJSONFileAsync();
-        string json = UtilJSONFile.GetJsonFromFile(DataGameUser.GetSaveFileName());
-        GameLog.Log(DataGameUser.GetSaveFileName());
-        GameLog.Log("Content of the json file " + json);
-        DataGameUser loadUser = DataGameUser.CreateFromJSON(json);
-
-        if (loadUser == null)
+        [Test]
+        public void TestLoadUserJson()
         {
-            GameLog.Log("load user null ");
+            var user = PlayerData.GetNewUser();
+            user.SaveToJsonFileAsync();
+            var json = UtilJsonFile.GetJsonFromFile(DataGameUser.GetSaveFileName());
+            GameLog.Log(DataGameUser.GetSaveFileName());
+            GameLog.Log("Content of the json file " + json);
+            var loadUser = DataGameUser.CreateFromJson(json);
+
+            if (loadUser == null)
+            {
+                GameLog.Log("load user null ");
+
+                throw new ArgumentNullException(nameof(loadUser));
+            }
+            else
+            {
+                GameLog.Log("Name " + loadUser.name);
+            }
+
+            GameLog.Log(user.name + " " + loadUser.name);
+
+            Assert.AreEqual(user.name, loadUser.name);
+            Assert.AreEqual(user.authType, loadUser.authType);
+            Assert.AreEqual(user.email, loadUser.email);
+            Assert.AreEqual(user.experience, loadUser.experience);
+            Assert.AreEqual(user.gameMoney, loadUser.gameMoney);
+            Assert.AreEqual(user.languageCode, loadUser.languageCode);
+            Assert.AreEqual(user.level, loadUser.level);
+
+            for (int i = 0; i < user.objects.Count; i++)
+            {
+                Assert.AreEqual(user.objects[i].id, loadUser.objects[i].id);
+                Assert.AreEqual(user.objects[i].isStored, loadUser.objects[i].isStored);
+                Assert.AreEqual(user.objects[i].position, loadUser.objects[i].position);
+                Assert.AreEqual(user.objects[i].rotation, loadUser.objects[i].rotation);
+            }
         }
-        else
+
+        [Test]
+        // This saves the default user model e.g: default.v.1.0.0.json
+        public void TestSaveDefaultUser()
         {
-            GameLog.Log("Name " + loadUser.NAME);
+            DataGameUser user = PlayerData.GetNewUser();
+            user.SaveToJsonFileAsync("default.user." + user.version);
         }
-
-        GameLog.Log(user.NAME + " " + loadUser.NAME);
-
-        Assert.AreEqual(user.NAME, loadUser.NAME);
-        Assert.AreEqual(user.AUTH_TYPE, loadUser.AUTH_TYPE);
-        Assert.AreEqual(user.EMAIL, loadUser.EMAIL);
-        Assert.AreEqual(user.EXPERIENCE, loadUser.EXPERIENCE);
-        Assert.AreEqual(user.GAME_MONEY, loadUser.GAME_MONEY);
-        Assert.AreEqual(user.LANGUAGE_CODE, loadUser.LANGUAGE_CODE);
-        Assert.AreEqual(user.LEVEL, loadUser.LEVEL);
-
-        for (int i = 0; i < user.OBJECTS.Count; i++)
-        {
-            Assert.AreEqual(user.OBJECTS[i].ID, loadUser.OBJECTS[i].ID);
-            Assert.AreEqual(user.OBJECTS[i].IS_STORED, loadUser.OBJECTS[i].IS_STORED);
-            Assert.AreEqual(user.OBJECTS[i].POSITION, loadUser.OBJECTS[i].POSITION);
-            Assert.AreEqual(user.OBJECTS[i].ROTATION, loadUser.OBJECTS[i].ROTATION);
-        }
-    }
-
-    [Test]
-    // This saves the default user model e.g: default.v.1.0.0.json
-    public void TestSaveDefaultUser()
-    {
-        DataGameUser user = PlayerData.GetNewUser();
-        user.SaveToJSONFileAsync("default.user."+user.VERSION);
     }
 }

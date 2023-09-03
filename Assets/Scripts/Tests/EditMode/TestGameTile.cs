@@ -1,32 +1,39 @@
+using Game.Grid;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Util;
 
-public class TestGameTile
+namespace Tests.EditMode
 {
-    [Test]
-    public void TestGameTileFloor()
+    public class TestGameTile
     {
-        Vector3 worldPosition = Vector3.zero;
-        TileBase baseTile = null;
-        GameTile tile = new GameTile(worldPosition, new Vector3Int(0, 0), new Vector3Int(0, 0), TileType.FLOOR_3, ObjectType.FLOOR, baseTile);
-        Assert.AreEqual(tile.Type, ObjectType.FLOOR);
-    }
+        [Test]
+        public void TestGameTileFloor()
+        {
+            var worldPosition = Vector3.zero;
 
-    [Test]
-    public void TestGameTileWorldPosition()
-    {
-        Vector3 worldPosition = Vector3.zero;
-        TileBase baseTile = null;
-        GameTile tile = new GameTile(worldPosition, new Vector3Int(0, 0), new Vector3Int(0, 0), TileType.FLOOR_3, ObjectType.FLOOR, baseTile);
-        Assert.AreEqual(tile.Type, ObjectType.FLOOR);
-        Assert.AreEqual(tile.WorldPosition, Vector3.zero);
-    }
+            var tile = new GameTile(worldPosition, new Vector3Int(0, 0), new Vector3Int(0, 0), TileType.Floor3,
+                ObjectType.Floor, null);
 
-    [Test]
-    public void TestLoadSimpleTileMap()
-    {
-        TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesSimple);
-        Assert.NotNull(gridTile);
+            Assert.AreEqual(tile.Type, ObjectType.Floor);
+        }
+
+        [Test]
+        public void TestGameTileWorldPosition()
+        {
+            Vector3 worldPosition = Vector3.zero;
+            GameTile tile = new GameTile(worldPosition, new Vector3Int(0, 0), new Vector3Int(0, 0), TileType.Floor3,
+                ObjectType.Floor, null);
+            Assert.AreEqual(tile.Type, ObjectType.Floor);
+            Assert.AreEqual(tile.WorldPosition, Vector3.zero);
+        }
+
+        [Test]
+        public void TestLoadSimpleTileMap()
+        {
+            TileBase gridTile = Resources.Load<Tile>(Settings.GridTilesSimple);
+            Assert.NotNull(gridTile);
+        }
     }
 }

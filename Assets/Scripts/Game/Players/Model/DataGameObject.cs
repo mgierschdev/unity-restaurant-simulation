@@ -1,20 +1,28 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Util;
 
-[Serializable]
-public class DataGameObject
+namespace Game.Players.Model
 {
-    [SerializeField]
-    public int ID;//StoreItemType
-    [SerializeField]
-    public int[] POSITION;
-    [SerializeField]
-    public bool IS_STORED;
-    [SerializeField]
-    public int ROTATION;
-
-    public StoreItemType GetStoreItemType()
+    [Serializable]
+    public class DataGameObject
     {
-        return (StoreItemType)ID;
+        [FormerlySerializedAs("ID")] [SerializeField]
+        public int id; //StoreItemType
+
+        [FormerlySerializedAs("POSITION")] [SerializeField]
+        public int[] position;
+
+        [FormerlySerializedAs("IS_STORED")] [SerializeField]
+        public bool isStored;
+
+        [FormerlySerializedAs("ROTATION")] [SerializeField]
+        public int rotation;
+
+        public StoreItemType GetStoreItemType()
+        {
+            return (StoreItemType)id;
+        }
     }
 }

@@ -1,6 +1,6 @@
 // using System.Threading.Tasks;
 // using Firebase;
-
+//
 // // This load the init code for firebase and auth
 // public class FirebaseLoad
 // {

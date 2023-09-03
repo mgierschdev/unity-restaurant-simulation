@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 
-public class CameraScale
+namespace Util.Unity
 {
-    private float currentWindowAspectRatio, targetSpectRatio;
-    private Camera mainCamera;
-
-    private void ScaleCamera()
+    public class CameraScale
     {
-        currentWindowAspectRatio = (float)Screen.width / (float)Screen.height;
-        targetSpectRatio = (float)Settings.ConstDefaultCameraWidth / (float)Settings.ConstDefaultCameraHeight;
-        float newScaleHeight = currentWindowAspectRatio / targetSpectRatio;
+        private float _currentWindowAspectRatio, _targetSpectRatio;
+        private Camera _mainCamera;
 
-        if (newScaleHeight > 1)
+        private void ScaleCamera()
         {
-            mainCamera.orthographicSize = Settings.ConstDefaultCameraOrthographicsize - (newScaleHeight - 1) * Settings.ConstDefaultCameraOrthographicsize;
+            _currentWindowAspectRatio = Screen.width / (float)Screen.height;
+            _targetSpectRatio = Settings.ConstDefaultCameraWidth / (float)Settings.ConstDefaultCameraHeight;
+            float newScaleHeight = _currentWindowAspectRatio / _targetSpectRatio;
+
+            if (newScaleHeight > 1)
+            {
+                _mainCamera.orthographicSize = Settings.ConstDefaultCameraOrthographicsize - (newScaleHeight - 1) * Settings.ConstDefaultCameraOrthographicsize;
+            }
         }
     }
 }

@@ -1,144 +1,149 @@
-public class PathNode
+using Util.Collections;
+
+namespace Util.PathFinding
 {
-    public PathNode next; // use to order in the queue
-    private PathNode parent; // Another reference comming from
-    private int[] position;
-    private int GCost; // G cost to the start point
-    private int HCost; // H cost to the end point
-    private double EuclidianCost;
-    private int FCost; // value in the position, 0 free, 1 obstacle, 2 visited
-    private int value;
-
-    public PathNode(int[] position)
+    public class PathNode
     {
-        this.position = position;
-        parent = null;
-    }
+        public PathNode Next; // use to order in the queue
+        private PathNode _parent; // Another reference comming from
+        private int[] _position;
+        private int _gCost; // G cost to the start point
+        private int _hCost; // H cost to the end point
+        private double _euclideanCost;
+        private int _fCost; // value in the position, 0 free, 1 obstacle, 2 visited
+        private int _value;
 
-    public PathNode(int[] position, int FCost)
-    {
-        this.position = position;
-        this.FCost = FCost;
-        parent = null;
-    }
-
-    public PathNode(int[] position, int costToStart, int costToEnd, PathNode parent)
-    {
-        this.position = position;
-        this.GCost = costToStart;
-        this.HCost = costToEnd;
-        this.FCost = this.GCost + this.HCost;
-        this.parent = parent;
-    }
-
-    public string CoordsToString()
-    {
-        return "[" + position[0] + "," + position[1] + "]";
-    }
-
-    public override string ToString()
-    {
-        string tmp;
-        if (parent == null)
+        public PathNode(int[] position)
         {
-            tmp = "null";
-        }
-        else
-        {
-            tmp = "[" + parent.GetX() + "," + parent.GetY() + "]";
+            _position = position;
+            _parent = null;
         }
 
-        return "[" + position[0] + "," + position[1] + "] Fcost: " + FCost + " GCost: " + GCost + " HCost: " + HCost + " Parent: " + tmp;
-    }
+        public PathNode(int[] position, int fCost)
+        {
+            _position = position;
+            _fCost = fCost;
+            _parent = null;
+        }
 
-    public void CalculateFCost()
-    {
-        this.FCost = this.GCost + this.HCost;
-    }
+        public PathNode(int[] position, int costToStart, int costToEnd, PathNode parent)
+        {
+            _position = position;
+            _gCost = costToStart;
+            _hCost = costToEnd;
+            _fCost = _gCost + _hCost;
+            _parent = parent;
+        }
 
-    public int GetX()
-    {
-        return this.position[0];
-    }
+        public string CoordsToString()
+        {
+            return "[" + _position[0] + "," + _position[1] + "]";
+        }
 
-    public int GetY()
-    {
-        return this.position[1];
-    }
+        public override string ToString()
+        {
+            string tmp;
+            if (_parent == null)
+            {
+                tmp = "null";
+            }
+            else
+            {
+                tmp = "[" + _parent.GetX() + "," + _parent.GetY() + "]";
+            }
 
-    public int GetGCost()
-    {
-        return this.GCost;
-    }
+            return "[" + _position[0] + "," + _position[1] + "] Fcost: " + _fCost + " GCost: " + _gCost + " HCost: " + _hCost + " Parent: " + tmp;
+        }
 
-    public int GetHCost()
-    {
-        return this.HCost;
-    }
+        public void CalculateFCost()
+        {
+            _fCost = _gCost + _hCost;
+        }
 
-    public double GetEuclidianCost()
-    {
-        return EuclidianCost;
-    }
+        public int GetX()
+        {
+            return _position[0];
+        }
 
-    public int[] GetPosition()
-    {
-        return position;
-    }
+        public int GetY()
+        {
+            return _position[1];
+        }
 
-    public void SetParent(PathNode parent)
-    {
-        this.parent = parent;
-    }
+        public int GetGCost()
+        {
+            return _gCost;
+        }
 
-    public PathNode GetParent()
-    {
-        return this.parent;
-    }
+        public int GetHCost()
+        {
+            return _hCost;
+        }
 
-    // F Cost = G + H
-    public int GetFCost()
-    {
-        return this.FCost;
-    }
+        public double GetEuclideanCost()
+        {
+            return _euclideanCost;
+        }
 
-    public int GetValue()
-    {
-        return this.value;
-    }
+        public int[] GetPosition()
+        {
+            return _position;
+        }
 
-    public void SetValue(int value)
-    {
-        this.value = value;
-    }
+        public void SetParent(PathNode parent)
+        {
+            _parent = parent;
+        }
 
-    public void SetGCost(int costToStart)
-    {
-        this.GCost = costToStart;
-    }
+        public PathNode GetParent()
+        {
+            return _parent;
+        }
 
-    public void SetHCost(int costToEnd)
-    {
-        this.HCost = costToEnd;
-    }
+        // F Cost = G + H
+        public int GetFCost()
+        {
+            return _fCost;
+        }
 
-    public void SetFCost(int total)
-    {
-        this.FCost = total;
-    }
+        public int GetValue()
+        {
+            return _value;
+        }
 
-    public void SetEuclidianCost(double EuclidianCost)
-    {
-        this.EuclidianCost = EuclidianCost;
-    }
+        public void SetValue(int value)
+        {
+            _value = value;
+        }
 
-    public void SetPosition(int[] position)
-    {
-        this.position = position;
-    }
+        public void SetGCost(int costToStart)
+        {
+            _gCost = costToStart;
+        }
 
-    public Node GetNode()
-    {
-        return new Node(position[0], position[1]);
+        public void SetHCost(int costToEnd)
+        {
+            _hCost = costToEnd;
+        }
+
+        public void SetFCost(int total)
+        {
+            _fCost = total;
+        }
+
+        public void SetEuclideanCost(double euclideanCost)
+        {
+            _euclideanCost = euclideanCost;
+        }
+
+        public void SetPosition(int[] position)
+        {
+            _position = position;
+        }
+
+        public Node GetNode()
+        {
+            return new Node(_position[0], _position[1]);
+        }
     }
 }

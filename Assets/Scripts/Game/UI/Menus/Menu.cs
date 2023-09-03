@@ -1,23 +1,29 @@
-public class MenuItem
+using Util;
+
+namespace Game.UI.Menus
 {
-    private MenuType type;
-    private MenuTab menuTab;
-    public string name;
-
-    public MenuItem(MenuTab menuTab, MenuType type, string name)
+    public class MenuItem
     {
-        this.menuTab = menuTab;
-        this.name = name;
-        this.type = type;
-    }
+        public string Name;
 
-    public MenuType GetMenuType()
-    {
-        return type;
-    }
+        private readonly MenuType _type;
+        private readonly MenuTab _menuTab;
 
-    public MenuTab GetMenuTab()
-    {
-        return menuTab;
+        public MenuItem(MenuTab menuTab, MenuType type, string name)
+        {
+            this._menuTab = menuTab;
+            this.Name = name;
+            this._type = type;
+        }
+
+        public MenuType GetMenuType()
+        {
+            return _type;
+        }
+
+        public MenuTab GetMenuTab()
+        {
+            return _menuTab;
+        }
     }
 }

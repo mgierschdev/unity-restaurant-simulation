@@ -1,290 +1,335 @@
 using System;
+using Game.Grid;
+using Game.Players;
 using UnityEngine;
+using Util;
 using IEnumerator = System.Collections.IEnumerator;
 using Random = UnityEngine.Random;
 
-public class EmployeeController : GameObjectMovementBase
+namespace Game.Controllers.NPC_Controllers
 {
-    private const int RANDOM_PROBABILITY_TO_WAIT = 0;
-    private const float MAX_TIME_IN_STATE = Settings.NPCMaxTimeInState,
-    MAX_TABLE_WAITING_TIME = Settings.NPCMaxWaitingTime,
-    TIME_IDLE_BEFORE_TAKING_ORDER = 2f,
-    SPEED_TIME_TO_REGISTER_IN_CASH = 150f,
-    SPEED_TIME_TAKING_ORDER = 1.5f;
-    private GameGridObject counter;
-    private bool counterAssigned;
-    private SkinSelectorController skinSelectorController;
-
-    private void Start()
+    public class EmployeeController : GameObjectMovementBase
     {
-        type = ObjectType.EMPLOYEE;
-        SetID();
-        stateMachine = NPCStateMachineFactory.GetEmployeeStateMachine(Name);
-        StartCoroutine(UpdateTransitionStates());
+        private const float SpeedTimeTakingOrder = 1.5f;
+        private GameGridObject _counter;
+        private bool _counterAssigned;
+        private SkinSelectorController _skinSelectorController;
 
-        // We select the skin of the employee
-        skinSelectorController = transform.GetComponent<SkinSelectorController>();
-        skinSelectorController.SetCharacter(CharacterType.EMPLOYEE);
-    }
-
-    private void FixedUpdate()
-    {
-        try
+        private void Start()
         {
-            if (!IsMovementBaseActive())
+            Type = ObjectType.Employee;
+            SetID();
+            StateMachine = NpcStateMachineFactory.GetEmployeeStateMachine(Name);
+            StartCoroutine(UpdateTransitionStates());
+
+            // We select the skin of the employee
+            _skinSelectorController = transform.GetComponent<SkinSelectorController>();
+            _skinSelectorController.SetCharacter(CharacterType.Employee);
+        }
+
+        private void FixedUpdate()
+        {
+            try
+            {
+                if (!IsMovementBaseActive())
+                {
+                    return;
+                }
+
+                UpdatePosition();
+                UpdateTimeInState();
+                UpdateTargetMovement();
+                UpdateAnimation();
+            }
+            catch (Exception e)
+            {
+                GameLog.LogError("Exception thrown, likely missing reference (FixedUpdate EmployeeController): " + e);
+            }
+        }
+
+        public IEnumerator UpdateTransitionStates()
+        {
+            for (;;)
+            {
+                try
+                {
+                    if (!_counterAssigned || IsMoving() || EnergyBar.IsActive())
+                    {
+                    }
+                    else
+                    {
+                        CheckIfAtTarget();
+                        TableWithCustomer();
+                        Unrespawn();
+                        CheckCounter();
+                        CheckAtCounter();
+                        CheckTableMoved();
+                        StateMachine.CheckTransition();
+                        MoveNpc(); // Move/or not, depending on the state
+                    }
+                }
+                catch (Exception e)
+                {
+                    GameLog.LogError("Exception thrown, EmployeeController/UpdateTransitionStates(): " + e);
+                    StateMachine.SetTransition(NpcStateTransitions.WalkToUnRespawn);
+                }
+
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        // if Idle and table moved we unset it since it is not longer attending the table
+        private void CheckTableMoved()
+        {
+            if (StateMachine.Current.State == NpcState.Idle &&
+                StateMachine.GetTransitionState(NpcStateTransitions.TableMoved))
+            {
+                StateMachine.UnSetTransition(NpcStateTransitions.TableMoved);
+            }
+        }
+
+        private void CheckAtCounter()
+        {
+            // we check if at counter we set the bit
+            if (_counter != null && Position.x == _counter.GetActionTileInGridPosition().x &&
+                Position.y == _counter.GetActionTileInGridPosition().y)
+            {
+                StateMachine.SetTransition(NpcStateTransitions.AtCounter);
+            }
+        }
+
+        private void CheckCounter()
+        {
+            if (_counter == null)
+            {
+                StateMachine.UnSetTransition(NpcStateTransitions.CounterAvailable);
+            }
+            else
+            {
+                StateMachine.SetTransition(NpcStateTransitions.CounterAvailable);
+            }
+        }
+
+        private void TableWithCustomer()
+        {
+            if (StateMachine.Current.State != NpcState.AtCounter)
             {
                 return;
             }
 
-            UpdatePosition();
-            UpdateTimeInState();
-            UpdateTargetMovement();
-            UpdateAnimation();
-        }
-        catch (Exception e)
-        {
-            GameLog.LogError("Exception thrown, likely missing reference (FixedUpdate EmployeeController): " + e);
-        }
-    }
-
-    public IEnumerator UpdateTransitionStates()
-    {
-        for (; ; )
-        {
-            try
+            if (Table != null)
             {
-                if (!counterAssigned || IsMoving() || EnergyBar.IsActive())
-                {
-
-                }
-                else
-                {
-                    CheckIfAtTarget();
-                    TableWithCustomer();
-                    Unrespawn();
-                    CheckCounter();
-                    CheckAtCounter();
-                    CheckTableMoved();
-                    stateMachine.CheckTransition();
-                    MoveNPC();// Move/or not, depending on the state
-                }
+                Table.SetAttendedBy(this);
+                StateMachine.SetTransition(NpcStateTransitions.TableAvailable);
+                return;
             }
-            catch (Exception e)
+
+            StateMachine.UnSetTransition(NpcStateTransitions.TableAvailable);
+        }
+
+        private void Unrespawn()
+        {
+            if (StateMachine.Current.State == NpcState.WalkingUnRespawn || _counter != null)
             {
-                GameLog.LogError("Exception thrown, EmployeeController/UpdateTransitionStates(): " + e);
-                stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
+                StateMachine.UnSetTransition(NpcStateTransitions.WalkToUnRespawn);
+                return;
             }
-            yield return new WaitForSeconds(1f);
-        }
-    }
 
-    // if Idle and table moved we unset it since it is not longer attending the table
-    private void CheckTableMoved()
-    {
-        if (stateMachine.Current.State == NpcState.IDLE && stateMachine.GetTransitionState(NpcStateTransitions.TABLE_MOVED))
-        {
-            stateMachine.UnSetTransition(NpcStateTransitions.TABLE_MOVED);
-        }
-    }
+            // we clean the table pointer if assigned
+            if (Table != null)
+            {
+                Table.SetAttendedBy(null);
+                Table = null;
+            }
 
-    private void CheckAtCounter()
-    {
-        // we check if at counter we set the bit
-        if (counter != null && Position.x == counter.GetActionTileInGridPosition().x && Position.y == counter.GetActionTileInGridPosition().y)
-        {
-            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
-        }
-    }
-
-    private void CheckCounter()
-    {
-        if (counter == null)
-        {
-            stateMachine.UnSetTransition(NpcStateTransitions.COUNTER_AVAILABLE);
-        }
-        else
-        {
-            stateMachine.SetTransition(NpcStateTransitions.COUNTER_AVAILABLE);
-        }
-    }
-
-    private void TableWithCustomer()
-    {
-        if (stateMachine.Current.State != NpcState.AT_COUNTER)
-        {
-            return;
+            StateMachine.SetTransition(NpcStateTransitions.WalkToUnRespawn);
         }
 
-        if (table != null)
+        private void CheckIfAtTarget()
         {
-            table.SetAttendedBy(this);
-            stateMachine.SetTransition(NpcStateTransitions.TABLE_AVAILABLE);
-            return;
+            if (!(CurrentTargetGridPosition.x == Position.x && CurrentTargetGridPosition.y == Position.y))
+            {
+                return;
+            }
+
+            if (StateMachine.Current.State == NpcState.WalkingToCounter &&
+                !StateMachine.GetTransitionState(NpcStateTransitions.AtCounter))
+            {
+                if (_counter == null)
+                {
+                    return;
+                }
+
+                StateMachine.SetTransition(NpcStateTransitions.AtCounter);
+                StateMachine.UnSetTransition(NpcStateTransitions.CashRegistered);
+                StandTowards(_counter.GridPosition);
+            }
+            else if (StateMachine.Current.State == NpcState.WalkingToTable)
+            {
+                StateMachine.SetTransition(NpcStateTransitions.AtTable);
+                StateMachine.UnSetTransition(NpcStateTransitions.AtCounter);
+                if (Table == null)
+                {
+                    return;
+                }
+
+                var controller = Table.GetUsedBy();
+
+                if (controller == null)
+                {
+                    return;
+                }
+
+                StandTowards(controller.Position); // We flip the Employee -> CLient
+                controller.FlipTowards(Position); // We flip client -> employee
+                controller.SetBeingAttended();
+            }
+            else if (StateMachine.Current.State == NpcState.TakingOrder && EnergyBar.IsFinished() &&
+                     !StateMachine.GetTransitionState(NpcStateTransitions.OrderServed))
+            {
+                StateMachine.SetTransition(NpcStateTransitions.OrderServed);
+
+                if (Table == null)
+                {
+                    return;
+                }
+
+                var controller = Table.GetUsedBy();
+
+                if (controller == null)
+                {
+                    return;
+                }
+
+                controller.SetAttended();
+            }
+
+            else if (StateMachine.Current.State == NpcState.WalkingToCounterAfterOrder)
+            {
+                StateMachine.SetTransition(NpcStateTransitions.AtCounter);
+                StateMachine.SetTransition(NpcStateTransitions.RegisteringCash);
+                StateMachine.UnSetTransition(NpcStateTransitions.AtTable);
+            }
+            else if (StateMachine.Current.State == NpcState.RegisteringCash && EnergyBar.IsFinished())
+            {
+                StateMachine.SetTransition(NpcStateTransitions.CashRegistered);
+                double orderValue = Random.Range(5, 10);
+                double totalOrderCost = orderValue + PlayerData.GetUgrade(UpgradeType.OrderCostPercentage) *
+                    (orderValue *
+                     Settings.OrderIncreaseCostPercentage
+                     / 100);
+                PlayerData.AddMoney(totalOrderCost);
+                PlayerData.SetCustomerAttended();
+            }
+            else if (StateMachine.Current.State == NpcState.AtCounterFinal)
+            {
+                StateMachine.UnSetAll();
+                StateMachine.SetTransition(NpcStateTransitions.AtCounterFinal);
+            }
+            else if (StateMachine.Current.State == NpcState.WalkingUnRespawn)
+            {
+                BussGrid.GameController.RemoveEmployee(this);
+                Destroy(gameObject);
+            }
         }
 
-        stateMachine.UnSetTransition(NpcStateTransitions.TABLE_AVAILABLE);
-    }
+        private void MoveNpc()
+        {
+            if (StateMachine.Current.State == NpcState.WalkingUnRespawn &&
+                !StateMachine.GetTransitionState(NpcStateTransitions.MovingToUnsRespawn))
+            {
+                StateMachine.SetTransition(NpcStateTransitions.MovingToUnsRespawn);
+                GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
+            }
+            else if (StateMachine.Current.State == NpcState.WalkingToCounter)
+            {
+                if (_counter == null)
+                {
+                    return;
+                }
 
-    private void Unrespawn()
-    {
-        if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN || counter != null)
-        {
-            stateMachine.UnSetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
-            return;
-        }
+                GoTo(_counter.GetActionTileInGridPosition());
+            }
+            else if (StateMachine.Current.State == NpcState.WalkingToTable)
+            {
+                if (Table == null)
+                {
+                    return;
+                }
 
-        // we clean the table pointer if assigned
-        if (table != null)
-        {
-            table.SetAttendedBy(null);
-            // table.FreeObject();
-            table = null;
-        }
-        stateMachine.SetTransition(NpcStateTransitions.WALK_TO_UNRESPAWN);
-    }
+                GoTo(BussGrid.GetClosestPathGridPoint(Position, Table.GetActionTileInGridPosition()));
+            }
+            else if (StateMachine.Current.State == NpcState.TakingOrder &&
+                     !StateMachine.GetTransitionState(NpcStateTransitions.OrderServed))
+            {
+                EnergyBar.SetActive(SpeedTimeTakingOrder);
+            }
+            else if (StateMachine.Current.State == NpcState.WalkingToCounterAfterOrder)
+            {
+                Table = null;
+                if (_counter == null)
+                {
+                    return;
+                }
 
-    private void CheckIfAtTarget()
-    {
-        if (!(currentTargetGridPosition.x == Position.x && currentTargetGridPosition.y == Position.y))
-        {
-            return;
-        }
-
-        if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER && !stateMachine.GetTransitionState(NpcStateTransitions.AT_COUNTER))
-        {
-            if (counter == null) { return; }
-            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
-            stateMachine.UnSetTransition(NpcStateTransitions.CASH_REGISTERED);
-            StandTowards(counter.GridPosition);
-        }
-        else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
-        {
-            stateMachine.SetTransition(NpcStateTransitions.AT_TABLE);
-            stateMachine.UnSetTransition(NpcStateTransitions.AT_COUNTER);
-            if (base.table == null) { return; }
-            ClientController controller = base.table.GetUsedBy();
-            if (controller == null) { return; }
-            StandTowards(controller.Position);//We flip the Employee -> CLient
-            controller.FlipTowards(Position); // We flip client -> employee
-            controller.SetBeingAttended();
-        }
-        else if (stateMachine.Current.State == NpcState.TAKING_ORDER && EnergyBar.IsFinished() && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
-        {
-            stateMachine.SetTransition(NpcStateTransitions.ORDER_SERVED);
-            if (base.table == null) { return; }
-            ClientController controller = base.table.GetUsedBy();
-            if (controller == null) { return; }
-            controller.SetAttended();
+                GoTo(_counter.GetActionTileInGridPosition());
+            }
+            else if (StateMachine.Current.State == NpcState.RegisteringCash &&
+                     !StateMachine.GetTransitionState(NpcStateTransitions.CashRegistered))
+            {
+                EnergyBar.SetActive(SpeedTimeTakingOrder);
+            }
         }
 
-        else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
+        public NpcState GetNpcState()
         {
-            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER);
-            stateMachine.SetTransition(NpcStateTransitions.REGISTERING_CASH);
-            stateMachine.UnSetTransition(NpcStateTransitions.AT_TABLE);
+            return StateMachine.Current.State;
         }
-        else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && EnergyBar.IsFinished())
+
+        public float GetNpcStateTime()
         {
-            stateMachine.SetTransition(NpcStateTransitions.CASH_REGISTERED);
-            //TODO: register cost depending on the NPC order
-            double orderValue = Random.Range(5, 10);
-            double totalOrderCost = orderValue + PlayerData.GetUgrade(UpgradeType.ORDER_COST_PERCENTAGE) * (orderValue * Settings.OrderIncreaseCostPercentage
-             / 100);
-            //CreateCoin();//TODO: remove
-            PlayerData.AddMoney(totalOrderCost);
-            PlayerData.SetCustomerAttended();
+            return Mathf.Floor(stateTime);
         }
-        else if (stateMachine.Current.State == NpcState.AT_COUNTER_FINAL)
+
+        public Vector3Int GetCoordOfTableToBeAttended()
         {
-            stateMachine.UnSetAll();
-            stateMachine.SetTransition(NpcStateTransitions.AT_COUNTER_FINAL);
+            return Table.GridPosition;
         }
-        else if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN)
+
+        public void SetUnRespawn()
         {
-            BussGrid.GameController.RemoveEmployee(this);
-            Destroy(gameObject);
+            StateMachine.SetTransition(NpcStateTransitions.MovingToUnsRespawn);
         }
-    }
 
-    private void MoveNPC()
-    {
-        if (stateMachine.Current.State == NpcState.WALKING_UNRESPAWN && !stateMachine.GetTransitionState(NpcStateTransitions.MOVING_TO_UNSRESPAWN))
+        public void SetTableMoved()
         {
-            stateMachine.SetTransition(NpcStateTransitions.MOVING_TO_UNSRESPAWN);
-            GoTo(BussGrid.GetRandomSpamPointWorldPosition().GridPosition);
+            StateMachine.UnSetAll();
+            StateMachine.SetTransition(NpcStateTransitions.TableMoved);
         }
-        else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER)
+
+        public void SetCounter(GameGridObject counter)
         {
-            if (counter == null) { return; }
-            GoTo(counter.GetActionTileInGridPosition());
+            _counterAssigned = true;
+            this._counter = counter;
         }
-        else if (stateMachine.Current.State == NpcState.WALKING_TO_TABLE)
+
+        public void SetTableToAttend(GameGridObject obj)
         {
-            if (table == null) { return; }
-            //TODO: improve, method to standup on any non-busy cell
-            GoTo(BussGrid.GetClosestPathGridPoint(Position, table.GetActionTileInGridPosition()));
+            Table = obj;
         }
-        else if (stateMachine.Current.State == NpcState.TAKING_ORDER && !stateMachine.GetTransitionState(NpcStateTransitions.ORDER_SERVED))
+
+        public bool IsAttendingTable()
         {
-            EnergyBar.SetActive(SPEED_TIME_TAKING_ORDER);
+            return Table != null;
         }
-        else if (stateMachine.Current.State == NpcState.WALKING_TO_COUNTER_AFTER_ORDER)
+
+        private void CreateCoin()
         {
-            table = null;
-            if (counter == null) { return; }
-            GoTo(counter.GetActionTileInGridPosition());
+            var initPosition = transform.position;
+
+            var coin =
+                Instantiate(Resources.Load("Objects/Coin", typeof(GameObject)), initPosition, Quaternion.identity) as
+                    GameObject;
         }
-        else if (stateMachine.Current.State == NpcState.REGISTERING_CASH && !stateMachine.GetTransitionState(NpcStateTransitions.CASH_REGISTERED))
-        {
-            EnergyBar.SetActive(SPEED_TIME_TAKING_ORDER);
-        }
-    }
-
-    public NpcState GetNpcState()
-    {
-        return stateMachine.Current.State;
-    }
-
-    public float GetNpcStateTime()
-    {
-        return Mathf.Floor(stateTime);
-    }
-
-    public Vector3Int GetCoordOfTableToBeAttended()
-    {
-        return base.table.GridPosition;
-    }
-
-    public void SetUnrespawn()
-    {
-        stateMachine.SetTransition(NpcStateTransitions.MOVING_TO_UNSRESPAWN);
-    }
-
-    public void SetTableMoved()
-    {
-        stateMachine.UnSetAll();
-        stateMachine.SetTransition(NpcStateTransitions.TABLE_MOVED);
-    }
-
-    public void SetCounter(GameGridObject counter)
-    {
-        counterAssigned = true;
-        this.counter = counter;
-    }
-
-    public void SetTableToAttend(GameGridObject obj)
-    {
-        table = obj;
-    }
-
-    public bool IsAttendingTable()
-    {
-        return table != null;
-    }
-
-    private void CreateCoin()
-    {
-        Vector3 initPosition = transform.position;
-        GameObject coin = Instantiate(Resources.Load("Objects/Coin", typeof(GameObject)), initPosition, Quaternion.identity) as GameObject;
     }
 }

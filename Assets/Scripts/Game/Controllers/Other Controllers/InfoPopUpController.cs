@@ -1,76 +1,83 @@
+using Game.Players;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
+using Util;
 
-public class InfoPopUpController : MonoBehaviour
+namespace Game.Controllers.Other_Controllers
 {
-    private GameObject topStoreItemInfoPopUpImage;
-    private SpriteResolver spriteResolverTopStoreItem;
-    private Animator animator;
-
-    // Start is called before the first frame update
-    void Awake()
+    public class InfoPopUpController : MonoBehaviour
     {
-        topStoreItemInfoPopUpImage = transform.Find("Image").gameObject;
-        Util.IsNull(topStoreItemInfoPopUpImage, "InfoPopUpController/topStoreItemInfoPopUpImage null");
-        spriteResolverTopStoreItem = topStoreItemInfoPopUpImage.GetComponent<SpriteResolver>();
-        animator = transform.GetComponent<Animator>();
-        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, "Store-1-Item-1");//Default Item
-        DisableAnimation();
-        topStoreItemInfoPopUpImage.SetActive(false);
-    }
+        private GameObject _topStoreItemInfoPopUpImage;
+        private SpriteResolver _spriteResolverTopStoreItem;
+        private Animator _animator;
 
-    public void SetSprite(string sprite)
-    {
-        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, sprite);
-    }
-
-    public void Enable()
-    {
-        EnableAnimation();
-        gameObject.SetActive(true);
-        topStoreItemInfoPopUpImage.SetActive(true);
-    }
-
-    public void EnableWithoutAnimation()
-    {
-        if (gameObject.activeSelf)
+        // Start is called before the first frame update
+        void Awake()
         {
-            return;
+            _topStoreItemInfoPopUpImage = transform.Find("Image").gameObject;
+            Util.Util.IsNull(_topStoreItemInfoPopUpImage, "InfoPopUpController/topStoreItemInfoPopUpImage null");
+            _spriteResolverTopStoreItem = _topStoreItemInfoPopUpImage.GetComponent<SpriteResolver>();
+            _animator = transform.GetComponent<Animator>();
+            _spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite,
+                "Store-1-Item-1"); //Default Item
+            DisableAnimation();
+            _topStoreItemInfoPopUpImage.SetActive(false);
         }
 
-        DisableAnimation();
-        gameObject.SetActive(true);
-        topStoreItemInfoPopUpImage.SetActive(true);
-    }
-
-    public void Disable()
-    {
-        if (!gameObject.activeSelf)
+        public void SetSprite(string sprite)
         {
-            return;
+            _spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, sprite);
         }
 
-        DisableAnimation();
-        gameObject.SetActive(false);
-        topStoreItemInfoPopUpImage.SetActive(false);
-    }
+        public void Enable()
+        {
+            EnableAnimation();
+            gameObject.SetActive(true);
+            _topStoreItemInfoPopUpImage.SetActive(true);
+        }
 
-    public void SetInfoPopUItem(ItemType item)
-    {
-        spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite, GameObjectList.GetItemSprite(item));    
-    }
+        public void EnableWithoutAnimation()
+        {
+            if (gameObject.activeSelf)
+            {
+                return;
+            }
 
-    private void EnableAnimation()
-    {
-        animator.enabled = true;
-        animator.ResetTrigger(InfoAnimatorState.Idle);
-        animator.SetTrigger(InfoAnimatorState.Moving);
-    }
+            DisableAnimation();
+            gameObject.SetActive(true);
+            _topStoreItemInfoPopUpImage.SetActive(true);
+        }
 
-    private void DisableAnimation()
-    {
-        animator.enabled = false;
-        animator.ResetTrigger(InfoAnimatorState.Moving);
-        animator.SetTrigger(InfoAnimatorState.Idle);
+        public void Disable()
+        {
+            if (!gameObject.activeSelf)
+            {
+                return;
+            }
+
+            DisableAnimation();
+            gameObject.SetActive(false);
+            _topStoreItemInfoPopUpImage.SetActive(false);
+        }
+
+        public void SetInfoPopUItem(ItemType item)
+        {
+            _spriteResolverTopStoreItem.SetCategoryAndLabel(Settings.TopObjectInfoSprite,
+                GameObjectList.GetItemSprite(item));
+        }
+
+        private void EnableAnimation()
+        {
+            _animator.enabled = true;
+            _animator.ResetTrigger(InfoAnimatorState.Idle);
+            _animator.SetTrigger(InfoAnimatorState.Moving);
+        }
+
+        private void DisableAnimation()
+        {
+            _animator.enabled = false;
+            _animator.ResetTrigger(InfoAnimatorState.Moving);
+            _animator.SetTrigger(InfoAnimatorState.Idle);
+        }
     }
 }

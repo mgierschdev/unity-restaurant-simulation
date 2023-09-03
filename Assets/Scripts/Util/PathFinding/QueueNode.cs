@@ -1,27 +1,31 @@
-public class QueueNode
+namespace Util.PathFinding
 {
-    private int[] data;
-    private double priority;
-    public QueueNode next;
-
-    public QueueNode(int[] data, double priority)
+    public class QueueNode
     {
-        this.data = data;
-        this.priority = priority;
-    }
+        public QueueNode Next;
+    
+        private readonly int[] _data;
+        private readonly double _priority;
 
-    public QueueNode()
-    {
+        public QueueNode(int[] data, double priority)
+        {
+            _data = data;
+            _priority = priority;
+        }
 
-    }
+        public QueueNode()
+        {
 
-    public int[] GetData()
-    {
-        return data;
-    }
+        }
 
-    public double GetPriority()
-    {
-        return priority;
+        public int[] GetData()
+        {
+            return _data;
+        }
+
+        public double GetPriority()
+        {
+            return _priority;
+        }
     }
 }

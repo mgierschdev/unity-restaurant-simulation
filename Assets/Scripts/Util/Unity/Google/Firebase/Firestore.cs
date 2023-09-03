@@ -1,16 +1,16 @@
 // using System.Threading.Tasks;
 // using Firebase;
 // using Firebase.Firestore;
-
+//
 // public static class Firestore
 // {
 //     private static FirebaseFirestore firestore;
 //     private static FirebaseApp app;
-
+//
 //     public static void Init(bool editor)
 //     {
 //         firestore = FirebaseFirestore.DefaultInstance;
-
+//
 //         if (editor)
 //         {
 //             // In case the config has been cached between scene loads
@@ -21,12 +21,12 @@
 //             }
 //         }
 //     }
-
+//
 //     // Only during the first login
 //     public static Task<DocumentSnapshot> GetUserData(string UID)
 //     {
 //         DocumentReference userData = null;
-
+//
 //         if (Settings.IsFirebaseEmulatorEnabled)
 //         {
 //             userData = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION).Document(UID);
@@ -35,18 +35,19 @@
 //         {
 //             userData = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION).Document(UID);
 //         }
-
+//
 //         return userData.GetSnapshotAsync() ?? null;
 //     }
-
+//
 //     public static Task SaveUser()
 //     {
 //         if (PlayerData.GetFirebaseGameUser() == null)
 //         {
 //             return null;
 //         }
-
-//         DocumentReference testUser = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)?.Document(PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
+//
+//         DocumentReference testUser = firestore.Collection(Settings.USER_PRED_PROD_COLLECTION)
+//             ?.Document(PlayerData.GetFirebaseGameUser().FIREBASE_AUTH_ID);
 //         return testUser.SetAsync(PlayerData.GetFirebaseGameUser(), SetOptions.MergeAll);
 //     }
 // }

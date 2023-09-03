@@ -1,84 +1,89 @@
 using System;
+using Game.Controllers.Other_Controllers;
 using UnityEngine;
+using Util;
 
-public class PlayerAnimationStateController : MonoBehaviour
+namespace Game.Controllers.NPC_Controllers
 {
-    private InfoPopUpController infoPopUpController;
-    private GameObject tryItem;
-    private Animator animator;
-    public void Start()
+    public class PlayerAnimationStateController : MonoBehaviour
     {
-        GameObject character = gameObject.transform.Find(Settings.NpcCharacter).gameObject;
-        animator = character.GetComponent<Animator>();
-        //On top Info popup
-        GameObject infoPopUpGameobject = transform.Find(Settings.TopPopUpObject).gameObject;
-        infoPopUpController = infoPopUpGameobject.GetComponent<InfoPopUpController>();
-        // Left hand try object
-        tryItem = gameObject.transform.Find(Settings.TryObject).gameObject;
-        tryItem.SetActive(false);
+        private InfoPopUpController _infoPopUpController;
+        private GameObject _tryItem;
+        private Animator _animator;
 
-        if (animator == null)
+        public void Start()
         {
-            GameLog.LogWarning("PlayerAnimationStateController/Animator null");
-        }
-    }
+            var character = gameObject.transform.Find(Settings.NpcCharacter).gameObject;
+            _animator = character.GetComponent<Animator>();
+            //On top Info popup
+            var infoPopUpGameobject = transform.Find(Settings.TopPopUpObject).gameObject;
+            _infoPopUpController = infoPopUpGameobject.GetComponent<InfoPopUpController>();
+            // Left hand try object
+            _tryItem = gameObject.transform.Find(Settings.TryObject).gameObject;
+            _tryItem.SetActive(false);
 
-    public void SetInfoPopUItem(ItemType item)
-    {
-        infoPopUpController.SetInfoPopUItem(item);
-    }
-
-    public void SetState(NpcState state)
-    {
-        if (!animator)
-        {
-            return;
+            if (_animator == null)
+            {
+                GameLog.LogWarning("PlayerAnimationStateController/Animator null");
+            }
         }
 
-        ResetAllTriggers();
+        public void SetInfoPopUItem(ItemType item)
+        {
+            _infoPopUpController.SetInfoPopUItem(item);
+        }
 
-        if (state == NpcState.WALKING_TO_TABLE)
+        public void SetState(NpcState state)
         {
-            animator.SetTrigger(NPCAnimatorState.WalkingToTable.ToString());
-            tryItem.SetActive(true);
-            infoPopUpController.Disable();
-        }
-        else if (state == NpcState.WALKING)
-        {
-            animator.SetTrigger(NPCAnimatorState.Walking.ToString());
-            tryItem.SetActive(false);
-            infoPopUpController.Disable();
-        }
-        else if (state == NpcState.WAITING_TO_BE_ATTENDED)
-        {
-            animator.SetTrigger(NPCAnimatorState.WaitingAtTable.ToString());
-            tryItem.SetActive(false);
-            infoPopUpController.EnableWithoutAnimation();
-        }
-        else if (state == NpcState.TAKING_ORDER)
-        {
-            animator.SetTrigger(NPCAnimatorState.IdleTry.ToString());
-            tryItem.SetActive(true);
-            infoPopUpController.Disable();
-        }
-        else if (state == NpcState.EATING_FOOD)
-        {
-            animator.SetTrigger(NPCAnimatorState.EatingAtTable.ToString());
-        }
-        else if (state != NpcState.WAITING_TO_BE_ATTENDED)
-        {
+            if (!_animator)
+            {
+                return;
+            }
 
-            animator.SetTrigger(NPCAnimatorState.Idle.ToString());
-            tryItem.SetActive(false);
-            infoPopUpController.Disable();
-        }
-    }
+            ResetAllTriggers();
 
-    private void ResetAllTriggers()
-    {
-        foreach (NPCAnimatorState state in Enum.GetValues(typeof(NPCAnimatorState)))
+            if (state == NpcState.WalkingToTable)
+            {
+                _animator.SetTrigger(NpcAnimatorState.WalkingToTable.ToString());
+                _tryItem.SetActive(true);
+                _infoPopUpController.Disable();
+            }
+            else if (state == NpcState.Walking)
+            {
+                _animator.SetTrigger(NpcAnimatorState.Walking.ToString());
+                _tryItem.SetActive(false);
+                _infoPopUpController.Disable();
+            }
+            else if (state == NpcState.WaitingToBeAttended)
+            {
+                _animator.SetTrigger(NpcAnimatorState.WaitingAtTable.ToString());
+                _tryItem.SetActive(false);
+                _infoPopUpController.EnableWithoutAnimation();
+            }
+            else if (state == NpcState.TakingOrder)
+            {
+                _animator.SetTrigger(NpcAnimatorState.IdleTry.ToString());
+                _tryItem.SetActive(true);
+                _infoPopUpController.Disable();
+            }
+            else if (state == NpcState.EatingFood)
+            {
+                _animator.SetTrigger(NpcAnimatorState.EatingAtTable.ToString());
+            }
+            else
+            {
+                _animator.SetTrigger(NpcAnimatorState.Idle.ToString());
+                _tryItem.SetActive(false);
+                _infoPopUpController.Disable();
+            }
+        }
+
+        private void ResetAllTriggers()
         {
-            animator.ResetTrigger(state.ToString());
+            foreach (NpcAnimatorState state in Enum.GetValues(typeof(NpcAnimatorState)))
+            {
+                _animator.ResetTrigger(state.ToString());
+            }
         }
     }
 }

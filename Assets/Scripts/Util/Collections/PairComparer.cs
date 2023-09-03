@@ -1,9 +1,16 @@
+using System;
 using System.Collections.Generic;
 
-public class PairComparer<T> : IComparer<Pair<T, int>>
+namespace Util.Collections
 {
-    public int Compare(Pair<T, int> a, Pair<T, int> b)
+    public class PairComparer<T> : IComparer<Pair<T, int>>
     {
-        return a.Value - b.Value;
+        public int Compare(Pair<T, int> a, Pair<T, int> b)
+        {
+            _ = a ?? throw new ArgumentNullException(nameof(a));
+            _ = b ?? throw new ArgumentNullException(nameof(b));
+            
+            return a.Value - b.Value;
+        }
     }
 }

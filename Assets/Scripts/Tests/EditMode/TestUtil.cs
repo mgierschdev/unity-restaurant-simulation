@@ -1,15 +1,18 @@
 using NUnit.Framework;
 
-public class TestUtil
+namespace Tests.EditMode
 {
-    [Test]
-    public void TestAddElements()
+    public class TestUtil
     {
-        Assert.AreEqual(Util.convertToTextAndReduceCurrency(1000), "1000");
-        Assert.AreEqual(Util.convertToTextAndReduceCurrency(10000), "10K");
-        Assert.AreEqual(Util.convertToTextAndReduceCurrency(1234), "1234");
-        Assert.AreEqual(Util.convertToTextAndReduceCurrency(12340), "12K");
-        Assert.AreEqual(Util.convertToTextAndReduceCurrency(150000), "150K");
-        Assert.AreEqual(Util.convertToTextAndReduceCurrency(152345), "152K");
+        [Test]
+        public void TestAddElements()
+        {
+            Assert.AreEqual(Util.Util.ConvertToTextAndReduceCurrency(1000), "1000");
+            Assert.AreEqual(Util.Util.ConvertToTextAndReduceCurrency(10000), "10K");
+            Assert.AreEqual(Util.Util.ConvertToTextAndReduceCurrency(1234), "1234");
+            Assert.AreEqual(Util.Util.ConvertToTextAndReduceCurrency(12340), "12K");
+            Assert.AreEqual(Util.Util.ConvertToTextAndReduceCurrency(150000), "150K");
+            Assert.AreEqual(Util.Util.ConvertToTextAndReduceCurrency(152345), "152K");
+        }
     }
 }

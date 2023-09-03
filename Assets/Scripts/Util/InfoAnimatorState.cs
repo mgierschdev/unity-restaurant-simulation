@@ -1,5 +1,8 @@
-public static class InfoAnimatorState
+namespace Util
 {
-    public const string Idle = "Idle";
-    public const string Moving = "Moving";
+    public static class InfoAnimatorState
+    {
+        public const string Idle = "Idle";
+        public const string Moving = "Moving";
+    }
 }

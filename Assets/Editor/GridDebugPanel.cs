@@ -1,37 +1,50 @@
 #if (UNITY_EDITOR)
 
+using System;
 using System.Collections.Generic;
+using Game.Controllers.NPC_Controllers;
+using Game.Controllers.Other_Controllers;
+using Game.Grid;
+using Game.Players;
+using Game.Players.Model;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Util;
 using IEnumerator = System.Collections.IEnumerator;
 
 namespace Editor
 {
     public class GridDebugPanel : EditorWindow
     {
-        [SerializeField]
-        private bool isGameSceneLoaded, gridDebugEnabled;
+        [SerializeField] private bool isGameSceneLoaded, gridDebugEnabled;
         private Label _gridDebugContent;
-        private VisualElement _gridDisplay, _mainContainer, _clientContainerGraphDebugger, _employeeContainerGraphDebugger;
+
+        private VisualElement _gridDisplay,
+            _mainContainer,
+            _clientContainerGraphDebugger,
+            _employeeContainerGraphDebugger;
+
         private TemplateContainer _templateContainer;
         private Button _buttonStartDebug;
         private GameController _gameController;
+
         private const string EmptyCellStyle = "grid-cell-empty",
             BusyCellStyle = "grid-cell-busy",
             ActionCellStyle = "grid-cell-action",
             NpcBusyCellStyle = "grid-cell-npc";
 
-        [UnityEditor.MenuItem(Settings.gameName + "/Play: First Scene")]
+        [MenuItem(Settings.GameName + "/Play: First Scene")]
         public static void RunMainScene()
         {
             EditorSceneManager.OpenScene("Assets/Scenes/" + Settings.LoadScene + ".unity");
             EditorApplication.isPlaying = true;
         }
 
-        [UnityEditor.MenuItem(Settings.gameName + "/Debug: Grid Panel")]
+        [MenuItem(Settings.GameName + "/Debug: Grid Panel")]
         public static void ShowExample()
         {
             GridDebugPanel wnd = GetWindow<GridDebugPanel>();
@@ -64,11 +77,10 @@ namespace Editor
         // IEnumerator to not refresh the UI on the Update which is computational expensive 
         private IEnumerator UpdateUICoroutine()
         {
-            for (; ; )
+            for (;;)
             {
                 if (EditorApplication.isPlayingOrWillChangePlaymode)
                 {
-                    // TODO: and scene is the game scene
                     if (gridDebugEnabled)
                     {
                         if (_gameController == null)
@@ -89,6 +101,7 @@ namespace Editor
                         _gridDisplay.Clear();
                     }
                 }
+
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -112,7 +125,12 @@ namespace Editor
                 return;
             }
 
-            Button button = evt.currentTarget as Button;
+            var button = evt.currentTarget as Button;
+
+            if (button == null)
+            {
+                throw new ArgumentException(nameof(button));
+            }
 
             if (gridDebugEnabled)
             {
@@ -129,9 +147,10 @@ namespace Editor
                 _mainContainer.SetEnabled(true);
             }
         }
+
         private void Update()
         {
-            if (EditorSceneManager.GetActiveScene().name != Settings.GameScene)
+            if (SceneManager.GetActiveScene().name != Settings.GameScene)
             {
                 return;
             }
@@ -149,7 +168,7 @@ namespace Editor
             int[,] grid = BussGrid.GetGridArray();
             int[,] busGrid = BussGrid.GetBussGridWithinGrid();
 
-            // Traspose
+            // Transpose
             for (int i = 0; i < busGrid.GetLength(0); i++)
             {
                 for (int j = 0; j < busGrid.GetLength(1); j++)
@@ -165,12 +184,12 @@ namespace Editor
                 }
             }
 
-            int[,] newGrid = Util.TransposeGridForDebugging(busGrid);
+            var newGrid = Util.Util.TransposeGridForDebugging(busGrid);
 
             // We set the Display
             // We set the max size of the editor display
             _gridDisplay.style.width = grid.GetLength(0) * 30;
-            // We clean prev childs
+            // We clean prev children
             _gridDisplay.Clear();
 
             for (int i = 10; i < newGrid.GetLength(0) - 5; i++)
@@ -180,17 +199,17 @@ namespace Editor
                     VisualElement cell = new VisualElement();
                     _gridDisplay.Add(cell);
 
-                    if (newGrid[i, j] == (int)CellValue.NPC_POSITION)
+                    if (newGrid[i, j] == (int)CellValue.NpcPosition)
                     {
                         cell.AddToClassList(NpcBusyCellStyle);
                         continue;
                     }
 
-                    if (newGrid[i, j] == (int)CellValue.EMPTY)
+                    if (newGrid[i, j] == (int)CellValue.Empty)
                     {
                         cell.AddToClassList(EmptyCellStyle);
                     }
-                    else if (newGrid[i, j] == (int)CellValue.BUSY)
+                    else if (newGrid[i, j] == (int)CellValue.Busy)
                     {
                         cell.AddToClassList(BusyCellStyle);
                     }
@@ -213,6 +232,7 @@ namespace Editor
                 {
                     continue;
                 }
+
                 maps += "<b>" + g.Key.Name + "</b> \n";
             }
 
@@ -225,6 +245,7 @@ namespace Editor
                 {
                     continue;
                 }
+
                 maps += "<b>" + g.Key.Name + "</b> \n";
             }
 
@@ -238,7 +259,10 @@ namespace Editor
                     continue;
                 }
 
-                maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" + (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" + g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client:" + (g.GetUsedBy() != null) + " Emp:" + g.HasAttendedBy() + "</b> \n";
+                maps += "<b>" + g.Name + " Stored:" + PlayerData.IsItemStored(g.Name) + " Client:" +
+                        (g.GetUsedBy() != null) + " Dragged:" + g.GetIsObjectBeingDragged() + " Selected:" +
+                        g.GetIsObjectSelected() + " Bought:" + g.GetIsItemBought() + " Client:" +
+                        (g.GetUsedBy() != null) + " Emp:" + g.HasAttendedBy() + "</b> \n";
             }
 
             maps += " \n";
@@ -246,7 +270,8 @@ namespace Editor
             maps += "Backend storage size: " + PlayerData.GerUserObjects().Count + " \n";
             foreach (DataGameObject g in PlayerData.GerUserObjects())
             {
-                maps += "<b>ID:" + ((StoreItemType)g.ID) + " Stored:" + g.IS_STORED + " Position (" + g.POSITION[0] + "," + g.POSITION[1] + ") Rotation:" + ((ObjectRotation)g.ROTATION) + "</b> \n";
+                maps += "<b>ID:" + ((StoreItemType)g.id) + " Stored:" + g.isStored + " Position (" + g.position[0] +
+                        "," + g.position[1] + ") Rotation:" + ((ObjectRotation)g.rotation) + "</b> \n";
             }
 
             maps += "\n";
@@ -254,31 +279,9 @@ namespace Editor
             return maps;
         }
 
-        private string EntireGridToText()
-        {
-            string output = " ";
-            int[,] grid = BussGrid.GetGridArray();
-            for (int i = 0; i < grid.GetLength(0); i++)
-            {
-                for (int j = 0; j < grid.GetLength(1); j++)
-                {
-                    if (grid[i, j] == -1)
-                    {
-                        output += " 0";
-                    }
-                    else
-                    {
-                        output += " " + grid[i, j];
-                    }
-                }
-                output += "\n";
-            }
-            return output;
-        }
-
         private string SetPlayerData()
         {
-            string output = "Employe and Client states: \n";
+            string output = "Employee and Client states: \n";
 
             foreach (EmployeeController employeeController in _gameController.GetEmployeeSet())
             {
@@ -288,7 +291,9 @@ namespace Editor
 
             foreach (ClientController current in _gameController.GetNpcSet())
             {
-                output += current.Name + " State: " + current.GetNpcState() + "(" + (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" + current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
+                output += current.Name + " State: " + current.GetNpcState() + "(" +
+                          (current.GetTable() != null ? current.GetTable().Name : "null") + ") Time:" +
+                          current.GetNpcStateTime() + " - speed: " + current.GetSpeed() + " \n";
             }
 
             return output;

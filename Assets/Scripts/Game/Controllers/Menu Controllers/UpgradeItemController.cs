@@ -1,95 +1,103 @@
+using Game.Players;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Util;
 
-public class UpgradeItemController : MonoBehaviour
+namespace Game.Controllers.Menu_Controllers
 {
-    private Button button;
-    private GameObject img;
-    private Image background, imgComponent;
-    private GameObject textCostGameObject, textCurrentLevelGameObject, titleTextGameObject;
-    private TextMeshProUGUI textCost, textCurrentUpgrade, titleText;
-    private StoreGameObject storeGameObject;
-    private int upgradeValue;
-
-    void Awake()
+    public class UpgradeItemController : MonoBehaviour
     {
-        button = transform.GetComponent<Button>();
-        img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
-        GameObject gameObject = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
-        background = img.GetComponent<Image>();
-        textCostGameObject = transform.Find(Settings.PrefabUpgradeItemTextPrice).gameObject;
-        textCurrentLevelGameObject = transform.Find(Settings.PrefabUpgradeLevelItemTextPrice).gameObject;
-        titleTextGameObject = transform.Find(Settings.PrefabInventoryItemTextTitle).gameObject;
-        textCost = textCostGameObject.GetComponent<TextMeshProUGUI>();
-        textCurrentUpgrade = textCurrentLevelGameObject.GetComponent<TextMeshProUGUI>();
-        titleText = titleTextGameObject.GetComponent<TextMeshProUGUI>();
-        imgComponent = gameObject.GetComponent<Image>();
-    }
+        private Button _button;
+        private GameObject _img;
+        private Image _background, _imgComponent;
+        private GameObject _textCostGameObject, _textCurrentLevelGameObject, _titleTextGameObject;
+        private TextMeshProUGUI _textCost, _textCurrentUpgrade, _titleText;
+        private StoreGameObject _storeGameObject;
+        private int _upgradeValue;
 
-    // Sets the Item image on the tab Menu for the current item
-    public void SetInventoryItem(StoreGameObject storeGameObject)
-    {
-        this.storeGameObject = storeGameObject;
-        transform.name = storeGameObject.UpgradeType.ToString();
-        Sprite sp = GameObjectList.ObjectSprites[storeGameObject.MenuItemSprite];
-        imgComponent.sprite = sp;
-        SetPrice(storeGameObject.Cost.ToString());
-        upgradeValue = PlayerData.GetUgrade(storeGameObject.UpgradeType);
-        SetCurrentLevel();
-        SetTitle(storeGameObject.Name);
-    }
-
-    public void SetTitle(string value)
-    {
-        titleText.text = value;
-    }
-
-    public void SetCurrentLevel()
-    {
-        textCurrentUpgrade.text = TextUI.CurrentLevel + ":" + (storeGameObject.MaxLevel <= upgradeValue ? TextUI.Max : upgradeValue.ToString());
-    }
-
-    public void SetPrice(string value)
-    {
-        textCost.text = TextUI.Price + ":" + value;
-    }
-
-    public void IncreaseUpgrade()
-    {
-        if (storeGameObject.Cost <= PlayerData.GetMoneyDouble())
+        void Awake()
         {
-            upgradeValue++;
+            _button = transform.GetComponent<Button>();
+            _img = transform.Find(Settings.PrefabInventoryItemImage).gameObject;
+            var gameObjectImagePrefab = transform.Find(Settings.PrefabMenuInventoryItemImage).gameObject;
+            _background = _img.GetComponent<Image>();
+            _textCostGameObject = transform.Find(Settings.PrefabUpgradeItemTextPrice).gameObject;
+            _textCurrentLevelGameObject = transform.Find(Settings.PrefabUpgradeLevelItemTextPrice).gameObject;
+            _titleTextGameObject = transform.Find(Settings.PrefabInventoryItemTextTitle).gameObject;
+            _textCost = _textCostGameObject.GetComponent<TextMeshProUGUI>();
+            _textCurrentUpgrade = _textCurrentLevelGameObject.GetComponent<TextMeshProUGUI>();
+            _titleText = _titleTextGameObject.GetComponent<TextMeshProUGUI>();
+            _imgComponent = gameObjectImagePrefab.GetComponent<Image>();
+        }
+
+        // Sets the Item image on the tab Menu for the current item
+        public void SetInventoryItem(StoreGameObject storeGameObject)
+        {
+            this._storeGameObject = storeGameObject;
+            transform.name = storeGameObject.UpgradeType.ToString();
+            Sprite sp = GameObjectList.ObjectSprites[storeGameObject.MenuItemSprite];
+            _imgComponent.sprite = sp;
+            SetPrice(storeGameObject.Cost.ToString());
+            _upgradeValue = PlayerData.GetUgrade(storeGameObject.UpgradeType);
             SetCurrentLevel();
+            SetTitle(storeGameObject.Name);
         }
-        else
+
+        public void SetTitle(string value)
         {
-            SetUnavailable();
+            _titleText.text = value;
         }
-    }
 
-    public StoreGameObject GetStoreGameObject()
-    {
-        return storeGameObject;
-    }
+        public void SetCurrentLevel()
+        {
+            _textCurrentUpgrade.text = TextUI.CurrentLevel + ":" +
+                                       (_storeGameObject.MaxLevel <= _upgradeValue
+                                           ? TextUI.Max
+                                           : _upgradeValue.ToString());
+        }
 
-    public Button GetButton()
-    {
-        return button;
-    }
+        public void SetPrice(string value)
+        {
+            _textCost.text = TextUI.Price + ":" + value;
+        }
 
-    public void SetBackground(Color color)
-    {
-        background.color = color;
-    }
+        public void IncreaseUpgrade()
+        {
+            if (_storeGameObject.Cost <= PlayerData.GetMoneyDouble())
+            {
+                _upgradeValue++;
+                SetCurrentLevel();
+            }
+            else
+            {
+                SetUnavailable();
+            }
+        }
 
-    public void SetUnavailable()
-    {
-        imgComponent.color = Util.DisableColor;
-    }
+        public StoreGameObject GetStoreGameObject()
+        {
+            return _storeGameObject;
+        }
 
-    public void SetAvailable()
-    {
-        imgComponent.color = Color.white;
+        public Button GetButton()
+        {
+            return _button;
+        }
+
+        public void SetBackground(Color color)
+        {
+            _background.color = color;
+        }
+
+        public void SetUnavailable()
+        {
+            _imgComponent.color = Util.Util.DisableColor;
+        }
+
+        public void SetAvailable()
+        {
+            _imgComponent.color = Color.white;
+        }
     }
 }
