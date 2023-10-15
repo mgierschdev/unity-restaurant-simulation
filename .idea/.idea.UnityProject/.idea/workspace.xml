@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9e6340c5-b6a6-4945-bd75-0cc334366086" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/RenderPipeline/2D Universal Render Pipeline Asset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderPipeline/2D Universal Render Pipeline Asset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RenderPipeline/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderPipeline/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Players/Character.psb.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Players/Character.psb.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Players/Sprites/Character-2.psb.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Players/Sprites/Character-2.psb.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Players/Sprites/Character-3.psb.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Players/Sprites/Character-3.psb.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Players/Sprites/Character.psb.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Players/Sprites/Character.psb.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/High_PipelineAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/High_PipelineAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Low_PipelineAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Low_PipelineAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Low_PipelineAsset_ForwardRenderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Low_PipelineAsset_ForwardRenderer.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Medium_PipelineAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Medium_PipelineAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Ultra_PipelineAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Ultra_PipelineAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Very High_PipelineAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Very High_PipelineAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Very Low_PipelineAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Very Low_PipelineAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/boot.config" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Arcade-2D-Game" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;mgierschdev&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="15a38ebe-86ae-4c68-8bc7-28b5cb2ee31b" />
+        <option name="url" value="https://github.com/mgierschdev/UnityProject.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/486e3fc01f2a4ff4b024488cff66ab58159400/54/436c298a/SceneManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7ec2ecebbbc34e529a847b6e54fa137e1f800/80/1e686a1e/Physics2D.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f646c7a159d243a7909d5204af0f0c56469200/0c/a44e438b/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/RenderPipeline/2D Universal Render Pipeline Asset.asset" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/EnergyBar.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataGameUser.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataGameUser.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataGameUser.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataStatsGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataStatsGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/DataStatsGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/UpgradeGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/UpgradeGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/UpgradeGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/maximiliamgierschmann/Study-Repo/UnityProject/Assets/Scripts/Game/Players/Model/UpgradeGameObject.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="SWEA" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2EJv58U3gwcgAnHp3xZe28ephmT" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Discover.Launch.Via.Unity&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CodeCleanupOptionsPage&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;repository&quot;
+    ],
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/Users/maximiliamgierschmann/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache&quot;,
+      &quot;/Users/maximiliamgierschmann/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache&quot;,
+      &quot;/Users/maximiliamgierschmann/.local/share/Symbols/src&quot;
+    ]
+  }
+}</component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor &amp; Play">
+    <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2022.3.11f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath $PROJECT_DIR$ -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2022.3.11f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath $PROJECT_DIR$ -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2021.3.5f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath $PROJECT_DIR$ -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9e6340c5-b6a6-4945-bd75-0cc334366086" name="Changes" comment="" />
+      <created>1662326319410</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1662326319410</updated>
+      <workItem from="1662326322056" duration="1360000" />
+      <workItem from="1662328593141" duration="1249000" />
+      <workItem from="1662330873144" duration="1831000" />
+      <workItem from="1662385227446" duration="10573000" />
+      <workItem from="1662396128522" duration="7646000" />
+      <workItem from="1662405032563" duration="4538000" />
+      <workItem from="1662471158032" duration="4913000" />
+      <workItem from="1662478208206" duration="1502000" />
+      <workItem from="1662479894884" duration="3126000" />
+      <workItem from="1662746703452" duration="999000" />
+      <workItem from="1688431710839" duration="51000" />
+      <workItem from="1688431877760" duration="76000" />
+      <workItem from="1688431968067" duration="53000" />
+      <workItem from="1688432035390" duration="175000" />
+      <workItem from="1688432324153" duration="96000" />
+      <workItem from="1688508126591" duration="1849000" />
+      <workItem from="1688510298074" duration="18000" />
+      <workItem from="1693680219747" duration="35000" />
+      <workItem from="1693680533520" duration="1774000" />
+      <workItem from="1693746163862" duration="2610000" />
+      <workItem from="1693753810155" duration="7545000" />
+      <workItem from="1695329894150" duration="1143000" />
+      <workItem from="1695331449028" duration="307000" />
+      <workItem from="1695331857270" duration="27000" />
+      <workItem from="1697384877121" duration="2819000" />
+    </task>
+    <task id="LOCAL-00001" summary="Adding Rshaper recommendations and refactoring var names and nested Ifs">
+      <created>1662387331927</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1662387331927</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Refactoring names">
+      <created>1662389032776</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1662389032776</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Refactoring names">
+      <created>1662390976765</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1662390976765</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Replacing Debug.Log for GameLog">
+      <created>1662393814687</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1662393814687</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Updating Text in the UI and Adding Active UI object while Editing">
+      <created>1662395785689</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1662395785689</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Format refactors">
+      <created>1662400041737</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1662400041737</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixing GameLog bug">
+      <created>1662401493031</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1662401493031</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Adding selected items to the edit panel, adding player class with working add Money after attending new clients">
+      <created>1662403984756</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1662403984756</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Adding perspective hand to the edit menu">
+      <created>1662405343934</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1662405343934</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Adding GoTo CameraController.cs for cinematics">
+      <created>1662406176304</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1662406176304</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Adding several things, working camera GoTo, opening edit panels, corrent Npc Transitions, only showing items that can be bought.">
+      <created>1662409306655</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1662409306655</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Npc(employee) Getting stuck when the speed is reduced to 1s">
+      <created>1662472033561</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1662472033562</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Small Lag Flipping the character">
+      <created>1662472564251</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1662472564251</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Improvement to the Click over table, only available on edit panel">
+      <created>1662472798969</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1662472798969</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Last working version of the project as it is, 4 Jul">
+      <option name="closed" value="true" />
+      <created>1688509597333</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1688509597333</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Saving meta files">
+      <option name="closed" value="true" />
+      <created>1693687981069</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1693687981069</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Saving meta files and small refactor">
+      <option name="closed" value="true" />
+      <created>1693746236018</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1693746236018</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Addressing Rider problems, refactoring">
+      <option name="closed" value="true" />
+      <created>1693748149614</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1693748149614</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Resolving R shaper warnings">
+      <option name="closed" value="true" />
+      <created>1693761084669</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1693761084669</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Adding new save file, upgrade unity version">
+      <option name="closed" value="true" />
+      <created>1697387458720</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1697387458720</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Adding Rshaper recommendations and refactoring var names and nested Ifs" />
+    <MESSAGE value="Refactoring names" />
+    <MESSAGE value="Replacing Debug.Log for GameLog" />
+    <MESSAGE value="Updating Text in the UI and Adding Active UI object while Editing" />
+    <MESSAGE value="Format refactors" />
+    <MESSAGE value="Fixing GameLog bug" />
+    <MESSAGE value="Adding selected items to the edit panel, adding player class with working add Money after attending new clients" />
+    <MESSAGE value="Adding perspective hand to the edit menu" />
+    <MESSAGE value="Adding GoTo CameraController.cs for cinematics" />
+    <MESSAGE value="Adding several things, working camera GoTo, opening edit panels, corrent Npc Transitions, only showing items that can be bought." />
+    <MESSAGE value="Npc(employee) Getting stuck when the speed is reduced to 1s" />
+    <MESSAGE value="Small Lag Flipping the character" />
+    <MESSAGE value="Improvement to the Click over table, only available on edit panel" />
+    <MESSAGE value="Last working version of the project as it is, 4 Jul" />
+    <MESSAGE value="Saving meta files" />
+    <MESSAGE value="Saving meta files and small refactor" />
+    <MESSAGE value="Addressing Rider problems, refactoring" />
+    <MESSAGE value="Resolving R shaper warnings" />
+    <MESSAGE value="Adding new save file" />
+    <MESSAGE value="Adding new save file, upgrade unity version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding new save file, upgrade unity version" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Players/Model/DataGameUser.cs</url>
+          <line>83</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game/Players/Model/DataGameUser.cs" initialLine="92" containingFunctionPresentation="Method 'GetSaveFileName'">
+            <startOffsets>
+              <option value="2076" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2077" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Players/PlayerData.cs</url>
+          <line>310</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game/Players/PlayerData.cs" initialLine="310" containingFunctionPresentation="Method 'SaveGame'">
+            <startOffsets>
+              <option value="9906" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9907" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Players/PlayerData.cs</url>
+          <line>301</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game/Players/PlayerData.cs" initialLine="301" containingFunctionPresentation="Method 'Quit'">
+            <startOffsets>
+              <option value="9711" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9712" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Players/Model/DataGameUser.cs</url>
+          <line>54</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game/Players/Model/DataGameUser.cs" initialLine="63" containingFunctionPresentation="Method 'Load'">
+            <startOffsets>
+              <option value="1214" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1261" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Players/Model/DataGameUser.cs</url>
+          <line>48</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game/Players/Model/DataGameUser.cs" initialLine="57" containingFunctionPresentation="Method 'CreateFromJson'">
+            <startOffsets>
+              <option value="1052" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1106" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Players/PlayerData.cs</url>
+          <line>201</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game/Players/PlayerData.cs" initialLine="201" containingFunctionPresentation="Method 'InitUser'">
+            <startOffsets>
+              <option value="6133" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6175" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
