@@ -7,10 +7,8 @@ namespace Game.Players.Model
     [Serializable]
     public class UpgradeGameObject
     {
-        [FormerlySerializedAs("ID")] [SerializeField]
-        public int id; // UPGRADE ID
-
-        [FormerlySerializedAs("UPGRADE_NUMBER")] [SerializeField]
+        public int id;
+        
         public int upgradeNumber;
     }
 }

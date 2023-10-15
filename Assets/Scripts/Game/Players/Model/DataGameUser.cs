@@ -6,41 +6,32 @@ using Util;
 
 namespace Game.Players.Model
 {
-    [Serializable] // The same as [System.Serializable]
+    [Serializable]
     public class DataGameUser
     {
-        [FormerlySerializedAs("VERSION")] [SerializeField]
-        public string version = "1.0.3"; //most be changed on every new edit to the model
-
-        [FormerlySerializedAs("NAME")] [SerializeField]
+        public string version = "1.0.4";
+        
         public string name;
-
-        [FormerlySerializedAs("GAME_MONEY")] [SerializeField]
+        
         public Double gameMoney;
-
-        [FormerlySerializedAs("EXPERIENCE")] [SerializeField]
+        
         public Double experience;
 
-        [FormerlySerializedAs("LEVEL")] [SerializeField]
         public int level;
-
-        [FormerlySerializedAs("LANGUAGE_CODE")] [SerializeField]
+        
         public string languageCode;
 
-        [FormerlySerializedAs("INTERNAL_ID")] [SerializeField]
         public string internalID;
 
-        [FormerlySerializedAs("EMAIL")] [SerializeField]
         public string email;
-
-        [FormerlySerializedAs("AUTH_TYPE")] [SerializeField]
+        
         public int authType;
-
-        [FormerlySerializedAs("OBJECTS")] [SerializeField]
+        
         public List<DataGameObject> objects;
-
-        [FormerlySerializedAs("UPGRADES")] public List<UpgradeGameObject> upgrades;
-        [FormerlySerializedAs("DATA_STATS")] public DataStatsGameObject dataStats;
+        
+        public List<UpgradeGameObject> upgrades;
+        
+        public DataStatsGameObject dataStats;
 
         // Convert to JSON string
         public string ToJsonString()
