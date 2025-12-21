@@ -6,6 +6,13 @@ using Util;
 // Parent of the GameGridObject
 namespace Game.Grid
 {
+    /**
+     * Problem: Provide shared properties for grid-related objects.
+     * Goal: Standardize naming, positions, and tile metadata.
+     * Approach: Define an abstract base class with common fields.
+     * Time: O(1) per access.
+     * Space: O(1).
+     */
     public abstract class GameObjectBase
     {
         public string Name { get; set; }

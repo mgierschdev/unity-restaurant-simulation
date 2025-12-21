@@ -10,6 +10,13 @@ using Random = UnityEngine.Random;
 // Attached to: NPC Objects
 namespace Game.Controllers.NPC_Controllers
 {
+    /**
+     * Problem: Control client NPC behavior and state transitions.
+     * Goal: Move NPCs between wandering, tables, and unspawn states.
+     * Approach: Drive a state machine and issue grid movement commands.
+     * Time: O(1) per tick plus pathfinding.
+     * Space: O(1) per NPC.
+     */
     public class NpcController : GameObjectMovementBase
     {
         [SerializeField] private const float MaxStateTime = 120;

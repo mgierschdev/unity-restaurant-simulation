@@ -12,6 +12,13 @@ using Random = UnityEngine.Random;
 
 namespace Game.Grid
 {
+    /**
+     * Problem: Manage tilemaps and grid data for the game world.
+     * Goal: Provide grid lookups, pathfinding data, and tilemap helpers.
+     * Approach: Maintain concurrent maps and initialize tilemaps/resources.
+     * Time: O(n) for grid builds (n = tiles).
+     * Space: O(n) for grid maps and arrays.
+     */
     public static class BussGrid
     {
         //Tilemap 

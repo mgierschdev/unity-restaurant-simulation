@@ -1,4 +1,9 @@
-﻿// using UnityEngine;
+﻿// Problem: Validate player pathfinding movement in play mode.
+// Goal: Ensure player reaches targets and handles obstacles correctly.
+// Approach: Use UnityTest coroutines with movement commands.
+// Time: O(n) per movement step (n = frames).
+// Space: O(1).
+// using UnityEngine;
 // using System.Collections;
 // using NUnit.Framework;
 // using UnityEngine.TestTools;

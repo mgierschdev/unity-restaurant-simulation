@@ -10,6 +10,13 @@ using Random = UnityEngine.Random;
 // Attached to: NPC Objects
 namespace Game.Controllers.NPC_Controllers
 {
+    /**
+     * Problem: Control client NPC behavior and dining flow.
+     * Goal: Manage wandering, table assignment, and eating states.
+     * Approach: Drive a state machine with timers and grid movement.
+     * Time: O(1) per tick plus pathfinding.
+     * Space: O(1) per NPC.
+     */
     public class ClientController : GameObjectMovementBase
     {
         private const float MaxStateTime = Settings.MaxStateTime;

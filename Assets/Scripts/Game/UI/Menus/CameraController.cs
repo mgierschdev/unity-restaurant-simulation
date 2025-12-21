@@ -7,6 +7,13 @@ using UnityEngine;
 // Attached to: MainCamera Object
 namespace Game.UI.Menus
 {
+    /**
+     * Problem: Handle camera panning and zooming for the game view.
+     * Goal: Provide touch/mouse controls with clamped movement.
+     * Approach: Update camera transform based on input each frame.
+     * Time: O(1) per frame.
+     * Space: O(1).
+     */
     public class CameraController : MonoBehaviour
     {
         private Vector3 _pointerDownStart, _direction;

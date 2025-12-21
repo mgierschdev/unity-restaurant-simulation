@@ -11,6 +11,13 @@ using Util.Collections;
 // Parent class for all moving npcs on the scene
 namespace Game.Grid
 {
+    /**
+     * Problem: Provide shared movement logic for NPCs on the grid.
+     * Goal: Handle pathfinding, animation updates, and direction changes.
+     * Approach: Manage movement queues and state-driven updates in FixedUpdate.
+     * Time: O(n) per path step (n = queued steps).
+     * Space: O(n) for movement queue.
+     */
     public class GameObjectMovementBase : MonoBehaviour
     {
         public string Name { get; private set; }

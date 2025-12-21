@@ -1,3 +1,8 @@
+// Problem: Initialize Firebase dependencies at runtime.
+// Goal: Ensure Firebase is ready before use.
+// Approach: Check and fix dependencies via FirebaseApp APIs.
+// Time: O(1) per call plus network time.
+// Space: O(1).
 // using System.Threading.Tasks;
 // using Firebase;
 //

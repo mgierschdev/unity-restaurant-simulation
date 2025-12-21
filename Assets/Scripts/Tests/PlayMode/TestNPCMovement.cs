@@ -1,4 +1,9 @@
-﻿// using UnityEngine;
+﻿// Problem: Validate NPC movement behavior in play mode.
+// Goal: Ensure NPC movement matches expected directions and distances.
+// Approach: Use UnityTest coroutines to move NPCs and assert positions.
+// Time: O(n) per movement step (n = frames).
+// Space: O(1).
+// using UnityEngine;
 // using System.Collections;
 // using NUnit.Framework;
 // using UnityEngine.TestTools;

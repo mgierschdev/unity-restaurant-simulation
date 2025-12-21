@@ -3,6 +3,13 @@ using Util.PathFinding;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate PriorityQueue ordering and behavior.
+     * Goal: Ensure nodes are dequeued by ascending F-cost.
+     * Approach: Insert nodes and assert poll/contains results.
+     * Time: O(n) per insert sequence (due to list insertion).
+     * Space: O(n) for queue contents.
+     */
     public class TestPriorityQueue
     {
         private PriorityQueue _queue;

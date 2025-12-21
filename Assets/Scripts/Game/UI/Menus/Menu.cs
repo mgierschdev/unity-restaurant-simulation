@@ -2,6 +2,13 @@ using Util;
 
 namespace Game.UI.Menus
 {
+    /**
+     * Problem: Represent a menu item with tab and type metadata.
+     * Goal: Encapsulate menu classification for UI rendering.
+     * Approach: Store menu tab/type and expose accessors.
+     * Time: O(1) per access.
+     * Space: O(1).
+     */
     public class MenuItem
     {
         public string Name;

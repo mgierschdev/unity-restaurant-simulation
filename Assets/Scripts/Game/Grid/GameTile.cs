@@ -4,6 +4,13 @@ using Util;
 
 namespace Game.Grid
 {
+    /**
+     * Problem: Represent a tile in the game grid with positions and type.
+     * Goal: Encapsulate tile metadata used by grid logic.
+     * Approach: Store grid/world coordinates and Unity tile reference.
+     * Time: O(1) for accessors.
+     * Space: O(1).
+     */
     public class GameTile : GameObjectBase
     {
         public GameTile(Vector3 worldPosition, Vector3Int gridPosition, Vector3Int localGridPosition, TileType name,

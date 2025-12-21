@@ -2,6 +2,13 @@ using NUnit.Framework;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate utility currency formatting helpers.
+     * Goal: Ensure ConvertToTextAndReduceCurrency returns expected strings.
+     * Approach: Use NUnit assertions on known inputs.
+     * Time: O(1) per assertion.
+     * Space: O(1).
+     */
     public class TestUtil
     {
         [Test]

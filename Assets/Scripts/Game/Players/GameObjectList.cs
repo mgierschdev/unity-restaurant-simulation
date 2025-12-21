@@ -5,6 +5,13 @@ using Util;
 
 namespace Game.Players
 {
+    /**
+     * Problem: Provide definitions for store items and upgrades.
+     * Goal: Build and expose lists/dictionaries of game objects for UI and logic.
+     * Approach: Initialize static collections with StoreGameObject metadata.
+     * Time: O(n) for initialization (n = items).
+     * Space: O(n) for stored collections.
+     */
     public static class GameObjectList
     {
         public static List<StoreGameObject> ActionPointItems;

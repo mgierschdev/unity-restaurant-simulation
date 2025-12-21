@@ -5,6 +5,13 @@ using Util.Collections;
 // Only requirement is a node.next in the PathNode and the FCost setted for prioritizing
 namespace Util.PathFinding
 {
+    /**
+     * Problem: Provide a simple priority queue for PathNode ordering.
+     * Goal: Insert and remove nodes by F-cost priority.
+     * Approach: Maintain a sorted linked list using PathNode.Next.
+     * Time: O(n) insert, O(1) peek/poll.
+     * Space: O(n) for node storage.
+     */
     public class PriorityQueue : IBaseGameCollections
     {
         private readonly HashSet<PathNode> _nodes;

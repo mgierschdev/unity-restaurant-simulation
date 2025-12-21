@@ -3,6 +3,13 @@ using UnityEngine.U2D.Animation;
 
 namespace Game.Controllers.NPC_Controllers
 {
+    /**
+     * Problem: Apply character sprite parts based on character type.
+     * Goal: Update SpriteResolver labels for body parts.
+     * Approach: Find SpriteResolver components and set categories/labels.
+     * Time: O(1) per character setup.
+     * Space: O(1).
+     */
     public class SkinSelectorController : MonoBehaviour
     {
         private SpriteResolver _head, _body, _armLeft, _armRight, _waist, _shoeLeft, _shoeRight, _legRight, _legLeft;

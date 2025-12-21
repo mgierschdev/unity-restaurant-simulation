@@ -18,6 +18,13 @@ using IEnumerator = System.Collections.IEnumerator;
 
 namespace Editor
 {
+    /**
+     * Problem: Provide a visual debugging tool for the game grid in the editor.
+     * Goal: Render grid state, NPCs, and player data inside an EditorWindow.
+     * Approach: Use UIElements to draw cells and poll game state while in play mode.
+     * Time: O(n) per refresh (n = grid cells).
+     * Space: O(n) for UI elements.
+     */
     public class GridDebugPanel : EditorWindow
     {
         [SerializeField] private bool isGameSceneLoaded, gridDebugEnabled;

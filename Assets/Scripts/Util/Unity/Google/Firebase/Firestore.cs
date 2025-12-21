@@ -1,3 +1,8 @@
+// Problem: Provide Firestore access helpers and test operations.
+// Goal: Initialize Firestore and perform read/write operations.
+// Approach: Wrap FirebaseFirestore APIs for common actions.
+// Time: O(1) per call plus network time.
+// Space: O(1).
 // using System.Threading.Tasks;
 // using Firebase;
 // using Firebase.Firestore;

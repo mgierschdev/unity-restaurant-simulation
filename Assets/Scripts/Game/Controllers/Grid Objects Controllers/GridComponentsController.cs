@@ -9,6 +9,13 @@ using Util;
 //Will handle all GetComponent and Find Calls and cache the items for future reference
 namespace Game.Controllers.Grid_Objects_Controllers
 {
+    /**
+     * Problem: Wire up grid-related components at scene load.
+     * Goal: Cache tilemaps and initialize BussGrid.
+     * Approach: Find GameObjects by Settings paths and call BussGrid.Init.
+     * Time: O(n) for lookups (n = components found).
+     * Space: O(1).
+     */
     public class GridComponentsController : MonoBehaviour
     {
         public void Awake()

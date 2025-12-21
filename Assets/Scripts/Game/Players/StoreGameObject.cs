@@ -4,6 +4,13 @@ using Util;
 
 namespace Game.Players
 {
+    /**
+     * Problem: Represent purchasable or placeable store items.
+     * Goal: Store metadata for costs, prefabs, and upgrade info.
+     * Approach: Encapsulate item data and comparison logic.
+     * Time: O(1) per access; O(1) compare.
+     * Space: O(1) per instance.
+     */
     public class StoreGameObject : IEquatable<StoreGameObject>, IComparable<StoreGameObject>
     {
         public string Name { get; private set; }

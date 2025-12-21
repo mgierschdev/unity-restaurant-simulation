@@ -4,6 +4,13 @@ using Util;
 
 namespace Game.Players
 {
+    /**
+     * Problem: Provide menu-specific store item lists and helpers.
+     * Goal: Populate menu tabs with available store objects.
+     * Approach: Build lists/dictionaries and expose lookup helpers.
+     * Time: O(n) for initialization (n = items).
+     * Space: O(n) for stored collections.
+     */
     public static class MenuObjectList
     {
         public static List<StoreGameObject> CounterItems;

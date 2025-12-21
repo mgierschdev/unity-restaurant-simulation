@@ -6,6 +6,13 @@ using Util;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate JSON save/load for player data.
+     * Goal: Ensure serialized DataGameUser round-trips correctly.
+     * Approach: Save a user to disk and compare loaded values.
+     * Time: O(n) for data size.
+     * Space: O(n) for JSON content.
+     */
     public class TestJson
     {
         [Test]

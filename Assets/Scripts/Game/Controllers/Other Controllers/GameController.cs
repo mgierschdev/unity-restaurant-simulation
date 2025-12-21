@@ -13,6 +13,13 @@ using IEnumerator = System.Collections.IEnumerator;
 // This handles the actions of all NPCS, cancel actions in case a table/object moves/it is stored
 namespace Game.Controllers.Other_Controllers
 {
+    /**
+     * Problem: Orchestrate game initialization and NPC management.
+     * Goal: Spawn NPCs, assign tables, and load player objects.
+     * Approach: Run periodic coroutines for spawning and assignment logic.
+     * Time: O(n) per tick (n = NPCs and grid objects).
+     * Space: O(n) for tracked NPC sets.
+     */
     public class GameController : MonoBehaviour
     {
         private int _npcMaxNumber = Settings.NpcMultiplayer, _npcId;

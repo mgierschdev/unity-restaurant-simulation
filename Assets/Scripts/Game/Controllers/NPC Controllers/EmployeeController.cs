@@ -8,6 +8,13 @@ using Random = UnityEngine.Random;
 
 namespace Game.Controllers.NPC_Controllers
 {
+    /**
+     * Problem: Control employee NPC behavior and state transitions.
+     * Goal: Manage movement, interactions, and orders for employees.
+     * Approach: Drive a state machine and react to grid/table conditions.
+     * Time: O(1) per tick plus pathfinding steps.
+     * Space: O(1) per NPC.
+     */
     public class EmployeeController : GameObjectMovementBase
     {
         private const float SpeedTimeTakingOrder = 1.5f;

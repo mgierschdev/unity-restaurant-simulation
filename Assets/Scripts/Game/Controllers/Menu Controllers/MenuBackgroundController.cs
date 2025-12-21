@@ -4,6 +4,13 @@ using Util;
 
 namespace Game.Controllers.Menu_Controllers
 {
+    /**
+     * Problem: Handle the menu background overlay behavior.
+     * Goal: Close menus when the background is clicked and toggle interactivity.
+     * Approach: Wire a background button to menu handler callbacks.
+     * Time: O(1) per click.
+     * Space: O(1).
+     */
     public class MenuBackgroundController : MonoBehaviour
     {
         private MenuHandlerController _menuHandlerController;

@@ -7,6 +7,13 @@ using Util;
 namespace Game.Players.Model
 {
     [Serializable]
+    /**
+     * Problem: Persist player profile data for saving/loading.
+     * Goal: Store user identity, progress, inventory, and stats.
+     * Approach: Serialize fields and provide JSON helpers.
+     * Time: O(n) for serialization (n = data size).
+     * Space: O(n) for JSON data.
+     */
     public class DataGameUser
     {
         public string version = "1.0.4";

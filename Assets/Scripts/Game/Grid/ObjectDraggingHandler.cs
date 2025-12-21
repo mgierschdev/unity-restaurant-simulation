@@ -4,6 +4,13 @@ using Game.Controllers.Grid_Objects_Controllers;
 
 namespace Game.Grid
 {
+    /**
+     * Problem: Manage selection and dragging state for grid objects.
+     * Goal: Track the active object and toggle edit/preview behavior.
+     * Approach: Store selected object IDs and update object state helpers.
+     * Time: O(1) per operation.
+     * Space: O(1).
+     */
     public static class ObjectDraggingHandler
     {
         private static string _currentClickedActiveGameObject;

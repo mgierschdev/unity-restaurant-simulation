@@ -5,6 +5,13 @@ using Util.Collections;
 
 namespace Util.PathFinding
 {
+    /**
+     * Problem: Provide a max-heap for pathfinding nodes.
+     * Goal: Retrieve the highest-cost PathNode efficiently.
+     * Approach: Maintain a binary heap array with heapify operations.
+     * Time: O(log n) for insert/remove.
+     * Space: O(n) for heap storage.
+     */
     public class MaxBinaryHeap : IBaseGameCollections
     {
         private readonly PathNode[] _nodes;

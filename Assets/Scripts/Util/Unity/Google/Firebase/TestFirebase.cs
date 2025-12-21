@@ -1,3 +1,8 @@
+// Problem: Validate Firebase Firestore and Cloud Functions in tests.
+// Goal: Ensure emulator-based Firestore operations work as expected.
+// Approach: Use NUnit tests with Firebase SDKs.
+// Time: O(1) per test plus network time.
+// Space: O(1).
 // using System.Collections.Generic;
 // using System.Threading.Tasks;
 // using Firebase.Extensions;

@@ -6,6 +6,13 @@ using Util;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate basic GameTile construction and resources.
+     * Goal: Ensure GameTile properties and tile assets load correctly.
+     * Approach: Instantiate GameTile and assert expected values.
+     * Time: O(1) per assertion.
+     * Space: O(1).
+     */
     public class TestGameTile
     {
         [Test]

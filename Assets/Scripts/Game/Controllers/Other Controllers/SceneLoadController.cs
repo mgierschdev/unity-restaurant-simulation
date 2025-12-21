@@ -11,6 +11,13 @@ using Util;
 // Check the folder under Assets/Scenes
 namespace Game.Controllers.Other_Controllers
 {
+    /**
+     * Problem: Manage loading screen and scene transition.
+     * Goal: Initialize services and load the main game scene safely.
+     * Approach: Use async scene loading with progress UI updates.
+     * Time: O(1) per frame plus scene load time.
+     * Space: O(1).
+     */
     public class SceneLoadController : MonoBehaviour
     {
         private Slider _slider;

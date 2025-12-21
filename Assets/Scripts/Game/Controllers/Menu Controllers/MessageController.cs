@@ -4,6 +4,13 @@ using UnityEngine.UI;
 
 namespace Game.Controllers.Menu_Controllers
 {
+    /**
+     * Problem: Control UI message panel display and retry actions.
+     * Goal: Show/hide messages and expose the retry button.
+     * Approach: Cache UI references and toggle GameObject active state.
+     * Time: O(1) per call.
+     * Space: O(1).
+     */
     public class MessageController : MonoBehaviour
     {
         private GameObject _messageObj, _imageObj, _retryButtonObj;

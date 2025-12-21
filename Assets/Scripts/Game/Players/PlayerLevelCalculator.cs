@@ -5,6 +5,13 @@ using System.Collections.Generic;
 // Also gives the amount of experience per money or gems spent
 namespace Game.Players
 {
+    /**
+     * Problem: Convert experience values to player levels and progress.
+     * Goal: Provide level thresholds and XP conversion helpers.
+     * Approach: Build an XP map and compute levels by linear scan.
+     * Time: O(n) per lookup (n = level count).
+     * Space: O(n) for the XP map.
+     */
     public static class PlayerLevelCalculator
     {
         private static List<Double> _expLevelMap;

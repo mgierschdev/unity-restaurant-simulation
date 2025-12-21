@@ -5,6 +5,13 @@ using UnityEngine;
 // Controlled attached to Game scene and main Game Object.
 namespace Game.Controllers.Other_Controllers
 {
+    /**
+     * Problem: Determine which grid object the player clicked.
+     * Goal: Track the most recently clicked grid object/tile.
+     * Approach: Raycast collider hits and map them to GameGridObject entries.
+     * Time: O(n) per click (n = colliders hit).
+     * Space: O(n) for temporary hit list.
+     */
     public class ClickController : MonoBehaviour
     {
         private bool _isPressingButton, _mouseOverUI;

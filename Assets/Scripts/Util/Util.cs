@@ -11,6 +11,13 @@ using Random = UnityEngine.Random;
 // This will contain Utility functions, to create Unity Object and other
 namespace Util
 {
+    /**
+     * Problem: Provide shared utility helpers for game logic and UI.
+     * Goal: Centralize math, grid helpers, logging utilities, and constants.
+     * Approach: Expose static methods and constants in a utility class.
+     * Time: O(1) per helper call unless otherwise noted.
+     * Space: O(1) per call.
+     */
     public static class Util
     {
         public const int NpcPositionZ = 0; // Z ordering objects , less closer to the camera

@@ -3,6 +3,13 @@ using Directory = System.IO.Directory;
 
 namespace Util
 {
+    /**
+     * Problem: Provide helper methods for save file IO.
+     * Goal: Locate save files and read JSON contents.
+     * Approach: Use System.IO APIs with platform paths.
+     * Time: O(n) to list files.
+     * Space: O(n) for file list.
+     */
     public static class UtilJsonFile
     {
         public static string[] GetSaveFiles()
