@@ -11,6 +11,13 @@ using Util.Collections;
 
 namespace Game.Players
 {
+    /**
+     * Problem: Build NPC state machines for clients and employees.
+     * Goal: Define allowed transitions between NPC states.
+     * Approach: Construct adjacency matrices for StateMachine transitions.
+     * Time: O(n^2) for state matrix setup.
+     * Space: O(n^2) for transition matrix storage.
+     */
     public static class NpcStateMachineFactory
     {
         public static StateMachine<NpcState, NpcStateTransitions> GetClientStateMachine([NotNull] string id)

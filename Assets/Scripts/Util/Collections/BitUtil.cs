@@ -3,6 +3,13 @@ using System;
 // Bit encoding utility
 namespace Util.Collections
 {
+    /**
+     * Problem: Provide bitwise helper utilities.
+     * Goal: Set, unset, and read bit flags in integers.
+     * Approach: Use bit masks and shifts.
+     * Time: O(1) per operation.
+     * Space: O(1).
+     */
     public static class BitUtil
     {
         //Sets the selected bit to 1

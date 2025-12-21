@@ -2,6 +2,13 @@ using UnityEngine;
 
 namespace Util.Collections
 {
+    /**
+     * Problem: Represent a 2D grid coordinate.
+     * Goal: Provide simple conversions and comparisons for nodes.
+     * Approach: Store x/y values and expose helper methods.
+     * Time: O(1) per access.
+     * Space: O(1).
+     */
     public class Node
     {
         private readonly int _x;

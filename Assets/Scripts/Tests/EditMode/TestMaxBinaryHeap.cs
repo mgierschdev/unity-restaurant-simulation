@@ -4,6 +4,13 @@ using Util.PathFinding;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate MaxBinaryHeap ordering behavior.
+     * Goal: Ensure heap returns largest-cost nodes first.
+     * Approach: Insert nodes and assert poll/peek results.
+     * Time: O(n log n) per test sequence.
+     * Space: O(n) for heap contents.
+     */
     public class TestBinaryHeap
     {
         private MaxBinaryHeap _heap;

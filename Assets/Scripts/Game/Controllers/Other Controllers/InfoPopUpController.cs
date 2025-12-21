@@ -5,6 +5,13 @@ using Util;
 
 namespace Game.Controllers.Other_Controllers
 {
+    /**
+     * Problem: Control the floating info popup for items/NPCs.
+     * Goal: Show, hide, and animate the info popup sprite.
+     * Approach: Toggle animator and SpriteResolver settings.
+     * Time: O(1) per call.
+     * Space: O(1).
+     */
     public class InfoPopUpController : MonoBehaviour
     {
         private GameObject _topStoreItemInfoPopUpImage;

@@ -14,6 +14,13 @@ using Object = UnityEngine.Object;
 
 namespace Game.Grid
 {
+    /**
+     * Problem: Represent an interactive object placed on the game grid.
+     * Goal: Manage object state, interactions, and UI for grid items.
+     * Approach: Wrap Unity components and game data with behavior methods.
+     * Time: O(1) per interaction plus grid operations.
+     * Space: O(1) per object instance.
+     */
     public class GameGridObject : GameObjectBase, IEquatable<GameGridObject>, IComparable<GameGridObject>
     {
         private readonly Transform _objectTransform;

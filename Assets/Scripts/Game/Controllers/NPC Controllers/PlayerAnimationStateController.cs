@@ -5,6 +5,13 @@ using Util;
 
 namespace Game.Controllers.NPC_Controllers
 {
+    /**
+     * Problem: Synchronize NPC animations with state changes.
+     * Goal: Trigger appropriate animator states and UI cues.
+     * Approach: Map NpcState to animator triggers and pop-up controls.
+     * Time: O(n) to reset triggers (n = animator states).
+     * Space: O(1).
+     */
     public class PlayerAnimationStateController : MonoBehaviour
     {
         private InfoPopUpController _infoPopUpController;

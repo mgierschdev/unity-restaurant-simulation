@@ -1,5 +1,12 @@
 namespace Game.Controllers.NPC_Controllers
 {
+    /**
+     * Problem: Define sprite part identifiers for character variants.
+     * Goal: Provide body part labels per character type.
+     * Approach: Assign string identifiers based on CharacterType.
+     * Time: O(1) per construction.
+     * Space: O(1).
+     */
     public class Character
     {
         public readonly string Head;

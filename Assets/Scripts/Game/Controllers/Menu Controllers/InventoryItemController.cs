@@ -6,6 +6,13 @@ using Util;
 
 namespace Game.Controllers.Menu_Controllers
 {
+    /**
+     * Problem: Render inventory item UI entries.
+     * Goal: Show item sprite, title, and price/amount states.
+     * Approach: Bind UI components and update them per item.
+     * Time: O(1) per update.
+     * Space: O(1).
+     */
     public class InventoryItemController : MonoBehaviour
     {
         private Button _buyButton;

@@ -5,6 +5,13 @@ using Util.Collections;
 // Only requirement is the FCost setted for prioritizing
 namespace Util.PathFinding
 {
+    /**
+     * Problem: Provide a min-heap for pathfinding nodes.
+     * Goal: Retrieve the lowest-cost PathNode efficiently.
+     * Approach: Maintain a binary heap array with heapify operations.
+     * Time: O(log n) for insert/remove.
+     * Space: O(n) for heap storage.
+     */
     public class MinBinaryHeap : IBaseGameCollections
     {
         private readonly HashSet<PathNode> _hashNodes;

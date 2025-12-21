@@ -4,6 +4,13 @@ using Util.Collections;
 
 namespace Util.PathFinding
 {
+    /**
+     * Problem: Find shortest paths on a grid with obstacles.
+     * Goal: Return a path from start to target using A*.
+     * Approach: Use open list with cost heuristics and neighbor expansion.
+     * Time: O(n log n) typical for A* (n = explored nodes).
+     * Space: O(n) for grid and open list.
+     */
     public class PathFind
     {
         private const int CostDiagonal = 14, CostStraight = 10;

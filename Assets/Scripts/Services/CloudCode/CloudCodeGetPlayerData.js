@@ -105,6 +105,13 @@ async function getRemoteConfigData(remoteConfig, projectId, playerId, environmen
     throw new CloudCodeError("could not load cloud config");
 }
 
+/**
+ * Problem: Represent custom Cloud Code errors with status metadata.
+ * Goal: Provide a typed error for Cloud Code handler failures.
+ * Approach: Extend Error and attach a status code.
+ * Time: O(1).
+ * Space: O(1).
+ */
 class CloudCodeError extends Error {
     constructor(message) {
         super(message);

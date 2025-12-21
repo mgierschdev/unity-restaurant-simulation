@@ -4,6 +4,13 @@ using Util;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate required Unity objects and resources exist.
+     * Goal: Ensure scenes and prefabs can be found by Settings paths.
+     * Approach: Use NUnit to assert GameObject/Resource lookups.
+     * Time: O(1) per lookup.
+     * Space: O(1).
+     */
     public class TestProjectSettings
     {
         [Test]

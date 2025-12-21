@@ -5,6 +5,13 @@ using Util;
 
 namespace Game.Controllers.Other_Controllers
 {
+    /**
+     * Problem: Drive UI sliders used for loading/energy indicators.
+     * Goal: Animate slider fill over time and expose state checks.
+     * Approach: Update slider values in Update() while active.
+     * Time: O(1) per frame.
+     * Space: O(1).
+     */
     public class LoadSliderController : MonoBehaviour
     {
         private Slider _slider;

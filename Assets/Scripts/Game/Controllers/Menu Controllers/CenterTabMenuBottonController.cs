@@ -4,6 +4,13 @@ using UnityEngine.UI;
 
 namespace Game.Controllers.Menu_Controllers
 {
+    /**
+     * Problem: Control the tab button UI in the center menu.
+     * Goal: Set button text and expose the button instance.
+     * Approach: Cache TextMeshProUGUI and Button components.
+     * Time: O(1) per call.
+     * Space: O(1).
+     */
     public class CenterTabMenuBottonController : MonoBehaviour
     {
         private TextMeshProUGUI _buttonText;

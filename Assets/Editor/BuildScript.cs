@@ -7,6 +7,13 @@ using Util;
 // Script used for the Jenkins/local Build
 namespace Editor
 {
+    /**
+     * Problem: Provide editor build automation for CI and local builds.
+     * Goal: Build Android and iOS players from editor scripts.
+     * Approach: Use Unity BuildPipeline with configured scene lists.
+     * Time: O(n) with build complexity (n = assets/scripts).
+     * Space: O(n) for build artifacts.
+     */
     internal class BuildScript
     {
         public static void PerformAndroidBuild()

@@ -7,6 +7,13 @@ using Util.Collections;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate NPC state machine graph coverage.
+     * Goal: Ensure client and employee state machines are connected as expected.
+     * Approach: BFS through state graph and assert visited counts.
+     * Time: O(n + e) per test.
+     * Space: O(n) for queue and visited sets.
+     */
     public class TestNpcStateMachine
     {
         [Test]

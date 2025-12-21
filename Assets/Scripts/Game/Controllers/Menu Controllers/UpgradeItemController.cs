@@ -6,6 +6,13 @@ using Util;
 
 namespace Game.Controllers.Menu_Controllers
 {
+    /**
+     * Problem: Render upgrade items in the menu UI.
+     * Goal: Display upgrade cost, level, and availability.
+     * Approach: Bind UI components and update with PlayerData values.
+     * Time: O(1) per update.
+     * Space: O(1).
+     */
     public class UpgradeItemController : MonoBehaviour
     {
         private Button _button;

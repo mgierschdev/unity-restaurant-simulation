@@ -16,6 +16,13 @@ using IEnumerator = System.Collections.IEnumerator;
 
 namespace Editor
 {
+    /**
+     * Problem: Visualize NPC state machine transitions during play mode.
+     * Goal: Inspect current and recent NPC states in an editor panel.
+     * Approach: Build UIElements graphs and poll active NPC state machines.
+     * Time: O(n) per refresh (n = states and nodes).
+     * Space: O(n) for graph UI elements.
+     */
     public class StateMachineDebugPanel : EditorWindow
     {
         [SerializeField] private bool isGameSceneLoaded, gridDebugEnabled;

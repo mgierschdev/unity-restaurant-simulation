@@ -2,6 +2,13 @@ using System;
 
 namespace Util.Collections
 {
+    /**
+     * Problem: Encode state transition flags into a bitmask.
+     * Goal: Represent allowed transitions compactly for state machines.
+     * Approach: Convert boolean arrays to an Int32 bitset.
+     * Time: O(n) for encoding (n = transitions).
+     * Space: O(n) for transition array.
+     */
     public class StateNodeTransition
     {
         // Same size as NpcStateTransitions

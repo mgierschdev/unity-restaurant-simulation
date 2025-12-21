@@ -5,6 +5,13 @@ using Util;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate experience-to-level calculations.
+     * Goal: Ensure PlayerLevelCalculator returns expected values.
+     * Approach: Use NUnit assertions on edge and typical cases.
+     * Time: O(1) per assertion.
+     * Space: O(1).
+     */
     public class TestExpLevelCalculator
     {
         [Test]

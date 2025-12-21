@@ -1,4 +1,9 @@
-﻿// using System.Collections;
+﻿// Problem: Validate NPC pathfinding movement in play mode.
+// Goal: Ensure NPCs reach targets and handle obstacles.
+// Approach: Use UnityTest coroutines with pathfinding commands.
+// Time: O(n) per movement step (n = frames).
+// Space: O(1).
+// using System.Collections;
 // using NUnit.Framework;
 // using UnityEngine;
 // using UnityEngine.TestTools;

@@ -1,3 +1,8 @@
+// Problem: Handle Google Play Games authentication for Firebase integration.
+// Goal: Authenticate users and open achievements UI.
+// Approach: Use PlayGamesPlatform APIs to sign in.
+// Time: O(1) per call plus network time.
+// Space: O(1).
 // using GooglePlayGames;
 // using GooglePlayGames.BasicApi;
 // using UnityEngine;

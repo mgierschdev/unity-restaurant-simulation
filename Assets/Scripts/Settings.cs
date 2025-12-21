@@ -1,3 +1,10 @@
+/**
+ * Problem: Centralize game configuration and constant paths.
+ * Goal: Provide a single source of truth for tunables and identifiers.
+ * Approach: Expose constants and readonly values in a static class.
+ * Time: O(1) per access.
+ * Space: O(1).
+ */
 public static class Settings
 {
     // General Config

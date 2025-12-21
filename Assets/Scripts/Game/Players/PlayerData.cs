@@ -10,6 +10,13 @@ using Util;
 
 namespace Game.Players
 {
+    /**
+     * Problem: Manage player state, inventory, and progression.
+     * Goal: Provide read/write access to player stats and save data.
+     * Approach: Store a singleton-like DataGameUser and update UI bindings.
+     * Time: O(1) per operation plus save IO.
+     * Space: O(n) for inventory and stored items.
+     */
     public static class PlayerData
     {
         private static TextMeshProUGUI _moneyText, _levelText;

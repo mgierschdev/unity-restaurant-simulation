@@ -6,6 +6,13 @@ using Util;
 // Helper to build the graph: https://cubic-bezier.com/
 namespace Game.Controllers.Grid_Objects_Controllers
 {
+    /**
+     * Problem: Animate collectible coins toward the UI.
+     * Goal: Move a coin to the money display when clicked.
+     * Approach: Use a cubic Bezier curve interpolation.
+     * Time: O(1) per frame.
+     * Space: O(1).
+     */
     public class CoinController : MonoBehaviour
     {
         private bool _consume;

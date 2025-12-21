@@ -16,6 +16,13 @@ using Util.Collections;
 // All the bottom calls will be handled by this class.
 namespace Game.Controllers.Menu_Controllers
 {
+    /**
+     * Problem: Coordinate menu UI panels and interactions.
+     * Goal: Populate menus, handle tab switching, and item actions.
+     * Approach: Cache UI references and update views via coroutines.
+     * Time: O(n) per update (n = items in view).
+     * Space: O(n) for UI controller lists.
+     */
     public class MenuHandlerController : MonoBehaviour
     {
         //center panel scrollview

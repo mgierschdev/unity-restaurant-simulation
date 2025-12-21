@@ -5,6 +5,13 @@ using UnityEngine.UIElements;
 //Unit tests for the editor tools
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate editor UI assets for debug panels.
+     * Goal: Ensure required UIElements templates and styles load.
+     * Approach: Instantiate UI elements and assert references exist.
+     * Time: O(1) per lookup.
+     * Space: O(1).
+     */
     public class TestEditorTools
     {
         [Test]

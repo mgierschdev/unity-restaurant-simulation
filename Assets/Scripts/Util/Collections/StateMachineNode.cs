@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 namespace Util.Collections
 {
+    /**
+     * Problem: Represent a node in a generic state machine graph.
+     * Goal: Track a state and its allowed transitions.
+     * Approach: Store a state value and a list of transition nodes.
+     * Time: O(n) to iterate transitions.
+     * Space: O(n) for transition list.
+     */
     public class StateMachineNode<T> where T : Enum
     {
         public List<StateMachineNode<T>> TransitionStates { get; set; }

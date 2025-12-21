@@ -6,6 +6,13 @@ using System.Collections.Generic;
 // T = NpcState, S = NpcStateTransitions. Finite states = T, Transitions = S
 namespace Util.Collections
 {
+    /**
+     * Problem: Provide a generic finite state machine implementation.
+     * Goal: Track current state and transition triggers for entities.
+     * Approach: Use adjacency matrix and bitmask transitions.
+     * Time: O(n) per transition check (n = neighbor states).
+     * Space: O(n^2) for adjacency matrix plus node map.
+     */
     public class StateMachine<T, TS> where T : Enum where TS : Enum
     {
         public string ID;

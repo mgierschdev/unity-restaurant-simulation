@@ -1,5 +1,12 @@
 namespace Game.Controllers.NPC_Controllers
 {
+    /**
+     * Problem: Define default character part labels.
+     * Goal: Provide baseline sprite part names for character assembly.
+     * Approach: Expose static string constants for parts.
+     * Time: O(1) per access.
+     * Space: O(1).
+     */
     public static class CharacterParts
     {
         public static readonly string Head = "Head-1";

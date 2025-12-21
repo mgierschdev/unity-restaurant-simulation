@@ -11,6 +11,13 @@ using Util;
 // Here we control the object drag and drop and the state of the NPCs during the drag
 namespace Game.Controllers.Grid_Objects_Controllers
 {
+    /**
+     * Problem: Control dragging, selection, and placement of grid objects.
+     * Goal: Handle user interactions and synchronize grid state.
+     * Approach: Track click/drag state and update GameGridObject behavior.
+     * Time: O(1) per frame plus grid checks.
+     * Space: O(1).
+     */
     public class BaseObjectController : MonoBehaviour
     {
         [SerializeField] private Vector3 currentPos; // Current position of the object including while dragging

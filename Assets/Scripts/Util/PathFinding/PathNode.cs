@@ -2,6 +2,13 @@ using Util.Collections;
 
 namespace Util.PathFinding
 {
+    /**
+     * Problem: Represent a node in pathfinding with cost metrics.
+     * Goal: Store position and A* costs with parent linkage.
+     * Approach: Encapsulate costs and provide getters/setters.
+     * Time: O(1) per access.
+     * Space: O(1).
+     */
     public class PathNode
     {
         public PathNode Next; // use to order in the queue

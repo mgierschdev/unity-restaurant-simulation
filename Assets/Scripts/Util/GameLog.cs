@@ -3,6 +3,13 @@ using UnityEngine;
 // Conditional compilation docs: https://docs.unity3d.com/Manual/PlatformDependentCompilation.html
 namespace Util
 {
+        /**
+         * Problem: Provide controlled logging for editor and development builds.
+         * Goal: Centralize log formatting and conditional compilation.
+         * Approach: Wrap Debug.Log calls with build flags.
+         * Time: O(1) per call.
+         * Space: O(1).
+         */
         public static class GameLog
         {
                 public static void Log(string message)

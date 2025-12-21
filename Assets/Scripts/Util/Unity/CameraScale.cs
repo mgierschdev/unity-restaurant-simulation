@@ -2,6 +2,13 @@
 
 namespace Util.Unity
 {
+    /**
+     * Problem: Adjust camera orthographic size based on screen aspect.
+     * Goal: Maintain consistent framing across resolutions.
+     * Approach: Compute aspect ratio and update orthographic size.
+     * Time: O(1) per call.
+     * Space: O(1).
+     */
     public class CameraScale
     {
         private float _currentWindowAspectRatio, _targetSpectRatio;

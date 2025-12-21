@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 namespace Game.Controllers.Menu_Controllers
 {
+    /**
+     * Problem: Display settings and player stats in the settings panel.
+     * Goal: Show stats and provide a save button.
+     * Approach: Bind UI elements and call PlayerData.SaveGame.
+     * Time: O(1) per interaction.
+     * Space: O(1).
+     */
     public class SettingsPanelController : MonoBehaviour
     {
         private Button _saveButton;

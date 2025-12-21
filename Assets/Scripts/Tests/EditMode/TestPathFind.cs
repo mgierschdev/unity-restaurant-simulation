@@ -5,6 +5,13 @@ using Util.PathFinding;
 
 namespace Tests.EditMode
 {
+    /**
+     * Problem: Validate pathfinding behavior on grid inputs.
+     * Goal: Ensure PathFind returns expected paths and edge cases.
+     * Approach: Use NUnit tests with predefined grids and assertions.
+     * Time: O(n) per path length plus pathfinding cost.
+     * Space: O(n) for path storage.
+     */
     public class TestPathFind
     {
         private int[] _start, _target;
