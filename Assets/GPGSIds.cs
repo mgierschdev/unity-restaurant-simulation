@@ -20,6 +20,14 @@
 /// These are the constants defined in the Play Games Console for Game Services
 /// Resources.
 ///
+/**
+ * Problem: Provide Google Play Games service IDs to the game.
+ * Goal: Expose achievement/leaderboard IDs as constants.
+ * Approach: Store auto-generated ID constants in a static class.
+ * Time: O(1).
+ * Space: O(1).
+ * Tags: auto-generated
+ */
 public static class GPGSIds
 {
         public const string achievement_welcome = "CgkI5rD4hPsCEAIQAQ"; // <GPGSID>
