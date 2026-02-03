@@ -19,6 +19,12 @@ namespace Util
 #else
          string path = Application.persistentDataPath + "/";
 #endif
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+                return Array.Empty<string>();
+            }
+
             var files = Directory.GetFiles(path, "*" + Settings.SaveFileSuffix);
             Array.Sort(files);
             return files;
