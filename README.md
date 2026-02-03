@@ -4,10 +4,9 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Mode](https://img.shields.io/badge/Mode-Offline--only-blue.svg)](#secrets--security)
 
-## Elevator pitch
 Offline-first 2D isometric restaurant/tycoon prototype for Unity: grid-based placement, NPC state machines, editor debug tools, and repeatable tests.
 
-## Preview (drop in your GIFs)
+## Preview
 ![Gameplay loop](Docs/media/gameplay-1.gif)
 ![Grid editing](Docs/media/editor-grid.gif)
 ![NPC state debug](Docs/media/npc-state.gif)
