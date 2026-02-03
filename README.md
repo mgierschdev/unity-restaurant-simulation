@@ -1,12 +1,11 @@
 # UnityProject
 
 [![Unity](https://img.shields.io/badge/Unity-2022.3.11f1-black)](https://unity.com/releases/editor/whats-new/2022.3.11)
-[![CI](https://github.com/mgierschdev/unity-restaurant-simulation/actions/workflows/unity-tests.yml/badge.svg)](https://github.com/mgierschdev/unity-restaurant-simulation/actions/workflows/unity-tests.yml)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Mode](https://img.shields.io/badge/Mode-Offline--only-blue.svg)](#secrets--security)
 
 ## Elevator pitch
-Offline-first 2D isometric restaurant/tycoon prototype for Unity: grid-based placement, NPC state machines, editor debug tools, and CI-backed tests.
+Offline-first 2D isometric restaurant/tycoon prototype for Unity: grid-based placement, NPC state machines, editor debug tools, and repeatable tests.
 
 ## Preview (drop in your GIFs)
 ![Gameplay loop](Docs/media/gameplay-1.gif)
@@ -19,7 +18,7 @@ Offline-first 2D isometric restaurant/tycoon prototype for Unity: grid-based pla
 - NPC state machine for clients/employees with table assignment and service flow.
 - Editor debug panels (grid + state machine) to inspect runtime state.
 - Offline-only build with service stubs guarded and placeholders for IDs/keys.
-- Unity Test Runner suites (EditMode/PlayMode) and CI workflow.
+- Unity Test Runner suites (EditMode/PlayMode) with CLI script.
 
 ## Tech stack
 - Unity 2022.3.11f1 LTS, URP, Input System.
@@ -207,7 +206,7 @@ Operations:
 - Editor: Unity Test Runner for EditMode/PlayMode under `Assets/Scripts/Tests`.
 
 ## CI
-- GitHub Actions workflow `.github/workflows/unity-tests.yml` runs Unity tests in batch mode (needs `UNITY_LICENSE` secret).
+- CI workflow intentionally removed from the public repo; run tests locally with `./ci/unity-test.sh`.
 
 ## Builds
 - Use `Assets/Editor/BuildScript.cs` or standard Unity build targets. Supply platform signing assets outside the repo.

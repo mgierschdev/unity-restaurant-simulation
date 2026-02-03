@@ -8,7 +8,7 @@ All notable changes are documented here. Dates use the original commit timestamp
 ## [2026-02-03] Public cleanup & offline hardening
 - Removed proprietary assets and secondary sample projects.
 - Marked Unity Services as offline-only with placeholders for IDs/keys.
-- Added CI workflow (Unity Test Runner) and CLI test script.
+- Added CLI test script; CI workflow kept private/optional.
 - Added licenses, security guidance, and asset licensing notes.
 
 ## [2025] Grid/NPC systems expansion
