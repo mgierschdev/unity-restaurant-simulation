@@ -158,6 +158,29 @@ Reliability:
 Operations:
 - P2/M: No automated build pipeline scripts in repo. Next action: add a CI workflow or document local build usage of `Assets/Editor/BuildScript.cs`.
 
+## Prerequisites
+- Unity Editor **2022.3.11f1** (from `ProjectSettings/ProjectVersion.txt`).
+- Optional: Unity Services / Google Play Games SDK only when you supply your own IDs and keys.
+
+## Secrets & security
+- Sensitive fields in `ProjectSettings/ProjectSettings.asset` and Android manifests are placeholders. Provide real values locally or in CI only; see `SECURITY.md`.
+- Do **not** commit keystores, passcodes, or service IDs. Inject them as environment variables or external files in CI.
+- Online services are disabled in this open-source build; gameplay runs fully offline.
+
+## Assets & licensing
+- Code-only release: proprietary design sources removed. Add art/audio/fonts only if licensed; document sources in `ASSETS_LICENSE.md`.
+- Samples moved to `Samples~/SaveSamples` to avoid shipping real saves. Runtime saves still use `Settings.DevSaveDirectory` (`UserData`).
+
+## Running tests
+- CLI: `./ci/unity-test.sh` (requires Unity Editor on PATH).
+- Editor: Unity Test Runner for EditMode/PlayMode under `Assets/Scripts/Tests`.
+
+## CI
+- GitHub Actions workflow `.github/workflows/unity-tests.yml` runs Unity tests in batch mode (needs `UNITY_LICENSE` secret).
+
+## Builds
+- Use `Assets/Editor/BuildScript.cs` or standard Unity build targets. Supply platform signing assets outside the repo.
+
 Developer experience:
 - P2/S: No build/run command list for Android/iOS. Next action: document required SDKs and Unity Build Settings profiles.
 

@@ -1,0 +1,87 @@
+{
+    "VERSION": "1.0.1",
+    "NAME": "undefined",
+    "GAME_MONEY": 0.0,
+    "GEMS": 10.0,
+    "EXPERIENCE": 0.0,
+    "LEVEL": 0,
+    "LANGUAGE_CODE": "en_US",
+    "INTERNAL_ID": "db728536-ed84-4990-8fd3-80d5405c0558.513f0",
+    "EMAIL": "undefined@undefined.com",
+    "AUTH_TYPE": 2,
+    "LAST_SAVE": 133180040822003050,
+    "CREATED_AT": 133180040822003200,
+    "OBJECTS": [
+        {
+            "ID": 12,
+            "POSITION": [
+                5,
+                14
+            ],
+            "IS_STORED": false,
+            "ROTATION": 1
+        },
+        {
+            "ID": 1,
+            "POSITION": [
+                5,
+                12
+            ],
+            "IS_STORED": false,
+            "ROTATION": 1
+        },
+        {
+            "ID": 11,
+            "POSITION": [
+                3,
+                13
+            ],
+            "IS_STORED": false,
+            "ROTATION": 1
+        }
+    ],
+    "UPGRADES": [
+        {
+            "ID": 0,
+            "UPGRADE_NUMBER": 1
+        },
+        {
+            "ID": 1,
+            "UPGRADE_NUMBER": 0
+        },
+        {
+            "ID": 2,
+            "UPGRADE_NUMBER": 0
+        },
+        {
+            "ID": 3,
+            "UPGRADE_NUMBER": 0
+        },
+        {
+            "ID": 4,
+            "UPGRADE_NUMBER": 0
+        },
+        {
+            "ID": 5,
+            "UPGRADE_NUMBER": 0
+        },
+        {
+            "ID": 6,
+            "UPGRADE_NUMBER": 0
+        },
+        {
+            "ID": 7,
+            "UPGRADE_NUMBER": 0
+        },
+        {
+            "ID": 8,
+            "UPGRADE_NUMBER": 0
+        }
+    ],
+    "DATA_STATS": {
+        "MONEY_EARNED": 0.0,
+        "MONEY_SPENT": 0.0,
+        "CLIENTS_ATTENDED": 0,
+        "ITEMS_BOUGHT": 0
+    }
+}

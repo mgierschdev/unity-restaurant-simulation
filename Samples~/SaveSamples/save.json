@@ -1,0 +1,170 @@
+{
+    "version": "1.0.4",
+    "name": "undefined",
+    "gameMoney": 893001.9800000007,
+    "experience": 214560.0,
+    "level": 60,
+    "languageCode": "en_US",
+    "internalID": "",
+    "email": "undefined@undefined.com",
+    "authType": 2,
+    "objects": [
+        {
+            "id": 21,
+            "position": [
+                18,
+                16
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 1,
+            "position": [
+                15,
+                12
+            ],
+            "isStored": true,
+            "rotation": 1
+        },
+        {
+            "id": 11,
+            "position": [
+                13,
+                13
+            ],
+            "isStored": false,
+            "rotation": 1
+        },
+        {
+            "id": 22,
+            "position": [
+                17,
+                16
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 21,
+            "position": [
+                19,
+                16
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 1,
+            "position": [
+                16,
+                12
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 1,
+            "position": [
+                17,
+                12
+            ],
+            "isStored": true,
+            "rotation": 3
+        },
+        {
+            "id": 1,
+            "position": [
+                18,
+                12
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 1,
+            "position": [
+                19,
+                12
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 11,
+            "position": [
+                20,
+                10
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 11,
+            "position": [
+                14,
+                13
+            ],
+            "isStored": false,
+            "rotation": 1
+        },
+        {
+            "id": 23,
+            "position": [
+                16,
+                16
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 23,
+            "position": [
+                20,
+                16
+            ],
+            "isStored": false,
+            "rotation": 3
+        }
+    ],
+    "upgrades": [
+        {
+            "id": 0,
+            "upgradeNumber": 6
+        },
+        {
+            "id": 1,
+            "upgradeNumber": 2
+        },
+        {
+            "id": 2,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 3,
+            "upgradeNumber": 7
+        },
+        {
+            "id": 4,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 5,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 6,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 7,
+            "upgradeNumber": 1
+        }
+    ],
+    "dataStats": {
+        "moneyEarned": 281.98,
+        "moneySpent": 107280.0,
+        "clientsAttended": 38,
+        "itemsBought": 10
+    }
+}

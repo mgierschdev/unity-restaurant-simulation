@@ -1,0 +1,199 @@
+{
+    "VERSION": "1.0.2",
+    "NAME": "undefined",
+    "GAME_MONEY": 736603.5000000002,
+    "EXPERIENCE": 527200.0,
+    "LEVEL": 81,
+    "LANGUAGE_CODE": "en_US",
+    "INTERNAL_ID": "",
+    "EMAIL": "undefined@undefined.com",
+    "AUTH_TYPE": 2,
+    "LAST_SAVE": 133192153874761150,
+    "CREATED_AT": 0,
+    "OBJECTS": [
+        {
+            "ID": 21,
+            "POSITION": [
+                14,
+                15
+            ],
+            "IS_STORED": false,
+            "ROTATION": 3
+        },
+        {
+            "ID": 1,
+            "POSITION": [
+                14,
+                10
+            ],
+            "IS_STORED": false,
+            "ROTATION": 1
+        },
+        {
+            "ID": 11,
+            "POSITION": [
+                20,
+                13
+            ],
+            "IS_STORED": false,
+            "ROTATION": 1
+        },
+        {
+            "ID": 22,
+            "POSITION": [
+                17,
+                15
+            ],
+            "IS_STORED": false,
+            "ROTATION": 3
+        },
+        {
+            "ID": 23,
+            "POSITION": [
+                20,
+                16
+            ],
+            "IS_STORED": false,
+            "ROTATION": 3
+        },
+        {
+            "ID": 13,
+            "POSITION": [
+                21,
+                9
+            ],
+            "IS_STORED": false,
+            "ROTATION": 2
+        },
+        {
+            "ID": 12,
+            "POSITION": [
+                21,
+                13
+            ],
+            "IS_STORED": false,
+            "ROTATION": 3
+        },
+        {
+            "ID": 2,
+            "POSITION": [
+                16,
+                10
+            ],
+            "IS_STORED": false,
+            "ROTATION": 1
+        },
+        {
+            "ID": 3,
+            "POSITION": [
+                18,
+                10
+            ],
+            "IS_STORED": false,
+            "ROTATION": 1
+        },
+        {
+            "ID": 2,
+            "POSITION": [
+                16,
+                9
+            ],
+            "IS_STORED": false,
+            "ROTATION": 2
+        },
+        {
+            "ID": 1,
+            "POSITION": [
+                14,
+                9
+            ],
+            "IS_STORED": false,
+            "ROTATION": 2
+        },
+        {
+            "ID": 3,
+            "POSITION": [
+                18,
+                9
+            ],
+            "IS_STORED": false,
+            "ROTATION": 2
+        },
+        {
+            "ID": 13,
+            "POSITION": [
+                21,
+                8
+            ],
+            "IS_STORED": false,
+            "ROTATION": 2
+        },
+        {
+            "ID": 21,
+            "POSITION": [
+                14,
+                16
+            ],
+            "IS_STORED": false,
+            "ROTATION": 2
+        },
+        {
+            "ID": 22,
+            "POSITION": [
+                17,
+                16
+            ],
+            "IS_STORED": false,
+            "ROTATION": 2
+        },
+        {
+            "ID": 23,
+            "POSITION": [
+                20,
+                17
+            ],
+            "IS_STORED": false,
+            "ROTATION": 2
+        }
+    ],
+    "UPGRADES": [
+        {
+            "ID": 0,
+            "UPGRADE_NUMBER": 10
+        },
+        {
+            "ID": 1,
+            "UPGRADE_NUMBER": 3
+        },
+        {
+            "ID": 2,
+            "UPGRADE_NUMBER": 5
+        },
+        {
+            "ID": 3,
+            "UPGRADE_NUMBER": 6
+        },
+        {
+            "ID": 4,
+            "UPGRADE_NUMBER": 3
+        },
+        {
+            "ID": 5,
+            "UPGRADE_NUMBER": 3
+        },
+        {
+            "ID": 6,
+            "UPGRADE_NUMBER": 5
+        },
+        {
+            "ID": 7,
+            "UPGRADE_NUMBER": 5
+        }
+    ],
+    "DATA_STATS": {
+        "MONEY_EARNED": 203.49999999999995,
+        "MONEY_SPENT": 263600.0,
+        "CLIENTS_ATTENDED": 26,
+        "ITEMS_BOUGHT": 13
+    }
+}
