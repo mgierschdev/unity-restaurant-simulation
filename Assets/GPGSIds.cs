@@ -30,6 +30,6 @@
  */
 public static class GPGSIds
 {
-        public const string achievement_welcome = "CgkI5rD4hPsCEAIQAQ"; // <GPGSID>
+        public const string achievement_welcome = "REPLACE_WITH_GPGS_ACHIEVEMENT_ID"; // <GPGSID>
 
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Controllers.Grid_Objects_Controllers;
+using Game.Controllers.Menu_Controllers;
 using Game.Controllers.NPC_Controllers;
 using Game.Controllers.Other_Controllers;
 using Game.Players;
@@ -180,7 +181,7 @@ namespace Game.Grid
         {
             try
             {
-                GameLog.Log("TODO: UI message / notification banner: Storing item in Inventory " + Name);
+                ShowInventoryStoredMessage();
                 _dataGameObject.isStored = true;
                 PlayerData.StoreItem(this);
 
@@ -228,6 +229,20 @@ namespace Game.Grid
                 _attendedBy.SetTableMoved();
                 _attendedBy = null;
             }
+        }
+
+        private void ShowInventoryStoredMessage()
+        {
+            // Try to surface feedback in-scene; fall back to logs if UI is not present.
+            var messageController = Object.FindObjectOfType<MessageController>(true);
+
+            if (messageController != null)
+            {
+                messageController.SetTextMessage("Stored item in inventory: " + Name);
+                messageController.Enable();
+            }
+
+            GameLog.Log("Stored item in inventory: " + Name);
         }
 
         public void UpdateObjectCoords()

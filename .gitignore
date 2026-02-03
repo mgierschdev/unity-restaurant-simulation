@@ -9,6 +9,12 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+.idea/
+.vscode/
+AppAssets/
+UnityWalkingCycle/
+UserData/
+ci/test-results/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -314,6 +320,7 @@ _pkginfo.txt
 ClientBin/
 ~$*
 *~
+!Samples~/
 *.dbmdl
 *.dbproj.schemaview
 *.jfm

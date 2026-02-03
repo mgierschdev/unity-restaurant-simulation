@@ -1,0 +1,80 @@
+{
+    "version": "1.0.4",
+    "name": "undefined",
+    "gameMoney": 1000000.0,
+    "experience": 1.0,
+    "level": 1,
+    "languageCode": "en_US",
+    "internalId": "",
+    "email": "undefined@undefined.com",
+    "authType": 2,
+    "objects": [
+        {
+            "id": 21,
+            "position": [
+                15,
+                14
+            ],
+            "isStored": false,
+            "rotation": 3
+        },
+        {
+            "id": 1,
+            "position": [
+                15,
+                12
+            ],
+            "isStored": false,
+            "rotation": 1
+        },
+        {
+            "id": 11,
+            "position": [
+                13,
+                13
+            ],
+            "isStored": false,
+            "rotation": 1
+        }
+    ],
+    "upgrades": [
+        {
+            "id": 0,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 1,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 2,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 3,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 4,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 5,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 6,
+            "upgradeNumber": 1
+        },
+        {
+            "id": 7,
+            "upgradeNumber": 1
+        }
+    ],
+    "dataStats": {
+        "moneyEarned": 0.0,
+        "moneySpent": 0.0,
+        "clientsAttended": 0,
+        "itemsBought": 0
+    }
+}
