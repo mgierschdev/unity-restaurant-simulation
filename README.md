@@ -10,7 +10,6 @@ Offline-first 2D isometric restaurant/tycoon prototype for Unity: grid-based pla
 ![Gameplay loop](Docs/media/gameplay-1.gif)
 ![Grid editing](Docs/media/editor-grid.gif)
 ![NPC state debug](Docs/media/npc-state.gif)
-> Replace the above files in `Docs/media/` with real captures; filenames are already linked.
 
 ## Highlights
 - Isometric grid + pathfinding utilities for place/move/rotate objects.
