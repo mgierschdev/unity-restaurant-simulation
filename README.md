@@ -1,5 +1,30 @@
 # UnityProject
 
+[![Unity](https://img.shields.io/badge/Unity-2022.3.11f1-black)](https://unity.com/releases/editor/whats-new/2022.3.11)
+[![CI](https://github.com/mgierschdev/unity-restaurant-simulation/actions/workflows/unity-tests.yml/badge.svg)](https://github.com/mgierschdev/unity-restaurant-simulation/actions/workflows/unity-tests.yml)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Mode](https://img.shields.io/badge/Mode-Offline--only-blue.svg)](#secrets--security)
+
+## Elevator pitch
+Offline-first 2D isometric restaurant/tycoon prototype for Unity: grid-based placement, NPC state machines, editor debug tools, and CI-backed tests.
+
+## Highlights
+- Isometric grid + pathfinding utilities for place/move/rotate objects.
+- NPC state machine for clients/employees with table assignment and service flow.
+- Editor debug panels (grid + state machine) to inspect runtime state.
+- Offline-only build with service stubs guarded and placeholders for IDs/keys.
+- Unity Test Runner suites (EditMode/PlayMode) and CI workflow.
+
+## Tech stack
+- Unity 2022.3.11f1 LTS, URP, Input System.
+- C# gameplay and editor scripts; GitHub Actions for tests.
+
+## What I built
+- Grid, pathfinding, and object placement systems (`Assets/Scripts/Game/Grid`, `Assets/Scripts/Util/PathFinding`).
+- NPC/state-machine flow for clients and employees (`Assets/Scripts/Game/Controllers`, `Assets/Scripts/Game/Players`).
+- Editor debug tooling for grid and FSM introspection (`Assets/Editor`).
+- Offline-hardening, security placeholders, CI test runner integration.
+
 ## 1. What this repository is
 A Unity 2D isometric management game project with gameplay, UI, and editor tooling in C#; it is not a packaged build or a backend service. Evidence: `Assets/Scripts`, `Assets/Scenes/LoadScene.unity`, `Assets/Scenes/GameScene.unity`.
 
@@ -15,8 +40,8 @@ Run locally:
 - Open the project in Unity Hub, then open `Assets/Scenes/LoadScene.unity` and press Play (scenes listed in `ProjectSettings/EditorBuildSettings.asset`).
 
 Run tests:
-- Unity Test Runner in the editor using EditMode and PlayMode tests under `Assets/Scripts/Tests`.
-- CLI test command: Unknown; would be confirmed by CI scripts or a test runner script (none found).
+- CLI: `./ci/unity-test.sh` (expects Unity on PATH).
+- Editor: Unity Test Runner using EditMode and PlayMode tests under `Assets/Scripts/Tests`.
 
 Troubleshooting:
 - Networked services are disabled by default (`Settings.DisableNetwork = true` in `Assets/Scripts/Settings.cs`); enable only if Unity Services are configured.
@@ -198,3 +223,12 @@ Canonical commands:
 - build: Use `BuildScript.PerformAndroidBuild()` / `BuildScript.PerformIOSBuild()` from `Assets/Editor/BuildScript.cs` (no CLI wrapper documented).
 - run: Open `Assets/Scenes/LoadScene.unity` in Unity and press Play.
 - test: Use Unity Test Runner (GUI).
+
+## 14. Gallery
+Add screenshots or GIFs under `Docs/media/` and reference them here:
+- `Docs/media/gameplay-1.png`
+- `Docs/media/editor-grid.png`
+- `Docs/media/npc-state.gif`
+
+## 15. Changelog
+See [CHANGELOG.md](CHANGELOG.md) for milestone history.
